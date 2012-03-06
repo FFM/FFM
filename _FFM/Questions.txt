@@ -1,0 +1,31 @@
+Open questions
+===============
+
+- Devices vs. composite devices
+
+- Router: other name?
+
+- Network topology: explicit vs. implicit
+
+- interfacetype: used for TABLE interfaces, not defined
+
+- macprotocol: what for?
+
+  --> Net_Interface
+
+To-Do
+=====
+
+- improve docstrings
+
+  * e.g.: FFM.Node
+
+- runs_version_id: not in Device,
+
+  --> Router_runs_Firmware
+
+- authentificationtoken: not in Device,
+
+  --> Router
+
+###
