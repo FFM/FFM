@@ -85,6 +85,12 @@ class WPA_Credentials (_Ancestor_Essence) :
             kind               = Attr.Required
             max_length         = 32
 
+            ### allow characters up to "\xFF"
+            _cooked_re        = Regexp \
+                ( "^[\x00-\xFF]*$"
+                , re.VERBOSE
+                )
+
         # end class key
 
     # end class _Attributes
