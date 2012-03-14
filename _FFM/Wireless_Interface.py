@@ -20,13 +20,13 @@
 #
 #++
 # Name
-#    FFM.Net_Device
+#    FFM.Wireless_Interface
 #
 # Purpose
-#    Model a network device of FFM
+#    Model a wireless interface of a FFM device
 #
 # Revision Dates
-#     6-Mar-2012 (CT) Creation
+#    14-Mar-2012 (CT) Creation
 #    ««revision-date»»···
 #--
 
@@ -34,28 +34,60 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 
 from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
-import _FFM.Device
 
-_Ancestor_Essence = FFM.Device
+from   _FFM.Attr_Type         import *
+import _FFM.Net_Interface
 
-class Net_Device (_Ancestor_Essence) :
-    """Model a network device of FFM."""
+_Ancestor_Essence = FFM.Net_Interface
+
+class Wireless_Interface (_Ancestor_Essence) :
+    """Model a wireless interface of a FFM device"""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
-        class left (_Ancestor.left) :
-            """Type of net device"""
+        ### Non-primary attributes
 
-            role_type          = FFM.Net_Device_Type
+        class protocol (A_Wireless_Protocol) :
+            """Protocol used by the wireless interface."""
 
-        # end class left
+            example            = "802.11a"
+            kind               = Attr.Required
+
+        # end class protocol
+
+        ### XXX channels?
+
+        class is_hidden (A_Boolean) :
+            """???"""
+
+            kind               = Attr.Optional
+
+        # end class is_hidden
+
+        class power (A_Float) :
+            """Transmit power in dBm."""
+
+            kind               = Attr.Optional
+
+        # end class power
+
+        class ssid (A_String) :
+            """Network name."""
+
+            example            = "freiesnetz.www.funkfeuer.at"
+            kind               = Attr.Required
+            max_length         = 32
+            ui_name            = "SSID"
+
+        # end class ssid
 
     # end class _Attributes
 
-# end class Net_Device
+# end class Wireless_Interface
+
 
 if __name__ != "__main__" :
     FFM._Export ("*")
-### __END__ FFM.Net_Device
+### __END__ FFM.Wireless_Interface

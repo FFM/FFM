@@ -20,13 +20,13 @@
 #
 #++
 # Name
-#    FFM.Net_Device
+#    FFM.Net_Credentials
 #
 # Purpose
-#    Model a network device of FFM
+#    Model credentials for a network interface
 #
 # Revision Dates
-#     6-Mar-2012 (CT) Creation
+#    14-Mar-2012 (CT) Creation
 #    ««revision-date»»···
 #--
 
@@ -34,28 +34,63 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 
 from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
-import _FFM.Device
 
-_Ancestor_Essence = FFM.Device
+import _FRM.Entity
+import _FRM.Net_Interface
 
-class Net_Device (_Ancestor_Essence) :
-    """Model a network device of FFM."""
+_Ancestor_Essence = MOM.Link1
+
+class _Net_Credentials_ (FFM.Entity, _Ancestor_Essence) :
+    """Model credentials used by a Net_Interface, e.g., `802.1x`
+       authentication for a wired interface, or WPA authentication for a WiFi
+       interface.
+    """
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
-        class left (_Ancestor.left) :
-            """Type of net device"""
+        ### Primary attributes
 
-            role_type          = FFM.Net_Device_Type
+        class left (_Ancestor.left) :
+            """The network interface using these credentials."""
+
+            role_type          = FFM.Net_Interface
+            role_name          = "interface"
+            auto_cache         = "credentials"
 
         # end class left
 
+        ### *** BEWARE ***
+        ### To ensure that a `Net_Interface` has only one `credentials`, no
+        ### other essential primary key attributes must be defined here or by
+        ### derived classes
+
     # end class _Attributes
 
-# end class Net_Device
+# end class _Net_Credentials_
+
+_Ancestor_Essence = _Net_Credentials_
+
+class WPA_Credentials (_Ancestor_Essence) :
+    """Model credentials necessary for WPA authentication."""
+
+    class _Attributes (_Ancestor_Essence._Attributes) :
+
+        _Ancestor = _Ancestor_Essence._Attributes
+
+        class key (Eval_Mixin, _A_String_Ascii_) :
+            """Key used for WPA authentication."""
+
+            kind               = Attr.Required
+            max_length         = 32
+
+        # end class key
+
+    # end class _Attributes
+
+# end class WPA2
 
 if __name__ != "__main__" :
     FFM._Export ("*")
-### __END__ FFM.Net_Device
+### __END__ FFM.Net_Credentials

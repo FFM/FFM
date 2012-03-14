@@ -1,6 +1,18 @@
 Open questions
 ===============
 
+- Wireless_Interface (aka Radio)
+
+  * specification of channel(s)
+
+  * bssid:
+
+    + dependent on Wireless_Mode ???
+
+    + is it needed ??? (or is `ssid` sufficient)
+
+  * distance ???
+
 - Devices vs. composite devices
 
 - Router: other name?
@@ -29,5 +41,9 @@ To-Do
   --> Router
 
 - XXX uses Antenna
+
+- SQL integrity constraints for interval arithmetic (IP networks)
+
+  * how to put most of the check into SQL
 
 ###

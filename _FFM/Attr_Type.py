@@ -20,42 +20,48 @@
 #
 #++
 # Name
-#    FFM.Net_Device
+#    FFM.Attr_Type
 #
 # Purpose
-#    Model a network device of FFM
+#    Define attribute types for package FFM
 #
 # Revision Dates
-#     6-Mar-2012 (CT) Creation
+#    14-Mar-2012 (CT) Creation
 #    ««revision-date»»···
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
 
-from   _MOM.import_MOM        import *
-from   _FFM                   import FFM
-import _FFM.Device
+from   _MOM.import_MOM          import *
+from   _MOM.import_MOM          import _A_Composite_
+from   _FFM                     import FFM
 
-_Ancestor_Essence = FFM.Device
+class A_Wireless_Protocol (_A_Named_Value_) :
+    """An attribute selecting a specific wireless protocol."""
 
-class Net_Device (_Ancestor_Essence) :
-    """Model a network device of FFM."""
+    ( WLP_802_11_a
+    , WLP_802_11_b
+    , WLP_802_11_g
+    , WLP_802_11_n
+    )            = range (4)
 
-    class _Attributes (_Ancestor_Essence._Attributes) :
+    example      = "802.11a"
+    typ          = "WL-Protocol"
+    P_Type       = int
+    Table        = \
+        { "802.11a" : WLP_802_11_a
+        , "802.11b" : WLP_802_11_b
+        , "802.11g" : WLP_802_11_g
+        , "802.11n" : WLP_802_11_n
+        }
 
-        _Ancestor = _Ancestor_Essence._Attributes
+# end class A_Wireless_Protocol
 
-        class left (_Ancestor.left) :
-            """Type of net device"""
-
-            role_type          = FFM.Net_Device_Type
-
-        # end class left
-
-    # end class _Attributes
-
-# end class Net_Device
+__all__ = tuple \
+    (  k for (k, v) in globals ().iteritems ()
+    if isinstance (v, MOM.Meta.M_Attr_Type)
+    )
 
 if __name__ != "__main__" :
     FFM._Export ("*")
-### __END__ FFM.Net_Device
+### __END__ FFM.Attr_Type
