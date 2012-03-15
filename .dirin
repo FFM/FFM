@@ -1,1 +1,2 @@
-/swing/system/git/dirin
+. ~/.swing/system/git/dirin
+export LSE_FRAME_TITLE_PREFIX=FFM
