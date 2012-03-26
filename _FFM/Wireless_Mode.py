@@ -41,6 +41,8 @@ _Ancestor_Essence = MOM.Link1
 class _Wireless_Mode_ (FFM.Entity, _Ancestor_Essence) :
     """Model the mode a wireless device operates in."""
 
+    is_partial = True
+
     class _Attributes (_Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
@@ -52,7 +54,7 @@ class _Wireless_Mode_ (FFM.Entity, _Ancestor_Essence) :
 
             role_type          = FFM.Wireless_Interface
             role_name          = "interface"
-            auto_cache         = "mode"
+            ### XXX auto_cache         = "mode"
 
         # end class left
 

@@ -33,10 +33,13 @@
 from   __future__  import absolute_import, division, print_function, unicode_literals
 
 from   _MOM.import_MOM        import *
+from   _MOM.import_MOM        import _A_String_Ascii_
 from   _FFM                   import FFM
 
-import _FRM.Entity
-import _FRM.Net_Interface
+import _FFM.Entity
+import _FFM.Net_Interface
+
+from   _TFL.Regexp            import Regexp, re
 
 _Ancestor_Essence = MOM.Link1
 
@@ -45,6 +48,8 @@ class _Net_Credentials_ (FFM.Entity, _Ancestor_Essence) :
        authentication for a wired interface, or WPA authentication for a WiFi
        interface.
     """
+
+    is_partial = True
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
@@ -57,7 +62,7 @@ class _Net_Credentials_ (FFM.Entity, _Ancestor_Essence) :
 
             role_type          = FFM.Net_Interface
             role_name          = "interface"
-            auto_cache         = "credentials"
+            ### XXX auto_cache         = "credentials"
 
         # end class left
 

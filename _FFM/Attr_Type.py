@@ -33,7 +33,7 @@
 from   __future__  import absolute_import, division, print_function, unicode_literals
 
 from   _MOM.import_MOM          import *
-from   _MOM.import_MOM          import _A_Composite_
+from   _MOM.import_MOM          import _A_Composite_, _A_Named_Value_
 from   _FFM                     import FFM
 
 class A_Wireless_Protocol (_A_Named_Value_) :

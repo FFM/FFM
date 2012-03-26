@@ -41,6 +41,8 @@ _Ancestor_Essence = MOM.Object
 class Device_Type (FFM.Entity, _Ancestor_Essence) :
     """Model the type of devices in FFM."""
 
+    is_partial = True
+
     class _Attributes (_Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes

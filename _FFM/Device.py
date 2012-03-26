@@ -41,6 +41,8 @@ _Ancestor_Essence = MOM.Link1
 class Device (FFM.Entity, _Ancestor_Essence) :
     """Model a device used by a FFM node."""
 
+    is_partial = True
+
     class _Attributes (_Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes

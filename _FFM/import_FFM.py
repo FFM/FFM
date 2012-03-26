@@ -37,15 +37,18 @@ from   _FFM                   import FFM
 
 import _FFM.Entity
 
-import _FFM.Antenna_Type
 import _FFM.Antenna
-import _FFM.Device_Type
+import _FFM.Antenna_Type
 import _FFM.Device
-import _FFM.Net_Device_Type
+import _FFM.Device_Type
+import _FFM.Net_Credentials
 import _FFM.Net_Device
+import _FFM.Net_Device_Type
 import _FFM.Net_Interface
 import _FFM.Node
 import _FFM.Routing_Zone
+import _FFM.Wireless_Interface
+import _FFM.Wireless_Mode
 import _FFM.Zone
 
 import _FFM.Device_Type_made_by_Company

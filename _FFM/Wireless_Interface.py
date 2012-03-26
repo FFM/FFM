@@ -87,7 +87,6 @@ class Wireless_Interface (_Ancestor_Essence) :
 
 # end class Wireless_Interface
 
-
 if __name__ != "__main__" :
     FFM._Export ("*")
 ### __END__ FFM.Wireless_Interface

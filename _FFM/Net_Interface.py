@@ -37,7 +37,7 @@ from   _FFM                     import FFM
 
 from   _GTW._OMP._NET.Attr_Type import *
 
-import _FFM.Device
+import _FFM.Net_Device
 
 _Ancestor_Essence = MOM.Link1
 
