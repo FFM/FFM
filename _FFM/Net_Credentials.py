@@ -62,7 +62,7 @@ class _Net_Credentials_ (FFM.Entity, _Ancestor_Essence) :
 
             role_type          = FFM.Net_Interface
             role_name          = "interface"
-            ### XXX auto_cache         = "credentials"
+            auto_cache         = "credentials"
 
         # end class left
 

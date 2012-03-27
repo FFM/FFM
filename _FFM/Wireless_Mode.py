@@ -54,7 +54,7 @@ class _Wireless_Mode_ (FFM.Entity, _Ancestor_Essence) :
 
             role_type          = FFM.Wireless_Interface
             role_name          = "interface"
-            ### XXX auto_cache         = "mode"
+            auto_cache         = "mode"
 
         # end class left
 
