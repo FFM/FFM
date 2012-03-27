@@ -1,0 +1,58 @@
+
+{#- jinja template: navigation.jnj -#}
+{#
+## Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+## Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+## #*** <License> ************************************************************#
+## This template is part of the web page ffm.funkfeuer.at.
+##
+## This template is free software: you can redistribute it and/or modify
+## it under the terms of the GNU Affero General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This template is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+## GNU Affero General Public License for more details.
+##
+## You should have received a copy of the GNU Affero General Public License
+## along with this template. If not, see <http://www.gnu.org/licenses/>.
+## #*** </License> ***********************************************************#
+##
+##++
+## Name
+##    html/navigation.jnj
+##
+## Purpose
+##    Navigation for ffm.funkfeuer.at
+##
+## Revision Dates
+##    27-Mar-2012 (CT) Creation
+##    ««revision-date»»···
+##--
+#}
+
+{%- import html_version as X -%}
+{%- import "STD::html/navigation.jnj" as NT with context %}
+{%- import "STD::html/form.jnj" as Form %}
+
+{%- macro main (page) -%}
+  {%- set main_caller = kwargs.pop ("caller", None) -%}
+  {% call NT.main (page) -%}
+
+    {{ NT.language_section (page, request) -}}
+
+    {%- if not fatal_exception %}
+      {%- if page.login_page or request.user.authenticated %}
+        {{- NT.login_section (page, request) -}}
+      {%- endif -%}
+    {% endif -%}
+  {% endcall %} {# NT.main #}
+
+  {%- if main_caller %}
+    {{ main_caller () }}
+  {% endif -%}
+{%- endmacro -%} {#- main -#}
+
+{#- __END__ jinja template: html/navigation.jnj -#}

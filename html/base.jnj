@@ -1,0 +1,71 @@
+{%- extends "STD::html/base.jnj" %}
+{#- jinja template: base.jnj -#}
+{#
+## Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+## Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+## #*** <License> ************************************************************#
+## This template is part of the web page ffm.funkfeuer.at.
+##
+## This template is free software: you can redistribute it and/or modify
+## it under the terms of the GNU Affero General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This template is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+## GNU Affero General Public License for more details.
+##
+## You should have received a copy of the GNU Affero General Public License
+## along with this template. If not, see <http://www.gnu.org/licenses/>.
+## #*** </License> ***********************************************************#
+##
+##++
+## Name
+##    html/base.jnj
+##
+## Purpose
+##    Base template for ffm.funkfeuer.at
+##
+## Revision Dates
+##    27-Mar-2012 (CT) Creation
+##    ««revision-date»»···
+##--
+#}
+{%- block body_header -%}
+  {#- XXX -#}
+  <span id="ffm-top" title="{{ page.title }}">
+    {{- GTW._T ("Funkfeuer Knotendatenbank") -}}
+  </span>
+{%- endblock body_header -%}
+
+{%- block body_footer -%}
+  <div class="copyright">
+    {%- block body_footer_copyright %}
+      {%- if page.copyright %}
+      Copyright &copy;
+      {{ page.copyright.year if page.copyright.year else GTW.now ("%Y") }}
+      <a href="{{ page.copyright.url }}">
+        {{- page.copyright.holder|default ("funkfeuer.at") -}}
+      </a>
+      {% endif -%}
+    {% endblock body_footer_copyright -%}
+  </div>
+  <div class="top-link">
+    {%- block body_footer_top_link %}
+      <a id="Bottom" href="#ffm-top">{{ GTW._T ("Top of page") }}</a>
+    {% endblock body_footer_top_link -%}
+  </div>
+  <div class="last-change">
+    {%- block body_footer_last_change %}
+      {{- GTW._T ("Last change") -}}:
+      {%- if page.last_changed %}
+        {{ page.last_changed }}
+      {%- else %}
+        {{ GTW.now ("%d/%m/%Y %H:%M" if page.DEBUG else "%d/%m/%Y")}}
+      {% endif -%}
+    {% endblock body_footer_last_change -%}
+  </div>
+{% endblock body_footer -%}
+
+{#- __END__ jinja template: html/base.jnj -#}
