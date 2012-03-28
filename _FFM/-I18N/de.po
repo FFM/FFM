@@ -1,19 +1,414 @@
-# Translations template for Project.
-# Copyright (C) 2012 Copyright
-# This file is distributed under the same license as the Project project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+# Translations template for FFM.
+# Copyright (C) 2012 Mag. Christian Tanzer, Ralf Schlatterbeck
+# This file is distributed under the same license as the FFM project.
+# Christian Tanzer <tanzer@swing.co.at>, 2012.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Project 0.9\n"
-"Report-Msgid-Bugs-To: bugs@domain.unknown\n"
-"POT-Creation-Date: 2012-03-27 18:46+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Report-Msgid-Bugs-To: tanzer@swing.co.at,ralf@runtux.com\n"
+"POT-Creation-Date: 2012-03-28 08:32+0200\n"
+"PO-Revision-Date: 2012-03-28 08:32+0200\n"
+"Last-Translator: Christian Tanzer <tanzer@swing.co.at>\n"
+"Language-Team: de <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
+
+#: _FFM.Wireless_Interface:0
+msgid "???"
+msgstr ""
+
+#: _FFM.Wireless_Mode:0
+msgid "AP_Mode"
+msgid_plural "AP_Modes"
+msgstr[0] "AP-Mode"
+msgstr[1] "AP-Modi"
+
+#: _FFM.Wireless_Mode:0
+msgid "Ad_Hoc_Mode"
+msgid_plural "Ad_Hoc_Modes"
+msgstr[0] "Ad-Hoc Mode"
+msgstr[1] "Ad-Hoc Modi"
+
+#: _FFM.Antenna:0
+msgid "Antenna"
+msgid_plural "Antennas"
+msgstr[0] "Antenne"
+msgstr[1] "Antennen"
+
+#: _FFM.Antenna:0
+msgid "Antenna type"
+msgstr "Antennentyp"
+
+#: _FFM.Antenna_Type:0
+msgid "Antenna_Type"
+msgid_plural "Antenna_Types"
+msgstr[0] "Antennentyp"
+msgstr[1] "Antennentypen"
+
+#: _FFM.Antenna:0
+msgid "Azimuth"
+msgstr ""
+
+#: _FFM.Antenna:0
+msgid "Azimuth of antenna orientation (in degrees)."
+msgstr "Azimuth der Antenne (in Grad)."
+
+#: _FFM.Wireless_Mode:0
+msgid "Client_Mode"
+msgid_plural "Client_Modes"
+msgstr[0] "Klientenmode"
+msgstr[1] "Klientenmodi"
+
+#: _FFM.Device_Type_made_by_Company:0
+msgid "Company manufacturing the device-type."
+msgstr "Firma, die den Gerätetyp herstellt."
+
+#: _FFM.Antenna_Type:0
+msgid ""
+"Describes how well the antenna converts input power into radio\n"
+"waves headed in a specified direction (in dBi)."
+msgstr ""
+"Beschreibt, wie gut die Antenne das Inputsignal in Radiowellen "
+"mit einer bestimmten Richtung verwandelt (in dBi)."
+
+#: _FFM.Device_Type:0
+msgid "Description of device type"
+msgstr "Beschreibung des Gerätetyps"
+
+#: _FFM.Device:0 _FFM.Net_Interface:0
+msgid "Device"
+msgid_plural "Devices"
+msgstr[0] "Gerät"
+msgstr[1] "Geräte"
+
+#: _FFM.Device_Type_made_by_Company:0
+msgid "Device type"
+msgstr "Gerätetyp"
+
+#: _FFM.Device_Type_made_by_Company:0
+msgid "Device type."
+msgstr "Gerätetyp."
+
+#: _FFM.Device_Type:0
+msgid "Device_Type"
+msgid_plural "Device_Types"
+msgstr[0] "Gerätetyp"
+msgstr[1] "Gerätetypen"
+
+#: _FFM.Device_Type_made_by_Company:0
+msgid "Device_Type_made_by_Company"
+msgid_plural "Device_Type_made_by_Companys"
+msgstr[0] "Gerätetyp erzeugt durch Firma"
+msgstr[1] "Gerätetypen erzeugt durch Firmen"
+
+#: _MOM._Attr.Float_Interval:0
+msgid "Float_Interval"
+msgid_plural "Float_Intervals"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _FFM.Antenna_Type:0
+msgid "Freqency"
+msgstr "Frequenz"
+
+#: _FFM.Antenna_Type:0
+msgid "Frequency range the antenna supports."
+msgstr "Durch die Antenne unterstützter Frequenzbereich."
+
+#: _FFM.Antenna_Type:0
+msgid "Gain"
+msgstr "Verstärkung"
+
+#: _FFM.Antenna:0
+msgid "Inclination"
+msgstr "Neigung"
+
+#: _FFM.Antenna:0
+msgid "Inclination from the horizontal plane (in degrees)."
+msgstr "Neigung gegen die Horizontale (in Grad)."
+
+#: _FFM.Net_Interface:0
+msgid "Indicates if this interface is active."
+msgstr "Bestimmt, ob die Schnittstelle aktiv ist."
+
+#: _FFM.Wireless_Mode:0 _FFM.Net_Credentials:0
+msgid "Interface"
+msgstr "Schnittstelle"
+
+#: _FFM.Net_Interface:0
+msgid "Is active"
+msgstr "Ist aktiv"
+
+#: _FFM.Wireless_Interface:0
+msgid "Is hidden"
+msgstr "Ist verborgen"
+
+#: _FFM.Net_Credentials:0
+msgid "Key"
+msgstr "Schlüssel"
+
+#: _FFM.Net_Credentials:0
+msgid "Key used for WPA authentication."
+msgstr "Für WPA Autentifizierung verwendeter Schlüssel."
+
+#: _MOM._Attr.Float_Interval:0
+msgid "Lower"
+msgstr "Untere Grenze"
+
+#: _MOM._Attr.Float_Interval:0
+msgid "Lower bound of interval."
+msgstr "Untere Grenze des Intervalls."
+
+#: _FFM.Net_Interface:0
+msgid "MAC address of interface."
+msgstr "MAC Adresse der Schnittstelle."
+
+#: _FFM.Net_Interface:0
+msgid "Mac address"
+msgstr "Mac Adresse"
+
+#: _FFM.Device_Type_made_by_Company:0
+msgid "Manufacturer"
+msgstr "Hersteller"
+
+#: _FFM.Node:0
+msgid "Map p"
+msgstr "Karte"
+
+#: _MOM._Attr.Float_Interval:0
+msgid "Model a interval of float values (lower, upper)."
+msgstr ""
+
+#: _FFM.Net_Device:0
+msgid "Model a network device of FFM."
+msgstr "Netzwerkgerät in FFM."
+
+#: _FFM.Net_Interface:0
+msgid "Model a network interface of a FFM device"
+msgstr "Netzwerkschnittstelle eines Netzwerkgeräts"
+
+#: _FFM.Node:0
+msgid "Model a node of FFM"
+msgstr "Knoten in FFM"
+
+#: _FFM.Zone:0
+msgid "Model a routing zone of FFM."
+msgstr "Routing Zone in FFM."
+
+#: _FFM.Wireless_Interface:0
+msgid "Model a wireless interface of a FFM device"
+msgstr "Drahtlose Schnittstelle eines FFM Geräts"
+
+#: _FFM.Antenna:0
+msgid "Model an antenna used by a FFM node."
+msgstr "Von einem FFM verwendete Antenne."
+
+#: _FFM.Net_Credentials:0
+msgid "Model credentials necessary for WPA authentication."
+msgstr "Für WPA Autentifizierung notwendiger Berechtigungsnachweis."
+
+#: _FFM.Device_Type_made_by_Company:0
+msgid "Model manufacturer of device-type."
+msgstr "Hersteller des Gerätetyps."
+
+#: _FFM.Device_Type:0
+msgid "Model no"
+msgstr "Modellnummer"
+
+#: _FFM.Device_Type:0
+msgid "Model number identifying the device type"
+msgstr "Den Gerätetyp eindeutig beschreibende Modellnummer"
+
+#: _FFM.Wireless_Mode:0
+msgid "Model the mode `access point`."
+msgstr "Mode `Access Point`."
+
+#: _FFM.Wireless_Mode:0
+msgid "Model the mode `ad hoc`."
+msgstr "Mode `Ad Hoc`."
+
+#: _FFM.Wireless_Mode:0
+msgid "Model the mode `client`."
+msgstr "Mode `Klient`."
+
+#: _FFM.Antenna_Type:0
+msgid "Model the type of antennas in FFM."
+msgstr "Antennentyp."
+
+#: _FFM.Net_Device_Type:0
+msgid "Model the type of network devices in FFM."
+msgstr "Netzwerkgerätetyp"
+
+#: _FFM.Device:0
+msgid "Name of device"
+msgstr "Names des Geräts"
+
+#: _FFM.Device_Type:0
+msgid "Name of device type"
+msgstr "Name des Gerätetyps"
+
+#: _FFM.Node:0
+msgid "Name of the node"
+msgstr "Name des Knotens"
+
+#: _FFM.Zone:0
+msgid "Name of the zone"
+msgstr "Name der Zone"
+
+#: _FFM.Net_Device:0
+msgid "Net device type"
+msgstr "Netzwerkgerätetyp"
+
+#: _FFM.Net_Device:0
+msgid "Net_Device"
+msgid_plural "Net_Devices"
+msgstr[0] "Netzwerkgerät"
+msgstr[1] "Netzwerkgeräte"
+
+#: _FFM.Net_Device_Type:0
+msgid "Net_Device_Type"
+msgid_plural "Net_Device_Types"
+msgstr[0] "Netzwerkgerätetyp"
+msgstr[1] "Netzwerkgerätetypen"
+
+#: _FFM.Net_Interface:0
+msgid "Net_Interface"
+msgid_plural "Net_Interfaces"
+msgstr[0] "Netzwerkschnittstelle"
+msgstr[1] "Netzwerkschnittstellen"
+
+#: _FFM.Net_Interface:0
+msgid "Network device the interface is connected to."
+msgstr "Netzwerkgerät, mit dem die Schnittstelle verbunden ist."
+
+#: _FFM.Wireless_Interface:0
+msgid "Network name."
+msgstr "Netzwerkname."
+
+#: _FFM.Node:0
+msgid "Node"
+msgid_plural "Nodes"
+msgstr[0] "Knoten"
+msgstr[1] "Knoten"
+
+#: _FFM.Antenna:0
+msgid "Orientation"
+msgstr "Orientierung"
+
+#: _FFM.Antenna:0
+msgid "Orientation in degrees relative to standard orientation."
+msgstr "Orientierung in Grad relativ zur Standardorientierung."
+
+#: _FFM.Wireless_Interface:0
+msgid "Power"
+msgstr "Leistung"
+
+#: _FFM.Wireless_Interface:0
+msgid "Protocol"
+msgstr "Protokoll"
+
+#: _FFM.Wireless_Interface:0
+msgid "Protocol used by the wireless interface."
+msgstr "Von der Netzwerkschnittstelle verwendetes Protokoll."
+
+#: _FFM.Device_Type:0
+msgid "Revision"
+msgstr "Revisionsnummer"
+
+#: _FFM.Device_Type:0
+msgid "Revision of hardware of device type"
+msgstr "Revisionsnummer der Gerätetyphardware."
+
+#: _FFM.Routing_Zone:0
+msgid "Routing zone using the OLSR routing protocol."
+msgstr "Routing Zone, die das OLSR Routingprotokoll verwendet."
+
+#: _FFM.Routing_Zone:0
+msgid "Routing_Zone"
+msgid_plural "Routing_Zones"
+msgstr[0] "Routing Zone"
+msgstr[1] "Routing Zonen"
+
+#: _FFM.Routing_Zone:0
+msgid "Routing_Zone_OLSR"
+msgid_plural "Routing_Zone_OLSRs"
+msgstr[0] "Routing Zone OLSR"
+msgstr[1] "Routing Zonen OLSR"
+
+#: _FFM.Wireless_Interface:0
+msgid "SSID"
+msgstr ""
+
+#: _FFM.Node:0
+msgid "Show in map ???"
+msgstr "Zeige in Karte"
+
+#: _FFM.Net_Credentials:0
+msgid "The network interface using these credentials."
+msgstr "Netzwerkschnittstelle, die den Berechtigungsnachweis verwendet."
+
+#: _MOM._Attr.Float_Interval:0
+msgid "The upper bound must be greater than the lower bound."
+msgstr "Die obere Grenze muss grösser als die untere Grenze sein."
+
+#: _FFM.Wireless_Mode:0
+msgid "The wireless device operating in this mode."
+msgstr "In diesem Mode arbeitendes Netzwerkgerät."
+
+#: _FFM.Routing_Zone:0
+msgid "The zone that's routed for."
+msgstr "Die Zone, die ¿geroutet? wird."
+
+#: _FFM.Wireless_Interface:0
+msgid "Transmit power in dBm."
+msgstr "Sendeleistung in dBm."
+
+#: _FFM.Device:0
+msgid "Type"
+msgstr "Typ"
+
+#: _FFM.Antenna:0
+msgid "Type of antenna"
+msgstr "Typ der Antenne."
+
+#: _FFM.Device:0
+msgid "Type of device"
+msgstr "Typ des Geräts"
+
+#: _FFM.Net_Device:0
+msgid "Type of net device"
+msgstr "Type des Netzwerkgeräts"
+
+#: _MOM._Attr.Float_Interval:0
+msgid "Upper"
+msgstr "Obere Grenze"
+
+#: _MOM._Attr.Float_Interval:0
+msgid "Upper bound of interval."
+msgstr "Obere Grenze des Intervalls."
+
+#: _FFM.Net_Credentials:0
+msgid "WPA_Credentials"
+msgid_plural "WPA_Credentialses"
+msgstr[0] "WPA Berechtigungsnachweis"
+msgstr[1] "WPA Berechtigungsnachweise"
+
+#: _FFM.Wireless_Interface:0
+msgid "Wireless_Interface"
+msgid_plural "Wireless_Interfaces"
+msgstr[0] "Drahtlose Schnittstelle"
+msgstr[1] "Drahtlose Schnittstellen"
+
+#: _FFM.Zone:0 _FFM.Routing_Zone:0
+msgid "Zone"
+msgid_plural "Zones"
+msgstr[0] "Zone"
+msgstr[1] "Zonen"
+
+#: _MOM._Attr.Float_Interval:0
+msgid "is_valid"
+msgstr "ist gültig"
 
