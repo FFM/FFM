@@ -27,14 +27,16 @@
 #
 # Revision Dates
 #     6-Mar-2012 (CT) Creation
+#    28-Mar-2012 (CT) Use `Frequency_Interval` instead of `Float_Interval`
+#                     for `freqency`
 #    ««revision-date»»···
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
 
-from   _MOM.import_MOM           import *
-from   _MOM._Attr.Float_Interval import *
-from   _FFM                      import FFM
+from   _MOM.import_MOM            import *
+from   _MOM._Attr.Number_Interval import *
+from   _FFM                       import FFM
 import _FFM.Device_Type
 
 _Ancestor_Essence = FFM.Device_Type
@@ -55,7 +57,7 @@ class Antenna_Type (_Ancestor_Essence) :
 
         # end class gain
 
-        class freqency (A_Float_Interval) :
+        class freqency (A_Frequency_Interval) :
             """Frequency range the antenna supports."""
 
             kind               = Attr.Required

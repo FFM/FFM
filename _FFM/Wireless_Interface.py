@@ -41,7 +41,7 @@ import _FFM.Net_Interface
 _Ancestor_Essence = FFM.Net_Interface
 
 class Wireless_Interface (_Ancestor_Essence) :
-    """Model a wireless interface of a FFM device"""
+    """Wireless interface of a FFM device"""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 

@@ -52,5 +52,6 @@ import _FFM.Wireless_Mode
 import _FFM.Zone
 
 import _FFM.Device_Type_made_by_Company
+import _FFM.Wireless_Interface_uses_Antenna
 
 ### __END__ FFM.import_FFM

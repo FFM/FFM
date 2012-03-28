@@ -20,13 +20,13 @@
 #
 #++
 # Name
-#    FFM.Device_Type_made_by_Company
+#    FFM.Wireless_Interface_uses_Antenna
 #
 # Purpose
-#    Model manufacturer of device-type
+#    Model the antenna used by a wireless interface
 #
 # Revision Dates
-#     6-Mar-2012 (CT) Creation
+#    28-Mar-2012 (CT) Creation
 #    ««revision-date»»···
 #--
 
@@ -34,18 +34,15 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 
 from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
-from   _GTW                   import GTW
-from   _GTW._OMP._PAP         import PAP
 
-import _FFM.Entity
-import _FFM.Device_Type
-
-import _GTW._OMP._PAP.Company
+from   _FFM.Attr_Type         import *
+import _FFM.Antenna
+import _FFM.Wireless_Interface
 
 _Ancestor_Essence = MOM.Link2
 
-class Device_Type_made_by_Company (FFM.Entity, _Ancestor_Essence) :
-    """Model manufacturer of device-type."""
+class Wireless_Interface_uses_Antenna (_Ancestor_Essence) :
+    """Antenna used by a wireless interface"""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
@@ -54,27 +51,38 @@ class Device_Type_made_by_Company (FFM.Entity, _Ancestor_Essence) :
         ### Primary attributes
 
         class left (_Ancestor.left) :
-            """Device type."""
+            """Wireless interface."""
 
-            role_type          = FFM.Device_Type
-            auto_cache         = True
-            max_links          = 1
+            role_type          = FFM.Wireless_Interface
+            auto_cache         = "interface"
 
         # end class left
 
         class right (_Ancestor.right) :
-            """Company manufacturing the device-type."""
+            """Antenna."""
 
-            role_type          = PAP.Company
-            role_name          = "manufacturer"
+            role_type          = FFM.Antenna
+            auto_cache         = True
+            max_links          = 1
             ui_allow_new       = True
 
         # end class right
 
+        ### Non-primary attributes
+
+        class relative_height (A_Float) :
+            """Height relative to device the antenna is connected to."""
+
+            kind               = Attr.Optional
+            Kind_Mixins        = (Attr.Sticky_Mixin, )
+            default            = 0
+
+        # end class relative_height
+
     # end class _Attributes
 
-# end class Device_Type_made_by_Company
+# end class Wireless_Interface_uses_Antenna
 
 if __name__ != "__main__" :
     FFM._Export ("*")
-### __END__ FFM.Device_Type_made_by_Company
+### __END__ FFM.Wireless_Interface_uses_Antenna

@@ -83,11 +83,23 @@ class Admin (object) :
     Zone                 = dict \
         ( ETM            = "FFM.Zone"
         )
+
+    Device_Type_made_by_Company = dict \
+        ( ETM            = "FFM.Device_Type_made_by_Company"
+        )
+
+    Wireless_Interface_uses_Antenna = dict \
+        ( ETM            = "FFM.Wireless_Interface_uses_Antenna"
+        )
+
 # end class Admin
 
 from   _GTW._AFS._MOM import Spec
 
 ### FFM.Net_Device_Type.GTW.afs_spec = Spec.Entity (include_links = ("FFM.Device_Type_made_by_Company", ))
+### ??? FFM.Antenna.GTW.afs_spec = Spec.Entity (include_links = ("interface", ))
+FFM.Wireless_Interface.GTW.afs_spec = Spec.Entity \
+    (include_links = ("antennas", ))
 
 if __name__ != "__main__" :
     FFM._Export_Module ()
