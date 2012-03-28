@@ -1,6 +1,12 @@
 Open questions
 ===============
 
+- Zone
+
+  * Node_in_Zone or Net_Interface_in_Zone ???
+
+  * hierarchical zones ???
+
 - Wireless_Interface (aka Radio)
 
   * specification of channel(s)
@@ -14,8 +20,6 @@ Open questions
   * distance ???
 
 - Devices vs. composite devices
-
-- Router: other name?
 
 - Network topology: explicit vs. implicit
 
@@ -34,13 +38,11 @@ To-Do
 
 - runs_version_id: not in Device,
 
-  --> Router_runs_Firmware
+  --> Net_Device_runs_Firmware
 
-- authentificationtoken: not in Device,
+- authentification token: not in Device,
 
-  --> Router
-
-- XXX uses Antenna
+  --> Net_Device
 
 - SQL integrity constraints for interval arithmetic (IP networks)
 
