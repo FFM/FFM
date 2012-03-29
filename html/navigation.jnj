@@ -29,6 +29,7 @@
 ##
 ## Revision Dates
 ##    27-Mar-2012 (CT) Creation
+##    29-Mar-2012 (CT) Add `web_links`
 ##    ««revision-date»»···
 ##--
 #}
@@ -40,6 +41,14 @@
 {%- macro main (page) -%}
   {%- set main_caller = kwargs.pop ("caller", None) -%}
   {% call NT.main (page) -%}
+    {%- if not fatal_exception %}
+      {{- NT.section
+          ( page.top.web_links, GTW._T ("Open wireless networks")
+          , class="external"
+          , id = "weblinks"
+          )
+      -}}
+    {% endif -%}
 
     {{ NT.language_section (page, request) -}}
 

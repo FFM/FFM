@@ -57,7 +57,7 @@ import _TFL.Record
 import _TFL.SMTP
 
 from   Media_Defaults import Media_Defaults
-CSS_Parameters = Media_Defaults ()
+Media_Parameters = Media_Defaults ()
 
 from   posixpath              import join  as pjoin
 
@@ -74,57 +74,70 @@ template_dirs     = \
     , base_template_dir
     ]
 
+web_links = \
+    [ TFL.Record
+        ( href        = "http://guifi.net/en/"
+        , title       = "Spanish open wireless network"
+        , short_title = "Guifi.net"
+        )
+    , TFL.Record
+        ( href        = "http://wlan-si.net/"
+        , title       = "Slovenian open wireless network"
+        , short_title = "wlan-si"
+        )
+    ]
+
 def nav_kw_args \
         ( cmd, home_url_root, permissive
-        , App_Type      = None
-        , DB_Url        = None
-        , auto_delegate = False
-        , HTTP          = None
-        , version       = "html/5.jnj"
+        , App_Type          = None
+        , DB_Url            = None
+        , auto_delegate     = False
+        , HTTP              = None
+        , version           = "html/5.jnj"
         , ** kw
         ) :
-    nav_context     = dict \
-        ( GTW             = GTW
-        , Q               = MOM.Q
-        , FFM             = FFM
+    nav_context             = dict \
+        ( GTW               = GTW
+        , Q                 = MOM.Q
+        , FFM               = FFM
         )
     return dict \
-        ( App_Type        = App_Type
-        , auto_delegate   = auto_delegate
-        , console_context = dict
+        ( App_Type          = App_Type
+        , auto_delegate     = auto_delegate
+        , console_context   = dict
             ( nav_context
-            , cmd             = cmd
-            , JNJ             = JNJ
-            , MOM             = MOM
+            , cmd           = cmd
+            , JNJ           = JNJ
+            , MOM           = MOM
             )
-        , copyright_start = cmd.copyright_start
-        , copyright_url   = "/impressum.html" ### XXX ???
-        , CSS_Parameters  = CSS_Parameters
-        , DB_Url          = DB_Url
-        , DEBUG           = cmd.debug
-        , encoding        = cmd.output_encoding
-        , hide_marginal   = True
-        , HTTP            = HTTP
-        , input_encoding  = cmd.input_encoding
-        , language        = "de"
-        , nav_context     = nav_context
-        , owner           = "Funkfeuer"
-        , permissive      = permissive
-        , site_url        = home_url_root
-        , smtp            = TFL.SMTP (cmd.smtp_server)
-        , template_name   = cmd.template_file
-        , Templateer      = JNJ.Templateer
-            ( encoding        = cmd.input_encoding
-            , globals         = dict (site_base = cmd.template_file)
-            , i18n            = True
-            , load_path       = template_dirs
-            , trim_blocks     = True
-            , version         = version
-            , CSS_Parameters  = CSS_Parameters
+        , copyright_start   = cmd.copyright_start
+        , copyright_url     = "/impressum.html" ### XXX ???
+        , Media_Parameters  = Media_Parameters
+        , DB_Url            = DB_Url
+        , DEBUG             = cmd.debug
+        , encoding          = cmd.output_encoding
+        , hide_marginal     = True
+        , HTTP              = HTTP
+        , input_encoding    = cmd.input_encoding
+        , language          = "de"
+        , nav_context       = nav_context
+        , owner             = "Funkfeuer"
+        , permissive        = permissive
+        , site_url          = home_url_root
+        , smtp              = TFL.SMTP (cmd.smtp_server)
+        , template_name     = cmd.template_file
+        , Templateer        = JNJ.Templateer
+            ( encoding          = cmd.input_encoding
+            , globals           = dict (site_base = cmd.template_file)
+            , i18n              = True
+            , load_path         = template_dirs
+            , trim_blocks       = True
+            , version           = version
+            , Media_Parameters  = Media_Parameters
             )
-        , TEST            = cmd.TEST
-        #, web_links       = web_links
-        , webmaster       =
+        , TEST              = cmd.TEST
+        , web_links         = web_links
+        , webmaster         =
             ("christian.tanzer@gmail.com", "Christian Tanzer") ### XXX ???
         , ** kw
         )

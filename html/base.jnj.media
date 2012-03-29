@@ -1,0 +1,98 @@
+# -*- coding: iso-8859-15 -*-
+# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+# #*** <License> ************************************************************#
+# This module is part of the web page ffm.funkfeuer.at.
+#
+# This module is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This module is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this module. If not, see <http://www.gnu.org/licenses/>.
+# #*** </License> ***********************************************************#
+#
+#++
+# Name
+#    html/base.jnj.media
+#
+# Purpose
+#    Media fragment for template base.jnj
+#
+# Revision Dates
+#    29-Mar-2012 (CT) Creation
+#    ««revision-date»»···
+#--
+
+Include ("STD::html/base.jnj.media")
+
+style_sheet = Style_Sheet \
+    ( Rule
+        ( ".pg_foot"
+        , children       =
+            [ Rule
+                ( ".copyright", ".last-change", ".top-link"
+                , float  = "left"
+                , width  = Percent (33)
+                )
+            , Rule (".copyright",   text_align = "left")
+            , Rule (".last-change", text_align = "right")
+            , Rule (".top-link",    text_align = "center")
+            ]
+        )
+    , Rule
+        ( "#ffm-top", "#ffm-top:target"
+        , background_color    = "transparent"
+        , color               = RGB_X ("#BEBEBE")
+        , display             = "inline-block"
+        , font_size           = Px (45)
+        , font_weight         = "normal"
+        , line_height         = 1
+        , outline             = 0
+        , padding             = TRBL0 (l = Px (5), t = Px (5))
+        , vertical_align      = "top"
+        )
+    )
+
+print_sheet = Style_Sheet \
+    ( Media.Rule
+        ( Media.Query ("print")
+        , rules                   =
+            [ Rule
+                ( ".pg_foot"
+                , children        =
+                    [ Rule_Class
+                        ( "copyright", "last-change"
+                        , float   = "left"
+                        , width   = Percent (50)
+                        )
+                    ]
+                )
+            , Rule
+                ( ".pg_foot .top-link"
+                , display         = "none"
+                , visibility      = "collapse"
+                )
+            ]
+        )
+    , rank  = 1 << 16
+    )
+
+Script \
+    ( src       = "http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"
+    , condition = "lt IE 9"
+    , rank      = -1000000000
+    )
+
+Script (GTW.Script._.GTW_util)
+
+JS_On_Ready (GTW.JS_On_Ready._.de_obfuscate_a)
+JS_On_Ready (GTW.JS_On_Ready._.GTW_Externalize)
+
+### __END__ html/base.jnj.media
