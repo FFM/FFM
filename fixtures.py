@@ -34,17 +34,17 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 
 def create (scope) :
     Auth = scope.Auth
-    Auth.Account_Anonymous (u"anonymous")
+    Auth.Account_Anonymous ("anonymous")
     Auth.Account_P.create_new_account_x \
-        ( u"christian.tanzer@gmail.com"
-        , password = u"123", enabled = True, superuser = True, suspended = False
+        ( "christian.tanzer@gmail.com"
+        , password = "123", enabled = True, superuser = True, suspended = False
         )
     Auth.Account_P.create_new_account_x \
-        ( u"tanzer@swing.co.at"
-        , password = u"456", enabled = True, suspended = False
+        ( "tanzer@swing.co.at"
+        , password = "456", enabled = True, suspended = False
         )
-    Auth.Group (u"FFM")
-    Auth.Account_in_Group (u"tanzer@swing.co.at", u"FFM")
+    Auth.Group ("FFM")
+    Auth.Account_in_Group ("tanzer@swing.co.at", "FFM")
     scope.commit ()
 # end def create
 
