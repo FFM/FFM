@@ -48,6 +48,22 @@ class Admin (object) :
         ( ETM            = "FFM.Antenna_Type"
         )
 
+    Firmware_Binary      = dict \
+        ( ETM            = "FFM.Firmware_Binary"
+        )
+
+    Firmware_Bundle      = dict \
+        ( ETM            = "FFM.Firmware_Bundle"
+        )
+
+    Firmware_Type        = dict \
+        ( ETM            = "FFM.Firmware_Type"
+        )
+
+    Firmware_Version     = dict \
+        ( ETM            = "FFM.Firmware_Version"
+        )
+
     Net_Credentials      = dict \
         ( ETM            = "FFM.Net_Credentials"
         )
@@ -84,13 +100,14 @@ class Admin (object) :
         ( ETM            = "FFM.Zone"
         )
 
-    Device_Type_made_by_Company = dict \
-        ( ETM            = "FFM.Device_Type_made_by_Company"
-        )
+    if False :
+        Device_Type_made_by_Company = dict \
+            ( ETM            = "FFM.Device_Type_made_by_Company"
+            )
 
-    Wireless_Interface_uses_Antenna = dict \
-        ( ETM            = "FFM.Wireless_Interface_uses_Antenna"
-        )
+        Wireless_Interface_uses_Antenna = dict \
+            ( ETM            = "FFM.Wireless_Interface_uses_Antenna"
+            )
 
 # end class Admin
 

@@ -41,6 +41,7 @@ import _FFM.Antenna
 import _FFM.Antenna_Type
 import _FFM.Device
 import _FFM.Device_Type
+import _FFM.Firmware
 import _FFM.Net_Credentials
 import _FFM.Net_Device
 import _FFM.Net_Device_Type

@@ -1,4 +1,4 @@
-# Translations template for FFM.
+# German translations for FFM.
 # Copyright (C) 2012 Mag. Christian Tanzer, Ralf Schlatterbeck
 # This file is distributed under the same license as the FFM project.
 # Christian Tanzer <tanzer@swing.co.at>, 2012.
@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Project 0.9\n"
 "Report-Msgid-Bugs-To: tanzer@swing.co.at,ralf@runtux.com\n"
-"POT-Creation-Date: 2012-03-28 08:32+0200\n"
+"POT-Creation-Date: 2012-04-11 13:40+0200\n"
 "PO-Revision-Date: 2012-03-28 08:32+0200\n"
 "Last-Translator: Christian Tanzer <tanzer@swing.co.at>\n"
 "Language-Team: de <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,6 +20,10 @@ msgstr ""
 #: _FFM.Wireless_Interface:0
 msgid "???"
 msgstr ""
+
+#: _FFM.Firmware:0
+msgid "A bundle of binaries for firmware."
+msgstr "Ein Bündel von Binärcodes."
 
 #: _FFM.Wireless_Mode:0
 msgid "AP_Mode"
@@ -32,7 +37,7 @@ msgid_plural "Ad_Hoc_Modes"
 msgstr[0] "Ad-Hoc Mode"
 msgstr[1] "Ad-Hoc Modi"
 
-#: _FFM.Antenna:0
+#: _FFM.Antenna:0 _FFM.Wireless_Interface_uses_Antenna:0
 msgid "Antenna"
 msgid_plural "Antennas"
 msgstr[0] "Antenne"
@@ -41,6 +46,14 @@ msgstr[1] "Antennen"
 #: _FFM.Antenna:0
 msgid "Antenna type"
 msgstr "Antennentyp"
+
+#: _FFM.Wireless_Interface_uses_Antenna:0
+msgid "Antenna used by a wireless interface"
+msgstr "Von der drahtlosen Schnittstelle verwendete Antenne."
+
+#: _FFM.Wireless_Interface_uses_Antenna:0
+msgid "Antenna."
+msgstr "Antenne."
 
 #: _FFM.Antenna_Type:0
 msgid "Antenna_Type"
@@ -55,6 +68,22 @@ msgstr ""
 #: _FFM.Antenna:0
 msgid "Azimuth of antenna orientation (in degrees)."
 msgstr "Azimuth der Antenne (in Grad)."
+
+#: _FFM.Firmware:0
+msgid "Base class for Firmware_Binary and Firmware_Bundle."
+msgstr ""
+
+#: _FFM.Firmware:0
+msgid "Binary for firmware."
+msgstr "Binärcode für Firmware."
+
+#: _FFM.Firmware:0
+msgid "Binary."
+msgstr "Binärcode."
+
+#: _FFM.Firmware:0
+msgid "Bundle."
+msgstr "Bündel."
 
 #: _FFM.Wireless_Mode:0
 msgid "Client_Mode"
@@ -71,8 +100,8 @@ msgid ""
 "Describes how well the antenna converts input power into radio\n"
 "waves headed in a specified direction (in dBi)."
 msgstr ""
-"Beschreibt, wie gut die Antenne das Inputsignal in Radiowellen "
-"mit einer bestimmten Richtung verwandelt (in dBi)."
+"Beschreibt, wie gut die Antenne das Inputsignal in Radiowellen mit einer "
+"bestimmten Richtung verwandelt (in dBi)."
 
 #: _FFM.Device_Type:0
 msgid "Description of device type"
@@ -104,7 +133,67 @@ msgid_plural "Device_Type_made_by_Companys"
 msgstr[0] "Gerätetyp erzeugt durch Firma"
 msgstr[1] "Gerätetypen erzeugt durch Firmen"
 
-#: _MOM._Attr.Float_Interval:0
+#: _FFM.Firmware:0
+msgid "Firmware binary"
+msgstr "Firmware Binärcode"
+
+#: _FFM.Firmware:0
+msgid "Firmware bundle"
+msgstr "Firmware Bündel"
+
+#: _FFM.Firmware:0
+msgid "Firmware for which binary was built."
+msgstr "Durch Binärcode unterstützte Firmware."
+
+#: _FFM.Firmware:0
+msgid "Firmware type"
+msgstr "Firmwaretyp"
+
+#: _FFM.Firmware:0
+msgid "Firmware version"
+msgstr "Firmwareversion"
+
+#: _FFM.Firmware:0
+msgid "Firmware version usable by some devices."
+msgstr "Für bestimmte Geräte verwendbare Firmwareversion."
+
+#: _FFM.Firmware:0
+msgid "Firmware_Bin"
+msgid_plural "Firmware_Bins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _FFM.Firmware:0
+msgid "Firmware_Binary"
+msgid_plural "Firmware_Binarys"
+msgstr[0] "Firmwarebinärcode"
+msgstr[1] "Firmwarebinärcodes"
+
+#: _FFM.Firmware:0
+msgid "Firmware_Binary_in_Firmware_Bundle"
+msgid_plural "Firmware_Binary_in_Firmware_Bundles"
+msgstr[0] "Firmwarebinärcode in Firmwarebündel"
+msgstr[1] "Firmwarebinärcodes in Firmwarebündeln"
+
+#: _FFM.Firmware:0
+msgid "Firmware_Bundle"
+msgid_plural "Firmware_Bundles"
+msgstr[0] "Firmwarebündel"
+msgstr[1] "Firmwarebündeln"
+
+#: _FFM.Firmware:0
+msgid "Firmware_Type"
+msgid_plural "Firmware_Types"
+msgstr[0] "Firmwaretyp"
+msgstr[1] "Firmwaretypen"
+
+#: _FFM.Firmware:0
+msgid "Firmware_Version"
+msgid_plural "Firmware_Versions"
+msgstr[0] "Firmwareversion"
+msgstr[1] "Firmwareversionen"
+
+#: _MOM._Attr.Number_Interval:0
 msgid "Float_Interval"
 msgid_plural "Float_Intervals"
 msgstr[0] ""
@@ -114,6 +203,12 @@ msgstr[1] ""
 msgid "Freqency"
 msgstr "Frequenz"
 
+#: _MOM._Attr.Number_Interval:0
+msgid "Freqency_Interval"
+msgid_plural "Freqency_Intervals"
+msgstr[0] "Frequenzintervall"
+msgstr[1] "Frequenzintervalle"
+
 #: _FFM.Antenna_Type:0
 msgid "Frequency range the antenna supports."
 msgstr "Durch die Antenne unterstützter Frequenzbereich."
@@ -121,6 +216,10 @@ msgstr "Durch die Antenne unterstützter Frequenzbereich."
 #: _FFM.Antenna_Type:0
 msgid "Gain"
 msgstr "Verstärkung"
+
+#: _FFM.Wireless_Interface_uses_Antenna:0
+msgid "Height relative to device the antenna is connected to."
+msgstr "Höhe der Antenne relativ zum Gerät."
 
 #: _FFM.Antenna:0
 msgid "Inclination"
@@ -154,11 +253,15 @@ msgstr "Schlüssel"
 msgid "Key used for WPA authentication."
 msgstr "Für WPA Autentifizierung verwendeter Schlüssel."
 
-#: _MOM._Attr.Float_Interval:0
+#: _FFM.Firmware:0
+msgid "Link Firmware_Binary to Firmware_Bundle."
+msgstr "Verknüpfe Firmwarebinärcode mit Firmwarebündel."
+
+#: _MOM._Attr.Number_Interval:0
 msgid "Lower"
 msgstr "Untere Grenze"
 
-#: _MOM._Attr.Float_Interval:0
+#: _MOM._Attr.Number_Interval:0
 msgid "Lower bound of interval."
 msgstr "Untere Grenze des Intervalls."
 
@@ -178,10 +281,6 @@ msgstr "Hersteller"
 msgid "Map p"
 msgstr "Karte"
 
-#: _MOM._Attr.Float_Interval:0
-msgid "Model a interval of float values (lower, upper)."
-msgstr ""
-
 #: _FFM.Net_Device:0
 msgid "Model a network device of FFM."
 msgstr "Netzwerkgerät in FFM."
@@ -198,13 +297,17 @@ msgstr "Knoten in FFM"
 msgid "Model a routing zone of FFM."
 msgstr "Routing Zone in FFM."
 
-#: _FFM.Wireless_Interface:0
-msgid "Model a wireless interface of a FFM device"
-msgstr "Drahtlose Schnittstelle eines FFM Geräts"
-
 #: _FFM.Antenna:0
 msgid "Model an antenna used by a FFM node."
 msgstr "Von einem FFM verwendete Antenne."
+
+#: _MOM._Attr.Number_Interval:0
+msgid "Model an interval of float values (lower, upper)."
+msgstr ""
+
+#: _MOM._Attr.Number_Interval:0
+msgid "Model an interval of freqency values (lower, upper)."
+msgstr ""
 
 #: _FFM.Net_Credentials:0
 msgid "Model credentials necessary for WPA authentication."
@@ -241,6 +344,22 @@ msgstr "Antennentyp."
 #: _FFM.Net_Device_Type:0
 msgid "Model the type of network devices in FFM."
 msgstr "Netzwerkgerätetyp"
+
+#: _MOM._Attr.Number_Interval:0
+msgid "Models a floating-point attribute of an object."
+msgstr ""
+
+#: _MOM._Attr.Number_Interval:0
+msgid "Models a frequency attribute with unit information."
+msgstr ""
+
+#: _FFM.Firmware:0
+msgid "Name identifying the firmware bundle."
+msgstr "Eindeutiger Name des Firmwarebündels."
+
+#: _FFM.Firmware:0
+msgid "Name identifying the firmware type."
+msgstr "Eindeutiger Name des Firmwaretyps."
 
 #: _FFM.Device:0
 msgid "Name of device"
@@ -314,6 +433,10 @@ msgstr "Protokoll"
 msgid "Protocol used by the wireless interface."
 msgstr "Von der Netzwerkschnittstelle verwendetes Protokoll."
 
+#: _FFM.Wireless_Interface_uses_Antenna:0
+msgid "Relative height"
+msgstr "Relative Höhe"
+
 #: _FFM.Device_Type:0
 msgid "Revision"
 msgstr "Revisionsnummer"
@@ -350,7 +473,7 @@ msgstr "Zeige in Karte"
 msgid "The network interface using these credentials."
 msgstr "Netzwerkschnittstelle, die den Berechtigungsnachweis verwendet."
 
-#: _MOM._Attr.Float_Interval:0
+#: _MOM._Attr.Number_Interval:0
 msgid "The upper bound must be greater than the lower bound."
 msgstr "Die obere Grenze muss grösser als die untere Grenze sein."
 
@@ -378,17 +501,45 @@ msgstr "Typ der Antenne."
 msgid "Type of device"
 msgstr "Typ des Geräts"
 
+#: _FFM.Firmware:0
+msgid "Type of firmware"
+msgstr "Typ der Firmware."
+
+#: _FFM.Firmware:0
+msgid "Type of firmware usable by some devices."
+msgstr "Für bestimmte Geräte verwendbarer Firmwaretyp."
+
 #: _FFM.Net_Device:0
 msgid "Type of net device"
 msgstr "Type des Netzwerkgeräts"
 
-#: _MOM._Attr.Float_Interval:0
+#: _FFM.Firmware:0
+msgid "URL for Firmware_Type"
+msgstr "URL für Firmwaretyp"
+
+#: _MOM._Attr.Number_Interval:0
 msgid "Upper"
 msgstr "Obere Grenze"
 
-#: _MOM._Attr.Float_Interval:0
+#: _MOM._Attr.Number_Interval:0
 msgid "Upper bound of interval."
 msgstr "Obere Grenze des Intervalls."
+
+#: _FFM.Firmware:0
+msgid "Url"
+msgstr "Url"
+
+#: _FFM.Firmware:0
+msgid "Version"
+msgstr "Version"
+
+#: _FFM.Firmware:0
+msgid "Version of the firmware"
+msgstr "Version der Firmware"
+
+#: _FFM.Firmware:0
+msgid "Version of the firmware bundle."
+msgstr "Version des Firmwarebündels."
 
 #: _FFM.Net_Credentials:0
 msgid "WPA_Credentials"
@@ -396,11 +547,29 @@ msgid_plural "WPA_Credentialses"
 msgstr[0] "WPA Berechtigungsnachweis"
 msgstr[1] "WPA Berechtigungsnachweise"
 
+#: _FFM.Wireless_Interface_uses_Antenna:0
+msgid "Wireless interface"
+msgstr "Drahtlose Schnittstelle"
+
+#: _FFM.Wireless_Interface:0
+msgid "Wireless interface of a FFM device"
+msgstr "Drahtlose Schnittstelle eines FFM Geräts"
+
+#: _FFM.Wireless_Interface_uses_Antenna:0
+msgid "Wireless interface."
+msgstr "Drahtlose Schnittstelle"
+
 #: _FFM.Wireless_Interface:0
 msgid "Wireless_Interface"
 msgid_plural "Wireless_Interfaces"
 msgstr[0] "Drahtlose Schnittstelle"
 msgstr[1] "Drahtlose Schnittstellen"
+
+#: _FFM.Wireless_Interface_uses_Antenna:0
+msgid "Wireless_Interface_uses_Antenna"
+msgid_plural "Wireless_Interface_uses_Antennas"
+msgstr[0] "Drahtlose Schnittstelle verwendet Antenne"
+msgstr[1] "Drahtlose Schnittstellen verwenden Antennen"
 
 #: _FFM.Zone:0 _FFM.Routing_Zone:0
 msgid "Zone"
@@ -408,7 +577,8 @@ msgid_plural "Zones"
 msgstr[0] "Zone"
 msgstr[1] "Zonen"
 
-#: _MOM._Attr.Float_Interval:0
+#: _MOM._Attr.Number_Interval:0
 msgid "is_valid"
 msgstr "ist gültig"
+
 

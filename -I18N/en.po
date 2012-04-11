@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FFM 1.0\n"
 "Report-Msgid-Bugs-To: tanzer@swing.co.at,ralf@runtux.com\n"
-"POT-Creation-Date: 2012-03-28 08:32+0200\n"
+"POT-Creation-Date: 2012-04-11 13:40+0200\n"
 "PO-Revision-Date: 2012-03-27 18:18+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -43,6 +43,10 @@ msgstr ""
 
 #: html/base.jnj:61
 msgid "Last change"
+msgstr ""
+
+#: html/navigation.jnj:46
+msgid "Open wireless networks"
 msgstr ""
 
 #: html/base.jnj:56

@@ -45,14 +45,14 @@ class Firmware_Type (FFM.Entity, _Ancestor_Essence) :
         _Ancestor = _Ancestor_Essence._Attributes
 
         class name (A_String) :
-            """Name identifying the firmware."""
+            """Name identifying the firmware type."""
 
             kind               = Attr.Primary
             max_length         = 128
 
         # end class name
 
-        class url (A_Url) :
+        class url (A_Url_X) :
             """URL for Firmware_Type"""
 
             kind               = Attr.Primary
@@ -65,8 +65,8 @@ class Firmware_Type (FFM.Entity, _Ancestor_Essence) :
 
 _Ancestor_Essence = MOM.Link1
 
-class Firmware (FFM.Entity, _Ancestor_Essence) :
-    """Firmware usable by some devices."""
+class Firmware_Version (FFM.Entity, _Ancestor_Essence) :
+    """Firmware version usable by some devices."""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
@@ -92,11 +92,24 @@ class Firmware (FFM.Entity, _Ancestor_Essence) :
 
     # end class _Attributes
 
-# end class Firmware
+# end class Firmware_Version
+
+_Ancestor_Essence = MOM.Id_Entity
+
+class Firmware_Bin (FFM.Entity, _Ancestor_Essence) :
+    """Base class for Firmware_Binary and Firmware_Bundle."""
+
+    class _Attributes (_Ancestor_Essence._Attributes) :
+
+        _Ancestor = _Ancestor_Essence._Attributes
+
+    # end class _Attributes
+
+# end class Firmware_Bin
 
 _Ancestor_Essence = MOM.Link1
 
-class Firmware_Binary (FFM.Entity, _Ancestor_Essence) :
+class Firmware_Binary (Firmware_Bin, _Ancestor_Essence) :
     """Binary for firmware."""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
@@ -108,15 +121,85 @@ class Firmware_Binary (FFM.Entity, _Ancestor_Essence) :
         class left (_Ancestor.left) :
             """Firmware for which binary was built."""
 
-            role_type          = Firmware
+            role_type          = Firmware_Version
 
         # end class left
 
         ### XXX target CPU, size, ...
 
+        class binaries (A_Blob) :
+            """List of binaries containing firmware."""
+
+            kind               = Attr.Computed
+
+            def computed (self, obj) :
+                return (obj, )
+            # end def computed
+
+        # end class binaries
+
     # end class _Attributes
 
 # end class Firmware_Binary
+
+_Ancestor_Essence = MOM.Object
+
+class Firmware_Bundle (Firmware_Bin, _Ancestor_Essence) :
+    """A bundle of binaries for firmware."""
+
+    class _Attributes (_Ancestor_Essence._Attributes) :
+
+        _Ancestor = _Ancestor_Essence._Attributes
+
+        class name (A_String) :
+            """Name identifying the firmware bundle."""
+
+            kind               = Attr.Primary
+            max_length         = 128
+
+        # end class name
+
+        class version (A_String) :
+            """Version of the firmware bundle."""
+
+            kind               = Attr.Primary
+            max_length         = 16
+
+        # end class version
+
+    # end class _Attributes
+
+# end class Firmware_Bundle
+
+_Ancestor_Essence = MOM.Link2
+
+class Firmware_Binary_in_Firmware_Bundle (_Ancestor_Essence) :
+    """Link Firmware_Binary to Firmware_Bundle."""
+
+    class _Attributes (_Ancestor_Essence._Attributes) :
+
+        _Ancestor = _Ancestor_Essence._Attributes
+
+        ### Primary attributes
+
+        class left (_Ancestor.left) :
+            """Binary."""
+
+            role_type          = Firmware_Binary
+            auto_cache         = "binaries"
+
+        # end class left
+
+        class right (_Ancestor.right) :
+            """Bundle."""
+
+            role_type          = Firmware_Bundle
+
+        # end class right
+
+    # end class _Attributes
+
+# end class Firmware_Binary_in_Firmware_Bundle
 
 if __name__ != "__main__" :
     FFM._Export ("*")
