@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Project 0.9\n"
 "Report-Msgid-Bugs-To: tanzer@swing.co.at,ralf@runtux.com\n"
-"POT-Creation-Date: 2012-04-11 13:40+0200\n"
+"POT-Creation-Date: 2012-04-12 13:11+0200\n"
 "PO-Revision-Date: 2012-03-28 08:32+0200\n"
 "Last-Translator: Christian Tanzer <tanzer@swing.co.at>\n"
 "Language-Team: de <LL@li.org>\n"
@@ -580,5 +580,4 @@ msgstr[1] "Zonen"
 #: _MOM._Attr.Number_Interval:0
 msgid "is_valid"
 msgstr "ist gültig"
-
 
