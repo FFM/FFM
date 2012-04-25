@@ -1,11 +1,41 @@
 Open questions
 ===============
 
+When referring to CNML we mean the XML format exported by guifi.net,
+there are no other implementations of CNML we're aware of.
+
+- General attributes
+
+  * CNML has creation date and update-date, we're ignoring these in the
+    first prototype but when importing, these should probably be kept
+    (e.g. for a migration use-case)
+
+  * CNML seems to have a verbose description between ``<node>`` and
+    ``</node>``
+
+  * Devices, Nodes and Links have a status in CNML (for link the
+    attribute is called ``link_status``) with the values
+    ``Building``, ``Reserved``, ``Working``, ``Testing``, ``Planned``,
+    ``Dropped``, I've found no link with status ``Dropped``
+
 - Zone
 
-  * Node_in_Zone or Net_Interface_in_Zone ???
+  * ``Node_in_Zone`` or ``Net_Interface_in_Zone``? We might have
+    gateways that are in different zones, i.e., the gateway node is in
+    several zones while each interface is in just one zone.
 
-  * hierarchical zones ???
+  * Are zones also routing-relevant or do we need a separate
+    routing-zone?
+
+  * hierarchical zones? CNML format has hierarchical zones.
+
+  * CNML has rectangular zones with a bounding box with two points
+    lat/lon, we don't think this makes much sense.
+
+  * CNML has a timezone with a peculiar format ``+01 2 2``
+
+    + do we need that at all?
+    + better would be a timezone name (summertime!)
 
 - Wireless_Interface (aka Radio)
 
@@ -13,13 +43,22 @@ Open questions
 
   * bssid:
 
-    + dependent on Wireless_Mode ???
+    + dependent on Wireless_Mode ?
+    + is it needed? (or is `ssid` sufficient)
 
-    + is it needed ??? (or is `ssid` sufficient)
-
-  * distance ???
+  * distance to/from node?
 
 - Devices vs. composite devices
+
+  * Devices in CNML (e.g. radio) have a title *and* a name, e.g.
+    title: ``AleMasnou12Rd1``, name: ``NanoStation Loco2``, on closer
+    examination the name attribute seems to denote the device type
+
+  * Radios in CNML are devices and have antenna parameters, we model
+    this differently (imho more correctly)
+  
+  * So it probably makes sense to combine the radio name + title and use
+    both names for device + interface
 
 - Network topology: explicit vs. implicit
 
@@ -28,6 +67,13 @@ Open questions
 - macprotocol: what for?
 
   --> Net_Interface
+
+- Antenna parameters:
+
+  * CNML has ``antenna_angle`` which seems to be the german term
+    Öffnungswinkel, correct english term? Maybe we should aim to get
+    radiation diagrams for all antennae, we want to model this with
+    radio mobile. Todo: Use this parameter from CNML
 
 To-Do
 =====
