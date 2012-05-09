@@ -28,6 +28,9 @@ class Convert (object) :
         self.et    = ETree (ElementTree.parse (f))
         self.stati = {}
         self.scope = scope
+        self.dev_by_name   = {}
+        # store Net_Device under radio name
+        self.netdev_by_radio_name = {}
 
         #print self.et.pretty (with_text = 1)
         #print self.et.pretty ()
@@ -63,6 +66,65 @@ class Convert (object) :
                 return
             t = ffm.Net_Device_Type.instance_or_new (model_no = model_no)
             d = ffm.Net_Device (left = t, name = name)
+            self.dev_by_name [name] = d
+        if child.tag == 'radio' :
+            # guifi.net lumps all antenna and antenna_type parameters
+            # into the radio. No reuse of antenna types and antenna (!)
+            # we create an antenna_type model_no from the antenna
+            # parameters.
+            assert (parent.tag == 'device')
+            dev = self.dev_by_name.get (parent.get ('title'))
+            if not dev :
+                # FIXME
+                return
+            self.netdev_by_radio_name [child.get ('name')] = dev
+        if child.tag == 'interface' :
+            mac  = child.get ('mac')
+            if not mac :
+                print "Warning: interface without mac"
+                return
+            if parent.tag == 'radio' :
+                dev  = self.netdev_by_radio_name.get (parent.get ('name'))
+                ssid = child.get ('ssid')
+                if not dev :
+                    # FIXME
+                    return
+                if not ssid :
+                    print "Warning: wireless interface without ssid"
+                    return
+                wif  = ffm.Wireless_Interface \
+                    ( left        = dev
+                    # FIXME:Fails , protocol    = child.get ('protocol')
+                    , ssid        = ssid
+                    , mac_address = mac
+                    )
+                gn   = parent.get ('antenna_gain') or '0'
+                antt = ffm.Antenna_Type.instance_or_new \
+                    ( model_no    = gn
+                    , gain        = gn
+                    )
+                ant  = ffm.Antenna \
+                    ( left        = antt
+                    , azimuth     = child.get ('antenna_azimuth')
+                    , orientation = child.get ('antenna_angle')
+                    , inclination = child.get ('antenna_elevation')
+                    )
+            else :
+                assert (parent.tag == 'device')
+                dev  = self.dev_by_name.get (parent.get ('title'))
+                if not dev :
+                    # FIXME
+                    return
+                try :
+                    nif  = ffm.Net_Interface \
+                        ( left        = dev
+                        , mac_address = child.get ('mac')
+                        )
+                # FIXME: This is a duplicate entry, catch right
+                # exception. We seem to have duplicate macs in the
+                # network
+                except Exception, cause :
+                    print "Warning: %s", cause
     # end def insert
 # end def Convert
 

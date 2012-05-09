@@ -17,6 +17,12 @@ there are no other implementations of CNML we're aware of.
     attribute is called ``link_status``) with the values
     ``Building``, ``Reserved``, ``Working``, ``Testing``, ``Planned``,
     ``Dropped``, I've found no link with status ``Dropped``
+  
+  * Problem with Planned devices: These may not have all the necessary
+    attributes to create the device, e.g., no name (which means no
+    interface) and interfaces may have no mac-address, ssid etc.
+
+  * There are duplicate MAC addresses in the guifi.net CNML
 
 - Zone
 
@@ -76,6 +82,7 @@ there are no other implementations of CNML we're aware of.
     radio mobile. Todo: Use this parameter from CNML
 
 - CNML has a Node with several devices. We also need that.
+  we currently don't have any links to Node.
 
 To-Do
 =====
