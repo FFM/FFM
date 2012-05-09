@@ -53,7 +53,7 @@ class Device_Type (FFM.Entity, _Ancestor_Essence) :
             """Model number identifying the device type"""
 
             kind               = Attr.Primary
-            max_length         = 32
+            max_length         = 40
             ignore_case        = True
             completer          = Attr.Completer_Spec  (1, Attr.Selector.primary)
 

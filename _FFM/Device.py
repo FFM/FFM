@@ -62,7 +62,7 @@ class Device (FFM.Entity, _Ancestor_Essence) :
             """Name of device"""
 
             kind               = Attr.Primary_Optional
-            max_length         = 32
+            max_length         = 40
             ignore_case        = True
             completer          = Attr.Completer_Spec  (2, Attr.Selector.primary)
 

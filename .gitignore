@@ -1,3 +1,4 @@
 *.ffm
 *.ffm.X
 *.pck
+*.pyc

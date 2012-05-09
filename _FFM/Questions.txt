@@ -75,6 +75,8 @@ there are no other implementations of CNML we're aware of.
     radiation diagrams for all antennae, we want to model this with
     radio mobile. Todo: Use this parameter from CNML
 
+- CNML has a Node with several devices. We also need that.
+
 To-Do
 =====
 
