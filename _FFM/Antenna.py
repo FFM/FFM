@@ -70,7 +70,7 @@ class Antenna (_Ancestor_Essence) :
         # end class azimuth
 
         class inclination (A_Int) :
-            """Inclination from the horizontal plane (in degrees)."""
+            """Inclination of the beam from the horizontal plane (in degrees)."""
 
             example            = "42"
             kind               = Attr.Optional

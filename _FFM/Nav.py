@@ -28,6 +28,7 @@
 # Revision Dates
 #    26-Mar-2012 (CT) Creation
 #    10-May-2012 (CT) Add `Node_has_Net_Device`
+#    10-May-2012 (CT) Add `Wired_Interface`, `Wired_Link`, and `Wireless_Link`
 #    ««revision-date»»···
 #--
 
@@ -89,8 +90,20 @@ class Admin (object) :
         ( ETM            = "FFM.Routing_Zone"
         )
 
+    Wired_Interface   = dict \
+        ( ETM            = "FFM.Wired_Interface"
+        )
+
+    Wired_Link   = dict \
+        ( ETM            = "FFM.Wired_Link"
+        )
+
     Wireless_Interface   = dict \
         ( ETM            = "FFM.Wireless_Interface"
+        )
+
+    Wireless_Link   = dict \
+        ( ETM            = "FFM.Wireless_Link"
         )
 
     Wireless_Mode        = dict \
