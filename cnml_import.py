@@ -35,6 +35,7 @@ class Convert (object) :
 
         self.et    = ETree (ElementTree.parse (f))
         self.stati = {}
+        self.attrs = {}
         self.scope = scope
         ffm        = self.scope.FFM
         self.modes = dict \
@@ -47,6 +48,7 @@ class Convert (object) :
         #print self.et.pretty ()
 
         self.et.walk (self.insert)
+        #self.et.walk (self.record_attributes)
     # end def __init__
 
     def record_status (self, parent, child) :
@@ -59,6 +61,13 @@ class Convert (object) :
         if s :
             self.stati [s] = 1
     # end def record_status
+
+    def record_attributes (self, parent, child) :
+        """ Callback routine for walk to record attributes (with tag).
+        """
+        for n in child.attrib :
+            self.attrs ['.'.join ((child.tag, n))] = 1
+    # end def record_attributes
 
     def insert_node (self, element) :
         """ Insert a node.
@@ -93,7 +102,7 @@ class Convert (object) :
             if nif.tag == 'radio' :
                 self.insert_radio (dev, nif)
             elif nif.tag == 'interface' :
-                self.insert_net_interface (dev, nif)
+                self.insert_wired_interface (dev, nif)
             elif nif.tag == 'service' :
                 pass # FIXME
             else :
@@ -110,11 +119,11 @@ class Convert (object) :
                 raise ValueError, "Unknown node type in interface %s" % n.tag
     # end def insert_links
 
-    def insert_net_interface (self, device, element) :
+    def insert_wired_interface (self, device, element) :
         mac  = fix_mac (element.get ('mac'))
         ffm  = self.scope.FFM
         name = element.get ('id')
-        nif  = ffm.Net_Interface.instance \
+        nif  = ffm.Wired_Interface.instance \
             ( left        = device
             , name        = name
             , mac_address = mac
@@ -122,14 +131,14 @@ class Convert (object) :
         if nif :
             assert (nif.mac_address == mac)
         else :
-            nif  = ffm.Net_Interface \
+            nif  = ffm.Wired_Interface \
                 ( left        = device
                 , name        = name
                 , mac_address = mac
                 )
         self.insert_links (nif, element)
         return nif
-    # end def insert_net_interface
+    # end def insert_wired_interface
 
     def insert_wireless_interface (self, device, radio, element, antenna) :
         ffm  = self.scope.FFM
@@ -181,12 +190,16 @@ class Convert (object) :
             , gain        = gn
             , raw         = True
             )
+        angle = element.get ('antenna_angle')
+        incl  = None
+        if angle :
+            incl = str (90 - (int (angle) % 360))
         ant  = ffm.Antenna \
             ( left        = antt
             , name        = "%s_%s" % (device.name, id)
             , azimuth     = element.get ('antenna_azimuth')
-            , orientation = element.get ('antenna_angle')
-            , inclination = element.get ('antenna_elevation')
+            #, orientation = element.get ('antenna_angle') FIXME: polarisation?
+            , inclination = incl
             , raw         = True
             )
         for n in element :
@@ -211,6 +224,8 @@ def _main (cmd) :
     if cmd.Break :
         TFL.Environment.py_shell ()
     c = Convert (cmd.argv, scope)
+    for k in sorted (c.attrs.iterkeys ()) :
+        print k
     scope.commit ()
     scope.ems.compact ()
     scope.destroy ()
