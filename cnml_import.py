@@ -14,6 +14,14 @@ import model
 
 # 'http://guifi.net/pt-pt/guifi/cnml/2441/detail'
 
+def fix_mac (mac) :
+    """ Fix typos, seems guifi.net doesn't check syntax of mac address
+    """
+    if mac is None :
+        return mac
+    return mac.replace ('!', '1')
+# end def fix_mac
+
 class Convert (object) :
     def __init__ (self, args, scope) :
         if len (args) > 0 :
@@ -28,9 +36,6 @@ class Convert (object) :
         self.et    = ETree (ElementTree.parse (f))
         self.stati = {}
         self.scope = scope
-        self.dev_by_name   = {}
-        # store Net_Device under radio name
-        self.netdev_by_radio_name = {}
 
         #print self.et.pretty (with_text = 1)
         #print self.et.pretty ()
@@ -49,82 +54,121 @@ class Convert (object) :
             self.stati [s] = 1
     # end def record_status
 
+    def insert_device (self, element) :
+        """ Insert a device (aka Net_Device)
+            Note: guifi.net seems to use the 'name' attribute as the
+            device_type (names repeat for devices while the title
+            seems to be stable). For now use the name as the name
+            of the Net_Device_Type.
+        """
+        devname = element.get ('name')
+        name    = element.get ('title')
+        ffm     = self.scope.FFM
+        if not devname :
+            t = ffm.Net_Device_Type.instance (name = "Generic", raw = True)
+        else :
+            t = ffm.Net_Device_Type.instance_or_new (name = devname, raw = True)
+        dev = ffm.Net_Device (left = t, name = name, raw = True)
+        for nif in element :
+            if nif.tag == 'radio' :
+                self.insert_radio (dev, nif)
+            elif nif.tag == 'interface' :
+                self.insert_net_interface (dev, nif)
+            elif nif.tag == 'service' :
+                pass # FIXME
+            else :
+                raise ValueError, "Unknown tag in device: %s" % nif.tag
+    # end def insert_device
+
+    def insert_net_interface (self, device, element) :
+        mac  = fix_mac (element.get ('mac'))
+        ffm  = self.scope.FFM
+        name = element.get ('id')
+        nif  = ffm.Net_Interface.instance \
+            ( left        = device
+            , name        = name
+            , mac_address = mac
+            )
+        if nif :
+            assert (nif.mac_address == mac)
+        else :
+            nif  = ffm.Net_Interface \
+                ( left        = device
+                , name        = name
+                , mac_address = mac
+                )
+        return nif
+    # end def insert_net_interface
+
+    def insert_wireless_interface (self, device, radio, element, antenna) :
+        ffm  = self.scope.FFM
+        mac  = fix_mac (element.get ('mac'))
+        ssid = radio.get   ('ssid')
+        # an interface may have more than one IP address and occur
+        # multiple times in the XML
+        name = "Wireless%s" % element.get ('id')
+        wif  = ffm.Wireless_Interface.instance \
+            ( left        = device
+            , name        = name
+            , mac_address = mac
+            )
+        prot = radio.get ('protocol')
+        if wif :
+            assert (wif.raw_attr ('protocol') == prot)
+            assert (wif.ssid                  == ssid)
+            assert (wif.mac_address           == mac)
+        else :
+            wif  = ffm.Wireless_Interface \
+                ( left        = device
+                , name        = name
+                , protocol    = prot
+                , ssid        = ssid
+                , mac_address = mac
+                , raw         = True
+                )
+            ffm.Wireless_Interface_uses_Antenna (wif, antenna)
+        return wif
+    # end def insert_wireless_interface
+
+    def insert_radio (self, device, element) :
+        """ Insert a radio.
+            guifi.net lumps all antenna and antenna_type parameters
+            into the radio. No reuse of antenna types and antenna (!)
+            we create an antenna_type name from the antenna
+            parameters, create an antenna and create a network
+            interface.
+        """
+        id   = element.get ('id')
+        ffm  = self.scope.FFM
+        gn   = element.get ('antenna_gain') or '0'
+        antt = ffm.Antenna_Type.instance_or_new \
+            ( name        = gn
+            , gain        = gn
+            , raw         = True
+            )
+        ant  = ffm.Antenna \
+            ( left        = antt
+            , name        = "%s_%s" % (device.name, id)
+            , azimuth     = element.get ('antenna_azimuth')
+            , orientation = element.get ('antenna_angle')
+            , inclination = element.get ('antenna_elevation')
+            , raw         = True
+            )
+        for n in element :
+            if n.tag == 'interface' :
+                self.insert_wireless_interface (device, element, n, ant)
+            else :
+                raise ValueError, "Unknown node type in radio: %s" % n.tag
+    # end def insert_radio
+
     def insert (self, parent, child) :
         """ Insert given node into the database """
         if child.tag in ('network', 'zone') :
             return
-        ffm = self.scope.FFM
+        #if child.tag == 'node' :
+
         if child.tag == 'device' :
-            # Note: guifi.net seems to use the 'name' attribute as the
-            # device_type (names repeat for devices while the title
-            # seems to be stable). For now use the name as the model_no
-            # of the Net_Device_Type
-            model_no = child.get ('name')
-            name     = child.get ('title')
-            if not model_no :
-                print "Warning: ignoring device without type: %s" % name
-                return
-            t = ffm.Net_Device_Type.instance_or_new (model_no = model_no)
-            d = ffm.Net_Device (left = t, name = name)
-            self.dev_by_name [name] = d
-        if child.tag == 'radio' :
-            # guifi.net lumps all antenna and antenna_type parameters
-            # into the radio. No reuse of antenna types and antenna (!)
-            # we create an antenna_type model_no from the antenna
-            # parameters.
-            assert (parent.tag == 'device')
-            dev = self.dev_by_name.get (parent.get ('title'))
-            if not dev :
-                # FIXME
-                return
-            self.netdev_by_radio_name [child.get ('name')] = dev
-        if child.tag == 'interface' :
-            mac  = child.get ('mac')
-            if not mac :
-                print "Warning: interface without mac"
-                return
-            if parent.tag == 'radio' :
-                dev  = self.netdev_by_radio_name.get (parent.get ('name'))
-                ssid = child.get ('ssid')
-                if not dev :
-                    # FIXME
-                    return
-                if not ssid :
-                    print "Warning: wireless interface without ssid"
-                    return
-                wif  = ffm.Wireless_Interface \
-                    ( left        = dev
-                    # FIXME:Fails , protocol    = child.get ('protocol')
-                    , ssid        = ssid
-                    , mac_address = mac
-                    )
-                gn   = parent.get ('antenna_gain') or '0'
-                antt = ffm.Antenna_Type.instance_or_new \
-                    ( model_no    = gn
-                    , gain        = gn
-                    )
-                ant  = ffm.Antenna \
-                    ( left        = antt
-                    , azimuth     = child.get ('antenna_azimuth')
-                    , orientation = child.get ('antenna_angle')
-                    , inclination = child.get ('antenna_elevation')
-                    )
-            else :
-                assert (parent.tag == 'device')
-                dev  = self.dev_by_name.get (parent.get ('title'))
-                if not dev :
-                    # FIXME
-                    return
-                try :
-                    nif  = ffm.Net_Interface \
-                        ( left        = dev
-                        , mac_address = child.get ('mac')
-                        )
-                # FIXME: This is a duplicate entry, catch right
-                # exception. We seem to have duplicate macs in the
-                # network
-                except Exception, cause :
-                    print "Warning: %s", cause
+            self.insert_device (child)
     # end def insert
 # end def Convert
 

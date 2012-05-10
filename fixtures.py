@@ -45,6 +45,9 @@ def create (scope) :
         )
     Auth.Group ("FFM")
     Auth.Account_in_Group ("tanzer@swing.co.at", "FFM")
+    FFM = scope.FFM
+    FFM.Net_Device_Type \
+        (name = "Generic", desc = "for unknown or planned devices", raw = True)
     scope.commit ()
 # end def create
 

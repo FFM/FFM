@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    28-Mar-2012 (CT) Creation
+#    10-May-2012 (RS) Allow multiple interfaces to use same antenna
 #    ««revision-date»»···
 #--
 
@@ -54,7 +55,7 @@ class Wireless_Interface_uses_Antenna (FFM.Entity, _Ancestor_Essence) :
             """Wireless interface."""
 
             role_type          = FFM.Wireless_Interface
-            auto_cache         = "interface"
+            auto_cache         = True
 
         # end class left
 
@@ -63,7 +64,6 @@ class Wireless_Interface_uses_Antenna (FFM.Entity, _Ancestor_Essence) :
 
             role_type          = FFM.Antenna
             auto_cache         = True
-            max_links          = 1
             ui_allow_new       = True
 
         # end class right

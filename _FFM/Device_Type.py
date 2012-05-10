@@ -29,6 +29,7 @@
 #     6-Mar-2012 (CT) Creation
 #    10-May-2012 (CT) Change `name` to `Primary`, `model_no` to
 #                     `Primary_Optional`
+#    10-May-2012 (RS) `name` length 40
 #    ««revision-date»»···
 #--
 
@@ -55,7 +56,7 @@ class Device_Type (FFM.Entity, _Ancestor_Essence) :
             """Name of device type"""
 
             kind               = Attr.Primary
-            max_length         = 32
+            max_length         = 40
             ignore_case        = True
             completer          = Attr.Completer_Spec  (1, Attr.Selector.primary)
 

@@ -28,7 +28,8 @@
 # Revision Dates
 #     6-Mar-2012 (CT) Creation
 #    28-Mar-2012 (CT) Use `Frequency_Interval` instead of `Float_Interval`
-#                     for `freqency`
+#                     for `frequency`
+#    10-May-2012 (RS) fix typo, make frequency and gain necessary
 #    ««revision-date»»···
 #--
 
@@ -53,16 +54,16 @@ class Antenna_Type (_Ancestor_Essence) :
                waves headed in a specified direction (in dBi).
             """
 
-            kind               = Attr.Required
+            kind               = Attr.Necessary
 
         # end class gain
 
-        class freqency (A_Frequency_Interval) :
+        class frequency (A_Frequency_Interval) :
             """Frequency range the antenna supports."""
 
-            kind               = Attr.Required
+            kind               = Attr.Necessary
 
-        # end class freqency
+        # end class frequency
 
     # end class _Attributes
 
