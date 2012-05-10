@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #     6-Mar-2012 (CT) Creation
+#    10-May-2012 (CT) Change `mac_address` to `Primary_Optional`, add `name`
 #    ««revision-date»»···
 #--
 
@@ -61,9 +62,19 @@ class Net_Interface (FFM.Entity, _Ancestor_Essence) :
         class mac_address (A_MAC_Address) :
             """MAC address of interface."""
 
-            kind               = Attr.Primary
+            kind               = Attr.Primary_Optional
 
         # end class mac_address
+
+        class name (A_String) :
+            """Name of the node"""
+
+            kind               = Attr.Primary_Optional
+            max_length         = 16
+            ignore_case        = True
+            completer          = Attr.Completer_Spec  (2, Attr.Selector.primary)
+
+        # end class name
 
         ### Non-primary attributes
 

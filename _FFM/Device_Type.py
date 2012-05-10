@@ -27,6 +27,8 @@
 #
 # Revision Dates
 #     6-Mar-2012 (CT) Creation
+#    10-May-2012 (CT) Change `name` to `Primary`, `model_no` to
+#                     `Primary_Optional`
 #    ««revision-date»»···
 #--
 
@@ -49,25 +51,25 @@ class Device_Type (FFM.Entity, _Ancestor_Essence) :
 
         ### Primary attributes
 
-        class model_no (A_String) :
-            """Model number identifying the device type"""
-
-            kind               = Attr.Primary
-            max_length         = 40
-            ignore_case        = True
-            completer          = Attr.Completer_Spec  (1, Attr.Selector.primary)
-
-        # end class model_no
-
         class name (A_String) :
             """Name of device type"""
 
-            kind               = Attr.Primary_Optional
+            kind               = Attr.Primary
             max_length         = 32
             ignore_case        = True
             completer          = Attr.Completer_Spec  (1, Attr.Selector.primary)
 
         # end class name
+
+        class model_no (A_String) :
+            """Model number identifying the device type"""
+
+            kind               = Attr.Primary_Optional
+            max_length         = 40
+            ignore_case        = True
+            completer          = Attr.Completer_Spec  (1, Attr.Selector.primary)
+
+        # end class model_no
 
         class revision (A_String) :
             """Revision of hardware of device type"""

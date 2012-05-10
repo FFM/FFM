@@ -27,6 +27,8 @@
 #
 # Revision Dates
 #    14-Mar-2012 (CT) Creation
+#    10-May-2012 (CT) Change `protocol` and `ssid` from `Required` to
+#                     `Necessary`
 #    ««revision-date»»···
 #--
 
@@ -53,7 +55,7 @@ class Wireless_Interface (_Ancestor_Essence) :
             """Protocol used by the wireless interface."""
 
             example            = "802.11a"
-            kind               = Attr.Required
+            kind               = Attr.Necessary
 
         # end class protocol
 
@@ -77,7 +79,7 @@ class Wireless_Interface (_Ancestor_Essence) :
             """Network name."""
 
             example            = "freiesnetz.www.funkfeuer.at"
-            kind               = Attr.Required
+            kind               = Attr.Necessary
             max_length         = 32
             ui_name            = "SSID"
 
