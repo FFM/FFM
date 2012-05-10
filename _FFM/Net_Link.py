@@ -20,10 +20,10 @@
 #
 #++
 # Name
-#    FFM.Node_has_Net_Device
+#    FFM.Net_Link
 #
 # Purpose
-#    Model the net-devices connected to a node
+#    Model a link between two network interfaces
 #
 # Revision Dates
 #    10-May-2012 (CT) Creation
@@ -32,17 +32,17 @@
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
 
-from   _MOM.import_MOM        import *
-from   _FFM                   import FFM
+from   _MOM.import_MOM          import *
+from   _FFM                     import FFM
 
-import _FFM.Node
-import _FFM.Net_Device
-
+import _FFM.Net_Interface
 
 _Ancestor_Essence = FFM.Link2
 
-class Node_has_Net_Device (_Ancestor_Essence) :
-    """Network devices used by a node."""
+class Net_Link (_Ancestor_Essence) :
+    """Network link between two network interfaces."""
+
+    is_partial = True
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
@@ -51,23 +51,57 @@ class Node_has_Net_Device (_Ancestor_Essence) :
         ### Primary attributes
 
         class left (_Ancestor.left) :
-            """Node using network devices"""
+            """Left network interface"""
 
-            role_type          = FFM.Node
+            role_type          = FFM.Net_Interface
+            role_name          = "left"
 
         # end class left
 
         class right (_Ancestor.right) :
-            """Network devices used by node"""
+            """Right network interface"""
 
-            role_type          = FFM.Net_Device
+            role_type          = FFM.Net_Interface
+            role_name          = "right"
 
         # end class right
 
+        ### Non-primary attributes
+
     # end class _Attributes
 
-# end class Node_has_Net_Device
+    class _Predicates (_Ancestor_Essence._Predicates) :
+
+        _Ancestor = _Ancestor_Essence._Predicates
+
+        class left_not_right (Pred.Condition) :
+            """`left` and `right` must be different objects!"""
+
+            kind               = Pred.Object
+            assertion          = "left != right"
+            attributes         = ("left", "right")
+
+        # end class left_not_right
+
+        class not_inverse (Pred.Condition) :
+            """There must not be a second link with `left` and `right`
+               swapped.
+            """
+
+            kind               = Pred.Region
+            assertion          = "not inverse"
+            attributes         = ("left", "right")
+            bindings           = dict \
+                ( inverse      =
+                    "this.ETM.query (left = right, right = left).one ()"
+                )
+
+        # end class not_inverse
+
+    # end class _Predicates
+
+# end class Net_Link
 
 if __name__ != "__main__" :
     FFM._Export ("*")
-### __END__ FFM.Node_has_Net_Device
+### __END__ FFM.Net_Link

@@ -36,9 +36,9 @@ from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
 import _FFM.Entity
 
-_Ancestor_Essence = MOM.Object
+_Ancestor_Essence = FFM.Object
 
-class Zone (FFM.Entity, _Ancestor_Essence) :
+class Zone (_Ancestor_Essence) :
     """Model a routing zone of FFM."""
 
     class _Attributes (_Ancestor_Essence._Attributes) :

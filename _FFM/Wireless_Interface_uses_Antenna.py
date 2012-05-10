@@ -40,9 +40,9 @@ from   _FFM.Attr_Type         import *
 import _FFM.Antenna
 import _FFM.Wireless_Interface
 
-_Ancestor_Essence = MOM.Link2
+_Ancestor_Essence = FFM.Link2
 
-class Wireless_Interface_uses_Antenna (FFM.Entity, _Ancestor_Essence) :
+class Wireless_Interface_uses_Antenna (_Ancestor_Essence) :
     """Antenna used by a wireless interface"""
 
     class _Attributes (_Ancestor_Essence._Attributes) :

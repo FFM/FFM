@@ -35,9 +35,9 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
 
-_Ancestor_Essence = MOM.Object
+_Ancestor_Essence = FFM.Object
 
-class Firmware_Type (FFM.Entity, _Ancestor_Essence) :
+class Firmware_Type (_Ancestor_Essence) :
     """Type of firmware usable by some devices."""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
@@ -63,9 +63,9 @@ class Firmware_Type (FFM.Entity, _Ancestor_Essence) :
 
 # end class Firmware_Type
 
-_Ancestor_Essence = MOM.Link1
+_Ancestor_Essence = FFM.Link1
 
-class Firmware_Version (FFM.Entity, _Ancestor_Essence) :
+class Firmware_Version (_Ancestor_Essence) :
     """Firmware version usable by some devices."""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
@@ -94,9 +94,9 @@ class Firmware_Version (FFM.Entity, _Ancestor_Essence) :
 
 # end class Firmware_Version
 
-_Ancestor_Essence = MOM.Id_Entity
+_Ancestor_Essence = FFM.Id_Entity
 
-class Firmware_Bin (FFM.Entity, _Ancestor_Essence) :
+class Firmware_Bin (_Ancestor_Essence) :
     """Base class for Firmware_Binary and Firmware_Bundle."""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
@@ -107,7 +107,7 @@ class Firmware_Bin (FFM.Entity, _Ancestor_Essence) :
 
 # end class Firmware_Bin
 
-_Ancestor_Essence = MOM.Link1
+_Ancestor_Essence = FFM.Link1
 
 class Firmware_Binary (Firmware_Bin, _Ancestor_Essence) :
     """Binary for firmware."""
@@ -142,7 +142,7 @@ class Firmware_Binary (Firmware_Bin, _Ancestor_Essence) :
 
 # end class Firmware_Binary
 
-_Ancestor_Essence = MOM.Object
+_Ancestor_Essence = FFM.Object
 
 class Firmware_Bundle (Firmware_Bin, _Ancestor_Essence) :
     """A bundle of binaries for firmware."""
@@ -171,7 +171,7 @@ class Firmware_Bundle (Firmware_Bin, _Ancestor_Essence) :
 
 # end class Firmware_Bundle
 
-_Ancestor_Essence = MOM.Link2
+_Ancestor_Essence = FFM.Link2
 
 class Firmware_Binary_in_Firmware_Bundle (_Ancestor_Essence) :
     """Link Firmware_Binary to Firmware_Bundle."""

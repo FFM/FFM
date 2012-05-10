@@ -20,14 +20,13 @@
 #
 #++
 # Name
-#    FFM.Net_Interface
+#    FFM.Wired_Link
 #
 # Purpose
-#    Model network interfaces in FFM
+#    Model a link between two wired interfaces
 #
 # Revision Dates
-#     6-Mar-2012 (CT) Creation
-#    10-May-2012 (CT) Change `mac_address` to `Primary_Optional`, add `name`
+#    10-May-2012 (CT) Creation
 #    ««revision-date»»···
 #--
 
@@ -36,14 +35,13 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 from   _MOM.import_MOM          import *
 from   _FFM                     import FFM
 
-from   _GTW._OMP._NET.Attr_Type import *
+import _FFM.Net_Link
+import _FFM.Wired_Interface
 
-import _FFM.Net_Device
+_Ancestor_Essence = FFM.Net_Link
 
-_Ancestor_Essence = FFM.Link1
-
-class Net_Interface (_Ancestor_Essence) :
-    """Model a network interface of a FFM device"""
+class Wired_Link (_Ancestor_Essence) :
+    """Link between two wired network interfaces."""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
@@ -52,43 +50,23 @@ class Net_Interface (_Ancestor_Essence) :
         ### Primary attributes
 
         class left (_Ancestor.left) :
-            """Network device the interface is connected to."""
 
-            role_type          = FFM.Net_Device
-            role_name          = "device"
+            role_type          = FFM.Wired_Interface
 
         # end class left
 
-        class mac_address (A_MAC_Address) :
-            """MAC address of interface."""
+        class right (_Ancestor.right) :
 
-            kind               = Attr.Primary_Optional
+            role_type          = FFM.Wired_Interface
 
-        # end class mac_address
-
-        class name (A_String) :
-            """Name of the node"""
-
-            kind               = Attr.Primary_Optional
-            max_length         = 16
-            ignore_case        = True
-            completer          = Attr.Completer_Spec  (2, Attr.Selector.primary)
-
-        # end class name
+        # end class right
 
         ### Non-primary attributes
 
-        class is_active (A_Boolean) :
-            """Indicates if this interface is active."""
-
-            kind               = Attr.Optional
-
-        # end class is_active
-
     # end class _Attributes
 
-# end class Net_Interface
+# end class Wired_Link
 
 if __name__ != "__main__" :
     FFM._Export ("*")
-### __END__ FFM.Net_Interface
+### __END__ FFM.Wired_Link

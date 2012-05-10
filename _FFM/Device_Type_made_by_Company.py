@@ -42,9 +42,9 @@ import _FFM.Device_Type
 
 import _GTW._OMP._PAP.Company
 
-_Ancestor_Essence = MOM.Link2
+_Ancestor_Essence = FFM.Link2
 
-class Device_Type_made_by_Company (FFM.Entity, _Ancestor_Essence) :
+class Device_Type_made_by_Company (_Ancestor_Essence) :
     """Model manufacturer of device-type."""
 
     class _Attributes (_Ancestor_Essence._Attributes) :

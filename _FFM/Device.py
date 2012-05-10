@@ -36,9 +36,9 @@ from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
 import _FFM.Device_Type
 
-_Ancestor_Essence = MOM.Link1
+_Ancestor_Essence = FFM.Link1
 
-class Device (FFM.Entity, _Ancestor_Essence) :
+class Device (_Ancestor_Essence) :
     """Model a device used by a FFM node."""
 
     is_partial = True

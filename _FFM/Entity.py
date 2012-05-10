@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #     6-Mar-2012 (CT) Creation
+#    10-May-2012 (CT) Add `An_Entity`, `Id_Entity`, `Object`, `Link1`, `Link2`
 #    ««revision-date»»···
 #--
 
@@ -45,6 +46,56 @@ class _FFM_Entity_ (_Ancestor_Essence) :
     PNS        = FFM
 
 Entity = _FFM_Entity_ # end class
+
+_Ancestor_Essence = MOM.An_Entity
+
+class _FFM_An_Entity_ (Entity, _Ancestor_Essence) :
+    """Common base class for essential classes of FFM"""
+
+    _real_name = "An_Entity"
+    is_partial = True
+
+An_Entity = _FFM_An_Entity_ # end class
+
+_Ancestor_Essence = MOM.Id_Entity
+
+class _FFM_Id_Entity_ (Entity, _Ancestor_Essence) :
+    """Common base class for essential classes of FFM"""
+
+    _real_name = "Id_Entity"
+    is_partial = True
+
+Id_Entity = _FFM_Id_Entity_ # end class
+
+_Ancestor_Essence = MOM.Object
+
+class _FFM_Object_ (Entity, _Ancestor_Essence) :
+    """Command base class for essential object classes of FFM."""
+
+    _real_name = "Object"
+    is_partial = True
+
+Object = _FFM_Object_ # end class
+
+_Ancestor_Essence = MOM.Link1
+
+class _FFM_Link1_ (Entity, _Ancestor_Essence) :
+    """Command base class for essential unary link classes of FFM."""
+
+    _real_name = "Link1"
+    is_partial = True
+
+Link1 = _FFM_Link1_ # end class
+
+_Ancestor_Essence = MOM.Link2
+
+class _FFM_Link2_ (Entity, _Ancestor_Essence) :
+    """Command base class for essential binary link classes of FFM."""
+
+    _real_name = "Link2"
+    is_partial = True
+
+Link2 = _FFM_Link2_ # end class
 
 if __name__ != "__main__" :
     FFM._Export ("*")

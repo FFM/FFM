@@ -20,10 +20,10 @@
 #
 #++
 # Name
-#    FFM.Node_has_Net_Device
+#    FFM.Wired_Interface
 #
 # Purpose
-#    Model the net-devices connected to a node
+#    Model a wired interface of a FFM device
 #
 # Revision Dates
 #    10-May-2012 (CT) Creation
@@ -35,39 +35,24 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
 
-import _FFM.Node
-import _FFM.Net_Device
+from   _FFM.Attr_Type         import *
+import _FFM.Net_Interface
 
+_Ancestor_Essence = FFM.Net_Interface
 
-_Ancestor_Essence = FFM.Link2
-
-class Node_has_Net_Device (_Ancestor_Essence) :
-    """Network devices used by a node."""
+class Wired_Interface (_Ancestor_Essence) :
+    """Wired interface of a FFM device"""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
-        ### Primary attributes
-
-        class left (_Ancestor.left) :
-            """Node using network devices"""
-
-            role_type          = FFM.Node
-
-        # end class left
-
-        class right (_Ancestor.right) :
-            """Network devices used by node"""
-
-            role_type          = FFM.Net_Device
-
-        # end class right
+        ### Phy, speed
 
     # end class _Attributes
 
-# end class Node_has_Net_Device
+# end class Wired_Interface
 
 if __name__ != "__main__" :
     FFM._Export ("*")
-### __END__ FFM.Node_has_Net_Device
+### __END__ FFM.Wired_Interface

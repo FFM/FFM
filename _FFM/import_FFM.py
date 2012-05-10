@@ -27,7 +27,7 @@
 #
 # Revision Dates
 #     6-Mar-2012 (CT) Creation
-#    10-May-2012 (CT) Add `Node_has_Net_Device`
+#    10-May-2012 (CT) Add `Node_has_Net_Device`, `Wired_Interface`, `Net_Link`
 #    ««revision-date»»···
 #--
 
@@ -49,12 +49,17 @@ import _FFM.Net_Device_Type
 import _FFM.Net_Interface
 import _FFM.Node
 import _FFM.Routing_Zone
+import _FFM.Wired_Interface
 import _FFM.Wireless_Interface
+
 import _FFM.Wireless_Mode
 import _FFM.Zone
 
 import _FFM.Device_Type_made_by_Company
+import _FFM.Net_Link
 import _FFM.Node_has_Net_Device
+import _FFM.Wired_Link
 import _FFM.Wireless_Interface_uses_Antenna
+import _FFM.Wireless_Link
 
 ### __END__ FFM.import_FFM

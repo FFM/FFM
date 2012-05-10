@@ -36,7 +36,7 @@ from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
 import _FFM.Zone
 
-_Ancestor_Essence = MOM.Link1
+_Ancestor_Essence = FFM.Link1
 
 class Routing_Zone (_Ancestor_Essence) :
     """Model the routing of a zone of FFM."""

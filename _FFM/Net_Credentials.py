@@ -41,9 +41,9 @@ import _FFM.Net_Interface
 
 from   _TFL.Regexp            import Regexp, re
 
-_Ancestor_Essence = MOM.Link1
+_Ancestor_Essence = FFM.Link1
 
-class _Net_Credentials_ (FFM.Entity, _Ancestor_Essence) :
+class _Net_Credentials_ (_Ancestor_Essence) :
     """Model credentials used by a Net_Interface, e.g., `802.1x`
        authentication for a wired interface, or WPA authentication for a WiFi
        interface.

@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #     6-Mar-2012 (CT) Creation
+#    10-May-2012 (CT) Change `azimuth` and `orientation` to `A_Angle`
 #    ««revision-date»»···
 #--
 
@@ -57,7 +58,7 @@ class Antenna (_Ancestor_Essence) :
 
         ### Non-primary attributes
 
-        class azimuth (A_Int) :
+        class azimuth (A_Angle) :
             """Azimuth of antenna orientation (in degrees)."""
 
             kind               = Attr.Required
@@ -65,8 +66,6 @@ class Antenna (_Ancestor_Essence) :
               Azimuth is measured clockwise from north, i.e.,
               N <-> 0, E <-> 90, S <-> 180, W <-> 270.
               """
-            max_value          = 360
-            min_value          = 0
 
         # end class azimuth
 
@@ -82,15 +81,13 @@ class Antenna (_Ancestor_Essence) :
 
         # end class inclination
 
-        class orientation (A_Int) :
+        class orientation (A_Angle) :
             """Orientation in degrees relative to standard orientation."""
 
             example            = "90"
             kind               = Attr.Optional
             Kind_Mixins        = (Attr.Sticky_Mixin, )
             default            = 0
-            max_value          = 360
-            min_value          = 0
 
         # end class orientation
 

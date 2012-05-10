@@ -29,7 +29,7 @@
 #     6-Mar-2012 (CT) Creation
 #    10-May-2012 (CT) Change `name` to `Primary`, `model_no` to
 #                     `Primary_Optional`
-#    10-May-2012 (RS) `name` length 40
+#    10-May-2012 (RS) Change `name.length` to 40
 #    ««revision-date»»···
 #--
 
@@ -39,9 +39,9 @@ from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
 import _FFM.Entity
 
-_Ancestor_Essence = MOM.Object
+_Ancestor_Essence = FFM.Object
 
-class Device_Type (FFM.Entity, _Ancestor_Essence) :
+class Device_Type (_Ancestor_Essence) :
     """Model the type of devices in FFM."""
 
     is_partial = True

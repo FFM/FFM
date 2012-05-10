@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    14-Mar-2012 (CT) Creation
+#    10-May-2012 (CT) Add `is_linkable`
 #    ««revision-date»»···
 #--
 
@@ -36,9 +37,9 @@ from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
 import _FFM.Entity
 
-_Ancestor_Essence = MOM.Link1
+_Ancestor_Essence = FFM.Link1
 
-class _Wireless_Mode_ (FFM.Entity, _Ancestor_Essence) :
+class _Wireless_Mode_ (_Ancestor_Essence) :
     """Model the mode a wireless device operates in."""
 
     is_partial = True
@@ -78,6 +79,10 @@ class Ad_Hoc_Mode (_Ancestor_Essence) :
 
     # end class _Attributes
 
+    def is_linkable (self, other) :
+        return isinstance (other, self.home_scope.FFM.Ad_Hoc_Mode.E_Type)
+    # end def is_linkable
+
 # end class Ad_Hoc_Mode
 
 class AP_Mode (_Ancestor_Essence) :
@@ -91,6 +96,10 @@ class AP_Mode (_Ancestor_Essence) :
 
     # end class _Attributes
 
+    def is_linkable (self, other) :
+        return isinstance (other, self.home_scope.FFM.Client_Mode.E_Type)
+    # end def is_linkable
+
 # end class AP_Mode
 
 class Client_Mode (_Ancestor_Essence) :
@@ -101,6 +110,10 @@ class Client_Mode (_Ancestor_Essence) :
         _Ancestor = _Ancestor_Essence._Attributes
 
     # end class _Attributes
+
+    def is_linkable (self, other) :
+        return isinstance (other, self.home_scope.FFM.AP_Mode.E_Type)
+    # end def is_linkable
 
 # end class Client_Mode
 

@@ -20,14 +20,13 @@
 #
 #++
 # Name
-#    FFM.Net_Interface
+#    FFM.Wireless_Link
 #
 # Purpose
-#    Model network interfaces in FFM
+#    Model a link between two wireless interfaces
 #
 # Revision Dates
-#     6-Mar-2012 (CT) Creation
-#    10-May-2012 (CT) Change `mac_address` to `Primary_Optional`, add `name`
+#    10-May-2012 (CT) Creation
 #    ««revision-date»»···
 #--
 
@@ -36,14 +35,13 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 from   _MOM.import_MOM          import *
 from   _FFM                     import FFM
 
-from   _GTW._OMP._NET.Attr_Type import *
+import _FFM.Net_Link
+import _FFM.Wireless_Interface
 
-import _FFM.Net_Device
+_Ancestor_Essence = FFM.Net_Link
 
-_Ancestor_Essence = FFM.Link1
-
-class Net_Interface (_Ancestor_Essence) :
-    """Model a network interface of a FFM device"""
+class Wireless_Link (_Ancestor_Essence) :
+    """Link between two wireless network interfaces."""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
@@ -52,43 +50,38 @@ class Net_Interface (_Ancestor_Essence) :
         ### Primary attributes
 
         class left (_Ancestor.left) :
-            """Network device the interface is connected to."""
 
-            role_type          = FFM.Net_Device
-            role_name          = "device"
+            role_type          = FFM.Wireless_Interface
 
         # end class left
 
-        class mac_address (A_MAC_Address) :
-            """MAC address of interface."""
+        class right (_Ancestor.right) :
 
-            kind               = Attr.Primary_Optional
+            role_type          = FFM.Wireless_Interface
 
-        # end class mac_address
-
-        class name (A_String) :
-            """Name of the node"""
-
-            kind               = Attr.Primary_Optional
-            max_length         = 16
-            ignore_case        = True
-            completer          = Attr.Completer_Spec  (2, Attr.Selector.primary)
-
-        # end class name
+        # end class right
 
         ### Non-primary attributes
 
-        class is_active (A_Boolean) :
-            """Indicates if this interface is active."""
-
-            kind               = Attr.Optional
-
-        # end class is_active
-
     # end class _Attributes
 
-# end class Net_Interface
+    class _Predicates (_Ancestor_Essence._Predicates) :
+
+        _Ancestor = _Ancestor_Essence._Predicates
+
+        class valid_modes (Pred.Condition) :
+            """`left.mode` and `right.mode` must be linkable to each other."""
+
+            kind               = Pred.Object
+            assertion          = "left.mode.is_linkable (right.mode)"
+            attributes         = ("left.mode", "right.mode")
+
+        # end class valid_modes
+
+    # end class _Predicates
+
+# end class Wireless_Link
 
 if __name__ != "__main__" :
     FFM._Export ("*")
-### __END__ FFM.Net_Interface
+### __END__ FFM.Wireless_Link
