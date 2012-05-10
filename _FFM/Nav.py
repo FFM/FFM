@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    26-Mar-2012 (CT) Creation
+#    10-May-2012 (CT) Add `Node_has_Net_Device`
 #    ««revision-date»»···
 #--
 
@@ -103,6 +104,10 @@ class Admin (object) :
     if False :
         Device_Type_made_by_Company = dict \
             ( ETM            = "FFM.Device_Type_made_by_Company"
+            )
+
+        Node_has_Net_Device = dict \
+            ( ETM            = "FFM.Node_has_Net_Device"
             )
 
         Wireless_Interface_uses_Antenna = dict \
