@@ -36,6 +36,12 @@ class Convert (object) :
         self.et    = ETree (ElementTree.parse (f))
         self.stati = {}
         self.scope = scope
+        ffm        = self.scope.FFM
+        self.modes = dict \
+            ( client = ffm.Client_Mode
+            , ap     = ffm.AP_Mode
+            , ad_hoc = ffm.Ad_Hoc_Mode
+            )
 
         #print self.et.pretty (with_text = 1)
         #print self.et.pretty ()
@@ -54,7 +60,20 @@ class Convert (object) :
             self.stati [s] = 1
     # end def record_status
 
-    def insert_device (self, element) :
+    def insert_node (self, element) :
+        """ Insert a node.
+        """
+        ffm  = self.scope.FFM
+        name = element.get ('title')
+        node = ffm.Node (name = name)
+        for n in element :
+            if n.tag == 'device' :
+                self.insert_device (node, n)
+            else :
+                raise ValueError, "Unknown tag in node: %s" % n.tag
+    # end insert_node
+
+    def insert_device (self, node, element) :
         """ Insert a device (aka Net_Device)
             Note: guifi.net seems to use the 'name' attribute as the
             device_type (names repeat for devices while the title
@@ -69,6 +88,7 @@ class Convert (object) :
         else :
             t = ffm.Net_Device_Type.instance_or_new (name = devname, raw = True)
         dev = ffm.Net_Device (left = t, name = name, raw = True)
+        ffm.Node_has_Net_Device (node, dev)
         for nif in element :
             if nif.tag == 'radio' :
                 self.insert_radio (dev, nif)
@@ -79,6 +99,16 @@ class Convert (object) :
             else :
                 raise ValueError, "Unknown tag in device: %s" % nif.tag
     # end def insert_device
+
+    def insert_links (self, interface, element) :
+        """ Links between interfaces.
+        """
+        for n in element :
+            if n.tag == 'link' :
+                pass # FIXME
+            else :
+                raise ValueError, "Unknown node type in interface %s" % n.tag
+    # end def insert_links
 
     def insert_net_interface (self, device, element) :
         mac  = fix_mac (element.get ('mac'))
@@ -97,6 +127,7 @@ class Convert (object) :
                 , name        = name
                 , mac_address = mac
                 )
+        self.insert_links (nif, element)
         return nif
     # end def insert_net_interface
 
@@ -107,6 +138,7 @@ class Convert (object) :
         # an interface may have more than one IP address and occur
         # multiple times in the XML
         name = "Wireless%s" % element.get ('id')
+        mode = element.get ('mode')
         wif  = ffm.Wireless_Interface.instance \
             ( left        = device
             , name        = name
@@ -127,6 +159,9 @@ class Convert (object) :
                 , raw         = True
                 )
             ffm.Wireless_Interface_uses_Antenna (wif, antenna)
+        if mode :
+            self.modes [mode] (wif)
+        self.insert_links (wif, element)
         return wif
     # end def insert_wireless_interface
 
@@ -165,10 +200,8 @@ class Convert (object) :
         """ Insert given node into the database """
         if child.tag in ('network', 'zone') :
             return
-        #if child.tag == 'node' :
-
-        if child.tag == 'device' :
-            self.insert_device (child)
+        if child.tag == 'node' :
+            self.insert_node (child)
     # end def insert
 # end def Convert
 
