@@ -27,19 +27,22 @@
 #
 # Revision Dates
 #    27-Mar-2012 (CT) Creation
+#    11-May-2012 (CT) Factor `compile` to python library's babel.sh
 #    ««revision-date»»···
 #--
 
-cmd=${1:?"Specify a command: extract | language"}; shift
-lang=${1:-"de"}; shift
-dirs=${1:-"_FFM ."}; shift
+cmd=${1:?"Specify a command: extract | language | compile"}; shift
+
+default_langs="en,de"
+default_dirs="_FFM ."
 lib=$(dirname $(python -c 'from _TFL import sos; print sos.path.dirname (sos.__file__)'))
 
 export PYTHONPATH=./:$PYTHONPATH
 
 case "$cmd" in
     "extract" )
-        ( cd ${lib}; ./babel_extract.sh extract "${lang}" )
+        dirs=${1:-${default_dirs}}; shift
+        ( cd ${lib}; ./babel_extract.sh extract )
         python ${lib}/_TFL/Babel.py extract                                          \
             -bugs_address        "tanzer@swing.co.at,ralf@runtux.com"         \
             -charset             utf-8                                        \
@@ -50,18 +53,14 @@ case "$cmd" in
                 $dirs
         ;;
     "language" )
-        ( cd ${lib}; ./babel_extract.sh language "${lang}" )
-        python ${lib}/_TFL/Babel.py language -languages "$lang" -sort $dirs
+        langs=${1:-${default_langs}}; shift
+        dirs=${1:-${default_dirs}}; shift
+        ( cd ${lib}; ./babel_extract.sh language "${langs}" )
+        python ${lib}/_TFL/Babel.py language -languages "${langs}" -sort $dirs
         ;;
     "compile" )
-        for lang in en de
-        do
-            mkdir -p ./locale/${lang}/LC_MESSAGES
-            /usr/bin/python ${lib}/_TFL/Babel.py compile \
-               -use_fuzzy \
-               -languages ${lang} -combine -import_file ./model.py \
-               -output_file ./locale/${lang}/LC_MESSAGES/messages.mo
-        done
+        langs=${1:-${default_langs}}; shift
+        ${lib}/babel.sh compile ./model.py "${langs}"
         ;;
     * )
         echo "Unknown command $cmd; use one of"
