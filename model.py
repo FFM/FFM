@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    26-Mar-2012 (CT) Creation
+#    14-May-2012 (CT) Change `-config` to auto-split, `default_db_name` to `ffm`
 #    ««revision-date»»···
 #--
 
@@ -95,12 +96,12 @@ class Scaffold (GTW.Werkzeug.Scaffold) :
 
     ANS                   = FFM
     cmd__base__opts_x     = \
-        ( "-config:C=~/.ffm.config?File specifying defaults for options"
+        ( "-config:C:=~/.ffm.config?File(s) specifying defaults for options"
         , "-home_url_root:S=http://ffm.funkfeuer.at"
         )
     cmd__copyright_start  = 2012 ### XXX ???
 
-    default_db_name       = bytes ("test")
+    default_db_name       = bytes ("ffm")
     nick                  = u"FFM"
     PNS_Aliases           = dict \
         ( Auth            = GTW.OMP.Auth
