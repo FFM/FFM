@@ -40,7 +40,7 @@ import _FFM.Net_Interface
 _Ancestor_Essence = FFM.Link2
 
 class Net_Link (_Ancestor_Essence) :
-    """Network link between two network interfaces."""
+    """Link between two network interfaces."""
 
     is_partial = True
 
