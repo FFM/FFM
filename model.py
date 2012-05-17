@@ -23,11 +23,13 @@
 #    model
 #
 # Purpose
-#    Object model and scaffold for FFM
+#    Object model and command handler for FFM
 #
 # Revision Dates
 #    26-Mar-2012 (CT) Creation
 #    14-May-2012 (CT) Change `-config` to auto-split, `default_db_name` to `ffm`
+#    17-May-2012 (CT) Derive from `GTW.Werkzeug.Command` instead of `.Scaffold`,
+#                     rename `Scaffold` to `Command`
 #    ««revision-date»»···
 #--
 
@@ -46,7 +48,7 @@ import _FFM.import_FFM
 import _GTW._OMP._Auth.import_Auth
 import _GTW._OMP._PAP.import_PAP
 
-import _GTW._Werkzeug.Scaffold
+import _GTW._Werkzeug.Command
 
 import _GTW._OMP._Auth.Nav
 import _GTW._OMP._PAP.Nav
@@ -92,26 +94,28 @@ FFM.Version = Product_Version \
         )
     )
 
-class Scaffold (GTW.Werkzeug.Scaffold) :
+class Command (GTW.Werkzeug.Command) :
+    """Manage database, run server or WSGI app."""
 
-    ANS                   = FFM
-    cmd__base__opts_x     = \
-        ( "-config:C:=~/.ffm.config?File(s) specifying defaults for options"
-        , "-home_url_root:S=http://ffm.funkfeuer.at"
+    ANS                     = FFM
+    nick                    = u"FFM"
+    PNS_Aliases             = dict \
+        ( Auth              = GTW.OMP.Auth
+        , PAP               = GTW.OMP.PAP
         )
-    cmd__copyright_start  = 2012 ### XXX ???
+    SALT                    = bytes ("fa89356c-0af1-4644-80d7-92702e4fd524")
 
-    default_db_name       = bytes ("ffm")
-    nick                  = u"FFM"
-    PNS_Aliases           = dict \
-        ( Auth            = GTW.OMP.Auth
-        , PAP             = GTW.OMP.PAP
+    _defaults               = dict \
+        ( config            = "~/.ffm.config"
+        , copyright_start   = 2012 ### XXX ???
         )
-    SALT                  = bytes \
-        ( "to be done ")
+    _opts                   = \
+        ( "-home_url_root:S=http://ffm.funkfeuer.at"
+        ,
+        )
 
-    @classmethod
-    def create_nav (cls, cmd, app_type, db_url, ** kw) :
+
+    def create_nav (self, cmd, app_type, db_url, ** kw) :
         import nav
         result = nav.create (cmd, app_type, db_url, ** kw)
         result.add_entries \
@@ -124,19 +128,19 @@ class Scaffold (GTW.Werkzeug.Scaffold) :
                   , login_required  = True
                   , Type            = GTW.NAV.E_Type.Site_Admin
                   , entries         =
-                      [ cls.nav_admin_group
+                      [ self.nav_admin_group
                           ( "FFM"
                           , _ ("Administration of node database")
                           , "FFM"
                           , permission = GTW.NAV.In_Group ("FFM-admin")
                           )
-                      , cls.nav_admin_group
+                      , self.nav_admin_group
                           ( "PAP"
                           , _ ("Administration of persons/addresses...")
                           , "GTW.OMP.PAP"
                           , permission = GTW.NAV.In_Group ("FFM-admin")
                           )
-                      , cls.nav_admin_group
+                      , self.nav_admin_group
                           ( _ ("Users")
                           , _ ("Administration of user accounts and groups")
                           , "GTW.OMP.Auth"
@@ -190,40 +194,37 @@ class Scaffold (GTW.Werkzeug.Scaffold) :
         return result
     # end def create_nav
 
-    @classmethod
-    def fixtures (cls, scope) :
+    def fixtures (self, scope) :
         import fixtures
         return fixtures.create (scope)
     # end def fixtures
 
-    @Class_Property
     @Once_Property
-    def jnj_src (cls) :
+    def jnj_src (self) :
         import nav
         return nav.jnj_src
     # end def jnj_src
 
-    @Class_Property
     @Once_Property
-    def web_src_root (cls) :
+    def web_src_root (self) :
         import nav
         return nav.web_src_root
     # end def web_src_root
 
 # end class Scaffold
 
+command = Command ()
+
 opts = tuple \
-    ( Scaffold.cmd__base__opts
-    + Scaffold.cmd__run_server__opts
+    ( Command._opts
+    + Command._Run_Server_._opts
     )
 
 def scope (cmd = None) :
     args = (cmd.db_url, cmd.db_name, cmd.create) if cmd else ()
-    return Scaffold.scope (* args)
+    return command.scope (* args)
 # end def scope
 
-_Command = Scaffold.cmd
-
 if __name__ == "__main__" :
-    _Command ()
+    command ()
 ### __END__ model

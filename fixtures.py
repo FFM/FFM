@@ -55,6 +55,6 @@ if __name__ == "__main__" :
     from model import *
     db_url  = sos.environ.get ("DB_url",  "hps://")
     db_name = sos.environ.get ("DB_name", None)
-    scope   = Scaffold.scope  (db_url, db_name, False)
+    scope   = command.scope   (db_url, db_name, False)
     TFL.Environment.py_shell  ()
 ### __END__ fixtures
