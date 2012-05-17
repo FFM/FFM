@@ -231,7 +231,6 @@ def _main (cmd) :
     scope.destroy ()
 # end def _main
 
-
 _Command = TFL.CAO.Cmd \
     ( handler       = _main
     , args          =
@@ -243,6 +242,7 @@ _Command = TFL.CAO.Cmd \
         , "create:B"
         ) + model.opts
     , min_args      = 1
+    , defaults      = model.command.defaults
     )
 
 if __name__ == "__main__" :
