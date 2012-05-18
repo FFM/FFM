@@ -37,6 +37,7 @@ class Convert (object) :
         self.stati = {}
         self.attrs = {}
         self.scope = scope
+        self.links = {} # list of linked interfaces by link id
         ffm        = self.scope.FFM
         self.modes = dict \
             ( client = ffm.Client_Mode
@@ -112,9 +113,26 @@ class Convert (object) :
     def insert_links (self, interface, element) :
         """ Links between interfaces.
         """
+        ffm  = self.scope.FFM
         for n in element :
             if n.tag == 'link' :
-                pass # FIXME
+                # linked_interface_id is bogus in guifi cnml, seems to
+                # contain the node id, not the id of the other linked
+                # interface
+                #r_id  = n.get ('linked_interface_id')
+                name  = n.get ('id')
+                if name in self.links :
+                    assert (len (self.links [name]) == 1)
+                    r_id = self.links [name][0]
+                    self.links [name].append (element.get ('id'))
+                    left  = interface
+                    right = ffm.Net_Interface.query (name = r_id).one ()
+                    if isinstance (left, ffm.Wireless_Interface) :
+                        ffm.Wireless_Link (left, right)
+                    else :
+                        ffm.Wired_Link    (left, right)
+                else :
+                    self.links [name] = [element.get ('id')]
             else :
                 raise ValueError, "Unknown node type in interface %s" % n.tag
     # end def insert_links
@@ -123,6 +141,19 @@ class Convert (object) :
         mac  = fix_mac (element.get ('mac'))
         ffm  = self.scope.FFM
         name = element.get ('id')
+        wif  = ffm.Wireless_Interface.instance \
+            ( left        = device
+            , name        = name
+            , mac_address = mac
+            )
+        if wif :
+            # CNML seems to have interfaces that are child of a radio
+            # and are repeated on the device-level. Fortunately they seem
+            # to always be in the right order (radio parent first).
+            # Since there is no good way to distinguish wired from
+            # wirelesse interfaces we're using the ones that have a
+            # radio as parent for the wireless interfaces.
+            return
         nif  = ffm.Wired_Interface.instance \
             ( left        = device
             , name        = name
@@ -146,7 +177,7 @@ class Convert (object) :
         ssid = radio.get   ('ssid')
         # an interface may have more than one IP address and occur
         # multiple times in the XML
-        name = "Wireless%s" % element.get ('id')
+        name = element.get ('id')
         mode = element.get ('mode')
         wif  = ffm.Wireless_Interface.instance \
             ( left        = device
