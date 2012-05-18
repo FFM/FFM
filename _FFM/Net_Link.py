@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    10-May-2012 (CT) Creation
+#    18-May-2012 (CT) Change `not_inverse` to use `count`, not `one`
 #    ««revision-date»»···
 #--
 
@@ -89,11 +90,11 @@ class Net_Link (_Ancestor_Essence) :
             """
 
             kind               = Pred.Region
-            assertion          = "not inverse"
+            assertion          = "inverse_count == 0"
             attributes         = ("left", "right")
             bindings           = dict \
-                ( inverse      =
-                    "this.ETM.query (left = right, right = left).one ()"
+                ( inverse_count  =
+                    "this.ETM.query (left = right, right = left).count ()"
                 )
 
         # end class not_inverse
