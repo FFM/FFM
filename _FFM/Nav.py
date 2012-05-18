@@ -66,6 +66,14 @@ class Admin (object) :
         ( ETM            = "FFM.Firmware_Version"
         )
 
+    IP_Network           = dict \
+        ( ETM            = "FFM.IP_Network"
+        )
+
+    IP4_Network          = dict \
+        ( ETM            = "FFM.IP4_Network"
+        )
+
     Net_Credentials      = dict \
         ( ETM            = "FFM.Net_Credentials"
         )
@@ -117,6 +125,14 @@ class Admin (object) :
     if False :
         Device_Type_made_by_Company = dict \
             ( ETM            = "FFM.Device_Type_made_by_Company"
+            )
+
+        Net_Interface_in_IP4_Network = dict \
+            ( ETM            = "FFM.Net_Interface_in_IP4_Network"
+            )
+
+        Net_Interface_in_IP_Network = dict \
+            ( ETM            = "FFM.Net_Interface_in_IP_Network"
             )
 
         Node_has_Net_Device = dict \

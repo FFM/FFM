@@ -1,18 +1,20 @@
 #!/usr/bin/python
 
+# Note: You need at least rsclib-0.21.9310 from rsclib.sourceforge.net
+# Note: for testing we used 'http://guifi.net/pt-pt/guifi/cnml/2441/detail'
+
 import urllib2
 import sys, os
 import xml.etree.ElementTree  as ElementTree
 
 from   rsclib.ETree           import ETree
+from   rsclib.IP4_Address     import IP4_Address
 from   _GTW                   import GTW
 from   _TFL                   import TFL
 from   _FFM                   import FFM
 
 import _TFL.CAO
 import model
-
-# 'http://guifi.net/pt-pt/guifi/cnml/2441/detail'
 
 def fix_mac (mac) :
     """ Fix typos, seems guifi.net doesn't check syntax of mac address
@@ -137,6 +139,16 @@ class Convert (object) :
                 raise ValueError, "Unknown node type in interface %s" % n.tag
     # end def insert_links
 
+    def insert_ip_network (self, interface, ip, mask) :
+        ffm = self.scope.FFM
+        net = IP4_Address (ip, mask)
+        adr = IP4_Address (ip)
+        assert (adr in net)
+        network = ffm.IP4_Network.instance_or_new (str (net))
+        ffm.Net_Interface_in_IP4_Network.instance_or_new \
+            (interface, network, adr)
+    # end def insert_ip_network
+
     def insert_wired_interface (self, device, element) :
         mac  = fix_mac (element.get ('mac'))
         ffm  = self.scope.FFM
@@ -168,6 +180,7 @@ class Convert (object) :
                 , mac_address = mac
                 )
         self.insert_links (nif, element)
+        self.insert_ip_network (nif, element.get ('ipv4'), element.get ('mask'))
         return nif
     # end def insert_wired_interface
 
@@ -202,6 +215,7 @@ class Convert (object) :
         if mode :
             self.modes [mode] (wif)
         self.insert_links (wif, element)
+        self.insert_ip_network (wif, element.get ('ipv4'), element.get ('mask'))
         return wif
     # end def insert_wireless_interface
 

@@ -1,6 +1,6 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
-# Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+# Copyright (C) 2012 Dr. Ralf Schlatterbeck All rights reserved
+# Reichergasse 131, A--3411 Weidling, Austria. rsc@runtux.com
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
 #
@@ -20,50 +20,50 @@
 #
 #++
 # Name
-#    FFM.import_FFM
+#    FFM.IP4_Network
 #
 # Purpose
-#    Import FFM object model
+#    Model IP4 Network of FFM
 #
 # Revision Dates
-#     6-Mar-2012 (CT) Creation
-#    10-May-2012 (CT) Add `Node_has_Net_Device`, `Wired_Interface`, `Net_Link`
+#    18-May-2012 (RS) Creation
 #    ««revision-date»»···
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
 
-from   _MOM.import_MOM        import *
-from   _FFM                   import FFM
+from   _MOM.import_MOM          import *
+from   _FFM                     import FFM
 
-import _FFM.Entity
-
-import _FFM.Antenna
-import _FFM.Antenna_Type
-import _FFM.Device
-import _FFM.Device_Type
-import _FFM.Firmware
-import _FFM.IP4_Network
+from   _FFM.Attr_Type           import *
+from   _GTW._OMP._NET.Attr_Type import *
 import _FFM.IP_Network
-import _FFM.Net_Credentials
-import _FFM.Net_Device
-import _FFM.Net_Device_Type
-import _FFM.Net_Interface
-import _FFM.Node
-import _FFM.Routing_Zone
-import _FFM.Wired_Interface
-import _FFM.Wireless_Interface
 
-import _FFM.Wireless_Mode
-import _FFM.Zone
 
-import _FFM.Device_Type_made_by_Company
-import _FFM.Net_Interface_in_IP4_Network
-import _FFM.Net_Interface_in_IP_Network
-import _FFM.Net_Link
-import _FFM.Node_has_Net_Device
-import _FFM.Wired_Link
-import _FFM.Wireless_Interface_uses_Antenna
-import _FFM.Wireless_Link
+_Ancestor_Essence = FFM.IP_Network
 
-### __END__ FFM.import_FFM
+class IP4_Network (_Ancestor_Essence) :
+    """IPv4 Network of FFM"""
+
+    class _Attributes (_Ancestor_Essence._Attributes) :
+
+        _Ancestor = _Ancestor_Essence._Attributes
+
+        ### Primary attributes
+
+        class net_address (A_IP4_Network) :
+            """IPv4 Network address."""
+
+            kind               = Attr.Primary
+
+        # end class net_address
+
+        ### Non-primary attributes
+
+    # end class _Attributes
+
+# end class IP4_Network
+
+if __name__ != "__main__" :
+    FFM._Export ("*")
+### __END__ FFM.IP4_Network
