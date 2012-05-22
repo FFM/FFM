@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    18-May-2012 (RS) Creation
+#    22-May-2012 (RS) Add `net_mask`
 #    ««revision-date»»···
 #--
 
@@ -56,6 +57,22 @@ class IP_Network (_Ancestor_Essence) :
         # end class net_address
 
         ### Non-primary attributes
+
+        class net_mask (A_Int) :
+            """Network mask."""
+
+            kind               = Attr.Internal
+            auto_up_depends    = ("net_address",)
+            min_value          = 0
+            max_value          = 128
+
+            def computed (self, obj) :
+                if obj and '/' in obj.net_address :
+                    return int (obj.net_address.split ('/') [-1])
+                return self.max_value
+            # end def computed
+
+        # end class net_mask
 
     # end class _Attributes
 

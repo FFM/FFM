@@ -20,14 +20,13 @@
 #
 #++
 # Name
-#    FFM.IP4_Network
+#    FFM.Net_Interface_in_IP6_Network
 #
 # Purpose
-#    Model IP4 Network of FFM
+#    Model a Net interface in an IPv6 network
 #
 # Revision Dates
-#    18-May-2012 (RS) Creation
-#    22-May-2012 (RS) Add `net_mask`
+#    22-May-2012 (RS) Creation
 #    ««revision-date»»···
 #--
 
@@ -38,13 +37,12 @@ from   _FFM                     import FFM
 
 from   _FFM.Attr_Type           import *
 from   _GTW._OMP._NET.Attr_Type import *
-import _FFM.IP_Network
+import _FFM.Net_Interface_in_IP_Network
 
+_Ancestor_Essence = FFM.Net_Interface_in_IP_Network
 
-_Ancestor_Essence = FFM.IP_Network
-
-class IP4_Network (_Ancestor_Essence) :
-    """IPv4 Network of FFM"""
+class Net_Interface_in_IP6_Network (_Ancestor_Essence) :
+    """Net interface in IPv6 network"""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
@@ -52,26 +50,27 @@ class IP4_Network (_Ancestor_Essence) :
 
         ### Primary attributes
 
-        class net_address (A_IP4_Network) :
-            """IPv4 Network address."""
+        class right (_Ancestor.right) :
+            """IP Network."""
 
-            kind               = Attr.Primary
+            role_type          = FFM.IP6_Network
+            auto_cache         = True
 
-        # end class net_address
+        # end class right
+
+        class ip_address (A_IP6_Address) :
+            """IPv6 Address in this IPv6 Network."""
+
+            kind               = Attr.Primary_Optional
+
+        # end class ip_address
 
         ### Non-primary attributes
 
-        class net_mask (_Ancestor.net_mask) :
-            """Network mask."""
-
-            max_value          = 32
-
-        # end class net_mask
-
     # end class _Attributes
 
-# end class IP4_Network
+# end class Net_Interface_in_IP6_Network
 
 if __name__ != "__main__" :
     FFM._Export ("*")
-### __END__ FFM.IP4_Network
+### __END__ FFM.Net_Interface_in_IP6_Network
