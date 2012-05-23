@@ -8,28 +8,28 @@ msgstr ""
 "Project-Id-Version: FFM 1.0\n"
 "Report-Msgid-Bugs-To: tanzer@swing.co.at,ralf@runtux.com\n"
 "POT-Creation-Date: 2012-04-12 13:11+0200\n"
-"PO-Revision-Date: 2012-03-27 18:18+0200\n"
+"PO-Revision-Date: 2012-05-23 10:46+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: de <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.6\n"
+"Generated-By: Babel 0.9.4\n"
 
-#: model.py:121 model.py:122
+#: model.py:126 model.py:127
 msgid "Administration of FFM node database"
 msgstr "Verwaltung der Funkfuer Knotendatenbank"
 
-#: model.py:128
+#: model.py:133
 msgid "Administration of node database"
 msgstr "Verwaltung der Knotendatenbank"
 
-#: model.py:134
+#: model.py:139
 msgid "Administration of persons/addresses..."
 msgstr "Verwaltung von Personen/Adressen..."
 
-#: model.py:140
+#: model.py:145
 msgid "Administration of user accounts and groups"
 msgstr "Verwaltung von Benutzerkonten und Gruppen"
 
@@ -37,23 +37,23 @@ msgstr "Verwaltung von Benutzerkonten und Gruppen"
 msgid "Funkfeuer Knotendatenbank"
 msgstr ""
 
-#: model.py:180
+#: model.py:185
 msgid "Interactive Python interpreter"
 msgstr ""
 
 #: html/base.jnj:61
 msgid "Last change"
-msgstr ""
+msgstr "Letzte Änderung"
 
-#: html/navigation.jnj:46
+#: html/navigation.jnj:47
 msgid "Open wireless networks"
 msgstr ""
 
 #: html/base.jnj:56
 msgid "Top of page"
-msgstr ""
+msgstr "Seitenanfang"
 
-#: model.py:139
+#: model.py:144
 msgid "Users"
 msgstr "Benutzer"
 
