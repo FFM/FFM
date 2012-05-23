@@ -27,15 +27,18 @@
 #
 # Revision Dates
 #    18-May-2012 (RS) Creation
+#    23-May-2012 (RS) Use `_A_IP_Address_` for `ip_address`
 #    ««revision-date»»···
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
 
-from   _MOM.import_MOM        import *
-from   _FFM                   import FFM
+from   _MOM.import_MOM          import *
+from   _FFM                     import FFM
 
-from   _FFM.Attr_Type         import *
+from   _FFM.Attr_Type           import *
+from   _GTW._OMP._NET.Attr_Type import *
+
 import _FFM.Net_Interface
 import _FFM.IP_Network
 
@@ -68,7 +71,7 @@ class Net_Interface_in_IP_Network (_Ancestor_Essence) :
 
         # end class right
 
-        class ip_address (A_String) :
+        class ip_address (_A_IP_Address_) :
             """IP Address in this IP Network."""
 
             kind               = Attr.Primary_Optional

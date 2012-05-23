@@ -28,6 +28,7 @@
 # Revision Dates
 #    18-May-2012 (RS) Creation
 #    22-May-2012 (RS) Add `net_mask`
+#    23-May-2012 (RS) Use `_A_IP_Address_` for `net_address`
 #    ««revision-date»»···
 #--
 
@@ -49,7 +50,7 @@ class IP_Network (_Ancestor_Essence) :
 
         ### Primary attributes
 
-        class net_address (A_String) :
+        class net_address (_A_IP_Address_) :
             """Network address."""
 
             kind               = Attr.Primary
