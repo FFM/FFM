@@ -38,7 +38,8 @@ class Command (_GTW._Werkzeug.deploy.Command, GTW.OMP.deploy.Command) :
     """Manage deployment of FFM application."""
 
     _defaults               = dict \
-        ( app_dir           = "www/app"
+        ( app_config        = "~/.ffm.config:../.ffm.config"
+        , app_dir           = "www/app"
         , app_module        = "./model.py"
         , bugs_address      = "tanzer@swing.co.at,ralf@runtux.com"
         , copyright_holder  = "Mag. Christian Tanzer, Ralf Schlatterbeck"
