@@ -30,6 +30,8 @@
 #    14-May-2012 (CT) Change `-config` to auto-split, `default_db_name` to `ffm`
 #    17-May-2012 (CT) Derive from `GTW.Werkzeug.Command` instead of `.Scaffold`,
 #                     rename `Scaffold` to `Command`
+#    30-May-2012 (CT) Fix `opts`
+#    31-May-2012 (CT) Add `"../../.ffm.config"` to `_config_defaults`
 #    ««revision-date»»···
 #--
 
@@ -105,9 +107,13 @@ class Command (GTW.Werkzeug.Command) :
         )
     SALT                    = bytes ("fa89356c-0af1-4644-80d7-92702e4fd524")
 
+    _config_defaults        = \
+        ( "~/.ffm.config"
+        , "../../.ffm.config"
+        )
     _defaults               = dict \
-        ( config            = "~/.ffm.config"
-        , copyright_start   = 2012 ### XXX ???
+        ( copyright_start   = 2012 ### XXX ???
+        ,
         )
     _opts                   = \
         ( "-home_url_root:S=http://ffm.funkfeuer.at"
@@ -215,10 +221,7 @@ class Command (GTW.Werkzeug.Command) :
 
 command = Command ()
 
-opts = tuple \
-    ( Command._opts
-    + Command._Run_Server_._opts
-    )
+opts = command.opts + command ["run_server"].opts
 
 def scope (cmd = None) :
     args = (cmd.db_url, cmd.db_name, cmd.create) if cmd else ()

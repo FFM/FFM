@@ -277,19 +277,19 @@ def _main (cmd) :
 # end def _main
 
 _Command = TFL.CAO.Cmd \
-    ( handler       = _main
-    , args          =
+    ( handler         = _main
+    , args            =
         ( "xml_file:S?XML file to convert"
         ,
         )
-    , opts          =
+    , opts            =
         ( "verbose:B"
         , "create:B"
         ) + model.opts
-    , min_args      = 1
-    , defaults      = model.command.defaults
+    , min_args        = 1
+    , defaults        = model.command.defaults
     )
 
 if __name__ == "__main__" :
     _Command ()
-
+### __END__ cnml_import
