@@ -26,7 +26,6 @@
 # Revision Dates
 #    23-May-2012 (CT) Creation
 #    31-May-2012 (CT) Remove `lib_dir` from `_defaults`
-#     1-Jun-2012 (CT) Add `python` to `_defaults`
 #    ««revision-date»»···
 #--
 
@@ -50,7 +49,6 @@ class Command (_GTW._Werkzeug.deploy.Command, GTW.OMP.deploy.Command) :
         , copyright_holder  = "Mag. Christian Tanzer, Ralf Schlatterbeck"
         , languages         = "de,en"
         , project_name      = "FFM"
-        , python            = "~/PVE/active/bin/python"
         )
 
     class _Babel_ \
