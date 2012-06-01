@@ -26,16 +26,16 @@
 # Revision Dates
 #    23-May-2012 (CT) Creation
 #    31-May-2012 (CT) Remove `lib_dir` from `_defaults`
+#     1-Jun-2012 (CT) Remove ancestor `GTW.OMP.deploy`
 #    ««revision-date»»···
 #--
 
 from   __future__  import absolute_import, division, print_function #, unicode_literals
 
 from   _GTW                   import GTW
-import _GTW._OMP.deploy
 import _GTW._Werkzeug.deploy
 
-class Command (_GTW._Werkzeug.deploy.Command, GTW.OMP.deploy.Command) :
+class Command (_GTW._Werkzeug.deploy.Command) :
     """Manage deployment of FFM application."""
 
     _config_defaults        = \
@@ -51,10 +51,7 @@ class Command (_GTW._Werkzeug.deploy.Command, GTW.OMP.deploy.Command) :
         , project_name      = "FFM"
         )
 
-    class _Babel_ \
-            ( GTW.Werkzeug.deploy.Command._Babel_
-            , GTW.OMP.deploy.Command._Babel_
-            ) :
+    class _Babel_ (GTW.Werkzeug.deploy.Command._Babel_) :
 
         _package_dirs       = ["_FFM", "."]
 
