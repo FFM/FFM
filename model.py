@@ -32,6 +32,7 @@
 #                     rename `Scaffold` to `Command`
 #    30-May-2012 (CT) Fix `opts`
 #    31-May-2012 (CT) Add `"../../.ffm.config"` to `_config_defaults`
+#     2-Jun-2012 (CT) Replace `config_defaults` by `Config`
 #    ««revision-date»»···
 #--
 
@@ -107,19 +108,16 @@ class Command (GTW.Werkzeug.Command) :
         )
     SALT                    = bytes ("fa89356c-0af1-4644-80d7-92702e4fd524")
 
-    _config_defaults        = \
-        ( "~/.ffm.config"
-        , "../../.ffm.config"
-        )
-    _defaults               = dict \
-        ( copyright_start   = 2012 ### XXX ???
-        ,
-        )
     _opts                   = \
         ( "-home_url_root:S=http://ffm.funkfeuer.at"
         ,
         )
 
+    class Config (GTW.Werkzeug.Command.Config) :
+
+        _defaults =  ("~/.ffm.config", "../../.ffm.config")
+
+    # end class Config
 
     def create_nav (self, cmd, app_type, db_url, ** kw) :
         import nav

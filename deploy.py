@@ -27,6 +27,7 @@
 #    23-May-2012 (CT) Creation
 #    31-May-2012 (CT) Remove `lib_dir` from `_defaults`
 #     1-Jun-2012 (CT) Remove ancestor `GTW.OMP.deploy`
+#     2-Jun-2012 (CT) Replace `config_defaults` by `Config`
 #    ««revision-date»»···
 #--
 
@@ -38,10 +39,6 @@ import _GTW._Werkzeug.deploy
 class Command (_GTW._Werkzeug.deploy.Command) :
     """Manage deployment of FFM application."""
 
-    _config_defaults        = \
-        ( "~/.ffm.deploy.config"
-        , "../../.ffm.deploy.config"
-        )
     _defaults               = dict \
         ( app_dir           = "www/app"
         , app_module        = "./model.py"
@@ -50,6 +47,12 @@ class Command (_GTW._Werkzeug.deploy.Command) :
         , languages         = "de,en"
         , project_name      = "FFM"
         )
+
+    class Config (GTW.Werkzeug.deploy.Command.Config) :
+
+        _defaults  = ("~/.ffm.deploy.config", "../../.ffm.deploy.config")
+
+    # end class Config
 
     class _Babel_ (GTW.Werkzeug.deploy.Command._Babel_) :
 
