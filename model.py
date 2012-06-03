@@ -33,6 +33,7 @@
 #    30-May-2012 (CT) Fix `opts`
 #    31-May-2012 (CT) Add `"../../.ffm.config"` to `_config_defaults`
 #     2-Jun-2012 (CT) Replace `config_defaults` by `Config`
+#     3-Jun-2012 (CT) Factor `_Base_Command_`
 #    ««revision-date»»···
 #--
 
@@ -73,6 +74,8 @@ import _TFL.CAO
 
 import _GTW._AFS._MOM.Spec
 
+from   _Base_Command_           import _Base_Command_
+
 GTW.AFS.MOM.Spec.setup_defaults ()
 
 GTW.OMP.PAP.Phone.change_attribute_default         ("country_code", "43")
@@ -97,11 +100,10 @@ FFM.Version = Product_Version \
         )
     )
 
-class Command (GTW.Werkzeug.Command) :
+class Command (_Base_Command_, GTW.Werkzeug.Command) :
     """Manage database, run server or WSGI app."""
 
     ANS                     = FFM
-    nick                    = u"FFM"
     PNS_Aliases             = dict \
         ( Auth              = GTW.OMP.Auth
         , PAP               = GTW.OMP.PAP
@@ -112,12 +114,6 @@ class Command (GTW.Werkzeug.Command) :
         ( "-home_url_root:S=http://ffm.funkfeuer.at"
         ,
         )
-
-    class Config (GTW.Werkzeug.Command.Config) :
-
-        _defaults =  ("~/.ffm.config", "../../.ffm.config")
-
-    # end class Config
 
     def create_nav (self, cmd, app_type, db_url, ** kw) :
         import nav

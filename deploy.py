@@ -28,15 +28,20 @@
 #    31-May-2012 (CT) Remove `lib_dir` from `_defaults`
 #     1-Jun-2012 (CT) Remove ancestor `GTW.OMP.deploy`
 #     2-Jun-2012 (CT) Replace `config_defaults` by `Config`
+#     3-Jun-2012 (CT) Factor `_Base_Command_`, add `App_Config`
 #    ««revision-date»»···
 #--
 
 from   __future__  import absolute_import, division, print_function #, unicode_literals
 
-from   _GTW                   import GTW
+from   _GTW                     import GTW
+from   _TFL                     import TFL
+
 import _GTW._Werkzeug.deploy
 
-class Command (_GTW._Werkzeug.deploy.Command) :
+from   _Base_Command_           import _Base_Command_
+
+class Command (_Base_Command_, _GTW._Werkzeug.deploy.Command) :
     """Manage deployment of FFM application."""
 
     _defaults               = dict \
@@ -48,9 +53,17 @@ class Command (_GTW._Werkzeug.deploy.Command) :
         , project_name      = "FFM"
         )
 
+    class App_Config (_Base_Command_.Config) :
+        """Config for application: don't specify, just for internal use."""
+
+        ### avoid auto-loading by redefining `type` to `Rel_Path`
+        type                = TFL.CAO.Rel_Path
+
+    # end class App_Config
+
     class Config (GTW.Werkzeug.deploy.Command.Config) :
 
-        _defaults  = ("~/.ffm.deploy.config", "../../.ffm.deploy.config")
+        _default  = ".ffm.deploy.config"
 
     # end class Config
 
