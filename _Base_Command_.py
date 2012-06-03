@@ -43,7 +43,7 @@ class _Base_Command_ (TFL.Command.Root_Command) :
 
     # end class Config_Dirs
 
-    class Config (GTW.Werkzeug.Command.Config) :
+    class Config (TFL.Command.Root_Command.Config) :
 
         _default = ".ffm.config"
 
