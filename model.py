@@ -34,6 +34,7 @@
 #    31-May-2012 (CT) Add `"../../.ffm.config"` to `_config_defaults`
 #     2-Jun-2012 (CT) Replace `config_defaults` by `Config`
 #     3-Jun-2012 (CT) Factor `_Base_Command_`
+#    11-Jun-2012 (CT) Correct `Auth` and `L10N`
 #    ««revision-date»»···
 #--
 
@@ -149,27 +150,18 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
                       ]
                   )
               , dict
-                  ( src_dir         = _ ("Auth")
+                  ( sub_dir         = _ ("Auth")
                   , pid             = "Auth"
-                  , prefix          = "Auth"
                   , short_title     = _ (u"Authorization and Account handling")
                   , Type            = GTW.NAV.Auth
                   , hidden          = True
                   )
               , dict
-                  ( src_dir         = _ ("L10N")
-                  , prefix          = "L10N"
+                  ( sub_dir         = _ ("L10N")
                   , short_title     =
                     _ (u"Choice of language used for localization")
                   , Type            = GTW.NAV.L10N
-                  , country_map     = dict \
-                      ( de          = "AT")
-                  )
-              , dict
-                  ( name            = "STOP"
-                  , delay           = 2
-                  , Type            = GTW.NAV.Stopper
-                  , hidden          = True
+                  , country_map     = dict (de = "AT")
                   )
               , dict
                   ( Type            = GTW.NAV.Robot_Excluder
