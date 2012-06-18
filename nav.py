@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    26-Mar-2012 (CT) Creation
+#    18-Jun-2012 (CT) Add `email_from` to `nav_kw_args`
 #    ««revision-date»»···
 #--
 
@@ -115,6 +116,7 @@ def nav_kw_args \
         , Media_Parameters  = Media_Parameters
         , DB_Url            = DB_Url
         , DEBUG             = cmd.debug
+        , email_from        = cmd.email_from or None
         , encoding          = cmd.output_encoding
         , hide_marginal     = True
         , HTTP              = HTTP
