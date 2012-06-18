@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    28-Mar-2012 (CT) Creation
+#    18-Jun-2012 (CT) Add missing `is_partial` to `Firmware_Bin`
 #    ««revision-date»»···
 #--
 
@@ -98,6 +99,8 @@ _Ancestor_Essence = FFM.Id_Entity
 
 class Firmware_Bin (_Ancestor_Essence) :
     """Base class for Firmware_Binary and Firmware_Bundle."""
+
+    is_partial = True
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
