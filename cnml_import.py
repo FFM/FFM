@@ -3,12 +3,19 @@
 # Note: You need at least rsclib-0.21.9310 from rsclib.sourceforge.net
 # Note: for testing we used 'http://guifi.net/pt-pt/guifi/cnml/2441/detail'
 
+# Note: Testing with detail_guifiworld_20111130 yields the following problems:
+# - ssids longer than 32 (Wifi standards maximum)
+# - Node titles are not unique -- we now use the concatenation of the node id
+#   and the title from the XML as the name in our model
+
 import urllib2
 import sys, os
 import xml.etree.ElementTree  as ElementTree
 
+from   string                 import maketrans
 from   rsclib.ETree           import ETree
 from   rsclib.IP4_Address     import IP4_Address
+from   rsclib.iter_recipes    import grouper
 from   _GTW                   import GTW
 from   _TFL                   import TFL
 from   _FFM                   import FFM
@@ -16,15 +23,26 @@ from   _FFM                   import FFM
 import _TFL.CAO
 import model
 
+# common typos in mac addresses. 'L' -> '7' is just a guess we're so 7334.
+_mac_translate = maketrans ('!OLGPR', '10769B')
+
 def fix_mac (mac) :
     """ Fix typos, seems guifi.net doesn't check syntax of mac address
     """
-    if mac is None :
-        return mac
-    return mac.replace ('!', '1')
+    if not mac :
+        return None
+    if len (mac) == 12 :
+        mac = ':'.join (''.join (k) for k in grouper (2, mac))
+    return mac.translate (_mac_translate)
 # end def fix_mac
 
 class Convert (object) :
+
+    # this is only for parsing: don't know what legacy is and
+    # WiMAX is surely not 802.11n, will have to model this separately if
+    # needed.
+    protocol_translate = {'legacy' : '802.11b', 'WiMAX' : '802.11n'}
+
     def __init__ (self, args, scope) :
         if len (args) > 0 :
             fn = args [0]
@@ -76,7 +94,7 @@ class Convert (object) :
         """ Insert a node.
         """
         ffm  = self.scope.FFM
-        name = element.get ('title')
+        name = '_'.join ((element.get ('id'), element.get ('title')))
         node = ffm.Node (name = name)
         for n in element :
             if n.tag == 'device' :
@@ -165,6 +183,7 @@ class Convert (object) :
             # Since there is no good way to distinguish wired from
             # wirelesse interfaces we're using the ones that have a
             # radio as parent for the wireless interfaces.
+            #assert (wif.mac_address == mac)
             return
         nif  = ffm.Wired_Interface.instance \
             ( left        = device
@@ -179,15 +198,23 @@ class Convert (object) :
                 , name        = name
                 , mac_address = mac
                 )
+        #if nif.mac_address != mac :
+        #    print >> sys.stderr, "I Oops: >%s< >%s<" % (nif.mac_address, mac)
         self.insert_links (nif, element)
-        self.insert_ip_network (nif, element.get ('ipv4'), element.get ('mask'))
+        ipv4 = element.get ('ipv4')
+        mask = element.get ('mask')
+        if ipv4 and mask :
+            self.insert_ip_network (nif, ipv4, mask)
         return nif
     # end def insert_wired_interface
 
     def insert_wireless_interface (self, device, radio, element, antenna) :
         ffm  = self.scope.FFM
         mac  = fix_mac (element.get ('mac'))
-        ssid = radio.get   ('ssid')
+        ssid = radio.get ('ssid')
+        if ssid and len (ssid) > 32 :
+            print >> sys.stderr, 'Warning ssid "%s" too long, shortened' % ssid
+            ssid = ssid [:32]
         # an interface may have more than one IP address and occur
         # multiple times in the XML
         name = element.get ('id')
@@ -198,10 +225,14 @@ class Convert (object) :
             , mac_address = mac
             )
         prot = radio.get ('protocol')
+        if prot :
+            prot = self.protocol_translate.get (prot, prot)
         if wif :
             assert (wif.raw_attr ('protocol') == prot)
             assert (wif.ssid                  == ssid)
-            assert (wif.mac_address           == mac)
+            if wif.mac_address != mac :
+                print >> sys.stderr, "Oops: >%s< >%s<" % (wif.mac_address, mac)
+            #assert (wif.mac_address           == mac)
         else :
             wif  = ffm.Wireless_Interface \
                 ( left        = device
@@ -211,11 +242,15 @@ class Convert (object) :
                 , mac_address = mac
                 , raw         = True
                 )
+            #assert (wif.mac_address == mac)
             ffm.Wireless_Interface_uses_Antenna (wif, antenna)
         if mode :
             self.modes [mode] (wif)
         self.insert_links (wif, element)
-        self.insert_ip_network (wif, element.get ('ipv4'), element.get ('mask'))
+        ipv4 = element.get ('ipv4')
+        mask = element.get ('mask')
+        if ipv4 and mask :
+            self.insert_ip_network (wif, ipv4, mask)
         return wif
     # end def insert_wireless_interface
 
@@ -239,9 +274,9 @@ class Convert (object) :
         incl  = None
         if angle :
             incl = str (90 - (int (angle) % 360))
-        ant  = ffm.Antenna \
+        ant  = ffm.Antenna.instance_or_new \
             ( left        = antt
-            , name        = "%s_%s" % (device.name, id)
+            , name        = id
             , azimuth     = element.get ('antenna_azimuth')
             #, orientation = element.get ('antenna_angle') FIXME: polarisation?
             , inclination = incl
