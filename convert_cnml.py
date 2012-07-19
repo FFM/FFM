@@ -104,7 +104,8 @@ class Convert (object) :
         """
         ffm  = self.scope.FFM
         name = '_'.join ((element.get ('id'), element.get ('title')))
-        node = ffm.Node (name = name)
+        pos  = dict (lat = element.get ('lat'), lon = element.get ('lon'))
+        node = ffm.Node (name = name, position = pos, raw = True)
         for n in element :
             if n.tag == 'device' :
                 self.insert_device (node, n)
