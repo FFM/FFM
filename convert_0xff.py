@@ -3,6 +3,7 @@
 import sys, os
 import re
 
+from   UserDict               import UserDict
 from   datetime               import datetime, tzinfo, timedelta
 from   rsclib.IP4_Address     import IP4_Address
 from   _GTW                   import GTW
@@ -43,11 +44,11 @@ def sql_boolean (b) :
     return sql_bool [b]
 # end def sql_boolean
 
-def sql_float (f) :
+def sql_double (f) :
     if f == '\\N' :
         return None
     return float (f)
-# end def sql_float
+# end def sql_double
 
 def sql_integer (i) :
     if i == '\\N' :
@@ -56,7 +57,7 @@ def sql_integer (i) :
 # end def sql_integer
 sql_bigint = sql_smallint = sql_integer
 
-def sql_str (s) :
+def sql_character (s) :
     """ Get string from sql dump and convert to unicode.
     >>> sql_str ('\xc3\x96ffnungswinkel')
     u'\\xd6ffnungswinkel'
@@ -64,7 +65,7 @@ def sql_str (s) :
     if s == '\\N' :
         return None
     return s.decode ('utf-8')
-# end def sql_str
+# end def sql_character
 
 def sql_timestamp_without_zone (ts) :
     """ convert sql timestamp with time zone.
@@ -92,6 +93,14 @@ def sql_timestamp_with_zone (ts) :
     tz = TZ (ts [-3:])
     return d.replace (tzinfo = tz)
 # end def sql_timestamp_with_zone
+
+class adict (UserDict) :
+    def __getattr__ (self, key) :
+        if key in self :
+            return self [key]
+        raise AttributeError, key
+    # end def __getattr__
+# end class adict
 
 class Convert (object) :
 
@@ -128,13 +137,16 @@ class Convert (object) :
         except :
             print "Error in line %s" % (self.lineno + 1)
             raise
+    # end def __init__
+
+    def dump (self) :
         for tbl, ct in self.contents.iteritems () :
             print "Table: %s" % tbl
             for line in ct :
                 print
                 for k, v in line.iteritems () :
                     print "  %s: %s" % (k, repr (v))
-    # end def __init__
+    # end dump
 
     def parse_fields (self, table, fields) :
         contents = self.contents [table] = []
@@ -145,7 +157,7 @@ class Convert (object) :
                 return
             datafields = line.split ('\t')
             contents.append \
-                (dict ((a, tbl [a] (b)) for a, b in zip (fields, datafields)))
+                (adict ((a, tbl [a] (b)) for a, b in zip (fields, datafields)))
     # end def parse_fields
 
     def parse_table (self, table) :
@@ -190,6 +202,41 @@ class Convert (object) :
             raise ValueError, "Invalid timestamp spec: %s" % rest
     # end def type_timestamp
 
+    def write_nodes (self) :
+        for n in self.contents ['nodes'] :
+            gps = None
+            if n.gps_lat_deg is None :
+                assert n.gps_lat_min is None
+                assert n.gps_lat_sec is None
+                assert n.gps_lon_deg is None
+                assert n.gps_lon_min is None
+                assert n.gps_lon_sec is None
+            elif n.gps_lat_min is None :
+                assert n.gps_lat_sec is None
+                assert n.gps_lon_min is None
+                assert n.gps_lon_sec is None
+                lat = "%f" % n.gps_lat_deg
+                lon = "%f" % n.gps_lon_deg
+                gps = dict (lat = lat, lon = lon)
+            else :
+                assert n.gps_lat_deg == int (n.gps_lat_deg)
+                assert n.gps_lat_min == int (n.gps_lat_min)
+                assert n.gps_lon_deg == int (n.gps_lon_deg)
+                assert n.gps_lon_min == int (n.gps_lon_min)
+                lat = "%d d %d m" % (int (n.gps_lat_deg), int (n.gps_lat_min))
+                lon = "%d d %d m" % (int (n.gps_lon_deg), int (n.gps_lon_min))
+                if n.gps_lat_sec is not None :
+                    lat = lat + " %f s" % n.gps_lat_sec
+                if n.gps_lon_sec is not None :
+                    lon = lon + " %f s" % n.gps_lon_sec
+                gps = dict (lat = lat, lon = lon)
+            node = self.ffm.Node (name = n.name, position = gps)
+    # end def write_nodes
+
+    def write (self) :
+        self.write_nodes ()
+    # end def write
+
 # end def Convert
 
 
@@ -198,6 +245,7 @@ def _main (cmd) :
     if cmd.Break :
         TFL.Environment.py_shell ()
     c = Convert (cmd.argv, scope)
+    c.write ()
     scope.commit ()
     scope.ems.compact ()
     scope.destroy ()
