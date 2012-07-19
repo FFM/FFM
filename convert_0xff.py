@@ -49,11 +49,12 @@ def sql_float (f) :
     return float (f)
 # end def sql_float
 
-def sql_int (i) :
+def sql_integer (i) :
     if i == '\\N' :
         return None
     return int (i)
-# end def sql_int
+# end def sql_integer
+sql_bigint = sql_smallint = sql_integer
 
 def sql_str (s) :
     """ Get string from sql dump and convert to unicode.
@@ -162,37 +163,25 @@ class Convert (object) :
                 rest = ''
             if name.startswith ('"') :
                 name = name [1:-1]
-            method = getattr (self, 'type_' + type)
-            tbl [name] = method (rest)
+            method = getattr (self, 'type_' + type, self.type_default)
+            tbl [name] = method (type, rest)
     # end def parse_table
 
-    def type_bigint (self, rest) :
-        return sql_int
-    # end def type_bigint
+    def type_default (self, type, rest) :
+        return globals () ['sql_' + type]
+    # end def type_default
 
-    def type_boolean (self, rest) :
-        return sql_boolean
-    # end def type_bigint
-
-    def type_character (self, rest) :
+    def type_character (self, type, rest) :
         assert (rest.startswith ('varying'))
-        return sql_str
+        return self.type_default (type, rest)
     # end def type_character
 
-    def type_double (self, rest) :
+    def type_double (self, type, rest) :
         assert (rest.startswith ('precision'))
-        return sql_float
+        return self.type_default (type, rest)
     # end def type_double
 
-    def type_integer (self, rest) :
-        return sql_int
-    # end def type_integer
-
-    def type_smallint (self, rest) :
-        return sql_int
-    # end def type_smallint
-
-    def type_timestamp (self, rest) :
+    def type_timestamp (self, type, rest) :
         if rest.startswith ('with time zone') :
             return sql_timestamp_with_zone
         elif rest.startswith ('without time zone') :
