@@ -36,6 +36,7 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 
 from   _TFL                     import TFL
 from   _FFM                     import FFM
+from   _GTW._OMP._PAP           import PAP
 
 from   _TFL.I18N                import _
 
@@ -92,6 +93,10 @@ class Admin (object) :
 
     Node                 = dict \
         ( ETM            = "FFM.Node"
+        )
+
+    Person               = dict \
+        ( ETM            = "PAP.Person"
         )
 
     Routing_Zone         = dict \
