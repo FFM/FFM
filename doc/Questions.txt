@@ -173,4 +173,87 @@ To-Do
 - For really replacing redeemer we probably need to model the voip
   stuff?
 
-###
+Funkfeuer Redeemer import questions
+===================================
+
+"nodes" Table:
+--------------
+
+- node doesn't have a height (above ground)?
+- id_members is the owner of that node?
+- id_tech_c  is the technical contact (whois) of that node?
+- what does the boolean "map" parameter: if false don't show the node in
+  the map?
+
+"devices" Table:
+----------------
+
+- for field "antenna" do we only have the name? No other parameters? The
+  antenna field isn't structured, so everybody can put something in
+  there? Looks like this info there is currently not of much value, but
+  maybe we can come up with a list of used devices and use some
+  guesswork to link this information. As-is it probably doesn't make
+  much sense to import this? Needed:
+
+  - Antenna type parameters like radiation pattern, manufacturer, name
+  - concrete antenna parameters like inclination, azimuth, height
+    relative to node, ...
+- 'hardware' seems to be something like the device type -- again we
+  should prepare a list and try to match the values in there to
+  something that has been confirmed to exist.
+- mac should be a parameter of the network interface (or radio
+  interface)
+- ssid is a parameter of the network interface
+- smokeping (bool): ?
+- why is last_seen a timestamp *without* timezone and created/changed is
+  a timestamp *with* timezone? We'll probably convert the
+  created/changed to the internal data structures of the framework (it
+  maintains this info for each object) and leave out the last_seen from
+  the static configuration?
+- id_nodes is the link to the node, right?
+- Why do we have an id_members here? Can we have devices that do not
+  belong to the node owner?
+- What does delete_mail do?
+- If a node is delete_protected, who can change this flag? Shouldn't the
+  node owner be permitted to edit this anyway? Can we come up with a
+  permission scheme that makes this attribute obsolete?
+- How can I determine if this is a wired or a wireless device? Or do we
+  only have wireless devices? How do you currently handle the case that
+  you have several interfaces on one device? If this is handled by
+  several devices, how can I find out which devices are really just
+  interfaces of the same physical device?
+  
+Instead of "comment" fields I tend to add a list of messages to each
+node/device etc and the owner (plus maybe members listed on a "nosy"
+list) will get a new comment via email. Similar to bug-tracking with
+roundup...
+
+"ips" Table:
+------------
+
+- cidr is the netmask? These mostly contain 22 and 24 I would have
+  expected to have single-ip assignments (with mask 32).
+- dns_forward: A-Record?
+- custom_forward: second A-Record defined by user?
+- dns_reverse: Reverse DNS record (PTR)
+- custom_reverse: hmm, why do we need this? There can only be one
+  Reverse entry per IP?
+- id_devices: device to which this ip belongs
+- id_members: Why do we need this? Can a member reserve an IP without a
+  device? Looks like exactly this happens, we have some ips that have
+  NULL in the id_devices and a value in id_members.
+- id_nodes: huh? We already have assigned the IP to a device and a
+  device to a node? These are all None afaik.
+- what is 'usage'? This only has the value "main" afaik.
+- we need to come up with a good model of DNS records, see also the
+  Questions link above.
+
+"voip_extension" and "voip_sip" Tables:
+---------------------------------------
+
+Are these currently in use? What info needs to be retained?
+
+"roles" and "members_roles" Tables:
+-----------------------------------
+
+Can we have a description of the current permission scheme?
