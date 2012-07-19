@@ -28,12 +28,21 @@ _mac_translate = maketrans ('!OLGPR', '10769B')
 
 def fix_mac (mac) :
     """ Fix typos, seems guifi.net doesn't check syntax of mac address
+    >>> fix_mac ('!O:LG:PR:00:00:00')
+    '10:76:9B:00:00:00'
+    >>> fix_mac ('')
+    ''
+    >>> fix_mac (None)
+    ''
     """
     if not mac :
-        return None
+        return ''
     if len (mac) == 12 :
         mac = ':'.join (''.join (k) for k in grouper (2, mac))
-    return mac.translate (_mac_translate)
+    mac = mac.translate (_mac_translate)
+    if mac == '00:00:00:00:00:00' :
+        return ''
+    return mac
 # end def fix_mac
 
 class Convert (object) :
@@ -183,7 +192,7 @@ class Convert (object) :
             # Since there is no good way to distinguish wired from
             # wirelesse interfaces we're using the ones that have a
             # radio as parent for the wireless interfaces.
-            #assert (wif.mac_address == mac)
+            assert (wif.mac_address == mac)
             return
         nif  = ffm.Wired_Interface.instance \
             ( left        = device
@@ -198,8 +207,7 @@ class Convert (object) :
                 , name        = name
                 , mac_address = mac
                 )
-        #if nif.mac_address != mac :
-        #    print >> sys.stderr, "I Oops: >%s< >%s<" % (nif.mac_address, mac)
+            assert (nif.mac_address == mac)
         self.insert_links (nif, element)
         ipv4 = element.get ('ipv4')
         mask = element.get ('mask')
@@ -230,9 +238,7 @@ class Convert (object) :
         if wif :
             assert (wif.raw_attr ('protocol') == prot)
             assert (wif.ssid                  == ssid)
-            if wif.mac_address != mac :
-                print >> sys.stderr, "Oops: >%s< >%s<" % (wif.mac_address, mac)
-            #assert (wif.mac_address           == mac)
+            assert (wif.mac_address           == mac)
         else :
             wif  = ffm.Wireless_Interface \
                 ( left        = device
@@ -242,7 +248,7 @@ class Convert (object) :
                 , mac_address = mac
                 , raw         = True
                 )
-            #assert (wif.mac_address == mac)
+            assert (wif.mac_address == mac)
             ffm.Wireless_Interface_uses_Antenna (wif, antenna)
         if mode :
             self.modes [mode] (wif)
@@ -277,7 +283,7 @@ class Convert (object) :
         ant  = ffm.Antenna.instance_or_new \
             ( left        = antt
             , name        = id
-            , azimuth     = element.get ('antenna_azimuth')
+            , azimuth     = element.get ('antenna_azimuth') or '0'
             #, orientation = element.get ('antenna_angle') FIXME: polarisation?
             , inclination = incl
             , raw         = True
