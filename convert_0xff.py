@@ -113,16 +113,17 @@ class Convert (object) :
         else :
             f = sys.stdin
 
-        self.scope    = scope
-        self.ffm      = self.scope.FFM
-        self.tables   = {}
-        self.contents = {}
-        self.modes    = dict \
-            ( client  = self.ffm.Client_Mode
-            , ap      = self.ffm.AP_Mode
-            , ad_hoc  = self.ffm.Ad_Hoc_Mode
+        self.scope      = scope
+        self.ffm        = self.scope.FFM
+        self.tables     = {}
+        self.contents   = {}
+        self.modes      = dict \
+            ( client    = self.ffm.Client_Mode
+            , ap        = self.ffm.AP_Mode
+            , ad_hoc    = self.ffm.Ad_Hoc_Mode
             )
-        self.iter     = enumerate (f)
+        self.node_by_id = {}
+        self.iter       = enumerate (f)
         try :
             for self.lineno, line in self.iter :
                 m = self.re_copy.match (line)
@@ -202,7 +203,7 @@ class Convert (object) :
             raise ValueError, "Invalid timestamp spec: %s" % rest
     # end def type_timestamp
 
-    def write_nodes (self) :
+    def create_nodes (self) :
         for n in self.contents ['nodes'] :
             gps = None
             if n.gps_lat_deg is None :
@@ -230,12 +231,30 @@ class Convert (object) :
                 if n.gps_lon_sec is not None :
                     lon = lon + " %f s" % n.gps_lon_sec
                 gps = dict (lat = lat, lon = lon)
+            #gps ['raw'] = True
+            #node = self.ffm.Node (name = n.name, position = gps, raw = True)
             node = self.ffm.Node (name = n.name, position = gps)
-    # end def write_nodes
+            assert (node)
+            self.node_by_id [n.id] = node
+    # end def create_nodes
 
-    def write (self) :
-        self.write_nodes ()
-    # end def write
+    def create_devices (self) :
+        for d in self.contents ['devices'] :
+            node = self.node_by_id [d.id_nodes]
+            name = ''.join ((node.name, d.name))
+            if d.hardware :
+                devtype = self.ffm.Net_Device_Type.instance_or_new \
+                    (name = d.hardware, raw = True)
+            else :
+                devtype = self.ffm.Net_Device_Type.instance (name = 'Generic')
+            dev = self.ffm.Net_Device (left = devtype, name = name, raw = True)
+            self.ffm.Node_has_Net_Device (node, dev)
+    # end def create_devices
+
+    def create (self) :
+        self.create_nodes   ()
+        self.create_devices ()
+    # end def create
 
 # end def Convert
 
@@ -245,7 +264,8 @@ def _main (cmd) :
     if cmd.Break :
         TFL.Environment.py_shell ()
     c = Convert (cmd.argv, scope)
-    c.write ()
+    #c.dump ()
+    c.create ()
     scope.commit ()
     scope.ems.compact ()
     scope.destroy ()
