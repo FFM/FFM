@@ -18,11 +18,19 @@ there are no other implementations of CNML we're aware of.
     ``Building``, ``Reserved``, ``Working``, ``Testing``, ``Planned``,
     ``Dropped``, I've found no link with status ``Dropped``
 
+    I've found no such status in the Funkfeuer export. At least not for
+    nodes, although different stati *are* shown in the map.
+
   * Problem with Planned devices: These may not have all the necessary
     attributes to create the device, e.g., no name (which means no
     interface) and interfaces may have no mac-address, ssid etc.
 
-  * There are duplicate MAC addresses in the guifi.net CNML
+  * guifi.net CNML: Interfaces are both defined *inside* a
+    <radio> ...  </radio>
+    and outside. So it is hard to distinguish wired from wireless
+    interfaces. Fortunately in all cases we have tested the wireless
+    interface inside <radio> occurs first. So we simply ignore the
+    second if we already have a wireless interface with the same id.
 
 - Zone
 
@@ -83,9 +91,6 @@ there are no other implementations of CNML we're aware of.
     radiation diagrams for all antennae, we want to model this with
     radio mobile. Todo: Use this parameter from CNML
 
-- CNML has a Node with several devices. We also need that.
-  we currently don't have any links to Node.
-
 To-Do
 =====
 
@@ -104,5 +109,68 @@ To-Do
 - SQL integrity constraints for interval arithmetic (IP networks)
 
   * how to put most of the check into SQL
+
+- Node needs geo information (lat/lon) and possible elevation. Or should
+  the antenna get the elevation, may have serveral antennae on the same
+  mount, these probably have different elevation.
+
+- Persons:
+
+  * Access rights and roles; login credentials
+
+  * Node owner
+
+  * Node tech contact
+
+- Current Funkfeuer DB has Node owner and Node technical contact
+  (id_tech_c). But maybe we want this in the device? Can a node have
+  several devices with different owners and/or tech contacts? Or would
+  we model this with two nodes at the same location?
+
+- Antenna currently has 
+
+  * azimuth
+
+  * inclination
+
+  * orientation
+
+  It should have an elevation relative to the node (if the node does
+  have an elevation, see above, otherwise an elevation relative to
+  ground). The orientation specifies the polarisation angle of the
+  antenna relative to the normal mounting. I'm not sure if we need this.
+
+- The Antenna_Type needs polarisation information (vertical, horizontal
+  and circular should be enough, are there circular polarized antennae
+  for wifi?) and a model of the radiation diagrams in a format that can
+  be read by e.g. radio mobile. But if the antenna is mounted
+  differently the radiation diagram will differ, too (!) -- needs
+  further discussion.
+
+  We probably don't need the gain if we have the radiation diagram
+
+- DNS information
+
+  * Model several domains? Or do we have a single domain?
+
+  * add the A-record(s) to IPv4 address? And AAAA to IPv6 Address? Need
+    consistency-check that both refer to same node? What about multiple
+    A-Records for round-robin dns that refer to different IPs? What
+    about multiple A- or AAAA-Records for same IP with same or different
+    domains?
+
+  * CNAME: refer to A and/or AAAA? Consistency?
+
+  * How to model MX records? Let them refer to both A and AAAA record?
+
+  * How to model SOA
+
+  * Reverse DNS: Specify with IP? Do we have a default reverse name that
+    is created automagically (not stored in database)?
+
+  * Other types like server, txt, etc?
+
+- For really replacing redeemer we probably need to model the voip
+  stuff?
 
 ###
