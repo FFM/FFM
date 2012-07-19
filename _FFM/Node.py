@@ -27,12 +27,14 @@
 #
 # Revision Dates
 #     6-Mar-2012 (CT) Creation
+#    19-Jul-2012 (RS) Add `position`
 #    ««revision-date»»···
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
 
 from   _MOM.import_MOM        import *
+from   _MOM._Attr.Position    import A_Position
 from   _GTW._OMP._PAP         import PAP
 from   _FFM                   import FFM
 
@@ -57,6 +59,13 @@ class Node (FFM.Entity, _Ancestor_Essence) :
             completer          = Attr.Completer_Spec  (2, Attr.Selector.primary)
 
         # end class name
+
+        class position (A_Position) :
+            """GPS position and optional height of the node"""
+
+            kind               = Attr.Optional
+
+        # end class position
 
         class map_p (A_Boolean) :
             """Show in map ???"""
