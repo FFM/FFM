@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: iso-8859-15 -*-
 
 import sys, os
 import re
@@ -9,6 +10,8 @@ from   rsclib.IP4_Address     import IP4_Address
 from   _GTW                   import GTW
 from   _TFL                   import TFL
 from   _FFM                   import FFM
+from   _GTW._OMP._PAP         import PAP
+
 
 import _TFL.CAO
 import model
@@ -113,17 +116,19 @@ class Convert (object) :
         else :
             f = sys.stdin
 
-        self.scope      = scope
-        self.ffm        = self.scope.FFM
-        self.tables     = {}
-        self.contents   = {}
-        self.modes      = dict \
-            ( client    = self.ffm.Client_Mode
-            , ap        = self.ffm.AP_Mode
-            , ad_hoc    = self.ffm.Ad_Hoc_Mode
+        self.scope        = scope
+        self.ffm          = self.scope.FFM
+        self.pap          = self.scope.GTW.OMP.PAP
+        self.tables       = {}
+        self.contents     = {}
+        self.modes        = dict \
+            ( client      = self.ffm.Client_Mode
+            , ap          = self.ffm.AP_Mode
+            , ad_hoc      = self.ffm.Ad_Hoc_Mode
             )
-        self.node_by_id = {}
-        self.iter       = enumerate (f)
+        self.node_by_id   = {}
+        self.person_by_id = {}
+        self.iter         = enumerate (f)
         try :
             for self.lineno, line in self.iter :
                 m = self.re_copy.match (line)
@@ -235,6 +240,8 @@ class Convert (object) :
             #node = self.ffm.Node (name = n.name, position = gps, raw = True)
             node = self.ffm.Node (name = n.name, position = gps)
             assert (node)
+            if n.id_members not in self.person_by_id :
+                print "Node %s: id member %s not found" % (n.id, n.id_members)
             self.node_by_id [n.id] = node
     # end def create_nodes
 
@@ -251,7 +258,84 @@ class Convert (object) :
             self.ffm.Node_has_Net_Device (node, dev)
     # end def create_devices
 
+    # first id is the one to remove, the second one is the correct one
+    # FIXME: we may need to merge some attributes from one entry to the other
+    # FIXME: Check used resources of dupe
+    # FIXME: 189/281 is unclear if same person (only identifyable
+    #        attribute is email which differs)
+    person_dupes = dict (( (373, 551)
+                         , (338, 109)
+                         , (189, 281)
+                         , (285, 284)
+                         , (299, 297)
+                         , (300, 462)
+                         , (542, 586)
+                         , (251, 344)
+                         , (188, 614)
+                         , (177, 421)
+                         , (432, 433) # merge addresses ??
+                         , ( 26, 480) # same person? merge adrs + email?
+                         , ( 90, 499) # same person? merge adrs + email?
+                         , (505, 507)
+                         , (410, 547)
+                         , (712, 680)
+                         , (230, 729) # merge phone number?
+                         , (375, 743)
+                         , (755, 175) # use newer phone number?
+                         , (219, 759) # same person?
+                         , (453, 454)
+                         , (803, 804)
+                         , (295, 556) # same person? same gmx address!
+                         , (697, 814)
+                         , (476, 854) # merge web?
+                        ))
+
+    def create_persons (self) :
+        for m in self.contents ['members'] :
+            if m.id in self.person_dupes :
+                print "skipping: %s" % m.id
+                continue
+            if not m.firstname and not m.lastname :
+                print "no name:", m.id
+                continue
+            if not m.lastname :
+                print "no lastname: %s" % m.id
+                continue
+            person = self.pap.Person \
+                ( first_name = m.firstname
+                , last_name  = m.lastname
+                , raw        = True
+                )
+            self.person_by_id [m.id] = person
+            street  = ' '.join (x for x in (m.street, m.housenumber) if x)
+            if street or m.town or m.zip :
+                if not m.town :
+                    print "no city: %s" % m.id
+                    m ['town'] = 'Wien'
+                if not m.zip :
+                    if m.id == 653 :
+                        m ['zip'] = 'USA'
+                    elif m.id == 787 :
+                        m ['zip'] = '2351'
+                    else :
+                        print "no zip: %s" % m.id
+                elif m.zip.startswith ('I-') :
+                    m ['zip'] = m.zip [2:]
+                    country = 'Italy'.decode ('latin1')
+                address = self.pap.Address.instance_or_new \
+                    ( street     = street
+                    , zip        = m.zip
+                    , city       = m.town
+                    , country    = 'Austria'.decode ('latin1')
+                    )
+            # FIXME: we should import these.
+            if m.mentor_id and m.mentor_id != m.id :
+                #print "mentor: %s" % m.mentor_id
+                pass
+    # end def create_persons
+
     def create (self) :
+        self.create_persons ()
         self.create_nodes   ()
         self.create_devices ()
     # end def create
