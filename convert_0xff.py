@@ -12,7 +12,6 @@ from   _TFL                   import TFL
 from   _FFM                   import FFM
 from   _GTW._OMP._PAP         import PAP
 
-
 import _TFL.CAO
 import model
 
@@ -128,6 +127,7 @@ class Convert (object) :
             )
         self.node_by_id   = {}
         self.person_by_id = {}
+        self.dupes_by_id  = {}
         self.iter         = enumerate (f)
         try :
             for self.lineno, line in self.iter :
@@ -240,7 +240,8 @@ class Convert (object) :
             #node = self.ffm.Node (name = n.name, position = gps, raw = True)
             node = self.ffm.Node (name = n.name, position = gps)
             assert (node)
-            person = self.person_by_id.get (n.id_members)
+            id = self.person_dupes.get (n.id_members, n.id_members)
+            person = self.person_by_id.get (id)
             if person :
                 self.ffm.Person_has_Node (person, node)
             else :
@@ -297,6 +298,7 @@ class Convert (object) :
         for m in self.contents ['members'] :
             if m.id in self.person_dupes :
                 print "skipping: %s" % m.id
+                self.dupes_by_id [m.id] = m
                 continue
             if not m.firstname and not m.lastname :
                 print "no name:", m.id
@@ -332,10 +334,31 @@ class Convert (object) :
                     , country    = 'Austria'.decode ('latin1')
                     )
                 self.pap.Person_has_Address (person, address)
+            if m.email :
+                email = self.pap.Email.instance (address = m.email)
+                if email :
+                    print "Duplicate email:", m.email
+                else :
+                    email = self.pap.Email (address = m.email)
+                    self.pap.Person_has_Email (person, email)
+
             # FIXME: we should import these.
             if m.mentor_id and m.mentor_id != m.id :
                 #print "mentor: %s" % m.mentor_id
                 pass
+        # Retrieve info from dupe account
+        for dupe, id in self.person_dupes.iteritems () :
+            d = self.dupes_by_id [dupe]
+            person = self.person_by_id [id]
+            if d.email :
+                email = d.email.lower ()
+                if email not in (e.address for e in person.emails) :
+                    print "Second email for member %s: %s" % (id, email)
+                    email = self.pap.Email \
+                        ( address = d.email
+                        , desc    = "von 2. Account"
+                        )
+                    self.pap.Person_has_Email (person, email)
     # end def create_persons
 
     def create (self) :
