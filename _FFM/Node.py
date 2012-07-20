@@ -28,6 +28,7 @@
 # Revision Dates
 #     6-Mar-2012 (CT) Creation
 #    19-Jul-2012 (RS) Add `position`
+#    20-Jul-2012 (RS) `Node` no longer inherits from `PAP.Subject`
 #    ««revision-date»»···
 #--
 
@@ -35,15 +36,13 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 
 from   _MOM.import_MOM        import *
 from   _MOM._Attr.Position    import A_Position
-from   _GTW._OMP._PAP         import PAP
 from   _FFM                   import FFM
 
 import _FFM.Entity
-import _GTW._OMP._PAP.Subject
 
-_Ancestor_Essence = PAP.Subject
+_Ancestor_Essence = FFM.Object
 
-class Node (FFM.Entity, _Ancestor_Essence) :
+class Node (_Ancestor_Essence) :
     """Model a node of FFM"""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
