@@ -105,7 +105,7 @@ class Convert (object) :
         ffm  = self.scope.FFM
         name = '_'.join ((element.get ('id'), element.get ('title')))
         pos  = dict (lat = element.get ('lat'), lon = element.get ('lon'))
-        node = ffm.Node (name = name, position = pos, raw = True)
+        node = ffm.Node (name = name, position = pos)
         for n in element :
             if n.tag == 'device' :
                 self.insert_device (node, n)
@@ -287,7 +287,6 @@ class Convert (object) :
             , azimuth     = element.get ('antenna_azimuth') or '0'
             #, orientation = element.get ('antenna_angle') FIXME: polarisation?
             , inclination = incl
-            , raw         = True
             )
         for n in element :
             if n.tag == 'interface' :
