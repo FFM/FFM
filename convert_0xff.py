@@ -331,6 +331,7 @@ class Convert (object) :
                     , city       = m.town
                     , country    = 'Austria'.decode ('latin1')
                     )
+                self.pap.Person_has_Address (person, address)
             # FIXME: we should import these.
             if m.mentor_id and m.mentor_id != m.id :
                 #print "mentor: %s" % m.mentor_id
