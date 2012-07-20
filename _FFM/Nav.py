@@ -29,6 +29,8 @@
 #    26-Mar-2012 (CT) Creation
 #    10-May-2012 (CT) Add `Node_has_Net_Device`
 #    10-May-2012 (CT) Add `Wired_Interface`, `Wired_Link`, and `Wireless_Link`
+#    19-Jul-2012 (RS) Add `Person`
+#    20-Jul-2012 (RS) Add `Person_has_Node`
 #    ««revision-date»»···
 #--
 
@@ -142,6 +144,10 @@ class Admin (object) :
 
         Node_has_Net_Device = dict \
             ( ETM            = "FFM.Node_has_Net_Device"
+            )
+
+        Person_has_Node = dict \
+            ( ETM            = "FFM.Person_has_Node"
             )
 
         Wireless_Interface_uses_Antenna = dict \

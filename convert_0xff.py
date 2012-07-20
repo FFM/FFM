@@ -240,7 +240,10 @@ class Convert (object) :
             #node = self.ffm.Node (name = n.name, position = gps, raw = True)
             node = self.ffm.Node (name = n.name, position = gps)
             assert (node)
-            if n.id_members not in self.person_by_id :
+            person = self.person_by_id.get (n.id_members)
+            if person :
+                self.ffm.Person_has_Node (person, node)
+            else :
                 print "Node %s: id member %s not found" % (n.id, n.id_members)
             self.node_by_id [n.id] = node
     # end def create_nodes
