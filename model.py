@@ -35,6 +35,7 @@
 #     2-Jun-2012 (CT) Replace `config_defaults` by `Config`
 #     3-Jun-2012 (CT) Factor `_Base_Command_`
 #    11-Jun-2012 (CT) Correct `Auth` and `L10N`
+#    29-Jul-2012 (CT) Change to use `GTW.RST.TOP` instead of `GTW.NAV`
 #    ««revision-date»»···
 #--
 
@@ -59,9 +60,6 @@ import _GTW._OMP._Auth.Nav
 import _GTW._OMP._PAP.Nav
 import _FFM.Nav
 
-import _GTW._NAV.import_NAV
-import _GTW._NAV.Console
-
 import _GTW.HTML
 import _ReST.To_Html
 
@@ -85,9 +83,9 @@ FFM.Version = Product_Version \
     ( productid           = u"FFM node data base"
     , productnick         = u"FFM"
     , productdesc         = u"Web application for FFM node data base"
-    , date                = "26-Mar-2012 "
+    , date                = "29-Jul-2012 "
     , major               = 0
-    , minor               = 1
+    , minor               = 2
     , patchlevel          = 0
     , author              = u"Christian Tanzer, Ralf Schlatterbeck"
     , copyright_start     = 2012
@@ -111,78 +109,99 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
         )
     SALT                    = bytes ("fa89356c-0af1-4644-80d7-92702e4fd524")
 
-    _opts                   = \
-        ( "-home_url_root:S=http://ffm.funkfeuer.at"
-        ,
+    _default_db_name        = "ffm"
+    _defaults               = dict \
+        ( copyright_start   = 2012
         )
 
-    def create_nav (self, cmd, app_type, db_url, ** kw) :
-        import nav
-        result = nav.create (cmd, app_type, db_url, ** kw)
+    @Once_Property
+    def src_dir (self) :
+        import rst_top
+        return rst_top.src_dir
+    # end def src_dir
+
+    @Once_Property
+    def web_src_root (self) :
+        import rst_top
+        return rst_top.web_src_root
+    # end def web_src_root
+
+    def create_rst (self, cmd, ** kw) :
+        import _GTW._RST._MOM.Scope
+        return GTW.RST.Root \
+            ( language          = "en"
+            , entries           =
+                [ GTW.RST.MOM.Scope (name = "v1")
+                ]
+            , ** kw
+            )
+    # end def create_rst
+
+    def create_top (self, cmd, ** kw) :
+        import _GTW._RST._TOP.import_TOP
+        import rst_top
+        RST = GTW.RST
+        TOP = RST.TOP
+        result = rst_top.create (cmd, ** kw)
         result.add_entries \
-            ( [ dict
-                  ( sub_dir         = "Admin"
-                  , short_title     = "Admin"
-                  , pid             = "Admin"
-                  , title           = _ ("Administration of FFM node database")
-                  , head_line       = _ ("Administration of FFM node database")
-                  , login_required  = True
-                  , Type            = GTW.NAV.E_Type.Site_Admin
-                  , entries         =
-                      [ self.nav_admin_group
-                          ( "FFM"
-                          , _ ("Administration of node database")
-                          , "FFM"
-                          , permission = GTW.NAV.In_Group ("FFM-admin")
-                          )
-                      , self.nav_admin_group
-                          ( "PAP"
-                          , _ ("Administration of persons/addresses...")
-                          , "GTW.OMP.PAP"
-                          , permission = GTW.NAV.In_Group ("FFM-admin")
-                          )
-                      , self.nav_admin_group
-                          ( _ ("Users")
-                          , _ ("Administration of user accounts and groups")
-                          , "GTW.OMP.Auth"
-                          , permission = GTW.NAV.Is_Superuser ()
-                          )
-                      ]
-                  )
-              , dict
-                  ( sub_dir         = _ ("Auth")
-                  , pid             = "Auth"
-                  , short_title     = _ (u"Authorization and Account handling")
-                  , Type            = GTW.NAV.Auth
-                  , hidden          = True
-                  )
-              , dict
-                  ( sub_dir         = _ ("L10N")
-                  , short_title     =
-                    _ (u"Choice of language used for localization")
-                  , Type            = GTW.NAV.L10N
-                  , country_map     = dict (de = "AT")
-                  )
-              , dict
-                  ( Type            = GTW.NAV.Robot_Excluder
-                  )
-              ]
+            ( TOP.MOM.Admin.Site
+                ( name            = "Admin"
+                , short_title     = "Admin"
+                , pid             = "Admin"
+                , title           = _ ("Administration of FFM node database")
+                , head_line       = _ ("Administration of FFM node database")
+                , login_required  = True
+                , entries         =
+                    [ self.nav_admin_group
+                        ( "FFM"
+                        , _ ("Administration of node database")
+                        , "FFM"
+                        , permission = RST.In_Group ("FFM-admin")
+                        )
+                    , self.nav_admin_group
+                        ( "PAP"
+                        , _ ("Administration of persons/addresses...")
+                        , "GTW.OMP.PAP"
+                        , permission = RST.In_Group ("FFM-admin")
+                        )
+                    , self.nav_admin_group
+                        ( _ ("Users")
+                        , _ ("Administration of user accounts and groups")
+                        , "GTW.OMP.Auth"
+                        , permission = RST.Is_Superuser ()
+                        )
+                    ]
+                )
+            , TOP.Auth
+                ( name            = _ ("Auth")
+                , pid             = "Auth"
+                , short_title     = _ (u"Authorization and Account handling")
+                , hidden          = True
+                )
+            , TOP.L10N
+                ( name            = _ ("L10N")
+                , short_title     =
+                  _ (u"Choice of language used for localization")
+                , country_map     = dict (de = "AT")
+                )
+            , TOP.Robot_Excluder ()
             )
         if cmd.debug :
             result.add_entries \
-                ( [ dict
-                      ( src_dir         = _ ("Console")
-                      , name            = "Console"
-                      , short_title     = _(u"Console")
-                      , title           = _(u"Interactive Python interpreter")
-                      , Type            = GTW.NAV.Console
-                      , permission      = GTW.NAV.Is_Superuser ()
-                      )
-                  ]
+                ( TOP.Console
+                    ( name            = "Console"
+                    , short_title     = _ ("Console")
+                    , title           = _ ("Interactive Python interpreter")
+                    , permission      = RST.Is_Superuser ()
+                    )
+                , RST.Raiser
+                    ( name            = "RAISE"
+                    , hidden          = True
+                    )
                 )
         if result.DEBUG :
             scope = result.__dict__.get ("scope", "*not yet created*")
-            print ("NAV created, Scope", scope)
+            print ("RST.TOP root created, Scope", scope)
         return result
     # end def create_nav
 
@@ -191,17 +210,16 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
         return fixtures.create (scope)
     # end def fixtures
 
-    @Once_Property
-    def jnj_src (self) :
-        import nav
-        return nav.jnj_src
-    # end def jnj_src
-
-    @Once_Property
-    def web_src_root (self) :
-        import nav
-        return nav.web_src_root
-    # end def web_src_root
+    def _create_templateer (self, cmd, ** kw) :
+        if cmd.UTP.use_templateer :
+            import rst_top
+            return self.__super._create_templateer \
+                ( cmd
+                , load_path         = rst_top.template_dirs
+                , Media_Parameters  = rst_top.Media_Parameters
+                , ** kw
+                )
+    # end def _create_templateer
 
 # end class Scaffold
 
