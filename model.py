@@ -36,6 +36,7 @@
 #     3-Jun-2012 (CT) Factor `_Base_Command_`
 #    11-Jun-2012 (CT) Correct `Auth` and `L10N`
 #    29-Jul-2012 (CT) Change to use `GTW.RST.TOP` instead of `GTW.NAV`
+#    11-Aug-2012 (CT) Add `GTW.RST.TOP.MOM.Doc` documentation
 #    ««revision-date»»···
 #--
 
@@ -53,6 +54,9 @@ from   _MOM.Product_Version   import Product_Version, IV_Number
 import _FFM.import_FFM
 import _GTW._OMP._Auth.import_Auth
 import _GTW._OMP._PAP.import_PAP
+
+import _GTW._RST._MOM.Doc
+import _GTW._RST._TOP._MOM.Doc
 
 import _GTW._Werkzeug.Command
 
@@ -144,7 +148,12 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
         TOP = RST.TOP
         result = rst_top.create (cmd, ** kw)
         result.add_entries \
-            ( TOP.MOM.Admin.Site
+            ( TOP.MOM.Doc.App_Type
+                ( name            = "Doc"
+                , short_title     = _ ("Model doc")
+                , title           = _ ("Documentation for FFM object model")
+                )
+            , TOP.MOM.Admin.Site
                 ( name            = "Admin"
                 , short_title     = "Admin"
                 , pid             = "Admin"
