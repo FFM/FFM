@@ -28,6 +28,7 @@
 # Revision Dates
 #    18-May-2012 (RS) Creation
 #    22-May-2012 (RS) Add `net_mask`
+#    13-Aug-2012 (RS) Remove `net_mask` (`IP4_Network` now has `mask_len`)
 #    ««revision-date»»···
 #--
 
@@ -60,13 +61,6 @@ class IP4_Network (_Ancestor_Essence) :
         # end class net_address
 
         ### Non-primary attributes
-
-        class net_mask (_Ancestor.net_mask) :
-            """Network mask."""
-
-            max_value          = 32
-
-        # end class net_mask
 
     # end class _Attributes
 

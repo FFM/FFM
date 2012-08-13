@@ -29,6 +29,9 @@
 #    18-May-2012 (RS) Creation
 #    22-May-2012 (RS) Add `net_mask`
 #    23-May-2012 (RS) Use `_A_IP_Address_` for `net_address`
+#    13-Aug-2012 (RS) Make `IP_Network.net_address` descendant of
+#                     `_A_Composite_IP_Address_`, remove `net_mask`,
+#                     set is_partial
 #    ««revision-date»»···
 #--
 
@@ -44,13 +47,15 @@ _Ancestor_Essence = FFM.Object
 class IP_Network (_Ancestor_Essence) :
     """IP Network of FFM"""
 
+    is_partial = True
+
     class _Attributes (_Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
         ### Primary attributes
 
-        class net_address (_A_IP_Address_) :
+        class net_address (_A_Composite_IP_Address_) :
             """Network address."""
 
             kind               = Attr.Primary
@@ -58,22 +63,6 @@ class IP_Network (_Ancestor_Essence) :
         # end class net_address
 
         ### Non-primary attributes
-
-        class net_mask (A_Int) :
-            """Network mask."""
-
-            kind               = Attr.Internal
-            auto_up_depends    = ("net_address",)
-            min_value          = 0
-            max_value          = 128
-
-            def computed (self, obj) :
-                if obj and '/' in obj.net_address :
-                    return int (obj.net_address.split ('/') [-1])
-                return self.max_value
-            # end def computed
-
-        # end class net_mask
 
     # end class _Attributes
 

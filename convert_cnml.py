@@ -172,9 +172,9 @@ class Convert (object) :
         net = IP4_Address (ip, mask)
         adr = IP4_Address (ip)
         assert (adr in net)
-        network = ffm.IP4_Network.instance_or_new (str (net))
+        network = ffm.IP4_Network.instance_or_new (dict (address = str (net)))
         ffm.Net_Interface_in_IP4_Network.instance_or_new \
-            (interface, network, adr)
+            (interface, network, dict (address = str (adr)))
     # end def insert_ip_network
 
     def insert_wired_interface (self, device, element) :
