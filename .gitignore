@@ -1,5 +1,6 @@
 *.ffm
 *.ffm.X
 *.pck
-*.pyc
+*.py[co]
 guifi.xml
+*.mo
