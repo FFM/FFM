@@ -62,6 +62,7 @@ import _FFM.Net_Interface_in_IP4_Network
 import _FFM.Net_Interface_in_IP_Network
 import _FFM.Net_Link
 import _FFM.Node_has_Net_Device
+import _FFM.Person_has_Node
 import _FFM.Wired_Link
 import _FFM.Wireless_Interface_uses_Antenna
 import _FFM.Wireless_Link

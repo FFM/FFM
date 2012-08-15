@@ -20,16 +20,17 @@
 #
 #++
 # Name
-#    Media_Defaults
+#    Media_Parameters
 #
 # Purpose
-#    Provide defaults for media fragments in html/*.css
+#    Provide parameters for media fragments in html/*.css
 #
 # Revision Dates
 #    26-Mar-2012 (CT) Creation
+#    29-Jul-2012 (CT) Rename from Media_Defaults to Media_Parameters
 #    ««revision-date»»···
 #--
 
-from _JNJ.Media_Defaults import *
+from _JNJ.Media_Defaults import Media_Defaults as Media_Parameters
 
-### __END__ Media_Defaults
+### __END__ Media_Parameters

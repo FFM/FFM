@@ -1,0 +1,259 @@
+Open questions
+===============
+
+When referring to CNML we mean the XML format exported by guifi.net,
+there are no other implementations of CNML we're aware of.
+
+- General attributes
+
+  * CNML has creation date and update-date, we're ignoring these in the
+    first prototype but when importing, these should probably be kept
+    (e.g. for a migration use-case)
+
+  * CNML seems to have a verbose description between ``<node>`` and
+    ``</node>``
+
+  * Devices, Nodes and Links have a status in CNML (for link the
+    attribute is called ``link_status``) with the values
+    ``Building``, ``Reserved``, ``Working``, ``Testing``, ``Planned``,
+    ``Dropped``, I've found no link with status ``Dropped``
+
+    I've found no such status in the Funkfeuer export. At least not for
+    nodes, although different stati *are* shown in the map.
+
+  * Problem with Planned devices: These may not have all the necessary
+    attributes to create the device, e.g., no name (which means no
+    interface) and interfaces may have no mac-address, ssid etc.
+
+  * guifi.net CNML: Interfaces are both defined *inside* a
+    <radio> ...  </radio>
+    and outside. So it is hard to distinguish wired from wireless
+    interfaces. Fortunately in all cases we have tested the wireless
+    interface inside <radio> occurs first. So we simply ignore the
+    second if we already have a wireless interface with the same id.
+
+- Zone
+
+  * `Person_in_Zone`
+
+  * `Node_in_Zone` or `Net_Interface_in_Zone`? We might have
+    gateways that are in different zones, i.e., the gateway node is in
+    several zones while each interface is in just one zone.
+
+  * Are zones also routing-relevant or do we need a separate
+    routing-zone?
+
+  * hierarchical zones? CNML format has hierarchical zones.
+
+  * CNML has rectangular zones with a bounding box with two points
+    lat/lon, we don't think this makes much sense.
+
+  * CNML has a timezone with a peculiar format ``+01 2 2``
+
+    + do we need that at all?
+    + better would be a timezone name (summertime!)
+
+- Wireless_Interface (aka Radio)
+
+  * specification of channel(s)
+
+  * bssid:
+
+    + dependent on Wireless_Mode ?
+    + is it needed? (or is `ssid` sufficient)
+
+  * distance to/from node?
+
+- Devices vs. composite devices
+
+  * Devices in CNML (e.g. radio) have a title *and* a name, e.g.
+    title: ``AleMasnou12Rd1``, name: ``NanoStation Loco2``, on closer
+    examination the name attribute seems to denote the device type
+
+  * Radios in CNML are devices and have antenna parameters, we model
+    this differently (imho more correctly)
+
+  * So it probably makes sense to combine the radio name + title and use
+    both names for device + interface
+
+- Network topology: explicit vs. implicit
+
+- interfacetype: used for TABLE interfaces, not defined
+
+- macprotocol: what for?
+
+  --> Net_Interface
+
+- Antenna parameters:
+
+  * CNML has ``antenna_angle`` which seems to be the german term
+    Öffnungswinkel, correct english term? Maybe we should aim to get
+    radiation diagrams for all antennae, we want to model this with
+    radio mobile. Todo: Use this parameter from CNML
+
+To-Do
+=====
+
+- improve docstrings
+
+  * e.g.: FFM.Node
+
+- runs_version_id: not in Device,
+
+  --> Net_Device_runs_Firmware
+
+- authentification token: not in Device,
+
+  --> Net_Device
+
+- SQL integrity constraints for interval arithmetic (IP networks)
+
+  * how to put most of the check into SQL
+
+- Node needs geo information (lat/lon) and possible elevation. Or should
+  the antenna get the elevation, may have serveral antennae on the same
+  mount, these probably have different elevation.
+
+- Persons:
+
+  * Access rights and roles; login credentials
+
+  * Node owner
+
+  * Node tech contact
+
+- Current Funkfeuer DB has Node owner and Node technical contact
+  (id_tech_c). But maybe we want this in the device? Can a node have
+  several devices with different owners and/or tech contacts? Or would
+  we model this with two nodes at the same location?
+
+- Antenna currently has 
+
+  * azimuth
+
+  * inclination
+
+  * orientation
+
+  It should have an elevation relative to the node (if the node does
+  have an elevation, see above, otherwise an elevation relative to
+  ground). The orientation specifies the polarisation angle of the
+  antenna relative to the normal mounting. I'm not sure if we need this.
+
+- The Antenna_Type needs polarisation information (vertical, horizontal
+  and circular should be enough, are there circular polarized antennae
+  for wifi?) and a model of the radiation diagrams in a format that can
+  be read by e.g. radio mobile. But if the antenna is mounted
+  differently the radiation diagram will differ, too (!) -- needs
+  further discussion.
+
+  We probably don't need the gain if we have the radiation diagram
+
+- DNS information
+
+  * Model several domains? Or do we have a single domain?
+
+  * add the A-record(s) to IPv4 address? And AAAA to IPv6 Address? Need
+    consistency-check that both refer to same node? What about multiple
+    A-Records for round-robin dns that refer to different IPs? What
+    about multiple A- or AAAA-Records for same IP with same or different
+    domains?
+
+  * CNAME: refer to A and/or AAAA? Consistency?
+
+  * How to model MX records? Let them refer to both A and AAAA record?
+
+  * How to model SOA
+
+  * Reverse DNS: Specify with IP? Do we have a default reverse name that
+    is created automagically (not stored in database)?
+
+  * Other types like server, txt, etc?
+
+- For really replacing redeemer we probably need to model the voip
+  stuff?
+
+Funkfeuer Redeemer import questions
+===================================
+
+"nodes" Table:
+--------------
+
+- node doesn't have a height (above ground)?
+- id_members is the owner of that node?
+- id_tech_c  is the technical contact (whois) of that node?
+- what does the boolean "map" parameter: if false don't show the node in
+  the map?
+
+"devices" Table:
+----------------
+
+- for field "antenna" do we only have the name? No other parameters? The
+  antenna field isn't structured, so everybody can put something in
+  there? Looks like this info there is currently not of much value, but
+  maybe we can come up with a list of used devices and use some
+  guesswork to link this information. As-is it probably doesn't make
+  much sense to import this? Needed:
+
+  - Antenna type parameters like radiation pattern, manufacturer, name
+  - concrete antenna parameters like inclination, azimuth, height
+    relative to node, ...
+- 'hardware' seems to be something like the device type -- again we
+  should prepare a list and try to match the values in there to
+  something that has been confirmed to exist.
+- mac should be a parameter of the network interface (or radio
+  interface)
+- ssid is a parameter of the network interface
+- smokeping (bool): ?
+- why is last_seen a timestamp *without* timezone and created/changed is
+  a timestamp *with* timezone? We'll probably convert the
+  created/changed to the internal data structures of the framework (it
+  maintains this info for each object) and leave out the last_seen from
+  the static configuration?
+- id_nodes is the link to the node, right?
+- Why do we have an id_members here? Can we have devices that do not
+  belong to the node owner?
+- What does delete_mail do?
+- If a node is delete_protected, who can change this flag? Shouldn't the
+  node owner be permitted to edit this anyway? Can we come up with a
+  permission scheme that makes this attribute obsolete?
+- How can I determine if this is a wired or a wireless device? Or do we
+  only have wireless devices? How do you currently handle the case that
+  you have several interfaces on one device? If this is handled by
+  several devices, how can I find out which devices are really just
+  interfaces of the same physical device?
+  
+Instead of "comment" fields I tend to add a list of messages to each
+node/device etc and the owner (plus maybe members listed on a "nosy"
+list) will get a new comment via email. Similar to bug-tracking with
+roundup...
+
+"ips" Table:
+------------
+
+- cidr is the netmask? These mostly contain 22 and 24 I would have
+  expected to have single-ip assignments (with mask 32).
+- dns_forward: A-Record?
+- custom_forward: second A-Record defined by user?
+- dns_reverse: Reverse DNS record (PTR)
+- custom_reverse: hmm, why do we need this? There can only be one
+  Reverse entry per IP?
+- id_devices: device to which this ip belongs
+- id_members: Why do we need this? Can a member reserve an IP without a
+  device? Looks like exactly this happens, we have some ips that have
+  NULL in the id_devices and a value in id_members.
+- id_nodes: huh? We already have assigned the IP to a device and a
+  device to a node? These are all None afaik.
+- what is 'usage'? This only has the value "main" afaik.
+- we need to come up with a good model of DNS records, see also the
+  Questions link above.
+
+"voip_extension" and "voip_sip" Tables:
+---------------------------------------
+
+Are these currently in use? What info needs to be retained?
+
+"roles" and "members_roles" Tables:
+-----------------------------------
+
+Can we have a description of the current permission scheme?

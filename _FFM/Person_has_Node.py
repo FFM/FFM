@@ -1,6 +1,6 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Dr. Ralf Schlatterbeck All rights reserved
-# Reichergasse 131, A--3411 Weidling, Austria. rsc@runtux.com
+# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
 #
@@ -20,34 +20,31 @@
 #
 #++
 # Name
-#    FFM.IP_Network
+#    FFM.Person_has_Node
 #
 # Purpose
-#    Model network interfaces in FFM
+#    Model the ownership of Nodes
 #
 # Revision Dates
-#    18-May-2012 (RS) Creation
-#    22-May-2012 (RS) Add `net_mask`
-#    23-May-2012 (RS) Use `_A_IP_Address_` for `net_address`
-#    13-Aug-2012 (RS) Make `IP_Network.net_address` descendant of
-#                     `_A_Composite_IP_Address_`, remove `net_mask`,
-#                     set is_partial
+#    20-Jul-2012 (RS) Creation
 #    ««revision-date»»···
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
 
-from   _MOM.import_MOM          import *
-from   _FFM                     import FFM
+from   _MOM.import_MOM        import *
+from   _FFM                   import FFM
 
-from   _GTW._OMP._NET.Attr_Type import *
+from   _FFM.Attr_Type         import *
+from   _GTW._OMP._PAP         import PAP
 
-_Ancestor_Essence = FFM.Object
+import _FFM.Node
+import _GTW._OMP._PAP.Person
 
-class IP_Network (_Ancestor_Essence) :
-    """IP Network of FFM"""
+_Ancestor_Essence = FFM.Link2
 
-    is_partial = True
+class Person_has_Node (_Ancestor_Essence) :
+    """Node owned by Person"""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
@@ -55,19 +52,28 @@ class IP_Network (_Ancestor_Essence) :
 
         ### Primary attributes
 
-        class net_address (_A_Composite_IP_Address_) :
-            """Network address."""
+        class left (_Ancestor.left) :
+            """Person."""
 
-            kind               = Attr.Primary
+            role_type          = PAP.Person
+            auto_cache         = True
 
-        # end class net_address
+        # end class left
+
+        class right (_Ancestor.right) :
+            """Node."""
+
+            role_type          = FFM.Node
+            auto_cache         = True
+
+        # end class right
 
         ### Non-primary attributes
 
     # end class _Attributes
 
-# end class IP_Network
+# end class Person_has_Node
 
 if __name__ != "__main__" :
     FFM._Export ("*")
-### __END__ FFM.IP_Network
+### __END__ FFM.Person_has_Node
