@@ -3,3 +3,32 @@ Rename FFM to nodedb ("NDB"?) because it is actually a more common thing not jus
 
 generalize wireless interface?
 
+
+steps on the critical path
+==========================
+* We have a pool of IP addresses. Write IP address allocator for FF
+  define ranges for IP addresses. housing is one zone, freenet another zone, CONFINE a third zone
+* Generate DNS zone files for DNS <-> IP address matching. 
+Forward und reverse zone
+AI: Aaron gives sample DNS Bind zone files.
+AI: Aaron gives sample DNS server for testing
+AI: Ralf -> fill in the template files
+
+We must be able to assign IP addresses to CONFINE nodes/devices
+
+* simple initial monitoring:
+Generate smokeping template files. 
+AI: aaron gives sample
+AI: Ralf: generate files based on sample. Try it out with smokeping on a server for all of FF ip addresses.
+Compare with marvin smokeping
+
+* Integration with SFA:
+  SFA needs to know the REST API. This must be described, understood by the ppl in Barcelona and they must
+be able to query and insert and delete (CRUD) values into the nodeDB. 
+Barcelona has access to a test playground DB (ffm.gg32?)
+Deadline: begining Sept.
+
+* Generate simple user interface a la Django for editing nodes, devices, IP addresses, add and edit users, etc.
+CRUD services
+
+

@@ -59,8 +59,20 @@ class Wireless_Interface (_Ancestor_Essence) :
 
         # end class protocol
 
-        ### XXX channels?
+        ### channels, bwandwidth, all kind of PHY parameters
+        ## XXX FIXME : table channel <-> freq would be practical.
+        class frequency (A_Frequency) :
+            example           = "2480"
+            ui_name           = "Frequency"
+            kind              = Attr.Optional
 
+        class txpower (A_Float) :
+            """Transmit power in dBm."""
+            kind               = Attr.Optional
+
+        # end class power
+
+        ### MAC parameters
         class is_hidden (A_Boolean) :
             """???"""
 
@@ -68,23 +80,24 @@ class Wireless_Interface (_Ancestor_Essence) :
 
         # end class is_hidden
 
-        class power (A_Float) :
-            """Transmit power in dBm."""
-
-            kind               = Attr.Optional
-
-        # end class power
-
-        class ssid (A_String) :
+        class essid (A_String) :
             """Network name."""
 
             example            = "freiesnetz.www.funkfeuer.at"
-            kind               = Attr.Necessary
+            kind               = Attr.Optional
             max_length         = 32
-            ui_name            = "SSID"
+            ui_name            = "ESSID"
 
         # end class ssid
 
+        class bssid (A_MAC_Address) :
+            """Cell name."""
+            example            = "de:ad:be:ef:00:01"
+            kind               = Attr.Optional
+            max_length         = 32
+            ui_name            = "BSSID"
+
+        
     # end class _Attributes
 
 # end class Wireless_Interface
