@@ -1,0 +1,5 @@
+
+Rename FFM to nodedb ("NDB"?) because it is actually a more common thing not just FF
+
+generalize wireless interface?
+
