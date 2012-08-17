@@ -257,3 +257,15 @@ Are these currently in use? What info needs to be retained?
 -----------------------------------
 
 Can we have a description of the current permission scheme?
+
+IP-Address allocators
+---------------------
+
+- one-by-one to an interface
+- subnet allocator with a responsible person or node
+  e.g. subnet from range of subnets which is associated with a postal
+  code (guifi.net). postal code is associated with a routing zone or
+  zone
+
+one allocator per ip-range, allocators are implemented on demand and
+selectable via the database.

@@ -7,7 +7,9 @@ generalize wireless interface?
 steps on the critical path
 ==========================
 * We have a pool of IP addresses. Write IP address allocator for FF
-  define ranges for IP addresses. housing is one zone, freenet another zone, CONFINE a third zone
+  define ranges for IP addresses. housing is one zone, freenet another
+  zone, CONFINE a third zone
+  IP-Pools are associated with a Zone (or Routing Zone ?)
 * Generate DNS zone files for DNS <-> IP address matching. 
 Forward und reverse zone
 AI: Aaron gives sample DNS Bind zone files.
