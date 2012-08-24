@@ -20,17 +20,13 @@
 #
 #++
 # Name
-#    FFM.import_FFM
+#    FFM.Wireless_Standard
 #
 # Purpose
-#    Import FFM object model
+#    Model a wireless standard
 #
 # Revision Dates
-#     6-Mar-2012 (CT) Creation
-#    10-May-2012 (CT) Add `Node_has_Net_Device`, `Wired_Interface`, `Net_Link`
-#    20-Aug-2012 (RS) Add `Wireless_Standard`, `Wireless_Channel`
-#                    `Regulatory_Domain`, `Regulatory_Permission`,
-#                    `Wireless_Interface_uses_Wireless_Channel`
+#    20-Aug-2012 (RS) Creation
 #    ««revision-date»»···
 #--
 
@@ -41,38 +37,36 @@ from   _FFM                   import FFM
 
 import _FFM.Entity
 
-import _FFM.Antenna
-import _FFM.Antenna_Type
-import _FFM.Device
-import _FFM.Device_Type
-import _FFM.Firmware
-import _FFM.IP4_Network
-import _FFM.IP_Network
-import _FFM.Net_Credentials
-import _FFM.Net_Device
-import _FFM.Net_Device_Type
-import _FFM.Net_Interface
-import _FFM.Node
-import _FFM.Regulatory_Domain
-import _FFM.Regulatory_Permission
-import _FFM.Routing_Zone
-import _FFM.Wired_Interface
-import _FFM.Wireless_Channel
-import _FFM.Wireless_Interface
-import _FFM.Wireless_Standard
+_Ancestor_Essence = FFM.Object
 
-import _FFM.Wireless_Mode
-import _FFM.Zone
+class Wireless_Standard (_Ancestor_Essence) :
+    """Wireless standard"""
 
-import _FFM.Device_Type_made_by_Company
-import _FFM.Net_Interface_in_IP4_Network
-import _FFM.Net_Interface_in_IP_Network
-import _FFM.Net_Link
-import _FFM.Node_has_Net_Device
-import _FFM.Person_has_Node
-import _FFM.Wired_Link
-import _FFM.Wireless_Interface_uses_Antenna
-import _FFM.Wireless_Interface_uses_Wireless_Channel
-import _FFM.Wireless_Link
+    class _Attributes (_Ancestor_Essence._Attributes) :
 
-### __END__ FFM.import_FFM
+        _Ancestor = _Ancestor_Essence._Attributes
+
+        class name (A_String) :
+            """Name of the standard"""
+
+            kind               = Attr.Primary
+            max_length         = 20
+            ignore_case        = True
+            completer          = Attr.Completer_Spec  (2, Attr.Selector.primary)
+
+        # end class name
+
+        class bandwidth (A_Frequency) :
+            """Bandwidth of a channel"""
+
+            kind               = Attr.Necessary
+
+        # end class bandwidth
+
+    # end class _Attributes
+
+# end class Wireless_Standard
+
+if __name__ != "__main__" :
+    FFM._Export ("*")
+### __END__ FFM.Wireless_Standard

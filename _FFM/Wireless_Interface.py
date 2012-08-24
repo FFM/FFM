@@ -29,15 +29,20 @@
 #    14-Mar-2012 (CT) Creation
 #    10-May-2012 (CT) Change `protocol` and `ssid` from `Required` to
 #                     `Necessary`
+#    17-Aug-2012 (AK) `SSID` -> `ESSID`, add `BSSID`, `power` -> `tx_power`
+#                     add `frequency`
+#    20-Aug-2012 (RS) cleanup, remove `frequency`, use `A_TX_Power`
 #    ««revision-date»»···
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
 
-from   _MOM.import_MOM        import *
-from   _FFM                   import FFM
+from   _MOM.import_MOM          import *
+from   _FFM                     import FFM
 
-from   _FFM.Attr_Type         import *
+from   _GTW._OMP._NET.Attr_Type import *
+
+from   _FFM.Attr_Type           import *
 import _FFM.Net_Interface
 
 _Ancestor_Essence = FFM.Net_Interface
@@ -59,26 +64,13 @@ class Wireless_Interface (_Ancestor_Essence) :
 
         # end class protocol
 
-        ### channels, bwandwidth, all kind of PHY parameters
-        ## XXX FIXME : table channel <-> freq would be practical.
-        class frequency (A_Frequency) :
-            example           = "2480"
-            ui_name           = "Frequency"
-            kind              = Attr.Optional
+        class txpower (A_TX_Power) :
+            """Transmit power with unit (units of dBW or W)."""
 
-        class txpower (A_Float) :
-            """Transmit power in dBm."""
             kind               = Attr.Optional
+            ui_name            = "TX power"
 
         # end class power
-
-        ### MAC parameters
-        class is_hidden (A_Boolean) :
-            """???"""
-
-            kind               = Attr.Optional
-
-        # end class is_hidden
 
         class essid (A_String) :
             """Network name."""
@@ -88,16 +80,25 @@ class Wireless_Interface (_Ancestor_Essence) :
             max_length         = 32
             ui_name            = "ESSID"
 
-        # end class ssid
+        # end class essid
 
         class bssid (A_MAC_Address) :
             """Cell name."""
-            example            = "de:ad:be:ef:00:01"
-            kind               = Attr.Optional
-            max_length         = 32
-            ui_name            = "BSSID"
 
-        
+            kind               = Attr.Optional
+            ui_name            = "BSSID"
+            example            = "de:ad:be:ef:00:01"
+
+        # end class bssid
+
+        ### MAC parameters
+        class is_hidden (A_Boolean) :
+            """???"""
+
+            kind               = Attr.Optional
+
+        # end class is_hidden
+
     # end class _Attributes
 
 # end class Wireless_Interface

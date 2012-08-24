@@ -20,17 +20,13 @@
 #
 #++
 # Name
-#    FFM.import_FFM
+#    FFM.Wireless_Interface_uses_Wireless_Channel
 #
 # Purpose
-#    Import FFM object model
+#    Model the channel used by a wireless interface
 #
 # Revision Dates
-#     6-Mar-2012 (CT) Creation
-#    10-May-2012 (CT) Add `Node_has_Net_Device`, `Wired_Interface`, `Net_Link`
-#    20-Aug-2012 (RS) Add `Wireless_Standard`, `Wireless_Channel`
-#                    `Regulatory_Domain`, `Regulatory_Permission`,
-#                    `Wireless_Interface_uses_Wireless_Channel`
+#    20-Aug-2012 (RS) Creation
 #    ««revision-date»»···
 #--
 
@@ -39,40 +35,45 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
 
-import _FFM.Entity
-
-import _FFM.Antenna
-import _FFM.Antenna_Type
-import _FFM.Device
-import _FFM.Device_Type
-import _FFM.Firmware
-import _FFM.IP4_Network
-import _FFM.IP_Network
-import _FFM.Net_Credentials
-import _FFM.Net_Device
-import _FFM.Net_Device_Type
-import _FFM.Net_Interface
-import _FFM.Node
-import _FFM.Regulatory_Domain
-import _FFM.Regulatory_Permission
-import _FFM.Routing_Zone
-import _FFM.Wired_Interface
+from   _FFM.Attr_Type         import *
 import _FFM.Wireless_Channel
 import _FFM.Wireless_Interface
-import _FFM.Wireless_Standard
 
-import _FFM.Wireless_Mode
-import _FFM.Zone
+_Ancestor_Essence = FFM.Link2
 
-import _FFM.Device_Type_made_by_Company
-import _FFM.Net_Interface_in_IP4_Network
-import _FFM.Net_Interface_in_IP_Network
-import _FFM.Net_Link
-import _FFM.Node_has_Net_Device
-import _FFM.Person_has_Node
-import _FFM.Wired_Link
-import _FFM.Wireless_Interface_uses_Antenna
-import _FFM.Wireless_Interface_uses_Wireless_Channel
-import _FFM.Wireless_Link
+class Wireless_Interface_uses_Wireless_Channel (_Ancestor_Essence) :
+    """Wireless channel used by a wireless interface"""
 
-### __END__ FFM.import_FFM
+    class _Attributes (_Ancestor_Essence._Attributes) :
+
+        _Ancestor = _Ancestor_Essence._Attributes
+
+        ### Primary attributes
+
+        class left (_Ancestor.left) :
+            """Wireless interface."""
+
+            role_type          = FFM.Wireless_Interface
+            auto_cache         = True
+            role_name          = "interface"
+
+        # end class left
+
+        class right (_Ancestor.right) :
+            """Wireless channel."""
+
+            role_type          = FFM.Wireless_Channel
+            auto_cache         = True
+            role_name          = "channel"
+
+        # end class right
+
+        ### Non-primary attributes
+
+    # end class _Attributes
+
+# end class Wireless_Interface_uses_Wireless_Channel
+
+if __name__ != "__main__" :
+    FFM._Export ("*")
+### __END__ FFM.Wireless_Interface_uses_Wireless_Channel

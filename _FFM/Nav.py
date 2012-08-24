@@ -31,6 +31,9 @@
 #    10-May-2012 (CT) Add `Wired_Interface`, `Wired_Link`, and `Wireless_Link`
 #    19-Jul-2012 (RS) Add `Person`
 #    20-Jul-2012 (RS) Add `Person_has_Node`
+#    20-Aug-2012 (RS) Add `Wireless_Standard`, `Wireless_Channel`,
+#                     `Regulatory_Domain`, `Regulatory_Permission`,
+#                     `Wireless_Interface_uses_Wireless_Channel`
 #    ««revision-date»»···
 #--
 
@@ -45,88 +48,104 @@ from   _TFL.I18N                import _
 class Admin (object) :
     """Provide configuration for GTW.NAV.E_Type.Admin entries"""
 
-    Antenna              = dict \
-        ( ETM            = "FFM.Antenna"
+    Antenna               = dict \
+        ( ETM             = "FFM.Antenna"
         )
 
-    Antenna_Type         = dict \
-        ( ETM            = "FFM.Antenna_Type"
+    Antenna_Type          = dict \
+        ( ETM             = "FFM.Antenna_Type"
         )
 
-    Firmware_Binary      = dict \
-        ( ETM            = "FFM.Firmware_Binary"
+    Firmware_Binary       = dict \
+        ( ETM             = "FFM.Firmware_Binary"
         )
 
-    Firmware_Bundle      = dict \
-        ( ETM            = "FFM.Firmware_Bundle"
+    Firmware_Bundle       = dict \
+        ( ETM             = "FFM.Firmware_Bundle"
         )
 
-    Firmware_Type        = dict \
-        ( ETM            = "FFM.Firmware_Type"
+    Firmware_Type         = dict \
+        ( ETM             = "FFM.Firmware_Type"
         )
 
-    Firmware_Version     = dict \
-        ( ETM            = "FFM.Firmware_Version"
+    Firmware_Version      = dict \
+        ( ETM             = "FFM.Firmware_Version"
         )
 
-    IP_Network           = dict \
-        ( ETM            = "FFM.IP_Network"
+    IP_Network            = dict \
+        ( ETM             = "FFM.IP_Network"
         )
 
-    IP4_Network          = dict \
-        ( ETM            = "FFM.IP4_Network"
+    IP4_Network           = dict \
+        ( ETM             = "FFM.IP4_Network"
         )
 
-    Net_Credentials      = dict \
-        ( ETM            = "FFM.Net_Credentials"
+    Net_Credentials       = dict \
+        ( ETM             = "FFM.Net_Credentials"
         )
 
-    Net_Device           = dict \
-        ( ETM            = "FFM.Net_Device"
+    Net_Device            = dict \
+        ( ETM             = "FFM.Net_Device"
         )
 
-    Net_Device_Type      = dict \
-        ( ETM            = "FFM.Net_Device_Type"
+    Net_Device_Type       = dict \
+        ( ETM             = "FFM.Net_Device_Type"
         )
 
-    Net_Interface        = dict \
-        ( ETM            = "FFM.Net_Interface"
+    Net_Interface         = dict \
+        ( ETM             = "FFM.Net_Interface"
         )
 
-    Node                 = dict \
-        ( ETM            = "FFM.Node"
+    Node                  = dict \
+        ( ETM             = "FFM.Node"
         )
 
-    Person               = dict \
-        ( ETM            = "PAP.Person"
+    Person                = dict \
+        ( ETM             = "PAP.Person"
         )
 
-    Routing_Zone         = dict \
-        ( ETM            = "FFM.Routing_Zone"
+    Regulatory_Domain     = dict \
+        ( ETM             = "FFM.Regulatory_Domain"
         )
 
-    Wired_Interface   = dict \
-        ( ETM            = "FFM.Wired_Interface"
+    Regulatory_Permission = dict \
+        ( ETM             = "FFM.Regulatory_Permission"
         )
 
-    Wired_Link   = dict \
-        ( ETM            = "FFM.Wired_Link"
+    Routing_Zone          = dict \
+        ( ETM             = "FFM.Routing_Zone"
         )
 
-    Wireless_Interface   = dict \
-        ( ETM            = "FFM.Wireless_Interface"
+    Wired_Interface       = dict \
+        ( ETM             = "FFM.Wired_Interface"
         )
 
-    Wireless_Link   = dict \
-        ( ETM            = "FFM.Wireless_Link"
+    Wired_Link            = dict \
+        ( ETM             = "FFM.Wired_Link"
         )
 
-    Wireless_Mode        = dict \
-        ( ETM            = "FFM.Wireless_Mode"
+    Wireless_Channel      = dict \
+        ( ETM             = "FFM.Wireless_Channel"
         )
 
-    Zone                 = dict \
-        ( ETM            = "FFM.Zone"
+    Wireless_Interface    = dict \
+        ( ETM             = "FFM.Wireless_Interface"
+        )
+
+    Wireless_Link         = dict \
+        ( ETM             = "FFM.Wireless_Link"
+        )
+
+    Wireless_Mode         = dict \
+        ( ETM             = "FFM.Wireless_Mode"
+        )
+
+    Wireless_Standard     = dict \
+        ( ETM             = "FFM.Wireless_Standard"
+        )
+
+    Zone                  = dict \
+        ( ETM             = "FFM.Zone"
         )
 
     if False :
@@ -152,6 +171,10 @@ class Admin (object) :
 
         Wireless_Interface_uses_Antenna = dict \
             ( ETM            = "FFM.Wireless_Interface_uses_Antenna"
+            )
+
+        Wireless_Interface_uses_Wireless_Channel = dict \
+            ( ETM            = "FFM.Wireless_Interface_uses_Wireless_Channel"
             )
 
 # end class Admin
