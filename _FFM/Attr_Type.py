@@ -28,10 +28,13 @@
 # Revision Dates
 #    14-Mar-2012 (CT) Creation
 #    20-Aug-2012 (RS) Add `A_TX_Power`
+#    27-Aug-2012 (RS) Add import of `math.log`
 #    ««revision-date»»···
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
+
+from   math                     import log
 
 from   _MOM.import_MOM          import *
 from   _MOM.import_MOM          import _A_Composite_, _A_Named_Value_
@@ -83,7 +86,7 @@ class A_TX_Power (_A_Unit_, _A_Float_) :
             if s == 'dbW' :
                 v += 30
         else :
-            v = math.log (v) * 10.
+            v = log (v) * 10.
         return v
     # end def _from_string
 

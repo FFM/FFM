@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    20-Aug-2012 (RS) Creation
+#    27-Aug-2012 (RS) Fix `bandwidth`
 #    ««revision-date»»···
 #--
 
@@ -63,13 +64,13 @@ class Regulatory_Permission (_Ancestor_Essence) :
 
         # end class band
 
-#        class bandwidth (A_Frequency) :
-#            """Maximum allowed bandwidth."""
-#
-#            kind               = Attr.Necessary
-#            example            = "20 MHz"
-#
-#        # end class bandwidth
+        class bandwidth (A_Frequency) :
+            """Maximum allowed bandwidth."""
+
+            kind               = Attr.Necessary
+            example            = "20 MHz"
+
+        # end class bandwidth
 
         class gain (A_Float) :
             """Maximum allowed antenna gain in dB."""

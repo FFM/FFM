@@ -223,36 +223,36 @@ def create (scope) :
     # FIXME: Use parser dbparse.py from above
     #        and import db.txt     from above
     dom = FFM.Regulatory_Domain (countrycode = "AT", raw = True)
-#    FFM.Regulatory_Permission \
-#        ( left      = dom
-#        , band      = dict (lower = "2402 MHz", upper = "2482 MHz")
-#        , bandwidth = "40 MHz"
-#        , eirp      = "20 dBm"
-#        , raw       = True
-#        )
-#    FFM.Regulatory_Permission \
-#        ( left      = dom
-#        , band      = dict (lower = "5170 MHz", upper = "5250 MHz")
-#        , bandwidth = "40 MHz"
-#        , eirp      = "20 dBm"
-#        , raw       = True
-#        )
-#    FFM.Regulatory_Permission \
-#        ( left      = dom
-#        , band      = dict (lower = "5250 MHz", upper = "5330 MHz")
-#        , bandwidth = "40 MHz"
-#        , eirp      = "20 dBm"
-#        , need_DFS  = "yes"
-#        , raw       = True
-#        )
-#    FFM.Regulatory_Permission \
-#        ( left      = dom
-#        , band      = dict (lower = "5490 MHz", upper = "5710 MHz")
-#        , bandwidth = "40 MHz"
-#        , eirp      = "27 dBm"
-#        , need_DFS  = "yes"
-#        , raw       = True
-#        )
+    FFM.Regulatory_Permission \
+        ( left      = dom
+        , band      = dict (lower = "2402 MHz", upper = "2482 MHz")
+        , bandwidth = "40 MHz"
+        , eirp      = "20 dBm"
+        , raw       = True
+        )
+    FFM.Regulatory_Permission \
+        ( left      = dom
+        , band      = dict (lower = "5170 MHz", upper = "5250 MHz")
+        , bandwidth = "40 MHz"
+        , eirp      = "20 dBm"
+        , raw       = True
+        )
+    FFM.Regulatory_Permission \
+        ( left      = dom
+        , band      = dict (lower = "5250 MHz", upper = "5330 MHz")
+        , bandwidth = "40 MHz"
+        , eirp      = "20 dBm"
+        , need_DFS  = "yes"
+        , raw       = True
+        )
+    FFM.Regulatory_Permission \
+        ( left      = dom
+        , band      = dict (lower = "5490 MHz", upper = "5710 MHz")
+        , bandwidth = "40 MHz"
+        , eirp      = "27 dBm"
+        , need_DFS  = "yes"
+        , raw       = True
+        )
     scope.commit ()
 # end def create
 
