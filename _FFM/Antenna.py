@@ -28,6 +28,7 @@
 # Revision Dates
 #     6-Mar-2012 (CT) Creation
 #    10-May-2012 (CT) Change `azimuth` and `orientation` to `A_Angle`
+#    30-Aug-2012 (CT) Add `gain`
 #    ««revision-date»»···
 #--
 
@@ -68,6 +69,22 @@ class Antenna (_Ancestor_Essence) :
               """
 
         # end class azimuth
+
+        class gain (A_Float) :
+            """Describes how well the antenna converts input power into radio
+               waves headed in a specified direction (in dBi). Per default,
+               `antenna_type.gain` is used, but can be overriden here.
+            """
+
+            kind               = Attr.Optional
+            Kind_Mixins        = (Attr.Computed_Mixin, )
+
+            def computed (self, obj) :
+                if self.left :
+                    return self.left.gain
+            # end def computed
+
+        # end class gain
 
         class inclination (A_Int) :
             """Inclination of the beam from the horizontal plane (in degrees)."""
