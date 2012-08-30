@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    27-Aug-2012 (RS) Creation
+#    30-Aug-2012 (CT) Rearrange graph, add more nodes/links
 #    ««revision-date»»···
 #--
 
@@ -45,21 +46,41 @@ import _MOM._Graph.Entity
 from   _TFL._D2               import Cardinal_Direction as CD
 
 def graph (app_type) :
+    ### To add::
+    # ET.FFM.Ad_Hoc_Mode
+    #   ( IS_A   = ET.FFM._Wireless_Mode_, offset = CD.SE)
+    # ET.FFM.AP_Mode
+    #   ( IS_A   = ET.FFM._Wireless_Mode_, offset = CD.S)
+    # ET.FFM.Client_Mode
+    #   ( IS_A   = ET.FFM._Wireless_Mode_, offset = CD.SW)
     return MOM.Graph.Spec.Graph \
         ( app_type
+        , ET.FFM.Device
+            ( E      = ET.FFM.Device_Type
+            , E2     = ET.FFM.Device_Type_made_by_Company
+                ( E      = ET.PAP.Company)
+            , S_W    = ET.FFM.Wireless_Interface_uses_Antenna
+                ( S      = ET.FFM.Wireless_Interface
+                    ( left = None
+                    , W2   = ET.FFM._Wireless_Mode_
+                    )
+                , N2     = ET.FFM.Antenna
+                    ( E2     = ET.FFM.Antenna_Type
+                        ( IS_A   = ET.FFM.Device_Type)
+                    )
+                )
+            )
         , ET.FFM.Net_Device
-            ( N      = ET.FFM.Device          (E = ET.FFM.Device_Type)
-            , E      = ET.FFM.Net_Device_Type ()
-            #, S      = ET.FFM.Net_Interface   (E = ET.FFM.Net_Credentials)
+            ( IS_A   = ET.FFM.Device (offset = CD.N)
+            , E      = ET.FFM.Net_Device_Type
+                ( IS_A   = ET.FFM.Device_Type)
+            , S      = ET.FFM.Net_Interface
+                ( E      = ET.FFM._Net_Credentials_)
             )
+        , ET.FFM.Wireless_Interface
+            ( IS_A   = ET.FFM.Net_Interface)
         , ET.FFM.Antenna
-            ( S      = ET.FFM.Device          ()
-            , E      = ET.FFM.Antenna_Type    ()
-            )
-#        , ET.FFM.Device_Type_made_by_Company
-#            ( E      = ET.PAP.Company         ()
-#            , W      = ET.FFM.Device_Type     ()
-#            )
+            ( IS_A   = ET.FFM.Device)
         )
 # end def graph
 
