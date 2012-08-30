@@ -252,14 +252,13 @@ class Convert (object) :
     def create_devices (self) :
         for d in self.contents ['devices'] :
             node = self.node_by_id [d.id_nodes]
-            name = ''.join ((node.name, d.name))
             if d.hardware :
                 devtype = self.ffm.Net_Device_Type.instance_or_new \
                     (name = d.hardware, raw = True)
             else :
                 devtype = self.ffm.Net_Device_Type.instance (name = 'Generic')
             dev = self.ffm.Net_Device \
-                (left = devtype, node = node, name = name, raw = True)
+                (left = devtype, node = node, name = d.name, raw = True)
             self.ffm.Node_has_Net_Device (node, dev)
     # end def create_devices
 
