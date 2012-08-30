@@ -127,7 +127,7 @@ class Convert (object) :
             t = ffm.Net_Device_Type.instance (name = "Generic", raw = True)
         else :
             t = ffm.Net_Device_Type.instance_or_new (name = devname, raw = True)
-        dev = ffm.Net_Device (left = t, name = name, raw = True)
+        dev = ffm.Net_Device (left = t, node = node, name = name, raw = True)
         ffm.Node_has_Net_Device (node, dev)
         for nif in element :
             if nif.tag == 'radio' :
@@ -238,14 +238,14 @@ class Convert (object) :
             prot = self.protocol_translate.get (prot, prot)
         if wif :
             assert (wif.raw_attr ('protocol') == prot)
-            assert (wif.ssid                  == ssid)
+            assert (wif.essid                 == ssid)
             assert (wif.mac_address           == mac)
         else :
             wif  = ffm.Wireless_Interface \
                 ( left        = device
                 , name        = name
                 , protocol    = prot
-                , ssid        = ssid
+                , essid       = ssid
                 , mac_address = mac
                 , raw         = True
                 )
