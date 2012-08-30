@@ -243,7 +243,7 @@ class Convert (object) :
             id = self.person_dupes.get (n.id_members, n.id_members)
             person = self.person_by_id.get (id)
             if person :
-                self.ffm.Person_has_Node (person, node)
+                self.ffm.Subject_owns_Node (person, node)
             else :
                 print "Node %s: id member %s not found" % (n.id, n.id_members)
             self.node_by_id [n.id] = node
@@ -258,7 +258,8 @@ class Convert (object) :
                     (name = d.hardware, raw = True)
             else :
                 devtype = self.ffm.Net_Device_Type.instance (name = 'Generic')
-            dev = self.ffm.Net_Device (left = devtype, name = name, raw = True)
+            dev = self.ffm.Net_Device \
+                (left = devtype, node = node, name = name, raw = True)
             self.ffm.Node_has_Net_Device (node, dev)
     # end def create_devices
 
