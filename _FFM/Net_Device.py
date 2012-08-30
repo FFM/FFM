@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #     6-Mar-2012 (CT) Creation
+#    30-Aug-2012 (CT) Add `primary` attribute `node`
 #    ««revision-date»»···
 #--
 
@@ -36,6 +37,7 @@ from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
 import _FFM.Device
 import _FFM.Net_Device_Type
+import _FFM.Node
 
 _Ancestor_Essence = FFM.Device
 
@@ -52,6 +54,14 @@ class Net_Device (_Ancestor_Essence) :
             role_type          = FFM.Net_Device_Type
 
         # end class left
+
+        class node (A_Id_Entity) :
+            """`Node` to which the `net_device` is connected."""
+
+            kind               = Attr.Primary
+            P_Type             = FFM.Node
+
+        # end class node
 
     # end class _Attributes
 
