@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    20-Jul-2012 (RS) Creation
+#    30-Aug-2012 (RS) Rename from `Person_has_Node`
 #    ««revision-date»»···
 #--
 
