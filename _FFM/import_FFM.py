@@ -32,6 +32,7 @@
 #                    `Regulatory_Domain`, `Regulatory_Permission`,
 #                    `Wireless_Interface_uses_Wireless_Channel`
 #    30-Aug-2012 (RS) `Person_has_Node` -> `Subject_owns_Node`
+#    30-Aug-2012 (RS) remove `Node_has_Net_Device`
 #    ««revision-date»»···
 #--
 
@@ -69,7 +70,6 @@ import _FFM.Device_Type_made_by_Company
 import _FFM.Net_Interface_in_IP4_Network
 import _FFM.Net_Interface_in_IP_Network
 import _FFM.Net_Link
-import _FFM.Node_has_Net_Device
 import _FFM.Subject_owns_Node
 import _FFM.Wired_Link
 import _FFM.Wireless_Interface_uses_Antenna
