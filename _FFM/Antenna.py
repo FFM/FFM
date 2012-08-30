@@ -80,8 +80,8 @@ class Antenna (_Ancestor_Essence) :
             Kind_Mixins        = (Attr.Computed_Mixin, )
 
             def computed (self, obj) :
-                if self.left :
-                    return self.left.gain
+                if obj.left :
+                    return obj.left.gain
             # end def computed
 
         # end class gain
