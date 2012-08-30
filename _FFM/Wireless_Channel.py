@@ -20,14 +20,13 @@
 #
 #++
 # Name
-#    FFM.Net_Device
+#    FFM.Wireless_Channel
 #
 # Purpose
-#    Model a network device of FFM
+#    Model a wireless standard
 #
 # Revision Dates
-#     6-Mar-2012 (CT) Creation
-#    30-Aug-2012 (CT) Add `primary` attribute `node`
+#    20-Aug-2012 (RS) Creation
 #    ««revision-date»»···
 #--
 
@@ -35,38 +34,45 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 
 from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
-import _FFM.Device
-import _FFM.Net_Device_Type
-import _FFM.Node
 
-_Ancestor_Essence = FFM.Device
+import _FFM.Entity
 
-class Net_Device (_Ancestor_Essence) :
-    """Model a network device of FFM."""
+_Ancestor_Essence = FFM.Link1
+
+class Wireless_Channel (_Ancestor_Essence) :
+    """Wireless channel of a wireless standard"""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
-        class left (_Ancestor.left) :
-            """Type of net device"""
+        class left (A_String) :
+            """The wireless standard for this channel"""
 
-            role_type          = FFM.Net_Device_Type
+            kind               = Attr.Primary
+            role_name          = 'standard'
 
         # end class left
 
-        class node (A_Id_Entity) :
-            """`Node` to which the `net_device` is connected."""
+        class number (A_Int) :
+            """number of this channel"""
 
             kind               = Attr.Primary
-            P_Type             = FFM.Node
 
-        # end class node
+        # end class number
+
+        class frequency (A_Frequency) :
+            """Center frequency of this channel"""
+
+            kind               = Attr.Necessary
+            example            = "2.412 GHz"
+
+        # end class frequency
 
     # end class _Attributes
 
-# end class Net_Device
+# end class Wireless_Channel
 
 if __name__ != "__main__" :
     FFM._Export ("*")
-### __END__ FFM.Net_Device
+### __END__ FFM.Wireless_Channel

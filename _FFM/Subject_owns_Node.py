@@ -20,14 +20,13 @@
 #
 #++
 # Name
-#    FFM.Net_Device
+#    FFM.Subject_owns_Node
 #
 # Purpose
-#    Model a network device of FFM
+#    Model the ownership of Nodes
 #
 # Revision Dates
-#     6-Mar-2012 (CT) Creation
-#    30-Aug-2012 (CT) Add `primary` attribute `node`
+#    20-Jul-2012 (RS) Creation
 #    ««revision-date»»···
 #--
 
@@ -35,38 +34,46 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 
 from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
-import _FFM.Device
-import _FFM.Net_Device_Type
+
+from   _FFM.Attr_Type         import *
+from   _GTW._OMP._PAP         import PAP
+
 import _FFM.Node
+import _GTW._OMP._PAP.Subject
 
-_Ancestor_Essence = FFM.Device
+_Ancestor_Essence = FFM.Link2
 
-class Net_Device (_Ancestor_Essence) :
-    """Model a network device of FFM."""
+class Subject_owns_Node (_Ancestor_Essence) :
+    """Node owned by Subject"""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
-        class left (_Ancestor.left) :
-            """Type of net device"""
+        ### Primary attributes
 
-            role_type          = FFM.Net_Device_Type
+        class left (_Ancestor.left) :
+            """Subject."""
+
+            role_type          = PAP.Subject
+            auto_cache         = True
 
         # end class left
 
-        class node (A_Id_Entity) :
-            """`Node` to which the `net_device` is connected."""
+        class right (_Ancestor.right) :
+            """Node."""
 
-            kind               = Attr.Primary
-            P_Type             = FFM.Node
+            role_type          = FFM.Node
+            auto_cache         = True
 
-        # end class node
+        # end class right
+
+        ### Non-primary attributes
 
     # end class _Attributes
 
-# end class Net_Device
+# end class Subject_owns_Node
 
 if __name__ != "__main__" :
     FFM._Export ("*")
-### __END__ FFM.Net_Device
+### __END__ FFM.Subject_owns_Node

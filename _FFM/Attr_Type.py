@@ -27,14 +27,20 @@
 #
 # Revision Dates
 #    14-Mar-2012 (CT) Creation
+#    20-Aug-2012 (RS) Add `A_TX_Power`
+#    27-Aug-2012 (RS) Add import of `math.log`
 #    ««revision-date»»···
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
 
+from   math                     import log
+
 from   _MOM.import_MOM          import *
 from   _MOM.import_MOM          import _A_Composite_, _A_Named_Value_
+from   _MOM.import_MOM          import _A_Unit_, _A_Float_
 from   _FFM                     import FFM
+from   _TFL.I18N                import _
 
 class A_Wireless_Protocol (_A_Named_Value_) :
     """An attribute selecting a specific wireless protocol."""
@@ -56,6 +62,35 @@ class A_Wireless_Protocol (_A_Named_Value_) :
         }
 
 # end class A_Wireless_Protocol
+
+class A_TX_Power (_A_Unit_, _A_Float_) :
+    """Transmit Power specified in units of W or dBW, dBm,
+       converted to dBm.
+    """
+
+    typ             = _ ("TX Power")
+    needs_raw_value = True
+    _unit_dict      = dict \
+        ( mW        = 1
+        ,  W        = 1.E3
+        , kW        = 1.E6
+        , MW        = 1.E9
+        , dBm       = 1
+        , dBmW      = 1 # alias for dBm, see http://en.wikipedia.org/wiki/DBm
+        , dBW       = 1
+        )
+
+    def _from_string (self, s, obj, glob, locl) :
+        v = self.__super._from_string (s, obj, glob, locl)
+        if s.startswith ('dB') :
+            if s == 'dbW' :
+                v += 30
+        else :
+            v = log (v) * 10.
+        return v
+    # end def _from_string
+
+# end class A_TX_Power
 
 __all__ = tuple \
     (  k for (k, v) in globals ().iteritems ()

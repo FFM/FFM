@@ -2,7 +2,7 @@
 # Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
-# This module is part of the package FFM.
+# This module is part of the package GTW.OMP.SRM.
 #
 # This module is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -20,54 +20,49 @@
 #
 #++
 # Name
-#    FFM.Node_has_Net_Device
+#    FFM.Graph
 #
 # Purpose
-#    Model the net-devices connected to a node
+#    Graph describing FFM (partial) object model
 #
 # Revision Dates
-#    10-May-2012 (CT) Creation
+#    27-Aug-2012 (RS) Creation
 #    ««revision-date»»···
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
 
-from   _MOM.import_MOM        import *
+from   _GTW                   import GTW
+from   _MOM                   import MOM
 from   _FFM                   import FFM
+from   _GTW._OMP._PAP         import PAP
 
-import _FFM.Node
-import _FFM.Net_Device
+import _FFM
 
+from   _MOM._Graph.Spec       import ET
+import _MOM._Graph.Entity
 
-_Ancestor_Essence = FFM.Link2
+from   _TFL._D2               import Cardinal_Direction as CD
 
-class Node_has_Net_Device (_Ancestor_Essence) :
-    """Network devices used by a node."""
-
-    class _Attributes (_Ancestor_Essence._Attributes) :
-
-        _Ancestor = _Ancestor_Essence._Attributes
-
-        ### Primary attributes
-
-        class left (_Ancestor.left) :
-            """Node using network devices"""
-
-            role_type          = FFM.Node
-
-        # end class left
-
-        class right (_Ancestor.right) :
-            """Network devices used by node"""
-
-            role_type          = FFM.Net_Device
-
-        # end class right
-
-    # end class _Attributes
-
-# end class Node_has_Net_Device
+def graph (app_type) :
+    return MOM.Graph.Spec.Graph \
+        ( app_type
+        , ET.FFM.Net_Device
+            ( N      = ET.FFM.Device          (E = ET.FFM.Device_Type)
+            , E      = ET.FFM.Net_Device_Type ()
+            #, S      = ET.FFM.Net_Interface   (E = ET.FFM.Net_Credentials)
+            )
+        , ET.FFM.Antenna
+            ( S      = ET.FFM.Device          ()
+            , E      = ET.FFM.Antenna_Type    ()
+            )
+#        , ET.FFM.Device_Type_made_by_Company
+#            ( E      = ET.PAP.Company         ()
+#            , W      = ET.FFM.Device_Type     ()
+#            )
+        )
+# end def graph
 
 if __name__ != "__main__" :
     FFM._Export ("*")
-### __END__ FFM.Node_has_Net_Device
+### __END__ FFM.Graph

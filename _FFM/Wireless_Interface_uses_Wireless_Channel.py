@@ -20,13 +20,13 @@
 #
 #++
 # Name
-#    FFM.Person_has_Node
+#    FFM.Wireless_Interface_uses_Wireless_Channel
 #
 # Purpose
-#    Model the ownership of Nodes
+#    Model the channel used by a wireless interface
 #
 # Revision Dates
-#    20-Jul-2012 (RS) Creation
+#    20-Aug-2012 (RS) Creation
 #    ««revision-date»»···
 #--
 
@@ -36,15 +36,13 @@ from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
 
 from   _FFM.Attr_Type         import *
-from   _GTW._OMP._PAP         import PAP
-
-import _FFM.Node
-import _GTW._OMP._PAP.Person
+import _FFM.Wireless_Channel
+import _FFM.Wireless_Interface
 
 _Ancestor_Essence = FFM.Link2
 
-class Person_has_Node (_Ancestor_Essence) :
-    """Node owned by Person"""
+class Wireless_Interface_uses_Wireless_Channel (_Ancestor_Essence) :
+    """Wireless channel used by a wireless interface"""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
@@ -53,18 +51,20 @@ class Person_has_Node (_Ancestor_Essence) :
         ### Primary attributes
 
         class left (_Ancestor.left) :
-            """Person."""
+            """Wireless interface."""
 
-            role_type          = PAP.Person
+            role_type          = FFM.Wireless_Interface
             auto_cache         = True
+            role_name          = "interface"
 
         # end class left
 
         class right (_Ancestor.right) :
-            """Node."""
+            """Wireless channel."""
 
-            role_type          = FFM.Node
+            role_type          = FFM.Wireless_Channel
             auto_cache         = True
+            role_name          = "channel"
 
         # end class right
 
@@ -72,8 +72,8 @@ class Person_has_Node (_Ancestor_Essence) :
 
     # end class _Attributes
 
-# end class Person_has_Node
+# end class Wireless_Interface_uses_Wireless_Channel
 
 if __name__ != "__main__" :
     FFM._Export ("*")
-### __END__ FFM.Person_has_Node
+### __END__ FFM.Wireless_Interface_uses_Wireless_Channel

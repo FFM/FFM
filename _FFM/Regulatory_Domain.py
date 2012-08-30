@@ -20,14 +20,13 @@
 #
 #++
 # Name
-#    FFM.Net_Device
+#    FFM.Regulatory_Domain
 #
 # Purpose
-#    Model a network device of FFM
+#    Model a wireless regulatory domain
 #
 # Revision Dates
-#     6-Mar-2012 (CT) Creation
-#    30-Aug-2012 (CT) Add `primary` attribute `node`
+#    20-Aug-2012 (RS) Creation
 #    ««revision-date»»···
 #--
 
@@ -35,38 +34,31 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 
 from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
-import _FFM.Device
-import _FFM.Net_Device_Type
-import _FFM.Node
 
-_Ancestor_Essence = FFM.Device
+import _FFM.Entity
 
-class Net_Device (_Ancestor_Essence) :
-    """Model a network device of FFM."""
+_Ancestor_Essence = FFM.Object
+
+class Regulatory_Domain (_Ancestor_Essence) :
+    """Wireless Regulatory Domain"""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
-        class left (_Ancestor.left) :
-            """Type of net device"""
-
-            role_type          = FFM.Net_Device_Type
-
-        # end class left
-
-        class node (A_Id_Entity) :
-            """`Node` to which the `net_device` is connected."""
+        class countrycode (A_String) :
+            """Two-letter country-code"""
 
             kind               = Attr.Primary
-            P_Type             = FFM.Node
+            max_length         = 2
+            ignore_case        = True
 
-        # end class node
+        # end class countrycode
 
     # end class _Attributes
 
-# end class Net_Device
+# end class Regulatory_Domain
 
 if __name__ != "__main__" :
     FFM._Export ("*")
-### __END__ FFM.Net_Device
+### __END__ FFM.Regulatory_Domain

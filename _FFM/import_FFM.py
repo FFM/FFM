@@ -28,6 +28,9 @@
 # Revision Dates
 #     6-Mar-2012 (CT) Creation
 #    10-May-2012 (CT) Add `Node_has_Net_Device`, `Wired_Interface`, `Net_Link`
+#    20-Aug-2012 (RS) Add `Wireless_Standard`, `Wireless_Channel`
+#                    `Regulatory_Domain`, `Regulatory_Permission`,
+#                    `Wireless_Interface_uses_Wireless_Channel`
 #    ««revision-date»»···
 #--
 
@@ -50,9 +53,13 @@ import _FFM.Net_Device
 import _FFM.Net_Device_Type
 import _FFM.Net_Interface
 import _FFM.Node
+import _FFM.Regulatory_Domain
+import _FFM.Regulatory_Permission
 import _FFM.Routing_Zone
 import _FFM.Wired_Interface
+import _FFM.Wireless_Channel
 import _FFM.Wireless_Interface
+import _FFM.Wireless_Standard
 
 import _FFM.Wireless_Mode
 import _FFM.Zone
@@ -65,6 +72,7 @@ import _FFM.Node_has_Net_Device
 import _FFM.Person_has_Node
 import _FFM.Wired_Link
 import _FFM.Wireless_Interface_uses_Antenna
+import _FFM.Wireless_Interface_uses_Wireless_Channel
 import _FFM.Wireless_Link
 
 ### __END__ FFM.import_FFM
