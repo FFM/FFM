@@ -20,7 +20,7 @@
 #
 #++
 # Name
-#    FFM.Person_has_Node
+#    FFM.Subject_owns_Node
 #
 # Purpose
 #    Model the ownership of Nodes
@@ -39,12 +39,12 @@ from   _FFM.Attr_Type         import *
 from   _GTW._OMP._PAP         import PAP
 
 import _FFM.Node
-import _GTW._OMP._PAP.Person
+import _GTW._OMP._PAP.Subject
 
 _Ancestor_Essence = FFM.Link2
 
-class Person_has_Node (_Ancestor_Essence) :
-    """Node owned by Person"""
+class Subject_owns_Node (_Ancestor_Essence) :
+    """Node owned by Subject"""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
@@ -53,9 +53,9 @@ class Person_has_Node (_Ancestor_Essence) :
         ### Primary attributes
 
         class left (_Ancestor.left) :
-            """Person."""
+            """Subject."""
 
-            role_type          = PAP.Person
+            role_type          = PAP.Subject
             auto_cache         = True
 
         # end class left
@@ -72,8 +72,8 @@ class Person_has_Node (_Ancestor_Essence) :
 
     # end class _Attributes
 
-# end class Person_has_Node
+# end class Subject_owns_Node
 
 if __name__ != "__main__" :
     FFM._Export ("*")
-### __END__ FFM.Person_has_Node
+### __END__ FFM.Subject_owns_Node
