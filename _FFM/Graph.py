@@ -28,6 +28,7 @@
 # Revision Dates
 #    27-Aug-2012 (RS) Creation
 #    30-Aug-2012 (CT) Rearrange graph, add more nodes/links
+#    31-Aug-2012 (CT) Adapt to MOM.Graph.Spec API change
 #    ««revision-date»»···
 #--
 
@@ -40,47 +41,53 @@ from   _GTW._OMP._PAP         import PAP
 
 import _FFM
 
-from   _MOM._Graph.Spec       import ET
+from   _MOM._Graph.Spec       import Attr, Child, ET, IS_A, Role, Skip
 import _MOM._Graph.Entity
 
 from   _TFL._D2               import Cardinal_Direction as CD
 
 def graph (app_type) :
-    ### To add::
-    # ET.FFM.Ad_Hoc_Mode
-    #   ( IS_A   = ET.FFM._Wireless_Mode_, offset = CD.SE)
-    # ET.FFM.AP_Mode
-    #   ( IS_A   = ET.FFM._Wireless_Mode_, offset = CD.S)
-    # ET.FFM.Client_Mode
-    #   ( IS_A   = ET.FFM._Wireless_Mode_, offset = CD.SW)
     return MOM.Graph.Spec.Graph \
         ( app_type
         , ET.FFM.Device
-            ( E      = ET.FFM.Device_Type
-            , E2     = ET.FFM.Device_Type_made_by_Company
-                ( E      = ET.PAP.Company)
-            , S_W    = ET.FFM.Wireless_Interface_uses_Antenna
-                ( S      = ET.FFM.Wireless_Interface
-                    ( left = None
-                    , W2   = ET.FFM._Wireless_Mode_
+            ( Role.left (offset = CD.E)
+            , ET.FFM.Device_Type_made_by_Company
+                ( Role.right (offset = CD.E)
+                , offset = CD.E * 2
+                )
+            , ET.FFM.Wireless_Interface_uses_Antenna
+                ( Role.left
+                    ( ET.FFM._Wireless_Mode_
+                        ( Child.FFM.Ad_Hoc_Mode (offset = CD.SW)
+                        , Child.FFM.AP_Mode     (offset = CD.S)
+                        , Child.FFM.Client_Mode (offset = CD.SE)
+                        , offset = CD.W * 2
+                        )
+                    , offset = CD.S
                     )
-                , N2     = ET.FFM.Antenna
-                    ( E2     = ET.FFM.Antenna_Type
-                        ( IS_A   = ET.FFM.Device_Type)
+                , Role.right
+                    ( ET.FFM.Antenna_Type
+                        ( IS_A.FFM.Device_Type
+                        , offset = CD.E * 2
+                        )
+                    , offset = CD.N * 2
                     )
+                , offset = CD.SW
                 )
             )
         , ET.FFM.Net_Device
-            ( IS_A   = ET.FFM.Device (offset = CD.N)
-            , E      = ET.FFM.Net_Device_Type
-                ( IS_A   = ET.FFM.Device_Type)
-            , S      = ET.FFM.Net_Interface
-                ( E      = ET.FFM._Net_Credentials_)
+            ( IS_A.FFM.Device (offset = CD.N)
+            , Role.left
+                ( IS_A.FFM.Device_Type
+                , offset = CD.E
+                )
+            , ET.FFM.Net_Interface
+                ( ET.FFM._Net_Credentials_ (offset = CD.E)
+                , offset = CD.S
+                )
             )
-        , ET.FFM.Wireless_Interface
-            ( IS_A   = ET.FFM.Net_Interface)
-        , ET.FFM.Antenna
-            ( IS_A   = ET.FFM.Device)
+        , ET.FFM.Wireless_Interface (IS_A.FFM.Net_Interface)
+        , ET.FFM.Antenna            (IS_A.FFM.Device)
         )
 # end def graph
 
