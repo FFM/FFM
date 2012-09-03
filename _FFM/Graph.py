@@ -50,10 +50,12 @@ def graph (app_type) :
     return MOM.Graph.Spec.Graph \
         ( app_type
         , ET.FFM.Device
-            ( Role.left (offset = CD.E)
-            , ET.FFM.Device_Type_made_by_Company
-                ( Role.right (offset = CD.E)
-                , offset = CD.E * 2
+            ( Role.left
+                ( ET.FFM.Device_Type_made_by_Company
+                    ( Role.right (offset = CD.E)
+                    , offset = CD.E
+                    )
+                , offset = CD.E
                 )
             , ET.FFM.Wireless_Interface_uses_Antenna
                 ( Role.left
@@ -61,7 +63,7 @@ def graph (app_type) :
                         ( Child.FFM.Ad_Hoc_Mode (offset = CD.SW)
                         , Child.FFM.AP_Mode     (offset = CD.S)
                         , Child.FFM.Client_Mode (offset = CD.SE)
-                        , offset = CD.W * 2
+                        , offset = CD.S
                         )
                     , offset = CD.S
                     )
@@ -87,7 +89,7 @@ def graph (app_type) :
                 )
             )
         , ET.FFM.Wireless_Interface (IS_A.FFM.Net_Interface)
-        , ET.FFM.Antenna            (IS_A.FFM.Device)
+        , ET.FFM.Antenna            (IS_A.FFM.Device (source_side = "E"))
         )
 # end def graph
 
