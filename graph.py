@@ -15,7 +15,7 @@ def _main (cmd) :
     if cmd.svg :
         r = SVG_Renderer (g)
         r.render ()
-        with open ("ffm.svg", "wb") as f :
+        with open ("doc/nodedb.svg", "wb") as f :
             r.canvas.write_to_xml_stream (f)
     else :
         r = Ascii_Renderer (g)
