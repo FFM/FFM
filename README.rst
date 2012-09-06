@@ -6,6 +6,25 @@ README for the FFM web app
 The FFM web app is an application that serves data about the network
 nodes deployed by www.funkfeuer.at.
 
+It uses the `tapyr framework`_.
+
+.. _`tapyr framework`: https://github.com/Tapyr/tapyr
+
+Object model
+------------
+
+This object model (in SVG format) is automagically redered using
+`graph.py`_, the result of the last run is kept under version control
+(so you can see our progress) in `nodedb.svg`_.
+
+.. _`nodedb.svg`: https://github.com/FFM/FFM/blob/master/doc/nodedb.svg
+.. _`graph.py`: https://github.com/FFM/FFM/blob/master/graph.py
+
+.. image:: https://raw.github.com/FFM/FFM/master/doc/nodedb.svg
+    :alt: Object model SVG
+    :target: https://github.com/FFM/FFM/blob/master/doc/nodedb.svg
+
+
 System requirements
 --------------------
 
@@ -34,27 +53,44 @@ System requirements
 
 - Python packages
 
-  * Babel
+  * `Babel`_
 
-  * dateutil
+  * `dateutil`_
 
-  * docutils
+  * `docutils`_
 
-  * flup
+  * `flup`_
 
-  * jinja2
+  * `jinja2`_
 
-  * plumbum
+  * `plumbum`_
 
-  * psycopg2 or the mysql package needed by sqlalchemy
+  * `psycopg2`_ or the `mysql package`_ needed by `sqlalchemy`_
 
-  * pytz
+  * `pytz`_
 
-  * rcssmin, rjsmin (for minimization of CSS and Javascript files)
+  * `rcssmin`_, `rjsmin`_ (for minimization of CSS and Javascript files)
 
-  * sqlalchemy
+  * `sqlalchemy`_
 
-  * werkzeug
+  * `werkzeug`_
+
+  All packages should be available via the `Python Package Index`_
+
+.. _`Babel`:         http://babel.edgewall.org/
+.. _`dateutil`:      http://labix.org/python-dateutil
+.. _`docutils`:      http://docutils.sourceforge.net/
+.. _`flup`:          http://trac.saddi.com/flup
+.. _`jinja2`:        http://jinja.pocoo.org/
+.. _`plumbum`:       http://plumbum.readthedocs.org/en/latest/index.html
+.. _`psycopg2`:      http://packages.python.org/psycopg2/
+.. _`mysql package`: http://mysql-python.sourceforge.net/
+.. _`pytz`:          http://pytz.sourceforge.net/
+.. _`rcssmin`:       http://opensource.perlig.de/rcssmin/
+.. _`rjsmin`:        http://opensource.perlig.de/rjsmin/
+.. _`sqlalchemy`:    http://www.sqlalchemy.org/
+.. _`werkzeug`:      http://werkzeug.pocoo.org/
+.. _`Python Package Index`: http://pypi.python.org/pypi
 
 
 How to install
