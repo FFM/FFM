@@ -34,6 +34,7 @@
 #    20-Aug-2012 (RS) Add `Wireless_Standard`, `Wireless_Channel`,
 #                     `Regulatory_Domain`, `Regulatory_Permission`,
 #                     `Wireless_Interface_uses_Wireless_Channel`
+#    06-Sep-2012 (RS) Remove `Node_has_Net_Device`
 #    ««revision-date»»···
 #--
 
@@ -159,10 +160,6 @@ class Admin (object) :
 
         Net_Interface_in_IP_Network = dict \
             ( ETM            = "FFM.Net_Interface_in_IP_Network"
-            )
-
-        Node_has_Net_Device = dict \
-            ( ETM            = "FFM.Node_has_Net_Device"
             )
 
         Person_has_Node = dict \
