@@ -259,7 +259,6 @@ class Convert (object) :
                 devtype = self.ffm.Net_Device_Type.instance (name = 'Generic')
             dev = self.ffm.Net_Device \
                 (left = devtype, node = node, name = d.name, raw = True)
-            self.ffm.Node_has_Net_Device (node, dev)
     # end def create_devices
 
     # first id is the one to remove, the second one is the correct one
