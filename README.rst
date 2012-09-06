@@ -1,7 +1,7 @@
 README for the FFM web app
 ===========================
 
-:Author: Christian Tanzer <swing.co.at>
+:Author: Christian Tanzer <tanzer@swing.co.at>
 
 The FFM web app is an application that serves data about the network
 nodes deployed by www.funkfeuer.at.
@@ -33,6 +33,8 @@ System requirements
   * its best to set up a separate account that runs FFM
 
 - Apache, with mod-fcgid installed
+
+  * or another webserver, e.g. nginx...
 
 - PostgreSQL (preferred) or mySQL
 
@@ -244,11 +246,11 @@ like the following::
     ### Byte compile python files
     $ python passive/www/app/deploy.py pycompile
 
-    ### Setup app cache
-    $ python passive/www/app/deploy.py setup_cache
-
     ### Migrate database from active to passive
     $ python passive/www/app/deploy.py migrate
+
+    ### Setup app cache
+    $ python passive/www/app/deploy.py setup_cache
 
   ### Switch active and passive branches
   $ python passive/www/app/deploy.py switch
@@ -256,4 +258,4 @@ like the following::
 Contact
 -------
 
-Christian Tanzer <swing.co.at>
+Christian Tanzer <tanzer@swing.co.at>
