@@ -201,7 +201,7 @@ msgstr[1] ""
 
 #: _MOM._Attr.Number_Interval:0
 msgid "Floating-point attribute."
-msgstr ""
+msgstr "Gleitkommazahliges Attribut."
 
 #: _MOM._Attr.Number_Interval:0
 msgid "Freqency_Interval"
@@ -434,9 +434,8 @@ msgid "Name of the zone"
 msgstr "Name der Zone"
 
 #: _FFM.IP_Network:0 _FFM.IP4_Network:0
-#, fuzzy
 msgid "Net address"
-msgstr "Mac Adresse"
+msgstr "Netzadresse"
 
 #: _FFM.Node_has_Net_Device:0
 msgid "Net device"
@@ -564,7 +563,7 @@ msgstr "Revisionsnummer der Gerätetyphardware."
 
 #: _FFM.Net_Link:0 _FFM.Wired_Link:0 _FFM.Wireless_Link:0
 msgid "Right network interface"
-msgstr ""
+msgstr "Rechte Netzwerkschnittstelle"
 
 #: _FFM.Routing_Zone:0
 msgid "Routing zone using the OLSR routing protocol."
@@ -728,7 +727,7 @@ msgstr[1] "Zonen"
 
 #: _FFM.Wireless_Link:0
 msgid "`left.mode` and `right.mode` must be linkable to each other."
-msgstr ""
+msgstr "Der `linke` und der `rechte` Modus müssen verknüpfbar sein."
 
 #: _FFM.Net_Link:0
 msgid "`left` and `right` must be different objects!"
