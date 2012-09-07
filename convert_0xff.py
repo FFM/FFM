@@ -96,6 +96,15 @@ def sql_timestamp_with_zone (ts) :
     return d.replace (tzinfo = tz)
 # end def sql_timestamp_with_zone
 
+def make_naive (dt) :
+    """Make a naive datetime object."""
+    offs = dt.utcoffset ()
+    if offs is None :
+        return dt
+    x = dt.replace (tzinfo = None)
+    return x - offs
+# end make_naive
+
 class adict (UserDict) :
     def __getattr__ (self, key) :
         if key in self :
@@ -208,6 +217,13 @@ class Convert (object) :
             raise ValueError, "Invalid timestamp spec: %s" % rest
     # end def type_timestamp
 
+    def set_last_change (self, obj, dt) :
+        dt = make_naive (dt)
+        lc = obj.changes ().order_by (TFL.Sorted_By ("-cid")).first ()
+        lc.time = dt
+        print obj.last_changed
+    # end def set_last_change
+
     def create_nodes (self) :
         for n in self.contents ['nodes'] :
             gps = None
@@ -239,6 +255,7 @@ class Convert (object) :
             #gps ['raw'] = True
             #node = self.ffm.Node (name = n.name, position = gps, raw = True)
             node = self.ffm.Node (name = n.name, position = gps)
+            self.set_last_change (node, n.changed or n.created)
             assert (node)
             id = self.person_dupes.get (n.id_members, n.id_members)
             person = self.person_by_id.get (id)
