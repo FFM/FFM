@@ -98,6 +98,8 @@ def sql_timestamp_with_zone (ts) :
 
 def make_naive (dt) :
     """Make a naive datetime object."""
+    if dt is None :
+        return dt
     offs = dt.utcoffset ()
     if offs is None :
         return dt
@@ -217,11 +219,12 @@ class Convert (object) :
             raise ValueError, "Invalid timestamp spec: %s" % rest
     # end def type_timestamp
 
-    def set_last_change (self, obj, dt) :
-        dt = make_naive (dt)
-        lc = obj.changes ().order_by (TFL.Sorted_By ("-cid")).first ()
-        lc.time = dt
-        print obj.last_changed
+    def set_last_change (self, obj, change_time, create_time) :
+        change_time = make_naive (change_time)
+        create_time = make_naive (create_time)
+        self.scope.ems.convert_creation_change \
+            (obj.pid, c_time = create_time, time = change_time or create_time)
+        #print obj, obj.creation_date, obj.last_changed
     # end def set_last_change
 
     def create_nodes (self) :
@@ -252,10 +255,8 @@ class Convert (object) :
                 if n.gps_lon_sec is not None :
                     lon = lon + " %f s" % n.gps_lon_sec
                 gps = dict (lat = lat, lon = lon)
-            #gps ['raw'] = True
-            #node = self.ffm.Node (name = n.name, position = gps, raw = True)
             node = self.ffm.Node (name = n.name, position = gps)
-            self.set_last_change (node, n.changed or n.created)
+            self.set_last_change (node, n.changed, n.created)
             assert (node)
             id = self.person_dupes.get (n.id_members, n.id_members)
             person = self.person_by_id.get (id)
@@ -276,6 +277,7 @@ class Convert (object) :
                 devtype = self.ffm.Net_Device_Type.instance (name = 'Generic')
             dev = self.ffm.Net_Device \
                 (left = devtype, node = node, name = d.name, raw = True)
+            self.set_last_change (dev, d.changed, d.created)
     # end def create_devices
 
     # first id is the one to remove, the second one is the correct one
@@ -327,6 +329,7 @@ class Convert (object) :
                 , last_name  = m.lastname
                 , raw        = True
                 )
+            self.set_last_change (person, m.changed, m.created)
             self.person_by_id [m.id] = person
             street  = ' '.join (x for x in (m.street, m.housenumber) if x)
             if street or m.town or m.zip :
