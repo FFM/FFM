@@ -24,6 +24,12 @@ This object model (in SVG format) is automagically redered using
     :alt: Object model SVG
     :target: https://github.com/FFM/FFM/blob/master/doc/nodedb.svg
 
+To render the svn to a png file with inkscape, use::
+
+    inkscape -y 1 -e doc/nodedb.png doc/nodedb.svg
+
+The -y option sets the background opacity, when not specified you'll get
+a black background in the exported .png.
 
 System requirements
 --------------------
