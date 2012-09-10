@@ -20,7 +20,7 @@ This object model (in SVG format) is automagically redered using
 .. _`nodedb.svg`: https://github.com/FFM/FFM/blob/master/doc/nodedb.svg
 .. _`graph.py`: https://github.com/FFM/FFM/blob/master/graph.py
 
-.. image:: https://raw.github.com/FFM/FFM/master/doc/nodedb.svg
+.. image:: https://raw.github.com/FFM/FFM/master/doc/nodedb.png
     :alt: Object model SVG
     :target: https://github.com/FFM/FFM/blob/master/doc/nodedb.svg
 
