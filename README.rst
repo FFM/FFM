@@ -20,10 +20,16 @@ This object model (in SVG format) is automagically redered using
 .. _`nodedb.svg`: https://github.com/FFM/FFM/blob/master/doc/nodedb.svg
 .. _`graph.py`: https://github.com/FFM/FFM/blob/master/graph.py
 
-.. image:: https://raw.github.com/FFM/FFM/master/doc/nodedb.svg
+.. image:: https://raw.github.com/FFM/FFM/master/doc/nodedb.png
     :alt: Object model SVG
     :target: https://github.com/FFM/FFM/blob/master/doc/nodedb.svg
 
+To render the svn to a png file with inkscape, use::
+
+    inkscape -y 1 -e doc/nodedb.png doc/nodedb.svg
+
+The -y option sets the background opacity, when not specified you'll get
+a black background in the exported .png.
 
 System requirements
 --------------------
