@@ -165,6 +165,9 @@ like the following::
   $ vi passive/www/.ffm.config
       db_name       = "ffm2"
 
+  ### Define PYTHONPATH
+  $ export PYTHONPATH=/home/ffm/active/lib
+
   ### Create a fcgi script for Apache
   $ python active/www/app/deploy.py fcgi_script > fcgi/app_server.fcgi
 
