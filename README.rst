@@ -1,10 +1,35 @@
 README for the FFM web app
 ===========================
 
-:Author: Christian Tanzer <swing.co.at>
+:Author: Christian Tanzer <tanzer@swing.co.at>
 
 The FFM web app is an application that serves data about the network
 nodes deployed by www.funkfeuer.at.
+
+It uses the `tapyr framework`_.
+
+.. _`tapyr framework`: https://github.com/Tapyr/tapyr
+
+Object model
+------------
+
+This object model (in SVG format) is automagically redered using
+`graph.py`_, the result of the last run is kept under version control
+(so you can see our progress) in `nodedb.svg`_.
+
+.. _`nodedb.svg`: https://github.com/FFM/FFM/blob/master/doc/nodedb.svg
+.. _`graph.py`: https://github.com/FFM/FFM/blob/master/graph.py
+
+.. image:: https://raw.github.com/FFM/FFM/master/doc/nodedb.png
+    :alt: Object model SVG
+    :target: https://github.com/FFM/FFM/blob/master/doc/nodedb.svg
+
+To render the svn to a png file with inkscape, use::
+
+    inkscape -y 1 -e doc/nodedb.png doc/nodedb.svg
+
+The -y option sets the background opacity, when not specified you'll get
+a black background in the exported .png.
 
 System requirements
 --------------------
@@ -14,6 +39,8 @@ System requirements
   * its best to set up a separate account that runs FFM
 
 - Apache, with mod-fcgid installed
+
+  * or another webserver, e.g. nginx...
 
 - PostgreSQL (preferred) or mySQL
 
@@ -34,27 +61,44 @@ System requirements
 
 - Python packages
 
-  * Babel
+  * `Babel`_
 
-  * dateutil
+  * `dateutil`_
 
-  * docutils
+  * `docutils`_
 
-  * flup
+  * `flup`_
 
-  * jinja2
+  * `jinja2`_
 
-  * plumbum
+  * `plumbum`_
 
-  * psycopg2 or the mysql package needed by sqlalchemy
+  * `psycopg2`_ or the `mysql package`_ needed by `sqlalchemy`_
 
-  * pytz
+  * `pytz`_
 
-  * rcssmin, rjsmin (for minimization of CSS and Javascript files)
+  * `rcssmin`_, `rjsmin`_ (for minimization of CSS and Javascript files)
 
-  * sqlalchemy
+  * `sqlalchemy`_
 
-  * werkzeug
+  * `werkzeug`_
+
+  All packages should be available via the `Python Package Index`_
+
+.. _`Babel`:         http://babel.edgewall.org/
+.. _`dateutil`:      http://labix.org/python-dateutil
+.. _`docutils`:      http://docutils.sourceforge.net/
+.. _`flup`:          http://trac.saddi.com/flup
+.. _`jinja2`:        http://jinja.pocoo.org/
+.. _`plumbum`:       http://plumbum.readthedocs.org/en/latest/index.html
+.. _`psycopg2`:      http://packages.python.org/psycopg2/
+.. _`mysql package`: http://mysql-python.sourceforge.net/
+.. _`pytz`:          http://pytz.sourceforge.net/
+.. _`rcssmin`:       http://opensource.perlig.de/rcssmin/
+.. _`rjsmin`:        http://opensource.perlig.de/rjsmin/
+.. _`sqlalchemy`:    http://www.sqlalchemy.org/
+.. _`werkzeug`:      http://werkzeug.pocoo.org/
+.. _`Python Package Index`: http://pypi.python.org/pypi
 
 
 How to install
@@ -120,6 +164,9 @@ like the following::
       db_name       = "ffm1"
   $ vi passive/www/.ffm.config
       db_name       = "ffm2"
+
+  ### Define PYTHONPATH
+  $ export PYTHONPATH=/home/ffm/active/lib
 
   ### Create a fcgi script for Apache
   $ python active/www/app/deploy.py fcgi_script > fcgi/app_server.fcgi
@@ -208,11 +255,11 @@ like the following::
     ### Byte compile python files
     $ python passive/www/app/deploy.py pycompile
 
-    ### Setup app cache
-    $ python passive/www/app/deploy.py setup_cache
-
     ### Migrate database from active to passive
     $ python passive/www/app/deploy.py migrate
+
+    ### Setup app cache
+    $ python passive/www/app/deploy.py setup_cache
 
   ### Switch active and passive branches
   $ python passive/www/app/deploy.py switch
@@ -220,4 +267,4 @@ like the following::
 Contact
 -------
 
-Christian Tanzer <swing.co.at>
+Christian Tanzer <tanzer@swing.co.at>

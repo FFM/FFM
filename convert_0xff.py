@@ -96,6 +96,17 @@ def sql_timestamp_with_zone (ts) :
     return d.replace (tzinfo = tz)
 # end def sql_timestamp_with_zone
 
+def make_naive (dt) :
+    """Make a naive datetime object."""
+    if dt is None :
+        return dt
+    offs = dt.utcoffset ()
+    if offs is None :
+        return dt
+    x = dt.replace (tzinfo = None)
+    return x - offs
+# end make_naive
+
 class adict (UserDict) :
     def __getattr__ (self, key) :
         if key in self :
@@ -208,6 +219,14 @@ class Convert (object) :
             raise ValueError, "Invalid timestamp spec: %s" % rest
     # end def type_timestamp
 
+    def set_last_change (self, obj, change_time, create_time) :
+        change_time = make_naive (change_time)
+        create_time = make_naive (create_time)
+        self.scope.ems.convert_creation_change \
+            (obj.pid, c_time = create_time, time = change_time or create_time)
+        #print obj, obj.creation_date, obj.last_changed
+    # end def set_last_change
+
     def create_nodes (self) :
         for n in self.contents ['nodes'] :
             gps = None
@@ -236,14 +255,13 @@ class Convert (object) :
                 if n.gps_lon_sec is not None :
                     lon = lon + " %f s" % n.gps_lon_sec
                 gps = dict (lat = lat, lon = lon)
-            #gps ['raw'] = True
-            #node = self.ffm.Node (name = n.name, position = gps, raw = True)
             node = self.ffm.Node (name = n.name, position = gps)
+            self.set_last_change (node, n.changed, n.created)
             assert (node)
             id = self.person_dupes.get (n.id_members, n.id_members)
             person = self.person_by_id.get (id)
             if person :
-                self.ffm.Person_has_Node (person, node)
+                self.ffm.Subject_owns_Node (person, node)
             else :
                 print "Node %s: id member %s not found" % (n.id, n.id_members)
             self.node_by_id [n.id] = node
@@ -252,14 +270,14 @@ class Convert (object) :
     def create_devices (self) :
         for d in self.contents ['devices'] :
             node = self.node_by_id [d.id_nodes]
-            name = ''.join ((node.name, d.name))
             if d.hardware :
                 devtype = self.ffm.Net_Device_Type.instance_or_new \
                     (name = d.hardware, raw = True)
             else :
                 devtype = self.ffm.Net_Device_Type.instance (name = 'Generic')
-            dev = self.ffm.Net_Device (left = devtype, name = name, raw = True)
-            self.ffm.Node_has_Net_Device (node, dev)
+            dev = self.ffm.Net_Device \
+                (left = devtype, node = node, name = d.name, raw = True)
+            self.set_last_change (dev, d.changed, d.created)
     # end def create_devices
 
     # first id is the one to remove, the second one is the correct one
@@ -311,6 +329,7 @@ class Convert (object) :
                 , last_name  = m.lastname
                 , raw        = True
                 )
+            self.set_last_change (person, m.changed, m.created)
             self.person_by_id [m.id] = person
             street  = ' '.join (x for x in (m.street, m.housenumber) if x)
             if street or m.town or m.zip :

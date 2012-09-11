@@ -128,7 +128,6 @@ class Convert (object) :
         else :
             t = ffm.Net_Device_Type.instance_or_new (name = devname, raw = True)
         dev = ffm.Net_Device (left = t, node = node, name = name, raw = True)
-        ffm.Node_has_Net_Device (node, dev)
         for nif in element :
             if nif.tag == 'radio' :
                 self.insert_radio (dev, nif)

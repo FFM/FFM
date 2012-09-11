@@ -1,926 +1,1471 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="365"
-   height="245"
-   id="svg2"
-   version="1.1"
-   inkscape:version="0.47 r22583"
-   sodipodi:docname="nodedb.svg">
-  <defs
-     id="defs4">
-    <marker
-       inkscape:stockid="Arrow1Mend"
-       orient="auto"
-       refY="0"
-       refX="0"
-       id="Arrow1Mend"
-       style="overflow:visible">
-      <path
-         id="path4231"
-         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
-         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
-         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC
+    "-//W3C//DTD SVG 1.1//EN"
+    "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" viewBox="0 300 1920 2350" width="100%"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+>
+  <defs>
+    <marker id="MOM:AM" fill="none" markerHeight="3"
+            markerUnits="strokeWidth" markerWidth="3" orient="auto" refX="0"
+            refY="2" stroke="#FFA022" stroke-opacity="0.7" viewBox="0 0 4 4"
+    >
+      <path d="M 0  0 L 4 2 0 2 z">
+      </path>
+      <path d="M 0 4 L 4 2 0 2 z">
+      </path>
     </marker>
-    <marker
-       inkscape:stockid="Arrow1Mstart"
-       orient="auto"
-       refY="0"
-       refX="0"
-       id="Arrow1Mstart"
-       style="overflow:visible">
-      <path
-         id="path4228"
-         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
-         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
-         transform="matrix(0.4,0,0,0.4,4,0)" />
+    <marker id="MOM:IM" fill="none" markerHeight="3"
+            markerUnits="strokeWidth" markerWidth="3" orient="auto"
+            refX="12" refY="6" stroke="#08D" stroke-opacity="0.45"
+            viewBox="0 0 12 12"
+    >
+      <path d="M 0  0 L 12 6 0 2 z">
+      </path>
+      <path d="M 0 12 L 12 6 0 10 z">
+      </path>
     </marker>
-    <marker
-       inkscape:stockid="Arrow1Lstart"
-       orient="auto"
-       refY="0"
-       refX="0"
-       id="Arrow1Lstart"
-       style="overflow:visible">
-      <path
-         id="path4222"
-         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
-         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
-         transform="matrix(0.8,0,0,0.8,10,0)" />
+    <marker id="MOM:RM" fill="none" markerHeight="3"
+            markerUnits="strokeWidth" markerWidth="3" orient="auto" refX="0"
+            refY="2" stroke="#666" viewBox="0 0 4 4"
+    >
+      <path d="M 4 0 L 0 0  0 4  4 4">
+      </path>
     </marker>
-    <marker
-       inkscape:stockid="Arrow2Lstart"
-       orient="auto"
-       refY="0"
-       refX="0"
-       id="Arrow2Lstart"
-       style="overflow:visible">
-      <path
-         id="path4240"
-         style="font-size:12px;fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round"
-         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
-         transform="matrix(1.1,0,0,1.1,1.1,0)" />
-    </marker>
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 526.18109 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="744.09448 : 526.18109 : 1"
-       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
-       id="perspective10" />
-    <inkscape:perspective
-       id="perspective3600"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3600-9"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3600-5"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3600-0"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3600-95"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3600-3"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3600-8"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3600-6"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3600-98"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3600-4"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3600-1"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3600-2"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3600-29"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3600-35"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3600-37"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3600-01"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3600-43"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3600-22"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3600-82"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3600-62"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3799"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3799-4"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3799-0"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3799-3"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3799-6"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3799-9"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3799-47"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3942"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3942-6"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3977"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3977-2"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3977-7"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3977-1"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3977-8"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3977-4"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3977-5"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3977-88"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3977-9"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective3977-6"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective4134"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective4158"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective6193"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
-    <inkscape:perspective
-       id="perspective6217"
-       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
-       inkscape:vp_z="1 : 0.5 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_x="0 : 0.5 : 1"
-       sodipodi:type="inkscape:persp3d" />
   </defs>
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="2"
-     inkscape:cx="199.67021"
-     inkscape:cy="133.99938"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="true"
-     inkscape:window-width="1134"
-     inkscape:window-height="748"
-     inkscape:window-x="121"
-     inkscape:window-y="1"
-     inkscape:window-maximized="0">
-    <inkscape:grid
-       type="xygrid"
-       id="grid2816"
-       empspacing="5"
-       visible="true"
-       enabled="true"
-       snapvisiblegridlinesonly="true" />
-  </sodipodi:namedview>
-  <metadata
-     id="metadata7">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(20,-2.3621826)">
-    <g
-       id="g7979">
-      <path
-         id="path3789"
-         d="m 90,12.362183 10,10 -10,10 0,-20 z"
-         style="fill:#00ffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-      <path
-         id="path3867"
-         d="m 100,22.362183 30,0"
-         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-      <g
-         id="g3912">
-        <rect
-           style="fill:#00ffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.89442718px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           id="rect2818"
-           width="75"
-           height="20"
-           x="15"
-           y="12.362183" />
-        <text
-           xml:space="preserve"
-           style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-           x="49.914062"
-           y="25.362183"
-           id="text3869"
-           sodipodi:linespacing="100%"><tspan
-             sodipodi:role="line"
-             id="tspan3871"
-             x="49.914062"
-             y="25.362183">Antenna</tspan></text>
-      </g>
-      <g
-         id="g3907">
-        <rect
-           style="fill:#00ffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.89442718px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           id="rect2818-9"
-           width="75"
-           height="20"
-           x="130"
-           y="12.362183" />
-        <text
-           xml:space="preserve"
-           style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-           x="167.83594"
-           y="25.362183"
-           id="text3873"
-           sodipodi:linespacing="100%"><tspan
-             sodipodi:role="line"
-             id="tspan3875"
-             x="167.83594"
-             y="25.362183">Antenna_Type</tspan></text>
-      </g>
-      <g
-         id="g3917">
-        <rect
-           style="fill:#00ffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.89442718px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           id="rect2818-2"
-           width="75"
-           height="20"
-           x="15"
-           y="52.362183" />
-        <text
-           xml:space="preserve"
-           style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-           x="52.242188"
-           y="65.362183"
-           id="text3877"
-           sodipodi:linespacing="100%"><tspan
-             sodipodi:role="line"
-             id="tspan3879"
-             x="52.242188"
-             y="65.362183">Device</tspan></text>
-      </g>
-      <g
-         id="g3902">
-        <rect
-           style="fill:#00ffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.89442718px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           id="rect2818-21"
-           width="75"
-           height="20"
-           x="130"
-           y="52.362183" />
-        <text
-           xml:space="preserve"
-           style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-           x="167.16406"
-           y="65.362183"
-           id="text3881"
-           sodipodi:linespacing="100%"><tspan
-             sodipodi:role="line"
-             id="tspan3883"
-             x="167.16406"
-             y="65.362183">Device_Type</tspan></text>
-      </g>
-      <g
-         id="g3922">
-        <rect
-           style="fill:#00ffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.89442718px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           id="rect2818-23"
-           width="75"
-           height="20"
-           x="15"
-           y="92.362183" />
-        <text
-           xml:space="preserve"
-           style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-           x="52.695312"
-           y="105.36218"
-           id="text3885"
-           sodipodi:linespacing="100%"><tspan
-             sodipodi:role="line"
-             id="tspan3887"
-             x="52.695312"
-             y="105.36218">Net_Device</tspan></text>
-      </g>
-      <g
-         id="g3897">
-        <rect
-           style="fill:#00ffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.89442718px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           id="rect2818-6"
-           width="75"
-           height="20"
-           x="130"
-           y="92.362183" />
-        <text
-           xml:space="preserve"
-           style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-           x="167.61719"
-           y="104.36218"
-           id="text3889"
-           sodipodi:linespacing="100%"><tspan
-             sodipodi:role="line"
-             id="tspan3891"
-             x="167.61719"
-             y="104.36218">Net_Device_Type</tspan></text>
-      </g>
-      <g
-         transform="translate(-80,15)"
-         id="g3927">
-        <rect
-           style="fill:#00ffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.89442718px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           id="rect2818-8"
-           width="75"
-           height="20"
-           x="95"
-           y="117.36218" />
-        <text
-           xml:space="preserve"
-           style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-           x="133.02344"
-           y="130.36218"
-           id="text3893"
-           sodipodi:linespacing="100%"><tspan
-             sodipodi:role="line"
-             id="tspan3895"
-             x="133.02344"
-             y="130.36218">Net_Interface</tspan></text>
-      </g>
-      <path
-         id="path3789-7"
-         d="m 90,52.362183 10,10 -10,10 0,-20 z"
-         style="fill:#00ffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-      <path
-         id="path3789-8"
-         d="m 90,92.362183 10,9.999997 -10,10 0,-19.999997 z"
-         style="fill:#00ffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-      <path
-         id="path3965"
-         d="m 100,62.362183 30,0"
-         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-      <path
-         id="path3967"
-         d="m 100,102.36218 30,0"
-         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-      <g
-         id="g4121">
-        <rect
-           style="fill:#00ffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.89442718px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           id="rect2818-7-26"
-           width="75"
-           height="20"
-           x="15"
-           y="172.36218" />
-        <text
-           xml:space="preserve"
-           style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-           x="53.148438"
-           y="185.36218"
-           id="text4072"
-           sodipodi:linespacing="100%"><tspan
-             sodipodi:role="line"
-             id="tspan4074"
-             x="53.148438"
-             y="185.36218">Wireless_Interface</tspan></text>
-      </g>
-      <g
-         id="g4101">
-        <rect
-           style="fill:#00ffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.89442718px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           id="rect2818-7-44"
-           width="75"
-           height="20"
-           x="130"
-           y="172.36218" />
-        <text
-           xml:space="preserve"
-           style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-           x="167.59375"
-           y="185.36218"
-           id="text4076"
-           sodipodi:linespacing="100%"><tspan
-             sodipodi:role="line"
-             id="tspan4078"
-             x="167.59375"
-             y="185.36218">Wireless_Mode</tspan></text>
-      </g>
-      <g
-         id="g4111">
-        <rect
-           style="fill:#00ffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.89442718px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           id="rect2818-7-4"
-           width="75"
-           height="20"
-           x="210"
-           y="212.36218" />
-        <text
-           xml:space="preserve"
-           style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-           x="247.24219"
-           y="225.36218"
-           id="text4080"
-           sodipodi:linespacing="100%"><tspan
-             sodipodi:role="line"
-             id="tspan4082"
-             x="247.24219"
-             y="225.36218">Ad_Hoc</tspan></text>
-      </g>
-      <g
-         id="g4106">
-        <rect
-           style="fill:#00ffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.89442718px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           id="rect2818-7-2"
-           width="75"
-           height="20"
-           x="130"
-           y="212.36218" />
-        <text
-           xml:space="preserve"
-           style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-           x="167.23438"
-           y="225.36218"
-           id="text4084"
-           sodipodi:linespacing="100%"><tspan
-             sodipodi:role="line"
-             id="tspan4086"
-             x="167.23438"
-             y="225.36218">Client</tspan></text>
-      </g>
-      <g
-         id="g4116">
-        <rect
-           style="fill:#00ffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.89442718px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           id="rect2818-7-27"
-           width="75"
-           height="20"
-           x="50"
-           y="212.36218" />
-        <text
-           xml:space="preserve"
-           style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-           x="87.34375"
-           y="225.36218"
-           id="text4088"
-           sodipodi:linespacing="100%"><tspan
-             sodipodi:role="line"
-             id="tspan4090"
-             x="87.34375"
-             y="225.36218">AP</tspan></text>
-      </g>
-      <g
-         id="g4096">
-        <rect
-           style="fill:#00ffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.89442718px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           id="rect2818-7-9"
-           width="75"
-           height="20"
-           x="130"
-           y="132.36218" />
-        <text
-           xml:space="preserve"
-           style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-           x="167.70312"
-           y="145.36218"
-           id="text4092"
-           sodipodi:linespacing="100%"><tspan
-             sodipodi:role="line"
-             id="tspan4094"
-             x="167.70312"
-             y="145.36218">Net_Credentials</tspan></text>
-      </g>
-      <path
-         id="path3789-8-1"
-         d="m 130,132.36218 -10,10 10,10 0,-20 z"
-         style="fill:#00ffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-      <path
-         id="path4148"
-         d="m 90,142.36218 30,0"
-         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-      <path
-         id="path3789-8-1-1"
-         d="m 130,172.36218 -10,10 10,10 0,-20 z"
-         style="fill:#00ffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-      <path
-         id="path4172"
-         d="m 90,182.36218 30,0"
-         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-      <text
-         sodipodi:linespacing="100%"
-         id="text4176"
-         y="17.362183"
-         x="108.33594"
-         style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-         xml:space="preserve"><tspan
-           y="17.362183"
-           x="108.33594"
-           id="tspan4178"
-           sodipodi:role="line">of</tspan></text>
-      <text
-         sodipodi:linespacing="100%"
-         id="text4180"
-         y="57.362183"
-         x="108.33594"
-         style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-         xml:space="preserve"><tspan
-           y="57.362183"
-           x="108.33594"
-           id="tspan4182"
-           sodipodi:role="line">of</tspan></text>
-      <text
-         sodipodi:linespacing="100%"
-         id="text4184"
-         y="97.362183"
-         x="108.33594"
-         style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-         xml:space="preserve"><tspan
-           y="97.362183"
-           x="108.33594"
-           id="tspan4186"
-           sodipodi:role="line">of</tspan></text>
-      <text
-         sodipodi:linespacing="100%"
-         id="text4188"
-         y="137.36218"
-         x="103.33594"
-         style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-         xml:space="preserve"><tspan
-           y="137.36218"
-           x="103.33594"
-           id="tspan4190"
-           sodipodi:role="line">of</tspan></text>
-      <text
-         sodipodi:linespacing="100%"
-         id="text4192"
-         y="177.36218"
-         x="103.33594"
-         style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-         xml:space="preserve"><tspan
-           y="177.36218"
-           x="103.33594"
-           id="tspan4194"
-           sodipodi:role="line">of</tspan></text>
-      <path
-         id="path4196"
-         d="m 205,62.362183 45,0"
-         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Mend)" />
-      <text
-         sodipodi:linespacing="100%"
-         id="text4198"
-         y="57.362183"
-         x="226.47656"
-         style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-         xml:space="preserve"><tspan
-           y="57.362183"
-           x="226.47656"
-           id="tspan4200"
-           sodipodi:role="line">made_by</tspan></text>
-      <g
-         id="g4206">
-        <rect
-           style="fill:#00ffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.89442718px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-           id="rect2818-7-25"
-           width="75"
-           height="20"
-           x="250"
-           y="52.362183" />
-        <text
-           xml:space="preserve"
-           style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-           x="287.14062"
-           y="65.362183"
-           id="text4202"
-           sodipodi:linespacing="100%"><tspan
-             sodipodi:role="line"
-             id="tspan4204"
-             x="287.14062"
-             y="65.362183">Company</tspan></text>
-      </g>
-      <path
-         id="path4211"
-         d="m 50,32.362183 0,20"
-         style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:1, 1;stroke-dashoffset:0;marker-start:none;marker-end:url(#Arrow1Mend)" />
-      <path
-         id="path4213"
-         d="m 50,72.362183 0,20"
-         style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:1, 1;stroke-dashoffset:0;marker-start:url(#Arrow1Mstart)" />
-      <path
-         id="path4215"
-         d="m 165,32.362183 0,20"
-         style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:1, 1;stroke-dashoffset:0;marker-end:url(#Arrow1Mend)" />
-      <path
-         id="path4217"
-         d="m 164.5,72.362183 0.5,20"
-         style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:1, 1;stroke-dashoffset:0;marker-start:url(#Arrow1Mstart)" />
-      <path
-         id="path3789-8-8"
-         d="m 40.000003,132.36218 9.999997,-10 10,10 -19.999997,0 z"
-         style="fill:#00ffff;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-      <path
-         id="path6207"
-         d="m 50,112.36218 0,10"
-         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-      <text
-         sodipodi:linespacing="100%"
-         id="text4188-0"
-         y="122.36218"
-         x="58.335938"
-         style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-         xml:space="preserve"><tspan
-           y="122.36218"
-           x="58.335938"
-           id="tspan4190-5"
-           sodipodi:role="line">of</tspan></text>
-      <path
-         id="path6234"
-         d="m 85,212.36218 80,-20"
-         style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:1, 1;stroke-dashoffset:0;marker-start:none;marker-end:url(#Arrow1Mend)" />
-      <path
-         id="path6236"
-         d="m 165,212.36218 0,-20"
-         style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:1, 1;stroke-dashoffset:0;marker-start:none;marker-end:url(#Arrow1Mend)" />
-      <path
-         id="path6238"
-         d="m 245,212.36218 -80,-20"
-         style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:1, 1;stroke-dashoffset:0;marker-start:none;marker-end:url(#Arrow1Mend)" />
-      <path
-         id="path7000"
-         d="m 50,152.36218 0,20"
-         style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:1, 1;stroke-dashoffset:0;marker-start:url(#Arrow1Mstart);marker-end:none" />
-      <path
-         id="path7762"
-         d="m 15,182.36218 -10,0 0,-159.999997 10,0"
-         style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Mend)" />
-      <text
-         sodipodi:linespacing="100%"
-         id="text7764"
-         y="86.862183"
-         x="-4"
-         style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
-         xml:space="preserve"><tspan
-           y="86.862183"
-           x="-4"
-           id="tspan7766"
-           sodipodi:role="line">uses</tspan></text>
-    </g>
-    <rect
-       style="fill:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:1, 1;stroke-dashoffset:0"
-       id="rect8075"
-       width="5"
-       height="5"
-       x="-20"
-       y="2.3621826" />
-    <rect
-       style="fill:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:1, 1;stroke-dashoffset:0"
-       id="rect8077"
-       width="5"
-       height="5"
-       x="340"
-       y="2.3621826" />
-    <rect
-       style="fill:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:1, 1;stroke-dashoffset:0"
-       id="rect8079"
-       width="5"
-       height="5"
-       x="-20"
-       y="242.36218" />
-    <rect
-       style="fill:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:1, 1;stroke-dashoffset:0"
-       id="rect8081"
-       width="5"
-       height="5"
-       x="340"
-       y="242.36218" />
+  <g id="FFM.Device" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.Device
+    </title>
+    <desc>
+      Model a device used by a FFM node.
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1040"
+          y="975"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="1049"
+          y="975"
+    >
+      <tspan dx="0" dy="27.0" x="1049">
+        FFM.Device
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Device.type:FFM.Device_Type" opacity="1.0">
+    <title>
+      FFM.Device role type
+    </title>
+    <desc>
+      Type of device
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="1200,1025 1360,1025" stroke="#666" stroke-width="5"
+    />
+    <path d="M 1200 1025 L 1360 1025"
+          id="FFM.Device.type:FFM.Device_Type::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Device.type:FFM.Device_Type::path"
+      >
+        <tspan dy="-7.0">
+          left
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Device_Type" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.Device_Type
+    </title>
+    <desc>
+      Model the type of devices in FFM.
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1360"
+          y="975"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="1369"
+          y="975"
+    >
+      <tspan dx="0" dy="27.0" x="1369">
+        FFM.Device
+      </tspan>
+      <tspan dx="9" dy="27.0" x="1369">
+        _Type
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Device_Type_made_by_Company" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.Device_Type_made_by_Company
+    </title>
+    <desc>
+      Model manufacturer of device-type.
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1680"
+          y="975"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="1689"
+          y="975"
+    >
+      <tspan dx="0" dy="27.0" x="1689">
+        _made_by_
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Device_Type_made_by_Company.manufacturer:PAP.Company"
+     opacity="1.0"
+  >
+    <title>
+      FFM.Device_Type_made_by_Company role manufacturer
+    </title>
+    <desc>
+      Company manufacturing the device-type.
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="1760,975 1760,775" stroke="#666" stroke-width="5"
+    />
+    <path d="M 1760 975 L 1760 775"
+          id="FFM.Device_Type_made_by_Company.manufacturer:PAP.Company::path"
+          fill="none" stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Device_Type_made_by_Company.manufacturer:PAP.Company::path"
+      >
+        <tspan dy="-7.0">
+          right
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Device_Type_made_by_Company.device_type:FFM.Device_Type"
+     opacity="1.0"
+  >
+    <title>
+      FFM.Device_Type_made_by_Company role device_type
+    </title>
+    <desc>
+      Device type.
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="1680,1025 1520,1025" stroke="#666" stroke-width="5"
+    />
+    <path d="M 1520 1025 L 1680 1025"
+          id="FFM.Device_Type_made_by_Company.device_type:FFM.Device_Type::path"
+          fill="none" stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="90%" text-anchor="end"
+                xlink:href="#FFM.Device_Type_made_by_Company.device_type:FFM.Device_Type::path"
+      >
+        <tspan dy="-7.0">
+          left
+        </tspan>
+      </textPath>
+    </text>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="90%" text-anchor="end"
+                xlink:href="#FFM.Device_Type_made_by_Company.device_type:FFM.Device_Type::path"
+      >
+        <tspan dy="18">
+          0 .. 1
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="PAP.Company" fill="#EDEDED" opacity="1.0">
+    <title>
+      PAP.Company
+    </title>
+    <desc>
+      Model a company.
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1680"
+          y="675"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="1689"
+          y="675"
+    >
+      <tspan dx="0" dy="27.0" x="1689">
+        PAP.Company
+      </tspan>
+    </text>
+  </g>
+  <g id="PAP.Company:is_a:PAP.Subject" opacity="1.0">
+    <title>
+      PAP.Company is-a PAP.Subject
+    </title>
+    <desc>
+      PAP.Company is derived from PAP.Subject
+    </desc>
+    <polyline fill="none" marker-end="url(#MOM:IM)"
+              points="1680,725 880,725" stroke="#08D" stroke-opacity="0.45"
+              stroke-width="5"
+    />
+    <path d="M 880 725 L 1680 725" id="PAP.Company:is_a:PAP.Subject::path"
+          fill="none" stroke="none"
+    >
+    </path>
+    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
+          font-size="18"
+    >
+      <textPath startOffset="90%" text-anchor="end"
+                xlink:href="#PAP.Company:is_a:PAP.Subject::path"
+      >
+        <tspan dy="-7.0">
+          IS_A
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Wireless_Interface_uses_Antenna" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.Wireless_Interface_uses_Antenna
+    </title>
+    <desc>
+      Antenna used by a wireless interface
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="400"
+          y="1275"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="409"
+          y="1275"
+    >
+      <tspan dx="0" dy="27.0" x="409">
+        _uses_
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Wireless_Interface_uses_Antenna.antenna:FFM.Antenna"
+     opacity="1.0"
+  >
+    <title>
+      FFM.Wireless_Interface_uses_Antenna role antenna
+    </title>
+    <desc>
+      Antenna.
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="480,1275 480,475" stroke="#666" stroke-width="5"
+    />
+    <path d="M 480 1275 L 480 475"
+          id="FFM.Wireless_Interface_uses_Antenna.antenna:FFM.Antenna::path"
+          fill="none" stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Wireless_Interface_uses_Antenna.antenna:FFM.Antenna::path"
+      >
+        <tspan dy="-7.0">
+          right
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Wireless_Interface_uses_Antenna.wireless_interface:FFM.Wireless_Interface"
+     opacity="1.0"
+  >
+    <title>
+      FFM.Wireless_Interface_uses_Antenna role wireless_interface
+    </title>
+    <desc>
+      Wireless interface.
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="480,1375 480,1400 800,1400 800,1575" stroke="#666"
+              stroke-width="5"
+    />
+    <path d="M 480 1400 L 800 1400"
+          id="FFM.Wireless_Interface_uses_Antenna.wireless_interface:FFM.Wireless_Interface::path"
+          fill="none" stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="2%" text-anchor="start"
+                xlink:href="#FFM.Wireless_Interface_uses_Antenna.wireless_interface:FFM.Wireless_Interface::path"
+      >
+        <tspan dy="-7.0">
+          left
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Wireless_Interface" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.Wireless_Interface
+    </title>
+    <desc>
+      Wireless interface of a FFM device
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="720"
+          y="1575"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="729"
+          y="1575"
+    >
+      <tspan dx="0" dy="27.0" x="729">
+        FFM.Wireless
+      </tspan>
+      <tspan dx="9" dy="27.0" x="729">
+        _Interface
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Wireless_Interface:is_a:FFM.Net_Interface" opacity="1.0">
+    <title>
+      FFM.Wireless_Interface is-a FFM.Net_Interface
+    </title>
+    <desc>
+      FFM.Wireless_Interface is derived from FFM.Net_Interface
+    </desc>
+    <polyline fill="none" marker-end="url(#MOM:IM)"
+              points="880,1625 1040,1625" stroke="#08D"
+              stroke-opacity="0.45" stroke-width="5"
+    />
+    <path d="M 880 1625 L 1040 1625"
+          id="FFM.Wireless_Interface:is_a:FFM.Net_Interface::path"
+          fill="none" stroke="none"
+    >
+    </path>
+    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
+          font-size="18"
+    >
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Wireless_Interface:is_a:FFM.Net_Interface::path"
+      >
+        <tspan dy="-7.0">
+          IS_A
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM._Wireless_Mode_" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM._Wireless_Mode_
+    </title>
+    <desc>
+      Model the mode a wireless device operates in.
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="400"
+          y="1875"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="409"
+          y="1875"
+    >
+      <tspan dx="0" dy="27.0" x="409">
+        FFM._Wireless
+      </tspan>
+      <tspan dx="9" dy="27.0" x="409">
+        _Mode_
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM._Wireless_Mode_.interface:FFM.Wireless_Interface" opacity="1.0">
+    <title>
+      FFM._Wireless_Mode_ role interface
+    </title>
+    <desc>
+      The wireless device operating in this mode.
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="520,1875 520,1850 760,1850 760,1675" stroke="#666"
+              stroke-width="5"
+    />
+    <path d="M 520 1850 L 760 1850"
+          id="FFM._Wireless_Mode_.interface:FFM.Wireless_Interface::path"
+          fill="none" stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="2%" text-anchor="start"
+                xlink:href="#FFM._Wireless_Mode_.interface:FFM.Wireless_Interface::path"
+      >
+        <tspan dy="-7.0">
+          left
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Ad_Hoc_Mode" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.Ad_Hoc_Mode
+    </title>
+    <desc>
+      Model the mode `ad hoc`.
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="80"
+          y="2175"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="89"
+          y="2175"
+    >
+      <tspan dx="0" dy="27.0" x="89">
+        FFM.Ad_Hoc
+      </tspan>
+      <tspan dx="9" dy="27.0" x="89">
+        _Mode
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Ad_Hoc_Mode:is_a:FFM._Wireless_Mode_" opacity="1.0">
+    <title>
+      FFM.Ad_Hoc_Mode is-a FFM._Wireless_Mode_
+    </title>
+    <desc>
+      FFM.Ad_Hoc_Mode is derived from FFM._Wireless_Mode_
+    </desc>
+    <polyline fill="none" marker-end="url(#MOM:IM)"
+              points="200,2175 200,2150 440,2150 440,1975" stroke="#08D"
+              stroke-opacity="0.45" stroke-width="5"
+    />
+    <path d="M 200 2150 L 440 2150"
+          id="FFM.Ad_Hoc_Mode:is_a:FFM._Wireless_Mode_::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
+          font-size="18"
+    >
+      <textPath startOffset="2%" text-anchor="start"
+                xlink:href="#FFM.Ad_Hoc_Mode:is_a:FFM._Wireless_Mode_::path"
+      >
+        <tspan dy="-7.0">
+          IS_A
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.AP_Mode" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.AP_Mode
+    </title>
+    <desc>
+      Model the mode `access point`.
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="400"
+          y="2175"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="409"
+          y="2175"
+    >
+      <tspan dx="0" dy="27.0" x="409">
+        FFM.AP_Mode
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.AP_Mode:is_a:FFM._Wireless_Mode_" opacity="1.0">
+    <title>
+      FFM.AP_Mode is-a FFM._Wireless_Mode_
+    </title>
+    <desc>
+      FFM.AP_Mode is derived from FFM._Wireless_Mode_
+    </desc>
+    <polyline fill="none" marker-end="url(#MOM:IM)"
+              points="480,2175 480,1975" stroke="#08D" stroke-opacity="0.45"
+              stroke-width="5"
+    />
+    <path d="M 480 2175 L 480 1975"
+          id="FFM.AP_Mode:is_a:FFM._Wireless_Mode_::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
+          font-size="18"
+    >
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.AP_Mode:is_a:FFM._Wireless_Mode_::path"
+      >
+        <tspan dy="-7.0">
+          IS_A
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Client_Mode" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.Client_Mode
+    </title>
+    <desc>
+      Model the mode `client`.
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="720"
+          y="2175"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="729"
+          y="2175"
+    >
+      <tspan dx="0" dy="27.0" x="729">
+        FFM.Client
+      </tspan>
+      <tspan dx="9" dy="27.0" x="729">
+        _Mode
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Client_Mode:is_a:FFM._Wireless_Mode_" opacity="1.0">
+    <title>
+      FFM.Client_Mode is-a FFM._Wireless_Mode_
+    </title>
+    <desc>
+      FFM.Client_Mode is derived from FFM._Wireless_Mode_
+    </desc>
+    <polyline fill="none" marker-end="url(#MOM:IM)"
+              points="760,2175 760,2150 520,2150 520,1975" stroke="#08D"
+              stroke-opacity="0.45" stroke-width="5"
+    />
+    <path d="M 520 2150 L 760 2150"
+          id="FFM.Client_Mode:is_a:FFM._Wireless_Mode_::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
+          font-size="18"
+    >
+      <textPath startOffset="90%" text-anchor="end"
+                xlink:href="#FFM.Client_Mode:is_a:FFM._Wireless_Mode_::path"
+      >
+        <tspan dy="-7.0">
+          IS_A
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Wireless_Interface_uses_Wireless_Channel" fill="#EDEDED"
+     opacity="1.0"
+  >
+    <title>
+      FFM.Wireless_Interface_uses_Wireless_Channel
+    </title>
+    <desc>
+      Wireless channel used by a wireless interface
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="400"
+          y="1575"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="409"
+          y="1575"
+    >
+      <tspan dx="0" dy="27.0" x="409">
+        _uses_
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Wireless_Interface_uses_Wireless_Channel.channel:FFM.Wireless_Channel"
+     opacity="1.0"
+  >
+    <title>
+      FFM.Wireless_Interface_uses_Wireless_Channel role channel
+    </title>
+    <desc>
+      Wireless channel.
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="400,1625 240,1625" stroke="#666" stroke-width="5"
+    />
+    <path d="M 240 1625 L 400 1625"
+          id="FFM.Wireless_Interface_uses_Wireless_Channel.channel:FFM.Wireless_Channel::path"
+          fill="none" stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="90%" text-anchor="end"
+                xlink:href="#FFM.Wireless_Interface_uses_Wireless_Channel.channel:FFM.Wireless_Channel::path"
+      >
+        <tspan dy="-7.0">
+          right
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Wireless_Interface_uses_Wireless_Channel.interface:FFM.Wireless_Interface"
+     opacity="1.0"
+  >
+    <title>
+      FFM.Wireless_Interface_uses_Wireless_Channel role interface
+    </title>
+    <desc>
+      Wireless interface.
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="560,1625 720,1625" stroke="#666" stroke-width="5"
+    />
+    <path d="M 560 1625 L 720 1625"
+          id="FFM.Wireless_Interface_uses_Wireless_Channel.interface:FFM.Wireless_Interface::path"
+          fill="none" stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Wireless_Interface_uses_Wireless_Channel.interface:FFM.Wireless_Interface::path"
+      >
+        <tspan dy="-7.0">
+          left
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Wireless_Channel" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.Wireless_Channel
+    </title>
+    <desc>
+      Wireless channel of a wireless standard
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="80"
+          y="1575"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="89"
+          y="1575"
+    >
+      <tspan dx="0" dy="27.0" x="89">
+        FFM.Wireless
+      </tspan>
+      <tspan dx="9" dy="27.0" x="89">
+        _Channel
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Antenna" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.Antenna
+    </title>
+    <desc>
+      Model an antenna used by a FFM node.
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="400"
+          y="375"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="409"
+          y="375"
+    >
+      <tspan dx="0" dy="27.0" x="409">
+        FFM.Antenna
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Antenna:is_a:FFM.Device" opacity="1.0">
+    <title>
+      FFM.Antenna is-a FFM.Device
+    </title>
+    <desc>
+      FFM.Antenna is derived from FFM.Device
+    </desc>
+    <polyline fill="none" marker-end="url(#MOM:IM)"
+              points="560,450 1120,450 1120,975" stroke="#08D"
+              stroke-opacity="0.45" stroke-width="5"
+    />
+    <path d="M 560 450 L 1120 450" id="FFM.Antenna:is_a:FFM.Device::path"
+          fill="none" stroke="none"
+    >
+    </path>
+    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
+          font-size="18"
+    >
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Antenna:is_a:FFM.Device::path"
+      >
+        <tspan dy="-7.0">
+          IS_A
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Antenna.antenna_type:FFM.Antenna_Type" opacity="1.0">
+    <title>
+      FFM.Antenna role antenna_type
+    </title>
+    <desc>
+      Type of antenna
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="560,400 1360,400" stroke="#666" stroke-width="5"
+    />
+    <path d="M 560 400 L 1360 400"
+          id="FFM.Antenna.antenna_type:FFM.Antenna_Type::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Antenna.antenna_type:FFM.Antenna_Type::path"
+      >
+        <tspan dy="-7.0">
+          left
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Antenna_Type" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.Antenna_Type
+    </title>
+    <desc>
+      Model the type of antennas in FFM.
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1360"
+          y="375"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="1369"
+          y="375"
+    >
+      <tspan dx="0" dy="27.0" x="1369">
+        FFM.Antenna
+      </tspan>
+      <tspan dx="9" dy="27.0" x="1369">
+        _Type
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Antenna_Type:is_a:FFM.Device_Type" opacity="1.0">
+    <title>
+      FFM.Antenna_Type is-a FFM.Device_Type
+    </title>
+    <desc>
+      FFM.Antenna_Type is derived from FFM.Device_Type
+    </desc>
+    <polyline fill="none" marker-end="url(#MOM:IM)"
+              points="1440,475 1440,975" stroke="#08D" stroke-opacity="0.45"
+              stroke-width="5"
+    />
+    <path d="M 1440 475 L 1440 975"
+          id="FFM.Antenna_Type:is_a:FFM.Device_Type::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
+          font-size="18"
+    >
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Antenna_Type:is_a:FFM.Device_Type::path"
+      >
+        <tspan dy="-7.0">
+          IS_A
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Net_Device" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.Net_Device
+    </title>
+    <desc>
+      Model a network device of FFM.
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1040"
+          y="1275"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="1049"
+          y="1275"
+    >
+      <tspan dx="0" dy="27.0" x="1049">
+        FFM.Net_Device
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Net_Device:is_a:FFM.Device" opacity="1.0">
+    <title>
+      FFM.Net_Device is-a FFM.Device
+    </title>
+    <desc>
+      FFM.Net_Device is derived from FFM.Device
+    </desc>
+    <polyline fill="none" marker-end="url(#MOM:IM)"
+              points="1120,1275 1120,1075" stroke="#08D"
+              stroke-opacity="0.45" stroke-width="5"
+    />
+    <path d="M 1120 1275 L 1120 1075"
+          id="FFM.Net_Device:is_a:FFM.Device::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
+          font-size="18"
+    >
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Net_Device:is_a:FFM.Device::path"
+      >
+        <tspan dy="-7.0">
+          IS_A
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Net_Device.node:FFM.Node" opacity="1.0">
+    <title>
+      FFM.Net_Device attribute node
+    </title>
+    <desc>
+      `Node` to which the `net_device` is connected.
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:AM)"
+              points="1040,1325 880,1325" stroke="#FFA022"
+              stroke-opacity="0.7" stroke-width="5"
+    />
+    <path d="M 880 1325 L 1040 1325" id="FFM.Net_Device.node:FFM.Node::path"
+          fill="none" stroke="none"
+    >
+    </path>
+    <text fill="#FFA022" fill-opacity="0.7" font-family="sans-serif"
+          font-size="18"
+    >
+      <textPath startOffset="90%" text-anchor="end"
+                xlink:href="#FFM.Net_Device.node:FFM.Node::path"
+      >
+        <tspan dy="-7.0">
+          node
+        </tspan>
+      </textPath>
+    </text>
+    <text fill="#FFA022" fill-opacity="0.7" font-family="sans-serif"
+          font-size="18"
+    >
+      <textPath startOffset="90%" text-anchor="end"
+                xlink:href="#FFM.Net_Device.node:FFM.Node::path"
+      >
+        <tspan dy="18">
+          [primary]
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Net_Device.net_device_type:FFM.Net_Device_Type" opacity="1.0">
+    <title>
+      FFM.Net_Device role net_device_type
+    </title>
+    <desc>
+      Type of net device
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="1200,1325 1360,1325" stroke="#666" stroke-width="5"
+    />
+    <path d="M 1200 1325 L 1360 1325"
+          id="FFM.Net_Device.net_device_type:FFM.Net_Device_Type::path"
+          fill="none" stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Net_Device.net_device_type:FFM.Net_Device_Type::path"
+      >
+        <tspan dy="-7.0">
+          left
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Node" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.Node
+    </title>
+    <desc>
+      Model a node of FFM
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="720"
+          y="1275"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="729"
+          y="1275"
+    >
+      <tspan dx="0" dy="27.0" x="729">
+        FFM.Node
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Subject_owns_Node" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.Subject_owns_Node
+    </title>
+    <desc>
+      Node owned by Subject
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="720"
+          y="975"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="729"
+          y="975"
+    >
+      <tspan dx="0" dy="27.0" x="729">
+        _owns_
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Subject_owns_Node.node:FFM.Node" opacity="1.0">
+    <title>
+      FFM.Subject_owns_Node role node
+    </title>
+    <desc>
+      Node.
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="800,1075 800,1275" stroke="#666" stroke-width="5"
+    />
+    <path d="M 800 1075 L 800 1275"
+          id="FFM.Subject_owns_Node.node:FFM.Node::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Subject_owns_Node.node:FFM.Node::path"
+      >
+        <tspan dy="-7.0">
+          right
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Subject_owns_Node.subject:PAP.Subject" opacity="1.0">
+    <title>
+      FFM.Subject_owns_Node role subject
+    </title>
+    <desc>
+      Subject.
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="800,975 800,775" stroke="#666" stroke-width="5"
+    />
+    <path d="M 800 975 L 800 775"
+          id="FFM.Subject_owns_Node.subject:PAP.Subject::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Subject_owns_Node.subject:PAP.Subject::path"
+      >
+        <tspan dy="-7.0">
+          left
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="PAP.Subject" fill="#EDEDED" opacity="1.0">
+    <title>
+      PAP.Subject
+    </title>
+    <desc>
+      Model a legal subject, i.e., a person or company.
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="720"
+          y="675"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="729"
+          y="675"
+    >
+      <tspan dx="0" dy="27.0" x="729">
+        PAP.Subject
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Net_Device_Type" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.Net_Device_Type
+    </title>
+    <desc>
+      Model the type of network devices in FFM.
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1360"
+          y="1275"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="1369"
+          y="1275"
+    >
+      <tspan dx="0" dy="27.0" x="1369">
+        FFM.Net_Device
+      </tspan>
+      <tspan dx="9" dy="27.0" x="1369">
+        _Type
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Net_Device_Type:is_a:FFM.Device_Type" opacity="1.0">
+    <title>
+      FFM.Net_Device_Type is-a FFM.Device_Type
+    </title>
+    <desc>
+      FFM.Net_Device_Type is derived from FFM.Device_Type
+    </desc>
+    <polyline fill="none" marker-end="url(#MOM:IM)"
+              points="1440,1275 1440,1075" stroke="#08D"
+              stroke-opacity="0.45" stroke-width="5"
+    />
+    <path d="M 1440 1275 L 1440 1075"
+          id="FFM.Net_Device_Type:is_a:FFM.Device_Type::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
+          font-size="18"
+    >
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Net_Device_Type:is_a:FFM.Device_Type::path"
+      >
+        <tspan dy="-7.0">
+          IS_A
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Net_Interface" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.Net_Interface
+    </title>
+    <desc>
+      Model a network interface of a FFM device
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1040"
+          y="1575"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="1049"
+          y="1575"
+    >
+      <tspan dx="0" dy="27.0" x="1049">
+        FFM.Net
+      </tspan>
+      <tspan dx="9" dy="27.0" x="1049">
+        _Interface
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Net_Interface.device:FFM.Net_Device" opacity="1.0">
+    <title>
+      FFM.Net_Interface role device
+    </title>
+    <desc>
+      Network device the interface is connected to.
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="1120,1575 1120,1375" stroke="#666" stroke-width="5"
+    />
+    <path d="M 1120 1575 L 1120 1375"
+          id="FFM.Net_Interface.device:FFM.Net_Device::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Net_Interface.device:FFM.Net_Device::path"
+      >
+        <tspan dy="-7.0">
+          left
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM._Net_Credentials_" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM._Net_Credentials_
+    </title>
+    <desc>
+      Model credentials used by a Net_Interface, e.g., `802.1x`
+             authentication for a wired interface, or WPA authentication for a WiFi
+             interface.
+          
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1360"
+          y="1875"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="1369"
+          y="1875"
+    >
+      <tspan dx="0" dy="27.0" x="1369">
+        FFM._Net
+      </tspan>
+      <tspan dx="9" dy="27.0" x="1369">
+        _Credentials_
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM._Net_Credentials_.interface:FFM.Net_Interface" opacity="1.0">
+    <title>
+      FFM._Net_Credentials_ role interface
+    </title>
+    <desc>
+      The network interface using these credentials.
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="1400,1875 1400,1850 1160,1850 1160,1675" stroke="#666"
+              stroke-width="5"
+    />
+    <path d="M 1160 1850 L 1400 1850"
+          id="FFM._Net_Credentials_.interface:FFM.Net_Interface::path"
+          fill="none" stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="90%" text-anchor="end"
+                xlink:href="#FFM._Net_Credentials_.interface:FFM.Net_Interface::path"
+      >
+        <tspan dy="-7.0">
+          left
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Net_Interface_in_IP_Network" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.Net_Interface_in_IP_Network
+    </title>
+    <desc>
+      Net interface in IP network
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1360"
+          y="1575"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="1369"
+          y="1575"
+    >
+      <tspan dx="0" dy="27.0" x="1369">
+        _in_
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Net_Interface_in_IP_Network.ip_network:FFM.IP_Network"
+     opacity="1.0"
+  >
+    <title>
+      FFM.Net_Interface_in_IP_Network role ip_network
+    </title>
+    <desc>
+      IP Network.
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="1520,1625 1680,1625" stroke="#666" stroke-width="5"
+    />
+    <path d="M 1520 1625 L 1680 1625"
+          id="FFM.Net_Interface_in_IP_Network.ip_network:FFM.IP_Network::path"
+          fill="none" stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Net_Interface_in_IP_Network.ip_network:FFM.IP_Network::path"
+      >
+        <tspan dy="-7.0">
+          right
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Net_Interface_in_IP_Network.net_interface:FFM.Net_Interface"
+     opacity="1.0"
+  >
+    <title>
+      FFM.Net_Interface_in_IP_Network role net_interface
+    </title>
+    <desc>
+      Network interface.
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="1360,1625 1200,1625" stroke="#666" stroke-width="5"
+    />
+    <path d="M 1200 1625 L 1360 1625"
+          id="FFM.Net_Interface_in_IP_Network.net_interface:FFM.Net_Interface::path"
+          fill="none" stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="90%" text-anchor="end"
+                xlink:href="#FFM.Net_Interface_in_IP_Network.net_interface:FFM.Net_Interface::path"
+      >
+        <tspan dy="-7.0">
+          left
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.IP_Network" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.IP_Network
+    </title>
+    <desc>
+      IP Network of FFM
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1680"
+          y="1575"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="1689"
+          y="1575"
+    >
+      <tspan dx="0" dy="27.0" x="1689">
+        FFM.IP_Network
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.IP4_Network" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.IP4_Network
+    </title>
+    <desc>
+      IPv4 Network of FFM
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1680"
+          y="1875"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="1689"
+          y="1875"
+    >
+      <tspan dx="0" dy="27.0" x="1689">
+        FFM.IP4
+      </tspan>
+      <tspan dx="9" dy="27.0" x="1689">
+        _Network
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.IP4_Network:is_a:FFM.IP_Network" opacity="1.0">
+    <title>
+      FFM.IP4_Network is-a FFM.IP_Network
+    </title>
+    <desc>
+      FFM.IP4_Network is derived from FFM.IP_Network
+    </desc>
+    <polyline fill="none" marker-end="url(#MOM:IM)"
+              points="1760,1875 1760,1675" stroke="#08D"
+              stroke-opacity="0.45" stroke-width="5"
+    />
+    <path d="M 1760 1875 L 1760 1675"
+          id="FFM.IP4_Network:is_a:FFM.IP_Network::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
+          font-size="18"
+    >
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.IP4_Network:is_a:FFM.IP_Network::path"
+      >
+        <tspan dy="-7.0">
+          IS_A
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.IP6_Network" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.IP6_Network
+    </title>
+    <desc>
+      IPv6 Network of FFM
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1680"
+          y="1275"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="1689"
+          y="1275"
+    >
+      <tspan dx="0" dy="27.0" x="1689">
+        FFM.IP6
+      </tspan>
+      <tspan dx="9" dy="27.0" x="1689">
+        _Network
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.IP6_Network:is_a:FFM.IP_Network" opacity="1.0">
+    <title>
+      FFM.IP6_Network is-a FFM.IP_Network
+    </title>
+    <desc>
+      FFM.IP6_Network is derived from FFM.IP_Network
+    </desc>
+    <polyline fill="none" marker-end="url(#MOM:IM)"
+              points="1760,1375 1760,1575" stroke="#08D"
+              stroke-opacity="0.45" stroke-width="5"
+    />
+    <path d="M 1760 1375 L 1760 1575"
+          id="FFM.IP6_Network:is_a:FFM.IP_Network::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
+          font-size="18"
+    >
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.IP6_Network:is_a:FFM.IP_Network::path"
+      >
+        <tspan dy="-7.0">
+          IS_A
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Net_Link" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.Net_Link
+    </title>
+    <desc>
+      Link between two network interfaces.
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1040"
+          y="1875"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="1049"
+          y="1875"
+    >
+      <tspan dx="0" dy="27.0" x="1049">
+        FFM.Net_Link
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Net_Link.right:FFM.Net_Interface" opacity="1.0">
+    <title>
+      FFM.Net_Link role right
+    </title>
+    <desc>
+      Right network interface
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="1120,1875 1120,1675" stroke="#666" stroke-width="5"
+    />
+    <path d="M 1120 1875 L 1120 1675"
+          id="FFM.Net_Link.right:FFM.Net_Interface::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Net_Link.right:FFM.Net_Interface::path"
+      >
+        <tspan dy="-7.0">
+          right
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Net_Link.left:FFM.Net_Interface" opacity="1.0">
+    <title>
+      FFM.Net_Link role left
+    </title>
+    <desc>
+      Left network interface
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="1080,1875 1080,1675" stroke="#666" stroke-width="5"
+    />
+    <path d="M 1080 1875 L 1080 1675"
+          id="FFM.Net_Link.left:FFM.Net_Interface::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Net_Link.left:FFM.Net_Interface::path"
+      >
+        <tspan dy="-7.0">
+          left
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Wireless_Link" fill="#EDEDED" opacity="1.0">
+    <title>
+      FFM.Wireless_Link
+    </title>
+    <desc>
+      Link between two wireless network interfaces.
+    </desc>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="720"
+          y="1875"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="729"
+          y="1875"
+    >
+      <tspan dx="0" dy="27.0" x="729">
+        FFM.Wireless
+      </tspan>
+      <tspan dx="9" dy="27.0" x="729">
+        _Link
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Wireless_Link.wireless_interface:FFM.Wireless_Interface"
+     opacity="1.0"
+  >
+    <title>
+      FFM.Wireless_Link role wireless_interface
+    </title>
+    <desc>
+      Right network interface
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="840,1875 840,1675" stroke="#666" stroke-width="5"
+    />
+    <path d="M 840 1875 L 840 1675"
+          id="FFM.Wireless_Link.wireless_interface:FFM.Wireless_Interface::path"
+          fill="none" stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Wireless_Link.wireless_interface:FFM.Wireless_Interface::path"
+      >
+        <tspan dy="-7.0">
+          right
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Wireless_Link:is_a:FFM.Net_Link" opacity="1.0">
+    <title>
+      FFM.Wireless_Link is-a FFM.Net_Link
+    </title>
+    <desc>
+      FFM.Wireless_Link is derived from FFM.Net_Link
+    </desc>
+    <polyline fill="none" marker-end="url(#MOM:IM)"
+              points="880,1925 1040,1925" stroke="#08D"
+              stroke-opacity="0.45" stroke-width="5"
+    />
+    <path d="M 880 1925 L 1040 1925"
+          id="FFM.Wireless_Link:is_a:FFM.Net_Link::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
+          font-size="18"
+    >
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Wireless_Link:is_a:FFM.Net_Link::path"
+      >
+        <tspan dy="-7.0">
+          IS_A
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Wireless_Link.wireless_interface:FFM.Wireless_Interface"
+     opacity="1.0"
+  >
+    <title>
+      FFM.Wireless_Link role wireless_interface
+    </title>
+    <desc>
+      Left network interface
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="800,1875 800,1675" stroke="#666" stroke-width="5"
+    />
+    <path d="M 800 1875 L 800 1675"
+          id="FFM.Wireless_Link.wireless_interface:FFM.Wireless_Interface::path"
+          fill="none" stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Wireless_Link.wireless_interface:FFM.Wireless_Interface::path"
+      >
+        <tspan dy="-7.0">
+          left
+        </tspan>
+      </textPath>
+    </text>
   </g>
 </svg>
