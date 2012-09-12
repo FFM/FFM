@@ -344,10 +344,10 @@ class Convert (object) :
         (('650', '660', '664', '676', '680', '681', '688', '699', '720', '780'))
 
     def parse_phone (self, m, number, type) :
-        #print number, type,
         number = number.replace (' ', '')
         number = number.replace ('/', '')
         number = number.replace ('-', '')
+        number = number.replace ('(0)', '')
         if number.startswith ('00') :
             cc   = number [2:4]
             if cc == '41' and number [4:6] == '76' :
@@ -363,7 +363,7 @@ class Convert (object) :
                 cc   = '43'
                 rest = number [2:]
             else :
-                assert (not "Number: %s" % number)
+                raise ValueError, "Number: %s" % number
         elif number.startswith ('0') :
             cc   = '43'
             rest = number [1:]
@@ -391,7 +391,7 @@ class Convert (object) :
             cc   = '43'
             rest = number [2:]
         else :
-            assert (not "Number: %s" % number)
+            raise ValueError, "Number: %s" % number
 
         if rest.startswith ('1') :
             area = '1'
@@ -405,10 +405,32 @@ class Convert (object) :
             type   = 'Festnetz'
             number = rest [4:]
         else :
-            assert (not "Unknown area code")
+            raise ValueError, "Unknown area code: %s" % number
         return dict \
             (country_code = cc, area_code = area, number = number, desc = type)
     # end def parse_phone
+
+    def try_insert_phone (self, person, m, x, c) :
+        if x :
+            if x in self.phone_bogus :
+                return
+            p = self.parse_phone (m, x, c)
+            t = self.pap.Phone.instance (** p)
+            k = "+%(country_code)s/%(area_code)s/%(number)s" % p
+            if t :
+                eid = self.phone_ids [k]
+                prs = self.person_by_id [eid]
+                if  (  prs.pid == person.pid
+                    or self.pap.Person_has_Phone.instance (person, t)
+                    ) :
+                    return # don't insert twice
+                print "WARN: %s/%s %s/%s Duplicate phone: %s" \
+                    % (eid, prs.pid, m.id, person.pid, x)
+            else :
+                t = self.pap.Phone (** p)
+                self.phone_ids [k] = m.id
+            self.pap.Person_has_Phone (person, t)
+    # end def try_insert_phone
 
     def create_persons (self) :
         for m in self.contents ['members'] :
@@ -467,26 +489,7 @@ class Convert (object) :
                     email = self.pap.Email (address = m.email)
                     self.pap.Person_has_Email (person, email)
             for x, c in (m.telephone, 'Festnetz'), (m.mobilephone, 'Mobil') :
-                if x :
-                    if x in self.phone_bogus :
-                        continue
-                    p = self.parse_phone (m, x, c)
-                    t = self.pap.Phone.instance (** p)
-                    k = "+%(country_code)s/%(area_code)s/%(number)s" % p
-                    #print k
-                    if t :
-                        eid = self.phone_ids [k]
-                        prs = self.person_by_id [eid]
-                        if  (  prs.pid == person.pid
-                            or self.pap.Person_has_Phone.instance (person, t)
-                            ) :
-                            continue # don't insert twice
-                        print "WARN: %s/%s %s/%s Duplicate phone: %s" \
-                            % (eid, prs.pid, m.id, person.pid, x)
-                    else :
-                        t = self.pap.Phone (** p)
-                        self.phone_ids [k] = m.id
-                    self.pap.Person_has_Phone (person, t)
+                self.try_insert_phone (person, m, x, c)
             if m.mentor_id and m.mentor_id != m.id :
                 self.mentor [m.id] = m.mentor_id
             if m.nickname :
@@ -509,6 +512,8 @@ class Convert (object) :
                         , desc    = "von 2. Account"
                         )
                     self.pap.Person_has_Email (person, email)
+            for x, c in (d.telephone, 'Festnetz'), (d.mobilephone, 'Mobil') :
+                self.try_insert_phone (person, d, x, c)
             if d.mentor_id and d.mentor_id != d.id :
                 assert (False)
             if d.nickname :
