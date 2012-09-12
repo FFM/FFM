@@ -139,6 +139,7 @@ class Convert (object) :
             )
         self.node_by_id   = {}
         self.email_ids    = {}
+        self.phone_ids    = {}
         self.person_by_id = {}
         self.dupes_by_id  = {}
         self.iter         = enumerate (f)
@@ -318,6 +319,97 @@ class Convert (object) :
                          , (401, 309)
                         ))
 
+    phone_types = \
+        { '720' : 'Ortsunabhängig'.decode ('latin1')
+        , '780' : 'Kovergenter Dienst'.decode ('latin1')
+        }
+
+    phone_bogus   = dict.fromkeys \
+        (( '01111111'
+        ,  '1234567'
+        ,  '0048334961656'
+        ,  '001123456789'
+        ,  '+972 1234567'
+        ,  '003468110524227'
+        ,  '1234'
+        ,  '0'
+        ,  '-'
+        ,  '+49 1 35738755'
+        ,  '974 5517 9729'
+        ,  '0525001340'
+        ,  '59780'
+        ,  '1013'
+        ))
+    phone_special = dict.fromkeys \
+        (('650', '660', '664', '676', '680', '681', '688', '699', '720', '780'))
+
+    def parse_phone (self, m, number, type) :
+        #print number, type,
+        number = number.replace (' ', '')
+        number = number.replace ('/', '')
+        number = number.replace ('-', '')
+        if number.startswith ('00') :
+            cc   = number [2:4]
+            if cc == '41' and number [4:6] == '76' :
+                return dict \
+                    ( country_code = cc
+                    , area_code    = '76'
+                    , number       = number [6:]
+                    , desc         = 'Mobil'
+                    )
+            if cc == '43' :
+                rest = number [4:]
+            elif number [2:5] in self.phone_special :
+                cc   = '43'
+                rest = number [2:]
+            else :
+                assert (not "Number: %s" % number)
+        elif number.startswith ('0') :
+            cc   = '43'
+            rest = number [1:]
+        elif number.startswith ('+430') and number [4:7] in self.phone_special :
+            cc   = '43'
+            rest = number [4:]
+        elif number.startswith ('+43') :
+            cc   = '43'
+            rest = number [3:]
+        elif number.startswith ('+31650') :
+            cc   = '43'
+            area = '650' # mobile number for netherlands, really
+            n    = number [6:]
+            type = 'Mobil'
+            return dict \
+                (country_code = cc, area_code = area, number = n, desc = type)
+        elif len (number) == 7 and m.town.lower ().startswith ('wien') :
+            cc   = '43'
+            rest = '1' + number
+            type = 'Festnetz'
+        elif number.startswith ('650') and type == 'Mobil' :
+            cc   = '43'
+            rest = number
+        elif number.startswith ('43') and number [2:5] in self.phone_special :
+            cc   = '43'
+            rest = number [2:]
+        else :
+            assert (not "Number: %s" % number)
+
+        if rest.startswith ('1') :
+            area = '1'
+            number = rest [1:]
+        elif rest [0:3] in self.phone_special :
+            area   = rest [0:3]
+            type   = self.phone_types.get (area, 'Mobil')
+            number = rest [3:]
+        elif rest [0:4] in ('2243', '2245', '2168', '2230', '2572', '2287') :
+            area   = rest [0:4]
+            type   = 'Festnetz'
+            number = rest [4:]
+        else :
+            assert (not "Unknown area code")
+        return dict \
+            (country_code = cc, area_code = area, number = number, desc = type)
+    # end def parse_phone
+
     def create_persons (self) :
         for m in self.contents ['members'] :
             if m.id == 309 and m.street.startswith ("'") :
@@ -374,7 +466,27 @@ class Convert (object) :
                     self.email_ids [m.email.lower ()] = m.id
                     email = self.pap.Email (address = m.email)
                     self.pap.Person_has_Email (person, email)
-
+            for x, c in (m.telephone, 'Festnetz'), (m.mobilephone, 'Mobil') :
+                if x :
+                    if x in self.phone_bogus :
+                        continue
+                    p = self.parse_phone (m, x, c)
+                    t = self.pap.Phone.instance (** p)
+                    k = "+%(country_code)s/%(area_code)s/%(number)s" % p
+                    #print k
+                    if t :
+                        eid = self.phone_ids [k]
+                        prs = self.person_by_id [eid]
+                        if  (  prs.pid == person.pid
+                            or self.pap.Person_has_Phone.instance (person, t)
+                            ) :
+                            continue # don't insert twice
+                        print "WARN: %s/%s %s/%s Duplicate phone: %s" \
+                            % (eid, prs.pid, m.id, person.pid, x)
+                    else :
+                        t = self.pap.Phone (** p)
+                        self.phone_ids [k] = m.id
+                    self.pap.Person_has_Phone (person, t)
             if m.mentor_id and m.mentor_id != m.id :
                 self.mentor [m.id] = m.mentor_id
             if m.nickname :
