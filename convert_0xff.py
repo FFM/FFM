@@ -131,12 +131,14 @@ class Convert (object) :
         self.pap          = self.scope.GTW.OMP.PAP
         self.tables       = {}
         self.contents     = {}
+        self.mentor       = {}
         self.modes        = dict \
             ( client      = self.ffm.Client_Mode
             , ap          = self.ffm.AP_Mode
             , ad_hoc      = self.ffm.Ad_Hoc_Mode
             )
         self.node_by_id   = {}
+        self.email_ids    = {}
         self.person_by_id = {}
         self.dupes_by_id  = {}
         self.iter         = enumerate (f)
@@ -263,7 +265,8 @@ class Convert (object) :
             if person :
                 self.ffm.Subject_owns_Node (person, node)
             else :
-                print "Node %s: id member %s not found" % (n.id, n.id_members)
+                print "WARN: Node %s: member %s not found" \
+                    % (n.id, n.id_members)
             self.node_by_id [n.id] = node
     # end def create_nodes
 
@@ -310,19 +313,24 @@ class Convert (object) :
                          , (295, 556) # same person? same gmx address!
                          , (697, 814)
                          , (476, 854) # merge web?
+                         , (312, 307)
+                         , (351, 355)
+                         , (401, 309)
                         ))
 
     def create_persons (self) :
         for m in self.contents ['members'] :
+            if m.id == 309 and m.street.startswith ("'") :
+                m.street = m.street [1:]
             if m.id in self.person_dupes :
-                print "skipping: %s" % m.id
+                print "INFO: skipping person (duplicate): %s" % m.id
                 self.dupes_by_id [m.id] = m
                 continue
             if not m.firstname and not m.lastname :
-                print "no name:", m.id
+                print "WARN: skipping person, no name:", m.id
                 continue
             if not m.lastname :
-                print "no lastname: %s" % m.id
+                print "WARN: skipping person, no lastname: %s" % m.id
                 continue
             person = self.pap.Person \
                 ( first_name = m.firstname
@@ -333,8 +341,10 @@ class Convert (object) :
             self.person_by_id [m.id] = person
             street  = ' '.join (x for x in (m.street, m.housenumber) if x)
             if street or m.town or m.zip :
+                country = 'Austria'.decode ('latin1')
                 if not m.town :
-                    print "no city: %s" % m.id
+                    print 'INFO: no city (setting to "Wien"): %s/%s' \
+                        % (m.id, person.pid)
                     m ['town'] = 'Wien'
                 if not m.zip :
                     if m.id == 653 :
@@ -342,7 +352,7 @@ class Convert (object) :
                     elif m.id == 787 :
                         m ['zip'] = '2351'
                     else :
-                        print "no zip: %s" % m.id
+                        print "INFO: no zip: %s/%s" % (m.id, person.pid)
                 elif m.zip.startswith ('I-') :
                     m ['zip'] = m.zip [2:]
                     country = 'Italy'.decode ('latin1')
@@ -350,21 +360,29 @@ class Convert (object) :
                     ( street     = street
                     , zip        = m.zip
                     , city       = m.town
-                    , country    = 'Austria'.decode ('latin1')
+                    , country    = country
                     )
                 self.pap.Person_has_Address (person, address)
             if m.email :
                 email = self.pap.Email.instance (address = m.email)
                 if email :
-                    print "Duplicate email:", m.email
+                    eid = self.email_ids [m.email.lower ()]
+                    prs = self.person_by_id [eid]
+                    print "WARN: %s/%s %s/%s: Duplicate email: %s" \
+                        % (eid, prs.pid, m.id, person.pid, m.email)
                 else :
+                    self.email_ids [m.email.lower ()] = m.id
                     email = self.pap.Email (address = m.email)
                     self.pap.Person_has_Email (person, email)
 
-            # FIXME: we should import these.
             if m.mentor_id and m.mentor_id != m.id :
-                #print "mentor: %s" % m.mentor_id
-                pass
+                self.mentor [m.id] = m.mentor_id
+            if m.nickname :
+                self.ffm.Nickname (person, m.nickname)
+        for mentor_id, person_id in self.mentor.iteritems () :
+            mentor = self.person_by_id [mentor_id]
+            person = self.person_by_id [person_id]
+            self.ffm.Person_mentors_Person (mentor, person)
         # Retrieve info from dupe account
         for dupe, id in self.person_dupes.iteritems () :
             d = self.dupes_by_id [dupe]
@@ -372,12 +390,17 @@ class Convert (object) :
             if d.email :
                 email = d.email.lower ()
                 if email not in (e.address for e in person.emails) :
-                    print "Second email for member %s: %s" % (id, email)
+                    print "INFO: Second email for %s/%s: %s" \
+                        % (id, person.pid, email)
                     email = self.pap.Email \
                         ( address = d.email
                         , desc    = "von 2. Account"
                         )
                     self.pap.Person_has_Email (person, email)
+            if d.mentor_id and d.mentor_id != d.id :
+                assert (False)
+            if d.nickname :
+                self.ffm.Nickname (person, d.nickname)
     # end def create_persons
 
     def create (self) :

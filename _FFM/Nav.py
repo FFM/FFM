@@ -35,6 +35,7 @@
 #                     `Regulatory_Domain`, `Regulatory_Permission`,
 #                     `Wireless_Interface_uses_Wireless_Channel`
 #    06-Sep-2012 (RS) Remove `Node_has_Net_Device`
+#    12-Sep-2012 (RS) Add `Nickname` and `Person_mentors_Person`
 #    ««revision-date»»···
 #--
 
@@ -95,6 +96,10 @@ class Admin (object) :
 
     Net_Interface         = dict \
         ( ETM             = "FFM.Net_Interface"
+        )
+
+    Nickname              = dict \
+        ( ETM             = "FFM.Nickname"
         )
 
     Node                  = dict \
@@ -162,8 +167,12 @@ class Admin (object) :
             ( ETM            = "FFM.Net_Interface_in_IP_Network"
             )
 
-        Person_has_Node = dict \
-            ( ETM            = "FFM.Person_has_Node"
+        Person_mentors_Person = dict \
+            ( ETM            = "FFM.Person_mentors_Person"
+            )
+
+        Subject_owns_Node = dict \
+            ( ETM            = "FFM.Subject_owns_Node"
             )
 
         Wireless_Interface_uses_Antenna = dict \
