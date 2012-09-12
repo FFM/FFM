@@ -258,7 +258,7 @@ class Convert (object) :
                 if n.gps_lon_sec is not None :
                     lon = lon + " %f s" % n.gps_lon_sec
                 gps = dict (lat = lat, lon = lon)
-            node = self.ffm.Node (name = n.name, position = gps)
+            node = self.ffm.Node (name = n.name, position = gps, map_p = n.map)
             self.set_last_change (node, n.changed, n.created)
             assert (node)
             id = self.person_dupes.get (n.id_members, n.id_members)
@@ -269,6 +269,8 @@ class Convert (object) :
                 print "WARN: Node %s: member %s not found" \
                     % (n.id, n.id_members)
             self.node_by_id [n.id] = node
+            if n.id_tech_c and n.id_tech_c != n.id_members :
+                print "Tech contact found: %s" % n.id_tech_c
     # end def create_nodes
 
     def create_devices (self) :

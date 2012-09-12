@@ -67,7 +67,7 @@ class Node (_Ancestor_Essence) :
         # end class position
 
         class map_p (A_Boolean) :
-            """Show in map ???"""
+            """Show in map."""
 
             kind               = Attr.Optional
             default            = True
