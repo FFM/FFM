@@ -319,7 +319,7 @@ def _main (cmd) :
 _Command = TFL.CAO.Cmd \
     ( handler         = _main
     , args            =
-        ( "xml_file:S?XML file to convert"
+        ( "xml_file:S=http://guifi.net/pt-pt/guifi/cnml/2441/detail?XML file to convert"
         ,
         )
     , opts            =
