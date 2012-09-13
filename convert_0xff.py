@@ -388,7 +388,8 @@ class Convert (object) :
         elif len (number) == 7 and m.town.lower ().startswith ('wien') :
             cc   = '43'
             rest = '1' + number
-            type = 'Festnetz'
+            if type != 'Fax' :
+                type = 'Festnetz'
         elif number.startswith ('650') and type == 'Mobil' :
             cc   = '43'
             rest = number
@@ -407,7 +408,8 @@ class Convert (object) :
             number = rest [3:]
         elif rest [0:4] in self.area_codes :
             area   = rest [0:4]
-            type   = 'Festnetz'
+            if type != 'Fax' :
+                type = 'Festnetz'
             number = rest [4:]
         else :
             raise ValueError, "Unknown area code: %s" % orig_number
