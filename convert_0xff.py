@@ -286,6 +286,8 @@ class Convert (object) :
                 (left = devtype, node = node, name = d.name, raw = True)
             self.set_last_change (dev, d.changed, d.created)
             self.dev_by_id [d.id] = dev
+            # no member info in DB:
+            assert not d.id_members
     # end def create_devices
 
     # first id is the one to remove, the second one is the correct one
