@@ -28,6 +28,7 @@
 # Revision Dates
 #     6-Mar-2012 (CT) Creation
 #    10-May-2012 (CT) Change `mac_address` to `Primary_Optional`, add `name`
+#    13-Sep-2012 (RS) Set `is_partial`
 #    ««revision-date»»···
 #--
 
@@ -44,6 +45,8 @@ _Ancestor_Essence = FFM.Link1
 
 class Net_Interface (_Ancestor_Essence) :
     """Model a network interface of a FFM device"""
+
+    is_partial = True
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
