@@ -321,10 +321,13 @@ class Convert (object) :
                          , (401, 309)
                         ))
 
-    phone_types = \
+    number_types = \
         { '720' : 'Ortsunabhängig'.decode ('latin1')
         , '780' : 'Kovergenter Dienst'.decode ('latin1')
         }
+
+    area_codes = dict.fromkeys \
+        (('2243', '2245', '2168', '2230', '2572', '2287', '2165'))
 
     phone_bogus   = dict.fromkeys \
         (( '01111111'
@@ -345,8 +348,8 @@ class Convert (object) :
     phone_special = dict.fromkeys \
         (('650', '660', '664', '676', '680', '681', '688', '699', '720', '780'))
 
-    def parse_phone (self, m, number, type) :
-        number = number.replace (' ', '')
+    def parse_phone (self, m, orig_number, type) :
+        number = orig_number.replace (' ', '')
         number = number.replace ('/', '')
         number = number.replace ('-', '')
         number = number.replace ('(0)', '')
@@ -365,7 +368,7 @@ class Convert (object) :
                 cc   = '43'
                 rest = number [2:]
             else :
-                raise ValueError, "Number: %s" % number
+                raise ValueError, "Number: %s" % orig_number
         elif number.startswith ('0') :
             cc   = '43'
             rest = number [1:]
@@ -393,21 +396,21 @@ class Convert (object) :
             cc   = '43'
             rest = number [2:]
         else :
-            raise ValueError, "Number: %s" % number
+            raise ValueError, "Number: %s" % orig_number
 
         if rest.startswith ('1') :
             area = '1'
             number = rest [1:]
         elif rest [0:3] in self.phone_special :
             area   = rest [0:3]
-            type   = self.phone_types.get (area, 'Mobil')
+            type   = self.number_types.get (area, 'Mobil')
             number = rest [3:]
-        elif rest [0:4] in ('2243', '2245', '2168', '2230', '2572', '2287') :
+        elif rest [0:4] in self.area_codes :
             area   = rest [0:4]
             type   = 'Festnetz'
             number = rest [4:]
         else :
-            raise ValueError, "Unknown area code: %s" % number
+            raise ValueError, "Unknown area code: %s" % orig_number
         return dict \
             (country_code = cc, area_code = area, number = number, desc = type)
     # end def parse_phone
@@ -433,6 +436,12 @@ class Convert (object) :
                 self.phone_ids [k] = m.id
             self.pap.Person_has_Phone (person, t)
     # end def try_insert_phone
+
+    phone_types = dict \
+        ( telephone   = 'Festnetz'
+        , mobilephone = 'Mobil'
+        , fax         = 'Fax'
+        )
 
     def create_persons (self) :
         for m in self.contents ['members'] :
@@ -490,7 +499,8 @@ class Convert (object) :
                     self.email_ids [m.email.lower ()] = m.id
                     email = self.pap.Email (address = m.email)
                     self.pap.Person_has_Email (person, email)
-            for x, c in (m.telephone, 'Festnetz'), (m.mobilephone, 'Mobil') :
+            for a, c in self.phone_types.iteritems () :
+                x = getattr (m, a)
                 self.try_insert_phone (person, m, x, c)
             if m.mentor_id and m.mentor_id != m.id :
                 self.mentor [m.id] = m.mentor_id
@@ -514,7 +524,8 @@ class Convert (object) :
                         , desc    = "von 2. Account"
                         )
                     self.pap.Person_has_Email (person, email)
-            for x, c in (d.telephone, 'Festnetz'), (d.mobilephone, 'Mobil') :
+            for a, c in self.phone_types.iteritems () :
+                x = getattr (d, a)
                 self.try_insert_phone (person, d, x, c)
             if d.mentor_id and d.mentor_id != d.id :
                 assert (False)
