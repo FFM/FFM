@@ -236,14 +236,14 @@ class Convert (object) :
         if prot :
             prot = self.protocol_translate.get (prot, prot)
         if wif :
-            assert (wif.raw_attr ('protocol') == prot)
             assert (wif.essid                 == ssid)
             assert (wif.mac_address           == mac)
         else :
+            std  = ffm.Wireless_Standard.instance (prot)
             wif  = ffm.Wireless_Interface \
                 ( left        = device
                 , name        = name
-                , protocol    = prot
+                , standard    = std
                 , essid       = ssid
                 , mac_address = mac
                 , raw         = True

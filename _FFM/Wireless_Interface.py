@@ -32,6 +32,7 @@
 #    17-Aug-2012 (AK) `SSID` -> `ESSID`, add `BSSID`, `power` -> `tx_power`
 #                     add `frequency`
 #    20-Aug-2012 (RS) cleanup, remove `frequency`, use `A_TX_Power`
+#    13-Sep-2012 (RS) remove `protocol`, add `standard`
 #    ««revision-date»»···
 #--
 
@@ -44,6 +45,7 @@ from   _GTW._OMP._NET.Attr_Type import *
 
 from   _FFM.Attr_Type           import *
 import _FFM.Net_Interface
+import _FFM.Wireless_Standard
 
 _Ancestor_Essence = FFM.Net_Interface
 
@@ -56,13 +58,13 @@ class Wireless_Interface (_Ancestor_Essence) :
 
         ### Non-primary attributes
 
-        class protocol (A_Wireless_Protocol) :
-            """Protocol used by the wireless interface."""
+        class standard (A_Id_Entity) :
+            """Wireless standard used by the wireless interface."""
 
-            example            = "802.11a"
             kind               = Attr.Necessary
+            P_Type             = FFM.Wireless_Standard
 
-        # end class protocol
+        # end class standard
 
         class txpower (A_TX_Power) :
             """Transmit power with unit (units of dBW or W)."""
