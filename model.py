@@ -37,6 +37,7 @@
 #    11-Jun-2012 (CT) Correct `Auth` and `L10N`
 #    29-Jul-2012 (CT) Change to use `GTW.RST.TOP` instead of `GTW.NAV`
 #    11-Aug-2012 (CT) Add `GTW.RST.TOP.MOM.Doc` documentation
+#    13-Sep-2012 (CT) Remove `GTW.AFS.MOM.Spec.setup_defaults`
 #    ««revision-date»»···
 #--
 
@@ -78,8 +79,6 @@ import _TFL.CAO
 import _GTW._AFS._MOM.Spec
 
 from   _Base_Command_           import _Base_Command_
-
-GTW.AFS.MOM.Spec.setup_defaults ()
 
 GTW.OMP.PAP.Phone.change_attribute_default         ("country_code", "43")
 
