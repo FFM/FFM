@@ -43,8 +43,9 @@ class OLSR_Parser (Parser) :
     re_mid_head  = re.compile (r"IP address\s+Aliases")
     re_topo_head = re.compile \
         (r"Dest. IP\s+Last hop\s+IP\s+LQ\s+NLQ\s+Cost")
-    n            = r"([0-9.]+)"
-    re_topo_line = re.compile (r"^" + r"\s+".join ([n] * 5) + r"$")
+    ip           = r"([0-9.]+)"
+    n            = r"((?:[0-9.]+)|INFINITE)"
+    re_topo_line = re.compile (r"^" + r"\s+".join ([ip] * 2 + [n] * 3) + r"$")
     re_mid_line  = re.compile (r"^%s\s+(%s\s*(;\s*%s)*)$" % (n, n, n))
     matrix = \
         [ ["init",      "Table: MID",      "mid_tbl",   "push"]
@@ -71,13 +72,14 @@ class OLSR_Parser (Parser) :
     # end def mid_line
 
     def topo_line (self, state, new_state, match) :
-        t = Topology \
-            ( match.group (1)
-            , match.group (2)
-            , float (match.group (3))
-            , float (match.group (4))
-            , float (match.group (5))
-            )
+        g = match.groups ()
+        p = []
+        for n, v in enumerate (g) :
+            if n > 1 :
+                if v == 'INFINITE' : v = 'inf'
+                v = float (v)
+            p.append (v)
+        t = Topology (*p)
         self.topo.append (t)
     # end def topo_line
 
@@ -86,7 +88,7 @@ class OLSR_Parser (Parser) :
 if __name__ == "__main__" :
     import sys
     f = open (sys.argv [1])
-    parser = OLSR_Parser ()
+    parser = OLSR_Parser (verbose = 1)
     parser.parse (f)
     for t in parser.topo :
         print t
