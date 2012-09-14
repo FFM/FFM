@@ -52,6 +52,7 @@ class Admin (object) :
 
     Antenna               = dict \
         ( ETM             = "FFM.Antenna"
+        , list_display    = ("left", "name", "gain")
         )
 
     Antenna_Type          = dict \
