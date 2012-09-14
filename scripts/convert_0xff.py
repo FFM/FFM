@@ -129,11 +129,11 @@ class Convert (object) :
         olsr_parser       = OLSR_Parser ()
         olsr_parser.parse (open (cmd.olsr_file))
         self.olsr_nodes   = {}
-        for t in olsr_parser.topo :
-            self.olsr_nodes [t.dst_ip]   = True
-            self.olsr_nodes [t.last_hop] = True
-        self.olsr_mid     = dict ((x.ip, x.aliases) for x in olsr_parser.mids)
-        assert len (self.olsr_mid) == len (olsr_parser.mids)
+        for t in olsr_parser.topo.forward.iterkeys () :
+            self.olsr_nodes [t]   = True
+        for t in olsr_parser.topo.reverse.iterkeys () :
+            self.olsr_nodes [t]   = True
+        self.olsr_mid     = olsr_parser.mid.by_ip
         self.rev_mid      = {}
         for k in self.olsr_mid.itervalues () :
             for mid in k :
@@ -659,7 +659,7 @@ class Convert (object) :
 
     def create (self) :
         self.build_device_structure ()
-        #self.debug_output           ()
+        self.debug_output           ()
         self.create_persons         ()
         self.create_nodes           ()
         #self.create_ips_and_devices ()

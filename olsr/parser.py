@@ -6,7 +6,7 @@ from   rsclib.HTML_Parse  import Page_Tree
 from   rsclib.autosuper   import autosuper
 from   rsclib.stateparser import Parser
 
-class Topology (autosuper) :
+class Topo_Entry (autosuper) :
     """ Model an OLSR topology entry. """
 
     def __init__ (self, dst_ip, last_hop, lq, nlq, cost) :
@@ -22,18 +22,43 @@ class Topology (autosuper) :
     # end def __str__
     __repr__ = __str__
 
+# end class Topo_Entry
+
+class Topology (autosuper) :
+
+    def __init__ (self) :
+        self.forward = {}
+        self.reverse = {}
+    # end def __init__
+
+    def add (self, entry) :
+        if entry.dst_ip not in self.forward :
+            self.forward [entry.dst_ip] = []
+        self.forward [entry.dst_ip].append (entry)
+        if entry.last_hop not in self.reverse :
+            self.reverse [entry.last_hop] = []
+        self.reverse [entry.last_hop].append (entry)
+    # end def add
+
 # end class Topology
 
 class MID (autosuper) :
     """ Model an OLSR MID entry. """
 
-    def __init__ (self, ip, *aliases) :
-        self.ip      = ip
-        self.aliases = aliases
+    def __init__ (self) :
+        self.by_ip = {}
+    # end def __init__
+
+    def add (self, ip, *aliases) :
+        assert ip not in self.by_ip or self.by_ip [ip] == aliases
+        self.by_ip [ip] = aliases
     # end def __init__
 
     def __str__ (self) :
-        return "MID (%(ip)s, * %(aliases)s)" % self.__dict__
+        return '\n'.join \
+            ("MID %s -> %s" % (k, ';'.join (v))
+             for k, v in self.by_ip.iteritems ()
+            )
     # end def __str__
     __repr__ = __str__
 
@@ -60,15 +85,14 @@ class OLSR_Parser (Parser) :
         ]
 
     def __init__ (self, *args, **kw) :
-        self.mids  = []
-        self.topo = []
+        self.mid  = MID ()
+        self.topo = Topology ()
         self.__super.__init__ (*args, **kw)
     # end def __init__
 
     def mid_line (self, state, new_state, match) :
         aliases = (x.strip () for x in match.group (2).split (';'))
-        m = MID (match.group (1), *aliases)
-        self.mids.append (m)
+        m = self.mid.add (match.group (1), *aliases)
     # end def mid_line
 
     def topo_line (self, state, new_state, match) :
@@ -79,8 +103,7 @@ class OLSR_Parser (Parser) :
                 if v == 'INFINITE' : v = 'inf'
                 v = float (v)
             p.append (v)
-        t = Topology (*p)
-        self.topo.append (t)
+        self.topo.add (Topo_Entry (* p))
     # end def topo_line
 
 # end class OLSR_Parser
