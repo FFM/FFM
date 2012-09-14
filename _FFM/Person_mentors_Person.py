@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    12-Sep-2012 (RS) Creation
+#    13-Sep-2012 (RS) Mentored person is `apprentice`
 #    ««revision-date»»···
 #--
 
@@ -62,7 +63,7 @@ class Person_mentors_Person (_Ancestor_Essence) :
             """The Person being mentored."""
 
             role_type          = PAP.Person
-            role_name          = "person" # FIXME: better name?
+            role_name          = "apprentice"
 
         # end class right
 

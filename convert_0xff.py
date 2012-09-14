@@ -138,6 +138,7 @@ class Convert (object) :
             , ad_hoc      = self.ffm.Ad_Hoc_Mode
             )
         self.node_by_id   = {}
+        self.dev_by_id    = {}
         self.email_ids    = {}
         self.phone_ids    = {}
         self.person_by_id = {}
@@ -284,6 +285,9 @@ class Convert (object) :
             dev = self.ffm.Net_Device \
                 (left = devtype, node = node, name = d.name, raw = True)
             self.set_last_change (dev, d.changed, d.created)
+            self.dev_by_id [d.id] = dev
+            # no member info in DB:
+            assert not d.id_members
     # end def create_devices
 
     # first id is the one to remove, the second one is the correct one
@@ -319,6 +323,9 @@ class Convert (object) :
                          , (312, 307)
                          , (351, 355)
                          , (401, 309)
+                         , (871, 870)
+                         , (580, 898)
+                         , (894, 896)
                         ))
 
     number_types = \
@@ -327,7 +334,7 @@ class Convert (object) :
         }
 
     area_codes = dict.fromkeys \
-        (('2243', '2245', '2168', '2230', '2572', '2287', '2165'))
+        (('2243', '2245', '2168', '2230', '2572', '2287', '2165', '2256'))
 
     phone_bogus   = dict.fromkeys \
         (( '01111111'
@@ -388,13 +395,17 @@ class Convert (object) :
         elif len (number) == 7 and m.town.lower ().startswith ('wien') :
             cc   = '43'
             rest = '1' + number
-            type = 'Festnetz'
+            if type != 'Fax' :
+                type = 'Festnetz'
         elif number.startswith ('650') and type == 'Mobil' :
             cc   = '43'
             rest = number
         elif number.startswith ('43') and number [2:5] in self.phone_special :
             cc   = '43'
             rest = number [2:]
+        elif '@' in number :
+            print "WARN: Email in phone field? %s" % orig_number
+            return
         else :
             raise ValueError, "Number: %s" % orig_number
 
@@ -407,7 +418,8 @@ class Convert (object) :
             number = rest [3:]
         elif rest [0:4] in self.area_codes :
             area   = rest [0:4]
-            type   = 'Festnetz'
+            if type != 'Fax' :
+                type = 'Festnetz'
             number = rest [4:]
         else :
             raise ValueError, "Unknown area code: %s" % orig_number
@@ -420,6 +432,8 @@ class Convert (object) :
             if x in self.phone_bogus :
                 return
             p = self.parse_phone (m, x, c)
+            if not p :
+                return
             t = self.pap.Phone.instance (** p)
             k = "+%(country_code)s/%(area_code)s/%(number)s" % p
             if t :
@@ -429,13 +443,34 @@ class Convert (object) :
                     or self.pap.Person_has_Phone.instance (person, t)
                     ) :
                     return # don't insert twice
-                print "WARN: %s/%s %s/%s Duplicate phone: %s" \
+                print "WARN: %s/%s %s/%s: Duplicate phone: %s" \
                     % (eid, prs.pid, m.id, person.pid, x)
             else :
                 t = self.pap.Phone (** p)
                 self.phone_ids [k] = m.id
             self.pap.Person_has_Phone (person, t)
     # end def try_insert_phone
+
+    def try_insert_email (self, person, m, attr = 'email', second = False) :
+        mail  = getattr (m, attr)
+        email = self.pap.Email.instance (address = mail)
+        if email :
+            if mail.lower () in (e.address for e in person.emails) :
+                return
+            eid = self.email_ids [mail.lower ()]
+            prs = self.person_by_id [eid]
+            print "WARN: %s/%s %s/%s: Duplicate email: %s" \
+                % (eid, prs.pid, m.id, person.pid, mail)
+        else :
+            desc = None
+            if second :
+                desc = "von 2. Account"
+                print "INFO: Second email for %s/%s: %s" \
+                    % (m.id, person.pid, mail)
+            self.email_ids [mail.lower ()] = m.id
+            email = self.pap.Email (address = mail, desc = desc)
+            self.pap.Person_has_Email (person, email)
+    # end def try_insert_email
 
     phone_types = dict \
         ( telephone   = 'Festnetz'
@@ -444,7 +479,7 @@ class Convert (object) :
         )
 
     def create_persons (self) :
-        for m in self.contents ['members'] :
+        for m in sorted (self.contents ['members'], key = lambda x : x.id) :
             if m.id == 309 and m.street.startswith ("'") :
                 m.street = m.street [1:]
             if m.id in self.person_dupes :
@@ -489,16 +524,9 @@ class Convert (object) :
                     )
                 self.pap.Person_has_Address (person, address)
             if m.email :
-                email = self.pap.Email.instance (address = m.email)
-                if email :
-                    eid = self.email_ids [m.email.lower ()]
-                    prs = self.person_by_id [eid]
-                    print "WARN: %s/%s %s/%s: Duplicate email: %s" \
-                        % (eid, prs.pid, m.id, person.pid, m.email)
-                else :
-                    self.email_ids [m.email.lower ()] = m.id
-                    email = self.pap.Email (address = m.email)
-                    self.pap.Person_has_Email (person, email)
+                self.try_insert_email (person, m)
+            if m.fax and '@' in m.fax :
+                self.try_insert_email (person, m, attr = 'fax')
             for a, c in self.phone_types.iteritems () :
                 x = getattr (m, a)
                 self.try_insert_phone (person, m, x, c)
@@ -515,15 +543,7 @@ class Convert (object) :
             d = self.dupes_by_id [dupe]
             person = self.person_by_id [id]
             if d.email :
-                email = d.email.lower ()
-                if email not in (e.address for e in person.emails) :
-                    print "INFO: Second email for %s/%s: %s" \
-                        % (id, person.pid, email)
-                    email = self.pap.Email \
-                        ( address = d.email
-                        , desc    = "von 2. Account"
-                        )
-                    self.pap.Person_has_Email (person, email)
+                self.try_insert_email (person, d, second = True)
             for a, c in self.phone_types.iteritems () :
                 x = getattr (d, a)
                 self.try_insert_phone (person, d, x, c)
@@ -533,10 +553,28 @@ class Convert (object) :
                 self.ffm.Nickname (person, d.nickname)
     # end def create_persons
 
+    def create_ips (self) :
+        for ip in self.contents ['ips'] :
+            assert not ip.id_nodes
+            assert not ip.id_members or ip.id_members == 1
+            print ip.ip, type (ip.ip), ip.cidr
+            net = IP4_Address (ip.ip.decode ('ascii'), ip.cidr)
+            adr = IP4_Address (ip.ip.decode ('ascii'))
+            assert (adr in net)
+            network = self.ffm.IP4_Network.instance_or_new \
+                (dict (address = str (net)))
+            device  = self.dev_by_id (ip.id_devices)
+            # FIXME: Need info on wireless vs wired Net_Interface
+            iface   = self.ffm.Wired_Interface (left = device)
+            self.ffm.Net_Interface_in_IP4_Network.instance_or_new \
+                (iface, network, dict (address = str (adr)))
+    # end def create_ips
+
     def create (self) :
         self.create_persons ()
         self.create_nodes   ()
         self.create_devices ()
+        #self.create_ips     ()
     # end def create
 
 # end def Convert
