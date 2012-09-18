@@ -71,28 +71,6 @@ def graph (app_type) :
                     ( IS_A.FFM.Device_Type
                     , offset = CD.E * 4
                     )
-                , ET.FFM.Wireless_Interface_uses_Antenna
-                    ( Role.left
-                        ( ET.FFM._Wireless_Mode_
-                            ( Child.FFM.Ad_Hoc_Mode
-                                ( offset = CD.SW
-                                )
-                            , Child.FFM.AP_Mode
-                                ( offset = CD.S
-                                )
-                            , Child.FFM.Client_Mode
-                                ( offset = CD.SE
-                                )
-                            , offset = CD.SW
-                            )
-                        , ET.FFM.Wireless_Interface_uses_Wireless_Channel
-                            ( Role.right (offset = CD.W)
-                            , offset  = CD.W
-                            )
-                        , offset = CD.SE
-                        )
-                    , offset = CD.W + 4 * CD.S
-                    )
                 , offset = CD.N
                 )
             , Child.FFM.Net_Device
@@ -105,30 +83,47 @@ def graph (app_type) :
                     , Attr.owner
                     , offset = CD.N
                     )
-                , ET.FFM.Net_Interface
-                    ( ET.FFM._Net_Credentials_ (offset = CD.SE)
-                    , ET.FFM.Net_Interface_in_IP_Network
-                        ( Role.right
-                            ( Child.FFM.IP4_Network (offset = CD.S)
-                            , Child.FFM.IP6_Network (offset = CD.N)
-                            , offset = CD.E
-                            )
-                        , offset = CD.E
-                        )
-                    , ET.FFM.Net_Link
-                        ( Child.FFM.Wireless_Link
-                            ( offset = CD.W
-                            )
-                        , offset = CD.S
-                        )
-                    , offset = CD.S * 2 + CD.E
-                    )
+                , ET.FFM.Net_Interface (offset = CD.S + CD.E * 2)
                 , offset = CD.E + CD.S * 2
                 )
             )
-        , ET.FFM.Wireless_Interface
-            ( IS_A.FFM.Net_Interface
-            , Skip.left
+        , ET.FFM.Net_Interface
+            ( ET.FFM._Net_Credentials_ (offset = CD.SE)
+            , ET.FFM.Net_Interface_in_IP_Network
+                ( Role.right
+                    ( Child.FFM.IP4_Network (offset = CD.S)
+                    , Child.FFM.IP6_Network (offset = CD.N)
+                    , offset = CD.E
+                    )
+                , offset = CD.E
+                )
+            , Child.FFM.Wireless_Interface
+                ( ET.FFM.Wireless_Link
+                    ( Child.FFM.Net_Link (offset = CD.E)
+                    , offset = CD.S
+                    )
+                , ET.FFM._Wireless_Mode_
+                    ( Child.FFM.Ad_Hoc_Mode
+                        ( offset = CD.SW
+                        )
+                    , Child.FFM.AP_Mode
+                        ( offset = CD.S
+                        )
+                    , Child.FFM.Client_Mode
+                        ( offset = CD.SE
+                        )
+                    , offset = CD.SW
+                    )
+                , ET.FFM.Wireless_Interface_uses_Antenna
+                    ( Role.right
+                    , offset = CD.N + CD.W * 3
+                    )
+                , ET.FFM.Wireless_Interface_uses_Wireless_Channel
+                    ( Role.right (offset = CD.W)
+                    , offset = CD.W
+                    )
+                , offset = CD.W
+                )
             )
         )
 # end def graph
