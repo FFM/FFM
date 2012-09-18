@@ -29,6 +29,7 @@
 #     6-Mar-2012 (CT) Creation
 #    19-Jul-2012 (RS) Add `position`
 #    20-Jul-2012 (RS) `Node` no longer inherits from `PAP.Subject`
+#    18-Sep-2012 (RS) Add `owner` and `manager`
 #    ««revision-date»»···
 #--
 
@@ -37,6 +38,7 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 from   _MOM.import_MOM        import *
 from   _MOM._Attr.Position    import A_Position
 from   _FFM                   import FFM
+from   _GTW._OMP._PAP         import PAP, Person, Subject
 
 import _FFM.Entity
 
@@ -58,6 +60,28 @@ class Node (_Ancestor_Essence) :
             completer          = Attr.Completer_Spec  (2, Attr.Selector.primary)
 
         # end class name
+
+        class manager (A_Id_Entity) :
+            """Manager of the node"""
+
+            kind               = Attr.Required
+            P_Type             = PAP.Person
+
+        # end class manager
+
+        class owner (A_Id_Entity) :
+            """Owner of the node, defaults to manager"""
+
+            kind               = Attr.Optional
+            Kind_Mixins        = (Attr.Computed_Mixin, )
+            P_Type             = PAP.Subject
+
+            def computed (self, obj) :
+                if obj :
+                    return obj.manager
+            # end def computed
+
+        # end class owner
 
         class position (A_Position) :
             """GPS position and optional height of the node"""

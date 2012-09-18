@@ -36,6 +36,7 @@
 #                     `Wireless_Interface_uses_Wireless_Channel`
 #    06-Sep-2012 (RS) Remove `Node_has_Net_Device`
 #    12-Sep-2012 (RS) Add `Nickname` and `Person_mentors_Person`
+#    18-Sep-2012 (RS) Remove `Subject_owns_Node`
 #    ««revision-date»»···
 #--
 
@@ -170,10 +171,6 @@ class Admin (object) :
 
         Person_mentors_Person = dict \
             ( ETM            = "FFM.Person_mentors_Person"
-            )
-
-        Subject_owns_Node = dict \
-            ( ETM            = "FFM.Subject_owns_Node"
             )
 
         Wireless_Interface_uses_Antenna = dict \

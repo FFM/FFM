@@ -68,6 +68,8 @@ class Convert (object) :
         self.scope = scope
         self.links = {} # list of linked interfaces by link id
         ffm        = self.scope.FFM
+        PAP        = self.scope.PAP
+        self.owner = PAP.Person (first_name = "guifi", last_name = "net")
         self.modes = dict \
             ( client = ffm.Client_Mode
             , ap     = ffm.AP_Mode
@@ -76,6 +78,7 @@ class Convert (object) :
 
         #print self.et.pretty (with_text = 1)
         #print self.et.pretty ()
+
 
         self.et.walk (self.insert)
         #self.et.walk (self.record_attributes)
@@ -105,7 +108,7 @@ class Convert (object) :
         ffm  = self.scope.FFM
         name = '_'.join ((element.get ('id'), element.get ('title')))
         pos  = dict (lat = element.get ('lat'), lon = element.get ('lon'))
-        node = ffm.Node (name = name, position = pos)
+        node = ffm.Node (name = name, position = pos, manager = self.owner)
         for n in element :
             if n.tag == 'device' :
                 self.insert_device (node, n)

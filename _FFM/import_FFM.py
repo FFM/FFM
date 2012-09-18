@@ -35,6 +35,7 @@
 #    30-Aug-2012 (RS) Remove `Node_has_Net_Device`
 #     6-Sep-2012 (CT) Add `IP6_Network`
 #    12-Sep-2012 (CT) Add `Nickname` and `Person_mentors_Person`
+#    18-Sep-2012 (RS) remove `Subject_owns_Node` (replace by Id_Entity)
 #    ««revision-date»»···
 #--
 
@@ -75,7 +76,6 @@ import _FFM.Net_Interface_in_IP4_Network
 import _FFM.Net_Interface_in_IP_Network
 import _FFM.Net_Link
 import _FFM.Person_mentors_Person
-import _FFM.Subject_owns_Node
 import _FFM.Wired_Link
 import _FFM.Wireless_Interface_uses_Antenna
 import _FFM.Wireless_Interface_uses_Wireless_Channel

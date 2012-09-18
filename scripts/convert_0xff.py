@@ -288,19 +288,29 @@ class Convert (object) :
                 if n.gps_lon_sec is not None :
                     lon = lon + " %f s" % n.gps_lon_sec
                 gps = dict (lat = lat, lon = lon)
-            node = self.ffm.Node (name = n.name, position = gps, map_p = n.map)
-            self.set_last_change (node, n.changed, n.created)
-            assert (node)
             id = self.person_dupes.get (n.id_members, n.id_members)
             person = self.person_by_id.get (id)
-            if person :
-                self.ffm.Subject_owns_Node (person, node)
-            else :
-                print "WARN: Node %s: member %s not found" \
-                    % (n.id, n.id_members)
-            self.node_by_id [n.id] = node
             if n.id_tech_c and n.id_tech_c != n.id_members :
+                manager = self.person_by_id.get (n.id_tech_c)
+                assert (manager)
                 print "Tech contact found: %s" % n.id_tech_c
+            else :
+                manager = person
+                person  = None
+            if manager :
+                node = self.ffm.Node \
+                    ( name     = n.name
+                    , position = gps
+                    , map_p    = n.map
+                    , manager  = manager
+                    , owner    = person
+                    )
+                self.set_last_change (node, n.changed, n.created)
+                assert (node)
+                self.node_by_id [n.id] = node
+            else :
+                print "ERR:  Node %s: member %s not found" \
+                    % (n.id, n.id_members)
     # end def create_nodes
 
     # first id is the one to remove, the second one is the correct one
