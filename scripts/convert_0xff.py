@@ -162,6 +162,7 @@ class Convert (object) :
             , ad_hoc      = self.ffm.Ad_Hoc_Mode
             )
         self.networks     = {}
+        self.net_dupes    = {}
         self.node_by_id   = {}
         self.ip_by_ip     = {}
         self.dev_by_id    = {}
@@ -591,12 +592,17 @@ class Convert (object) :
         # FIXME: Need info on wireless vs wired Net_Interface
         iface = self.ffm.Wired_Interface (left = dev, name = name, raw = True)
         net = str (IP4_Address (ip.ip.encode ('ascii'), ip.cidr))
-        network = self.networks [net]
+        net = self.net_dupes.get (net, net)
+        network = self.ffm.IP4_Network.instance (dict (address = net))
         self.ffm.Net_Interface_in_IP4_Network \
             (iface, network, dict (address = ip.ip), raw = True)
     # end def create_interface
 
     def create_ips_and_devices (self) :
+        for ip in self.olsr_hna.by_dest :
+            for n, nw in self.networks.iteritems () :
+                if ip in nw :
+                    print "HNA: %s" % ip
         for ip in self.contents ['ips'] :
             assert not ip.id_nodes
             assert not ip.id_members or ip.id_members == 1
@@ -604,7 +610,6 @@ class Convert (object) :
             if not ip.id_devices :
                 # FIXME: Do we need a "free-pool"?
                 continue
-            print ip.ip, type (ip.ip), ip.cidr
             # Ignore IPs that belong to some device
             if ip.ip in self.rev_mid :
                 continue
@@ -626,14 +631,21 @@ class Convert (object) :
                 if ip.id_devices not in self.ip_by_dev :
                     self.ip_by_dev [ip.id_devices] = []
                 self.ip_by_dev [ip.id_devices].append (ip)
-            net = str (IP4_Address (ip.ip.encode ('ascii'), ip.cidr))
+            net = IP4_Address (ip.ip.encode ('ascii'), ip.cidr)
+            self.networks [str (net)] = net
+        self.net_dupes = {}
+        for net, adr in self.networks.iteritems () :
+            for net2, adr2 in self.networks.iteritems () :
+                if net != net2 :
+                    if adr in adr2 :
+                        self.net_dupes [net]  = net2
+                    if adr2 in adr :
+                        self.net_dupes [net2] = net
+        for net in self.net_dupes :
+            del self.networks [net]
+        for net in self.networks :
             network = self.ffm.IP4_Network.instance_or_new \
                 (dict (address = net))
-            self.networks [net] = network
-        for n in self.networks :
-            print n
-        for k in self.ffm.IP4_Network.query () :
-            print k
         for d in self.contents ['devices'] :
             if d.id_nodes not in self.dev_by_node :
                 self.dev_by_node [d.id_nodes] = []
@@ -673,7 +685,7 @@ class Convert (object) :
             ) :
             print k
         for node in self.contents ['nodes'] :
-            print "Node: %s" % node.name.encode ('latin1')
+            print "Node: %s (%s)" % (node.name.encode ('latin1'), node.id)
             for d in self.dev_by_node.get (node.id, []) :
                 print "    Device: %s" % d.name
                 ips = self.ip_by_dev.get (d.id, [])
@@ -703,7 +715,7 @@ class Convert (object) :
 
     def create (self) :
         self.build_device_structure ()
-        self.debug_output           ()
+        #self.debug_output           ()
         self.create_persons         ()
         self.create_nodes           ()
         #self.create_ips_and_devices ()
