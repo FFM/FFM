@@ -44,7 +44,7 @@ class Topology (autosuper) :
 # end class Topology
 
 class MID (autosuper) :
-    """ Model an OLSR MID entry. """
+    """ Model OLSR MID table. """
 
     def __init__ (self) :
         self.by_ip = {}

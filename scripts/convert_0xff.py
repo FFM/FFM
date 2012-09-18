@@ -4,7 +4,6 @@
 import sys, os
 import re
 
-from   UserDict               import UserDict
 from   datetime               import datetime, tzinfo, timedelta
 from   rsclib.IP4_Address     import IP4_Address
 from   _GTW                   import GTW
@@ -108,12 +107,23 @@ def make_naive (dt) :
     return x - offs
 # end make_naive
 
-class adict (UserDict) :
+class adict (dict) :
+
+    def __init__ (self, *args, **kw) :
+        self.done = False
+        dict.__init__ (self, *args, **kw)
+    # end def __init__
+
     def __getattr__ (self, key) :
         if key in self :
             return self [key]
         raise AttributeError, key
     # end def __getattr__
+
+    def set_done (self, done = True) :
+        self.done = done
+    # end def set_done
+
 # end class adict
 
 class Convert (object) :
@@ -134,6 +144,7 @@ class Convert (object) :
         for t in olsr_parser.topo.reverse.iterkeys () :
             self.olsr_nodes [t]   = True
         self.olsr_mid     = olsr_parser.mid.by_ip
+        self.olsr_hna     = olsr_parser.hna
         self.rev_mid      = {}
         for k in self.olsr_mid.itervalues () :
             for mid in k :
@@ -150,6 +161,7 @@ class Convert (object) :
             , ap          = self.ffm.AP_Mode
             , ad_hoc      = self.ffm.Ad_Hoc_Mode
             )
+        self.networks     = {}
         self.node_by_id   = {}
         self.ip_by_ip     = {}
         self.dev_by_id    = {}
@@ -578,9 +590,8 @@ class Convert (object) :
     def create_interface (self, dev, name, ip) :
         # FIXME: Need info on wireless vs wired Net_Interface
         iface = self.ffm.Wired_Interface (left = dev, name = name, raw = True)
-        net = IP4_Address (ip.ip.encode ('ascii'), ip.cidr)
-        network = self.ffm.IP4_Network.instance_or_new \
-            (dict (address = str (net)))
+        net = str (IP4_Address (ip.ip.encode ('ascii'), ip.cidr))
+        network = self.networks [net]
         self.ffm.Net_Interface_in_IP4_Network \
             (iface, network, dict (address = ip.ip), raw = True)
     # end def create_interface
@@ -615,11 +626,44 @@ class Convert (object) :
                 if ip.id_devices not in self.ip_by_dev :
                     self.ip_by_dev [ip.id_devices] = []
                 self.ip_by_dev [ip.id_devices].append (ip)
+            net = str (IP4_Address (ip.ip.encode ('ascii'), ip.cidr))
+            network = self.ffm.IP4_Network.instance_or_new \
+                (dict (address = net))
+            self.networks [net] = network
+        for n in self.networks :
+            print n
+        for k in self.ffm.IP4_Network.query () :
+            print k
         for d in self.contents ['devices'] :
             if d.id_nodes not in self.dev_by_node :
                 self.dev_by_node [d.id_nodes] = []
             self.dev_by_node [d.id_nodes].append (d)
             self.dev_by_id [d.id] = d
+        # consistency check of olsr data against redeemer db
+        # check nodes from topology
+        for ip in self.olsr_nodes :
+            if ip not in self.ip_by_ip :
+                print "WARN: ip %s from olsr topo not in ips" % ip
+                del self.olsr_nodes [ip]
+        # check mid table
+        midkey = []
+        midtbl = {}
+        for ip, aliases in self.olsr_mid.iteritems () :
+            if ip not in self.ip_by_ip :
+                print "WARN: key ip %s from olsr mid not in ips" % ip
+                midkey.append (ip)
+            for a in aliases :
+                if a not in self.ip_by_ip :
+                    print "WARN: ip %s from olsr mid not in ips" % a
+                    if ip not in midtbl :
+                        midtbl [ip] = []
+                    midtbl [ip].append (a)
+        assert not midkey
+        for k, v in midtbl.iteritems () :
+            x = dict.fromkeys (self.olsr_mid [k])
+            for ip in v :
+                del x [ip]
+            self.olsr_mid [k] = x.keys ()
     # end def build_device_structure
 
     def debug_output (self) :
