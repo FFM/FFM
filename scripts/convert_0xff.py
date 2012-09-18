@@ -11,6 +11,7 @@ from   _GTW                   import GTW
 from   _TFL                   import TFL
 from   _FFM                   import FFM
 from   _GTW._OMP._PAP         import PAP
+from   olsr.parser            import OLSR_Parser
 
 import _TFL.CAO
 import model
@@ -120,12 +121,24 @@ class Convert (object) :
     re_copy  = re.compile (r'^COPY\s+(\S+)\s\(([^)]+)\) FROM stdin;$')
     re_table = re.compile (r'^CREATE TABLE (\S+) \(')
 
-    def __init__ (self, args, scope) :
-        if len (args) > 0 :
-            f  = open (args [0])
+    def __init__ (self, cmd, scope) :
+        if len (cmd.argv) > 0 :
+            f  = open (cmd.argv [0])
         else :
             f = sys.stdin
-
+        olsr_parser       = OLSR_Parser ()
+        olsr_parser.parse (open (cmd.olsr_file))
+        self.olsr_nodes   = {}
+        for t in olsr_parser.topo.forward.iterkeys () :
+            self.olsr_nodes [t]   = True
+        for t in olsr_parser.topo.reverse.iterkeys () :
+            self.olsr_nodes [t]   = True
+        self.olsr_mid     = olsr_parser.mid.by_ip
+        self.rev_mid      = {}
+        for k in self.olsr_mid.itervalues () :
+            for mid in k :
+                assert mid not in self.rev_mid
+                self.rev_mid [mid] = True
         self.scope        = scope
         self.ffm          = self.scope.FFM
         self.pap          = self.scope.GTW.OMP.PAP
@@ -138,11 +151,14 @@ class Convert (object) :
             , ad_hoc      = self.ffm.Ad_Hoc_Mode
             )
         self.node_by_id   = {}
+        self.ip_by_ip     = {}
         self.dev_by_id    = {}
         self.email_ids    = {}
         self.phone_ids    = {}
         self.person_by_id = {}
         self.dupes_by_id  = {}
+        self.ip_by_dev    = {}
+        self.dev_by_node  = {}
         self.iter         = enumerate (f)
         try :
             for self.lineno, line in self.iter :
@@ -274,24 +290,10 @@ class Convert (object) :
                 print "Tech contact found: %s" % n.id_tech_c
     # end def create_nodes
 
-    def create_devices (self) :
-        for d in self.contents ['devices'] :
-            node = self.node_by_id [d.id_nodes]
-            if d.hardware :
-                devtype = self.ffm.Net_Device_Type.instance_or_new \
-                    (name = d.hardware, raw = True)
-            else :
-                devtype = self.ffm.Net_Device_Type.instance (name = 'Generic')
-            dev = self.ffm.Net_Device \
-                (left = devtype, node = node, name = d.name, raw = True)
-            self.set_last_change (dev, d.changed, d.created)
-            self.dev_by_id [d.id] = dev
-            # no member info in DB:
-            assert not d.id_members
-    # end def create_devices
-
     # first id is the one to remove, the second one is the correct one
     # FIXME: we may need to merge some attributes from one entry to the other
+    # FIXME: We want to set the creation date to minimum of both records
+    # FIXME: We want to set the last modified to the maximum of both records
     # FIXME: Check used resources of dupe
     # FIXME: 189/281 is unclear if same person (only identifyable
     #        attribute is email which differs)
@@ -540,6 +542,9 @@ class Convert (object) :
             self.ffm.Person_mentors_Person (mentor, person)
         # Retrieve info from dupe account
         for dupe, id in self.person_dupes.iteritems () :
+            # older version of db or dupe removed:
+            if id not in self.person_by_id :
+                continue
             d = self.dupes_by_id [dupe]
             person = self.person_by_id [id]
             if d.email :
@@ -553,28 +558,111 @@ class Convert (object) :
                 self.ffm.Nickname (person, d.nickname)
     # end def create_persons
 
-    def create_ips (self) :
+    def create_device (self, d) :
+        node = self.node_by_id [d.id_nodes]
+        if d.hardware :
+            # FIXME: We want correct info from nodes directly
+            # looks like most firmware can give us this info
+            devtype = self.ffm.Net_Device_Type.instance_or_new \
+                (name = d.hardware, raw = True)
+        else :
+            devtype = self.ffm.Net_Device_Type.instance (name = 'Generic')
+        dev = self.ffm.Net_Device \
+            (left = devtype, node = node, name = d.name, raw = True)
+        self.set_last_change (dev, d.changed, d.created)
+        # no member info in DB:
+        assert not d.id_members
+        return dev
+    # end def create_device
+
+    def create_interface (self, dev, name, ip) :
+        # FIXME: Need info on wireless vs wired Net_Interface
+        iface = self.ffm.Wired_Interface (left = dev, name = name, raw = True)
+        net = IP4_Address (ip.ip.encode ('ascii'), ip.cidr)
+        network = self.ffm.IP4_Network.instance_or_new \
+            (dict (address = str (net)))
+        self.ffm.Net_Interface_in_IP4_Network \
+            (iface, network, dict (address = ip.ip), raw = True)
+    # end def create_interface
+
+    def create_ips_and_devices (self) :
         for ip in self.contents ['ips'] :
             assert not ip.id_nodes
             assert not ip.id_members or ip.id_members == 1
+            assert not ip.id_members or not ip.id_devices
+            if not ip.id_devices :
+                # FIXME: Do we need a "free-pool"?
+                continue
             print ip.ip, type (ip.ip), ip.cidr
-            net = IP4_Address (ip.ip.decode ('ascii'), ip.cidr)
-            adr = IP4_Address (ip.ip.decode ('ascii'))
-            assert (adr in net)
-            network = self.ffm.IP4_Network.instance_or_new \
-                (dict (address = str (net)))
-            device  = self.dev_by_id (ip.id_devices)
-            # FIXME: Need info on wireless vs wired Net_Interface
-            iface   = self.ffm.Wired_Interface (left = device)
-            self.ffm.Net_Interface_in_IP4_Network.instance_or_new \
-                (iface, network, dict (address = str (adr)))
-    # end def create_ips
+            # Ignore IPs that belong to some device
+            if ip.ip in self.rev_mid :
+                continue
+            d = self.dev_by_id [ip.id_devices]
+            dev = self.create_device (d)
+            self.create_interface (dev, d.name, ip)
+            # main IP/Interface of a device, add others
+            if ip.ip in self.olsr_mid :
+                for s_ip_ip in self.olsr_mid [ip.ip] :
+                    s_ip = self.ip_by_ip [s_ip_ip]
+                    ip_dev = self.dev_by_id [s_ip.id_devices]
+                    self.create_interface (dev, ip_dev.name, s_ip)
+    # end def create_ips_and_devices
+
+    def build_device_structure (self) :
+        for ip in self.contents ['ips'] :
+            self.ip_by_ip [ip.ip] = ip
+            if ip.id_devices :
+                if ip.id_devices not in self.ip_by_dev :
+                    self.ip_by_dev [ip.id_devices] = []
+                self.ip_by_dev [ip.id_devices].append (ip)
+        for d in self.contents ['devices'] :
+            if d.id_nodes not in self.dev_by_node :
+                self.dev_by_node [d.id_nodes] = []
+            self.dev_by_node [d.id_nodes].append (d)
+            self.dev_by_id [d.id] = d
+    # end def build_device_structure
+
+    def debug_output (self) :
+        for k in sorted \
+            ( self.olsr_nodes.iterkeys ()
+            , key = lambda x : tuple (int (z) for z in x.split ('.'))
+            ) :
+            print k
+        for node in self.contents ['nodes'] :
+            print "Node: %s" % node.name.encode ('latin1')
+            for d in self.dev_by_node.get (node.id, []) :
+                print "    Device: %s" % d.name
+                ips = self.ip_by_dev.get (d.id, [])
+                ips.sort ()
+                for ip in ips :
+                    x = ''
+                    if ip.ip.decode ('ascii') in self.olsr_nodes :
+                        x = ' USED'
+                    print "        IP: %s/%s%s" % (ip.ip, ip.cidr, x)
+                l = len (ips)
+                if not l :
+                    print "    No IPs!!"
+                for ip in ips :
+                    if ip.ip in self.olsr_mid :
+                        ips1 = [x.ip for x in ips]
+                        ips2 = []
+                        ips2.extend (self.olsr_mid [ip.ip])
+                        ips2.append (ip.ip)
+                        ips2.sort ()
+                        if ips1 != ips2 :
+                            print "        Ooops: %s/%s" % (ips1, ips2)
+                        break
+                else :
+                    if l > 1 :
+                        print "        Not found in olsr_mid!"
+    # end def debug_output
 
     def create (self) :
-        self.create_persons ()
-        self.create_nodes   ()
-        self.create_devices ()
-        #self.create_ips     ()
+        self.build_device_structure ()
+        self.debug_output           ()
+        self.create_persons         ()
+        self.create_nodes           ()
+        #self.create_ips_and_devices ()
     # end def create
 
 # end def Convert
@@ -584,7 +672,7 @@ def _main (cmd) :
     scope = model.scope (cmd)
     if cmd.Break :
         TFL.Environment.py_shell ()
-    c = Convert (cmd.argv, scope)
+    c = Convert (cmd, scope)
     #c.dump ()
     c.create ()
     scope.commit ()
@@ -601,6 +689,7 @@ _Command = TFL.CAO.Cmd \
     , opts            =
         ( "verbose:B"
         , "create:B"
+        , "olsr_file:S=olsr/txtinfo.txt?OLSR dump-file to convert"
         ) + model.opts
     , min_args        = 1
     , defaults        = model.command.defaults
