@@ -77,6 +77,8 @@ def graph (app_type) :
                 ( Role.left
                     ( IS_A.FFM.Device_Type
                     , offset = CD.E * 3
+                    , source_side = "S"
+                    , target_side = "S"
                     )
                 , Attr.node
                     ( Attr.manager
@@ -116,7 +118,11 @@ def graph (app_type) :
                     )
                 , ET.FFM.Wireless_Interface_uses_Antenna
                     ( Role.right
-                    , offset = CD.N + CD.W * 3
+                        ( anchor = False
+                        , source_side = "W"
+                        , target_side = "W"
+                        )
+                    , offset = CD.N + CD.W * 2
                     )
                 , ET.FFM.Wireless_Interface_uses_Wireless_Channel
                     ( Role.right (offset = CD.W)
