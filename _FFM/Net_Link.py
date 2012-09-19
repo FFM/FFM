@@ -28,6 +28,7 @@
 # Revision Dates
 #    10-May-2012 (CT) Creation
 #    18-May-2012 (CT) Change `not_inverse` to use `count`, not `one`
+#    19-Sep-2012 (CT) Use `force_role_name`, not `role_name`
 #    ««revision-date»»···
 #--
 
@@ -55,7 +56,7 @@ class Net_Link (_Ancestor_Essence) :
             """Left network interface"""
 
             role_type          = FFM.Net_Interface
-            role_name          = "left"
+            force_role_name    = "left"
 
         # end class left
 
@@ -63,7 +64,7 @@ class Net_Link (_Ancestor_Essence) :
             """Right network interface"""
 
             role_type          = FFM.Net_Interface
-            role_name          = "right"
+            force_role_name    = "right"
 
         # end class right
 
