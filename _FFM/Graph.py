@@ -32,7 +32,7 @@
 #     6-Sep-2012 (CT) Add lots more nodes/links, rearrange graph
 #    18-Sep-2012 (RS) Put `Node` and `Subject` and descendants in the middle
 #                     for new Id_Entities of `Node`, fixes tanzer constraint
-#    19-Sep-2012 (CT) Disentangle links
+#    19-Sep-2012 (CT) Disentangle links, remove whitespace
 #    ««revision-date»»···
 #--
 
@@ -63,9 +63,10 @@ def graph (app_type) :
                             )
                         , offset = CD.S
                         )
-                    , offset = CD.SW
+                    , offset = CD.W
                     )
                 , offset       = CD.E * 4
+                , guide_offset = 1.0
                 , source_side  = "N"
                 , target_side  = "N"
                 )
@@ -94,7 +95,7 @@ def graph (app_type) :
                     , offset = CD.N
                     )
                 , ET.FFM.Net_Interface (offset = CD.S + CD.E * 2)
-                , offset = CD.E + CD.S * 2
+                , offset = CD.E + CD.S
                 )
             )
         , ET.FFM.Net_Interface
