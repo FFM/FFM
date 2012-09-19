@@ -32,6 +32,7 @@
 
 from   __future__ import absolute_import, division, print_function, unicode_literals
 
+from   _FFM                       import FFM
 from   _GTW.__test__.Test_Command import *
 
 import _FFM.import_FFM
