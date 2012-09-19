@@ -30,8 +30,9 @@
 #    30-Aug-2012 (CT) Rearrange graph, add more nodes/links
 #    31-Aug-2012 (CT) Adapt to MOM.Graph.Spec API change
 #     6-Sep-2012 (CT) Add lots more nodes/links, rearrange graph
-#    18-Sep-2012 (RS) put `Node` and `Subject` and descendants in the middle
+#    18-Sep-2012 (RS) Put `Node` and `Subject` and descendants in the middle
 #                     for new Id_Entities of `Node`, fixes tanzer constraint
+#    19-Sep-2012 (CT) Disentangle links
 #    ««revision-date»»···
 #--
 
@@ -64,7 +65,9 @@ def graph (app_type) :
                         )
                     , offset = CD.SW
                     )
-                , offset = CD.E * 4
+                , offset       = CD.E * 4
+                , source_side  = "N"
+                , target_side  = "N"
                 )
             , Child.FFM.Antenna
                 ( Role.left
@@ -76,13 +79,18 @@ def graph (app_type) :
             , Child.FFM.Net_Device
                 ( Role.left
                     ( IS_A.FFM.Device_Type
-                    , offset = CD.E * 3
-                    , source_side = "S"
-                    , target_side = "S"
+                    , guide_offset = 1.0
+                    , offset       = CD.E * 3
+                    , source_side  = "S"
+                    , target_side  = "S"
                     )
                 , Attr.node
                     ( Attr.manager
                     , Attr.owner
+                        ( guide_offset = 0.75
+                        , source_side  = "E"
+                        , target_side  = "W"
+                        )
                     , offset = CD.N
                     )
                 , ET.FFM.Net_Interface (offset = CD.S + CD.E * 2)
@@ -90,7 +98,8 @@ def graph (app_type) :
                 )
             )
         , ET.FFM.Net_Interface
-            ( ET.FFM._Net_Credentials_ (offset = CD.SE)
+            ( Role.left (guide_offset = 0.75)
+            , ET.FFM._Net_Credentials_ (offset = CD.SE)
             , ET.FFM.Net_Interface_in_IP_Network
                 ( Role.right
                     ( Child.FFM.IP4_Network (offset = CD.S)
@@ -117,8 +126,9 @@ def graph (app_type) :
                     , offset = CD.SW
                     )
                 , ET.FFM.Wireless_Interface_uses_Antenna
-                    ( Role.right
-                        ( anchor = False
+                    ( Role.left (guide_offset = 1.5)
+                    , Role.right
+                        ( anchor      = False
                         , source_side = "W"
                         , target_side = "W"
                         )
