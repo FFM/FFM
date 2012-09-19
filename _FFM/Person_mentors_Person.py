@@ -28,6 +28,7 @@
 # Revision Dates
 #    12-Sep-2012 (RS) Creation
 #    13-Sep-2012 (RS) Mentored person is `apprentice`
+#    19-Sep-2012 (CT) Derive `right` from `_Ancestor.right`, not `.left`
 #    ««revision-date»»···
 #--
 
@@ -59,7 +60,7 @@ class Person_mentors_Person (_Ancestor_Essence) :
 
         # end class left
 
-        class right (_Ancestor.left) :
+        class right (_Ancestor.right) :
             """The Person being mentored."""
 
             role_type          = PAP.Person
