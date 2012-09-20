@@ -7,8 +7,8 @@
      xmlns:xlink="http://www.w3.org/1999/xlink"
 >
   <defs>
-    <marker id="MOM:AM" fill="none" markerHeight="6"
-            markerUnits="strokeWidth" markerWidth="6" orient="auto" refX="0"
+    <marker id="MOM:AM" fill="none" markerHeight="4"
+            markerUnits="strokeWidth" markerWidth="4" orient="auto" refX="0"
             refY="35" stroke="#FFA022" viewBox="0 0 70 70"
     >
       <path d="m 0,0 0,70 25.0,-15.0 0,-40.0 -25.0,-15.0 z" fill="#FFA022"
