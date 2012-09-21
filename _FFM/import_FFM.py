@@ -36,6 +36,7 @@
 #     6-Sep-2012 (CT) Add `IP6_Network`
 #    12-Sep-2012 (CT) Add `Nickname` and `Person_mentors_Person`
 #    18-Sep-2012 (RS) remove `Subject_owns_Node` (replace by Id_Entity)
+#    21-Sep-2012 (RS) Add `Net_Interface_in_IP6_Network`
 #    ««revision-date»»···
 #--
 
@@ -73,6 +74,7 @@ import _FFM.Zone
 
 import _FFM.Device_Type_made_by_Company
 import _FFM.Net_Interface_in_IP4_Network
+import _FFM.Net_Interface_in_IP6_Network
 import _FFM.Net_Interface_in_IP_Network
 import _FFM.Net_Link
 import _FFM.Person_mentors_Person

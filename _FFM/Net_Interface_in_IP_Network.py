@@ -28,6 +28,8 @@
 # Revision Dates
 #    18-May-2012 (RS) Creation
 #    23-May-2012 (RS) Use `_A_IP_Address_` for `ip_address`
+#    20-Sep-2012 (RS) Add `auto_cache_np`, `auto_derive_np` to `left`
+#                     remove `auto_cache` from `right`
 #    ««revision-date»»···
 #--
 
@@ -60,6 +62,8 @@ class Net_Interface_in_IP_Network (_Ancestor_Essence) :
 
             role_type          = FFM.Net_Interface
             auto_cache         = True
+            auto_derive_np     = True
+            auto_cache_np      = True
 
         # end class left
 
@@ -67,7 +71,6 @@ class Net_Interface_in_IP_Network (_Ancestor_Essence) :
             """IP Network."""
 
             role_type          = FFM.IP_Network
-            auto_cache         = True
 
         # end class right
 

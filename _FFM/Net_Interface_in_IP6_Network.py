@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    22-May-2012 (RS) Creation
+#    21-Sep-2012 (RS) set `is_partial`
 #    ««revision-date»»···
 #--
 
@@ -43,6 +44,8 @@ _Ancestor_Essence = FFM.Net_Interface_in_IP_Network
 
 class Net_Interface_in_IP6_Network (_Ancestor_Essence) :
     """Net interface in IPv6 network"""
+
+    is_partial = True
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
