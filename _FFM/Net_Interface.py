@@ -29,6 +29,7 @@
 #     6-Mar-2012 (CT) Creation
 #    10-May-2012 (CT) Change `mac_address` to `Primary_Optional`, add `name`
 #    13-Sep-2012 (RS) Set `is_partial`
+#    22-Sep-2012 (RS) make `name` `A_DNS_Label`
 #    ««revision-date»»···
 #--
 
@@ -38,6 +39,7 @@ from   _MOM.import_MOM          import *
 from   _FFM                     import FFM
 
 from   _GTW._OMP._NET.Attr_Type import *
+from   _GTW._OMP._DNS.Attr_Type import A_DNS_Label
 
 import _FFM.Net_Device
 
@@ -69,12 +71,10 @@ class Net_Interface (_Ancestor_Essence) :
 
         # end class mac_address
 
-        class name (A_String) :
+        class name (A_DNS_Label) :
             """Name of the node"""
 
             kind               = Attr.Primary_Optional
-            max_length         = 16
-            ignore_case        = True
             completer          = Attr.Completer_Spec  (2, Attr.Selector.primary)
 
         # end class name

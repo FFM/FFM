@@ -147,8 +147,9 @@ class Convert (object) :
         self.olsr_mid     = olsr_parser.mid.by_ip
         self.olsr_hna     = olsr_parser.hna
         self.rev_mid      = {}
-        for k in self.olsr_mid.itervalues () :
-            for mid in k :
+        for k, v in self.olsr_mid.iteritems () :
+            assert k in self.olsr_nodes
+            for mid in v :
                 assert mid not in self.rev_mid
                 self.rev_mid [mid] = True
         self.scope        = scope
@@ -295,13 +296,21 @@ class Convert (object) :
             if n.id_tech_c and n.id_tech_c != n.id_members :
                 manager = self.person_by_id.get (n.id_tech_c)
                 assert (manager)
-                print "Tech contact found: %s" % n.id_tech_c
+                print "INFO: Tech contact found: %s" % n.id_tech_c
             else :
                 manager = person
                 person  = None
+            # node with missing manager has devices, use 0xff admin as owner
+            if not manager and n.id in self.dev_by_node :
+                manager = self.person_by_id.get (1)
+                print "WARN: Node %s: member %s not found, using 1" \
+                    % (n.id, n.id_members)
             if manager :
+                name = n.name
+                if name [0].isdigit () :
+                    name = 'X' + name
                 node = self.ffm.Node \
-                    ( name     = n.name
+                    ( name     = name
                     , position = gps
                     , map_p    = n.map
                     , manager  = manager
@@ -584,6 +593,8 @@ class Convert (object) :
     # end def create_persons
 
     def create_device (self, d) :
+        if self.debug :
+            print 'dev:', d.id, d.name
         node = self.node_by_id [d.id_nodes]
         if d.hardware :
             # FIXME: We want correct info from nodes directly
@@ -601,6 +612,8 @@ class Convert (object) :
     # end def create_device
 
     def create_interface (self, dev, name, ip) :
+        if name [0].isdigit () :
+            name = 'X' + name
         # FIXME: Need info on wireless vs wired Net_Interface
         iface = self.ffm.Wired_Interface (left = dev, name = name, raw = True)
         net = IP4_Address (ip.ip, ip.cidr)
@@ -610,7 +623,56 @@ class Convert (object) :
             (iface, network, dict (address = ip.ip))
     # end def create_interface
 
+    def create_interfaces_for_dev (self, dev, d, ip) :
+        if len (self.ip_by_dev [d.id]) > 1 :
+            for n, dev_ip in enumerate (self.ip_by_dev [d.id]) :
+                name = "%s-%d" % (d.name, n)
+                self.create_interface (dev, name, dev_ip)
+                dev_ip.set_done ()
+        else :
+            self.create_interface (dev, d.name, ip)
+            ip.set_done ()
+        assert ip.done
+    # end def create_interfaces_for_dev
+
     def create_ips_and_devices (self) :
+        # compound devices from mid table
+        for ip4, aliases in self.olsr_mid.iteritems () :
+            nodes = {}
+            ip    = self.ip_by_ip [ip4]
+            d     = self.dev_by_id [ip.id_devices]
+            nodes [d.id_nodes] = ({ ip.id_devices : d }, { ip.id : ip })
+            for a in aliases :
+                ip = self.ip_by_ip [a]
+                if not ip.id_devices :
+                    print "ERR:  %s from mid %s has no device" % (a, ip4)
+                    continue
+                d  = self.dev_by_id [ip.id_devices]
+                if d.id_nodes not in nodes :
+                    nodes [d.id_nodes] = ({}, {})
+                nodes [d.id_nodes] [0] [ip.id_devices] = d
+                nodes [d.id_nodes] [1] [ip.id] = ip
+            if len (nodes) > 1 :
+                print "WARN: mid %s expands to %s nodes" % (ip4, len (nodes))
+            # all devices from same node (!), get dev with shortest name
+            for n, (devs, ips) in nodes.iteritems () :
+                nd = None
+                for d in devs.itervalues () :
+                    assert not d.done
+                    if nd is None or len (nd.name) > len (d.name) :
+                        nd = d
+                    # get remaining ips not active in olsr
+                    for ip in self.ip_by_dev [d.id] :
+                        ips [ip.id] = ip
+                    d.set_done ()
+                dev = self.create_device (nd)
+                for ip in ips.itervalues () :
+                    if ip.done :
+                        continue
+                    d   = devs [ip.id_devices]
+                    self.create_interfaces_for_dev (dev, d, ip)
+
+        # devices and reserved nets from hna table
         for ip4 in self.olsr_hna.by_dest.iterkeys () :
             for n in self.networks.iterkeys () :
                 if ip4 in n :
@@ -621,6 +683,8 @@ class Convert (object) :
             if ip4.mask == 32 :
                 if ip4 not in self.olsr_nodes :
                     ip = self.ip_by_ip [ip4]
+                    if ip.done :
+                        continue
                     if ip.id_devices :
                         d = self.dev_by_id [ip.id_devices]
                         dev = self.create_device (d)
@@ -639,31 +703,31 @@ class Convert (object) :
                 self.rsrvd_nets [ip4] = True
                 for i in ip4 :
                     assert i not in self.olsr_nodes
+                for i in ip4 :
+                    assert i not in self.rev_mid
         if self.debug :
             for ip4 in self.olsr_hna.by_dest :
                 for nw in self.networks.iterkeys () :
                     if ip4 in nw :
                         print "HNA: %s" % ip4
+
+        # remaining ips
         for ip in self.contents ['ips'] :
+            if ip.done :
+                continue
             ip4 = IP4_Address (ip.ip)
             assert not ip.id_nodes
             assert not ip.id_members or ip.id_members == 1
-            assert not ip.id_members or not ip.id_devices
             if not ip.id_devices :
                 # FIXME: Do we need a "free-pool"?
                 continue
             # Ignore IPs that belong to some device
             if ip4 in self.rev_mid :
+                assert (0) # already covered above, should be marked done
                 continue
             d = self.dev_by_id [ip.id_devices]
             dev = self.create_device (d)
-            self.create_interface (dev, d.name, ip)
-            # main IP/Interface of a device, add others
-            if ip4 in self.olsr_mid :
-                for s_ip4 in self.olsr_mid [ip4] :
-                    s_ip = self.ip_by_ip [s_ip4]
-                    ip_dev = self.dev_by_id [s_ip.id_devices]
-                    self.create_interface (dev, ip_dev.name, s_ip)
+            self.create_interfaces_for_dev (dev, d, ip)
     # end def create_ips_and_devices
 
     def build_device_structure (self) :

@@ -30,15 +30,18 @@
 #    19-Jul-2012 (RS) Add `position`
 #    20-Jul-2012 (RS) `Node` no longer inherits from `PAP.Subject`
 #    18-Sep-2012 (RS) Add `owner` and `manager`
+#    22-Sep-2012 (RS) make `name` `A_DNS_Label`
 #    ««revision-date»»···
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
 
-from   _MOM.import_MOM        import *
-from   _MOM._Attr.Position    import A_Position
-from   _FFM                   import FFM
-from   _GTW._OMP._PAP         import PAP, Person, Subject
+from   _MOM.import_MOM          import *
+from   _MOM._Attr.Position      import A_Position
+from   _FFM                     import FFM
+from   _GTW._OMP._PAP           import PAP, Person, Subject
+from   _GTW._OMP._DNS.Attr_Type import A_DNS_Label
+
 
 import _FFM.Entity
 
@@ -51,12 +54,10 @@ class Node (_Ancestor_Essence) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
-        class name (A_String) :
+        class name (A_DNS_Label) :
             """Name of the node"""
 
             kind               = Attr.Primary
-            max_length         = 64
-            ignore_case        = True
             completer          = Attr.Completer_Spec  (2, Attr.Selector.primary)
 
         # end class name

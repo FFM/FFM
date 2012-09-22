@@ -29,6 +29,7 @@
 #    14-Mar-2012 (CT) Creation
 #    20-Aug-2012 (RS) Add `A_TX_Power`
 #    27-Aug-2012 (RS) Add import of `math.log`
+#    22-Sep-2012 (RS) Remove `A_Wireless_Protocol`
 #    ««revision-date»»···
 #--
 
@@ -37,31 +38,9 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 from   math                     import log
 
 from   _MOM.import_MOM          import *
-from   _MOM.import_MOM          import _A_Composite_, _A_Named_Value_
 from   _MOM.import_MOM          import _A_Unit_, _A_Float_
 from   _FFM                     import FFM
 from   _TFL.I18N                import _
-
-class A_Wireless_Protocol (_A_Named_Value_) :
-    """An attribute selecting a specific wireless protocol."""
-
-    ( WLP_802_11_a
-    , WLP_802_11_b
-    , WLP_802_11_g
-    , WLP_802_11_n
-    )            = range (4)
-
-    example      = "802.11a"
-    typ          = "WL-Protocol"
-    P_Type       = int
-    Table        = \
-        { "802.11a" : WLP_802_11_a
-        , "802.11b" : WLP_802_11_b
-        , "802.11g" : WLP_802_11_g
-        , "802.11n" : WLP_802_11_n
-        }
-
-# end class A_Wireless_Protocol
 
 class A_TX_Power (_A_Unit_, _A_Float_) :
     """Transmit Power specified in units of W or dBW, dBm,
