@@ -5,14 +5,14 @@ import re
 from   rsclib.HTML_Parse  import Page_Tree
 from   rsclib.autosuper   import autosuper
 from   rsclib.stateparser import Parser
-from   rsclib.IP4_Address import IP4_Address
+from   rsclib.IP_Address  import IP4_Address
 
 class Topo_Entry (autosuper) :
     """ Model an OLSR topology entry. """
 
     def __init__ (self, dst_ip, last_hop, lq, nlq, cost) :
-        self.dst_ip   = dst_ip
-        self.last_hop = last_hop
+        self.dst_ip   = IP4_Address (dst_ip)
+        self.last_hop = IP4_Address (last_hop)
         self.lq       = lq
         self.nlq      = nlq
         self.cost     = cost
@@ -51,6 +51,8 @@ class MID (autosuper) :
     # end def __init__
 
     def add (self, ip, *aliases) :
+        ip = IP4_Address (ip)
+        aliases = [IP4_Address (a) for a in aliases]
         assert ip not in self.by_ip or self.by_ip [ip] == aliases
         self.by_ip [ip] = aliases
     # end def __init__

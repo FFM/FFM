@@ -5,7 +5,7 @@ import sys, os
 import re
 
 from   datetime               import datetime, tzinfo, timedelta
-from   rsclib.IP4_Address     import IP4_Address
+from   rsclib.IP_Address      import IP4_Address
 from   _GTW                   import GTW
 from   _TFL                   import TFL
 from   _FFM                   import FFM
@@ -131,7 +131,8 @@ class Convert (object) :
     re_copy  = re.compile (r'^COPY\s+(\S+)\s\(([^)]+)\) FROM stdin;$')
     re_table = re.compile (r'^CREATE TABLE (\S+) \(')
 
-    def __init__ (self, cmd, scope) :
+    def __init__ (self, cmd, scope, debug = False) :
+        self.debug = debug
         if len (cmd.argv) > 0 :
             f  = open (cmd.argv [0])
         else :
@@ -162,6 +163,7 @@ class Convert (object) :
             , ad_hoc      = self.ffm.Ad_Hoc_Mode
             )
         self.networks     = {}
+        self.rsrvd_nets   = {}
         self.net_dupes    = {}
         self.node_by_id   = {}
         self.ip_by_ip     = {}
@@ -601,19 +603,49 @@ class Convert (object) :
     def create_interface (self, dev, name, ip) :
         # FIXME: Need info on wireless vs wired Net_Interface
         iface = self.ffm.Wired_Interface (left = dev, name = name, raw = True)
-        net = str (IP4_Address (ip.ip.encode ('ascii'), ip.cidr))
+        net = IP4_Address (ip.ip, ip.cidr)
         net = self.net_dupes.get (net, net)
-        network = self.ffm.IP4_Network.instance (dict (address = net))
+        network = self.ffm.IP4_Network.instance (dict (address = str (net)))
         self.ffm.Net_Interface_in_IP4_Network \
-            (iface, network, dict (address = ip.ip), raw = True)
+            (iface, network, dict (address = ip.ip))
     # end def create_interface
 
     def create_ips_and_devices (self) :
-        for ip in self.olsr_hna.by_dest :
-            for n, nw in self.networks.iteritems () :
-                if ip in nw :
-                    print "HNA: %s" % ip
+        for ip4 in self.olsr_hna.by_dest.iterkeys () :
+            for n in self.networks.iterkeys () :
+                if ip4 in n :
+                    break
+            else :
+                # only subnets of one of our networks
+                continue
+            if ip4.mask == 32 :
+                if ip4 not in self.olsr_nodes :
+                    ip = self.ip_by_ip [ip4]
+                    if ip.id_devices :
+                        d = self.dev_by_id [ip.id_devices]
+                        dev = self.create_device (d)
+                        self.create_interface (dev, d.name, ip)
+                        ip.set_done ()
+                        for i in self.ip_by_dev [d.id] :
+                            if not i.done :
+                                break
+                        else :
+                            d.set_done ()
+                    else :
+                        # FIXME: Reserve network in database
+                        self.rsrvd_nets [ip4] = True
+            else :
+                # FIXME: Reserve network in database
+                self.rsrvd_nets [ip4] = True
+                for i in ip4 :
+                    assert i not in self.olsr_nodes
+        if self.debug :
+            for ip4 in self.olsr_hna.by_dest :
+                for nw in self.networks.iterkeys () :
+                    if ip4 in nw :
+                        print "HNA: %s" % ip4
         for ip in self.contents ['ips'] :
+            ip4 = IP4_Address (ip.ip)
             assert not ip.id_nodes
             assert not ip.id_members or ip.id_members == 1
             assert not ip.id_members or not ip.id_devices
@@ -621,41 +653,41 @@ class Convert (object) :
                 # FIXME: Do we need a "free-pool"?
                 continue
             # Ignore IPs that belong to some device
-            if ip.ip in self.rev_mid :
+            if ip4 in self.rev_mid :
                 continue
             d = self.dev_by_id [ip.id_devices]
             dev = self.create_device (d)
             self.create_interface (dev, d.name, ip)
             # main IP/Interface of a device, add others
-            if ip.ip in self.olsr_mid :
-                for s_ip_ip in self.olsr_mid [ip.ip] :
-                    s_ip = self.ip_by_ip [s_ip_ip]
+            if ip4 in self.olsr_mid :
+                for s_ip4 in self.olsr_mid [ip4] :
+                    s_ip = self.ip_by_ip [s_ip4]
                     ip_dev = self.dev_by_id [s_ip.id_devices]
                     self.create_interface (dev, ip_dev.name, s_ip)
     # end def create_ips_and_devices
 
     def build_device_structure (self) :
         for ip in self.contents ['ips'] :
-            self.ip_by_ip [ip.ip] = ip
+            self.ip_by_ip [IP4_Address (ip.ip)] = ip
             if ip.id_devices :
                 if ip.id_devices not in self.ip_by_dev :
                     self.ip_by_dev [ip.id_devices] = []
                 self.ip_by_dev [ip.id_devices].append (ip)
-            net = IP4_Address (ip.ip.encode ('ascii'), ip.cidr)
-            self.networks [str (net)] = net
+            net = IP4_Address (ip.ip, ip.cidr)
+            self.networks [net] = True
         self.net_dupes = {}
-        for net, adr in self.networks.iteritems () :
-            for net2, adr2 in self.networks.iteritems () :
+        for net in self.networks.iterkeys () :
+            for net2 in self.networks.iterkeys () :
                 if net != net2 :
-                    if adr in adr2 :
+                    if net in net2 :
                         self.net_dupes [net]  = net2
-                    if adr2 in adr :
+                    if net2 in net :
                         self.net_dupes [net2] = net
         for net in self.net_dupes :
             del self.networks [net]
         for net in self.networks :
             network = self.ffm.IP4_Network.instance_or_new \
-                (dict (address = net))
+                (dict (address = str (net)))
         for d in self.contents ['devices'] :
             if d.id_nodes not in self.dev_by_node :
                 self.dev_by_node [d.id_nodes] = []
@@ -663,36 +695,33 @@ class Convert (object) :
             self.dev_by_id [d.id] = d
         # consistency check of olsr data against redeemer db
         # check nodes from topology
-        for ip in self.olsr_nodes :
-            if ip not in self.ip_by_ip :
-                print "WARN: ip %s from olsr topo not in ips" % ip
-                del self.olsr_nodes [ip]
+        for ip4 in self.olsr_nodes :
+            if ip4 not in self.ip_by_ip :
+                print "WARN: ip %s from olsr topo not in ips" % ip4
+                del self.olsr_nodes [ip4]
         # check mid table
         midkey = []
         midtbl = {}
-        for ip, aliases in self.olsr_mid.iteritems () :
-            if ip not in self.ip_by_ip :
-                print "WARN: key ip %s from olsr mid not in ips" % ip
-                midkey.append (ip)
+        for ip4, aliases in self.olsr_mid.iteritems () :
+            if ip4 not in self.ip_by_ip :
+                print "WARN: key ip %s from olsr mid not in ips" % ip4
+                midkey.append (ip4)
             for a in aliases :
                 if a not in self.ip_by_ip :
                     print "WARN: ip %s from olsr mid not in ips" % a
-                    if ip not in midtbl :
-                        midtbl [ip] = []
-                    midtbl [ip].append (a)
+                    if ip4 not in midtbl :
+                        midtbl [ip4] = []
+                    midtbl [ip4].append (a)
         assert not midkey
         for k, v in midtbl.iteritems () :
             x = dict.fromkeys (self.olsr_mid [k])
-            for ip in v :
-                del x [ip]
+            for ip4 in v :
+                del x [ip4]
             self.olsr_mid [k] = x.keys ()
     # end def build_device_structure
 
     def debug_output (self) :
-        for k in sorted \
-            ( self.olsr_nodes.iterkeys ()
-            , key = lambda x : tuple (int (z) for z in x.split ('.'))
-            ) :
+        for k in sorted (self.olsr_nodes.iterkeys ()) :
             print k
         for node in self.contents ['nodes'] :
             print "Node: %s (%s)" % (node.name.encode ('latin1'), node.id)
@@ -702,17 +731,18 @@ class Convert (object) :
                 ips.sort ()
                 for ip in ips :
                     x = ''
-                    if ip.ip.decode ('ascii') in self.olsr_nodes :
+                    if IP4_Address (ip.ip) in self.olsr_nodes :
                         x = ' USED'
                     print "        IP: %s/%s%s" % (ip.ip, ip.cidr, x)
                 l = len (ips)
                 if not l :
                     print "    No IPs!!"
                 for ip in ips :
-                    if ip.ip in self.olsr_mid :
+                    adr = IP4_Address (ip.ip)
+                    if adr in self.olsr_mid :
                         ips1 = [x.ip for x in ips]
                         ips2 = []
-                        ips2.extend (self.olsr_mid [ip.ip])
+                        ips2.extend (str (x) for x in self.olsr_mid [adr])
                         ips2.append (ip.ip)
                         ips2.sort ()
                         if ips1 != ips2 :
@@ -725,10 +755,11 @@ class Convert (object) :
 
     def create (self) :
         self.build_device_structure ()
-        #self.debug_output           ()
+        if self.debug :
+            self.debug_output       ()
         self.create_persons         ()
         self.create_nodes           ()
-        #self.create_ips_and_devices ()
+        self.create_ips_and_devices ()
     # end def create
 
 # end def Convert

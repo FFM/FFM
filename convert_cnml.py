@@ -14,7 +14,7 @@ import xml.etree.ElementTree  as ElementTree
 
 from   string                 import maketrans
 from   rsclib.ETree           import ETree
-from   rsclib.IP4_Address     import IP4_Address
+from   rsclib.IP_Address      import IP4_Address
 from   rsclib.iter_recipes    import grouper
 from   _GTW                   import GTW
 from   _TFL                   import TFL
