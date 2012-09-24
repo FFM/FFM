@@ -618,9 +618,11 @@ class Convert (object) :
         iface = self.ffm.Wired_Interface (left = dev, name = name, raw = True)
         net = IP4_Address (ip.ip, ip.cidr)
         net = self.net_dupes.get (net, net)
-        network = self.ffm.IP4_Network.instance (dict (address = str (net)))
+        network = self.ffm.IP4_Network.instance \
+            (dict (address = str (net)), raw = True)
+        ip4 = IP4_Address (ip.ip)
         self.ffm.Net_Interface_in_IP4_Network \
-            (iface, network, dict (address = ip.ip))
+            (iface, network, dict (address = ip4))
     # end def create_interface
 
     def create_interfaces_for_dev (self, dev, d, ip) :
@@ -751,7 +753,7 @@ class Convert (object) :
             del self.networks [net]
         for net in self.networks :
             network = self.ffm.IP4_Network.instance_or_new \
-                (dict (address = str (net)))
+                (dict (address = str (net)), raw = True)
         for d in self.contents ['devices'] :
             if d.id_nodes not in self.dev_by_node :
                 self.dev_by_node [d.id_nodes] = []

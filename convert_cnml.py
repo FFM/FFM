@@ -45,6 +45,10 @@ def fix_mac (mac) :
     return mac
 # end def fix_mac
 
+def id_mangle (name) :
+    return '-'.join (('x', name))
+# end def id_mangle
+
 class Convert (object) :
 
     # this is only for parsing: don't know what legacy is and
@@ -106,7 +110,7 @@ class Convert (object) :
         """ Insert a node.
         """
         ffm  = self.scope.FFM
-        name = '_'.join ((element.get ('id'), element.get ('title')))
+        name = '-'.join ((element.get ('title'), element.get ('id')))
         pos  = dict (lat = element.get ('lat'), lon = element.get ('lon'))
         node = ffm.Node (name = name, position = pos, manager = self.owner)
         for n in element :
@@ -155,7 +159,7 @@ class Convert (object) :
                 name  = n.get ('id')
                 if name in self.links :
                     assert (len (self.links [name]) == 1)
-                    r_id = self.links [name][0]
+                    r_id = id_mangle (self.links [name][0])
                     self.links [name].append (element.get ('id'))
                     left  = interface
                     right = ffm.Net_Interface.query (name = r_id).one ()
@@ -174,15 +178,16 @@ class Convert (object) :
         net = IP4_Address (ip, mask)
         adr = IP4_Address (ip)
         assert (adr in net)
-        network = ffm.IP4_Network.instance_or_new (dict (address = str (net)))
+        network = ffm.IP4_Network.instance_or_new \
+            (dict (address = str (net)), raw = True)
         ffm.Net_Interface_in_IP4_Network.instance_or_new \
-            (interface, network, dict (address = str (adr)))
+            (interface, network, dict (address = adr))
     # end def insert_ip_network
 
     def insert_wired_interface (self, device, element) :
         mac  = fix_mac (element.get ('mac'))
         ffm  = self.scope.FFM
-        name = element.get ('id')
+        name = id_mangle (element.get ('id'))
         wif  = ffm.Wireless_Interface.instance \
             ( left        = device
             , name        = name
@@ -228,7 +233,7 @@ class Convert (object) :
             ssid = ssid [:32]
         # an interface may have more than one IP address and occur
         # multiple times in the XML
-        name = element.get ('id')
+        name = id_mangle (element.get ('id'))
         mode = element.get ('mode')
         wif  = ffm.Wireless_Interface.instance \
             ( left        = device

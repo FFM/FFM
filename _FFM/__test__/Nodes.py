@@ -70,6 +70,8 @@ _test_code = """
     ...     (wr, net, dict (address = R_IP4_Address ('192.168.23.1')))
     >>> il1 = FFM.Net_Interface_in_IP4_Network \\
     ...     (wl, net, dict (address = R_IP4_Address ('192.168.23.2')))
+    >>> irx = FFM.Net_Interface_in_IP4_Network (wr, net)
+    >>> x   = irx.set_raw (ip_address = dict (address = '192.168.23.99'))
     >>> ir2 = FFM.Net_Interface_in_IP4_Network \\
     ...     (wr, net, dict (address = '192.168.23.3'), raw = True)
     >>> il2 = FFM.Net_Interface_in_IP4_Network \\
