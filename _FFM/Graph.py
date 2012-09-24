@@ -33,6 +33,7 @@
 #    18-Sep-2012 (RS) Put `Node` and `Subject` and descendants in the middle
 #                     for new Id_Entities of `Node`, fixes tanzer constraint
 #    19-Sep-2012 (CT) Disentangle links, remove whitespace
+#    24-Sep-2012 (CT) Add `Command`
 #    ««revision-date»»···
 #--
 
@@ -147,4 +148,32 @@ def graph (app_type) :
 
 if __name__ != "__main__" :
     FFM._Export ("*")
+else :
+    import _GTW._OMP._PAP.import_PAP
+    import _GTW._OMP._Auth.import_Auth
+    import _FFM.import_FFM
+    import _MOM._Graph.Command
+    from   _TFL import sos
+
+    class Command (MOM.Graph.Command) :
+
+        PNS                   = FFM
+
+        PNS_Aliases           = dict \
+            ( Auth            = GTW.OMP.Auth
+            , PAP             = GTW.OMP.PAP
+            )
+
+        _defaults             = dict \
+            ( name            = "nodedb"
+            )
+
+        def _app_dir_default (self) :
+            return sos.path.normpath (sos.path.join (self.app_dir, "..", "doc"))
+        # end def _app_dir_default
+
+    # end class Command
+
+    command = Command ()
+    command ()
 ### __END__ FFM.Graph
