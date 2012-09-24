@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    19-Sep-2012 (RS) Creation
+#    24-Sep-2012 (RS) More tests, up to `Net_Interface_in_IP4_Network`
 #    ««revision-date»»···
 #--
 
@@ -34,6 +35,8 @@ from   __future__ import absolute_import, division, print_function, unicode_lite
 
 from   _FFM.__test__.model      import *
 from   datetime                 import datetime
+from   rsclib.IP_Address        import IP4_Address as R_IP4_Address
+from   rsclib.IP_Address        import IP6_Address as R_IP6_Address
 
 _test_code = """
     >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
@@ -57,6 +60,20 @@ _test_code = """
     datetime.datetime(2009, 5, 5, 17, 17, 17)
     >>> node3.last_changed
     datetime.datetime(2010, 5, 5, 23, 23, 23)
+    >>> net = FFM.IP4_Network (dict (address = '192.168.23.0/24'), raw = True)
+    >>> devtype = FFM.Net_Device_Type.instance_or_new (name = 'Generic')
+    >>> dev = FFM.Net_Device \\
+    ...     (left = devtype, node = node3, name = 'dev', raw = True)
+    >>> wr  = FFM.Wired_Interface (left = dev, name = 'wr', raw = True)
+    >>> wl  = FFM.Wireless_Interface (left = dev, name = 'wl', raw = True)
+    >>> ir1 = FFM.Net_Interface_in_IP4_Network \\
+    ...     (wr, net, dict (address = R_IP4_Address ('192.168.23.1')))
+    >>> il1 = FFM.Net_Interface_in_IP4_Network \\
+    ...     (wl, net, dict (address = R_IP4_Address ('192.168.23.2')))
+    >>> ir2 = FFM.Net_Interface_in_IP4_Network \\
+    ...     (wr, net, dict (address = '192.168.23.3'), raw = True)
+    >>> il2 = FFM.Net_Interface_in_IP4_Network \\
+    ...     (wl, net, dict (address = '192.168.23.4'), raw = True)
     >>> scope.destroy ()
 
 """
