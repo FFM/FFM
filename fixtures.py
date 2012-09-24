@@ -29,6 +29,7 @@
 #    26-Mar-2012 (CT) Creation
 #    24-Aug-2012 (RS) Add Wireless channels and standards,
 #                     add commented-out regulatory info for Austria.
+#    24-Sep-2012 (CT) Rename `Account_P` to `Account`
 #    ««revision-date»»···
 #--
 
@@ -37,11 +38,11 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 def create (scope) :
     Auth = scope.Auth
     Auth.Account_Anonymous ("anonymous")
-    Auth.Account_P.create_new_account_x \
+    Auth.Account.create_new_account_x \
         ( "christian.tanzer@gmail.com"
         , password = "123", enabled = True, superuser = True, suspended = False
         )
-    Auth.Account_P.create_new_account_x \
+    Auth.Account.create_new_account_x \
         ( "tanzer@swing.co.at"
         , password = "456", enabled = True, suspended = False
         )
