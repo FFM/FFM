@@ -633,6 +633,31 @@
       </textPath>
     </text>
   </g>
+  <g id="FFM.Antenna.left:FFM.Antenna_Type" opacity="1.0">
+    <title>
+      FFM.Antenna role antenna_type
+    </title>
+    <desc>
+      Type of antenna
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="2160,425 3280,425" stroke="#666" stroke-width="5"
+    />
+    <path d="M 2160 425 L 3280 425"
+          id="FFM.Antenna.left:FFM.Antenna_Type::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Antenna.left:FFM.Antenna_Type::path"
+      >
+        <tspan dy="-7.0">
+          left
+        </tspan>
+      </textPath>
+    </text>
+  </g>
   <g id="FFM.Antenna:is_a:FFM.Device" opacity="1.0">
     <title>
       FFM.Antenna is-a FFM.Device
@@ -656,31 +681,6 @@
       >
         <tspan dy="-7.0">
           IS_A
-        </tspan>
-      </textPath>
-    </text>
-  </g>
-  <g id="FFM.Antenna.left:FFM.Antenna_Type" opacity="1.0">
-    <title>
-      FFM.Antenna role antenna_type
-    </title>
-    <desc>
-      Type of antenna
-    </desc>
-    <polyline fill="none" marker-start="url(#MOM:RM)"
-              points="2160,425 3280,425" stroke="#666" stroke-width="5"
-    />
-    <path d="M 2160 425 L 3280 425"
-          id="FFM.Antenna.left:FFM.Antenna_Type::path" fill="none"
-          stroke="none"
-    >
-    </path>
-    <text fill="#666" font-family="sans-serif" font-size="18">
-      <textPath startOffset="10%" text-anchor="start"
-                xlink:href="#FFM.Antenna.left:FFM.Antenna_Type::path"
-      >
-        <tspan dy="-7.0">
-          left
         </tspan>
       </textPath>
     </text>
@@ -882,6 +882,32 @@
       </textPath>
     </text>
   </g>
+  <g id="FFM.Net_Device.left:FFM.Net_Device_Type" opacity="1.0">
+    <title>
+      FFM.Net_Device role net_device_type
+    </title>
+    <desc>
+      Type of net device
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="2440,1075 2440,1175 3360,1175 3360,1075" stroke="#666"
+              stroke-width="5"
+    />
+    <path d="M 2440 1075 L 2440 1175"
+          id="FFM.Net_Device.left:FFM.Net_Device_Type::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Net_Device.left:FFM.Net_Device_Type::path"
+      >
+        <tspan dy="-7.0">
+          left
+        </tspan>
+      </textPath>
+    </text>
+  </g>
   <g id="FFM.Net_Device.node:FFM.Node" opacity="1.0">
     <title>
       FFM.Net_Device attribute node
@@ -944,32 +970,6 @@
       >
         <tspan dy="-7.0">
           IS_A
-        </tspan>
-      </textPath>
-    </text>
-  </g>
-  <g id="FFM.Net_Device.left:FFM.Net_Device_Type" opacity="1.0">
-    <title>
-      FFM.Net_Device role net_device_type
-    </title>
-    <desc>
-      Type of net device
-    </desc>
-    <polyline fill="none" marker-start="url(#MOM:RM)"
-              points="2440,1075 2440,1175 3360,1175 3360,1075" stroke="#666"
-              stroke-width="5"
-    />
-    <path d="M 2440 1075 L 2440 1175"
-          id="FFM.Net_Device.left:FFM.Net_Device_Type::path" fill="none"
-          stroke="none"
-    >
-    </path>
-    <text fill="#666" font-family="sans-serif" font-size="18">
-      <textPath startOffset="10%" text-anchor="start"
-                xlink:href="#FFM.Net_Device.left:FFM.Net_Device_Type::path"
-      >
-        <tspan dy="-7.0">
-          left
         </tspan>
       </textPath>
     </text>
@@ -1080,34 +1080,6 @@
       </textPath>
     </text>
   </g>
-  <g id="FFM.Net_Link:is_a:FFM.Wireless_Link" opacity="1.0">
-    <title>
-      FFM.Net_Link is-a FFM.Wireless_Link
-    </title>
-    <desc>
-      FFM.Net_Link is derived from FFM.Wireless_Link
-    </desc>
-    <polyline fill="none" marker-end="url(#MOM:IM)"
-              points="2960,1625 2800,1625" stroke="#08D"
-              stroke-opacity="0.45" stroke-width="5"
-    />
-    <path d="M 2800 1625 L 2960 1625"
-          id="FFM.Net_Link:is_a:FFM.Wireless_Link::path" fill="none"
-          stroke="none"
-    >
-    </path>
-    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
-          font-size="18"
-    >
-      <textPath startOffset="90%" text-anchor="end"
-                xlink:href="#FFM.Net_Link:is_a:FFM.Wireless_Link::path"
-      >
-        <tspan dy="-7.0">
-          IS_A
-        </tspan>
-      </textPath>
-    </text>
-  </g>
   <g id="FFM.Net_Link.left:FFM.Net_Interface" opacity="1.0">
     <title>
       FFM.Net_Link role left
@@ -1158,40 +1130,30 @@
       </textPath>
     </text>
   </g>
-  <g id="FFM.Node.owner:PAP.Subject" opacity="1.0">
+  <g id="FFM.Net_Link:is_a:FFM.Wireless_Link" opacity="1.0">
     <title>
-      FFM.Node attribute owner
+      FFM.Net_Link is-a FFM.Wireless_Link
     </title>
     <desc>
-      Owner of the node, defaults to manager
+      FFM.Net_Link is derived from FFM.Wireless_Link
     </desc>
-    <polyline fill="none" marker-start="url(#MOM:AM)"
-              points="2480,750 2600,750 2600,1000 2640,1000"
-              stroke="#FFA022" stroke-opacity="0.7" stroke-width="5"
+    <polyline fill="none" marker-end="url(#MOM:IM)"
+              points="2960,1625 2800,1625" stroke="#08D"
+              stroke-opacity="0.45" stroke-width="5"
     />
-    <path d="M 2480 750 L 2600 750" id="FFM.Node.owner:PAP.Subject::path"
-          fill="none" stroke="none"
+    <path d="M 2800 1625 L 2960 1625"
+          id="FFM.Net_Link:is_a:FFM.Wireless_Link::path" fill="none"
+          stroke="none"
     >
     </path>
-    <text fill="#FFA022" fill-opacity="0.7" font-family="sans-serif"
+    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
           font-size="18"
     >
-      <textPath startOffset="10%" text-anchor="start"
-                xlink:href="#FFM.Node.owner:PAP.Subject::path"
+      <textPath startOffset="90%" text-anchor="end"
+                xlink:href="#FFM.Net_Link:is_a:FFM.Wireless_Link::path"
       >
         <tspan dy="-7.0">
-          owner
-        </tspan>
-      </textPath>
-    </text>
-    <text fill="#FFA022" fill-opacity="0.7" font-family="sans-serif"
-          font-size="18"
-    >
-      <textPath startOffset="10%" text-anchor="start"
-                xlink:href="#FFM.Node.owner:PAP.Subject::path"
-      >
-        <tspan dy="18">
-          [optional]
+          IS_A
         </tspan>
       </textPath>
     </text>
@@ -1230,6 +1192,44 @@
       >
         <tspan dy="18">
           [required]
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Node.owner:PAP.Subject" opacity="1.0">
+    <title>
+      FFM.Node attribute owner
+    </title>
+    <desc>
+      Owner of the node, defaults to manager
+    </desc>
+    <polyline fill="none" marker-start="url(#MOM:AM)"
+              points="2480,750 2600,750 2600,1000 2640,1000"
+              stroke="#FFA022" stroke-opacity="0.7" stroke-width="5"
+    />
+    <path d="M 2480 750 L 2600 750" id="FFM.Node.owner:PAP.Subject::path"
+          fill="none" stroke="none"
+    >
+    </path>
+    <text fill="#FFA022" fill-opacity="0.7" font-family="sans-serif"
+          font-size="18"
+    >
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Node.owner:PAP.Subject::path"
+      >
+        <tspan dy="-7.0">
+          owner
+        </tspan>
+      </textPath>
+    </text>
+    <text fill="#FFA022" fill-opacity="0.7" font-family="sans-serif"
+          font-size="18"
+    >
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Node.owner:PAP.Subject::path"
+      >
+        <tspan dy="18">
+          [optional]
         </tspan>
       </textPath>
     </text>
