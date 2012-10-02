@@ -59,6 +59,7 @@ import _GTW._OMP._PAP.import_PAP
 
 import _GTW._RST._MOM.Doc
 import _GTW._RST._TOP._MOM.Doc
+import _GTW._RST._MOM.Scope
 
 import _GTW._Werkzeug.Command
 
@@ -131,7 +132,6 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
     # end def web_src_root
 
     def create_rst (self, cmd, ** kw) :
-        import _GTW._RST._MOM.Scope
         return GTW.RST.Root \
             ( language          = "en"
             , entries           =
