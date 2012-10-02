@@ -38,6 +38,7 @@
 #    29-Jul-2012 (CT) Change to use `GTW.RST.TOP` instead of `GTW.NAV`
 #    11-Aug-2012 (CT) Add `GTW.RST.TOP.MOM.Doc` documentation
 #    13-Sep-2012 (CT) Remove `GTW.AFS.MOM.Spec.setup_defaults`
+#     2-Oct-2012 (CT) Add REST API to `create_top`
 #    ««revision-date»»···
 #--
 
@@ -180,6 +181,7 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
                         )
                     ]
                 )
+            , GTW.RST.MOM.Scope (name = "api")
             , TOP.Auth
                 ( name            = _ ("Auth")
                 , pid             = "Auth"
