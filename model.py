@@ -39,6 +39,7 @@
 #    11-Aug-2012 (CT) Add `GTW.RST.TOP.MOM.Doc` documentation
 #    13-Sep-2012 (CT) Remove `GTW.AFS.MOM.Spec.setup_defaults`
 #     2-Oct-2012 (CT) Add REST API to `create_top`
+#     5-Oct-2012 (CT) Pass `json_indent` to `GTW.RST.MOM.Scope`
 #    ««revision-date»»···
 #--
 
@@ -181,7 +182,7 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
                         )
                     ]
                 )
-            , GTW.RST.MOM.Scope (name = "api")
+            , GTW.RST.MOM.Scope (name = "api", json_indent = 2)
             , TOP.Auth
                 ( name            = _ ("Auth")
                 , pid             = "Auth"
