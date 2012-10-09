@@ -285,15 +285,15 @@ class Convert (object) :
             , raw         = True
             )
         angle = element.get ('antenna_angle')
-        incl  = None
+        elev  = None
         if angle :
-            incl = str (90 - (int (angle) % 360))
+            elev = str (90 - (int (angle) % 360))
         ant  = ffm.Antenna.instance_or_new \
             ( left        = antt
             , name        = id
             , azimuth     = element.get ('antenna_azimuth') or '0'
             #, orientation = element.get ('antenna_angle') FIXME: polarisation?
-            , inclination = incl
+            , elevation   = elev
             )
         for n in element :
             if n.tag == 'interface' :

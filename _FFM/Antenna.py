@@ -29,6 +29,7 @@
 #     6-Mar-2012 (CT) Creation
 #    10-May-2012 (CT) Change `azimuth` and `orientation` to `A_Angle`
 #    30-Aug-2012 (CT) Add `gain`
+#    08-Oct-2012 (RS) `inclination` -> `elevation`
 #    ««revision-date»»···
 #--
 
@@ -86,8 +87,10 @@ class Antenna (_Ancestor_Essence) :
 
         # end class gain
 
-        class inclination (A_Int) :
-            """Inclination of the beam from the horizontal plane (in degrees)."""
+        class elevation (A_Int) :
+            """ Elevation angle of the beam from the horizontal plane
+                (in degrees).
+            """
 
             example            = "42"
             kind               = Attr.Optional
@@ -96,7 +99,7 @@ class Antenna (_Ancestor_Essence) :
             max_value          = 90
             min_value          = -90
 
-        # end class inclination
+        # end class elevation
 
         class orientation (A_Angle) :
             """Orientation in degrees relative to standard orientation."""
