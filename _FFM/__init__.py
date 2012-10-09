@@ -27,12 +27,17 @@
 #
 # Revision Dates
 #     6-Mar-2012 (CT) Creation
+#     9-Oct-2012 (CT) Add `_desc_`
 #    ««revision-date»»···
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
 
 from _TFL.Package_Namespace import Package_Namespace
+
+_desc_ = """
+Object model defining the common node model for Funkfeuer.
+"""
 
 FFM = Package_Namespace ()
 
