@@ -40,6 +40,7 @@
 #    13-Sep-2012 (CT) Remove `GTW.AFS.MOM.Spec.setup_defaults`
 #     2-Oct-2012 (CT) Add REST API to `create_top`
 #     5-Oct-2012 (CT) Pass `json_indent` to `GTW.RST.MOM.Scope`
+#    10-Oct-2012 (CT) Add `NET` to `PNS_Aliases`
 #    ««revision-date»»···
 #--
 
@@ -111,6 +112,7 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
     ANS                     = FFM
     PNS_Aliases             = dict \
         ( Auth              = GTW.OMP.Auth
+        , NET               = GTW.OMP.NET
         , PAP               = GTW.OMP.PAP
         )
     SALT                    = bytes ("fa89356c-0af1-4644-80d7-92702e4fd524")
