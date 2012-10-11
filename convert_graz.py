@@ -19,17 +19,27 @@ import model
 class Convert (object) :
 
     person_dupes = \
-        { 708 : 707
+        { 179 : 124
+        , 267 : 322
+        , 307 : 306
+        , 372 : 380 # same phone *and* password (!) different name (!)
+        , 424 : 418
+        , 617 : 623
+        , 686 : 687
+        , 708 : 707
         , 709 : 707
         , 718 : 860
         , 729 : 728
         , 741 : 740
+        , 755 : 754
         , 776 : 301
+        , 799 : 807
         , 820 : 359
         , 821 : 359
         , 831 : 836
         , 852 : 851
         , 892 : 706
+        , 903 : 904
         }
 
     def __init__ (self, cmd, scope, debug = False) :
@@ -54,6 +64,7 @@ class Convert (object) :
         self.tables       = self.parser.tables
         self.dupes_by_id  = {}
         self.person_by_id = {}
+        self.nicknames    = {}
         self.phone_ids    = {}
     # end def __init__
 
@@ -95,13 +106,13 @@ class Convert (object) :
                     % (m.id, m.firstname, m.lastname)
                 continue
             person = self.pap.Person \
-                ( first_name = m.firstname
-                , last_name  = m.lastname
+                ( first_name = m.firstname.strip ()
+                , last_name  = m.lastname.strip ()
                 , raw        = True
                 )
             self.person_by_id [m.id] = person
             if m.nick :
-                self.ffm.Nickname (person, m.nick, raw = True)
+                self.try_insert_nick (m.nick, m.id, person)
             if m.email :
                 email = self.pap.Email (address = m.email)
                 self.pap.Person_has_Email (person, email)
@@ -117,9 +128,8 @@ class Convert (object) :
             if d.email :
                 email = self.pap.Email (address = d.email)
                 self.pap.Person_has_Email (person, email)
-            nn = dict.fromkeys (n.name for n in person.nicknames)
-            if d.nick and d.nick not in nn :
-                self.ffm.Nickname (person, d.nick, raw = True)
+            if d.nick :
+                self.try_insert_nick (d.nick, m_id, person)
             if d.tel :
                 self.try_insert_phone (d.tel, m_id, person)
     # end def create_persons
@@ -146,6 +156,19 @@ class Convert (object) :
                 self.pap.Person_has_Phone (person, phone)
     # end def try_insert_phone
 
+    def try_insert_nick (self, nick, id, person) :
+        lnick = nick.lower ()
+        if lnick in self.nicknames :
+            eid = self.nicknames [lnick]
+            prs = self.person_by_id [eid]
+            if eid != id :
+                print "WARN: %s/%s %s/%s Duplicate Nickname: %s" \
+                    % (eid, prs.pid, id, person.pid, nick)
+        else :
+            n = self.pap.Nickname (nick, raw = True)
+            self.pap.Person_has_Nickname (person, n)
+            self.nicknames [lnick] = id
+    # end def try_insert_nick
 
 # end def Convert
 

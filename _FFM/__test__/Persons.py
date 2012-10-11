@@ -28,6 +28,7 @@
 # Revision Dates
 #    19-Sep-2012 (RS) Creation
 #    11-Oct-2012 (RS) Fix missing `raw` parameter
+#    11-Oct-2012 (RS) `Nickname` test
 #    ««revision-date»»···
 #--
 
@@ -47,6 +48,8 @@ _test_code = """
     >>> p2 = PAP.Person \\
     ...     (first_name = 'Hans', last_name = 'Schlatterbeck', raw = True)
     >>> pmp = FFM.Person_mentors_Person (p1, p2)
+    >>> nic = PAP.Nickname ('runtux', raw = True)
+    >>> phn = PAP.Person_has_Nickname (p1, nic)
 
     >>> scope.destroy ()
 

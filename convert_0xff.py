@@ -311,7 +311,8 @@ class Convert (object) :
             if m.mentor_id and m.mentor_id != m.id :
                 self.mentor [m.id] = m.mentor_id
             if m.nickname :
-                self.ffm.Nickname (person, m.nickname, raw = True)
+                nick = self.pap.Nickname (m.nickname, raw = True)
+                self.pap.Person_has_Nickname (person, nick)
             if m.homepage :
                 self.try_insert_url (m, person)
         for mentor_id, person_id in self.mentor.iteritems () :
@@ -333,7 +334,8 @@ class Convert (object) :
             if d.mentor_id and d.mentor_id != d.id :
                 assert (False)
             if d.nickname :
-                self.ffm.Nickname (person, d.nickname, raw = True)
+                nick = self.pap.Nickname (d.nickname, raw = True)
+                self.pap.Person_has_Nickname (person, nick)
             if d.homepage :
                 self.try_insert_url (d, person)
     # end def create_persons

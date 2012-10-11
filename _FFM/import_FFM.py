@@ -37,6 +37,7 @@
 #    12-Sep-2012 (CT) Add `Nickname` and `Person_mentors_Person`
 #    18-Sep-2012 (RS) remove `Subject_owns_Node` (replace by Id_Entity)
 #    21-Sep-2012 (RS) Add `Net_Interface_in_IP6_Network`
+#    11-Oct-2012 (RS) Import `Nickname` from `PAP` -- not imported by default
 #    ««revision-date»»···
 #--
 
@@ -59,7 +60,6 @@ import _FFM.Net_Credentials
 import _FFM.Net_Device
 import _FFM.Net_Device_Type
 import _FFM.Net_Interface
-import _FFM.Nickname
 import _FFM.Node
 import _FFM.Regulatory_Domain
 import _FFM.Regulatory_Permission
@@ -71,6 +71,8 @@ import _FFM.Wireless_Standard
 
 import _FFM.Wireless_Mode
 import _FFM.Zone
+
+import _GTW._OMP._PAP.Nickname
 
 import _FFM.Device_Type_made_by_Company
 import _FFM.Net_Interface_in_IP4_Network
