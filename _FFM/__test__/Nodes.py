@@ -48,7 +48,7 @@ _test_code = """
     >>> comp = PAP.Company (name = "Open Source Consulting")
     >>> node1 = FFM.Node (name = "nogps", manager = mgr, position = None)
     >>> gps1 = dict (lat = "48 d 17 m 9.64 s", lon = "15 d 52 m 27.84 s")
-    >>> node2 = FFM.Node (name = "node2", manager = mgr, position = gps1)
+    >>> node2 = FFM.Node (name = "node2", manager = mgr, position = gps1, raw = True)
     >>> gps2 = dict (lat = "48.367088", lon = "16.187672")
     >>> node3 = FFM.Node \\
     ...    (name = "node3", manager = mgr, owner = comp, position = gps2)
