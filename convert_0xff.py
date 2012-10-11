@@ -122,7 +122,7 @@ class Convert (object) :
                 node = self.ffm.Node \
                     ( name        = n.name
                     , position    = gps
-                    , show_in_map = ['yes', 'no'][n.map]
+                    , show_in_map = n.map
                     , manager     = manager
                     , owner       = person
                     , raw         = True
