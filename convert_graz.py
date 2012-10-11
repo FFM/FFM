@@ -73,6 +73,7 @@ class Convert (object) :
                 ( name        = n.name
                 , show_in_map = not n.hidden
                 , manager     = person
+                , raw         = True
                 )
             if n.gps_lon :
                 print n.gps_lon
@@ -100,7 +101,7 @@ class Convert (object) :
                 )
             self.person_by_id [m.id] = person
             if m.nick :
-                self.ffm.Nickname (person, m.nick)
+                self.ffm.Nickname (person, m.nick, raw = True)
             if m.email :
                 email = self.pap.Email (address = m.email)
                 self.pap.Person_has_Email (person, email)
@@ -118,7 +119,7 @@ class Convert (object) :
                 self.pap.Person_has_Email (person, email)
             nn = dict.fromkeys (n.name for n in person.nicknames)
             if d.nick and d.nick not in nn :
-                self.ffm.Nickname (person, d.nick)
+                self.ffm.Nickname (person, d.nick, raw = True)
             if d.tel :
                 self.try_insert_phone (d.tel, m_id, person)
     # end def create_persons
