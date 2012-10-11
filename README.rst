@@ -63,6 +63,8 @@ System requirements
 
   * `Babel`_
 
+  * `BeautifulSoup`_
+
   * `python-dateutil`_
 
   * `docutils`_
@@ -86,6 +88,7 @@ System requirements
   All packages should be available via the `Python Package Index`_
 
 .. _`Babel`:         http://babel.edgewall.org/
+.. _`BeautifulSoup`: http://www.crummy.com/software/BeautifulSoup/
 .. _`dateutil`:      http://labix.org/python-dateutil
 .. _`docutils`:      http://docutils.sourceforge.net/
 .. _`flup`:          http://trac.saddi.com/flup
