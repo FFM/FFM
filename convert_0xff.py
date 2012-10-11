@@ -119,11 +119,8 @@ class Convert (object) :
                 print "WARN: Node %s: member %s not found, using 1" \
                     % (n.id, n.id_members)
             if manager :
-                name = n.name
-                if name [0].isdigit () :
-                    name = 'X' + name
                 node = self.ffm.Node \
-                    ( name        = name
+                    ( name        = n.name
                     , position    = gps
                     , show_in_map = ['yes', 'no'][n.map]
                     , manager     = manager
@@ -361,8 +358,6 @@ class Convert (object) :
     # end def create_device
 
     def create_interface (self, dev, name, ip) :
-        if name [0].isdigit () :
-            name = 'X' + name
         # FIXME: Need info on wireless vs wired Net_Interface
         iface = self.ffm.Wired_Interface (left = dev, name = name, raw = True)
         net = IP4_Address (ip.ip, ip.cidr)
