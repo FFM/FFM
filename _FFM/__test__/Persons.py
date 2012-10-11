@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    19-Sep-2012 (RS) Creation
+#    11-Oct-2012 (RS) Fix missing `raw` parameter
 #    ««revision-date»»···
 #--
 
@@ -41,8 +42,10 @@ _test_code = """
 
     >>> FFM = scope.FFM
     >>> PAP = scope.PAP
-    >>> p1 = PAP.Person (first_name = 'Ralf', last_name = 'Schlatterbeck')
-    >>> p2 = PAP.Person (first_name = 'Hans', last_name = 'Schlatterbeck')
+    >>> p1 = PAP.Person \\
+    ...     (first_name = 'Ralf', last_name = 'Schlatterbeck', raw = True)
+    >>> p2 = PAP.Person \\
+    ...     (first_name = 'Hans', last_name = 'Schlatterbeck', raw = True)
     >>> pmp = FFM.Person_mentors_Person (p1, p2)
 
     >>> scope.destroy ()

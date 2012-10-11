@@ -28,6 +28,7 @@
 # Revision Dates
 #    19-Sep-2012 (RS) Creation
 #    24-Sep-2012 (RS) More tests, up to `Net_Interface_in_IP4_Network`
+#    11-Oct-2012 (RS) Fix missing `raw` parameter
 #    ««revision-date»»···
 #--
 
@@ -44,11 +45,14 @@ _test_code = """
 
     >>> FFM = scope.FFM
     >>> PAP = scope.PAP
-    >>> mgr = PAP.Person (first_name = 'Ralf', last_name = 'Schlatterbeck')
-    >>> comp = PAP.Company (name = "Open Source Consulting")
-    >>> node1 = FFM.Node (name = "nogps", manager = mgr, position = None)
+    >>> mgr = PAP.Person \\
+    ...     (first_name = 'Ralf', last_name = 'Schlatterbeck', raw = True)
+    >>> comp = PAP.Company (name = "Open Source Consulting", raw = True)
+    >>> node1 = FFM.Node \\
+    ...     (name = "nogps", manager = mgr, position = None, raw = True)
     >>> gps1 = dict (lat = "48 d 17 m 9.64 s", lon = "15 d 52 m 27.84 s")
-    >>> node2 = FFM.Node (name = "node2", manager = mgr, position = gps1, raw = True)
+    >>> node2 = FFM.Node \\
+    ...     (name = "node2", manager = mgr, position = gps1, raw = True)
     >>> gps2 = dict (lat = "48.367088", lon = "16.187672")
     >>> node3 = FFM.Node \\
     ...    (name = "node3", manager = mgr, owner = comp, position = gps2)
@@ -61,7 +65,8 @@ _test_code = """
     >>> node3.last_changed
     datetime.datetime(2010, 5, 5, 23, 23, 23)
     >>> net = FFM.IP4_Network (dict (address = '192.168.23.0/24'), raw = True)
-    >>> devtype = FFM.Net_Device_Type.instance_or_new (name = 'Generic')
+    >>> devtype = FFM.Net_Device_Type.instance_or_new \\
+    ...     (name = 'Generic', raw = True)
     >>> dev = FFM.Net_Device \\
     ...     (left = devtype, node = node3, name = 'dev', raw = True)
     >>> wr  = FFM.Wired_Interface (left = dev, name = 'wr', raw = True)

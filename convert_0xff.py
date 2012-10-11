@@ -125,9 +125,10 @@ class Convert (object) :
                 node = self.ffm.Node \
                     ( name     = name
                     , position = gps
-                    , map_p    = n.map
+                    , map_p    = ['yes', 'no'][n.map]
                     , manager  = manager
                     , owner    = person
+                    , raw      = True
                     )
                 self.set_last_change (node, n.changed, n.created)
                 assert (node)
@@ -305,7 +306,7 @@ class Convert (object) :
             if m.mentor_id and m.mentor_id != m.id :
                 self.mentor [m.id] = m.mentor_id
             if m.nickname :
-                self.ffm.Nickname (person, m.nickname)
+                self.ffm.Nickname (person, m.nickname, raw = True)
         for mentor_id, person_id in self.mentor.iteritems () :
             mentor = self.person_by_id [mentor_id]
             person = self.person_by_id [person_id]
@@ -325,7 +326,7 @@ class Convert (object) :
             if d.mentor_id and d.mentor_id != d.id :
                 assert (False)
             if d.nickname :
-                self.ffm.Nickname (person, d.nickname)
+                self.ffm.Nickname (person, d.nickname, raw = True)
     # end def create_persons
 
     def create_device (self, d) :

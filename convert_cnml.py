@@ -71,13 +71,13 @@ class Convert (object) :
         self.attrs = {}
         self.scope = scope
         self.links = {} # list of linked interfaces by link id
-        ffm        = self.scope.FFM
+        self.ffm   = self.scope.FFM
         PAP        = self.scope.PAP
         self.owner = PAP.Person (first_name = "guifi", last_name = "net")
         self.modes = dict \
-            ( client = ffm.Client_Mode
-            , ap     = ffm.AP_Mode
-            , ad_hoc = ffm.Ad_Hoc_Mode
+            ( client = self.ffm.Client_Mode
+            , ap     = self.ffm.AP_Mode
+            , ad_hoc = self.ffm.Ad_Hoc_Mode
             )
 
         #print self.et.pretty (with_text = 1)
@@ -109,10 +109,10 @@ class Convert (object) :
     def insert_node (self, element) :
         """ Insert a node.
         """
-        ffm  = self.scope.FFM
         name = '-'.join ((element.get ('title'), element.get ('id')))
         pos  = dict (lat = element.get ('lat'), lon = element.get ('lon'))
-        node = ffm.Node (name = name, position = pos, manager = self.owner)
+        node = self.ffm.Node \
+            (name = name, position = pos, manager = self.owner, raw = True)
         for n in element :
             if n.tag == 'device' :
                 self.insert_device (node, n)
@@ -129,12 +129,13 @@ class Convert (object) :
         """
         devname = element.get ('name')
         name    = element.get ('title')
-        ffm     = self.scope.FFM
         if not devname :
-            t = ffm.Net_Device_Type.instance (name = "Generic", raw = True)
+            t = self.ffm.Net_Device_Type.instance (name = "Generic", raw = True)
         else :
-            t = ffm.Net_Device_Type.instance_or_new (name = devname, raw = True)
-        dev = ffm.Net_Device (left = t, node = node, name = name, raw = True)
+            t = self.ffm.Net_Device_Type.instance_or_new \
+                (name = devname, raw = True)
+        dev = self.ffm.Net_Device \
+            (left = t, node = node, name = name, raw = True)
         for nif in element :
             if nif.tag == 'radio' :
                 self.insert_radio (dev, nif)
@@ -149,7 +150,6 @@ class Convert (object) :
     def insert_links (self, interface, element) :
         """ Links between interfaces.
         """
-        ffm  = self.scope.FFM
         for n in element :
             if n.tag == 'link' :
                 # linked_interface_id is bogus in guifi cnml, seems to
@@ -162,11 +162,11 @@ class Convert (object) :
                     r_id = id_mangle (self.links [name][0])
                     self.links [name].append (element.get ('id'))
                     left  = interface
-                    right = ffm.Net_Interface.query (name = r_id).one ()
-                    if isinstance (left, ffm.Wireless_Interface) :
-                        ffm.Wireless_Link (left, right)
+                    right = self.ffm.Net_Interface.query (name = r_id).one ()
+                    if isinstance (left, self.ffm.Wireless_Interface) :
+                        self.ffm.Wireless_Link (left, right)
                     else :
-                        ffm.Wired_Link    (left, right)
+                        self.ffm.Wired_Link    (left, right)
                 else :
                     self.links [name] = [element.get ('id')]
             else :
@@ -174,24 +174,23 @@ class Convert (object) :
     # end def insert_links
 
     def insert_ip_network (self, interface, ip, mask) :
-        ffm = self.scope.FFM
         net = IP4_Address (ip, mask)
         adr = IP4_Address (ip)
         assert (adr in net)
-        network = ffm.IP4_Network.instance_or_new \
+        network = self.ffm.IP4_Network.instance_or_new \
             (dict (address = str (net)), raw = True)
-        ffm.Net_Interface_in_IP4_Network.instance_or_new \
+        self.ffm.Net_Interface_in_IP4_Network.instance_or_new \
             (interface, network, dict (address = adr))
     # end def insert_ip_network
 
     def insert_wired_interface (self, device, element) :
         mac  = fix_mac (element.get ('mac'))
-        ffm  = self.scope.FFM
         name = id_mangle (element.get ('id'))
-        wif  = ffm.Wireless_Interface.instance \
+        wif  = self.ffm.Wireless_Interface.instance \
             ( left        = device
             , name        = name
             , mac_address = mac
+            , raw         = True
             )
         if wif :
             # CNML seems to have interfaces that are child of a radio
@@ -202,18 +201,20 @@ class Convert (object) :
             # radio as parent for the wireless interfaces.
             assert (wif.mac_address == mac)
             return
-        nif  = ffm.Wired_Interface.instance \
+        nif  = self.ffm.Wired_Interface.instance \
             ( left        = device
             , name        = name
             , mac_address = mac
+            , raw         = True
             )
         if nif :
             assert (nif.mac_address == mac)
         else :
-            nif  = ffm.Wired_Interface \
+            nif  = self.ffm.Wired_Interface \
                 ( left        = device
                 , name        = name
                 , mac_address = mac
+                , raw         = True
                 )
             assert (nif.mac_address == mac)
         self.insert_links (nif, element)
@@ -225,7 +226,6 @@ class Convert (object) :
     # end def insert_wired_interface
 
     def insert_wireless_interface (self, device, radio, element, antenna) :
-        ffm  = self.scope.FFM
         mac  = fix_mac (element.get ('mac'))
         ssid = radio.get ('ssid')
         if ssid and len (ssid) > 32 :
@@ -235,10 +235,11 @@ class Convert (object) :
         # multiple times in the XML
         name = id_mangle (element.get ('id'))
         mode = element.get ('mode')
-        wif  = ffm.Wireless_Interface.instance \
+        wif  = self.ffm.Wireless_Interface.instance \
             ( left        = device
             , name        = name
             , mac_address = mac
+            , raw         = True
             )
         prot = radio.get ('protocol')
         if prot :
@@ -247,8 +248,8 @@ class Convert (object) :
             assert (wif.essid                 == ssid)
             assert (wif.mac_address           == mac)
         else :
-            std  = ffm.Wireless_Standard.instance (prot)
-            wif  = ffm.Wireless_Interface \
+            std  = self.ffm.Wireless_Standard.instance (prot, raw = True)
+            wif  = self.ffm.Wireless_Interface \
                 ( left        = device
                 , name        = name
                 , standard    = std
@@ -257,7 +258,7 @@ class Convert (object) :
                 , raw         = True
                 )
             assert (wif.mac_address == mac)
-            ffm.Wireless_Interface_uses_Antenna (wif, antenna)
+            self.ffm.Wireless_Interface_uses_Antenna (wif, antenna, raw = True)
         if mode :
             self.modes [mode] (wif)
         self.insert_links (wif, element)
@@ -277,9 +278,8 @@ class Convert (object) :
             interface.
         """
         id   = element.get ('id')
-        ffm  = self.scope.FFM
         gn   = element.get ('antenna_gain') or '0'
-        antt = ffm.Antenna_Type.instance_or_new \
+        antt = self.ffm.Antenna_Type.instance_or_new \
             ( name        = gn
             , gain        = gn
             , raw         = True
@@ -288,12 +288,13 @@ class Convert (object) :
         elev  = None
         if angle :
             elev = str (90 - (int (angle) % 360))
-        ant  = ffm.Antenna.instance_or_new \
+        ant  = self.ffm.Antenna.instance_or_new \
             ( left        = antt
             , name        = id
             , azimuth     = element.get ('antenna_azimuth') or '0'
             #, orientation = element.get ('antenna_angle') FIXME: polarisation?
             , elevation   = elev
+            , raw         = True
             )
         for n in element :
             if n.tag == 'interface' :
