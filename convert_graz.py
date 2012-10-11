@@ -52,21 +52,34 @@ class Convert (object) :
         self.parser.parse (f)
         self.contents     = self.parser.contents
         self.tables       = self.parser.tables
+        self.dupes_by_id  = {}
         self.person_by_id = {}
         self.phone_ids    = {}
     # end def __init__
 
-    def set_last_change (self, obj, change_time, create_time) :
-        change_time = make_naive (change_time)
-        create_time = make_naive (create_time)
-        self.scope.ems.convert_creation_change \
-            (obj.pid, c_time = create_time, time = change_time or create_time)
-        #print obj, obj.creation_date, obj.last_changed
-    # end def set_last_change
+    def create (self) :
+        self.create_persons ()
+        self.create_nodes   ()
+    # end def create
 
     def create_nodes (self) :
-        for n in self.contents ['nodes'] :
-            pass
+        for n in self.contents ['location'] :
+            person_id = self.person_dupes.get (n.person_id, n.person_id)
+            if person_id not in self.person_by_id :
+                print "WARN: Location %s owner %s missing" % (n.id, person_id)
+                continue
+            person = self.person_by_id [person_id]
+            node = self.ffm.Node \
+                ( name        = n.name
+                , show_in_map = not n.hidden
+                , manager     = person
+                )
+            if n.gps_lon :
+                print n.gps_lon
+            if n.gps_lat :
+                print n.gps_lat
+            #print "%4d %s %s %r %s %s %s %r" % \
+            #    (n.id, n.hastinc, n.time, n.street, n.streetnr, n.gps_lon, n.gps_lat, n.comment)
     # end def create_nodes
 
     def create_persons (self) :
@@ -74,6 +87,7 @@ class Convert (object) :
             #print "%s: %r %r" % (m.id, m.firstname, m.lastname)
             if m.id in self.person_dupes :
                 print "INFO: Duplicate person: %s" % m.id
+                self.dupes_by_id [m.id] = m
                 continue
             if not m.firstname or not m.lastname :
                 print >> sys.stderr, "WARN: name missing: %s (%s/%s)" \
@@ -91,25 +105,46 @@ class Convert (object) :
                 email = self.pap.Email (address = m.email)
                 self.pap.Person_has_Email (person, email)
             if m.tel :
-                p = Phone (m.tel, city = "Graz")
-                if p :
-                    k = str (p)
-                    t = self.pap.Phone.instance (*p)
-                    if t :
-                        eid = self.phone_ids [k]
-                        prs = self.person_by_id [eid]
-                        print "WARN: %s/%s %s/%s: Duplicate Phone: %s" \
-                            % (eid, prs.pid, m.id, person.pid, m.tel)
-                    else :
-                        self.phone_ids [k] = m.id
-                        phone = self.pap.Phone (*p)
-                        self.pap.Person_has_Phone (person, phone)
+                self.try_insert_phone (m.tel, m.id, person)
+        # get data from dupes
+        for d_id, m_id in self.person_dupes.iteritems () :
+            # older version of db or dupe removed:
+            if m_id not in self.person_by_id :
+                continue
+            d = self.dupes_by_id [d_id]
+            person = self.person_by_id [m_id]
+            if d.email :
+                email = self.pap.Email (address = d.email)
+                self.pap.Person_has_Email (person, email)
+            nn = dict.fromkeys (n.name for n in person.nicknames)
+            if d.nick and d.nick not in nn :
+                self.ffm.Nickname (person, d.nick)
+            if d.tel :
+                self.try_insert_phone (d.tel, m_id, person)
     # end def create_persons
 
-    def create (self) :
-        self.create_persons         ()
-        #self.create_nodes           ()
-    # end def create
+    def set_creation (self, obj, create_time) :
+        create_time = make_naive (create_time)
+        self.scope.ems.convert_creation_change (obj.pid, c_time = create_time)
+    # end def set_creation
+
+    def try_insert_phone (self, tel, id, person) :
+        p = Phone (tel, city = "Graz")
+        if p :
+            k = str (p)
+            t = self.pap.Phone.instance (*p)
+            if t :
+                eid = self.phone_ids [k]
+                prs = self.person_by_id [eid]
+                if eid != id :
+                    print "WARN: %s/%s %s/%s: Duplicate Phone: %s" \
+                        % (eid, prs.pid, id, person.pid, tel)
+            else :
+                self.phone_ids [k] = id
+                phone = self.pap.Phone (*p)
+                self.pap.Person_has_Phone (person, phone)
+    # end def try_insert_phone
+
 
 # end def Convert
 
