@@ -63,7 +63,7 @@ System requirements
 
   * `Babel`_
 
-  * `dateutil`_
+  * `python-dateutil`_
 
   * `docutils`_
 
@@ -249,14 +249,14 @@ like the following::
     ### Update source code
     $ python passive/www/app/deploy.py update
 
-    ### Compile translations
-    $ python passive/www/app/deploy.py babel compile
-
     ### Byte compile python files
     $ python passive/www/app/deploy.py pycompile
 
+    ### Compile translations
+    $ python passive/www/app/deploy.py babel compile
+
     ### Migrate database from active to passive
-    $ python passive/www/app/deploy.py migrate
+    $ python passive/www/app/deploy.py migrate -A -P
 
     ### Setup app cache
     $ python passive/www/app/deploy.py setup_cache
