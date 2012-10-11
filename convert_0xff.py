@@ -245,6 +245,14 @@ class Convert (object) :
             self.pap.Person_has_Email (person, email)
     # end def try_insert_email
 
+    def try_insert_url (self, m, person) :
+        hp = m.homepage
+        if not hp.startswith ('http') :
+            hp = 'http://' + hp
+        url = self.pap.Url.instance_or_new (hp, desc = 'Homepage', raw = True)
+        self.pap.Person_has_Url (person, url)
+    # end def try_insert_url
+
     phone_types = dict \
         ( telephone   = 'Festnetz'
         , mobilephone = 'Mobil'
@@ -307,6 +315,8 @@ class Convert (object) :
                 self.mentor [m.id] = m.mentor_id
             if m.nickname :
                 self.ffm.Nickname (person, m.nickname, raw = True)
+            if m.homepage :
+                self.try_insert_url (m, person)
         for mentor_id, person_id in self.mentor.iteritems () :
             mentor = self.person_by_id [mentor_id]
             person = self.person_by_id [person_id]
@@ -327,6 +337,8 @@ class Convert (object) :
                 assert (False)
             if d.nickname :
                 self.ffm.Nickname (person, d.nickname, raw = True)
+            if d.homepage :
+                self.try_insert_url (d, person)
     # end def create_persons
 
     def create_device (self, d) :
