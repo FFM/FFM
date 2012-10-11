@@ -123,12 +123,12 @@ class Convert (object) :
                 if name [0].isdigit () :
                     name = 'X' + name
                 node = self.ffm.Node \
-                    ( name     = name
-                    , position = gps
-                    , map_p    = ['yes', 'no'][n.map]
-                    , manager  = manager
-                    , owner    = person
-                    , raw      = True
+                    ( name        = name
+                    , position    = gps
+                    , show_in_map = ['yes', 'no'][n.map]
+                    , manager     = manager
+                    , owner       = person
+                    , raw         = True
                     )
                 self.set_last_change (node, n.changed, n.created)
                 assert (node)

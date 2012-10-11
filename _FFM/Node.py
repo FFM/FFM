@@ -31,6 +31,7 @@
 #    20-Jul-2012 (RS) `Node` no longer inherits from `PAP.Subject`
 #    18-Sep-2012 (RS) Add `owner` and `manager`
 #    22-Sep-2012 (RS) make `name` `A_DNS_Label`
+#    11-Oct-2012 (RS) `map_p` -> `show_in_map`
 #    ««revision-date»»···
 #--
 
@@ -91,13 +92,13 @@ class Node (_Ancestor_Essence) :
 
         # end class position
 
-        class map_p (A_Boolean) :
+        class show_in_map (A_Boolean) :
             """Show in map."""
 
             kind               = Attr.Optional
             default            = True
 
-        # end class map_p
+        # end class show_in_map
 
     # end class _Attributes
 

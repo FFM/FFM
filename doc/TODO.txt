@@ -32,8 +32,3 @@ Deadline: begining Sept.
 
 * Generate simple user interface a la Django for editing nodes, devices, IP addresses, add and edit users, etc.
 CRUD services
-
-Minor issues to check
-=====================
-
-- Node.map_p: naming?
