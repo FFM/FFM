@@ -90,6 +90,22 @@ class Convert (object) :
                 print n.gps_lon
             if n.gps_lat :
                 print n.gps_lat
+            if n.street :
+                s = ' '.join (x for x in (n.street, n.streetnr) if x)
+                adr = self.pap.Address.instance_or_new \
+                    ( street = s
+                    , zip    = '8010'
+                    , city   = 'Graz'
+                    , country = 'Austria'
+                    )
+                self.pap.Node_has_Address (node, adr)
+            if n.gallery_link :
+                abs = 'http://gallery.funkfeuer.at/v/Graz/Knoten/%s/'
+                if n.gallery_link.startswith ('http') :
+                    abs = "%s"
+                url = self.pap.Url.instance_or_new \
+                    (abs % n.gallery_link, desc = 'Gallery')
+                self.pap.Node_has_Url (node, url)
             #print "%4d %s %s %r %s %s %s %r" % \
             #    (n.id, n.hastinc, n.time, n.street, n.streetnr, n.gps_lon, n.gps_lat, n.comment)
     # end def create_nodes

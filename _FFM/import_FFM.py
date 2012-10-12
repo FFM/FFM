@@ -38,6 +38,7 @@
 #    18-Sep-2012 (RS) remove `Subject_owns_Node` (replace by Id_Entity)
 #    21-Sep-2012 (RS) Add `Net_Interface_in_IP6_Network`
 #    11-Oct-2012 (RS) Import `Nickname` from `PAP` -- not imported by default
+#    12-Oct-2012 (RS) Add `Node_has_Address`
 #    ««revision-date»»···
 #--
 
@@ -79,6 +80,7 @@ import _FFM.Net_Interface_in_IP4_Network
 import _FFM.Net_Interface_in_IP6_Network
 import _FFM.Net_Interface_in_IP_Network
 import _FFM.Net_Link
+import _FFM.Node_has_Address
 import _FFM.Person_mentors_Person
 import _FFM.Wired_Link
 import _FFM.Wireless_Interface_uses_Antenna

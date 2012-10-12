@@ -32,6 +32,7 @@
 #    18-Sep-2012 (RS) Add `owner` and `manager`
 #    22-Sep-2012 (RS) make `name` `A_DNS_Label`
 #    11-Oct-2012 (RS) `map_p` -> `show_in_map`
+#    12-Oct-2012 (RS) Make `Node` a `PAP.Subject` again.
 #    ««revision-date»»···
 #--
 
@@ -46,14 +47,18 @@ from   _GTW._OMP._DNS.Attr_Type import A_DNS_Label
 
 import _FFM.Entity
 
-_Ancestor_Essence = FFM.Object
+_Ancestor_Essence = PAP.Subject
 
-class Node (_Ancestor_Essence) :
+class Node (FFM.Entity, _Ancestor_Essence) :
     """Model a node of FFM"""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
-        _Ancestor = _Ancestor_Essence._Attributes
+        refuse_links = set \
+            (( "GTW.OMP.PAP.Subject_has_Phone"
+             , "GTW.OMP.PAP.Subject_has_Email"
+            ))
+        _Ancestor    = _Ancestor_Essence._Attributes
 
         class name (A_DNS_Label) :
             """Name of the node"""
