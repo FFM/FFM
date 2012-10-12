@@ -388,8 +388,11 @@ class Convert (object) :
         for ip4, aliases in self.olsr_mid.iteritems () :
             nodes = {}
             ip    = self.ip_by_ip [ip4]
-            d     = self.dev_by_id [ip.id_devices]
-            nodes [d.id_nodes] = ({ ip.id_devices : d }, { ip.id : ip })
+            if ip.id_devices :
+                d = self.dev_by_id [ip.id_devices]
+                nodes [d.id_nodes] = ({ ip.id_devices : d }, { ip.id : ip })
+            else :
+                print "ERR:  key %s from mid has no device" % ip4
             for a in aliases :
                 ip = self.ip_by_ip [a]
                 if not ip.id_devices :
