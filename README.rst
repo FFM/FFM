@@ -1,7 +1,15 @@
 README for the FFM web app
 ===========================
 
-:Author: Christian Tanzer <tanzer@swing.co.at>
+:Authors:
+
+    Christian Tanzer
+    <tanzer@swing.co.at>
+
+    Ralf Schlatterbeck
+    <rsc@runtux.com>
+
+.. |--| unicode:: U+2013   .. en dash
 
 The FFM web app is an application that serves data about the network
 nodes deployed by www.funkfeuer.at.
@@ -16,6 +24,12 @@ Object model
 This object model (in SVG format) is automagically redered using
 `graph.py`_, the result of the last run is kept under version control
 (so you can see our progress) in `nodedb.svg`_.
+To render the svn to a png file with inkscape, use::
+
+    inkscape -y 1 -e doc/nodedb.png doc/nodedb.svg
+
+The -y option sets the background opacity, when not specified you'll get
+a black background in the exported .png.
 
 .. _`nodedb.svg`: https://github.com/FFM/FFM/blob/master/doc/nodedb.svg
 .. _`graph.py`: https://github.com/FFM/FFM/blob/master/graph.py
@@ -24,12 +38,36 @@ This object model (in SVG format) is automagically redered using
     :alt: Object model SVG
     :target: https://github.com/FFM/FFM/blob/master/doc/nodedb.svg
 
-To render the svn to a png file with inkscape, use::
+Some notes on the object model: We try to keep only the relevant
+attributes of a real-world object in the object itself |--| everything
+else is modelled as a relation. The blue arrows denote inheritance
+relationships ("IS_A"). The yellow arrows are attributes, e.g., the Node
+has an attribute ``manager`` of type ``Person`` which is required (this
+is implemented as a foreign key in the database).
 
-    inkscape -y 1 -e doc/nodedb.png doc/nodedb.svg
+The black arrows are 1:N relationships (also implemented as foreign keys
+in the database) but the relation objects have their own identity. This
+is used to separate the attribute of an object from its links to other
+objects. It also implements referential integrity constraints: A link is
+deleted if the object to which it points is deleted.
 
-The -y option sets the background opacity, when not specified you'll get
-a black background in the exported .png.
+There are different link attributes. A two-way link (implementing an N:M
+relationship) has a ``left`` and a ``right`` side which are also the
+default attribute names. An example is
+``Wireless_Interface_uses_Wireless_Channel``, in the diagram this link
+object is displayed as ``_uses_`` between the ``FFM.Wireless_Channel``
+and ``FFM.Wireless_Interface``. The black arrows connecting these are
+labelled ``left`` and ``right`` which indicates how this should be read.
+Note that in this case the ``left`` attribute is on the right side in
+the diagram. A two-way link like this has an identity and can have
+additional attributes besides ``left`` and ``right``.
+
+There are also unary links with only a ``left`` side. An example is the
+``Device`` which cannot exist without its ``left`` attribute, the
+``Device_Type``. There can be several devices with the same device type.
+This relationship is inherited by ``Antenna`` and ``Antenna_Type`` and
+``Net_Device`` and ``Net_Device_Type``.
+
 
 System requirements
 --------------------
@@ -79,28 +117,81 @@ System requirements
 
   * `rcssmin`_, `rjsmin`_ (for minimization of CSS and Javascript files)
 
+  * `rsclib`_
+
   * `sqlalchemy`_
 
   * `werkzeug`_
 
-  All packages should be available via the `Python Package Index`_
+  Most packages are available via the `Python Package Index`_
 
-.. _`Babel`:         http://babel.edgewall.org/
-.. _`dateutil`:      http://labix.org/python-dateutil
-.. _`docutils`:      http://docutils.sourceforge.net/
-.. _`flup`:          http://trac.saddi.com/flup
-.. _`jinja2`:        http://jinja.pocoo.org/
-.. _`plumbum`:       http://plumbum.readthedocs.org/en/latest/index.html
-.. _`psycopg2`:      http://packages.python.org/psycopg2/
-.. _`mysql package`: http://mysql-python.sourceforge.net/
-.. _`pytz`:          http://pytz.sourceforge.net/
-.. _`rcssmin`:       http://opensource.perlig.de/rcssmin/
-.. _`rjsmin`:        http://opensource.perlig.de/rjsmin/
-.. _`sqlalchemy`:    http://www.sqlalchemy.org/
-.. _`werkzeug`:      http://werkzeug.pocoo.org/
+.. _`Babel`:           http://babel.edgewall.org/
+.. _`python-dateutil`: http://labix.org/python-dateutil
+.. _`docutils`:        http://docutils.sourceforge.net/
+.. _`flup`:            http://trac.saddi.com/flup
+.. _`jinja2`:          http://jinja.pocoo.org/
+.. _`plumbum`:         http://plumbum.readthedocs.org/en/latest/index.html
+.. _`psycopg2`:        http://packages.python.org/psycopg2/
+.. _`mysql package`:   http://mysql-python.sourceforge.net/
+.. _`pytz`:            http://pytz.sourceforge.net/
+.. _`rcssmin`:         http://opensource.perlig.de/rcssmin/
+.. _`rjsmin`:          http://opensource.perlig.de/rjsmin/
+.. _`rsclib`:          http://rsclib.sourceforge.net/
+.. _`sqlalchemy`:      http://www.sqlalchemy.org/
+.. _`werkzeug`:        http://werkzeug.pocoo.org/
 .. _`Python Package Index`: http://pypi.python.org/pypi
 
+Package Installation for Debian Stable aka Squeeze
+--------------------------------------------------
 
+The following is an example installation on Debian Stable. It contains
+some information that is applicable to other distributions but is quite
+Debian-specific in other parts.
+
+If you are running in a virtual machine, you need at least 384 MB of
+RAM, 256 MB isn't enough.
+
+Some of the needed Packages are either not in Debian or are too old to
+be useful. The following packages can be installed via the Debian
+installer::
+
+ apt-get install git libapache2-mod-fcgid postgresql python-pip \
+     python-virtualenv python-distribute build-essentials python-pybabel \
+     python-dateutil python-docutils python-flup python-jinja2 \
+     python-psycopg2 python-dev apache2-mpm-worker 
+
+Other packages can be installed using ``pip`` |--| note that you may want
+to install some of these into a virtual python environment (virtualenv),
+see later in sectioni `How to install`_ |--| depending on your
+estimate how often you want to change external packages::
+
+ pip install Babel
+ pip install plumbum
+ pip install pytz
+ pip install rsclib
+ pip install sqlalchemy
+ pip install werkzeug
+
+The packages ``rcssmin`` and ``rjsmin`` need to be downloaded and
+installed by hand::
+
+ cd /usr/local/src
+ wget http://storage.perlig.de/rcssmin/rcssmin-1.0.1.tar.bz2
+ tar xvf rcssmin-1.0.1.tar.bz2
+ cd rcssmin-1.0.1
+ python setup.py install --prefix=/usr/local
+ cd ..
+ wget http://storage.perlig.de/rjsmin/rjsmin-1.0.5.tar.bz2
+ tar xvf rjsmin-1.0.5.tar.bz2
+ cd rjsmin-1.0.5
+ python setup.py install --prefix=/usr/local
+ cd ..
+
+Create user and database user permitted to create databases::
+
+ adduser ffm
+ createuser -d ffm -P
+ 
 How to install
 --------------
 
@@ -122,13 +213,17 @@ like the following::
       target_db_url = db_url
       time_zone     = "Mars/Olympos Mons"
 
-
   ### create a virtual environment for Python
   $ mkdir bin
   $ mkdir PVE
   $ python -m virtualenv PVE/std
   $ (cd PVE ; ln -s std active)
   $ (cd bin ; ln -s ../PVE/active/bin/python)
+
+Depending on the packages you have already installed system-wide, you
+may want to install some packages into the virtual environment if you
+anticipate that these will change::
+
 
   ### install Python packages into the virtualenv
   ### if one of these packages is already installed in the system
@@ -138,6 +233,11 @@ like the following::
   $ pip install plumbum
   $ pip install pytz
   $ pip install werkzeug
+
+Then we continue with the setup of an active and a passive branch of the
+web application. With this you can upgrade the passive application while
+the active application is running without risking a non-functional
+system should something go wrong during the upgrade::
 
   ### create a directory with an `active` and `passive` branch of the
   ### web application
@@ -171,7 +271,8 @@ like the following::
   ### Create a fcgi script for Apache
   $ python active/www/app/deploy.py fcgi_script > fcgi/app_server.fcgi
 
-  ### Configure Apache virtual host, for instance::
+Then we configure an Apache virtual host, for instance::
+
     <VirtualHost *:80>
       ServerName   xxx.funkfeuer.at
       DocumentRoot /home/ffm/active/www
@@ -239,11 +340,29 @@ like the following::
       </Directory>
     </VirtualHost>
 
+For Debian the apache configuration should be placed into
+``/etc/apache2/sites-available/``, e.g., into the file
+``nodedb2.example.com`` and enabled. You probably will have to disable
+the default site installed. We used the following commands |--| we
+also enable some needed modules::
+
+  a2ensite nodedb2.example.com
+  a2dissite default
+  a2enmod mod_expires
+  a2enmod fcgid
+  /etc/init.d/apache2 restart
+
+Finally we create a database and populate it with data::
 
   ### Create a database
   $ python active/www/app/deploy.py create
 
   ### Put some data into the database
+
+Whenever we need to upgrade the installation, we can update the passive
+configuration, set up everything, migrate the data from the active to
+the passive configuration, and if everything went OK, enable it by
+exchanging the symbolic links to the active and passive configuration::
 
   ### Test deployment script and generate some needed files
     ### Update source code
@@ -267,4 +386,5 @@ like the following::
 Contact
 -------
 
-Christian Tanzer <tanzer@swing.co.at>
+Christian Tanzer <tanzer@swing.co.at> and
+Ralf Schlatterbeck <rsc@runtux.com>
