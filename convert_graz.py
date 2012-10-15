@@ -65,31 +65,54 @@ class Convert (object) :
         self.dupes_by_id  = {}
         self.person_by_id = {}
         self.nicknames    = {}
+        self.node_by_id   = {}
         self.phone_ids    = {}
     # end def __init__
 
     def create (self) :
         self.create_persons ()
         self.create_nodes   ()
+        self.create_devices ()
     # end def create
 
+    def create_devices (self) :
+        # ignore snmp_ip and snmp_lastseen (only used by three nodes)
+        # FIXME: Use smokeping?
+        # FIXME: hastinc?
+        for d in self.contents ['node'] :
+            n = self.node_by_id [d.location_id]
+            if d.person_id and d.person_id != n.person_id :
+                print "person %s: d:%s n:%s" % (d.id, d.person_id, n.person_id)
+    # end def create_devices
+
     def create_nodes (self) :
-        for n in self.contents ['location'] :
+        x_start = 4080
+        y_start = 4806
+        x_lon   = 15.43844103813
+        y_lat   = 47.07177327969
+        dx_lon  = 50675.5176
+        dy_lat  = 75505.521
+        for n in sorted (self.contents ['location'], key = lambda x : x.id) :
+            self.node_by_id [n.id] = n
             person_id = self.person_dupes.get (n.person_id, n.person_id)
             if person_id not in self.person_by_id :
                 print "WARN: Location %s owner %s missing" % (n.id, person_id)
                 continue
             person = self.person_by_id [person_id]
+
+
+            lat = lon = None
+            if n.pixel_x is not None and n.pixel_y is not None :
+                lon = "%f" % (x_lon + (n.pixel_x - x_start) / dx_lon)
+                lat = "%f" % (y_lat + (n.pixel_y - y_start) / dy_lat)
+
             node = self.ffm.Node \
                 ( name        = n.name
                 , show_in_map = not n.hidden
                 , manager     = person
+                , position    = dict (lat = lat, lon = lon)
                 , raw         = True
                 )
-            if n.gps_lon :
-                print n.gps_lon
-            if n.gps_lat :
-                print n.gps_lat
             if n.street :
                 s = ' '.join (x for x in (n.street, n.streetnr) if x)
                 adr = self.pap.Address.instance_or_new \
