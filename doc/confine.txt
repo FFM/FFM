@@ -111,7 +111,7 @@ connecting these are labeled `left` and `right` which indicates how this
 should be read. Note, that in this case the `left` attribute is on the
 right side in the diagram. A two-way link like this has an identity and
 can have additional attributes besides `left` and `right`; it also can
-appear as lin role in another link type.
+appear as link role in another link type.
 
 There are also unary links with only a `left` side. An example is the
 `Device` which cannot exist without its `left` attribute, the `Device_Type`.
