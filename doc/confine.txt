@@ -2,36 +2,37 @@ Common Node Database
 ====================
 
 For community wireless networks (CWNs), a node database serves as a central
-repository of network information. It consists of information about
+repository of network information. It comprises information about
 nodes deployed at certain locations, devices installed at these
-locations, information about internet addresses and -- in networks that
-use explicit link planning -- links among devices. All this information
-is maintained via a web interface by the community members.
+locations, information about internet addresses, and --- in networks that
+use explicit link planning --- links among devices. All this information
+is maintained via a web or REST interface by the community members.
 
 Built on top of this database are several applications that help build,
 expand, and maintain the network. A non-exhaustive list of applications
 is given in section `Node Database Applications`_.
 
-Historically each community network has built their own node database
+Historically, each community network has built their own node database
 and corresponding tools. There was some effort to come up with a common
 implementation of a node database but so far none of these efforts has
 seen deployment beyond one or two installations.
 
-One of the reasons that to data no common node database exists is that
+One of the reasons that up to now no common node database exists, is that
 there are diverging needs of each running network on the one hand, and
 the need to fully understand (and be able to modify) the software used
 to run the network on the other hand.
 
-Since no common implementations language exists for web applications so
-far most existing node database implementations differ in implementation
-language and have -- although they share a common set of requirements --
+Many different programming languages, web frameworks, and databases are used
+to implement web applications. Therefore, existing node database
+implementations use widely different implementation
+technologies and have --- although they share a common set of requirements ---
 focused on different aspects of the daily operation of a community
-wireless network. This has resulted in there being different solutions
-to similar problems with different quality of across the set of
+wireless network. This has resulted in a plethora of different solutions
+to similar problems with different quality of service across the set of
 solutions offered.
 
 To get a better understanding of the common requirements of community
-wireless networks and to eventually facilitate interoperability, the 
+wireless networks and to eventually facilitate interoperability, the
 community network markup language project was founded in 2006 [CNML09]_.
 To date we know of an implementation by guifi.net [guifi1]_ and another
 similar XML export by Athens Wireless Metropolitan Network (AWMN).
@@ -39,12 +40,12 @@ similar XML export by Athens Wireless Metropolitan Network (AWMN).
 Common Node Database in Confine and in CWNs
 -------------------------------------------
 
-One goals of the Confine project, is the integration of research devices
+One goal of the Confine project is the integration of research devices
 into community networks for research purposes. To integrate with the
 community network, research devices need some information about the
 location where they are deployed as well as on the structure and
 interconnection of the community network. This is needed to allow
-experimenters to access topology data and for managing large experiments
+experimenters to access topology data and to manage large experiments
 with many research nodes.
 
 To avoid duplicating data in the community network database and the
@@ -58,16 +59,16 @@ already been informally reviewed by members of some of the CWNs
 mentioned.
 
 The new common node database implementation is intended to replace
-existing implementations currently in use by confine project members,
+some existing implementations currently in use by confine project members,
 but due to the reasons outlined above we don't anticipate universal
-adoption. The implementation however serves as a testbed in the Confine
-project and is used to draft a prototype implementation of an programming
+adoption. However, the implementation serves as a testbed in the Confine
+project and is used to draft a prototype implementation of a programming
 interface (API) that can be implemented by any community wireless
 network. Definition of an API is crucial to link the information in the
 research database to the data in the community database.
 
-Furthermore the definition of a common API can be used to implement
-applications (like e.g, a map or the generation of configuration files
+Furthermore, the definition of a common API can be used to implement
+applications (e.g., a map or the generation of configuration files
 for external monitoring services) that can be used by several CWNs that
 implement the API. We therefore will propose the API to the communities
 and will try to get a draft standard adopted by many of them.
@@ -76,11 +77,11 @@ and will try to get a draft standard adopted by many of them.
 Architecture
 ------------
 
-The design in `Figure: object model`_ is modelled after analysis of
+The design in `Figure: object model`_ is based on the analysis of
 several existing node databases of various community wireless networks.
 It is the basis of a common API definition. Discussions with developers
 of CWNs have indicated that the model is compatible enough to existing
-databases in order to allow implementation of the same common API for
+databases to allow the implementation of the same common API for
 different CWNs.
 
 .. _`Figure: object model`:
@@ -88,117 +89,124 @@ different CWNs.
 
     Object Model of Common Node Database
 
-
-Some notes on the object model: We try to keep only the relevant
-attributes of a real-world object in the object itself - everything else
-is modelled as a relation. The blue arrows denote inheritance
-relationships ("IS_A"). The yellow arrows are attributes, e.g., the Node
-has an attribute manager of type Person which is required (this is
+Some notes on the object model: we try to keep only the relevant
+attributes of a real-world object in the object itself --- everything else
+is modeled as a relation. The blue arrows denote inheritance
+relationships ("IS_A"). The yellow arrows are attributes, e.g., the `Node`
+has an attribute manager of type `Person` which is required (this is
 implemented as a foreign key in the database).
 
-The black arrows are 1:N relationships (also implemented as foreign keys
-in the database) but the relation objects have their own identity. This
-is used to separate the attribute of an object from its links to other
-objects. It also implements referential integrity constraints: A link is
-deleted if the object to which it points is deleted.
+The black arrows are 1:N or N:M relationships (also implemented as foreign
+keys in the database) but the relation objects have their own identity. This
+is used to separate the attributes of an object from its links to other
+objects. It also implements referential integrity constraints: a link is
+deleted if any object it refers to is deleted.
 
-There are different link attributes. A two-way link (implementing an N:M
-relationship) has a left and a right side which are also the default
-attribute names. An example is Wireless_Interface_uses_Wireless_Channel,
-in the diagram this link object is displayed as _uses_ between the
-FFM.Wireless_Channel and FFM.Wireless_Interface. The black arrows
-connecting these are labelled left and right which indicates how this
-should be read. Note that in this case the left attribute is on the
+There are different link types. A two-way link (implementing a 1:N or N:M
+relationship) has a left and a right side (or link role). An example is
+`Wireless_Interface_uses_Wireless_Channel`;
+in the diagram this link object is displayed as `_uses_` between the
+`FFM.Wireless_Channel` and `FFM.Wireless_Interface`. The black arrows
+connecting these are labeled `left` and `right` which indicates how this
+should be read. Note, that in this case the `left` attribute is on the
 right side in the diagram. A two-way link like this has an identity and
-can have additional attributes besides left and right.
+can have additional attributes besides `left` and `right`; it also can
+appear as lin role in another link type.
 
-There are also unary links with only a left side. An example is the
-Device which cannot exist without its left attribute, the Device_Type.
+There are also unary links with only a `left` side. An example is the
+`Device` which cannot exist without its `left` attribute, the `Device_Type`.
 There can be several devices with the same device type. This
-relationship is inherited by Antenna and Antenna_Type and Net_Device and
-Net_Device_Type.
+relationship is inherited by `Antenna` and `Antenna_Type` and `Net_Device` and
+`Net_Device_Type`.
 
 Node Database Applications
 --------------------------
 
-Traditionally different CWNs have implemented different applications on
-top of their node database. During requirements analysis [req]_ several common
-applications have been identified. Note that we do not intend to
+Traditionally, different CWNs have implemented different applications on
+top of their own node database. During requirements analysis [req]_, several
+common applications have been identified. Note, that we do not intend to
 implement all of these applications during the project, instead we will
 try to get some existing applications ported to the new common database
 API. Also note that the list is not exhaustive.
 
+- Registry: Register users with their name and email
+  address, register nodes and devices and associate them to users.
 
-- Registry functionality: Register users with their name and email
-  address, register Nodes and devices and associate them to users.
 - IP address registry and allocation: Allow users to register IP
   addresses or IP ranges for their devices and make sure no address is
   registered twice. Also allow to de-allocate an existing IP allocation.
-  Since many CWNs run on RFC 1918 private IP addresses one of the
-  challenges is to move to IPv6 addresses, a new common node database
+  Since many CWNs run on RFC 1918 private IP addresses, one of the
+  challenges is to move to IPv6 addresses; a new common node database
   implementation has to support IPv4 and IPv6.
+
 - Map: Draw all nodes on a map to get a graphical overview of the
-  network, most existing community networks have implemented a map
+  network; most existing community networks have implemented a map
   service.
+
 - Link planning: This answers the question: "If I try to interconnect
-  these two devices via antennae, will it work". Note that some CWNs use
-  explicit link planning (where each link needs an explicit configuratin
+  these two devices via antennae, will it work?". Note, that some CWNs use
+  explicit link planning (where each link needs an explicit configuration
   in the routing protocol used) while other networks use a dynamic
-  routing protocol to establish links (e.g. OLSR). Both should be
+  routing protocol to establish links (e.g., OLSR). Both should be
   supportable by the node database.
+
 - Auto configuration of devices: To facilitate deployment of new nodes,
   some community networks have implemented various degrees of
-  autoconfiguration for devices, this makes it easier for users to
+  auto-configuration for devices; this makes it easier for users to
   deploy new devices. In addition to auto-configuration of existing
-  devices some applications allow the generation of firmware for various
+  devices, some applications allow the generation of firmware for various
   devices.
-- Generation of tools necessary for running a network, e.g. nameserver
+
+- Generation of tools necessary for running a network, e.g., name-server
   configuration, directory services.
+
 - Generation of configuration for network monitoring and -alerting tools
-  like smokeping, nagios, or cacti.
+  like smoke-ping, nagios, or cacti.
 
 In addition experimental features can be investigated, e.g.,
 
 - Social networking functions: allow community members to contact other
-  members and invite them to build a link to their node
+  members and invite them to build a link to their node.
+
 - Federation: Allow services such as DNS zones to be federated across
-  the network
-- Services offered by the network or by users, e.g. Voice over IP or
-  video on demand applications. Note that in some existing CWNs services
+  the network.
+
+- Services offered by the network or by users, e.g., Voice over IP or
+  video on demand applications. Note, that in some existing CWNs services
   like this are not considered an experimental feature but are already
   deployed in production quality.
 
 Status and Future Work
 ----------------------
 
-For the common node database the object model as indicated in section
-`Architecture`_ has been implemented. On top of this model a first
-version of a `Representational state transfer API`_ (REST API) has been
+For the common node database, the object model as indicated in section
+`Architecture`_ has been implemented. On top of this model, a first
+version of a `REpresentational State Transfer API`_ (REST API) has been
 implemented. The code is publicly available on github [FFM]_ and in the
 Confine project repository.
 
-During a Confine meeting in Spain the API has been discussed with
-guifi.net, AWMN, and Ninux developers. This work will be continued until
+During a Confine meeting in Spain, the API has been discussed with developers
+from guifi.net, AWMN, and Ninux. This work will be continued until
 we can come up with a draft API definition that all participating CWN
 developers think they can implement on top of their existing database.
 
-.. _`Representational state transfer API`:
+.. _`REpresentational State Transfer API`:
     http://en.wikipedia.org/wiki/Representational_state_transfer
 
 The common node database has been implemented on top of an open source
 python framework for web application development called Tapyr [tapyr]_
 that uses several other
-frameworks, e.g. `sqlalchemy`_ for accessing mapping an object-oriented
-design to a relational databases and `Jinja`_
-for templating. During the implementation, necessary additions to the
-framework (e.g. IP Address computations on databases that do not support
+frameworks, e.g., `jinja`_, `sqlalchemy`_, and `werkzeug`_.
+
+During the implementation, necessary additions to the
+framework (e.g., IP Address computations on databases that do not support
 a native IP address type) have been incorporated. The framework already
 has a reference documentation but needs a tutorial to get other
 developers started.
 
-.. _`Jinja`: http://jinja.pocoo.org/
+.. _`jinja`: http://jinja.pocoo.org/
 .. _`sqlalchemy`: http://www.sqlalchemy.org/
-
+.. _`werkzeug`: http://werkzeug.pocoo.org/
 
 Bibliography
 ------------
