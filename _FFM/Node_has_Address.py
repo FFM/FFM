@@ -1,7 +1,7 @@
 # -*- coding: iso-8859-15 -*-
 # Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
-# #*** <License> ************************************************************#
+# ****************************************************************************
 # This module is part of the package FFM.
 #
 # This module is free software: you can redistribute it and/or modify
@@ -11,65 +11,65 @@
 #
 # This module is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Affero General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this module. If not, see <http://www.gnu.org/licenses/>.
-# #*** </License> ***********************************************************#
+# ****************************************************************************
 #
 #++
 # Name
-#    FFM.Nickname
+#    GTW.OMP.PAP.Node_has_Address
 #
 # Purpose
-#    Model nickname of a person in FFM.
+#    Model the link between a Node and an Address:
+#    allow only one Address per Node
 #
 # Revision Dates
-#    12-Sep-2012 (RS) Creation
+#    12-Oct-2012 (RS) Creation
 #    ««revision-date»»···
 #--
 
-from   __future__  import absolute_import, division, print_function, unicode_literals
+from   __future__            import unicode_literals
 
 from   _MOM.import_MOM        import *
+from   _GTW                   import GTW
 from   _FFM                   import FFM
 from   _GTW._OMP._PAP         import PAP
+from   _TFL.I18N              import _
 
-import _GTW._OMP._PAP.Person
-import _FFM.Entity
+from   _GTW._OMP._PAP.Subject_has_Property   import Subject_has_Property
+from   _GTW._OMP._PAP.Address                import Address
+from   _FFM                                  import Node
 
-_Ancestor_Essence = FFM.Link1
+_Ancestor_Essence = Subject_has_Property
 
-class Nickname (_Ancestor_Essence) :
-    """Nickname of a person in FFM"""
+class Node_has_Address (_Ancestor_Essence) :
+    """Link a Node to an address"""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
-        ### Primary attributes
-
         class left (_Ancestor.left) :
-            """The Person to which the nickname belongs."""
 
-            role_type          = PAP.Person
-            role_name          = "person"
-            auto_cache         = "nicknames"
+            role_type       = FFM.Node
+            max_links       = 1
 
         # end class left
 
-        class name (A_String) :
-            """The nickname."""
+        class right (_Ancestor.right) :
+            """Address of %(left.role_name)s"""
 
-            kind               = Attr.Primary
+            role_type = PAP.Address
 
-        # end class left
+        # end class right
 
     # end class _Attributes
 
-# end class Nickname
+# end class Node_has_Address
 
 if __name__ != "__main__" :
-    FFM._Export ("*")
-### __END__ FFM.Nickname
+    GTW.OMP.PAP._Export ("*")
+### __END__ FFM.Node_has_Address

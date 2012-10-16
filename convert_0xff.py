@@ -119,16 +119,13 @@ class Convert (object) :
                 print "WARN: Node %s: member %s not found, using 1" \
                     % (n.id, n.id_members)
             if manager :
-                name = n.name
-                if name [0].isdigit () :
-                    name = 'X' + name
                 node = self.ffm.Node \
-                    ( name     = name
-                    , position = gps
-                    , map_p    = ['yes', 'no'][n.map]
-                    , manager  = manager
-                    , owner    = person
-                    , raw      = True
+                    ( name        = n.name
+                    , position    = gps
+                    , show_in_map = n.map
+                    , manager     = manager
+                    , owner       = person
+                    , raw         = True
                     )
                 self.set_last_change (node, n.changed, n.created)
                 assert (node)
@@ -245,6 +242,14 @@ class Convert (object) :
             self.pap.Person_has_Email (person, email)
     # end def try_insert_email
 
+    def try_insert_url (self, m, person) :
+        hp = m.homepage
+        if not hp.startswith ('http') :
+            hp = 'http://' + hp
+        url = self.pap.Url.instance_or_new (hp, desc = 'Homepage', raw = True)
+        self.pap.Person_has_Url (person, url)
+    # end def try_insert_url
+
     phone_types = dict \
         ( telephone   = 'Festnetz'
         , mobilephone = 'Mobil'
@@ -306,7 +311,10 @@ class Convert (object) :
             if m.mentor_id and m.mentor_id != m.id :
                 self.mentor [m.id] = m.mentor_id
             if m.nickname :
-                self.ffm.Nickname (person, m.nickname, raw = True)
+                nick = self.pap.Nickname (m.nickname, raw = True)
+                self.pap.Person_has_Nickname (person, nick)
+            if m.homepage :
+                self.try_insert_url (m, person)
         for mentor_id, person_id in self.mentor.iteritems () :
             mentor = self.person_by_id [mentor_id]
             person = self.person_by_id [person_id]
@@ -326,7 +334,10 @@ class Convert (object) :
             if d.mentor_id and d.mentor_id != d.id :
                 assert (False)
             if d.nickname :
-                self.ffm.Nickname (person, d.nickname, raw = True)
+                nick = self.pap.Nickname (d.nickname, raw = True)
+                self.pap.Person_has_Nickname (person, nick)
+            if d.homepage :
+                self.try_insert_url (d, person)
     # end def create_persons
 
     def create_device (self, d) :
@@ -349,8 +360,6 @@ class Convert (object) :
     # end def create_device
 
     def create_interface (self, dev, name, ip) :
-        if name [0].isdigit () :
-            name = 'X' + name
         # FIXME: Need info on wireless vs wired Net_Interface
         iface = self.ffm.Wired_Interface (left = dev, name = name, raw = True)
         net = IP4_Address (ip.ip, ip.cidr)
@@ -379,8 +388,11 @@ class Convert (object) :
         for ip4, aliases in self.olsr_mid.iteritems () :
             nodes = {}
             ip    = self.ip_by_ip [ip4]
-            d     = self.dev_by_id [ip.id_devices]
-            nodes [d.id_nodes] = ({ ip.id_devices : d }, { ip.id : ip })
+            if ip.id_devices :
+                d = self.dev_by_id [ip.id_devices]
+                nodes [d.id_nodes] = ({ ip.id_devices : d }, { ip.id : ip })
+            else :
+                print "ERR:  key %s from mid has no device" % ip4
             for a in aliases :
                 ip = self.ip_by_ip [a]
                 if not ip.id_devices :

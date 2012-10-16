@@ -37,6 +37,7 @@
 #    06-Sep-2012 (RS) Remove `Node_has_Net_Device`
 #    12-Sep-2012 (RS) Add `Nickname` and `Person_mentors_Person`
 #    18-Sep-2012 (RS) Remove `Subject_owns_Node`
+#    11-Oct-2012 (RS) `Nickname` from `PAP`
 #    ««revision-date»»···
 #--
 
@@ -101,7 +102,7 @@ class Admin (object) :
         )
 
     Nickname              = dict \
-        ( ETM             = "FFM.Nickname"
+        ( ETM             = "PAP.Nickname"
         )
 
     Node                  = dict \

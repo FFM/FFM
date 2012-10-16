@@ -29,6 +29,7 @@
 #    19-Sep-2012 (RS) Creation
 #    24-Sep-2012 (RS) More tests, up to `Net_Interface_in_IP4_Network`
 #    11-Oct-2012 (RS) Fix missing `raw` parameter
+#    12-Oct-2012 (RS) Add tests for `Node` in role `Subject`
 #    ««revision-date»»···
 #--
 
@@ -53,6 +54,37 @@ _test_code = """
     >>> gps1 = dict (lat = "48 d 17 m 9.64 s", lon = "15 d 52 m 27.84 s")
     >>> node2 = FFM.Node \\
     ...     (name = "node2", manager = mgr, position = gps1, raw = True)
+
+    >>> nick = PAP.Nickname ('node-two', raw = True)
+    >>> x = PAP.Node_has_Nickname (node2, nick)
+    >>> url = PAP.Url ('http://example.com', raw = True)
+    >>> x = PAP.Node_has_Url (node2, url)
+    >>> adr = PAP.Address \\
+    ...     ( street  = 'Example 23'
+    ...     , zip     = '1010'
+    ...     , city    = 'Wien'
+    ...     , country = 'Austria'
+    ...     )
+    >>> x = PAP.Node_has_Address (node2, adr)
+
+    >>> phone = PAP.Phone ('43', '2243', '26465')
+    >>> x = PAP.Node_has_Phone (node2, phone)
+    FIXME: This should raise an exception.
+    >>> email = PAP.Email ('rsc@runtux.com')
+    >>> x = PAP.Node_has_Email (node2, email)
+    FIXME: This should raise an exception.
+    >>> adr2 = PAP.Address \\
+    ...     ( street  = 'Example 44'
+    ...     , zip     = '1010'
+    ...     , city    = 'Wien'
+    ...     , country = 'Austria'
+    ...     )
+    >>> x = PAP.Node_has_Address (node2, adr2)
+    Traceback (most recent call last):
+      ...
+    Multiplicity_Errors: Node_has_Address, [Multiplicity(u"Maximum number of links for (u'node2') is 1 ((FFM.Node (u'node2'), PAP.Address (u'example 44', u'1010', u'wien', u'austria')), [PAP.Node_has_Address ((u'node2', ), (u'example 23', u'1010', u'wien', u'austria'))])",)]
+
+
     >>> gps2 = dict (lat = "48.367088", lon = "16.187672")
     >>> node3 = FFM.Node \\
     ...    (name = "node3", manager = mgr, owner = comp, position = gps2)
@@ -64,6 +96,7 @@ _test_code = """
     datetime.datetime(2009, 5, 5, 17, 17, 17)
     >>> node3.last_changed
     datetime.datetime(2010, 5, 5, 23, 23, 23)
+
     >>> net = FFM.IP4_Network (dict (address = '192.168.23.0/24'), raw = True)
     >>> devtype = FFM.Net_Device_Type.instance_or_new \\
     ...     (name = 'Generic', raw = True)

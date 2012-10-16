@@ -45,10 +45,6 @@ def fix_mac (mac) :
     return mac
 # end def fix_mac
 
-def id_mangle (name) :
-    return '-'.join (('x', name))
-# end def id_mangle
-
 class Convert (object) :
 
     # this is only for parsing: don't know what legacy is and
@@ -159,7 +155,7 @@ class Convert (object) :
                 name  = n.get ('id')
                 if name in self.links :
                     assert (len (self.links [name]) == 1)
-                    r_id = id_mangle (self.links [name][0])
+                    r_id = self.links [name][0]
                     self.links [name].append (element.get ('id'))
                     left  = interface
                     right = self.ffm.Net_Interface.query (name = r_id).one ()
@@ -185,7 +181,7 @@ class Convert (object) :
 
     def insert_wired_interface (self, device, element) :
         mac  = fix_mac (element.get ('mac'))
-        name = id_mangle (element.get ('id'))
+        name = element.get ('id')
         wif  = self.ffm.Wireless_Interface.instance \
             ( left        = device
             , name        = name
@@ -233,7 +229,7 @@ class Convert (object) :
             ssid = ssid [:32]
         # an interface may have more than one IP address and occur
         # multiple times in the XML
-        name = id_mangle (element.get ('id'))
+        name = element.get ('id')
         mode = element.get ('mode')
         wif  = self.ffm.Wireless_Interface.instance \
             ( left        = device
