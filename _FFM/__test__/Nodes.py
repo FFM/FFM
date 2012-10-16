@@ -30,6 +30,7 @@
 #    24-Sep-2012 (RS) More tests, up to `Net_Interface_in_IP4_Network`
 #    11-Oct-2012 (RS) Fix missing `raw` parameter
 #    12-Oct-2012 (RS) Add tests for `Node` in role `Subject`
+#    16-Oct-2012 (CT) Add tracebacks triggered by `FFM.Node.refuse_links`
 #    ««revision-date»»···
 #--
 
@@ -69,10 +70,16 @@ _test_code = """
 
     >>> phone = PAP.Phone ('43', '2243', '26465')
     >>> x = PAP.Node_has_Phone (node2, phone)
-    FIXME: This should raise an exception.
+    Traceback (most recent call last):
+      ...
+    Link_Type: PAP.Node_has_Phone, <class 'FFM.Node' [MOMT__Hash__HPS]>, Node, (u'node2'), <class 'FFM.Node' [MOMT__Hash__HPS]>
+
     >>> email = PAP.Email ('rsc@runtux.com')
     >>> x = PAP.Node_has_Email (node2, email)
-    FIXME: This should raise an exception.
+    Traceback (most recent call last):
+      ...
+    Link_Type: PAP.Node_has_Email, <class 'FFM.Node' [MOMT__Hash__HPS]>, Node, (u'node2'), <class 'FFM.Node' [MOMT__Hash__HPS]>
+
     >>> adr2 = PAP.Address \\
     ...     ( street  = 'Example 44'
     ...     , zip     = '1010'

@@ -33,6 +33,7 @@
 #    22-Sep-2012 (RS) make `name` `A_DNS_Label`
 #    11-Oct-2012 (RS) `map_p` -> `show_in_map`
 #    12-Oct-2012 (RS) Make `Node` a `PAP.Subject` again.
+#    16-Oct-2012 (CT) Correct `refuse_links`
 #    ««revision-date»»···
 #--
 
@@ -52,12 +53,13 @@ _Ancestor_Essence = PAP.Subject
 class Node (FFM.Entity, _Ancestor_Essence) :
     """Model a node of FFM"""
 
+    refuse_links = set \
+        (( "GTW.OMP.PAP.Node_has_Phone"
+         , "GTW.OMP.PAP.Node_has_Email"
+        ))
+
     class _Attributes (_Ancestor_Essence._Attributes) :
 
-        refuse_links = set \
-            (( "GTW.OMP.PAP.Subject_has_Phone"
-             , "GTW.OMP.PAP.Subject_has_Email"
-            ))
         _Ancestor    = _Ancestor_Essence._Attributes
 
         class name (A_DNS_Label) :
