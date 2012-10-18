@@ -105,10 +105,10 @@ def graph (app_type) :
                 )
             )
         , ET.FFM.Net_Interface
-            ( Role.left (guide_offset = 0.75)
+            ( Role.left (guide_offset = 1.0)
             , ET.FFM.Net_Link (offset = CD.S)
             , ET.FFM._Net_Credentials_ 
-                ( Role.left (guide_offset = 1.25)
+                ( Role.left (guide_offset = 1.0)
                 , offset = CD.N + CD.E * 2
                 )
             , ET.FFM.Net_Interface_in_IP_Network
@@ -117,7 +117,11 @@ def graph (app_type) :
                     , Child.FFM.IP6_Network (offset = CD.N)
                     , offset = CD.E
                     )
-                , Role.left (source_side = "N", target_side = "N")
+                , Role.left
+                    ( source_side  = "N"
+                    , target_side  = "N"
+                    , guide_offset = 0.5
+                    )
                 , offset = CD.E * 2
                 )
             , Child.FFM.Wireless_Interface
