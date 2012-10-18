@@ -35,6 +35,7 @@
 #    19-Sep-2012 (CT) Disentangle links, remove whitespace
 #    24-Sep-2012 (CT) Add `Command`
 #    18-Oct-2012 (RS) Add `Wired_Interface` and associations
+#    18-Oct-2012 (RS) Add `Node` `IS_A` `Subject`
 #    ««revision-date»»···
 #--
 
@@ -90,12 +91,13 @@ def graph (app_type) :
                     , target_side  = "S"
                     )
                 , Attr.node
-                    ( Attr.manager
+                    ( Attr.manager (source_side = "N", target_side = "N")
                     , Attr.owner
                         ( guide_offset = 0.75
                         , source_side  = "E"
                         , target_side  = "W"
                         )
+                    , IS_A.PAP.Subject (source_side = "E", target_side = "W")
                     , offset = CD.N
                     )
                 , ET.FFM.Net_Interface (offset = CD.S + CD.E * 2)
