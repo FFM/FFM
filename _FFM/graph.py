@@ -34,6 +34,7 @@
 #                     for new Id_Entities of `Node`, fixes tanzer constraint
 #    19-Sep-2012 (CT) Disentangle links, remove whitespace
 #    24-Sep-2012 (CT) Add `Command`
+#    18-Oct-2012 (RS) Add `Wired_Interface` and associations
 #    ««revision-date»»···
 #--
 
@@ -83,7 +84,7 @@ def graph (app_type) :
             , Child.FFM.Net_Device
                 ( Role.left
                     ( IS_A.FFM.Device_Type
-                    , guide_offset = 1.0
+                    , guide_offset = 0.5
                     , offset       = CD.E * 3
                     , source_side  = "S"
                     , target_side  = "S"
@@ -103,18 +104,23 @@ def graph (app_type) :
             )
         , ET.FFM.Net_Interface
             ( Role.left (guide_offset = 0.75)
-            , ET.FFM._Net_Credentials_ (offset = CD.SE)
+            , ET.FFM.Net_Link (offset = CD.S)
+            , ET.FFM._Net_Credentials_ 
+                ( Role.left (guide_offset = 1.25)
+                , offset = CD.N + CD.E * 2
+                )
             , ET.FFM.Net_Interface_in_IP_Network
                 ( Role.right
                     ( Child.FFM.IP4_Network (offset = CD.S)
                     , Child.FFM.IP6_Network (offset = CD.N)
                     , offset = CD.E
                     )
-                , offset = CD.E
+                , Role.left (source_side = "N", target_side = "N")
+                , offset = CD.E * 2
                 )
             , Child.FFM.Wireless_Interface
                 ( ET.FFM.Wireless_Link
-                    ( Child.FFM.Net_Link (offset = CD.E)
+                    ( Child.FFM.Net_Link
                     , offset = CD.S
                     )
                 , ET.FFM._Wireless_Mode_
@@ -143,6 +149,13 @@ def graph (app_type) :
                     , offset = CD.W
                     )
                 , offset = CD.W
+                )
+            , Child.FFM.Wired_Interface
+                ( ET.FFM.Wired_Link
+                    ( Child.FFM.Net_Link
+                    , offset = CD.S
+                    )
+                , offset = CD.E
                 )
             )
         , desc  = _T ("Graph displaying Funkfeuer object model")
