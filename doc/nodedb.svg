@@ -2,7 +2,8 @@
 <!DOCTYPE svg PUBLIC
     "-//W3C//DTD SVG 1.1//EN"
     "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" viewBox="0 0 1920 1750" width="100%"
+<svg class="MOM-Graph" preserveAspectRatio="xMinYMin" version="1.1"
+     viewBox="0 0 2240 1750" width="100%"
      xmlns="http://www.w3.org/2000/svg"
      xmlns:xlink="http://www.w3.org/1999/xlink"
 >
@@ -126,7 +127,7 @@
       </tspan>
     </text>
   </g>
-  <g id="FFM.Device" fill="#EDEDED" opacity="0.6">
+  <g id="FFM.Device" fill="#EDEDED" class="E_Type" opacity="0.6">
     <title>
       FFM.Device: Model a device used by a FFM node.
     </title>
@@ -139,7 +140,7 @@
       </tspan>
     </text>
   </g>
-  <g id="FFM.Device_Type" fill="#EDEDED" opacity="0.6">
+  <g id="FFM.Device_Type" fill="#EDEDED" class="E_Type" opacity="0.6">
     <title>
       FFM.Device_Type: Model the type of devices in FFM.
     </title>
@@ -178,16 +179,16 @@
     <title>
       FFM.IP4_Network: IPv4 Network of FFM
     </title>
-    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1680"
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="2000"
           y="1275"
     />
-    <text fill="#003" font-family="sans-serif" font-size="18" x="1689"
+    <text fill="#003" font-family="sans-serif" font-size="18" x="2009"
           y="1275"
     >
-      <tspan dx="0" dy="27.0" x="1689">
+      <tspan dx="0" dy="27.0" x="2009">
         FFM.IP4
       </tspan>
-      <tspan dx="9" dy="27.0" x="1689">
+      <tspan dx="9" dy="27.0" x="2009">
         _Network
       </tspan>
     </text>
@@ -196,31 +197,31 @@
     <title>
       FFM.IP6_Network: IPv6 Network of FFM
     </title>
-    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1680"
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="2000"
           y="675"
     />
-    <text fill="#003" font-family="sans-serif" font-size="18" x="1689"
+    <text fill="#003" font-family="sans-serif" font-size="18" x="2009"
           y="675"
     >
-      <tspan dx="0" dy="27.0" x="1689">
+      <tspan dx="0" dy="27.0" x="2009">
         FFM.IP6
       </tspan>
-      <tspan dx="9" dy="27.0" x="1689">
+      <tspan dx="9" dy="27.0" x="2009">
         _Network
       </tspan>
     </text>
   </g>
-  <g id="FFM.IP_Network" fill="#EDEDED" opacity="0.6">
+  <g id="FFM.IP_Network" fill="#EDEDED" class="E_Type" opacity="0.6">
     <title>
       FFM.IP_Network: IP Network of FFM
     </title>
-    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1680"
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="2000"
           y="975"
     />
-    <text fill="#003" font-family="sans-serif" font-size="18" x="1689"
+    <text fill="#003" font-family="sans-serif" font-size="18" x="2009"
           y="975"
     >
-      <tspan dx="0" dy="27.0" x="1689">
+      <tspan dx="0" dy="27.0" x="2009">
         FFM.IP_Network
       </tspan>
     </text>
@@ -258,7 +259,7 @@
       </tspan>
     </text>
   </g>
-  <g id="FFM.Net_Interface" fill="#EDEDED" opacity="0.6">
+  <g id="FFM.Net_Interface" fill="#EDEDED" class="E_Type" opacity="0.6">
     <title>
       FFM.Net_Interface: Model a network interface of a FFM device
     </title>
@@ -276,22 +277,24 @@
       </tspan>
     </text>
   </g>
-  <g id="FFM.Net_Interface_in_IP_Network" fill="#EDEDED" opacity="0.6">
+  <g id="FFM.Net_Interface_in_IP_Network" fill="#EDEDED" class="E_Type"
+     opacity="0.6"
+  >
     <title>
       FFM.Net_Interface_in_IP_Network: Net interface in IP network
     </title>
-    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1360"
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1680"
           y="975"
     />
-    <text fill="#003" font-family="sans-serif" font-size="18" x="1369"
+    <text fill="#003" font-family="sans-serif" font-size="18" x="1689"
           y="975"
     >
-      <tspan dx="0" dy="27.0" x="1369">
+      <tspan dx="0" dy="27.0" x="1689">
         _in_
       </tspan>
     </text>
   </g>
-  <g id="FFM.Net_Link" fill="#EDEDED" opacity="0.6">
+  <g id="FFM.Net_Link" fill="#EDEDED" class="E_Type" opacity="0.6">
     <title>
       FFM.Net_Link: Link between two network interfaces.
     </title>
@@ -318,6 +321,39 @@
     >
       <tspan dx="0" dy="27.0" x="409">
         FFM.Node
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Wired_Interface" fill="#EDEDED" class="E_Type" opacity="1.0">
+    <title>
+      FFM.Wired_Interface: Wired interface of a FFM device
+    </title>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1360"
+          y="975"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="1369"
+          y="975"
+    >
+      <tspan dx="0" dy="27.0" x="1369">
+        FFM.Wired
+      </tspan>
+      <tspan dx="9" dy="27.0" x="1369">
+        _Interface
+      </tspan>
+    </text>
+  </g>
+  <g id="FFM.Wired_Link" fill="#EDEDED" class="E_Type" opacity="1.0">
+    <title>
+      FFM.Wired_Link: Link between two wired network interfaces.
+    </title>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1360"
+          y="1275"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="1369"
+          y="1275"
+    >
+      <tspan dx="0" dy="27.0" x="1369">
+        FFM.Wired_Link
       </tspan>
     </text>
   </g>
@@ -405,28 +441,28 @@
       </tspan>
     </text>
   </g>
-  <g id="FFM._Net_Credentials_" fill="#EDEDED" opacity="0.6">
+  <g id="FFM._Net_Credentials_" fill="#EDEDED" class="E_Type" opacity="0.6">
     <title>
       FFM._Net_Credentials_: Model credentials used by a Net_Interface, e.g., `802.1x`
              authentication for a wired interface, or WPA authentication for a WiFi
              interface.
           
     </title>
-    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1360"
-          y="1275"
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1680"
+          y="675"
     />
-    <text fill="#003" font-family="sans-serif" font-size="18" x="1369"
-          y="1275"
+    <text fill="#003" font-family="sans-serif" font-size="18" x="1689"
+          y="675"
     >
-      <tspan dx="0" dy="27.0" x="1369">
+      <tspan dx="0" dy="27.0" x="1689">
         FFM._Net
       </tspan>
-      <tspan dx="9" dy="27.0" x="1369">
+      <tspan dx="9" dy="27.0" x="1689">
         _Credentials_
       </tspan>
     </text>
   </g>
-  <g id="FFM._Wireless_Mode_" fill="#EDEDED" opacity="0.6">
+  <g id="FFM._Wireless_Mode_" fill="#EDEDED" class="E_Type" opacity="0.6">
     <title>
       FFM._Wireless_Mode_: Model the mode a wireless device operates in.
     </title>
@@ -474,7 +510,7 @@
       </tspan>
     </text>
   </g>
-  <g id="PAP.Subject" fill="#EDEDED" opacity="0.6">
+  <g id="PAP.Subject" fill="#EDEDED" class="E_Type" opacity="0.6">
     <title>
       PAP.Subject: Model a legal subject, i.e., a person or company.
     </title>
@@ -519,10 +555,10 @@
       FFM.Ad_Hoc_Mode is-a FFM._Wireless_Mode_: FFM.Ad_Hoc_Mode is derived from FFM._Wireless_Mode_
     </title>
     <polyline fill="none" marker-end="url(#MOM:IM)"
-              points="200,1575 200,1550 440,1550 440,1375" stroke="#08D"
+              points="120,1575 120,1550 440,1550 440,1375" stroke="#08D"
               stroke-opacity="0.45" stroke-width="5"
     />
-    <path d="M 200 1550 L 440 1550"
+    <path d="M 120 1550 L 440 1550"
           id="FFM.Ad_Hoc_Mode:is_a:FFM._Wireless_Mode_::path" fill="none"
           stroke="none"
     >
@@ -714,10 +750,10 @@
       FFM.IP4_Network is-a FFM.IP_Network: FFM.IP4_Network is derived from FFM.IP_Network
     </title>
     <polyline fill="none" marker-end="url(#MOM:IM)"
-              points="1760,1275 1760,1075" stroke="#08D"
+              points="2080,1275 2080,1075" stroke="#08D"
               stroke-opacity="0.45" stroke-width="5"
     />
-    <path d="M 1760 1275 L 1760 1075"
+    <path d="M 2080 1275 L 2080 1075"
           id="FFM.IP4_Network:is_a:FFM.IP_Network::path" fill="none"
           stroke="none"
     >
@@ -739,10 +775,10 @@
       FFM.IP6_Network is-a FFM.IP_Network: FFM.IP6_Network is derived from FFM.IP_Network
     </title>
     <polyline fill="none" marker-end="url(#MOM:IM)"
-              points="1760,775 1760,975" stroke="#08D" stroke-opacity="0.45"
+              points="2080,775 2080,975" stroke="#08D" stroke-opacity="0.45"
               stroke-width="5"
     />
-    <path d="M 1760 775 L 1760 975"
+    <path d="M 2080 775 L 2080 975"
           id="FFM.IP6_Network:is_a:FFM.IP_Network::path" fill="none"
           stroke="none"
     >
@@ -764,10 +800,10 @@
       FFM.Net_Device role net_device_type: Type of net device
     </title>
     <polyline fill="none" marker-start="url(#MOM:RM)"
-              points="520,775 520,875 1440,875 1440,775" stroke="#666"
+              points="480,775 480,825 1440,825 1440,775" stroke="#666"
               stroke-width="5"
     />
-    <path d="M 520 775 L 520 875"
+    <path d="M 480 775 L 480 825"
           id="FFM.Net_Device.left:FFM.Net_Device_Type::path" fill="none"
           stroke="none"
     >
@@ -822,10 +858,10 @@
       FFM.Net_Device is-a FFM.Device: FFM.Net_Device is derived from FFM.Device
     </title>
     <polyline fill="none" marker-end="url(#MOM:IM)"
-              points="440,675 440,650 200,650 200,475" stroke="#08D"
+              points="440,675 440,650 120,650 120,475" stroke="#08D"
               stroke-opacity="0.45" stroke-width="5"
     />
-    <path d="M 200 650 L 440 650" id="FFM.Net_Device:is_a:FFM.Device::path"
+    <path d="M 120 650 L 440 650" id="FFM.Net_Device:is_a:FFM.Device::path"
           fill="none" stroke="none"
     >
     </path>
@@ -871,10 +907,10 @@
       FFM.Net_Interface role device: Network device the interface is connected to.
     </title>
     <polyline fill="none" marker-start="url(#MOM:RM)"
-              points="1160,975 1160,900 440,900 440,775" stroke="#666"
+              points="1080,975 1080,875 440,875 440,775" stroke="#666"
               stroke-width="5"
     />
-    <path d="M 1160 975 L 1160 900"
+    <path d="M 1080 975 L 1080 875"
           id="FFM.Net_Interface.left:FFM.Net_Device::path" fill="none"
           stroke="none"
     >
@@ -896,15 +932,16 @@
       FFM.Net_Interface_in_IP_Network role net_interface: Network interface.
     </title>
     <polyline fill="none" marker-start="url(#MOM:RM)"
-              points="1360,1025 1200,1025" stroke="#666" stroke-width="5"
+              points="1760,975 1760,925 1160,925 1160,975" stroke="#666"
+              stroke-width="5"
     />
-    <path d="M 1200 1025 L 1360 1025"
+    <path d="M 1760 975 L 1760 925"
           id="FFM.Net_Interface_in_IP_Network.left:FFM.Net_Interface::path"
           fill="none" stroke="none"
     >
     </path>
     <text fill="#666" font-family="sans-serif" font-size="18">
-      <textPath startOffset="90%" text-anchor="end"
+      <textPath startOffset="10%" text-anchor="start"
                 xlink:href="#FFM.Net_Interface_in_IP_Network.left:FFM.Net_Interface::path"
       >
         <tspan dy="-7.0">
@@ -918,9 +955,9 @@
       FFM.Net_Interface_in_IP_Network role ip_network: IP Network.
     </title>
     <polyline fill="none" marker-start="url(#MOM:RM)"
-              points="1520,1025 1680,1025" stroke="#666" stroke-width="5"
+              points="1840,1025 2000,1025" stroke="#666" stroke-width="5"
     />
-    <path d="M 1520 1025 L 1680 1025"
+    <path d="M 1840 1025 L 2000 1025"
           id="FFM.Net_Interface_in_IP_Network.right:FFM.IP_Network::path"
           fill="none" stroke="none"
     >
@@ -962,9 +999,9 @@
       FFM.Net_Link role right: Right network interface
     </title>
     <polyline fill="none" marker-start="url(#MOM:RM)"
-              points="1120,1275 1120,1075" stroke="#666" stroke-width="5"
+              points="1160,1275 1160,1075" stroke="#666" stroke-width="5"
     />
-    <path d="M 1120 1275 L 1120 1075"
+    <path d="M 1160 1275 L 1160 1075"
           id="FFM.Net_Link.right:FFM.Net_Interface::path" fill="none"
           stroke="none"
     >
@@ -975,6 +1012,31 @@
       >
         <tspan dy="-7.0">
           right
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Net_Link:is_a:FFM.Wired_Link" opacity="1.0">
+    <title>
+      FFM.Net_Link is-a FFM.Wired_Link: FFM.Net_Link is derived from FFM.Wired_Link
+    </title>
+    <polyline fill="none" marker-end="url(#MOM:IM)"
+              points="1200,1325 1360,1325" stroke="#08D"
+              stroke-opacity="0.45" stroke-width="5"
+    />
+    <path d="M 1200 1325 L 1360 1325"
+          id="FFM.Net_Link:is_a:FFM.Wired_Link::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
+          font-size="18"
+    >
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Net_Link:is_a:FFM.Wired_Link::path"
+      >
+        <tspan dy="-7.0">
+          IS_A
         </tspan>
       </textPath>
     </text>
@@ -1009,17 +1071,17 @@
       FFM.Node attribute manager: Manager of the node
     </title>
     <polyline fill="none" marker-start="url(#MOM:AM)"
-              points="560,400 720,400" stroke="#FFA022" stroke-opacity="0.7"
-              stroke-width="5"
+              points="480,375 480,350 800,350 800,375" stroke="#FFA022"
+              stroke-opacity="0.7" stroke-width="5"
     />
-    <path d="M 560 400 L 720 400" id="FFM.Node.manager:PAP.Person::path"
+    <path d="M 480 350 L 800 350" id="FFM.Node.manager:PAP.Person::path"
           fill="none" stroke="none"
     >
     </path>
     <text fill="#FFA022" fill-opacity="0.7" font-family="sans-serif"
           font-size="18"
     >
-      <textPath startOffset="10%" text-anchor="start"
+      <textPath startOffset="2%" text-anchor="start"
                 xlink:href="#FFM.Node.manager:PAP.Person::path"
       >
         <tspan dy="-7.0">
@@ -1030,7 +1092,7 @@
     <text fill="#FFA022" fill-opacity="0.7" font-family="sans-serif"
           font-size="18"
     >
-      <textPath startOffset="10%" text-anchor="start"
+      <textPath startOffset="2%" text-anchor="start"
                 xlink:href="#FFM.Node.manager:PAP.Person::path"
       >
         <tspan dy="18">
@@ -1044,10 +1106,10 @@
       FFM.Node attribute owner: Owner of the node, defaults to manager
     </title>
     <polyline fill="none" marker-start="url(#MOM:AM)"
-              points="560,450 680,450 680,700 720,700" stroke="#FFA022"
+              points="560,400 680,400 680,700 720,700" stroke="#FFA022"
               stroke-opacity="0.7" stroke-width="5"
     />
-    <path d="M 560 450 L 680 450" id="FFM.Node.owner:PAP.Subject::path"
+    <path d="M 560 400 L 680 400" id="FFM.Node.owner:PAP.Subject::path"
           fill="none" stroke="none"
     >
     </path>
@@ -1070,6 +1132,99 @@
       >
         <tspan dy="18">
           [optional]
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Node:is_a:PAP.Subject" opacity="1.0">
+    <title>
+      FFM.Node is-a PAP.Subject: FFM.Node is derived from PAP.Subject
+    </title>
+    <polyline fill="none" marker-end="url(#MOM:IM)"
+              points="560,450 600,450 600,750 720,750" stroke="#08D"
+              stroke-opacity="0.45" stroke-width="5"
+    />
+    <path d="M 600 450 L 600 750" id="FFM.Node:is_a:PAP.Subject::path"
+          fill="none" stroke="none"
+    >
+    </path>
+    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
+          font-size="18"
+    >
+      <textPath startOffset="2%" text-anchor="start"
+                xlink:href="#FFM.Node:is_a:PAP.Subject::path"
+      >
+        <tspan dy="-7.0">
+          IS_A
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Wired_Interface:is_a:FFM.Net_Interface" opacity="1.0">
+    <title>
+      FFM.Wired_Interface is-a FFM.Net_Interface: FFM.Wired_Interface is derived from FFM.Net_Interface
+    </title>
+    <polyline fill="none" marker-end="url(#MOM:IM)"
+              points="1360,1025 1200,1025" stroke="#08D"
+              stroke-opacity="0.45" stroke-width="5"
+    />
+    <path d="M 1200 1025 L 1360 1025"
+          id="FFM.Wired_Interface:is_a:FFM.Net_Interface::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
+          font-size="18"
+    >
+      <textPath startOffset="90%" text-anchor="end"
+                xlink:href="#FFM.Wired_Interface:is_a:FFM.Net_Interface::path"
+      >
+        <tspan dy="-7.0">
+          IS_A
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Wired_Link.left:FFM.Wired_Interface" opacity="1.0">
+    <title>
+      FFM.Wired_Link role left: Left network interface
+    </title>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="1400,1275 1400,1075" stroke="#666" stroke-width="5"
+    />
+    <path d="M 1400 1275 L 1400 1075"
+          id="FFM.Wired_Link.left:FFM.Wired_Interface::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Wired_Link.left:FFM.Wired_Interface::path"
+      >
+        <tspan dy="-7.0">
+          left
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Wired_Link.right:FFM.Wired_Interface" opacity="1.0">
+    <title>
+      FFM.Wired_Link role right: Right network interface
+    </title>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="1480,1275 1480,1075" stroke="#666" stroke-width="5"
+    />
+    <path d="M 1480 1275 L 1480 1075"
+          id="FFM.Wired_Link.right:FFM.Wired_Interface::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Wired_Link.right:FFM.Wired_Interface::path"
+      >
+        <tspan dy="-7.0">
+          right
         </tspan>
       </textPath>
     </text>
@@ -1246,16 +1401,16 @@
       FFM._Net_Credentials_ role interface: The network interface using these credentials.
     </title>
     <polyline fill="none" marker-start="url(#MOM:RM)"
-              points="1400,1275 1400,1250 1160,1250 1160,1075" stroke="#666"
+              points="1720,775 1720,875 1120,875 1120,975" stroke="#666"
               stroke-width="5"
     />
-    <path d="M 1160 1250 L 1400 1250"
+    <path d="M 1720 775 L 1720 875"
           id="FFM._Net_Credentials_.left:FFM.Net_Interface::path"
           fill="none" stroke="none"
     >
     </path>
     <text fill="#666" font-family="sans-serif" font-size="18">
-      <textPath startOffset="90%" text-anchor="end"
+      <textPath startOffset="10%" text-anchor="start"
                 xlink:href="#FFM._Net_Credentials_.left:FFM.Net_Interface::path"
       >
         <tspan dy="-7.0">
@@ -1269,10 +1424,10 @@
       FFM._Wireless_Mode_ role interface: The wireless device operating in this mode.
     </title>
     <polyline fill="none" marker-start="url(#MOM:RM)"
-              points="520,1275 520,1250 760,1250 760,1075" stroke="#666"
+              points="440,1275 440,1250 760,1250 760,1075" stroke="#666"
               stroke-width="5"
     />
-    <path d="M 520 1250 L 760 1250"
+    <path d="M 440 1250 L 760 1250"
           id="FFM._Wireless_Mode_.left:FFM.Wireless_Interface::path"
           fill="none" stroke="none"
     >
