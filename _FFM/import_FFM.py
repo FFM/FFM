@@ -39,6 +39,7 @@
 #    21-Sep-2012 (RS) Add `Net_Interface_in_IP6_Network`
 #    11-Oct-2012 (RS) Import `Nickname` from `PAP` -- not imported by default
 #    12-Oct-2012 (RS) Add `Node_has_Address`
+#     9-Nov-2012 (RS) Import `IM_Handle` from `PAP`
 #    ««revision-date»»···
 #--
 
@@ -73,6 +74,7 @@ import _FFM.Wireless_Standard
 import _FFM.Wireless_Mode
 import _FFM.Zone
 
+import _GTW._OMP._PAP.IM_Handle
 import _GTW._OMP._PAP.Nickname
 
 import _FFM.Device_Type_made_by_Company
