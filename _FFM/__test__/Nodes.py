@@ -72,13 +72,13 @@ _test_code = """
     >>> x = PAP.Node_has_Phone (node2, phone)
     Traceback (most recent call last):
       ...
-    Link_Type: PAP.Node_has_Phone, <class 'FFM.Node' [MOMT__Hash__HPS]>, Node, (u'node2'), <class 'FFM.Node' [MOMT__Hash__HPS]>
+    Link_Type: PAP.Node_has_Phone, FFM.Node, Node, (u'node2'), FFM.Node
 
     >>> email = PAP.Email ('rsc@runtux.com')
     >>> x = PAP.Node_has_Email (node2, email)
     Traceback (most recent call last):
       ...
-    Link_Type: PAP.Node_has_Email, <class 'FFM.Node' [MOMT__Hash__HPS]>, Node, (u'node2'), <class 'FFM.Node' [MOMT__Hash__HPS]>
+    Link_Type: PAP.Node_has_Email, FFM.Node, Node, (u'node2'), FFM.Node
 
     >>> adr2 = PAP.Address \\
     ...     ( street  = 'Example 44'
