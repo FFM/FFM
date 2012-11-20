@@ -159,7 +159,7 @@ class Convert (object) :
                     self.links [name].append (element.get ('id'))
                     left  = interface
                     right = self.ffm.Net_Interface.query (name = r_id).one ()
-                    if isinstance (left, self.ffm.Wireless_Interface) :
+                    if isinstance (left, self.ffm.Wireless_Interface.E_Type) :
                         self.ffm.Wireless_Link (left, right)
                     else :
                         self.ffm.Wired_Link    (left, right)
