@@ -30,6 +30,7 @@
 #    20-Aug-2012 (RS) Add `A_TX_Power`
 #    27-Aug-2012 (RS) Add import of `math.log`
 #    22-Sep-2012 (RS) Remove `A_Wireless_Protocol`
+#    20-Nov-2012 (CT) Fix `A_TX_Power._from_string`, add `_default_unit`
 #    ««revision-date»»···
 #--
 
@@ -49,6 +50,7 @@ class A_TX_Power (_A_Unit_, _A_Float_) :
 
     typ             = _ ("TX Power")
     needs_raw_value = True
+    _default_unit   = "dBm"
     _unit_dict      = dict \
         ( mW        = 1
         ,  W        = 1.E3
@@ -60,9 +62,13 @@ class A_TX_Power (_A_Unit_, _A_Float_) :
         )
 
     def _from_string (self, s, obj, glob, locl) :
-        v = self.__super._from_string (s, obj, glob, locl)
-        if s.startswith ('dB') :
-            if s == 'dbW' :
+        v    = self.__super._from_string (s, obj, glob, locl)
+        pat  = self._unit_pattern
+        unit = ""
+        if pat.search (s) :
+            unit = pat.unit
+        if unit.startswith ('dB') :
+            if unit == 'dbW' :
                 v += 30
         else :
             v = log (v) * 10.
