@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    20-Aug-2012 (RS) Creation
+#    20-Nov-2012 (CT) Fix ancestor of `left`
 #    ««revision-date»»···
 #--
 
@@ -46,7 +47,7 @@ class Wireless_Channel (_Ancestor_Essence) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
-        class left (A_String) :
+        class left (_Ancestor.left) :
             """The wireless standard for this channel"""
 
             kind               = Attr.Primary

@@ -28,6 +28,7 @@
 # Revision Dates
 #    20-Aug-2012 (RS) Creation
 #    27-Aug-2012 (RS) Fix `bandwidth`
+#    20-Nov-2012 (CT) Fix ancestor of `left`
 #    ««revision-date»»···
 #--
 
@@ -49,7 +50,7 @@ class Regulatory_Permission (_Ancestor_Essence) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
-        class left (A_String) :
+        class left (_Ancestor.left) :
             """The regulatory domain that gives this permission."""
 
             kind               = Attr.Primary
