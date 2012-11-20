@@ -27,7 +27,7 @@
 #
 # Revision Dates
 #    20-Aug-2012 (RS) Creation
-#    20-Nov-2012 (CT) Fix ancestor of `left`
+#    20-Nov-2012 (CT) Fix ancestor of `left`, add `left.role_type`
 #    ««revision-date»»···
 #--
 
@@ -37,6 +37,7 @@ from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
 
 import _FFM.Entity
+import _FFM.Wireless_Standard
 
 _Ancestor_Essence = FFM.Link1
 
@@ -50,8 +51,9 @@ class Wireless_Channel (_Ancestor_Essence) :
         class left (_Ancestor.left) :
             """The wireless standard for this channel"""
 
-            kind               = Attr.Primary
             role_name          = 'standard'
+            role_type          = FFM.Wireless_Standard
+            ui_allow_new       = False
 
         # end class left
 

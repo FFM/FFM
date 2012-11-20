@@ -28,7 +28,7 @@
 # Revision Dates
 #    20-Aug-2012 (RS) Creation
 #    27-Aug-2012 (RS) Fix `bandwidth`
-#    20-Nov-2012 (CT) Fix ancestor of `left`
+#    20-Nov-2012 (CT) Fix ancestor of `left`, add `left.role_type`
 #    ««revision-date»»···
 #--
 
@@ -40,6 +40,7 @@ from   _FFM                       import FFM
 from   _FFM.Attr_Type             import A_TX_Power
 
 import _FFM.Entity
+import _FFM.Regulatory_Domain
 
 _Ancestor_Essence = FFM.Link1
 
@@ -53,8 +54,9 @@ class Regulatory_Permission (_Ancestor_Essence) :
         class left (_Ancestor.left) :
             """The regulatory domain that gives this permission."""
 
-            kind               = Attr.Primary
             role_name          = 'domain'
+            role_type          = FFM.Regulatory_Domain
+            ui_allow_new       = False
 
         # end class left
 
