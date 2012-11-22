@@ -36,6 +36,7 @@
 #    24-Sep-2012 (CT) Add `Command`
 #    18-Oct-2012 (RS) Add `Wired_Interface` and associations
 #    18-Oct-2012 (RS) Add `Node` `IS_A` `Subject`
+#    22-Nov-2012 (CT) Add `Role.left` to `Wireless_Channel`
 #    ««revision-date»»···
 #--
 
@@ -107,7 +108,7 @@ def graph (app_type) :
         , ET.FFM.Net_Interface
             ( Role.left (guide_offset = 1.0)
             , ET.FFM.Net_Link (offset = CD.S)
-            , ET.FFM._Net_Credentials_ 
+            , ET.FFM._Net_Credentials_
                 ( Role.left (guide_offset = 1.0)
                 , offset = CD.N + CD.E * 2
                 )
@@ -151,7 +152,12 @@ def graph (app_type) :
                     , offset = CD.N + CD.W * 2
                     )
                 , ET.FFM.Wireless_Interface_uses_Wireless_Channel
-                    ( Role.right (offset = CD.W)
+                    ( Role.right
+                        ( Role.left
+                            ( offset = CD.S
+                            )
+                        , offset = CD.W
+                        )
                     , offset = CD.W
                     )
                 , offset = CD.W
