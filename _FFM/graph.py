@@ -37,6 +37,7 @@
 #    18-Oct-2012 (RS) Add `Wired_Interface` and associations
 #    18-Oct-2012 (RS) Add `Node` `IS_A` `Subject`
 #    22-Nov-2012 (CT) Add `Role.left` to `Wireless_Channel`
+#    22-Nov-2012 (RS) Move `Net_Interface_in_IP_Network.right` to South
 #    ««revision-date»»···
 #--
 
@@ -114,9 +115,9 @@ def graph (app_type) :
                 )
             , ET.FFM.Net_Interface_in_IP_Network
                 ( Role.right
-                    ( Child.FFM.IP4_Network (offset = CD.S)
-                    , Child.FFM.IP6_Network (offset = CD.N)
-                    , offset = CD.E
+                    ( Child.FFM.IP4_Network (offset = CD.SW)
+                    , Child.FFM.IP6_Network (offset = CD.S)
+                    , offset = CD.S
                     )
                 , Role.left
                     ( source_side  = "N"
