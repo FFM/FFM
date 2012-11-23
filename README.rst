@@ -21,7 +21,7 @@ It uses the `tapyr framework`_.
 Object model
 ------------
 
-This object model (in SVG format) is automagically redered using
+This object model (in SVG format) is automagically rendered using
 `graph.py`_, the result of the last run is kept under version control
 (so you can see our progress) in `nodedb.svg`_.
 
