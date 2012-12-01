@@ -111,6 +111,7 @@ This is the main user interface as seen from the user. A user of the community w
    * assigning a node/device to a new admin-c
    * deleting a node/device
    * a user can configure how he /she wants to be reached via the mailer
+   * a collobartive TODO/Task list for group of users
    
 XXX ADD STUFF FROM THE COMMUNITY XXX
 
