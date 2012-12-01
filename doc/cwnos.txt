@@ -1,5 +1,7 @@
 Title: Architecture and use-cases of the community wireless netowork operating system (CWNOS)
 
+Authors: L. Aaron Kaplan <aaron@lo-res.org>, Christian Pointner <equinox@chaos-at-home.org>
+
 
 Status of this Memo
 =========================================
