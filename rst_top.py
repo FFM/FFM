@@ -30,6 +30,7 @@
 #    18-Jun-2012 (CT) Add `email_from` to `nav_kw_args`
 #    29-Jul-2012 (CT) Change to use `GTW.RST.TOP` instead of `GTW.NAV`
 #    29-Jul-2012 (CT) Rename to `rst_top`
+#     4-Dec-2012 (CT) Remove `http:` (--> protocol-relative)
 #    ««revision-date»»···
 #--
 
@@ -61,7 +62,7 @@ from   Media_Parameters       import Media_Parameters
 Media_Parameters = Media_Parameters ()
 
 src_dir      = sos.path.dirname (__file__)
-web_root_dir = "http://ffm.funkfeuer.at"
+web_root_dir = "//ffm.funkfeuer.at"
 web_src_root = sos.path.abspath (src_dir)
 
 base_template_dir = sos.path.dirname (_JNJ.__file__)
@@ -69,12 +70,12 @@ template_dirs     = [src_dir, base_template_dir]
 
 web_links = \
     [ TFL.Record
-        ( href        = "http://guifi.net/en/"
+        ( href        = "//guifi.net/en/"
         , title       = "Spanish open wireless network"
         , short_title = "Guifi.net"
         )
     , TFL.Record
-        ( href        = "http://wlan-si.net/"
+        ( href        = "//wlan-si.net/"
         , title       = "Slovenian open wireless network"
         , short_title = "wlan-si"
         )
