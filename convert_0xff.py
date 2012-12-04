@@ -250,6 +250,12 @@ class Convert (object) :
         self.pap.Person_has_Url (person, url)
     # end def try_insert_url
 
+    def try_insert_im (self, m, person) :
+        print "INFO: Instant messenger nickname: %s" % m.instant_messenger_nick
+        im = self.pap.IM_Handle (address = m.instant_messenger_nick)
+        self.pap.Person_has_IM_Handle (person, im)
+    # end def try_insert_im
+
     phone_types = dict \
         ( telephone   = 'Festnetz'
         , mobilephone = 'Mobil'
@@ -305,6 +311,8 @@ class Convert (object) :
                 self.try_insert_email (person, m)
             if m.fax and '@' in m.fax :
                 self.try_insert_email (person, m, attr = 'fax')
+            if m.instant_messenger_nick :
+                self.try_insert_im (m, person)
             for a, c in self.phone_types.iteritems () :
                 x = getattr (m, a)
                 self.try_insert_phone (person, m, x, c)
@@ -338,6 +346,8 @@ class Convert (object) :
                 self.pap.Person_has_Nickname (person, nick)
             if d.homepage :
                 self.try_insert_url (d, person)
+            if d.instant_messenger_nick :
+                self.try_insert_im (d, person)
     # end def create_persons
 
     def create_device (self, d) :
