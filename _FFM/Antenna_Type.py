@@ -30,6 +30,7 @@
 #    28-Mar-2012 (CT) Use `Frequency_Interval` instead of `Float_Interval`
 #                     for `frequency`
 #    10-May-2012 (RS) fix typo, make frequency and gain necessary
+#    05-Dec-2012 (RS) Add `polarization`
 #    ««revision-date»»···
 #--
 
@@ -39,6 +40,7 @@ from   _MOM.import_MOM            import *
 from   _MOM._Attr.Number_Interval import *
 from   _FFM                       import FFM
 import _FFM.Device_Type
+from   _FFM.Attr_Type             import A_Polarization
 
 _Ancestor_Essence = FFM.Device_Type
 
@@ -64,6 +66,13 @@ class Antenna_Type (_Ancestor_Essence) :
             kind               = Attr.Necessary
 
         # end class frequency
+
+        class polarization (A_Polarization) :
+            """Antenna polarization."""
+
+            kind               = Attr.Necessary
+
+        # end class polarization
 
     # end class _Attributes
 

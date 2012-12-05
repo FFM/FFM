@@ -31,6 +31,7 @@
 #    27-Aug-2012 (RS) Add import of `math.log`
 #    22-Sep-2012 (RS) Remove `A_Wireless_Protocol`
 #    20-Nov-2012 (CT) Fix `A_TX_Power._from_string`, add `_default_unit`
+#    05-Dec-2012 (RS) Add `A_Polarization`
 #    ««revision-date»»···
 #--
 
@@ -39,9 +40,30 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 from   math                     import log
 
 from   _MOM.import_MOM          import *
-from   _MOM.import_MOM          import _A_Unit_, _A_Float_
+from   _MOM.import_MOM          import _A_Unit_, _A_Float_, _A_Named_Value_
 from   _FFM                     import FFM
 from   _TFL.I18N                import _
+
+class A_Polarization (_A_Named_Value_) :
+    """Antenna polarisation"""
+
+    ( horizontal
+    , vertical
+    , left_circular
+    , right_circular
+    )            = range (4)
+
+    example      = "vertical"
+    typ          = "Antenna Polarization"
+    P_Type       = int
+    Table        = \
+        { "horizontal"     : horizontal
+        , "vertical"       : vertical
+        , "left circular"  : left_circular
+        , "right circular" : right_circular
+        }
+
+# end class A_Polarization
 
 class A_TX_Power (_A_Unit_, _A_Float_) :
     """Transmit Power specified in units of W or dBW, dBm,
