@@ -173,6 +173,7 @@ class Convert (object) :
                          , (871, 870)
                          , (580, 898)
                          , (894, 896)
+                         , (910, 766)
                         ))
 
     phone_bogus   = dict.fromkeys \
