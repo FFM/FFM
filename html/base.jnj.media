@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    29-Mar-2012 (CT) Creation
+#     4-Dec-2012 (CT) Remove `http:` (--> protocol-relative)
 #    ««revision-date»»···
 #--
 
@@ -85,7 +86,7 @@ print_sheet = Style_Sheet \
     )
 
 Script \
-    ( src       = "http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"
+    ( src       = "//ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"
     , condition = "lt IE 9"
     , rank      = -1000000000
     )
