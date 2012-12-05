@@ -174,6 +174,7 @@ class Convert (object) :
                          , (580, 898)
                          , (894, 896)
                          , (910, 766)
+                         , (  0,   1) # ignore Funkfeuer Parkplatz
                         ))
 
     phone_bogus   = dict.fromkeys \
@@ -247,7 +248,11 @@ class Convert (object) :
         hp = m.homepage
         if not hp.startswith ('http') :
             hp = 'http://' + hp
-        url = self.pap.Url.instance_or_new (hp, desc = 'Homepage', raw = True)
+        url = self.pap.Url.instance (hp, raw = True)
+        assert url is None or url.value == hp.lower ()
+        if url :
+            return
+        url = self.pap.Url (hp, desc = 'Homepage', raw = True)
         self.pap.Person_has_Url (person, url)
     # end def try_insert_url
 
@@ -268,7 +273,8 @@ class Convert (object) :
             if m.id == 309 and m.street.startswith ("'") :
                 m.street = m.street [1:]
             if m.id in self.person_dupes :
-                print "INFO: skipping person (duplicate): %s" % m.id
+                print "INFO: skipping person %s (duplicate of %s)" \
+                    % (m.id, self.person_dupes [m.id])
                 self.dupes_by_id [m.id] = m
                 continue
             if not m.firstname and not m.lastname :
@@ -312,6 +318,7 @@ class Convert (object) :
                 self.try_insert_email (person, m)
             if m.fax and '@' in m.fax :
                 self.try_insert_email (person, m, attr = 'fax')
+                print "INFO: Using email %s in fax field as email" % m.fax
             if m.instant_messenger_nick :
                 self.try_insert_im (m, person)
             for a, c in self.phone_types.iteritems () :
@@ -340,7 +347,10 @@ class Convert (object) :
             for a, c in self.phone_types.iteritems () :
                 x = getattr (d, a)
                 self.try_insert_phone (person, d, x, c)
-            if d.mentor_id and d.mentor_id != d.id :
+            if  (   d.mentor_id is not None 
+                and d.mentor_id != d.id
+                and d.mentor_id != id
+                ) :
                 assert (False)
             if d.nickname :
                 nick = self.pap.Nickname (d.nickname, raw = True)
