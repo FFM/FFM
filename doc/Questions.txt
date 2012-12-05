@@ -147,6 +147,11 @@ To-Do
   differently the radiation diagram will differ, too (!) -- needs
   further discussion.
 
+  Clemens said: "Ich hab im Antennentemplate im neuen Wiki z.B. folgende
+  mögliche Werte: H, V, H/V (änderbar), H+V (dualpol), LCP, RCP
+  (Left/Right Circular Polarisation)".
+  So we probably want to add some more polarisation values
+
   We probably don't need the gain if we have the radiation diagram
 
 - DNS information
