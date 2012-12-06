@@ -30,6 +30,7 @@
 #    10-May-2012 (CT) Change `azimuth` and `orientation` to `A_Angle`
 #    30-Aug-2012 (CT) Add `gain`
 #    08-Oct-2012 (RS) `inclination` -> `elevation`
+#    05-Dec-2012 (RS) Remove `orientation`, add `polarization`
 #    ««revision-date»»···
 #--
 
@@ -39,6 +40,7 @@ from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
 import _FFM.Antenna_Type
 import _FFM.Device
+from   _FFM.Attr_Type         import A_Polarization
 
 _Ancestor_Essence = FFM.Device
 
@@ -71,6 +73,20 @@ class Antenna (_Ancestor_Essence) :
 
         # end class azimuth
 
+        class elevation (A_Int) :
+            """ Elevation angle of the beam from the horizontal plane
+                (in degrees).
+            """
+
+            example            = "42"
+            kind               = Attr.Optional
+            Kind_Mixins        = (Attr.Sticky_Mixin, )
+            default            = 0
+            max_value          = 90
+            min_value          = -90
+
+        # end class elevation
+
         class gain (A_Float) :
             """Describes how well the antenna converts input power into radio
                waves headed in a specified direction (in dBi). Per default,
@@ -87,29 +103,20 @@ class Antenna (_Ancestor_Essence) :
 
         # end class gain
 
-        class elevation (A_Int) :
-            """ Elevation angle of the beam from the horizontal plane
-                (in degrees).
+        class polarization (A_Polarization) :
+            """Antenna polarization. Per default,
+               `antenna_type.polarization` is used, but can be overriden here.
             """
 
-            example            = "42"
             kind               = Attr.Optional
-            Kind_Mixins        = (Attr.Sticky_Mixin, )
-            default            = 0
-            max_value          = 90
-            min_value          = -90
+            Kind_Mixins        = (Attr.Computed_Mixin, )
 
-        # end class elevation
+            def computed (self, obj) :
+                if obj.left :
+                    return obj.left.polarization
+            # end def computed
 
-        class orientation (A_Angle) :
-            """Orientation in degrees relative to standard orientation."""
-
-            example            = "90"
-            kind               = Attr.Optional
-            Kind_Mixins        = (Attr.Sticky_Mixin, )
-            default            = 0
-
-        # end class orientation
+        # end class polarization
 
     # end class _Attributes
 
