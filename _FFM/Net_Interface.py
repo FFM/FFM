@@ -30,6 +30,7 @@
 #    10-May-2012 (CT) Change `mac_address` to `Primary_Optional`, add `name`
 #    13-Sep-2012 (RS) Set `is_partial`
 #    22-Sep-2012 (RS) make `name` `A_DNS_Label`
+#     6-Dec-2012 (RS) Add `belongs_to_node`
 #    ««revision-date»»···
 #--
 
@@ -42,15 +43,17 @@ from   _GTW._OMP._NET.Attr_Type import *
 from   _GTW._OMP._DNS.Attr_Type import A_DNS_Label
 
 import _FFM.Net_Device
+import _FFM._Belongs_to_Node_
 
 _Ancestor_Essence = FFM.Link1
+_Mixin = FFM._Belongs_to_Node_
 
-class Net_Interface (_Ancestor_Essence) :
+class Net_Interface (_Mixin, _Ancestor_Essence) :
     """Model a network interface of a FFM device"""
 
     is_partial = True
 
-    class _Attributes (_Ancestor_Essence._Attributes) :
+    class _Attributes (_Mixin._Attributes, _Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 

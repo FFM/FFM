@@ -28,6 +28,7 @@
 # Revision Dates
 #    14-Mar-2012 (CT) Creation
 #    10-May-2012 (CT) Add `is_linkable`
+#     6-Dec-2012 (RS) Add `belongs_to_node`, add `max_links`
 #    ««revision-date»»···
 #--
 
@@ -36,15 +37,17 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
 import _FFM.Entity
+import _FFM._Belongs_to_Node_
 
 _Ancestor_Essence = FFM.Link1
+_Mixin = FFM._Belongs_to_Node_
 
-class _Wireless_Mode_ (_Ancestor_Essence) :
+class _Wireless_Mode_ (_Mixin, _Ancestor_Essence) :
     """Model the mode a wireless device operates in."""
 
     is_partial = True
 
-    class _Attributes (_Ancestor_Essence._Attributes) :
+    class _Attributes (_Mixin._Attributes, _Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
@@ -56,6 +59,7 @@ class _Wireless_Mode_ (_Ancestor_Essence) :
             role_type          = FFM.Wireless_Interface
             role_name          = "interface"
             auto_cache         = "mode"
+            max_links          = 1
 
         # end class left
 

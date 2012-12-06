@@ -28,6 +28,7 @@
 # Revision Dates
 #     6-Mar-2012 (CT) Creation
 #    30-Aug-2012 (CT) Add `primary` attribute `node`
+#     6-Dec-2012 (RS) Add `belongs_to_node`
 #    ««revision-date»»···
 #--
 
@@ -62,6 +63,19 @@ class Net_Device (_Ancestor_Essence) :
             P_Type             = FFM.Node
 
         # end class node
+
+        class belongs_to_node (A_Id_Entity) :
+            """Node to which this entity belongs."""
+
+            kind               = Attr.Computed
+            P_Type             = FFM.Node
+
+            def computed (self, obj) :
+                return self.node
+            # end def computed
+
+        # end class belongs_to_node
+
 
     # end class _Attributes
 

@@ -31,6 +31,7 @@
 #    30-Aug-2012 (CT) Add `gain`
 #    08-Oct-2012 (RS) `inclination` -> `elevation`
 #    05-Dec-2012 (RS) Remove `orientation`, add `polarization`
+#    06-Dec-2012 (RS) Add `belongs_to_node`
 #    ««revision-date»»···
 #--
 
@@ -40,6 +41,7 @@ from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
 import _FFM.Antenna_Type
 import _FFM.Device
+import _FFM.Node
 from   _FFM.Attr_Type         import A_Polarization
 
 _Ancestor_Essence = FFM.Device
@@ -72,6 +74,18 @@ class Antenna (_Ancestor_Essence) :
               """
 
         # end class azimuth
+
+        class belongs_to_node (A_Id_Entity) :
+            """Node to which this antenna belongs."""
+
+            kind               = Attr.Computed
+            P_Type             = FFM.Node
+
+            def computed (self, obj) :
+                return self.interface.belongs_to_node
+            # end def computed
+
+        # end class belongs_to_node
 
         class elevation (A_Int) :
             """ Elevation angle of the beam from the horizontal plane

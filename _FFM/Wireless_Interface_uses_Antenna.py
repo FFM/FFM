@@ -28,6 +28,7 @@
 # Revision Dates
 #    28-Mar-2012 (CT) Creation
 #    10-May-2012 (RS) Allow multiple interfaces to use same antenna
+#     6-Dec-2012 (RS) Add `belongs_to_node`
 #    ««revision-date»»···
 #--
 
@@ -39,13 +40,15 @@ from   _FFM                   import FFM
 from   _FFM.Attr_Type         import *
 import _FFM.Antenna
 import _FFM.Wireless_Interface
+import _FFM._Belongs_to_Node_
 
 _Ancestor_Essence = FFM.Link2
+_Mixin = FFM._Belongs_to_Node_
 
-class Wireless_Interface_uses_Antenna (_Ancestor_Essence) :
+class Wireless_Interface_uses_Antenna (_Mixin, _Ancestor_Essence) :
     """Antenna used by a wireless interface"""
 
-    class _Attributes (_Ancestor_Essence._Attributes) :
+    class _Attributes (_Mixin._Attributes, _Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
@@ -55,7 +58,7 @@ class Wireless_Interface_uses_Antenna (_Ancestor_Essence) :
             """Wireless interface."""
 
             role_type          = FFM.Wireless_Interface
-            auto_cache         = True
+            auto_cache         = "interface"
 
         # end class left
 
@@ -65,6 +68,7 @@ class Wireless_Interface_uses_Antenna (_Ancestor_Essence) :
             role_type          = FFM.Antenna
             auto_cache         = True
             ui_allow_new       = True
+            max_links          = 1
 
         # end class right
 

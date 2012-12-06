@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    14-Mar-2012 (CT) Creation
+#     6-Dec-2012 (RS) Add `belongs_to_node`, add `max_links`
 #    ««revision-date»»···
 #--
 
@@ -38,12 +39,14 @@ from   _FFM                   import FFM
 
 import _FFM.Entity
 import _FFM.Net_Interface
+import _FFM._Belongs_to_Node_
 
 from   _TFL.Regexp            import Regexp, re
 
 _Ancestor_Essence = FFM.Link1
+_Mixin = FFM._Belongs_to_Node_
 
-class _Net_Credentials_ (_Ancestor_Essence) :
+class _Net_Credentials_ (_Mixin, _Ancestor_Essence) :
     """Model credentials used by a Net_Interface, e.g., `802.1x`
        authentication for a wired interface, or WPA authentication for a WiFi
        interface.
@@ -51,7 +54,7 @@ class _Net_Credentials_ (_Ancestor_Essence) :
 
     is_partial = True
 
-    class _Attributes (_Ancestor_Essence._Attributes) :
+    class _Attributes (_Mixin._Attributes, _Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
@@ -63,6 +66,7 @@ class _Net_Credentials_ (_Ancestor_Essence) :
             role_type          = FFM.Net_Interface
             role_name          = "interface"
             auto_cache         = "credentials"
+            max_links          = 1
 
         # end class left
 

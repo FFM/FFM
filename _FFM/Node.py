@@ -34,6 +34,7 @@
 #    11-Oct-2012 (RS) `map_p` -> `show_in_map`
 #    12-Oct-2012 (RS) Make `Node` a `PAP.Subject` again.
 #    16-Oct-2012 (CT) Correct `refuse_links`
+#     6-Dec-2012 (RS) Add `belongs_to_node`
 #    ««revision-date»»···
 #--
 
@@ -69,6 +70,17 @@ class Node (FFM.Entity, _Ancestor_Essence) :
             completer          = Attr.Completer_Spec  (2, Attr.Selector.primary)
 
         # end class name
+
+        class belongs_to_node (A_Id_Entity) :
+            """Node to which this entity belongs."""
+
+            kind               = Attr.Computed
+
+            def computed (self, obj) :
+                return self
+            # end def computed
+
+        # end class belongs_to_node
 
         class manager (A_Id_Entity) :
             """Manager of the node"""
@@ -110,6 +122,8 @@ class Node (FFM.Entity, _Ancestor_Essence) :
     # end class _Attributes
 
 # end class Node
+
+Node._Attributes.belongs_to_node.P_Type = Node
 
 if __name__ != "__main__" :
     FFM._Export ("*")
