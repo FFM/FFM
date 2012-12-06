@@ -60,8 +60,9 @@ import _GTW._OMP._Auth.import_Auth
 import _GTW._OMP._PAP.import_PAP
 
 import _GTW._RST._MOM.Doc
-import _GTW._RST._TOP._MOM.Doc
 import _GTW._RST._MOM.Scope
+import _GTW._RST._TOP._MOM.Doc
+import _GTW._RST._TOP.ReST
 
 import _GTW._Werkzeug.Command
 
@@ -83,6 +84,7 @@ import _TFL.CAO
 import _GTW._AFS._MOM.Spec
 
 from   _Base_Command_           import _Base_Command_
+import RST_addons
 
 GTW.OMP.PAP.Phone.change_attribute_default         ("country_code", "43")
 
@@ -105,6 +107,77 @@ FFM.Version = Product_Version \
         , db_extension    = ".ffm"
         )
     )
+
+landing_page = """
+Statt :q:`Ich will ins Netz` :q:`Wir sind das Netz`
+===================================================
+
+Was?
+++++
+
+Frei
+----
+
+FunkFeuer ist ein freies, experimentelles Netzwerk in Wien, Graz, der
+Weststeiermark, in Teilen des Weinviertels (NÖ) und in Bad Ischl. Es wird
+aufgebaut und betrieben von computerbegeisterten Menschen. Das Projekt verfolgt
+keine kommerziellen Interessen.
+
+Offen
+-----
+
+FunkFeuer ist offen für jeden und jede, der/die Interesse hat und bereit ist
+mitzuarbeiten. Es soll dabei ein nicht reguliertes Netzwerk entstehen, welches
+das Potential hat, den digitalen Graben zwischen den sozialen Schichten zu
+überbrücken und so Infrastruktur und Wissen zur Verfügung zu stellen. Teilnahme
+Zur Teilnahme an FunkFeuer braucht man einen WLAN Router (gibt's ab 60 Euro)
+oder einen PC, das OLSR Programm, eine IP Adresse von FunkFeuer, etwas Geduld
+und Motivation. Auf unserer Karte ist eingezeichnet, wo man FunkFeuer schon
+überall (ungefähr) empfangen kann (bitte beachte, dass manchmal Häuser oder
+ähnliches im Weg sind, dann geht's nur über Umwege).
+
+*Wir bauen uns unser Netzwerk selber!*
+
+WIE?
+++++
+
+Eine Einführung gibts als `PDF-Datei`_ (Danke Andreas!)
+Die `ersten Schritte`_ werden im `wiki`_ erläutert.
+
+.. _`PDF-Datei`:
+    http://funkfeuer.at/fileadmin/Dokumente/vortraege/FunkFeuer_Intro.pdf
+.. _`ersten Schritte`: http://wiki.funkfeuer.at/index.php/Erste_Schritte
+.. _`wiki`: http://wiki.funkfeuer.at/
+
+Siehe auch `die Geschichte von Funkfeuer`_.
+
+.. _`die Geschichte von Funkfeuer`: http://www.funkfeuer.at/Geschichte.94.0.html
+
+WARUM?
+++++++
+
+`Darum!`_
+
+.. _`Darum!`:
+    http://wiki.funkfeuer.at/index.php/Die_Konstruktion_der_Netzwerk-Allmende
+
+
+Armin Medosch hat die Theorie der freien Netze sehr gut analyisiert und sogar
+ein `Buch`_ darüber geschrieben.
+
+.. _`Buch`: http://www.heise.de/tp/r4/buch/buch_11.html
+
+Cooles Projekt, wie kann ich helfen?
+++++++++++++++++++++++++++++++++++++
+
+Vielseitig! wir sind ein kleines Team und können **jede** Unterstützung
+gebrauchen.
+
+Tritt einfach mit uns in Kontakt. Es gibt verschiedene Arbeitsgruppen. Die
+meiste Kommunikation verläuft über die `Mailinglisten`_.
+
+.. _`Mailinglisten`: http://funkfeuer.at/Mailinglisten.61.0.html
+"""
 
 class Command (_Base_Command_, GTW.Werkzeug.Command) :
     """Manage database, run server or WSGI app."""
@@ -151,7 +224,19 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
         TOP = RST.TOP
         result = rst_top.create (cmd, ** kw)
         result.add_entries \
-            ( TOP.MOM.Doc.App_Type
+            ( RST_addons.User_Nodes
+                ( name            = "my-nodes"
+                , short_title     = _T ("My Nodes")
+                , ETM             = "FFM.Node"
+                , login_required  = True
+                )
+            , TOP.Page_ReST
+                ( name            = "Funkfeuer"
+                , short_title     = "Funkfeuer?"
+                , title           = "Was ist Funkfeuer?"
+                , src_contents    = landing_page
+                )
+            , TOP.MOM.Doc.App_Type
                 ( name            = "Doc"
                 , short_title     = _ ("Model doc")
                 , title           = _ ("Documentation for FFM object model")
