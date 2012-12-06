@@ -3,6 +3,7 @@
 
 import sys, os
 import re
+import uuid
 
 from   datetime               import datetime, tzinfo, timedelta
 from   rsclib.IP_Address      import IP4_Address
@@ -12,6 +13,7 @@ from   _GTW                   import GTW
 from   _TFL                   import TFL
 from   _FFM                   import FFM
 from   _GTW._OMP._PAP         import PAP
+from   _GTW._OMP._Auth        import Auth
 from   olsr.parser            import OLSR_Parser
 
 import _TFL.CAO
@@ -242,6 +244,13 @@ class Convert (object) :
             self.email_ids [mail.lower ()] = m.id
             email = self.pap.Email (address = mail, desc = desc)
             self.pap.Person_has_Email (person, email)
+            auth  = self.scope.Auth.Account.create_new_account_x \
+                ( mail
+                , enabled   = True
+                , suspended = True
+                , password  = uuid.uuid4 ().hex
+                )
+            self.pap.Person_has_Account (person, auth)
     # end def try_insert_email
 
     def try_insert_url (self, m, person) :
