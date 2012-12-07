@@ -64,7 +64,8 @@ class Convert (object) :
         self.ip_by_dev    = {}
         self.dev_by_node  = {}
 
-        self.parser       = SQL_Parser (verbose = False)
+        self.parser       = SQL_Parser \
+            (verbose = False, fix_double_encode = True)
         self.parser.parse (f)
         self.contents     = self.parser.contents
         self.tables       = self.parser.tables

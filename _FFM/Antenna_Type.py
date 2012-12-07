@@ -30,14 +30,14 @@
 #    28-Mar-2012 (CT) Use `Frequency_Interval` instead of `Float_Interval`
 #                     for `frequency`
 #    10-May-2012 (RS) fix typo, make frequency and gain necessary
-#    05-Dec-2012 (RS) Add `polarization`
+#     5-Dec-2012 (RS) Add `polarization`
+#     7-Dec-2012 (RS) Remove `frequency`, add predicate `band_exists`
 #    ««revision-date»»···
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
 
 from   _MOM.import_MOM            import *
-from   _MOM._Attr.Number_Interval import *
 from   _FFM                       import FFM
 import _FFM.Device_Type
 from   _FFM.Attr_Type             import A_Polarization
@@ -60,13 +60,6 @@ class Antenna_Type (_Ancestor_Essence) :
 
         # end class gain
 
-        class frequency (A_Frequency_Interval) :
-            """Frequency range the antenna supports."""
-
-            kind               = Attr.Necessary
-
-        # end class frequency
-
         class polarization (A_Polarization) :
             """Antenna polarization."""
 
@@ -75,6 +68,24 @@ class Antenna_Type (_Ancestor_Essence) :
         # end class polarization
 
     # end class _Attributes
+
+    class _Predicates (_Ancestor_Essence._Predicates) :
+
+        _Ancestor = _Ancestor_Essence._Predicates
+
+        class band_exists (Pred.Condition) :
+            """There must be at least one frequency band for the antenna."""
+
+            kind               = Pred.Region
+            assertion          = "number_of_bands >= 1"
+            attributes         = ("bands", )
+            bindings           = dict \
+                ( number_of_bands = "len (this.bands)"
+                )
+
+        # end class band_exists
+
+    # end class _Predicates
 
 # end class Antenna_Type
 
