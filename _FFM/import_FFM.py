@@ -40,6 +40,7 @@
 #    11-Oct-2012 (RS) Import `Nickname` from `PAP` -- not imported by default
 #    12-Oct-2012 (RS) Add `Node_has_Address`
 #     9-Nov-2012 (RS) Import `IM_Handle` from `PAP`
+#     7-Dec-2012 (RS) Add `Antenna_Band`
 #    ««revision-date»»···
 #--
 
@@ -51,6 +52,7 @@ from   _FFM                   import FFM
 import _FFM.Entity
 
 import _FFM.Antenna
+import _FFM.Antenna_Band
 import _FFM.Antenna_Type
 import _FFM.Device
 import _FFM.Device_Type

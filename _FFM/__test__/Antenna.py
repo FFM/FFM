@@ -26,7 +26,8 @@
 #    Test Node and associations
 #
 # Revision Dates
-#    05-Dec-2012 (RS) Creation
+#     5-Dec-2012 (RS) Creation
+#     7-Dec-2012 (RS) Test predicate `band_exists` of `Antenna_Type`
 #    ««revision-date»»···
 #--
 
@@ -48,6 +49,7 @@ _test_code = """
     ...     , polarization = "vertical"
     ...     , raw          = True
     ...     )
+    >>> b1 = FFM.Antenna_Band (at1, band = ("2.4 GHz", "3 GHz"), raw = True)
     >>> at2 = FFM.Antenna_Type \\
     ...     ( name         = "Yagi2"
     ...     , desc         = "A Yagi"
@@ -55,6 +57,23 @@ _test_code = """
     ...     , polarization = "horizontal"
     ...     , raw          = True
     ...     )
+    >>> b2 = FFM.Antenna_Band (at2, band = ("5 GHz", "6 GHz"), raw = True)
+    >>> scope.commit ()
+
+    >>> at3 = FFM.Antenna_Type \\
+    ...     ( name         = "Yagi3"
+    ...     , desc         = "A Yagi"
+    ...     , gain         = 11.5
+    ...     , polarization = "horizontal"
+    ...     , raw          = True
+    ...     )
+    >>> scope.commit ()
+    Traceback (most recent call last):
+      ...
+    Invariants: Condition `band_exists` : There must be at least one frequency band for the antenna. (number_of_bands >= 1)
+        bands = None
+        number_of_bands = 0 << len (bands)
+
     >>> args = dict (left = at1, azimuth = "180", elevation = 0, raw = True)
     >>> a = FFM.Antenna (name = "1", ** args)
     >>> (a.gain, a.polarization)

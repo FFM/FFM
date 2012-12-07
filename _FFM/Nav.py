@@ -38,6 +38,7 @@
 #    12-Sep-2012 (RS) Add `Nickname` and `Person_mentors_Person`
 #    18-Sep-2012 (RS) Remove `Subject_owns_Node`
 #    11-Oct-2012 (RS) `Nickname` from `PAP`
+#     7-Dec-2012 (RS) Add Spec for `Antenna_Type`
 #    ««revision-date»»···
 #--
 
@@ -185,6 +186,8 @@ class Admin (object) :
 # end class Admin
 
 from   _GTW._AFS._MOM import Spec
+
+FFM.Antenna_Type.GTW.afs_spec = Spec.Entity (include_links = ("bands",))
 
 ### FFM.Net_Device_Type.GTW.afs_spec = Spec.Entity (include_links = ("FFM.Device_Type_made_by_Company", ))
 ### ??? FFM.Antenna.GTW.afs_spec = Spec.Entity (include_links = ("interface", ))
