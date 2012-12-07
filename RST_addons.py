@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #     6-Dec-2012 (CT) Creation
+#     7-Dec-2012 (CT) Continue creation
 #    ««revision-date»»···
 #--
 
@@ -52,33 +53,86 @@ from   _TFL.I18N                import _, _T, _Tn
 
 JNJ.Template ("user_nodes_admin", "html/user_nodes_admin.jnj")
 
-class User_Nodes (GTW.RST.TOP.MOM.Admin.E_Type) :
+_Ancestor = GTW.RST.TOP.MOM.Admin.E_Type
+
+class _User_Node_Changer_ (_Ancestor.Changer) :
+
+    _real_name = "Changer"
+
+    def allow_method (self, method, user) :
+        return self.user_has_permission (user)
+    # end def allow_method
+
+    def user_has_permission (self, user) :
+        person = user.person if user else None
+        if self.obj and person is not None :
+            return ((Q.owner == person) | (Q.manager == person)) (self.obj)
+    # end def user_has_permission
+
+Changer = _User_Node_Changer_ # end class
+
+class User_Nodes (_Ancestor) :
     """Directory displaying the node instances belonging to the current user."""
 
+    Changer               = Changer
     dir_template_name     = "user_nodes_admin"
-    user                  = None
+    dont_et_map           = True
+    skip_etag             = True
+
+    _entry_type_map       = dict \
+        ( _Ancestor._entry_type_map
+        , ** {Changer.name : Changer}
+        )
+
+    @property
+    @getattr_safe
+    def form_parameters (self) :
+        result = self.__super.form_parameters
+        u = self.top.user
+        if u and u.person :
+            u = u.person
+        if u :
+            result.setdefault ("form_kw", {}).update \
+                ( manager = dict
+                    ( prefilled   = True
+                    , init        = u
+                    )
+                )
+        return result
+    # end def form_parameters
 
     @property
     @getattr_safe
     def head_line (self) :
-        u = self.user
+        result = self.__super.head_line
+        u = self.top.user
         if u and u.person :
             u = u.person
         if u :
             u = u.FO
-        return "%s owned/managed by %s" % \
-            (_T (self.ETM.E_Type.ui_name), u)
+            result = "%s: owned/managed by %s" % (result, u)
+        return result
     # end def head_line
 
-    def query (self, sort_key = None) :
-        result = self.__super.query (sort_key = sort_key)
-        if self.user is not None :
-            person = self.user.person
-            if person is not None :
-                qf = (Q.owner == person) | (Q.manager == person)
-                result = result.filter (qf)
-        return result
-    # end def query
+    @property
+    @getattr_safe
+    def query_filters_d (self) :
+        user   = self.top.user
+        person = user.person if user else None
+        if person is not None :
+            result = (Q.owner == person) | (Q.manager == person)
+        else :
+            result = (Q.pid == 0) ### don't show any entries
+        return (result, ) + self.__super.query_filters_d
+    # end def query_filters_d
+
+    @property
+    @getattr_safe
+    def _change_info_key (self) :
+        user = self.top.user
+        pid  = user.pid if user else None
+        return self.__super._change_info_key, pid
+    # end def _change_info_key
 
 # end class User_Nodes
 
