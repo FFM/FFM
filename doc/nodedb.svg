@@ -91,6 +91,24 @@
       </tspan>
     </text>
   </g>
+  <g id="FFM.Antenna_Band" fill="#EDEDED" class="E_Type" opacity="1.0">
+    <title>
+      FFM.Antenna_Band: Frequency Band of an antenna type
+    </title>
+    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1680"
+          y="75"
+    />
+    <text fill="#003" font-family="sans-serif" font-size="18" x="1689"
+          y="75"
+    >
+      <tspan dx="0" dy="27.0" x="1689">
+        FFM.Antenna
+      </tspan>
+      <tspan dx="9" dy="27.0" x="1689">
+        _Band
+      </tspan>
+    </text>
+  </g>
   <g id="FFM.Antenna_Type" fill="#EDEDED" class="E_Type" opacity="1.0">
     <title>
       FFM.Antenna_Type: Model the type of antennas in FFM.
@@ -634,6 +652,28 @@
       >
         <tspan dy="-7.0">
           IS_A
+        </tspan>
+      </textPath>
+    </text>
+  </g>
+  <g id="FFM.Antenna_Band.left:FFM.Antenna_Type" opacity="1.0">
+    <title>
+      FFM.Antenna_Band role antenna_type: The antenna type for this band
+    </title>
+    <polyline fill="none" marker-start="url(#MOM:RM)"
+              points="1680,125 1520,125" stroke="#666" stroke-width="5"
+    />
+    <path d="M 1520 125 L 1680 125"
+          id="FFM.Antenna_Band.left:FFM.Antenna_Type::path" fill="none"
+          stroke="none"
+    >
+    </path>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="90%" text-anchor="end"
+                xlink:href="#FFM.Antenna_Band.left:FFM.Antenna_Type::path"
+      >
+        <tspan dy="-7.0">
+          left
         </tspan>
       </textPath>
     </text>
@@ -1343,6 +1383,15 @@
         </tspan>
       </textPath>
     </text>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="2%" text-anchor="start"
+                xlink:href="#FFM.Wireless_Interface_uses_Antenna.right:FFM.Antenna::path"
+      >
+        <tspan dy="18">
+          0 .. 1
+        </tspan>
+      </textPath>
+    </text>
   </g>
   <g id="FFM.Wireless_Interface_uses_Wireless_Channel.left:FFM.Wireless_Interface"
      opacity="1.0"
@@ -1458,6 +1507,15 @@
         </tspan>
       </textPath>
     </text>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM._Net_Credentials_.left:FFM.Net_Interface::path"
+      >
+        <tspan dy="18">
+          0 .. 1
+        </tspan>
+      </textPath>
+    </text>
   </g>
   <g id="FFM._Wireless_Mode_.left:FFM.Wireless_Interface" opacity="1.0">
     <title>
@@ -1478,6 +1536,15 @@
       >
         <tspan dy="-7.0">
           left
+        </tspan>
+      </textPath>
+    </text>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="2%" text-anchor="start"
+                xlink:href="#FFM._Wireless_Mode_.left:FFM.Wireless_Interface::path"
+      >
+        <tspan dy="18">
+          0 .. 1
         </tspan>
       </textPath>
     </text>

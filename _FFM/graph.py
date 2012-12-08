@@ -38,6 +38,7 @@
 #    18-Oct-2012 (RS) Add `Node` `IS_A` `Subject`
 #    22-Nov-2012 (CT) Add `Role.left` to `Wireless_Channel`
 #    22-Nov-2012 (RS) Move `Net_Interface_in_IP_Network.right` to South
+#     8-Dec-2012 (RS) Add `Antenna_Band`
 #    ««revision-date»»···
 #--
 
@@ -80,6 +81,7 @@ def graph (app_type) :
             , Child.FFM.Antenna
                 ( Role.left
                     ( IS_A.FFM.Device_Type
+                    , ET.FFM.Antenna_Band (offset = CD.E)
                     , offset = CD.E * 4
                     )
                 , offset = CD.N
