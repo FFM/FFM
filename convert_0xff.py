@@ -375,15 +375,16 @@ class Convert (object) :
         if self.debug :
             print 'dev:', d.id, d.name
         node = self.node_by_id [d.id_nodes]
-        if d.hardware :
-            # FIXME: We want correct info from nodes directly
-            # looks like most firmware can give us this info
-            devtype = self.ffm.Net_Device_Type.instance_or_new \
-                (name = d.hardware, raw = True)
-        else :
-            devtype = self.ffm.Net_Device_Type.instance (name = 'Generic')
+        # FIXME: We want correct info from nodes directly
+        # looks like most firmware can give us this info
+        devtype = self.ffm.Net_Device_Type.instance (name = 'Generic')
         dev = self.ffm.Net_Device \
-            (left = devtype, node = node, name = d.name, raw = True)
+            ( left = devtype
+            , node = node
+            , name = d.name
+            , desc = d.hardware
+            , raw  = True
+            )
         self.set_last_change (dev, d.changed, d.created)
         # no member info in DB:
         assert not d.id_members
