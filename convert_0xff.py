@@ -60,7 +60,7 @@ class Convert (object) :
         self.email_ids    = {}
         self.phone_ids    = {}
         self.person_by_id = {}
-        self.dupes_by_id  = {}
+        self.member_by_id = {}
         self.ip_by_dev    = {}
         self.dev_by_node  = {}
 
@@ -139,46 +139,50 @@ class Convert (object) :
     # end def create_nodes
 
     # first id is the one to remove, the second one is the correct one
-    # FIXME: we may need to merge some attributes from one entry to the other
-    # FIXME: We want to set the creation date to minimum of both records
-    # FIXME: We want to set the last modified to the maximum of both records
-    # FIXME: Check used resources of dupe
-    # FIXME: 189/281 is unclear if same person (only identifyable
-    #        attribute is email which differs)
-    person_dupes = dict (( (373, 551)
-                         , (338, 109)
-                         , (189, 281)
-                         , (285, 284)
-                         , (299, 297)
-                         , (300, 462)
-                         , (542, 586)
-                         , (251, 344)
-                         , (188, 614)
-                         , (177, 421)
-                         , (432, 433) # merge addresses ??
-                         , ( 26, 480) # same person? merge adrs + email?
-                         , ( 90, 499) # same person? merge adrs + email?
-                         , (505, 507)
-                         , (410, 547)
-                         , (712, 680)
-                         , (230, 729) # merge phone number?
-                         , (375, 743)
-                         , (755, 175) # use newer phone number?
-                         , (219, 759) # same person?
-                         , (453, 454)
-                         , (803, 804)
-                         , (295, 556) # same person? same gmx address!
-                         , (697, 814)
-                         , (476, 854) # merge web?
-                         , (312, 307)
-                         , (351, 355)
-                         , (401, 309)
-                         , (871, 870)
-                         , (580, 898)
-                         , (894, 896)
-                         , (910, 766)
+    person_dupes = dict (( (373, 551) # checked, real dupe
+                         , (338, 109) # checked, real dupe
+                         , (189, 281) # checked, 189 contains almost no data
+                                      # and 189 has no nodes
+                         , (285, 284) # checked, real dupe
+                         , (299, 297) # checked, real dupe
+                         , (300, 462) # checked, real dupe
+                         , (542, 586) # checked, real dupe
+                         , (251, 344) # checked, real dupe
+                         , (188, 614) # checked, real dupe
+                         , (177, 421) # checked, real dupe
+                         , (432, 433) # checked, real dupe, merge addresses
+                         , ( 26, 480) # probably: almost same nick, merge adrs
+                         , ( 90, 499) # FIXME: same person? merge adrs?
+                                      #  90 has node 1110
+                                      # 499 has node 1105 and 812
+                                      # two accounts, one for HTL, one private?
+                                      # maybe create company?
+                                      # make company owner of 1110 and
+                                      # 499 tech-c of all nodes?
+                         , (505, 507) # checked, real dupe
+                         , (410, 547) # checked, real dupe
+                         , (712, 680) # checked, real dupe
+                         , (230, 729) # checked, real dupe
+                         , (375, 743) # checked, real dupe
+                         , (755, 175) # checked, real dupe
+                         , (219, 759) # Probably same (nick similar), merge adr
+                         , (453, 454) # checked, real dupe
+                         , (803, 804) # checked, real dupe
+                         , (295, 556) # same gmx address, merge adr
+                         , (697, 814) # checked, real dupe
+                         , (476, 854) # checked, real dupe
+                         , (312, 307) # checked, real dupe
+                         , (351, 355) # checked, real dupe
+                         , (401, 309) # checked, real dupe
+                         , (871, 870) # checked, real dupe
+                         , (580, 898) # checked, real dupe
+                         , (894, 896) # checked, real dupe
+                         , (910, 766) # checked, real dupe
                          , (  0,   1) # ignore Funkfeuer Parkplatz
                         ))
+    rev_person_dupes = dict ((v, k) for k, v in person_dupes.iteritems ())
+
+    merge_adr = dict.fromkeys ((432, 26, 759, 295))
 
     phone_bogus   = dict.fromkeys \
         (( '01111111'
@@ -278,14 +282,41 @@ class Convert (object) :
         , fax         = 'Fax'
         )
 
+    def try_insert_address (self, m, person) :
+        street  = ' '.join (x for x in (m.street, m.housenumber) if x)
+        if street or m.town or m.zip :
+            country = 'Austria'.decode ('latin1')
+            if not m.town :
+                print 'INFO: no city (setting to "Wien"): %s/%s' \
+                    % (m.id, person.pid)
+                m ['town'] = 'Wien'
+            if not m.zip :
+                if m.id == 653 :
+                    m ['zip'] = 'USA'
+                elif m.id == 787 :
+                    m ['zip'] = '2351'
+                else :
+                    print "INFO: no zip: %s/%s" % (m.id, person.pid)
+            elif m.zip.startswith ('I-') :
+                m ['zip'] = m.zip [2:]
+                country = 'Italy'.decode ('latin1')
+            address = self.pap.Address.instance_or_new \
+                ( street     = street
+                , zip        = m.zip
+                , city       = m.town
+                , country    = country
+                )
+            self.pap.Person_has_Address (person, address)
+    # end def try_insert_address
+
     def create_persons (self) :
         for m in sorted (self.contents ['members'], key = lambda x : x.id) :
+            self.member_by_id [m.id] = m
             if m.id == 309 and m.street.startswith ("'") :
                 m.street = m.street [1:]
             if m.id in self.person_dupes :
                 print "INFO: skipping person %s (duplicate of %s)" \
                     % (m.id, self.person_dupes [m.id])
-                self.dupes_by_id [m.id] = m
                 continue
             if not m.firstname and not m.lastname :
                 print "WARN: skipping person, no name:", m.id
@@ -298,32 +329,10 @@ class Convert (object) :
                 , last_name  = m.lastname
                 , raw        = True
                 )
-            self.set_last_change (person, m.changed, m.created)
+            if m.id not in self.rev_person_dupes :
+                self.set_last_change (person, m.changed, m.created)
             self.person_by_id [m.id] = person
-            street  = ' '.join (x for x in (m.street, m.housenumber) if x)
-            if street or m.town or m.zip :
-                country = 'Austria'.decode ('latin1')
-                if not m.town :
-                    print 'INFO: no city (setting to "Wien"): %s/%s' \
-                        % (m.id, person.pid)
-                    m ['town'] = 'Wien'
-                if not m.zip :
-                    if m.id == 653 :
-                        m ['zip'] = 'USA'
-                    elif m.id == 787 :
-                        m ['zip'] = '2351'
-                    else :
-                        print "INFO: no zip: %s/%s" % (m.id, person.pid)
-                elif m.zip.startswith ('I-') :
-                    m ['zip'] = m.zip [2:]
-                    country = 'Italy'.decode ('latin1')
-                address = self.pap.Address.instance_or_new \
-                    ( street     = street
-                    , zip        = m.zip
-                    , city       = m.town
-                    , country    = country
-                    )
-                self.pap.Person_has_Address (person, address)
+            self.try_insert_address (m, person)
             if m.email :
                 self.try_insert_email (person, m)
             if m.fax and '@' in m.fax :
@@ -350,8 +359,13 @@ class Convert (object) :
             # older version of db or dupe removed:
             if id not in self.person_by_id :
                 continue
-            d = self.dupes_by_id [dupe]
+            d = self.member_by_id [dupe]
+            m = self.member_by_id [id]
             person = self.person_by_id [id]
+            changed = max \
+                (d for d in (m.changed, d.changed, m.created, d.created) if d)
+            created = min (m.created, d.created)
+            self.set_last_change (person, changed, created)
             if d.email :
                 self.try_insert_email (person, d, second = True)
             for a, c in self.phone_types.iteritems () :
@@ -369,6 +383,8 @@ class Convert (object) :
                 self.try_insert_url (d, person)
             if d.instant_messenger_nick :
                 self.try_insert_im (d, person)
+            if dupe in self.merge_adr :
+                self.try_insert_address (d, person)
     # end def create_persons
 
     def create_device (self, d) :
