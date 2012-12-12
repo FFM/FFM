@@ -91,13 +91,13 @@ class User_Nodes (_Ancestor) :
         u = self.top.user
         if u and u.person :
             u = u.person
-        if u :
-            result.setdefault ("form_kw", {}).update \
-                ( manager = dict
-                    ( prefilled   = True
-                    , init        = u
+            if u :
+                result.setdefault ("form_kw", {}).update \
+                    ( manager = dict
+                        ( prefilled   = True
+                        , init        = u
+                        )
                     )
-                )
         return result
     # end def form_parameters
 
