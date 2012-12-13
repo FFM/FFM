@@ -35,6 +35,8 @@
 #    12-Oct-2012 (RS) Make `Node` a `PAP.Subject` again.
 #    16-Oct-2012 (CT) Correct `refuse_links`
 #     6-Dec-2012 (RS) Add `belongs_to_node`
+#    13-Dec-2012 (CT) Set `owner.P_Type` to `PAP.Person`
+#    13-Dec-2012 (CT) Set `owner.ui_allow_new` to `False`
 #    ««revision-date»»···
 #--
 
@@ -95,7 +97,8 @@ class Node (FFM.Entity, _Ancestor_Essence) :
 
             kind               = Attr.Optional
             Kind_Mixins        = (Attr.Computed_Mixin, )
-            P_Type             = PAP.Subject
+            P_Type             = PAP.Person
+            ui_allow_new       = False
 
             def computed (self, obj) :
                 if obj :
