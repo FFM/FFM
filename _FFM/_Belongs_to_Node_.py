@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #     6-Dec-2012 (CT) Creation
+#    14-Dec-2012 (CT) Change `belongs_to_node.kind` to `Attr.Query`
 #    ««revision-date»»···
 #--
 
@@ -50,12 +51,13 @@ class _Belongs_to_Node_ (_Ancestor_Essence) :
         class belongs_to_node (A_Id_Entity) :
             """Node this %(ui_name)s belongs to."""
 
-            kind               = Attr.Computed
+            kind               = Attr.Query
+            auto_up_depends    = ("left", )
             P_Type             = FFM.Node
 
-            def computed (self, obj) :
-                return obj.left.belongs_to_node
-            # end def computed
+            def query_fct (self) :
+                return Q.left.belongs_to_node
+            # end def query_fct
 
         # end class belongs_to_node
 

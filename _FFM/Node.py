@@ -37,6 +37,7 @@
 #     6-Dec-2012 (RS) Add `belongs_to_node`
 #    13-Dec-2012 (CT) Set `owner.P_Type` to `PAP.Person`
 #    13-Dec-2012 (CT) Set `owner.ui_allow_new` to `False`
+#    14-Dec-2012 (CT) Return `obj`, not `self`, from `belongs_to_node.computed`
 #    ««revision-date»»···
 #--
 
@@ -79,7 +80,7 @@ class Node (FFM.Entity, _Ancestor_Essence) :
             kind               = Attr.Computed
 
             def computed (self, obj) :
-                return self
+                return obj
             # end def computed
 
         # end class belongs_to_node

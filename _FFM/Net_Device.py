@@ -29,6 +29,7 @@
 #     6-Mar-2012 (CT) Creation
 #    30-Aug-2012 (CT) Add `primary` attribute `node`
 #     6-Dec-2012 (RS) Add `belongs_to_node`
+#    14-Dec-2012 (CT) Change `belongs_to_node.kind` to `Attr.Query`
 #    ««revision-date»»···
 #--
 
@@ -67,15 +68,15 @@ class Net_Device (_Ancestor_Essence) :
         class belongs_to_node (A_Id_Entity) :
             """Node to which this entity belongs."""
 
-            kind               = Attr.Computed
+            kind               = Attr.Query
+            auto_up_depends    = ("node", )
             P_Type             = FFM.Node
 
-            def computed (self, obj) :
-                return self.node
-            # end def computed
+            def query_fct (self) :
+                return Q.node
+            # end def query_fct
 
         # end class belongs_to_node
-
 
     # end class _Attributes
 
