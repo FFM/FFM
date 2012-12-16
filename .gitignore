@@ -7,3 +7,5 @@ guifi.xml
 media/v
 ffm
 ffm-journal
+olsr/
+*.dump

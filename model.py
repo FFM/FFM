@@ -41,6 +41,8 @@
 #     2-Oct-2012 (CT) Add REST API to `create_top`
 #     5-Oct-2012 (CT) Pass `json_indent` to `GTW.RST.MOM.Scope`
 #    10-Oct-2012 (CT) Add `NET` to `PNS_Aliases`
+#     7-Dec-2012 (CT) Add `User_Nodes`
+#    14-Dec-2012 (CT) Add `User_Entities` for `Antenna` and `Net_Device`
 #    ««revision-date»»···
 #--
 
@@ -228,6 +230,18 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
                 ( name            = "my-nodes"
                 , short_title     = _T ("My Nodes")
                 , ETM             = "FFM.Node"
+                , login_required  = True
+                )
+            , RST_addons.User_Entities
+                ( name            = "my-devices"
+                , short_title     = _T ("My Devices")
+                , ETM             = "FFM.Net_Device"
+                , login_required  = True
+                )
+            , RST_addons.User_Entities
+                ( name            = "my-antennas"
+                , short_title     = _T ("My Antennas")
+                , ETM             = "FFM.Antenna"
                 , login_required  = True
                 )
             , TOP.Page_ReST

@@ -28,6 +28,9 @@
 # Revision Dates
 #     6-Dec-2012 (CT) Creation
 #     7-Dec-2012 (CT) Continue creation
+#    14-Dec-2012 (CT) Factor `Is_Owner_or_Manager`, set `child_permission_map`
+#    14-Dec-2012 (CT) Factor `GTW.RST.TOP.MOM.Admin_Restricted`
+#    14-Dec-2012 (CT) Factor `User_Entities`
 #    ««revision-date»»···
 #--
 
@@ -43,46 +46,63 @@ import _GTW._RST._TOP.import_TOP
 import _GTW._RST._TOP._MOM.import_MOM
 
 import _GTW._RST._TOP._MOM.Admin
-
-import _JNJ.Templateer
+import _GTW._RST._TOP._MOM.Admin_Restricted
 
 from   _MOM.import_MOM          import Q
 
 from   _TFL.Decorator           import getattr_safe
 from   _TFL.I18N                import _, _T, _Tn
 
-JNJ.Template ("user_nodes_admin", "html/user_nodes_admin.jnj")
+class Is_Owner_or_Manager (GTW.RST._Permission_) :
+    """Permission if user is the owner or manager of the object"""
 
-_Ancestor = GTW.RST.TOP.MOM.Admin.E_Type
+    def predicate (self, user, page, * args, ** kw) :
+        if user :
+            try :
+                qf = page.query_filters_restricted ()
+            except AttributeError :
+                pass
+            else :
+                if qf is not None :
+                    obj  = getattr (page, "obj", None)
+                    node = getattr (obj, "belongs_to_node", None)
+                    if node is not None :
+                        return qf (node)
+    # end def predicate
 
-class _User_Node_Changer_ (_Ancestor.Changer) :
+# end class Is_Owner_or_Manager
 
-    _real_name = "Changer"
+_Ancestor = GTW.RST.TOP.MOM.Admin_Restricted.E_Type
 
-    def allow_method (self, method, user) :
-        return self.user_has_permission (user)
-    # end def allow_method
+class User_Entities (_Ancestor) :
+    """Directory displaying instances of one E_Type belonging to the current user."""
 
-    def user_has_permission (self, user) :
-        person = user.person if user else None
-        if self.obj and person is not None :
-            return ((Q.owner == person) | (Q.manager == person)) (self.obj)
-    # end def user_has_permission
-
-Changer = _User_Node_Changer_ # end class
-
-class User_Nodes (_Ancestor) :
-    """Directory displaying the node instances belonging to the current user."""
-
-    Changer               = Changer
-    dir_template_name     = "user_nodes_admin"
-    dont_et_map           = True
-    skip_etag             = True
-
-    _entry_type_map       = dict \
-        ( _Ancestor._entry_type_map
-        , ** {Changer.name : Changer}
+    child_permission_map  = dict \
+        ( change          = Is_Owner_or_Manager
+        , delete          = Is_Owner_or_Manager
         )
+    restriction_desc      = _ ("owned/managed by")
+
+    @property
+    @getattr_safe
+    def user_restriction (self) :
+        user = self.top.user
+        return user.person if user else None
+    # end def user_restriction
+
+    def query_filters_restricted (self) :
+        person = self.user_restriction
+        if person is not None :
+            return \
+                ( (Q.belongs_to_node.owner   == person)
+                | (Q.belongs_to_node.manager == person)
+                )
+    # end def query_filters_restricted
+
+# end class User_Entities
+
+class User_Nodes (User_Entities) :
+    """Directory displaying the node instances belonging to the current user."""
 
     @property
     @getattr_safe
@@ -91,48 +111,21 @@ class User_Nodes (_Ancestor) :
         u = self.top.user
         if u and u.person :
             u = u.person
-        if u :
-            result.setdefault ("form_kw", {}).update \
-                ( manager = dict
-                    ( prefilled   = True
-                    , init        = u
+            if u :
+                result.setdefault ("form_kw", {}).update \
+                    ( manager = dict
+                        ( prefilled   = True
+                        , init        = u
+                        )
                     )
-                )
         return result
     # end def form_parameters
 
-    @property
-    @getattr_safe
-    def head_line (self) :
-        result = self.__super.head_line
-        u = self.top.user
-        if u and u.person :
-            u = u.person
-        if u :
-            u = u.FO
-            result = "%s: owned/managed by %s" % (result, u)
-        return result
-    # end def head_line
-
-    @property
-    @getattr_safe
-    def query_filters_d (self) :
-        user   = self.top.user
-        person = user.person if user else None
+    def query_filters_restricted (self) :
+        person = self.user_restriction
         if person is not None :
-            result = (Q.owner == person) | (Q.manager == person)
-        else :
-            result = (Q.pid == 0) ### don't show any entries
-        return (result, ) + self.__super.query_filters_d
-    # end def query_filters_d
-
-    @property
-    @getattr_safe
-    def _change_info_key (self) :
-        user = self.top.user
-        pid  = user.pid if user else None
-        return self.__super._change_info_key, pid
-    # end def _change_info_key
+            return (Q.owner == person) | (Q.manager == person)
+    # end def query_filters_restricted
 
 # end class User_Nodes
 
