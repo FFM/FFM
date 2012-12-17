@@ -32,6 +32,7 @@
 #    22-Sep-2012 (RS) Remove `A_Wireless_Protocol`
 #    20-Nov-2012 (CT) Fix `A_TX_Power._from_string`, add `_default_unit`
 #    05-Dec-2012 (RS) Add `A_Polarization`
+#    17-Dec-2012 (RS) Fix unit dBW, use decadic logarithm for dB
 #    ««revision-date»»···
 #--
 
@@ -66,7 +67,7 @@ class A_Polarization (_A_Named_Value_) :
 # end class A_Polarization
 
 class A_TX_Power (_A_Unit_, _A_Float_) :
-    """Transmit Power specified in units of W or dBW, dBm,
+    """Transmit Power specified in multiples of W or dBW, dBm,
        converted to dBm.
     """
 
@@ -90,10 +91,10 @@ class A_TX_Power (_A_Unit_, _A_Float_) :
         if pat.search (s) :
             unit = pat.unit
         if unit.startswith ('dB') :
-            if unit == 'dbW' :
+            if unit == 'dBW' :
                 v += 30
         else :
-            v = log (v) * 10.
+            v = log (v) / log (10) * 10.
         return v
     # end def _from_string
 
