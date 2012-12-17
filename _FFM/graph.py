@@ -39,6 +39,7 @@
 #    22-Nov-2012 (CT) Add `Role.left` to `Wireless_Channel`
 #    22-Nov-2012 (RS) Move `Net_Interface_in_IP_Network.right` to South
 #     8-Dec-2012 (RS) Add `Antenna_Band`
+#    17-Dec-2012 (CT) Remove `Wireless_Mode`
 #    ««revision-date»»···
 #--
 
@@ -133,20 +134,10 @@ def graph (app_type) :
                     ( Child.FFM.Net_Link
                     , offset = CD.S
                     )
-                , ET.FFM._Wireless_Mode_
-                    ( Child.FFM.Ad_Hoc_Mode
-                        ( offset = CD.SW
-                        )
-                    , Child.FFM.AP_Mode
-                        ( offset = CD.S
-                        )
-                    , Child.FFM.Client_Mode
-                        ( offset = CD.SE
-                        )
-                    , offset = CD.SW
-                    )
                 , ET.FFM.Wireless_Interface_uses_Antenna
-                    ( Role.left (guide_offset = 1.5)
+                    ( Role.left
+                        ( guide_offset = 1.5
+                        )
                     , Role.right
                         ( anchor      = False
                         , source_side = "W"
