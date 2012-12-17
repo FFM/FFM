@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #     6-Mar-2012 (CT) Creation
+#     8-Dec-2012 (RS) Add `desc`
 #    ««revision-date»»···
 #--
 
@@ -67,6 +68,15 @@ class Device (_Ancestor_Essence) :
             completer          = Attr.Completer_Spec  (2, Attr.Selector.primary)
 
         # end class name
+
+        ### Non-primary attributes
+
+        class desc (A_Text) :
+            """Description of device"""
+
+            kind               = Attr.Optional
+
+        # end class desc
 
     # end class _Attributes
 
