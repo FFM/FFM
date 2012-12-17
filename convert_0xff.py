@@ -389,11 +389,18 @@ class Convert (object) :
         # FIXME: We want correct info from nodes directly
         # looks like most firmware can give us this info
         devtype = self.ffm.Net_Device_Type.instance (name = 'Generic')
+        comments = dict \
+            ( hardware = 'Hardware'
+            , antenna  = 'Antenne'
+            , comment  = 'Kommentar'
+            )
+        desc = '\n'.join \
+            (': '.join ((v, d [k])) for k, v in comments.iteritems () if d [k])
         dev = self.ffm.Net_Device \
             ( left = devtype
             , node = node
             , name = d.name
-            , desc = d.hardware
+            , desc = desc
             , raw  = True
             )
         self.set_last_change (dev, d.changed, d.created)
