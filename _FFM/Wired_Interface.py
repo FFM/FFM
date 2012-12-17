@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    10-May-2012 (CT) Creation
+#    17-Dec-2012 (RS) Add `auto_cache` for `left`
 #    ««revision-date»»···
 #--
 
@@ -46,6 +47,13 @@ class Wired_Interface (_Ancestor_Essence) :
     class _Attributes (_Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
+
+        class left (_Ancestor.left) :
+            """Type of net device"""
+
+            auto_cache         = True
+
+        # end class left
 
         ### Phy, speed
 

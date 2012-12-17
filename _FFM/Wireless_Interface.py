@@ -33,6 +33,7 @@
 #                     add `frequency`
 #    20-Aug-2012 (RS) cleanup, remove `frequency`, use `A_TX_Power`
 #    13-Sep-2012 (RS) remove `protocol`, add `standard`
+#    17-Dec-2012 (RS) Add `auto_cache` for `left`
 #    ««revision-date»»···
 #--
 
@@ -55,6 +56,13 @@ class Wireless_Interface (_Ancestor_Essence) :
     class _Attributes (_Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
+
+        class left (_Ancestor.left) :
+            """Type of net device"""
+
+            auto_cache         = True
+
+        # end class left
 
         ### Non-primary attributes
 
