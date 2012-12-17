@@ -39,6 +39,7 @@
 #    18-Sep-2012 (RS) Remove `Subject_owns_Node`
 #    11-Oct-2012 (RS) `Nickname` from `PAP`
 #     7-Dec-2012 (RS) Add Spec for `Antenna_Type`
+#    17-Dec-2012 (RS) Add Specs for `Antenna` and `Net_Device`
 #    ««revision-date»»···
 #--
 
@@ -189,8 +190,10 @@ from   _GTW._AFS._MOM import Spec
 
 FFM.Antenna_Type.GTW.afs_spec = Spec.Entity (include_links = ("bands",))
 
+FFM.Antenna.GTW.afs_spec = Spec.Entity (include_links = ("interface", ))
+FFM.Net_Device.GTW.afs_spec = Spec.Entity \
+    (include_links = ("wired_interfaces", "wireless_interfaces"))
 ### FFM.Net_Device_Type.GTW.afs_spec = Spec.Entity (include_links = ("FFM.Device_Type_made_by_Company", ))
-### ??? FFM.Antenna.GTW.afs_spec = Spec.Entity (include_links = ("interface", ))
 FFM.Wireless_Interface.GTW.afs_spec = Spec.Entity \
     (include_links = ("antennas", ))
 
