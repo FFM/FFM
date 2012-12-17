@@ -40,6 +40,7 @@
 #    22-Nov-2012 (RS) Move `Net_Interface_in_IP_Network.right` to South
 #     8-Dec-2012 (RS) Add `Antenna_Band`
 #    17-Dec-2012 (CT) Remove `Wireless_Mode`
+#    17-Dec-2012 (RS) Skip explicit links from children of `Net_Interface`
 #    ««revision-date»»···
 #--
 
@@ -130,7 +131,8 @@ def graph (app_type) :
                 , offset = CD.E * 2
                 )
             , Child.FFM.Wireless_Interface
-                ( ET.FFM.Wireless_Link
+                ( Skip.left
+                , ET.FFM.Wireless_Link
                     ( Child.FFM.Net_Link
                     , offset = CD.S
                     )
@@ -157,7 +159,8 @@ def graph (app_type) :
                 , offset = CD.W
                 )
             , Child.FFM.Wired_Interface
-                ( ET.FFM.Wired_Link
+                ( Skip.left
+                , ET.FFM.Wired_Link
                     ( Child.FFM.Net_Link
                     , offset = CD.S
                     )

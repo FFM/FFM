@@ -45,39 +45,6 @@
       </path>
     </marker>
   </defs>
-  <g id="FFM.AP_Mode" fill="#EDEDED" class="E_Type" opacity="1.0">
-    <title>
-      FFM.AP_Mode: Model the mode `access point`.
-    </title>
-    <rect height="100" stroke="#999" stroke-width="4" width="160" x="400"
-          y="1575"
-    />
-    <text fill="#003" font-family="sans-serif" font-size="18" x="409"
-          y="1575"
-    >
-      <tspan dx="0" dy="27.0" x="409">
-        FFM.AP_Mode
-      </tspan>
-    </text>
-  </g>
-  <g id="FFM.Ad_Hoc_Mode" fill="#EDEDED" class="E_Type" opacity="1.0">
-    <title>
-      FFM.Ad_Hoc_Mode: Model the mode `ad hoc`.
-    </title>
-    <rect height="100" stroke="#999" stroke-width="4" width="160" x="80"
-          y="1575"
-    />
-    <text fill="#003" font-family="sans-serif" font-size="18" x="89"
-          y="1575"
-    >
-      <tspan dx="0" dy="27.0" x="89">
-        FFM.Ad_Hoc
-      </tspan>
-      <tspan dx="9" dy="27.0" x="89">
-        _Mode
-      </tspan>
-    </text>
-  </g>
   <g id="FFM.Antenna" fill="#EDEDED" class="E_Type" opacity="1.0">
     <title>
       FFM.Antenna: Model an antenna used by a FFM node.
@@ -124,24 +91,6 @@
       </tspan>
       <tspan dx="9" dy="27.0" x="1369">
         _Type
-      </tspan>
-    </text>
-  </g>
-  <g id="FFM.Client_Mode" fill="#EDEDED" class="E_Type" opacity="1.0">
-    <title>
-      FFM.Client_Mode: Model the mode `client`.
-    </title>
-    <rect height="100" stroke="#999" stroke-width="4" width="160" x="720"
-          y="1575"
-    />
-    <text fill="#003" font-family="sans-serif" font-size="18" x="729"
-          y="1575"
-    >
-      <tspan dx="0" dy="27.0" x="729">
-        FFM.Client
-      </tspan>
-      <tspan dx="9" dy="27.0" x="729">
-        _Mode
       </tspan>
     </text>
   </g>
@@ -498,24 +447,6 @@
       </tspan>
     </text>
   </g>
-  <g id="FFM._Wireless_Mode_" fill="#EDEDED" class="E_Type" opacity="0.6">
-    <title>
-      FFM._Wireless_Mode_: Model the mode a wireless device operates in.
-    </title>
-    <rect height="100" stroke="#999" stroke-width="4" width="160" x="400"
-          y="1275"
-    />
-    <text fill="#003" font-family="sans-serif" font-size="18" x="409"
-          y="1275"
-    >
-      <tspan dx="0" dy="27.0" x="409">
-        FFM._Wireless
-      </tspan>
-      <tspan dx="9" dy="27.0" x="409">
-        _Mode_
-      </tspan>
-    </text>
-  </g>
   <g id="PAP.Company" fill="#EDEDED" class="E_Type" opacity="1.0">
     <title>
       PAP.Company: Model a company.
@@ -559,56 +490,6 @@
       <tspan dx="0" dy="27.0" x="729">
         PAP.Subject
       </tspan>
-    </text>
-  </g>
-  <g id="FFM.AP_Mode:is_a:FFM._Wireless_Mode_" opacity="1.0">
-    <title>
-      FFM.AP_Mode is-a FFM._Wireless_Mode_: FFM.AP_Mode is derived from FFM._Wireless_Mode_
-    </title>
-    <polyline fill="none" marker-end="url(#MOM:IM)"
-              points="480,1575 480,1375" stroke="#08D" stroke-opacity="0.45"
-              stroke-width="5"
-    />
-    <path d="M 480 1575 L 480 1375"
-          id="FFM.AP_Mode:is_a:FFM._Wireless_Mode_::path" fill="none"
-          stroke="none"
-    >
-    </path>
-    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
-          font-size="18"
-    >
-      <textPath startOffset="10%" text-anchor="start"
-                xlink:href="#FFM.AP_Mode:is_a:FFM._Wireless_Mode_::path"
-      >
-        <tspan dy="-7.0">
-          IS_A
-        </tspan>
-      </textPath>
-    </text>
-  </g>
-  <g id="FFM.Ad_Hoc_Mode:is_a:FFM._Wireless_Mode_" opacity="1.0">
-    <title>
-      FFM.Ad_Hoc_Mode is-a FFM._Wireless_Mode_: FFM.Ad_Hoc_Mode is derived from FFM._Wireless_Mode_
-    </title>
-    <polyline fill="none" marker-end="url(#MOM:IM)"
-              points="160,1575 160,1550 440,1550 440,1375" stroke="#08D"
-              stroke-opacity="0.45" stroke-width="5"
-    />
-    <path d="M 160 1550 L 440 1550"
-          id="FFM.Ad_Hoc_Mode:is_a:FFM._Wireless_Mode_::path" fill="none"
-          stroke="none"
-    >
-    </path>
-    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
-          font-size="18"
-    >
-      <textPath startOffset="2%" text-anchor="start"
-                xlink:href="#FFM.Ad_Hoc_Mode:is_a:FFM._Wireless_Mode_::path"
-      >
-        <tspan dy="-7.0">
-          IS_A
-        </tspan>
-      </textPath>
     </text>
   </g>
   <g id="FFM.Antenna.left:FFM.Antenna_Type" opacity="1.0">
@@ -696,31 +577,6 @@
     >
       <textPath startOffset="10%" text-anchor="start"
                 xlink:href="#FFM.Antenna_Type:is_a:FFM.Device_Type::path"
-      >
-        <tspan dy="-7.0">
-          IS_A
-        </tspan>
-      </textPath>
-    </text>
-  </g>
-  <g id="FFM.Client_Mode:is_a:FFM._Wireless_Mode_" opacity="1.0">
-    <title>
-      FFM.Client_Mode is-a FFM._Wireless_Mode_: FFM.Client_Mode is derived from FFM._Wireless_Mode_
-    </title>
-    <polyline fill="none" marker-end="url(#MOM:IM)"
-              points="800,1575 800,1550 520,1550 520,1375" stroke="#08D"
-              stroke-opacity="0.45" stroke-width="5"
-    />
-    <path d="M 520 1550 L 800 1550"
-          id="FFM.Client_Mode:is_a:FFM._Wireless_Mode_::path" fill="none"
-          stroke="none"
-    >
-    </path>
-    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
-          font-size="18"
-    >
-      <textPath startOffset="90%" text-anchor="end"
-                xlink:href="#FFM.Client_Mode:is_a:FFM._Wireless_Mode_::path"
       >
         <tspan dy="-7.0">
           IS_A
@@ -1159,15 +1015,15 @@
       </textPath>
     </text>
   </g>
-  <g id="FFM.Node.owner:PAP.Subject" opacity="1.0">
+  <g id="FFM.Node.owner:PAP.Person" opacity="1.0">
     <title>
       FFM.Node attribute owner: Owner of the node, defaults to manager
     </title>
     <polyline fill="none" marker-start="url(#MOM:AM)"
-              points="560,400 680,400 680,700 720,700" stroke="#FFA022"
-              stroke-opacity="0.7" stroke-width="5"
+              points="560,400 720,400" stroke="#FFA022" stroke-opacity="0.7"
+              stroke-width="5"
     />
-    <path d="M 560 400 L 680 400" id="FFM.Node.owner:PAP.Subject::path"
+    <path d="M 560 400 L 720 400" id="FFM.Node.owner:PAP.Person::path"
           fill="none" stroke="none"
     >
     </path>
@@ -1175,7 +1031,7 @@
           font-size="18"
     >
       <textPath startOffset="10%" text-anchor="start"
-                xlink:href="#FFM.Node.owner:PAP.Subject::path"
+                xlink:href="#FFM.Node.owner:PAP.Person::path"
       >
         <tspan dy="-7.0">
           owner
@@ -1186,7 +1042,7 @@
           font-size="18"
     >
       <textPath startOffset="10%" text-anchor="start"
-                xlink:href="#FFM.Node.owner:PAP.Subject::path"
+                xlink:href="#FFM.Node.owner:PAP.Person::path"
       >
         <tspan dy="18">
           [optional]
@@ -1199,10 +1055,10 @@
       FFM.Node is-a PAP.Subject: FFM.Node is derived from PAP.Subject
     </title>
     <polyline fill="none" marker-end="url(#MOM:IM)"
-              points="560,450 600,450 600,750 720,750" stroke="#08D"
+              points="560,450 600,450 600,725 720,725" stroke="#08D"
               stroke-opacity="0.45" stroke-width="5"
     />
-    <path d="M 600 450 L 600 750" id="FFM.Node:is_a:PAP.Subject::path"
+    <path d="M 600 450 L 600 725" id="FFM.Node:is_a:PAP.Subject::path"
           fill="none" stroke="none"
     >
     </path>
@@ -1446,9 +1302,9 @@
       FFM.Wireless_Link role left: Left network interface
     </title>
     <polyline fill="none" marker-start="url(#MOM:RM)"
-              points="800,1275 800,1075" stroke="#666" stroke-width="5"
+              points="760,1275 760,1075" stroke="#666" stroke-width="5"
     />
-    <path d="M 800 1275 L 800 1075"
+    <path d="M 760 1275 L 760 1075"
           id="FFM.Wireless_Link.left:FFM.Wireless_Interface::path"
           fill="none" stroke="none"
     >
@@ -1510,38 +1366,6 @@
     <text fill="#666" font-family="sans-serif" font-size="18">
       <textPath startOffset="10%" text-anchor="start"
                 xlink:href="#FFM._Net_Credentials_.left:FFM.Net_Interface::path"
-      >
-        <tspan dy="18">
-          0 .. 1
-        </tspan>
-      </textPath>
-    </text>
-  </g>
-  <g id="FFM._Wireless_Mode_.left:FFM.Wireless_Interface" opacity="1.0">
-    <title>
-      FFM._Wireless_Mode_ role interface: The wireless device operating in this mode.
-    </title>
-    <polyline fill="none" marker-start="url(#MOM:RM)"
-              points="480,1275 480,1250 760,1250 760,1075" stroke="#666"
-              stroke-width="5"
-    />
-    <path d="M 480 1250 L 760 1250"
-          id="FFM._Wireless_Mode_.left:FFM.Wireless_Interface::path"
-          fill="none" stroke="none"
-    >
-    </path>
-    <text fill="#666" font-family="sans-serif" font-size="18">
-      <textPath startOffset="2%" text-anchor="start"
-                xlink:href="#FFM._Wireless_Mode_.left:FFM.Wireless_Interface::path"
-      >
-        <tspan dy="-7.0">
-          left
-        </tspan>
-      </textPath>
-    </text>
-    <text fill="#666" font-family="sans-serif" font-size="18">
-      <textPath startOffset="2%" text-anchor="start"
-                xlink:href="#FFM._Wireless_Mode_.left:FFM.Wireless_Interface::path"
       >
         <tspan dy="18">
           0 .. 1
