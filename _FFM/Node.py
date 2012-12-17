@@ -38,7 +38,7 @@
 #    13-Dec-2012 (CT) Set `owner.P_Type` to `PAP.Person`
 #    13-Dec-2012 (CT) Set `owner.ui_allow_new` to `False`
 #    14-Dec-2012 (CT) Return `obj`, not `self`, from `belongs_to_node.computed`
-#    17-Dec-2012 (CT) set `manager.ui_allow_new` to `False`
+#    17-Dec-2012 (CT) Set `manager.ui_allow_new` to `False`
 #    ««revision-date»»···
 #--
 
