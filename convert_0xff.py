@@ -46,11 +46,6 @@ class Convert (object) :
         self.ffm          = self.scope.FFM
         self.pap          = self.scope.GTW.OMP.PAP
         self.mentor       = {}
-        self.modes        = dict \
-            ( client      = self.ffm.Client_Mode
-            , ap          = self.ffm.AP_Mode
-            , ad_hoc      = self.ffm.Ad_Hoc_Mode
-            )
         self.networks     = {}
         self.rsrvd_nets   = {}
         self.net_dupes    = {}
@@ -371,7 +366,7 @@ class Convert (object) :
             for a, c in self.phone_types.iteritems () :
                 x = getattr (d, a)
                 self.try_insert_phone (person, d, x, c)
-            if  (   d.mentor_id is not None 
+            if  (   d.mentor_id is not None
                 and d.mentor_id != d.id
                 and d.mentor_id != id
                 ) :
