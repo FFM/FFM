@@ -30,6 +30,7 @@
 #    24-Aug-2012 (RS) Add Wireless channels and standards,
 #                     add commented-out regulatory info for Austria.
 #    24-Sep-2012 (CT) Rename `Account_P` to `Account`
+#    17-Dec-2012 (RS) Add `Generic` `Antenna_Type`
 #    ««revision-date»»···
 #--
 
@@ -49,6 +50,15 @@ def create (scope) :
     Auth.Group ("FFM")
     Auth.Account_in_Group ("tanzer@swing.co.at", "FFM")
     FFM = scope.FFM
+    ant = FFM.Antenna_Type \
+        ( name         = "Generic"
+        , desc         = "for unknown antennae"
+        , gain         = "20.0"
+        , polarization = "horizontal"
+        , raw          = True
+        )
+    FFM.Antenna_Band \
+        (ant, band = dict (lower = "1 Hz", upper = "1 THz"), raw = True)
     FFM.Net_Device_Type \
         (name = "Generic", desc = "for unknown or planned devices", raw = True)
     s11a = FFM.Wireless_Standard \
