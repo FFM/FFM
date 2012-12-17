@@ -40,6 +40,7 @@
 #    11-Oct-2012 (RS) `Nickname` from `PAP`
 #     7-Dec-2012 (RS) Add Spec for `Antenna_Type`
 #    17-Dec-2012 (RS) Add Specs for `Antenna` and `Net_Device`
+#    17-Dec-2012 (RS) Add `display_list` for `Wireless_Interface`
 #    ««revision-date»»···
 #--
 
@@ -141,6 +142,7 @@ class Admin (object) :
 
     Wireless_Interface    = dict \
         ( ETM             = "FFM.Wireless_Interface"
+        , display_list    = ("left", "mac_address", "name", "is_active")
         )
 
     Wireless_Link         = dict \
