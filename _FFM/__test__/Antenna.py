@@ -28,6 +28,7 @@
 # Revision Dates
 #     5-Dec-2012 (RS) Creation
 #     7-Dec-2012 (RS) Test predicate `band_exists` of `Antenna_Type`
+#    17-Dec-2012 (RS) Add tests for attributes of `belongs_to_node`
 #    ««revision-date»»···
 #--
 
@@ -94,6 +95,25 @@ _test_code = """
     >>> b = FFM.Antenna (name = "6", gain = 22, ** args)
     >>> (b.gain, b.polarization)
     (22.0, 0)
+
+    >>> mgr = PAP.Person \\
+    ...     (first_name = 'Ralf', last_name = 'Schlatterbeck', raw = True)
+    >>> node = FFM.Node \\
+    ...     (name = "nogps", manager = mgr, position = None, raw = True)
+    >>> devtype = FFM.Net_Device_Type.instance_or_new \\
+    ...     (name = 'Generic', raw = True)
+    >>> dev = FFM.Net_Device \\
+    ...     (left = devtype, node = node, name = 'dev', raw = True)
+    >>> wl  = FFM.Wireless_Interface (left = dev, name = 'wl', raw = True)
+    >>> wia = FFM.Wireless_Interface_uses_Antenna (wl, b)
+    >>> FFM.Antenna.query (Q.interface == wl).count ()
+    1
+    >>> FFM.Antenna.query (Q.belongs_to_node.manager == mgr).count ()
+    1
+    >>> FFM.Wireless_Interface.query (Q.belongs_to_node.manager == mgr).count ()
+    1
+    >>> FFM.Wireless_Interface.query (Q.belongs_to_node.owner == mgr).count ()
+    1
 
     >>> scope.destroy ()
 

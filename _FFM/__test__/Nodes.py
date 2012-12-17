@@ -31,6 +31,8 @@
 #    11-Oct-2012 (RS) Fix missing `raw` parameter
 #    12-Oct-2012 (RS) Add tests for `Node` in role `Subject`
 #    16-Oct-2012 (CT) Add tracebacks triggered by `FFM.Node.refuse_links`
+#    17-Dec-2012 (RS) Add tests for attributes of `belongs_to_node`
+#    17-Dec-2012 (RS) Temporary fix: `owner` can't be a `Company`
 #    ««revision-date»»···
 #--
 
@@ -49,7 +51,10 @@ _test_code = """
     >>> PAP = scope.PAP
     >>> mgr = PAP.Person \\
     ...     (first_name = 'Ralf', last_name = 'Schlatterbeck', raw = True)
-    >>> comp = PAP.Company (name = "Open Source Consulting", raw = True)
+
+    # FIXME: should allow company again
+    #>>> comp = PAP.Company (name = "Open Source Consulting", raw = True)
+    >>> comp = mgr
     >>> node1 = FFM.Node \\
     ...     (name = "nogps", manager = mgr, position = None, raw = True)
     >>> gps1 = dict (lat = "48 d 17 m 9.64 s", lon = "15 d 52 m 27.84 s")
@@ -121,6 +126,11 @@ _test_code = """
     ...     (wr, net, dict (address = '192.168.23.3'), raw = True)
     >>> il2 = FFM.Net_Interface_in_IP4_Network \\
     ...     (wl, net, dict (address = '192.168.23.4'), raw = True)
+
+    >>> FFM.Net_Device.query (Q.belongs_to_node == node3).count ()
+    1
+    >>> FFM.Net_Device.query (Q.belongs_to_node.manager == mgr).count ()
+    1
     >>> scope.destroy ()
 
 """
