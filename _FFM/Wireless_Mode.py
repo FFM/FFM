@@ -29,97 +29,78 @@
 #    14-Mar-2012 (CT) Creation
 #    10-May-2012 (CT) Add `is_linkable`
 #     6-Dec-2012 (RS) Add `belongs_to_node`, add `max_links`
+#    17-Dec-2012 (CT) Change from essential type to basis for `A_Wireless_Mode`
 #    ««revision-date»»···
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
 
-from   _MOM.import_MOM        import *
-from   _FFM                   import FFM
-import _FFM.Entity
-import _FFM._Belongs_to_Node_
+from   _FFM                     import FFM
+from   _TFL                     import TFL
 
-_Ancestor_Essence = FFM.Link1
-_Mixin = FFM._Belongs_to_Node_
+from   _TFL.I18N                import _, _T, _Tn
 
-class _Wireless_Mode_ (_Mixin, _Ancestor_Essence) :
-    """Model the mode a wireless device operates in."""
+import _TFL._Meta.Object
 
-    is_partial = True
+class M_Wireless_Mode (TFL.Meta.Object.__class__) :
+    """Meta class for wireless-mode classes"""
 
-    class _Attributes (_Mixin._Attributes, _Ancestor_Essence._Attributes) :
+    Table = {}
 
-        _Ancestor = _Ancestor_Essence._Attributes
+    def __init__ (cls, name, bases, dct) :
+        cls.__m_super.__init__ (name, bases, dct)
+        if name != "Wireless_Mode" :
+            cls._m_add (name, cls.Table)
+    # end def __init__
 
-        ### Primary attributes
+    def __str__ (cls) :
+        return cls.__name__
+    # end def __str__
 
-        class left (_Ancestor.left) :
-            """The wireless device operating in this mode."""
+    def _m_add (cls, name, Table) :
+        name = unicode (name)
+        assert name not in Table, "Name clash: `%s` <-> `%s`" % \
+            (name, Table [name].__class__)
+        Table [name] = cls
+    # end def _m_add
 
-            role_type          = FFM.Wireless_Interface
-            role_name          = "interface"
-            auto_cache         = "mode"
-            max_links          = 1
+# end class M_Wireless_Mode
 
-        # end class left
+class Wireless_Mode (TFL.Meta.Object) :
 
-        ### *** BEWARE ***
-        ### To ensure that a `Wireless_Interface` has only one `mode`, no
-        ### other essential primary key attributes must be defined here or by
-        ### derived classes
+    __metaclass__ = M_Wireless_Mode
 
-    # end class _Attributes
+# end class Wireless_Mode
 
-# end class _Wireless_Mode_
+class Ad_Hoc (Wireless_Mode) :
+    """Ad-Hoc mode."""
 
-_Ancestor_Essence = _Wireless_Mode_
-
-class Ad_Hoc_Mode (_Ancestor_Essence) :
-    """Model the mode `ad hoc`."""
-
-    class _Attributes (_Ancestor_Essence._Attributes) :
-
-        _Ancestor = _Ancestor_Essence._Attributes
-
-    # end class _Attributes
-
-    def is_linkable (self, other) :
-        return isinstance (other, self.home_scope.FFM.Ad_Hoc_Mode.E_Type)
+    @classmethod
+    def is_linkable (cls, other) :
+        return other is cls
     # end def is_linkable
 
-# end class Ad_Hoc_Mode
+# end class Ad_Hoc
 
-class AP_Mode (_Ancestor_Essence) :
-    """Model the mode `access point`."""
+class AP (Wireless_Mode) :
+    """Access point mode."""
 
-    class _Attributes (_Ancestor_Essence._Attributes) :
-
-        _Ancestor = _Ancestor_Essence._Attributes
-
-        ### XXX
-
-    # end class _Attributes
-
-    def is_linkable (self, other) :
-        return isinstance (other, self.home_scope.FFM.Client_Mode.E_Type)
+    @classmethod
+    def is_linkable (cls, other) :
+        return other is Client
     # end def is_linkable
 
-# end class AP_Mode
+# end class AP
 
-class Client_Mode (_Ancestor_Essence) :
-    """Model the mode `client`."""
+class Client (Wireless_Mode) :
+    """Client mode."""
 
-    class _Attributes (_Ancestor_Essence._Attributes) :
-
-        _Ancestor = _Ancestor_Essence._Attributes
-
-    # end class _Attributes
-
-    def is_linkable (self, other) :
-        return isinstance (other, self.home_scope.FFM.AP_Mode.E_Type)
+    @classmethod
+    def is_linkable (cls, other) :
+        return other is AP
     # end def is_linkable
 
-# end class Client_Mode
+# end class Client
 
 if __name__ != "__main__" :
     FFM._Export ("*")

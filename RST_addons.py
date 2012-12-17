@@ -30,7 +30,8 @@
 #     7-Dec-2012 (CT) Continue creation
 #    14-Dec-2012 (CT) Factor `Is_Owner_or_Manager`, set `child_permission_map`
 #    14-Dec-2012 (CT) Factor `GTW.RST.TOP.MOM.Admin_Restricted`
-#    14-Dec-2012 (CT) Factor `User_Entities`
+#    14-Dec-2012 (CT) Factor `User_Entity`
+#    17-Dec-2012 (CT) Add `User_Node_Dependent` and descendents
 #    ««revision-date»»···
 #--
 
@@ -50,6 +51,7 @@ import _GTW._RST._TOP._MOM.Admin_Restricted
 
 from   _MOM.import_MOM          import Q
 
+from   _TFL._Meta.Once_Property import Once_Property
 from   _TFL.Decorator           import getattr_safe
 from   _TFL.I18N                import _, _T, _Tn
 
@@ -74,14 +76,30 @@ class Is_Owner_or_Manager (GTW.RST._Permission_) :
 
 _Ancestor = GTW.RST.TOP.MOM.Admin_Restricted.E_Type
 
-class User_Entities (_Ancestor) :
+class User_Entity (_Ancestor) :
     """Directory displaying instances of one E_Type belonging to the current user."""
 
     child_permission_map  = dict \
         ( change          = Is_Owner_or_Manager
         , delete          = Is_Owner_or_Manager
         )
+    et_map_name           = "admin_noom"
     restriction_desc      = _ ("owned/managed by")
+
+    def __init__ (self, ** kw) :
+        app_type = self.top.App_Type
+        ET_Map   = self.top.ET_Map
+        ETM      = kw.pop ("ETM", None) or self._ETM
+        pns, etm = ETM.split (".")
+        PNS      = app_type.PNS_Map [pns]
+        Nav      = getattr (getattr (PNS, "Nav", None), "Admin", None)
+        xkw      = dict \
+            ( getattr (Nav, etm, {})
+            , ETM = ETM
+            , ** kw
+            )
+        self.__super.__init__ (** xkw)
+    # end def __init__
 
     @property
     @getattr_safe
@@ -99,10 +117,12 @@ class User_Entities (_Ancestor) :
                 )
     # end def query_filters_restricted
 
-# end class User_Entities
+# end class User_Entity
 
-class User_Nodes (User_Entities) :
+class User_Node (User_Entity) :
     """Directory displaying the node instances belonging to the current user."""
+
+    _ETM                  = "FFM.Node"
 
     @property
     @getattr_safe
@@ -127,6 +147,91 @@ class User_Nodes (User_Entities) :
             return (Q.owner == person) | (Q.manager == person)
     # end def query_filters_restricted
 
-# end class User_Nodes
+# end class User_Node
+
+class User_Node_Dependent (User_Entity) :
+    """Temporary until query attributes with chained Q expressions work"""
+
+    ET_depends            = "FFM.Node" ### E_Type we depend on
+    cr_attr               = "left"     ### name of attribute referring to
+                                       ### E_Type instance we depend on
+
+    @Once_Property
+    @getattr_safe
+    def change_query_filters (self) :
+        ETd  = getattr (self.top.ET_Map [self.ET_depends], self.et_map_name)
+        result = \
+            ( self.__super.change_query_filters [0]
+            | ETd.change_query_filters          [0]
+            ,
+            )
+        return result
+    # end def change_query_filters
+
+    def query_filters_restricted (self) :
+        person = self.user_restriction
+        if person is not None :
+            ETd  = getattr \
+                (self.top.ET_Map [self.ET_depends], self.et_map_name)
+            pids = [x.pid for x in ETd.objects]
+            qa   = getattr (Q, self.cr_attr)
+            return qa.IN (pids)
+    # end def query_filters_restricted
+
+# end class User_Node_Dependent
+
+class User_Net_Device (User_Node_Dependent) :
+
+    cr_attr               = "node"
+    _ETM                  = "FFM.Net_Device"
+
+    @property
+    @getattr_safe
+    def form_parameters (self) :
+        result = self.__super.form_parameters
+        u = self.top.user
+        if u and u.person :
+            u = u.person
+            if u :
+                result.setdefault ("form_kw", {}).update \
+                    ( node = dict
+                        ( manager = dict
+                            ( prefilled   = True
+                            , init        = u
+                            )
+                        )
+                    )
+        return result
+    # end def form_parameters
+
+# end class User_Net_Device
+
+class User_Wired_Interface (User_Node_Dependent) :
+
+    ET_depends            = "FFM.Net_Device"
+    _ETM                  = "FFM.Wired_Interface"
+
+# end class User_Wired_Interface
+
+class User_Wireless_Interface (User_Node_Dependent) :
+
+    ET_depends            = "FFM.Net_Device"
+    _ETM                  = "FFM.Wireless_Interface"
+
+# end class User_Wireless_Interface
+
+class User_Wireless_Interface_uses_Antenna (User_Node_Dependent) :
+
+    ET_depends            = "FFM.Wireless_Interface"
+    _ETM                  = "FFM.Wireless_Interface_uses_Antenna"
+
+# end class User_Wireless_Interface_uses_Antenna
+
+class User_Wireless_Interface_uses_Wireless_Channel (User_Node_Dependent) :
+
+    ET_depends            = "FFM.Wireless_Interface"
+    _ETM                  = "FFM.Wireless_Interface_uses_Wireless_Channel"
+
+# end class User_Wireless_Interface_uses_Wireless_Channel
 
 ### __END__ RST_addons

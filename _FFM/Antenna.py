@@ -33,6 +33,7 @@
 #    05-Dec-2012 (RS) Remove `orientation`, add `polarization`
 #    06-Dec-2012 (RS) Add `belongs_to_node`
 #    14-Dec-2012 (CT) Change `belongs_to_node.kind` to `Attr.Query`
+#    17-Dec-2012 (CT) Set `belongs_to_node.hidden` to `True`
 #    ««revision-date»»···
 #--
 
@@ -81,6 +82,7 @@ class Antenna (_Ancestor_Essence) :
 
             kind               = Attr.Query
             auto_up_depends    = ("interface", )
+            hidden             = True
             P_Type             = FFM.Node
 
             def query_fct (self) :

@@ -28,6 +28,7 @@
 # Revision Dates
 #    29-Mar-2012 (CT) Creation
 #     4-Dec-2012 (CT) Remove `http:` (--> protocol-relative)
+#    17-Dec-2012 (CT) Add rules for `textarea.Long` and `.Very-Long`
 #    ««revision-date»»···
 #--
 
@@ -58,6 +59,14 @@ style_sheet = Style_Sheet \
         , outline             = 0
         , padding             = TRBL0 (l = Px (5), t = Px (5))
         , vertical_align      = "top"
+        )
+    , Rule
+        ( "textarea.Long"
+        , height              = Em (5)
+        )
+    , Rule
+        ( "textarea.Very-Long"
+        , height              = Em (10)
         )
     )
 

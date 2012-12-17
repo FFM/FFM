@@ -28,6 +28,7 @@
 # Revision Dates
 #     6-Mar-2012 (CT) Creation
 #     8-Dec-2012 (RS) Add `desc`
+#    17-Dec-2012 (CT) Use `ui_type_name` in docstrings
 #    ««revision-date»»···
 #--
 
@@ -51,7 +52,7 @@ class Device (_Ancestor_Essence) :
         ### Primary attributes
 
         class left (_Ancestor.left) :
-            """Type of device"""
+            """Type of %(ui_type_name)s"""
 
             role_type          = FFM.Device_Type
             role_name          = "type"
@@ -60,7 +61,7 @@ class Device (_Ancestor_Essence) :
         # end class left
 
         class name (A_String) :
-            """Name of device"""
+            """Name of %(ui_type_name)s"""
 
             kind               = Attr.Primary_Optional
             max_length         = 40

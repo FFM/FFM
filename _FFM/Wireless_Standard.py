@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    20-Aug-2012 (RS) Creation
+#    17-Dec-2012 (CT) Change `name.completer.treshold` to `0` (was `2`)
 #    ««revision-date»»···
 #--
 
@@ -52,7 +53,7 @@ class Wireless_Standard (_Ancestor_Essence) :
             kind               = Attr.Primary
             max_length         = 20
             ignore_case        = True
-            completer          = Attr.Completer_Spec  (2, Attr.Selector.primary)
+            completer          = Attr.Completer_Spec  (0, Attr.Selector.primary)
 
         # end class name
 

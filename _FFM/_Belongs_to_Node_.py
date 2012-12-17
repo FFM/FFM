@@ -28,6 +28,7 @@
 # Revision Dates
 #     6-Dec-2012 (CT) Creation
 #    14-Dec-2012 (CT) Change `belongs_to_node.kind` to `Attr.Query`
+#    17-Dec-2012 (CT) Set `belongs_to_node.hidden` to `True`
 #    ««revision-date»»···
 #--
 
@@ -49,10 +50,11 @@ class _Belongs_to_Node_ (_Ancestor_Essence) :
         _Ancestor = _Ancestor_Essence._Attributes
 
         class belongs_to_node (A_Id_Entity) :
-            """Node this %(ui_name)s belongs to."""
+            """Node this %(ui_type_name)s belongs to."""
 
             kind               = Attr.Query
             auto_up_depends    = ("left", )
+            hidden             = True
             P_Type             = FFM.Node
 
             def query_fct (self) :
