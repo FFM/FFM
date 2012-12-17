@@ -30,6 +30,7 @@
 #    30-Aug-2012 (CT) Add `primary` attribute `node`
 #     6-Dec-2012 (RS) Add `belongs_to_node`
 #    14-Dec-2012 (CT) Change `belongs_to_node.kind` to `Attr.Query`
+#    17-Dec-2012 (CT) Set `belongs_to_node.hidden` to `True`
 #    ««revision-date»»···
 #--
 
@@ -70,6 +71,7 @@ class Net_Device (_Ancestor_Essence) :
 
             kind               = Attr.Query
             auto_up_depends    = ("node", )
+            hidden             = True
             P_Type             = FFM.Node
 
             def query_fct (self) :

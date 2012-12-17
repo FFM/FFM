@@ -32,6 +32,7 @@
 #    22-Sep-2012 (RS) Remove `A_Wireless_Protocol`
 #    20-Nov-2012 (CT) Fix `A_TX_Power._from_string`, add `_default_unit`
 #    05-Dec-2012 (RS) Add `A_Polarization`
+#    17-Dec-2012 (CT) Add `A_Wireless_Mode`
 #    ««revision-date»»···
 #--
 
@@ -43,6 +44,8 @@ from   _MOM.import_MOM          import *
 from   _MOM.import_MOM          import _A_Unit_, _A_Float_, _A_Named_Value_
 from   _FFM                     import FFM
 from   _TFL.I18N                import _
+
+import _FFM.Wireless_Mode
 
 class A_Polarization (_A_Named_Value_) :
     """Antenna polarisation"""
@@ -98,6 +101,15 @@ class A_TX_Power (_A_Unit_, _A_Float_) :
     # end def _from_string
 
 # end class A_TX_Power
+
+class A_Wireless_Mode (MOM.Attr._A_Named_Object_) :
+    """Wireless mode to use for %(ui_type_name)s"""
+
+    example     = u"Ad_Hoc"
+    typ         = "wl-mode"
+    Table       = FFM.Wireless_Mode.Table
+
+# end class A_Wireless_Mode
 
 __all__ = tuple \
     (  k for (k, v) in globals ().iteritems ()

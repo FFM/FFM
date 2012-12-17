@@ -41,8 +41,9 @@
 #     2-Oct-2012 (CT) Add REST API to `create_top`
 #     5-Oct-2012 (CT) Pass `json_indent` to `GTW.RST.MOM.Scope`
 #    10-Oct-2012 (CT) Add `NET` to `PNS_Aliases`
-#     7-Dec-2012 (CT) Add `User_Nodes`
-#    14-Dec-2012 (CT) Add `User_Entities` for `Antenna` and `Net_Device`
+#     7-Dec-2012 (CT) Add `User_Node`
+#    17-Dec-2012 (CT) Add `User_Net_Device`, ...
+#    17-Dec-2012 (CT) Wrap `User_...` resources in `TOP.Dir`
 #    ««revision-date»»···
 #--
 
@@ -226,23 +227,35 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
         TOP = RST.TOP
         result = rst_top.create (cmd, ** kw)
         result.add_entries \
-            ( RST_addons.User_Nodes
-                ( name            = "my-nodes"
-                , short_title     = _T ("My Nodes")
-                , ETM             = "FFM.Node"
+            ( TOP.Dir
+                ( name            = "My-Funkfeuer"
+                , short_title     = "My Funkfeuer"
                 , login_required  = True
-                )
-            , RST_addons.User_Entities
-                ( name            = "my-devices"
-                , short_title     = _T ("My Devices")
-                , ETM             = "FFM.Net_Device"
-                , login_required  = True
-                )
-            , RST_addons.User_Entities
-                ( name            = "my-antennas"
-                , short_title     = _T ("My Antennas")
-                , ETM             = "FFM.Antenna"
-                , login_required  = True
+                , entries         =
+                    [ RST_addons.User_Node
+                        ( name            = "node"
+                        )
+                    , RST_addons.User_Net_Device
+                        ( name            = "device"
+                        , short_title     = _T ("Device")
+                        )
+                    , RST_addons.User_Wired_Interface
+                        ( name            = "wired-interface"
+                        , short_title     = _T ("Wired IF")
+                        )
+                    , RST_addons.User_Wireless_Interface
+                        ( name            = "wireless-interface"
+                        , short_title     = _T ("Wireless IF")
+                         )
+                    , RST_addons.User_Wireless_Interface_uses_Antenna
+                        ( name            = "wireless-interface-uses-antenna"
+                        , short_title     = _T ("WIF Antenna")
+                        )
+                    , RST_addons.User_Wireless_Interface_uses_Wireless_Channel
+                        ( name            = "wireless-interface-uses-channel"
+                        , short_title     = _T ("WIF Channel")
+                        )
+                    ]
                 )
             , TOP.Page_ReST
                 ( name            = "Funkfeuer"

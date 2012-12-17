@@ -31,9 +31,11 @@
 #                     `Necessary`
 #    17-Aug-2012 (AK) `SSID` -> `ESSID`, add `BSSID`, `power` -> `tx_power`
 #                     add `frequency`
-#    20-Aug-2012 (RS) cleanup, remove `frequency`, use `A_TX_Power`
-#    13-Sep-2012 (RS) remove `protocol`, add `standard`
+#    20-Aug-2012 (RS) Cleanup, remove `frequency`, use `A_TX_Power`
+#    13-Sep-2012 (RS) Remove `protocol`, add `standard`
 #    17-Dec-2012 (RS) Add `auto_cache` for `left`
+#    17-Dec-2012 (CT) Add attribute `mode`
+#    17-Dec-2012 (CT) Set `standard.ui_allow_new` to `False`
 #    ««revision-date»»···
 #--
 
@@ -66,11 +68,19 @@ class Wireless_Interface (_Ancestor_Essence) :
 
         ### Non-primary attributes
 
+        class mode (A_Wireless_Mode) :
+
+            kind               = Attr.Optional
+            raw_default        = "Ad_Hoc"
+
+        # end class mode
+
         class standard (A_Id_Entity) :
             """Wireless standard used by the wireless interface."""
 
             kind               = Attr.Necessary
             P_Type             = FFM.Wireless_Standard
+            ui_allow_new       = False
 
         # end class standard
 
