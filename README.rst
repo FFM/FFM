@@ -111,6 +111,8 @@ System requirements
 
   * `pytz`_
 
+  * `py-bcrypt`_
+
   * `rcssmin`_, `rjsmin`_ (for minimization of CSS and Javascript files)
 
   * `rsclib`_
@@ -131,6 +133,7 @@ System requirements
 .. _`psycopg2`:        http://packages.python.org/psycopg2/
 .. _`mysql package`:   http://mysql-python.sourceforge.net/
 .. _`pytz`:            http://pytz.sourceforge.net/
+.. _`py-bcrypt`:       http://www.mindrot.org/projects/py-bcrypt/
 .. _`rcssmin`:         http://opensource.perlig.de/rcssmin/
 .. _`rjsmin`:          http://opensource.perlig.de/rjsmin/
 .. _`rsclib`:          http://rsclib.sourceforge.net/
