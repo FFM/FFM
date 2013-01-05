@@ -159,7 +159,7 @@ The mailer's purpose is to inform users.
 
 In order to fullfill it's job, it needs access to the person registry in order to figure out how that person can be contacted (mail, encrypted mail, twitter, IM, notification in the dashboard,...) and then contacts the user accordingly.
 The mail offers an API interface to the dashboard(s):
-  contact_user(user_id, message)
+  contact_user(user_id, priority, message)
 
 
 == Map ==
