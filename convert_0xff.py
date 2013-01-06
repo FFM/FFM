@@ -424,8 +424,12 @@ class Convert (object) :
     # end def create_interface
 
     def create_interfaces_for_dev (self, dev, d, ip) :
-        if len (self.ip_by_dev [d.id]) > 1 :
-            for n, dev_ip in enumerate (self.ip_by_dev [d.id]) :
+        ips = self.ip_by_dev [d.id]
+        l = len (ips)
+        if l > 1 :
+            print "WARN: dev %s.%s has %d ips: %s" \
+                % (dev.node.name, d.name, l, ', '.join (i.ip for i in ips))
+            for n, dev_ip in enumerate (ips) :
                 name = "%s-%d" % (d.name, n)
                 self.create_interface (dev, name, dev_ip)
                 dev_ip.set_done ()
