@@ -38,7 +38,9 @@ class Convert (object) :
         self.olsr_hna     = olsr_parser.hna
         self.rev_mid      = {}
         for k, v in self.olsr_mid.iteritems () :
-            assert k in self.olsr_nodes
+            if k not in self.olsr_nodes :
+                print "WARN: MIB %s: not in OLSR Topology" % k
+            #assert k in self.olsr_nodes
             for mid in v :
                 assert mid not in self.rev_mid
                 self.rev_mid [mid] = True
