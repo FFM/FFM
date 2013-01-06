@@ -97,6 +97,8 @@ The following use cases should be possible:
  * admin/mentor upgrades normal user to admin/mentor
  * user with admin/mentor privileges switches to admin/mentor role
      (when admin/mentor role is selected dashboard shows more information - ie. all nodes not only those owned by the user)
+ * admin/mentor switches to user role
+     (only nodes and resources owned by the user will be shown)
  * user creates a new node via the map (embedded or standalone)
      (should be possible before user gets verified)
  * user creates devices for the node (manually or by wizard)
@@ -106,15 +108,15 @@ The following use cases should be possible:
     @wizard: for given hardware select use cases (mesh node, access point, backbone, ...) -> interfaces, firmware
      (should be possible before user gets verified)
  * user selects firmware to be used for the device (freifunk, backfire-vienna, airos, custom, ...)
-   @wizard: based on use case (see above) propose firmware ('custom' is always an alternative)
+    @wizard: based on use case (see above) propose firmware ('custom' is always an alternative)
      (should be possible before user gets verified)
  * assign IP addresses for the devices (manually or by wizard)
-   @wizard: based on use case (see above) propose IP addresses (expert view: different ip range, NAT, dhcp, ...) 
+    @wizard: based on use case (see above) propose IP addresses (expert view: different ip range, NAT, dhcp, ...) 
      (only to verfied users)
      (unverified users may get an IP inside a test range)
  * user triggers the firmware/configuration generator and downloads a custom firmware/configuration for the selected device(s)
  * user prints node construction proposal containing detailed instruction how to flash/configure/connect devices
-     (instructions should be usable on rooftops!)
+     (printed instructions should be usable on rooftops!)
  * if address of offline node reaches GW -> redirect to landing page which marks node and (all) devices as online
      (new nodes are always marked offline)
      (landing page may use password to verify the update - if the user forgot her/his password the online state
@@ -131,8 +133,9 @@ The following use cases should be possible:
      (using a doodle-like poll)
  * user creates a collobartive TODO/Task list for group of users
  * user (de)registers device for autoupdate service
+ * user (de)registers monitoring for links (i.e. backbone link between 2 devices)
  * a user can configure how he/she wants to be reached via the mailer
- * user sets privacy - i.e. hide contact addresses, phone number, real name...
+ * user sets privacy - i.e. hide contact addresses, phone number, real name, postal address...
      (user is always reachable using the mailer service)
  * the user gets reminders of the dasboard when:
    - a device or link is not online for a given amount of time
@@ -140,6 +143,7 @@ The following use cases should be possible:
    - a device has known security vulnerabilities and needs patching
    - a user's device is assigned IP addresses which were not in use for a long time and therefore need to be reclaimed
    - a user should verify his data and update outdated data
+   - a important link between 2 devices (backbone) goes down
  * user contacts owner/tech of neigbours/other nodes, i.e.: ask questions, invitation to drink beer, ...
      (using mailer)
  * user renames a node/device
@@ -156,9 +160,9 @@ The following use cases should be possible:
      (ask what about existing nodes?)
 
 XXX ADD STUFF FROM THE COMMUNITY XXX
- * change config -> warning may disrupt network service
- * what about breakage after update/config change????
- * config update: what about ip changes (swap address between devices????)
+ * change config -> warning may disrupt network service - revert?
+ * what about breakage after update/config change???? revert? -> firmware!
+ * config update: how handle ip changes, especially how to swap address between devices
 XXX
 
 
