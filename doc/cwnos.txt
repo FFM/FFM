@@ -112,12 +112,15 @@ The following use cases should be possible:
    @wizard: based on use case (see above) propose IP addresses (expert view: different ip range, NAT, dhcp, ...) 
      (only to verfied users)
      (unverified users may get an IP inside a test range)
- * user triggers the firmware/configuration generator and downloads a custom firmware/configuration for the selected device(s).
+ * user triggers the firmware/configuration generator and downloads a custom firmware/configuration for the selected device(s)
+ * user prints node construction proposal containing detailed instruction how to flash/configure/connect devices
+     (instructions should be usable on rooftops!)
  * if address of offline node reaches GW -> redirect to landing page which marks node and (all) devices as online
      (new nodes are always marked offline)
-     (landing page may use password to verify the update - user may use sms to reset the forgotten password) 
+     (landing page may use password to verify the update - if the user forgot her/his password the online state
+      is limited to xx hours/minutes - permanent online only with password!)
      (user may select a subset of devices of the node as online)
-     (if ip is inside test range the node goes offline automatically after xx hours/minutes and may only have
+     (if ip is inside test range the node goes automatically offline after xx hours/minutes and may only have
       limited internet service)
  * user marks nodes/devices online/offline(down for maintenance)
  * user checks dashboard for mismatch of planned (nodedb) and actual (statistics) values
@@ -127,6 +130,7 @@ The following use cases should be possible:
  * users(neighbours) use dashboard to vote new channel
      (using a doodle-like poll)
  * user creates a collobartive TODO/Task list for group of users
+ * user (de)registers device for autoupdate service
  * a user can configure how he/she wants to be reached via the mailer
  * user sets privacy - i.e. hide contact addresses, phone number, real name...
      (user is always reachable using the mailer service)
@@ -149,8 +153,13 @@ The following use cases should be possible:
      (old owner must confirm)
  * user deletes a node/device
  * user deletes the user account
+     (ask what about existing nodes?)
 
 XXX ADD STUFF FROM THE COMMUNITY XXX
+ * change config -> warning may disrupt network service
+ * what about breakage after update/config change????
+ * config update: what about ip changes (swap address between devices????)
+XXX
 
 
 == Mailer ==
