@@ -238,47 +238,15 @@ class Interface_Config (Parser) :
 
 # end class Interface_Config
 
-class WLAN_Config (Parser) :
-    re_ssid   = re.compile (r'^SSID:\s+"([^"]+)"')
-    re_mode   = re.compile \
-        (r'Mode:\s+(.*)\s+(?:rssi|RSSI).*Channel:\s+(\d+)')
-    re_bssid  = re.compile (r'BSSID:\s+%(pt_mac)s' % globals ())
-    re_ssid_e = re.compile \
-        (r'\s+'.join ((re_ssid.pattern, re_mode.pattern, re_bssid.pattern)))
-    print re_ssid_e.pattern
-    matrix = \
-        [ ["init",   re_ssid_e, "init",   "p_ssid"]
-        , ["init",   re_ssid,   "init",   "p_ssid"]
-        , ["init",   re_mode,   "init",   "p_mode"]
-        , ["init",   re_bssid,  "init",   "p_bssid"]
-        , ["init",   None,      "init",   None]
-        ]
+class WLAN_Config (autosuper) :
 
     def __init__ (self, **kw) :
-        self.ssid    = None
-        self.mode    = None
-        self.channel = None
-        self.bssid   = None
-        self.__super.__init__ (verbose = 4, **kw)
+        self.ssid    = kw.get ('ssid')
+        self.mode    = kw.get ('mode')
+        self.channel = kw.get ('channel')
+        self.bssid   = kw.get ('bssid')
+        self.__super.__init__ (** kw)
     # end def __init__
-
-    def p_bssid (self, state, new_state, match) :
-        self.bssid = match.group (1)
-    # end def p_bssid
-
-    def p_mode (self, state, new_state, match) :
-        self.mode    = match.group (1).strip ()
-        self.channel = match.group (2)
-    # end def p_mode
-
-    def p_ssid (self, state, new_state, match) :
-        print match.groups ()
-        self.ssid = match.group (1)
-        if len (match.groups ()) > 1 :
-            self.mode    = match.group (2)
-            self.channel = match.group (3)
-            self.bssid   = match.group (4)
-    # end def p_ssid
 
     def __str__ (self) :
         x = [self.__class__.__name__, "\n        ( "]
@@ -292,6 +260,48 @@ class WLAN_Config (Parser) :
     __repr__ = __str__
 
 # end class WLAN_Config
+
+class WLAN_Config_Freifunk (WLAN_Config, Parser) :
+    re_ssid   = re.compile (r'^SSID:\s+"([^"]+)"')
+    re_mode   = re.compile \
+        (r'Mode:\s+(.*)\s+(?:rssi|RSSI).*Channel:\s+(\d+)')
+    re_bssid  = re.compile (r'BSSID:\s+%(pt_mac)s' % globals ())
+    re_ssid_e = re.compile \
+        (r'\s+'.join ((re_ssid.pattern, re_mode.pattern, re_bssid.pattern)))
+    matrix = \
+        [ ["init",   re_ssid_e, "init",   "p_ssid"]
+        , ["init",   re_ssid,   "init",   "p_ssid"]
+        , ["init",   re_mode,   "init",   "p_mode"]
+        , ["init",   re_bssid,  "init",   "p_bssid"]
+        , ["init",   None,      "init",   None]
+        ]
+
+    def __init__ (self, **kw) :
+        self.ssid    = None
+        self.mode    = None
+        self.channel = None
+        self.bssid   = None
+        self.__super.__init__ (** kw)
+    # end def __init__
+
+    def p_bssid (self, state, new_state, match) :
+        self.bssid = match.group (1)
+    # end def p_bssid
+
+    def p_mode (self, state, new_state, match) :
+        self.mode    = match.group (1).strip ()
+        self.channel = match.group (2)
+    # end def p_mode
+
+    def p_ssid (self, state, new_state, match) :
+        self.ssid = match.group (1)
+        if len (match.groups ()) > 1 :
+            self.mode    = match.group (2)
+            self.channel = match.group (3)
+            self.bssid   = match.group (4)
+    # end def p_ssid
+
+# end class WLAN_Config_Freifunk
 
 class Freifunk (Page_Tree) :
     url = 'cgi-bin-status.html'
@@ -337,8 +347,7 @@ class Freifunk (Page_Tree) :
         for td in root.findall (".//%s" % tag ("td")) :
             if not td.text or not td.text.startswith ('SSID:') :
                 continue
-            print ">", td.text, "<"
-            self.wlan_info = WLAN_Config ()
+            self.wlan_info = WLAN_Config_Freifunk ()
             self.wlan_info.parse (td.text.split ('\n'))
             break
         wl_count = 0
@@ -397,9 +406,47 @@ class Backfire (Page_Tree) :
             raise ValueError, "No interface config found"
         if self.bf_version and self.luci_version :
             self.version = "%s / Luci %s" % (self.bf_version, self.luci_version)
+        bfw = Backfire_WLAN_Config (site = self.site)
+        for d in bfw.wlans :
+            if d.name in self.if_by_name :
+                iface = self.if_by_name [d.name]
+                iface.wlan_info = d
     # end def parse
 
 # end class Backfire
+
+class Backfire_WLAN_Config (Page_Tree) :
+    url = 'cgi-bin/luci/freifunk/status'
+
+    def parse (self) :
+        root = self.tree.getroot ()
+        self.wlans = []
+        for div in root.findall (".//%s" % tag ("div")) :
+            if div.get ('class') != 'cbi-map' :
+                continue
+            if not len (div) or div [0].tag != tag ('h2') :
+                continue
+            if div [0].text != 'Wireless Overview' :
+                continue
+            for tr in div.findall (".//%s" % tag ("tr")) :
+                cls = tr.get ('class') or ''
+                cls = cls.split ()
+                if 'cbi-section-table-row' not in cls :
+                    continue
+                d = WLAN_Config ()
+                self.wlans.append (d)
+                for td in tr :
+                    k = td.get ('id')
+                    if k :
+                        k = k.split ('-') [-1]
+                    else :
+                        k = 'name'
+                    v = td.text
+                    setattr (d, k, v)
+            break
+    # end def parse
+# end class Backfire_WLAN_Config
+
 
 if __name__ == '__main__' :
     import sys
