@@ -112,15 +112,16 @@ class Interface (autosuper) :
     """
 
     def __init__ (self, number, name, mtu, qdisc = None, qlen = None) :
-        self.number = number
-        self.name   = name
-        self.mtu    = mtu
-        self.qdisc  = qdisc
-        self.qlen   = qlen
-        self.link   = None
-        self.inet4  = []
-        self.inet6  = []
-        self.is_wl  = None
+        self.number    = number
+        self.name      = name
+        self.mtu       = mtu
+        self.qdisc     = qdisc
+        self.qlen      = qlen
+        self.link      = None
+        self.inet4     = []
+        self.inet6     = []
+        self.is_wlan   = None
+        self.wlan_info = None
     # end def __init__
 
     def append_inet4 (self, inet) :
@@ -138,7 +139,7 @@ class Interface (autosuper) :
     def __str__ (self) :
         r = []
         r.append \
-            ( "Interface (%(name)s, %(number)s, is_wl=%(is_wl)s)"
+            ( "Interface (%(name)s, %(number)s, is_wlan=%(is_wlan)s)"
             % self.__dict__
             )
         if self.link :
@@ -147,11 +148,15 @@ class Interface (autosuper) :
             r.append (str (i))
         for i in self.inet6 :
             r.append (str (i))
+        if self.wlan_info :
+            r.append (str (self.wlan_info))
         return "\n    ".join (r)
     # end def __str__
     __repr__ = __str__
 
 # end class Interface
+
+pt_mac    = r'((?:[0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2})'
 
 class Interface_Config (Parser) :
     re_assign = re.compile (r'^([a-zA-Z0-9_]+)\s*=\s*([a-zA-Z0-9 ]*)$')
@@ -159,7 +164,7 @@ class Interface_Config (Parser) :
     re_bridge = re.compile (r'^(\S+)\s*(\S+)\s*(\S+)\s*(\S+)$')
     re_if     = re.compile \
         (r'^(\d+):\s*(\S+):\s*mtu\s*(\d+)\s*qdisc\s*(\S+)(?:qlen\s*(\d+))?')
-    pt_mac    = r'((?:[0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2})'
+    pt_mac    = pt_mac
     re_link   = re.compile \
         (r'^\s*link/(\S+)(?:\s*(\S+)\s*brd\s*(\S+))?$' % locals ())
     pt_ip     = r'((?:\d{1,3}[.]){3}\d{1,3})'
@@ -233,8 +238,64 @@ class Interface_Config (Parser) :
 
 # end class Interface_Config
 
+class WLAN_Config (Parser) :
+    re_ssid   = re.compile (r'^SSID:\s+"([^"]+)"')
+    re_mode   = re.compile \
+        (r'Mode:\s+(.*)\s+(?:rssi|RSSI).*Channel:\s+(\d+)')
+    re_bssid  = re.compile (r'BSSID:\s+%(pt_mac)s' % globals ())
+    re_ssid_e = re.compile \
+        (r'\s+'.join ((re_ssid.pattern, re_mode.pattern, re_bssid.pattern)))
+    print re_ssid_e.pattern
+    matrix = \
+        [ ["init",   re_ssid_e, "init",   "p_ssid"]
+        , ["init",   re_ssid,   "init",   "p_ssid"]
+        , ["init",   re_mode,   "init",   "p_mode"]
+        , ["init",   re_bssid,  "init",   "p_bssid"]
+        , ["init",   None,      "init",   None]
+        ]
+
+    def __init__ (self, **kw) :
+        self.ssid    = None
+        self.mode    = None
+        self.channel = None
+        self.bssid   = None
+        self.__super.__init__ (verbose = 4, **kw)
+    # end def __init__
+
+    def p_bssid (self, state, new_state, match) :
+        self.bssid = match.group (1)
+    # end def p_bssid
+
+    def p_mode (self, state, new_state, match) :
+        self.mode    = match.group (1).strip ()
+        self.channel = match.group (2)
+    # end def p_mode
+
+    def p_ssid (self, state, new_state, match) :
+        print match.groups ()
+        self.ssid = match.group (1)
+        if len (match.groups ()) > 1 :
+            self.mode    = match.group (2)
+            self.channel = match.group (3)
+            self.bssid   = match.group (4)
+    # end def p_ssid
+
+    def __str__ (self) :
+        x = [self.__class__.__name__, "\n        ( "]
+        z = []
+        for k in 'ssid', 'mode', 'channel', 'bssid' :
+            z.append ("%s=%%(%s)s" % (k, k))
+        x.append ('\n        , '.join (z))
+        x.append ('\n        )')
+        return ''.join (x) % self.__dict__
+    # end def __str__
+    __repr__ = __str__
+
+# end class WLAN_Config
+
 class Freifunk (Page_Tree) :
     url = 'cgi-bin-status.html'
+    wlan_info = None
 
     def parse (self) :
         #print self.tree_as_string ()
@@ -251,13 +312,13 @@ class Freifunk (Page_Tree) :
                     if not v :
                         continue
                     if k == 'lan_ifname' :
-                        wlan = False
+                        is_wlan = False
                     elif k == 'wan_ifname' :
-                        wlan = False
+                        is_wlan = False
                     elif k.startswith ('wl') and k.endswith ('_ifname') :
-                        wlan = True
+                        is_wlan = True
                     elif k == 'wifi_ifname' :
-                        wlan = True
+                        is_wlan = True
                     else :
                         continue
                     iface = self.ifconfig.if_by_name [v]
@@ -269,15 +330,31 @@ class Freifunk (Page_Tree) :
                         self.ips [ip4] = True
                     if found :
                         self.if_by_name [iface.name] = iface
+                        iface.is_wlan = is_wlan
                 break
         else :
             raise ValueError, "No interface config found"
+        for td in root.findall (".//%s" % tag ("td")) :
+            if not td.text or not td.text.startswith ('SSID:') :
+                continue
+            print ">", td.text, "<"
+            self.wlan_info = WLAN_Config ()
+            self.wlan_info.parse (td.text.split ('\n'))
+            break
+        wl_count = 0
+        if self.wlan_info :
+            for iface in self.if_by_name.itervalues () :
+                if iface.is_wlan :
+                    iface.wlan_info = self.wlan_info
+                    wl_count += 1
+        assert wl_count <= 1
     # end def parse
 
 # end class Freifunk
 
 class Backfire (Page_Tree) :
     url = 'cgi-bin/luci/freifunk/olsr/interfaces'
+    wlan_info = None
 
     def parse (self) :
         root = self.tree.getroot ()
@@ -310,7 +387,7 @@ class Backfire (Page_Tree) :
                         iface = self.if_by_name [name]
                     else :
                         iface = Interface (n, name, mtu)
-                        iface.is_wl = wlan == 'Yes'
+                        iface.is_wlan = wlan == 'Yes'
                     i4 = Inet4 (ip, mask, bcast, iface = name)
                     iface.append_inet4 (i4)
                     if not is_rfc1918 (i4.ip) :
