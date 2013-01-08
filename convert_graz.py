@@ -51,18 +51,13 @@ class Convert (object) :
         self.scope        = scope
         self.ffm          = self.scope.FFM
         self.pap          = self.scope.GTW.OMP.PAP
-        self.modes        = dict \
-            ( client      = self.ffm.Client_Mode
-            , ap          = self.ffm.AP_Mode
-            , ad_hoc      = self.ffm.Ad_Hoc_Mode
-            )
         self.networks     = {}
 
         self.parser       = SQL_Parser (verbose = False, fix_double_encode = 1)
         self.parser.parse (f)
         self.contents     = self.parser.contents
         self.tables       = self.parser.tables
-        self.dupes_by_id  = {}
+        self.member_by_id = {}
         self.person_by_id = {}
         self.nicknames    = {}
         self.node_by_id   = {}
@@ -80,6 +75,10 @@ class Convert (object) :
         # FIXME: Use smokeping?
         # FIXME: hastinc?
         for d in self.contents ['node'] :
+            if d.location_id not in self.node_by_id :
+                print "WARN: Ignoring device (node) %s with location_id %s" \
+                    % (d.id, d.location_id)
+                continue
             n = self.node_by_id [d.location_id]
             if d.person_id and d.person_id != n.person_id :
                 print "person %s: d:%s n:%s" % (d.id, d.person_id, n.person_id)
@@ -136,9 +135,9 @@ class Convert (object) :
     def create_persons (self) :
         for m in sorted (self.contents ['person'], key = lambda x : x.id) :
             #print "%s: %r %r" % (m.id, m.firstname, m.lastname)
+            self.member_by_id [m.id] = m
             if m.id in self.person_dupes :
                 print "INFO: Duplicate person: %s" % m.id
-                self.dupes_by_id [m.id] = m
                 continue
             if not m.firstname or not m.lastname :
                 print >> sys.stderr, "WARN: name missing: %s (%s/%s)" \
@@ -160,9 +159,10 @@ class Convert (object) :
         # get data from dupes
         for d_id, m_id in self.person_dupes.iteritems () :
             # older version of db or dupe removed:
-            if m_id not in self.person_by_id :
+            if d_id not in self.member_by_id or m_id not in self.person_by_id :
                 continue
-            d = self.dupes_by_id [d_id]
+            d = self.member_by_id [d_id]
+            m = self.member_by_id [m_id]
             person = self.person_by_id [m_id]
             if d.email :
                 email = self.pap.Email (address = d.email)

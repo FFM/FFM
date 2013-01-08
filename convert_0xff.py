@@ -38,7 +38,9 @@ class Convert (object) :
         self.olsr_hna     = olsr_parser.hna
         self.rev_mid      = {}
         for k, v in self.olsr_mid.iteritems () :
-            assert k in self.olsr_nodes
+            if k not in self.olsr_nodes :
+                print "WARN: MIB %s: not in OLSR Topology" % k
+            #assert k in self.olsr_nodes
             for mid in v :
                 assert mid not in self.rev_mid
                 self.rev_mid [mid] = True
@@ -422,8 +424,12 @@ class Convert (object) :
     # end def create_interface
 
     def create_interfaces_for_dev (self, dev, d, ip) :
-        if len (self.ip_by_dev [d.id]) > 1 :
-            for n, dev_ip in enumerate (self.ip_by_dev [d.id]) :
+        ips = self.ip_by_dev [d.id]
+        l = len (ips)
+        if l > 1 :
+            print "WARN: dev %s.%s has %d ips: %s" \
+                % (dev.node.name, d.name, l, ', '.join (i.ip for i in ips))
+            for n, dev_ip in enumerate (ips) :
                 name = "%s-%d" % (d.name, n)
                 self.create_interface (dev, name, dev_ip)
                 dev_ip.set_done ()
