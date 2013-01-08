@@ -10,6 +10,7 @@ README for the FFM web app
     <rsc@runtux.com>
 
 .. |--| unicode:: U+2013   .. en dash
+.. |---| unicode:: U+2014   .. em dash
 
 The FFM web app is an application that serves data about the network
 nodes deployed by www.funkfeuer.at.
@@ -33,7 +34,7 @@ This object model (in SVG format) is automagically rendered using
     :target: https://github.com/FFM/FFM/blob/master/doc/nodedb.svg
 
 Some notes on the object model: We try to keep only the relevant
-attributes of a real-world object in the object itself |--| everything
+attributes of a real-world object in the object itself |---| everything
 else is modelled as a relation. The blue arrows denote inheritance
 relationships ("IS_A"). The yellow arrows are attributes, e.g., the Node
 has an attribute ``manager`` of type ``Person`` which is required (this
@@ -160,9 +161,9 @@ installer::
      python-dateutil python-docutils python-flup python-jinja2 \
      python-psycopg2 python-dev apache2-mpm-worker
 
-Other packages can be installed using ``pip`` |--| note that you may want
+Other packages can be installed using ``pip`` |---| note that you may want
 to install some of these into a virtual python environment (virtualenv),
-see later in sectioni `How to install`_ |--| depending on your
+see later in sectioni `How to install`_ |---| depending on your
 estimate how often you want to change external packages::
 
  pip install Babel plumbum pytz rsclib sqlalchemy werkzeug
@@ -331,10 +332,33 @@ Then we configure an Apache virtual host, for instance::
       </Directory>
     </VirtualHost>
 
+To configure Apache to always use https, use something like::
+
+    <VirtualHost *:80>
+      ServerName   xxx.funkfeuer.at
+      RewriteEngine On
+      RewriteRule ^/(.*)$ https://xxx.funkfeuer.at/$1 [L,R]
+      RewriteRule ^$ https://xxx.funkfeuer.at [L,R]
+    </VirtualHost>
+
+    <VirtualHost *:443>
+      ServerName   xxx.funkfeuer.at
+      DocumentRoot /home/ffm/active/www
+
+      SSLEngine on
+      SSLCertificateFile    /etc/ssl/certs/xxx.pem
+      SSLCertificateKeyFile /etc/ssl/private/xxx.key
+      SSLCipherSuite HIGH
+      SSLProtocol all -SSLv2
+
+      AddDefaultCharset utf-8
+      ### as above for the http case
+    </VirtualHost>
+
 For Debian the apache configuration should be placed into
 ``/etc/apache2/sites-available/``, e.g., into the file
 ``nodedb2.example.com`` and enabled. You probably will have to disable
-the default site installed. We used the following commands |--| we
+the default site installed. We used the following commands |---| we
 also enable some needed modules::
 
   a2ensite nodedb2.example.com
@@ -342,6 +366,11 @@ also enable some needed modules::
   a2enmod mod_expires
   a2enmod fcgid
   /etc/init.d/apache2 restart
+
+For https sites, you'll also need the modules::
+
+  a2enmod rewrite
+  a2enmod ssl
 
 Finally we create a database and populate it with data::
 
