@@ -5,6 +5,9 @@ from   rsclib.stateparser import Parser
 from   rsclib.autosuper   import autosuper
 from   rsclib.IP_Address  import IP4_Address
 
+class Parse_Error (ValueError) :
+    pass
+
 def is_rfc1918 (ip) :
     networks = \
         [IP4_Address (x)
@@ -18,9 +21,10 @@ def is_rfc1918 (ip) :
 # end def is_rfc1918
 
 class Guess (Page_Tree) :
-    site  = 'http://%(ip)s/'
-    url   = ''
-    delay = 0
+    site    = 'http://%(ip)s/'
+    url     = ''
+    delay   = 0
+    retries = 2
 
     status_url = 'cgi-bin-status.html'
 
@@ -126,7 +130,11 @@ class Interface (autosuper) :
 
     def append_inet4 (self, inet) :
         self.inet4.append (inet)
-        assert inet.iface == self.name
+        if not inet.iface.startswith (self.name) :
+            raise Parse_Error \
+                ( "Wrong interface name in inet4 address: %s %s"
+                % inet.iface, self.name
+                )
         inet.iface = self
     # end def append_inet4
 
@@ -456,7 +464,7 @@ if __name__ == '__main__' :
     if len (sys.argv) > 1 :
         ip = sys.argv [1]
     site = Guess.site % locals ()
-    site = 'file:///' + os.path.abspath (ip)
+    #site = 'file:///' + os.path.abspath (ip)
     url  = 'index.html'
     ff   = Guess (site = site, url = url)
     print "Type:    %s" % ff.type
