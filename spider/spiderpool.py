@@ -71,9 +71,17 @@ class Spider (autosuper) :
 # end def Spider
 
 if __name__ == '__main__' :
+    import pickle
+    import sys
+    name = 'Funkfeuer-spider-pickle.dump'
+    if len (sys.argv) > 1 :
+        name = sys.argv [1]
     olsr_file = 'olsr/txtinfo.txt'
     sp = Spider (olsr_file)
     sp.process ()
+    f = open (name, "wb")
+    pickle.dump (sp.result_dict, f)
+    f.close ()
     for k, v in sorted \
         (sp.result_dict.iteritems (), key = lambda z : (z [1][0], z [0])) :
         print k, v
