@@ -48,7 +48,7 @@ class Spider (autosuper) :
             self.olsr_nodes [t] = True
         for t in olsr_parser.topo.reverse.iterkeys () :
             self.olsr_nodes [t] = True
-        self.pool  = Pool (processes = 5)
+        self.pool  = Pool (processes = 50)
         self.mgr   = Manager ()
         self.result_dict = self.mgr.dict ()
         olsr_nodes = None
@@ -57,9 +57,7 @@ class Spider (autosuper) :
     def process (self) :
         #for n, node in enumerate \
         #    (('193.238.158.241', '78.41.113.91', '193.238.159.20')) :
-        for n, node in enumerate (self.olsr_nodes) :
-            if n > 4 :
-                break
+        for node in self.olsr_nodes :
             self.pool.apply_async \
                 (get_node_info, (self.result_dict, str (node)))
         self.pool.close ()
