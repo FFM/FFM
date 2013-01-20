@@ -25,6 +25,7 @@ class Guess (Page_Tree) :
     url     = ''
     delay   = 0
     retries = 2
+    timeout = 10
 
     status_url = 'cgi-bin-status.html'
 
@@ -312,8 +313,10 @@ class WLAN_Config_Freifunk (WLAN_Config, Parser) :
 # end class WLAN_Config_Freifunk
 
 class Freifunk (Page_Tree) :
-    url = 'cgi-bin-status.html'
+    url       = 'cgi-bin-status.html'
+    retries   = 2
     wlan_info = None
+    timeout   = 10
 
     def parse (self) :
         #print self.tree_as_string ()
@@ -370,8 +373,10 @@ class Freifunk (Page_Tree) :
 # end class Freifunk
 
 class Backfire (Page_Tree) :
-    url = 'cgi-bin/luci/freifunk/olsr/interfaces'
+    url       = 'cgi-bin/luci/freifunk/olsr/interfaces'
+    retries   = 2
     wlan_info = None
+    timeout   = 10
 
     def parse (self) :
         root = self.tree.getroot ()
@@ -424,7 +429,9 @@ class Backfire (Page_Tree) :
 # end class Backfire
 
 class Backfire_WLAN_Config (Page_Tree) :
-    url = 'cgi-bin/luci/freifunk/status'
+    url     = 'cgi-bin/luci/freifunk/status'
+    retries = 2
+    timeout = 10
 
     def parse (self) :
         root = self.tree.getroot ()
