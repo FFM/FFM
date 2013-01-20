@@ -55,6 +55,22 @@ _test_code = """
     >>> FFM.Regulatory_Permission.query (Q.eirp > 27.5).count ()
     0
 
+    #>>> FFM.Regulatory_Permission.query (Q.eirp <= '110 mW').count ()
+    #3
+    #>>> FFM.Regulatory_Permission.query (Q.eirp <= '21 dBm').count ()
+    #3
+    #>>> FFM.Regulatory_Permission.query (Q.eirp <= '21 dBmW').count ()
+    #3
+    #>>> FFM.Regulatory_Permission.query (Q.eirp <= '21 xyzzy').count ()
+    #3
+
+    #>>> FFM.Regulatory_Permission.query (Q.RAW.eirp <= '110 mW').count ()
+    #3
+    #>>> FFM.Regulatory_Permission.query (Q.RAW.eirp > '0.11 W').count ()
+    #1
+    #>>> FFM.Regulatory_Permission.query (Q.RAW.eirp > '110 mW').count ()
+    #1
+
     >>> FFM.Wireless_Channel.query (Q.RAW.frequency > "5.7 GHz").count ()
     58
     >>> FFM.Wireless_Channel.query (Q.RAW.frequency < "5.7 GHz").count ()
