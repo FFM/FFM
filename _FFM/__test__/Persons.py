@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.__test__.
@@ -51,7 +51,6 @@ _test_code = """
     >>> nic = PAP.Nickname ('runtux', raw = True)
     >>> phn = PAP.Person_has_Nickname (p1, nic)
 
-    >>> scope.destroy ()
 
 """
 
