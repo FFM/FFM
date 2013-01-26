@@ -73,7 +73,7 @@ class Worker (Log, Timeout) :
 
 class Spider (Log) :
 
-    def __init__ (self, olsr_file, **kw) :
+    def __init__ (self, olsr_file, processes = 20, N = 0, **kw) :
         self.__super.__init__ (**kw)
         olsr_parser = OLSR_Parser ()
         olsr_parser.parse (open (olsr_file))
@@ -83,18 +83,16 @@ class Spider (Log) :
         for t in olsr_parser.topo.reverse.iterkeys () :
             self.olsr_nodes [t] = True
         # limit to N elements
-        N = 40
-        self.olsr_nodes = dict \
-            ((k, v) for k, v in islice (self.olsr_nodes.iteritems (), N))
-        self.pool  = Pool (processes = 20)
+        if N :
+            self.olsr_nodes = dict \
+                ((k, v) for k, v in islice (self.olsr_nodes.iteritems (), N))
+        self.pool  = Pool (processes = processes)
         self.mgr   = Manager ()
         self.result_dict = self.mgr.dict ()
         olsr_nodes = None
     # end def __init__
 
     def process (self) :
-        #for n, node in enumerate \
-        #    (('193.238.158.241', '78.41.113.91', '193.238.159.20')) :
         for node in self.olsr_nodes :
             self.pool.apply_async \
                 (get_node_info, (self.result_dict, str (node)))
@@ -109,20 +107,43 @@ class Spider (Log) :
 if __name__ == '__main__' :
     import pickle
     import sys
-    name = 'Funkfeuer-spider-pickle.dump'
-    if len (sys.argv) > 1 :
-        name = sys.argv [1]
-    olsr_file = 'olsr/txtinfo.txt'
-    # single ip test
-    #d = dict ()
-    #w = Worker (d, '193.238.156.32')
-    #w.get_node_info ()
-    #print d
-    #sys.exit (23)
-    sp = Spider (olsr_file)
+    from optparse import OptionParser
+
+    cmd = OptionParser ()
+    cmd.add_option \
+        ( "-d", "--dump"
+        , dest    = "dump"
+        , help    = "Destination file of pickle dump"
+        , default = "Funkfeuer-spider-pickle.dump"
+        )
+    cmd.add_option \
+        ( "-n", "--limit-nodes"
+        , dest    = "limit_nodes"
+        , help    = "Limit spidering to given number of nodes"
+        , type    = "int"
+        , default = 0
+        )
+    cmd.add_option \
+        ( "-p", "--processes"
+        , dest    = "processes"
+        , help    = "Use given number of processes"
+        , type    = "int"
+        , default = 20
+        )
+    cmd.add_option \
+        ( "-o", "--olsr-file"
+        , dest    = "olsr_file"
+        , help    = "File containing OLSR information"
+        , default = "olsr/txtinfo.txt"
+        )
+    (opt, args) = cmd.parse_args ()
+    if len (args) :
+        cmd.print_help ()
+        sys.exit (23)
+    sp = Spider (opt.olsr_file, opt.processes, opt.limit_nodes)
     try :
         sp.process ()
-        f = open (name, "wb")
+        f = open (opt.dump, "wb")
         pickle.dump (sp.result_dict, f)
         f.close ()
         for k, v in sorted \
