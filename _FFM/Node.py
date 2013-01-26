@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -49,7 +49,6 @@ from   _MOM._Attr.Position      import A_Position
 from   _FFM                     import FFM
 from   _GTW._OMP._PAP           import PAP, Person, Subject
 from   _GTW._OMP._DNS.Attr_Type import A_DNS_Label
-
 
 import _FFM.Entity
 
