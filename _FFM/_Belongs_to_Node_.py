@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -29,6 +29,7 @@
 #     6-Dec-2012 (CT) Creation
 #    14-Dec-2012 (CT) Change `belongs_to_node.kind` to `Attr.Query`
 #    17-Dec-2012 (CT) Set `belongs_to_node.hidden` to `True`
+#    26-Jan-2013 (CT) Define `belongs_to_node.query`, not `.query_fct`
 #    ««revision-date»»···
 #--
 
@@ -56,10 +57,7 @@ class _Belongs_to_Node_ (_Ancestor_Essence) :
             auto_up_depends    = ("left", )
             hidden             = True
             P_Type             = FFM.Node
-
-            def query_fct (self) :
-                return Q.left.belongs_to_node
-            # end def query_fct
+            query              = Q.left.belongs_to_node
 
         # end class belongs_to_node
 

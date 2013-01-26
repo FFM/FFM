@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -51,7 +51,8 @@ _Mixin = FFM._Belongs_to_Node_
 class Net_Interface (_Mixin, _Ancestor_Essence) :
     """Model a network interface of a FFM device"""
 
-    is_partial = True
+    is_partial  = True
+    is_relevant = True
 
     class _Attributes (_Mixin._Attributes, _Ancestor_Essence._Attributes) :
 

@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -77,19 +77,16 @@ class Antenna (_Ancestor_Essence) :
 
         # end class azimuth
 
-        class belongs_to_node (A_Id_Entity) :
-            """Node to which this antenna belongs."""
-
-            kind               = Attr.Query
-            auto_up_depends    = ("interface", )
-            hidden             = True
-            P_Type             = FFM.Node
-
-            def query_fct (self) :
-                return Q.interface.belongs_to_node
-            # end def query_fct
-
-        # end class belongs_to_node
+#        class belongs_to_node (A_Id_Entity) :
+#            """Node to which this antenna belongs."""
+#
+#            kind               = Attr.Query
+#            auto_up_depends    = ("interface", )
+#            hidden             = True
+#            P_Type             = FFM.Node
+#            query              = Q.interface.belongs_to_node
+#
+#        # end class belongs_to_node
 
         class elevation (A_Int) :
             """ Elevation angle of the beam from the horizontal plane
