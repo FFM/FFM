@@ -31,6 +31,7 @@
 #    13-Sep-2012 (RS) Set `is_partial`
 #    22-Sep-2012 (RS) make `name` `A_DNS_Label`
 #     6-Dec-2012 (RS) Add `belongs_to_node`
+#    26-Jan-2013 (CT) Set `Net_Interface.is_relevant`
 #    ««revision-date»»···
 #--
 
