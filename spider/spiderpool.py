@@ -3,6 +3,7 @@ import os
 from multiprocessing  import Pool, Manager
 from rsclib.autosuper import autosuper
 from rsclib.execute   import Log
+from rsclib.timeout   import Timeout, Timeout_Error
 from olsr.parser      import OLSR_Parser
 from spider.parser    import Guess
 from itertools        import islice
@@ -15,7 +16,7 @@ def get_node_info (result_dict, ip) :
         w.log.log_exception ()
 # end def get_node_info
 
-class Worker (Log) :
+class Worker (Log, Timeout) :
 
     def __init__ (self, result_dict, ip, **kw) :
         self.__super.__init__ (** kw)
@@ -27,6 +28,7 @@ class Worker (Log) :
         try :
             if self.ip in self.result_dict :
                 return
+            self.arm_alarm (timeout = 60)
             try :
                 url  = ''
                 site = Guess.site % self.__dict__
@@ -38,9 +40,14 @@ class Worker (Log) :
             except ValueError, err :
                 self.result_dict [self.ip] = ('ValueError', err)
                 return
+            except Timeout_Error, err :
+                self.disable_alarm ()
+                self.result_dict [self.ip] = ('TimeoutError', err)
+                return
             except :
                 self.log_exception ()
                 return
+            self.disable_alarm ()
             result = []
             for iface_ip in g.ips.iterkeys () :
                 iface = iface_ip.iface
