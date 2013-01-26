@@ -110,6 +110,8 @@ System requirements
 
   * `psycopg2`_ or the `mysql package`_ needed by `sqlalchemy`_
 
+  * `pyquery`_
+
   * `pytz`_
 
   * `py-bcrypt`_
@@ -133,6 +135,7 @@ System requirements
 .. _`plumbum`:         http://plumbum.readthedocs.org/en/latest/index.html
 .. _`psycopg2`:        http://packages.python.org/psycopg2/
 .. _`mysql package`:   http://mysql-python.sourceforge.net/
+.. _`pyquery`:         http://github.com/gawel/pyquery/
 .. _`pytz`:            http://pytz.sourceforge.net/
 .. _`py-bcrypt`:       http://www.mindrot.org/projects/py-bcrypt/
 .. _`rcssmin`:         http://opensource.perlig.de/rcssmin/
