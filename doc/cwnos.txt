@@ -2,10 +2,18 @@ Title: Architecture and use-cases of the community wireless netowork operating s
 
 Authors: L. Aaron Kaplan <aaron@lo-res.org>, Christian Pointner <equinox@chaos-at-home.org>
 
+ 
+
 
 Status of this Memo
 =========================================
 
+DRAFT!
+
+TODOs:
+1) complete the document
+2) describe other documents
+3) make RFCish, use XML/RFC tools
 
 
 Copyright Notice
@@ -53,7 +61,7 @@ Dashboard
   By dashboard we denote the main user interface through which a user of the community wireless network can see "his" community wireless network. It also gives the user a comparison actual data of the network (statistics, reachability etc) with the stored data in the nodeDB
 
 Community Wireless Network (CWN)
-XXX FIXEM XXX
+XXX FIXME XXX
 
 
 Architecture description
@@ -69,6 +77,8 @@ These registries do not have a user interface (maybe an admin interface) but the
 
 The registries are also reachable via a whois service (limited access to some IP ranges).
 
+In the drawing (XXX refXXX) there is only one registry drawn. Most other modules can have multiple instances. 
+
 === Node registry ===
 
 The node registry stores nodes as well as devices and the device's IP addresses.
@@ -77,7 +87,9 @@ The node registry stores nodes as well as devices and the device's IP addresses.
 === Person registry ===
 
 The person registry stores the information about community wireless network users: username, email address(es), authentication information, telephone numbers, the postal address, etc.
+A person might have an avatar picture
 
+XXX FIXME: document communication-marketplace/forum/agora. I have skills $foo, searching for skills $bla XXX
 
 
 === Archive ===
