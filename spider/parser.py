@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: iso-8859-1 -*-
+
 import os
 import re
 from   rsclib.HTML_Parse  import tag, Page_Tree
@@ -342,6 +345,9 @@ class Freifunk (Page_Tree) :
                         is_wlan = True
                     else :
                         continue
+                    # unused interface name:
+                    if v not in self.ifconfig.if_by_name :
+                        continue
                     iface = self.ifconfig.if_by_name [v]
                     found = False
                     for ip4 in iface.inet4 :
@@ -373,10 +379,11 @@ class Freifunk (Page_Tree) :
 # end class Freifunk
 
 class Backfire (Page_Tree) :
-    url       = 'cgi-bin/luci/freifunk/olsr/interfaces'
-    retries   = 2
-    wlan_info = None
-    timeout   = 10
+    url          = 'cgi-bin/luci/freifunk/olsr/interfaces'
+    retries      = 2
+    wlan_info    = None
+    timeout      = 10
+    html_charset = 'utf-8' # force utf-8 encoding
 
     def parse (self) :
         root = self.tree.getroot ()
@@ -401,7 +408,8 @@ class Backfire (Page_Tree) :
                 tbl = div.find (".//%s" % tag ("table"))
                 for n, tr in enumerate (tbl) :
                     if tr [0].tag == tag ('th') :
-                        assert tr [0].text == 'Interface'
+                        assert tr [0].text in ('Interface', 'Schnittstelle') \
+                            , tr [0].text
                         continue
                     name, status, mtu, wlan, ip, mask, bcast = \
                         (x.text for x in tr)
@@ -410,6 +418,8 @@ class Backfire (Page_Tree) :
                     else :
                         iface = Interface (n, name, mtu)
                         iface.is_wlan = wlan == 'Yes'
+                    if status == 'DOWN' :
+                        continue
                     i4 = Inet4 (ip, mask, bcast, iface = name)
                     iface.append_inet4 (i4)
                     if not is_rfc1918 (i4.ip) :
@@ -429,11 +439,13 @@ class Backfire (Page_Tree) :
 # end class Backfire
 
 class Backfire_WLAN_Config (Page_Tree) :
-    url     = 'cgi-bin/luci/freifunk/status'
-    retries = 2
-    timeout = 10
+    url          = 'cgi-bin/luci/freifunk/status'
+    retries      = 2
+    timeout      = 10
+    html_charset = 'utf-8' # force utf-8 encoding
 
     def parse (self) :
+        wlo = ('Wireless Overview', 'Drahtlosübersicht'.decode ('latin1'))
         root = self.tree.getroot ()
         self.wlans = []
         for div in root.findall (".//%s" % tag ("div")) :
@@ -441,7 +453,7 @@ class Backfire_WLAN_Config (Page_Tree) :
                 continue
             if not len (div) or div [0].tag != tag ('h2') :
                 continue
-            if div [0].text != 'Wireless Overview' :
+            if div [0].text not in wlo :
                 continue
             for tr in div.findall (".//%s" % tag ("tr")) :
                 cls = tr.get ('class') or ''

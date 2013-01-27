@@ -1,51 +1,62 @@
 import os
 
-from multiprocessing  import Pool, Manager
-from rsclib.autosuper import autosuper
-from rsclib.execute   import Log
-from rsclib.timeout   import Timeout, Timeout_Error
-from olsr.parser      import OLSR_Parser
-from spider.parser    import Guess
-from itertools        import islice
+from multiprocessing   import Pool, Manager
+from rsclib.autosuper  import autosuper
+from rsclib.execute    import Log
+from rsclib.timeout    import Timeout, Timeout_Error
+from rsclib.HTML_Parse import Retries_Exceeded
+from olsr.parser       import OLSR_Parser
+from spider.parser     import Guess
+from itertools         import islice
+from logging           import INFO
 
-def get_node_info (result_dict, ip) :
-    w = Worker (result_dict, ip)
+def get_node_info (result_dict, ip, timeout = 180, debug = False) :
+    w = Worker (result_dict, ip, timeout = timeout, debug = debug)
     try :
         return w.get_node_info ()
     except Exception, err :
+        self.log.error ("Error in IP %s:" % ip)
         w.log.log_exception ()
 # end def get_node_info
 
 class Worker (Log, Timeout) :
 
-    def __init__ (self, result_dict, ip, **kw) :
+    def __init__ (self, result_dict, ip, timeout = 180, debug = False, **kw) :
         self.__super.__init__ (** kw)
         self.ip          = ip
         self.result_dict = result_dict
+        self.timeout     = timeout
+        if not debug :
+            self.log.setLevel (INFO)
     # end def __init__
 
     def get_node_info (self) :
         try :
             if self.ip in self.result_dict :
                 return
-            self.arm_alarm (timeout = 60)
+            self.arm_alarm (timeout = self.timeout)
             try :
                 url  = ''
                 site = Guess.site % self.__dict__
-                #site = 'file:///' + os.path.abspath ('spider/%s' % self.ip)
-                #url  = 'index.html'
                 self.log.debug ("%s: before guess" % self.ip)
                 g    = Guess (site = site, url = 'index.html')
                 self.log.debug ("%s: after  guess" % self.ip)
             except ValueError, err :
+                self.log.error ("Error in IP %s:" % self.ip)
+                self.log_exception ()
                 self.result_dict [self.ip] = ('ValueError', err)
                 return
             except Timeout_Error, err :
                 self.disable_alarm ()
-                self.result_dict [self.ip] = ('TimeoutError', err)
+                self.result_dict [self.ip] = ('Timeout_Error', err)
                 return
-            except :
+            except Retries_Exceeded, err :
+                self.result_dict [self.ip] = ('Retries_Exceeded', err)
+                return
+            except Exception, err :
+                self.log.error ("Error in IP %s:" % self.ip)
                 self.log_exception ()
+                self.result_dict [self.ip] = ('Exception', err)
                 return
             self.disable_alarm ()
             result = []
@@ -65,7 +76,8 @@ class Worker (Log, Timeout) :
                 result.append (r)
             self.result_dict [self.ip] = result
         except Exception, err :
-            self.log.error (err)
+            self.log.error ("Error in IP %s:" % self.ip)
+            self.log_exception ()
             self.result_dict [self.ip] = ("ERROR", err)
     # end def get_node_info
 
@@ -73,7 +85,15 @@ class Worker (Log, Timeout) :
 
 class Spider (Log) :
 
-    def __init__ (self, olsr_file, processes = 20, N = 0, **kw) :
+    def __init__ \
+        ( self
+        , olsr_file
+        , processes =    20
+        , N         =     0
+        , timeout   =   180
+        , debug     = False
+        , ** kw
+        ) :
         self.__super.__init__ (**kw)
         olsr_parser = OLSR_Parser ()
         olsr_parser.parse (open (olsr_file))
@@ -86,16 +106,22 @@ class Spider (Log) :
         if N :
             self.olsr_nodes = dict \
                 ((k, v) for k, v in islice (self.olsr_nodes.iteritems (), N))
-        self.pool  = Pool (processes = processes)
-        self.mgr   = Manager ()
+        self.pool        = Pool (processes = processes)
+        self.mgr         = Manager ()
         self.result_dict = self.mgr.dict ()
-        olsr_nodes = None
+        self.timeout     = timeout
+        self.debug       = debug
+        olsr_nodes       = None
+        if not debug :
+            self.log.setLevel (INFO)
+        self.log.debug ("Starting ...")
     # end def __init__
 
     def process (self) :
         for node in self.olsr_nodes :
             self.pool.apply_async \
-                (get_node_info, (self.result_dict, str (node)))
+                ( get_node_info
+                , (self.result_dict, str (node), self.timeout, self.debug))
         self.pool.close ()
         self.pool.join  ()
         # broken dict proxy interface, make local dict with full interface
@@ -110,6 +136,13 @@ if __name__ == '__main__' :
     from optparse import OptionParser
 
     cmd = OptionParser ()
+    cmd.add_option \
+        ( "-D", "--debug"
+        , dest    = "debug"
+        , help    = "Turn on debug logging"
+        , action  = "store_true"
+        , default = False
+        )
     cmd.add_option \
         ( "-d", "--dump"
         , dest    = "dump"
@@ -136,18 +169,28 @@ if __name__ == '__main__' :
         , help    = "File containing OLSR information"
         , default = "olsr/txtinfo.txt"
         )
+    cmd.add_option \
+        ( "-t", "--timeout"
+        , dest    = "timeout"
+        , help    = "Timout for subprocesses"
+        , type    = "int"
+        , default = 180
+        )
     (opt, args) = cmd.parse_args ()
     if len (args) :
         cmd.print_help ()
         sys.exit (23)
-    sp = Spider (opt.olsr_file, opt.processes, opt.limit_nodes)
+    sp = Spider \
+        (opt.olsr_file, opt.processes, opt.limit_nodes, opt.timeout, opt.debug)
     try :
         sp.process ()
         f = open (opt.dump, "wb")
         pickle.dump (sp.result_dict, f)
         f.close ()
         for k, v in sorted \
-            (sp.result_dict.iteritems (), key = lambda z : (z [1][0], z [0])) :
+            ( sp.result_dict.iteritems ()
+            , key = lambda z : (z [1], z [0])
+            ) :
             print k, v
     except Exception, err :
         sp.log_exception ()
