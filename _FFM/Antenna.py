@@ -41,6 +41,12 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 
 from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
+
+### Import `Wireless_Interface` early to allow `Q.belongs_to_node` to use
+### `Q.interface`
+### (setup of query attributes is done sequentially in import order)
+import _FFM.Wireless_Interface
+
 import _FFM.Antenna_Type
 import _FFM.Device
 import _FFM.Node
@@ -77,16 +83,16 @@ class Antenna (_Ancestor_Essence) :
 
         # end class azimuth
 
-#        class belongs_to_node (A_Id_Entity) :
-#            """Node to which this antenna belongs."""
-#
-#            kind               = Attr.Query
-#            auto_up_depends    = ("interface", )
-#            hidden             = True
-#            P_Type             = FFM.Node
-#            query              = Q.interface.belongs_to_node
-#
-#        # end class belongs_to_node
+        class belongs_to_node (A_Id_Entity) :
+            """Node to which this antenna belongs."""
+
+            kind               = Attr.Query
+            auto_up_depends    = ("interface", )
+            hidden             = True
+            P_Type             = FFM.Node
+            query              = Q.interface.belongs_to_node
+
+        # end class belongs_to_node
 
         class elevation (A_Int) :
             """ Elevation angle of the beam from the horizontal plane

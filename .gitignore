@@ -10,3 +10,6 @@ ffm-journal
 olsr/
 *.dump
 CA/
+test.hps*
+test.sql*
+*.sqlite
