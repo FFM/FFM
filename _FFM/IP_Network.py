@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Dr. Ralf Schlatterbeck All rights reserved
+# Copyright (C) 2012-2013 Dr. Ralf Schlatterbeck All rights reserved
 # Reichergasse 131, A--3411 Weidling, Austria. rsc@runtux.com
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -32,6 +32,7 @@
 #    13-Aug-2012 (RS) Make `IP_Network.net_address` descendant of
 #                     `_A_Composite_IP_Address_`, remove `net_mask`,
 #                     set is_partial
+#    26-Jan-2013 (CT) Add `pool`, `owner`, `free`, and `cool_down`
 #    ««revision-date»»···
 #--
 
@@ -41,6 +42,7 @@ from   _MOM.import_MOM          import *
 from   _FFM                     import FFM
 
 from   _GTW._OMP._NET.Attr_Type import *
+from   _GTW._OMP._PAP           import PAP, Subject
 
 _Ancestor_Essence = FFM.Object
 
@@ -64,9 +66,75 @@ class IP_Network (_Ancestor_Essence) :
 
         ### Non-primary attributes
 
+        class free (A_Boolean) :
+            """Indicates whether this `%(type_name)s` can be assigned"""
+
+            kind               = Attr.Query
+            auto_up_depends    = ("cool_down", "owner")
+            query              = (Q.owner == None) & (Q.cool_down == None)
+
+        # end class free
+
+        class cool_down (A_Date_Time) :
+            """Cool down date after which the IP_Network is free to be
+               reallocated.
+            """
+
+            kind               = Attr.Internal
+
+        # end class cool_down
+
+        class owner (A_Id_Entity) :
+            """Owner of the `%(type_name)s`."""
+
+            kind               = Attr.Optional
+            P_Type             = PAP.Subject
+
+        # end class owner
+
+        class pool (A_Id_Entity) :
+            """Pool the `%(type_name)s` belongs to."""
+
+            kind               = Attr.Optional
+
+            check              = \
+                ( "(pool is None) or isinstance (self, pool.E_Type)"
+                ,
+                )
+
+        # end class pool
+
     # end class _Attributes
 
+    class _Predicates (_Ancestor_Essence._Predicates) :
+
+        _Ancestor = _Ancestor_Essence._Predicates
+
+        class net_address_in_pool (Pred.Condition) :
+            """The `net_address` must be contained in the `pool`."""
+
+            kind               = Pred.Object
+            assertion          = "net_address in pool.net_address"
+            attributes         = ("net_address", "pool.net_address")
+
+        # end class net_address_in_pool
+
+        class owner_or_cool_down (Pred.Region) :
+            """At most one of `owner` and `cool_down` can be defined at one
+               time.
+            """
+
+            kind               = Pred.Object
+            assertion          = "not (owner and cool_down)"
+            attr_none          = ("owner", "cool_down")
+
+        # end class owner_or_cool_down
+
+    # end class _Predicates
+
 # end class IP_Network
+
+#IP_Network._Attributes.pool.P_Type = IP_Network
 
 if __name__ != "__main__" :
     FFM._Export ("*")

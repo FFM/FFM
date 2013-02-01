@@ -106,6 +106,13 @@ _test_code = """
     ...     (left = devtype, node = node, name = 'dev', raw = True)
     >>> wl  = FFM.Wireless_Interface (left = dev, name = 'wl', raw = True)
     >>> wia = FFM.Wireless_Interface_uses_Antenna (wl, b)
+
+    >>> b.__class__.belongs_to_node
+    Entity `belongs_to_node`
+
+    >>> b.belongs_to_node
+    FFM.Node (u'nogps')
+
     >>> FFM.Antenna.query (Q.interface == wl).count ()
     1
     >>> FFM.Antenna.query (Q.belongs_to_node.manager == mgr).count ()
