@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #     8-Jan-2013 (RS) Creation
+#     1-Feb-2013 (RS) Fix rounding error with python2.6
 #    ««revision-date»»···
 #--
 
@@ -41,7 +42,7 @@ def create (scope) :
     mgr = PAP.Person \
         (first_name = 'Ralf', last_name = 'Schlatterbeck', raw = True)
     node1 = FFM.Node (name = "nogps", manager = mgr, raw = True)
-    gps1 = dict (lat = "48 d 17 m 9.64 s", lon = "15 d 52 m 27.84 s")
+    gps1 = dict (lat = "48 d 15 m", lon = "15 d 52 m 27.84 s")
     node2 = FFM.Node \
         (name = "node2", manager = mgr, position = gps1, raw = True)
     net = FFM.IP4_Network (dict (address = '192.168.23.0/24'), raw = True)
