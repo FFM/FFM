@@ -484,7 +484,7 @@ if __name__ == '__main__' :
         ip = sys.argv [1]
     site = Guess.site % locals ()
     #site = 'file:///' + os.path.abspath (ip)
-    url  = 'index.html'
+    url  = ''
     ff   = Guess (site = site, url = url)
     print "Type:    %s" % ff.type
     print "Version: %s" % ff.version
