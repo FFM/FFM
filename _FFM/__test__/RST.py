@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #     9-Jan-2013 (CT) Creation
+#     1-Feb-2013 (RS) Fix rounding error with python2.6
 #    ««revision-date»»···
 #--
 
@@ -218,7 +219,7 @@ _test_get = r"""
                                               , 'url' : '/v1/PAP-Person/1'
                                               }
                                           , 'position' :
-                                              { 'lat' : 48.28601111111111
+                                              { 'lat' : 48.25
                                               , 'lon' : 15.8744
                                               }
                                           }

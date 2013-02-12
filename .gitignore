@@ -7,7 +7,6 @@ guifi.xml
 media/v
 ffm
 ffm-journal
-olsr/
 *.dump
 CA/
 test.hps*
