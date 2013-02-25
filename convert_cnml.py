@@ -91,6 +91,7 @@ class Convert (object) :
             , ap     = 'AP'
             , ad_hoc = 'Ad_Hoc'
             )
+        self.modes [None] = None
 
         #print self.et.pretty (with_text = 1)
         #print self.et.pretty ()
