@@ -87,9 +87,9 @@ class Convert (object) :
         PAP        = self.scope.PAP
         self.owner = PAP.Person (first_name = "guifi", last_name = "net")
         self.modes = dict \
-            ( client = self.ffm.Client_Mode
-            , ap     = self.ffm.AP_Mode
-            , ad_hoc = self.ffm.Ad_Hoc_Mode
+            ( client = 'Client'
+            , ap     = 'AP'
+            , ad_hoc = 'Ad_Hoc'
             )
 
         #print self.et.pretty (with_text = 1)
@@ -267,12 +267,11 @@ class Convert (object) :
                 , standard    = std
                 , essid       = ssid
                 , mac_address = mac
+                , mode        = self.modes [mode]
                 , raw         = True
                 )
             assert (wif.mac_address == mac)
             self.ffm.Wireless_Interface_uses_Antenna (wif, antenna, raw = True)
-        if mode :
-            self.modes [mode] (wif)
         self.insert_links (wif, element)
         ipv4 = element.get ('ipv4')
         mask = element.get ('mask')
