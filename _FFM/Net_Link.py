@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -29,6 +29,8 @@
 #    10-May-2012 (CT) Creation
 #    18-May-2012 (CT) Change `not_inverse` to use `count`, not `one`
 #    19-Sep-2012 (CT) Use `force_role_name`, not `role_name`
+#    26-Feb-2013 (CT) Remove `is_partial = True`,
+#                     i.e., allow links between different `Net_Interface`
 #    ««revision-date»»···
 #--
 
@@ -43,8 +45,6 @@ _Ancestor_Essence = FFM.Link2
 
 class Net_Link (_Ancestor_Essence) :
     """Link between two network interfaces."""
-
-    is_partial = True
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 

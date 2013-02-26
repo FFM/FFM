@@ -176,10 +176,7 @@ class Convert (object) :
                     self.links [name].append (element.get ('id'))
                     left  = interface
                     right = self.ffm.Net_Interface.query (name = r_id).one ()
-                    if isinstance (left, self.ffm.Wireless_Interface.E_Type) :
-                        self.ffm.Wireless_Link (left, right)
-                    else :
-                        self.ffm.Wired_Link    (left, right)
+                    self.ffm.Net_Link (left, right)
                 else :
                     self.links [name] = [element.get ('id')]
             else :
@@ -199,7 +196,7 @@ class Convert (object) :
     def insert_wired_interface (self, device, element) :
         mac  = fix_mac (element.get ('mac'))
         name = element.get ('id')
-        wif  = self.ffm.Wireless_Interface.instance \
+        wif  = self.ffm._Wireless_Interface_.instance \
             ( left        = device
             , name        = name
             , mac_address = mac
@@ -239,7 +236,7 @@ class Convert (object) :
     # end def insert_wired_interface
 
     def insert_wireless_interface \
-        (self, device, radio, element, antenna, master) :
+            (self, device, radio, element, antenna, master) :
         mac  = fix_mac (element.get ('mac'))
         ssid = radio.get ('ssid')
         if ssid and len (ssid) > 32 :
@@ -261,9 +258,8 @@ class Convert (object) :
             , mode        = self.modes [mode]
             , raw         = True
             )
-        wif  = self.ffm.Wireless_Interface.instance (** param)
-        assert not (wif and master)
-        if master :
+        wif = self.ffm.Wireless_Interface.instance (** param)
+        if master and wif is None :
             wif = self.ffm.Virtual_Wireless_Interface.instance \
                 (hardware = master, ** param)
         if wif :

@@ -37,7 +37,7 @@
 #    17-Dec-2012 (CT) Add attribute `mode`
 #    17-Dec-2012 (CT) Set `standard.ui_allow_new` to `False`
 #    26-Feb-2013 (CT) Add `Virtual_Wireless_Interface`,
-#                     factor `_Wireless_Interface_`
+#                     factor and export `_Wireless_Interface_`
 #    ««revision-date»»···
 #--
 
@@ -181,5 +181,5 @@ class Virtual_Wireless_Interface (_Ancestor_Essence) :
 # end class Virtual_Wireless_Interface
 
 if __name__ != "__main__" :
-    FFM._Export ("*")
+    FFM._Export ("*", "_Wireless_Interface_")
 ### __END__ FFM.Wireless_Interface

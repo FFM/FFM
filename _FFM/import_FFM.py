@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -41,6 +41,7 @@
 #    12-Oct-2012 (RS) Add `Node_has_Address`
 #     9-Nov-2012 (RS) Import `IM_Handle` from `PAP`
 #     7-Dec-2012 (RS) Add `Antenna_Band`
+#    26-Feb-2013 (CT) Remove `Wired_Link` and `Wireless_Link`
 #    ««revision-date»»···
 #--
 
@@ -86,9 +87,7 @@ import _FFM.Net_Interface_in_IP_Network
 import _FFM.Net_Link
 import _FFM.Node_has_Address
 import _FFM.Person_mentors_Person
-import _FFM.Wired_Link
 import _FFM.Wireless_Interface_uses_Antenna
 import _FFM.Wireless_Interface_uses_Wireless_Channel
-import _FFM.Wireless_Link
 
 ### __END__ FFM.import_FFM

@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package GTW.OMP.SRM.
@@ -41,6 +41,7 @@
 #     8-Dec-2012 (RS) Add `Antenna_Band`
 #    17-Dec-2012 (CT) Remove `Wireless_Mode`
 #    17-Dec-2012 (RS) Skip explicit links from children of `Net_Interface`
+#    26-Feb-2013 (CT) Remove `Wired_Link` and `Wireless_Link`
 #    ««revision-date»»···
 #--
 
@@ -132,10 +133,6 @@ def graph (app_type) :
                 )
             , Child.FFM.Wireless_Interface
                 ( Skip.left
-                , ET.FFM.Wireless_Link
-                    ( Child.FFM.Net_Link
-                    , offset = CD.S
-                    )
                 , ET.FFM.Wireless_Interface_uses_Antenna
                     ( Role.left
                         ( guide_offset = 1.5
@@ -160,10 +157,6 @@ def graph (app_type) :
                 )
             , Child.FFM.Wired_Interface
                 ( Skip.left
-                , ET.FFM.Wired_Link
-                    ( Child.FFM.Net_Link
-                    , offset = CD.S
-                    )
                 , offset = CD.E
                 )
             )

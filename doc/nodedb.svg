@@ -261,7 +261,7 @@
       </tspan>
     </text>
   </g>
-  <g id="FFM.Net_Link" fill="#EDEDED" class="E_Type" opacity="0.6">
+  <g id="FFM.Net_Link" fill="#EDEDED" class="E_Type" opacity="1.0">
     <title>
       FFM.Net_Link: Link between two network interfaces.
     </title>
@@ -306,21 +306,6 @@
       </tspan>
       <tspan dx="9" dy="27.0" x="1369">
         _Interface
-      </tspan>
-    </text>
-  </g>
-  <g id="FFM.Wired_Link" fill="#EDEDED" class="E_Type" opacity="1.0">
-    <title>
-      FFM.Wired_Link: Link between two wired network interfaces.
-    </title>
-    <rect height="100" stroke="#999" stroke-width="4" width="160" x="1360"
-          y="1275"
-    />
-    <text fill="#003" font-family="sans-serif" font-size="18" x="1369"
-          y="1275"
-    >
-      <tspan dx="0" dy="27.0" x="1369">
-        FFM.Wired_Link
       </tspan>
     </text>
   </g>
@@ -387,24 +372,6 @@
     >
       <tspan dx="0" dy="27.0" x="409">
         _uses_
-      </tspan>
-    </text>
-  </g>
-  <g id="FFM.Wireless_Link" fill="#EDEDED" class="E_Type" opacity="1.0">
-    <title>
-      FFM.Wireless_Link: Link between two wireless network interfaces.
-    </title>
-    <rect height="100" stroke="#999" stroke-width="4" width="160" x="720"
-          y="1275"
-    />
-    <text fill="#003" font-family="sans-serif" font-size="18" x="729"
-          y="1275"
-    >
-      <tspan dx="0" dy="27.0" x="729">
-        FFM.Wireless
-      </tspan>
-      <tspan dx="9" dy="27.0" x="729">
-        _Link
       </tspan>
     </text>
   </g>
@@ -586,7 +553,7 @@
   </g>
   <g id="FFM.Device.left:FFM.Device_Type" opacity="1.0">
     <title>
-      FFM.Device role type: Type of device
+      FFM.Device role type: Type of Device
     </title>
     <polyline fill="none" marker-start="url(#MOM:RM)"
               points="200,375 200,275 1400,275 1400,375" stroke="#666"
@@ -930,56 +897,6 @@
       </textPath>
     </text>
   </g>
-  <g id="FFM.Net_Link:is_a:FFM.Wired_Link" opacity="1.0">
-    <title>
-      FFM.Net_Link is-a FFM.Wired_Link: FFM.Net_Link is derived from FFM.Wired_Link
-    </title>
-    <polyline fill="none" marker-end="url(#MOM:IM)"
-              points="1200,1325 1360,1325" stroke="#08D"
-              stroke-opacity="0.45" stroke-width="5"
-    />
-    <path d="M 1200 1325 L 1360 1325"
-          id="FFM.Net_Link:is_a:FFM.Wired_Link::path" fill="none"
-          stroke="none"
-    >
-    </path>
-    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
-          font-size="18"
-    >
-      <textPath startOffset="10%" text-anchor="start"
-                xlink:href="#FFM.Net_Link:is_a:FFM.Wired_Link::path"
-      >
-        <tspan dy="-7.0">
-          IS_A
-        </tspan>
-      </textPath>
-    </text>
-  </g>
-  <g id="FFM.Net_Link:is_a:FFM.Wireless_Link" opacity="1.0">
-    <title>
-      FFM.Net_Link is-a FFM.Wireless_Link: FFM.Net_Link is derived from FFM.Wireless_Link
-    </title>
-    <polyline fill="none" marker-end="url(#MOM:IM)"
-              points="1040,1325 880,1325" stroke="#08D"
-              stroke-opacity="0.45" stroke-width="5"
-    />
-    <path d="M 880 1325 L 1040 1325"
-          id="FFM.Net_Link:is_a:FFM.Wireless_Link::path" fill="none"
-          stroke="none"
-    >
-    </path>
-    <text fill="#08D" fill-opacity="0.45" font-family="sans-serif"
-          font-size="18"
-    >
-      <textPath startOffset="90%" text-anchor="end"
-                xlink:href="#FFM.Net_Link:is_a:FFM.Wireless_Link::path"
-      >
-        <tspan dy="-7.0">
-          IS_A
-        </tspan>
-      </textPath>
-    </text>
-  </g>
   <g id="FFM.Node.manager:PAP.Person" opacity="1.0">
     <title>
       FFM.Node attribute manager: Manager of the node
@@ -1095,50 +1012,6 @@
       >
         <tspan dy="-7.0">
           IS_A
-        </tspan>
-      </textPath>
-    </text>
-  </g>
-  <g id="FFM.Wired_Link.left:FFM.Wired_Interface" opacity="1.0">
-    <title>
-      FFM.Wired_Link role left: Left network interface
-    </title>
-    <polyline fill="none" marker-start="url(#MOM:RM)"
-              points="1400,1275 1400,1075" stroke="#666" stroke-width="5"
-    />
-    <path d="M 1400 1275 L 1400 1075"
-          id="FFM.Wired_Link.left:FFM.Wired_Interface::path" fill="none"
-          stroke="none"
-    >
-    </path>
-    <text fill="#666" font-family="sans-serif" font-size="18">
-      <textPath startOffset="10%" text-anchor="start"
-                xlink:href="#FFM.Wired_Link.left:FFM.Wired_Interface::path"
-      >
-        <tspan dy="-7.0">
-          left
-        </tspan>
-      </textPath>
-    </text>
-  </g>
-  <g id="FFM.Wired_Link.right:FFM.Wired_Interface" opacity="1.0">
-    <title>
-      FFM.Wired_Link role right: Right network interface
-    </title>
-    <polyline fill="none" marker-start="url(#MOM:RM)"
-              points="1480,1275 1480,1075" stroke="#666" stroke-width="5"
-    />
-    <path d="M 1480 1275 L 1480 1075"
-          id="FFM.Wired_Link.right:FFM.Wired_Interface::path" fill="none"
-          stroke="none"
-    >
-    </path>
-    <text fill="#666" font-family="sans-serif" font-size="18">
-      <textPath startOffset="10%" text-anchor="start"
-                xlink:href="#FFM.Wired_Link.right:FFM.Wired_Interface::path"
-      >
-        <tspan dy="-7.0">
-          right
         </tspan>
       </textPath>
     </text>
@@ -1290,50 +1163,6 @@
     <text fill="#666" font-family="sans-serif" font-size="18">
       <textPath startOffset="90%" text-anchor="end"
                 xlink:href="#FFM.Wireless_Interface_uses_Wireless_Channel.right:FFM.Wireless_Channel::path"
-      >
-        <tspan dy="-7.0">
-          right
-        </tspan>
-      </textPath>
-    </text>
-  </g>
-  <g id="FFM.Wireless_Link.left:FFM.Wireless_Interface" opacity="1.0">
-    <title>
-      FFM.Wireless_Link role left: Left network interface
-    </title>
-    <polyline fill="none" marker-start="url(#MOM:RM)"
-              points="760,1275 760,1075" stroke="#666" stroke-width="5"
-    />
-    <path d="M 760 1275 L 760 1075"
-          id="FFM.Wireless_Link.left:FFM.Wireless_Interface::path"
-          fill="none" stroke="none"
-    >
-    </path>
-    <text fill="#666" font-family="sans-serif" font-size="18">
-      <textPath startOffset="10%" text-anchor="start"
-                xlink:href="#FFM.Wireless_Link.left:FFM.Wireless_Interface::path"
-      >
-        <tspan dy="-7.0">
-          left
-        </tspan>
-      </textPath>
-    </text>
-  </g>
-  <g id="FFM.Wireless_Link.right:FFM.Wireless_Interface" opacity="1.0">
-    <title>
-      FFM.Wireless_Link role right: Right network interface
-    </title>
-    <polyline fill="none" marker-start="url(#MOM:RM)"
-              points="840,1275 840,1075" stroke="#666" stroke-width="5"
-    />
-    <path d="M 840 1275 L 840 1075"
-          id="FFM.Wireless_Link.right:FFM.Wireless_Interface::path"
-          fill="none" stroke="none"
-    >
-    </path>
-    <text fill="#666" font-family="sans-serif" font-size="18">
-      <textPath startOffset="10%" text-anchor="start"
-                xlink:href="#FFM.Wireless_Link.right:FFM.Wireless_Interface::path"
       >
         <tspan dy="-7.0">
           right

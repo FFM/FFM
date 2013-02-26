@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the program FFM.
@@ -42,6 +42,7 @@
 #    17-Dec-2012 (RS) Add Specs for `Antenna` and `Net_Device`
 #    17-Dec-2012 (RS) Add `list_display` for `Wireless_Interface`
 #    17-Dec-2012 (CT) Remove `Wireless_Mode`
+#    26-Feb-2013 (CT) Remove `Wired_Link` and `Wireless_Link`
 #    ««revision-date»»···
 #--
 
@@ -133,10 +134,6 @@ class Admin (object) :
         ( ETM             = "FFM.Wired_Interface"
         )
 
-    Wired_Link            = dict \
-        ( ETM             = "FFM.Wired_Link"
-        )
-
     Wireless_Channel      = dict \
         ( ETM             = "FFM.Wireless_Channel"
         )
@@ -144,10 +141,6 @@ class Admin (object) :
     Wireless_Interface    = dict \
         ( ETM             = "FFM.Wireless_Interface"
         , list_display    = ("left", "mac_address", "name", "is_active")
-        )
-
-    Wireless_Link         = dict \
-        ( ETM             = "FFM.Wireless_Link"
         )
 
     Wireless_Standard     = dict \
