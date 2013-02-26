@@ -43,6 +43,7 @@
 #    17-Dec-2012 (RS) Add `list_display` for `Wireless_Interface`
 #    17-Dec-2012 (CT) Remove `Wireless_Mode`
 #    26-Feb-2013 (CT) Remove `Wired_Link` and `Wireless_Link`
+#    26-Feb-2013 (CT) Add `Virtual_Wireless_Interface`
 #    ««revision-date»»···
 #--
 
@@ -128,6 +129,12 @@ class Admin (object) :
 
     Routing_Zone          = dict \
         ( ETM             = "FFM.Routing_Zone"
+        )
+
+    Virtual_Wireless_Interface = dict \
+        ( ETM             = "FFM.Virtual_Wireless_Interface"
+        , list_display    =
+            ("hardware", "hardware.left", "mac_address", "name", "is_active")
         )
 
     Wired_Interface       = dict \
