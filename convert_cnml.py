@@ -238,7 +238,8 @@ class Convert (object) :
         return nif
     # end def insert_wired_interface
 
-    def insert_wireless_interface (self, device, radio, element, antenna) :
+    def insert_wireless_interface \
+        (self, device, radio, element, antenna, master) :
         mac  = fix_mac (element.get ('mac'))
         ssid = radio.get ('ssid')
         if ssid and len (ssid) > 32 :
@@ -246,33 +247,39 @@ class Convert (object) :
             ssid = ssid [:32]
         # an interface may have more than one IP address and occur
         # multiple times in the XML
-        name = element.get ('id')
-        mode = element.get ('mode')
-        wif  = self.ffm.Wireless_Interface.instance \
-            ( left        = device
-            , name        = name
-            , mac_address = mac
-            , raw         = True
-            )
-        prot = radio.get ('protocol')
+        name  = element.get ('id')
+        mode  = element.get ('mode')
+        prot  = radio.get ('protocol')
         if prot :
             prot = self.protocol_translate.get (prot, prot)
+        std   = self.ffm.Wireless_Standard.instance (prot, raw = True)
+        param = dict \
+            ( left        = device
+            , name        = name
+            , standard    = std
+            , essid       = ssid
+            , mac_address = mac
+            , mode        = self.modes [mode]
+            , raw         = True
+            )
+        wif  = self.ffm.Wireless_Interface.instance (** param)
+        assert not (wif and master)
+        if master :
+            wif = self.ffm.Virtual_Wireless_Interface.instance \
+                (hardware = master, ** param)
         if wif :
             assert (wif.essid                 == ssid)
             assert (wif.mac_address           == mac)
         else :
-            std  = self.ffm.Wireless_Standard.instance (prot, raw = True)
-            wif  = self.ffm.Wireless_Interface \
-                ( left        = device
-                , name        = name
-                , standard    = std
-                , essid       = ssid
-                , mac_address = mac
-                , mode        = self.modes [mode]
-                , raw         = True
-                )
+            if master :
+                wif = self.ffm.Virtual_Wireless_Interface \
+                    (hardware = master, ** param)
+            else :
+                wif = self.ffm.Wireless_Interface (** param)
             assert (wif.mac_address == mac)
-            self.ffm.Wireless_Interface_uses_Antenna (wif, antenna, raw = True)
+            if not master :
+                self.ffm.Wireless_Interface_uses_Antenna.instance_or_new \
+                    (wif, antenna, raw = True)
         self.insert_links (wif, element)
         ipv4 = element.get ('ipv4')
         mask = element.get ('mask')
@@ -291,26 +298,41 @@ class Convert (object) :
         """
         id   = element.get ('id')
         gn   = element.get ('antenna_gain') or '0'
-        antt = self.ffm.Antenna_Type.instance_or_new \
+        p    = dict \
             ( name        = gn
             , gain        = gn
             , raw         = True
             )
+        antt = self.ffm.Antenna_Type.instance (** p)
+        if not antt :
+            antt = self.ffm.Antenna_Type (** p)
+            band = self.ffm.Antenna_Band \
+                ( antt
+                , band = dict (lower = "1 Hz", upper = "1 THz")
+                , raw = True
+                )
         angle = element.get ('antenna_angle')
         elev  = None
         if angle :
             elev = str (90 - (int (angle) % 360))
         ant  = self.ffm.Antenna.instance_or_new \
             ( left        = antt
-            , name        = id
+            , name        = '.'.join ((id, element.get ('device_id')))
             , azimuth     = element.get ('antenna_azimuth') or '0'
             #, orientation = element.get ('antenna_angle') FIXME: polarisation?
             , elevation   = elev
             , raw         = True
             )
+        # FIXME: First check if there are multiple (wireless)
+        # interfaces. If yes, we want one wireless interface with
+        # several virtual interfaces
+        wif = None
         for n in element :
             if n.tag == 'interface' :
-                self.insert_wireless_interface (device, element, n, ant)
+                w = self.insert_wireless_interface \
+                    (device, element, n, ant, wif)
+                if not wif :
+                    wif = w
             else :
                 raise ValueError, "Unknown node type in radio: %s" % n.tag
     # end def insert_radio
