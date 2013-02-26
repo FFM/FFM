@@ -94,7 +94,9 @@ _test_code = """
     >>> x = PAP.Node_has_Address (node2, adr2)
     Traceback (most recent call last):
       ...
-    Multiplicity_Errors: Node_has_Address, [Multiplicity(u"Maximum number of links for (u'node2') is 1 ((FFM.Node (u'node2'), PAP.Address (u'example 44', u'1010', u'wien', u'austria')), [PAP.Node_has_Address ((u'node2', ), (u'example 23', u'1010', u'wien', u'austria'))])",)]
+    Multiplicity: The new definition of Node_has_Address (FFM.Node (u'node2'), PAP.Address (u'example 44', u'1010', u'wien', u'austria')) would exceed the maximum number [1] of links allowed for FFM.Node (u'node2').
+      Already existing:
+        PAP.Node_has_Address ((u'node2', ), (u'example 23', u'1010', u'wien', u'austria'))
 
 
     >>> gps2 = dict (lat = "48.367088", lon = "16.187672")
