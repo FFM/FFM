@@ -30,6 +30,8 @@
 #    14-Dec-2012 (CT) Change `belongs_to_node.kind` to `Attr.Query`
 #    17-Dec-2012 (CT) Set `belongs_to_node.hidden` to `True`
 #    26-Jan-2013 (CT) Define `belongs_to_node.query`, not `.query_fct`
+#    25-Feb-2013 (CT) Add `belongs_to_node.query_preconditions`
+#    26-Feb-2013 (CT) Disable `belongs_to_node`
 #    ««revision-date»»···
 #--
 
@@ -50,16 +52,19 @@ class _Belongs_to_Node_ (_Ancestor_Essence) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
-        class belongs_to_node (A_Id_Entity) :
-            """Node this %(ui_type_name)s belongs to."""
+        ### XXX `Attr.Query` referring to other `Attr.Query`
+        ### and/or auto-cached role attributes don't work at the moment
+        if False :
+            class belongs_to_node (A_Id_Entity) :
+                """Node this %(ui_type_name)s belongs to."""
 
-            kind               = Attr.Query
-            auto_up_depends    = ("left", )
-            hidden             = True
-            P_Type             = FFM.Node
-            query              = Q.left.belongs_to_node
+                kind                = Attr.Query
+                hidden              = True
+                P_Type              = FFM.Node
+                query               = Q.left.belongs_to_node
+                query_preconditions = (Q.left, )
 
-        # end class belongs_to_node
+            # end class belongs_to_node
 
     # end class _Attributes
 

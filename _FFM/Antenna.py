@@ -34,6 +34,8 @@
 #    06-Dec-2012 (RS) Add `belongs_to_node`
 #    14-Dec-2012 (CT) Change `belongs_to_node.kind` to `Attr.Query`
 #    17-Dec-2012 (CT) Set `belongs_to_node.hidden` to `True`
+#    25-Feb-2013 (CT) Add `belongs_to_node.query_preconditions`
+#    26-Feb-2013 (CT) Disable `belongs_to_node`
 #    ««revision-date»»···
 #--
 
@@ -83,16 +85,19 @@ class Antenna (_Ancestor_Essence) :
 
         # end class azimuth
 
-        class belongs_to_node (A_Id_Entity) :
-            """Node to which this antenna belongs."""
+        ### XXX `Attr.Query` referring to other `Attr.Query`
+        ### and/or auto-cached role attributes don't work at the moment
+        if False :
+            class belongs_to_node (A_Id_Entity) :
+                """Node to which this antenna belongs."""
 
-            kind               = Attr.Query
-            auto_up_depends    = ("interface", )
-            hidden             = True
-            P_Type             = FFM.Node
-            query              = Q.interface.belongs_to_node
+                kind                = Attr.Query
+                hidden              = True
+                P_Type              = FFM.Node
+                query               = Q.interface.belongs_to_node
+                query_preconditions = (Q.interface, )
 
-        # end class belongs_to_node
+            # end class belongs_to_node
 
         class elevation (A_Int) :
             """ Elevation angle of the beam from the horizontal plane
