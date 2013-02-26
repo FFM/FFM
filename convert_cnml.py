@@ -256,7 +256,6 @@ class Convert (object) :
         param = dict \
             ( left        = device
             , name        = name
-            , standard    = std
             , essid       = ssid
             , mac_address = mac
             , mode        = self.modes [mode]
@@ -275,11 +274,10 @@ class Convert (object) :
                 wif = self.ffm.Virtual_Wireless_Interface \
                     (hardware = master, ** param)
             else :
-                wif = self.ffm.Wireless_Interface (** param)
-            assert (wif.mac_address == mac)
-            if not master :
+                wif = self.ffm.Wireless_Interface (standard = std, ** param)
                 self.ffm.Wireless_Interface_uses_Antenna.instance_or_new \
                     (wif, antenna, raw = True)
+            assert (wif.mac_address == mac)
         self.insert_links (wif, element)
         ipv4 = element.get ('ipv4')
         mask = element.get ('mask')
