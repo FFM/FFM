@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Dr. Ralf Schlatterbeck All rights reserved
+# Copyright (C) 2012-2013 Dr. Ralf Schlatterbeck All rights reserved
 # Reichergasse 131, A--3411 Weidling, Austria. rsc@runtux.com
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -71,6 +71,7 @@ class Net_Interface_in_IP_Network (_Ancestor_Essence) :
             """IP Network."""
 
             role_type          = FFM.IP_Network
+            ### XXX max_links          = 1
 
         # end class right
 

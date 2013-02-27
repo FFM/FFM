@@ -34,6 +34,7 @@
 #                     set is_partial
 #    26-Jan-2013 (CT) Add `pool`, `owner`, `free`, and `cool_down`
 #    27-Feb-2013 (CT) Remove `free.auto_up_depends`
+#    27-Feb-2013 (CT) Add allocation methods, attribute `has_children`
 #    ««revision-date»»···
 #--
 
@@ -67,13 +68,17 @@ class IP_Network (_Ancestor_Essence) :
 
         ### Non-primary attributes
 
-        class free (A_Boolean) :
+        class is_free (A_Boolean) :
             """Indicates whether this `%(type_name)s` can be assigned"""
 
             kind               = Attr.Query
-            query              = (Q.owner == None) & (Q.cool_down == None)
+            query              = \
+                ( (Q.has_children  == False)
+                &  (Q.cool_down     == None)
+                #& (Q.net_interface == None) ### XXX
+                )
 
-        # end class free
+        # end class is_free
 
         class cool_down (A_Date_Time) :
             """Cool down date after which the IP_Network is free to be
@@ -83,6 +88,15 @@ class IP_Network (_Ancestor_Essence) :
             kind               = Attr.Internal
 
         # end class cool_down
+
+        class has_children (A_Boolean) :
+            """Indicates whether this `%(type_name)s` is split into parts."""
+
+            ### XXX should be Attr.Query if it only worked
+            kind               = Attr.Internal
+            default            = False
+
+        # end class has_children
 
         class owner (A_Id_Entity) :
             """Owner of the `%(type_name)s`."""
@@ -96,10 +110,6 @@ class IP_Network (_Ancestor_Essence) :
             """Pool the `%(type_name)s` belongs to."""
 
             kind               = Attr.Optional
-            check              = \
-                ( "(pool is None) or isinstance (self, pool.E_Type)"
-                ,
-                )
 
         # end class pool
 
@@ -130,6 +140,85 @@ class IP_Network (_Ancestor_Essence) :
         # end class owner_or_cool_down
 
     # end class _Predicates
+
+    def allocate (self, mask_len, owner) :
+        pool = self.find_closest_mask (mask_len)
+        if pool is None :
+            raise ValueError \
+                ( "Address range [%s] of this %s doesn' contain a "
+                  "free subrange for mask length %s"
+                % (self.net_address, self.ui_name, mask_len)
+                )
+        result = pool
+        ETM    = self.ETM
+        E_Type = self.E_Type
+        E_Type.net_address.P_Type (pool)
+        net_addr = E_Type.net_address.P_Type \
+            (pool.net_address.address.subnets (mask_len).next ())
+        return self._reserve (pool, net_addr, owner)
+    # end def allocate
+
+    def find_closest_address (self, net_addr) :
+        if net_addr in self.net_address :
+            result = self.ETM.query \
+                ( Q.net_address.CONTAINS (net_addr)
+                , sort_key = TFL.Sorted_By ("-net_address.mask_len")
+                ).first ()
+            return result
+    # end def find_closest_address
+
+    def find_closest_mask (self, mask_len) :
+        blocks = self.ETM.query \
+            ( ### XXX factor `is_free` once query attributes work properly
+              (Q.has_children  == False)
+            & (Q.cool_down     == None)
+            & (Q.net_address.mask_len <= mask_len)
+            & (Q.net_address.CONTAINS (self.net_address))
+            , sort_key = TFL.Sorted_By ("-net_address.mask_len")
+            )
+        for b in blocks :
+            if b.net_interface is None :
+                return b
+    # end def find_closest_mask
+
+    def reserve (self, net_addr, owner) :
+        pool = self.find_closest_address (net_addr)
+        if pool is None :
+            raise ValueError \
+                ( "Address %s not in the address range [%s] of this %s"
+                % (net_addr, self.net_address, self.ui_name)
+                )
+        if not pool.is_free :
+            raise ValueError \
+                ( "Address %s already in use by '%s'"
+                % (net_addr, self.FO.owner)
+                )
+        return self._reserve (pool, net_addr, owner)
+    # end def reserve
+
+    def split (self) :
+        ETM         = self.ETM
+        E_Type      = self.E_Type
+        net_address = self.net_address
+        results     = []
+        for sn in net_address.address.subnets (net_address.mask_len + 1) :
+            sn_addr = E_Type.net_address.P_Type (sn)
+            results.append (ETM (sn_addr, owner = self.owner))
+        self.has_children = True
+        return results
+    # end def split
+
+    def _reserve (self, pool, net_addr, owner) :
+        result = pool
+        while result.net_address != net_addr :
+            p1, p2 = result.split ()
+            if net_addr in p1.net_address :
+                result, other = p1, p2
+            else :
+                other, result = p1, p2
+        result.set (owner = owner, has_children = True)
+        return result
+    # end def _reserve
 
 # end class IP_Network
 
