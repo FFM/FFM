@@ -44,6 +44,8 @@
 #    17-Dec-2012 (CT) Remove `Wireless_Mode`
 #    26-Feb-2013 (CT) Remove `Wired_Link` and `Wireless_Link`
 #    26-Feb-2013 (CT) Add `Virtual_Wireless_Interface`
+#    27-Feb-2013 (CT) Remove `hardware.left` from
+#                     `Virtual_Wireless_Interface.list_display`
 #    ««revision-date»»···
 #--
 
@@ -134,7 +136,7 @@ class Admin (object) :
     Virtual_Wireless_Interface = dict \
         ( ETM             = "FFM.Virtual_Wireless_Interface"
         , list_display    =
-            ("hardware", "hardware.left", "mac_address", "name", "is_active")
+            ("hardware", "mac_address", "name", "is_active")
         )
 
     Wired_Interface       = dict \
