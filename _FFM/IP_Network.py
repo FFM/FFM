@@ -33,6 +33,7 @@
 #                     `_A_Composite_IP_Address_`, remove `net_mask`,
 #                     set is_partial
 #    26-Jan-2013 (CT) Add `pool`, `owner`, `free`, and `cool_down`
+#    27-Feb-2013 (CT) Remove `free.auto_up_depends`
 #    ««revision-date»»···
 #--
 
@@ -70,7 +71,6 @@ class IP_Network (_Ancestor_Essence) :
             """Indicates whether this `%(type_name)s` can be assigned"""
 
             kind               = Attr.Query
-            auto_up_depends    = ("cool_down", "owner")
             query              = (Q.owner == None) & (Q.cool_down == None)
 
         # end class free
@@ -96,7 +96,6 @@ class IP_Network (_Ancestor_Essence) :
             """Pool the `%(type_name)s` belongs to."""
 
             kind               = Attr.Optional
-
             check              = \
                 ( "(pool is None) or isinstance (self, pool.E_Type)"
                 ,
@@ -133,8 +132,6 @@ class IP_Network (_Ancestor_Essence) :
     # end class _Predicates
 
 # end class IP_Network
-
-#IP_Network._Attributes.pool.P_Type = IP_Network
 
 if __name__ != "__main__" :
     FFM._Export ("*")

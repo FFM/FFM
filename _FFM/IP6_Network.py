@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Dr. Ralf Schlatterbeck All rights reserved
+# Copyright (C) 2012-2013 Dr. Ralf Schlatterbeck All rights reserved
 # Reichergasse 131, A--3411 Weidling, Austria. rsc@runtux.com
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    22-May-2012 (RS) Creation
+#    27-Feb-2013 (CT) Add `pool`
 #    ««revision-date»»···
 #--
 
@@ -59,6 +60,12 @@ class IP6_Network (_Ancestor_Essence) :
         # end class net_address
 
         ### Non-primary attributes
+
+        class pool (_Ancestor.pool) :
+
+            P_Type             = "FFM.IP6_Network"
+
+        # end class pool
 
     # end class _Attributes
 
