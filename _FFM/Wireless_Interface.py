@@ -39,6 +39,7 @@
 #    26-Feb-2013 (CT) Add `Virtual_Wireless_Interface`,
 #                     factor and export `_Wireless_Interface_`
 #    27-Feb-2013 (CT) Add `Virtual_Wireless_Interface.hardware.sort_skip = True`
+#    27-Feb-2013 (CT) Add `Init_Only_Mixin` and `ui_allow_new` to `hardware`
 #    ««revision-date»»···
 #--
 
@@ -140,8 +141,10 @@ class Virtual_Wireless_Interface (_Ancestor_Essence) :
             """Hardware interface used by virtual interface."""
 
             kind               = Attr.Primary
+            Kind_Mixins        = (Attr.Init_Only_Mixin, )
             P_Type             = Wireless_Interface
             sort_skip          = True
+            ui_allow_new       = False
 
         # end class hardware
 
