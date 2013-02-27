@@ -38,6 +38,7 @@
 #    17-Dec-2012 (CT) Set `standard.ui_allow_new` to `False`
 #    26-Feb-2013 (CT) Add `Virtual_Wireless_Interface`,
 #                     factor and export `_Wireless_Interface_`
+#    27-Feb-2013 (CT) Add `Virtual_Wireless_Interface.hardware.sort_skip = True`
 #    ««revision-date»»···
 #--
 
@@ -140,6 +141,7 @@ class Virtual_Wireless_Interface (_Ancestor_Essence) :
 
             kind               = Attr.Primary
             P_Type             = Wireless_Interface
+            sort_skip          = True
 
         # end class hardware
 
