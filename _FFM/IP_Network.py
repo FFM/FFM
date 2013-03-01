@@ -43,6 +43,8 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 from   _MOM.import_MOM          import *
 from   _FFM                     import FFM
 
+import _FFM.Error
+
 from   _GTW._OMP._NET.Attr_Type import *
 from   _GTW._OMP._PAP           import PAP, Subject
 
@@ -144,11 +146,13 @@ class IP_Network (_Ancestor_Essence) :
     def allocate (self, mask_len, owner) :
         pool = self.find_closest_mask (mask_len)
         if pool is None :
-            raise ValueError \
-                ( "Address range [%s] of this %s doesn' contain a "
+            msg = \
+                ( "Address range [%s] of this %s doesn't contain a "
                   "free subrange for mask length %s"
                 % (self.net_address, self.ui_name, mask_len)
                 )
+            raise FFM.Error.No_Free_Address_Range \
+                (self.net_address, mask_len, msg)
         result = pool
         ETM    = self.ETM
         E_Type = self.E_Type
@@ -184,15 +188,19 @@ class IP_Network (_Ancestor_Essence) :
     def reserve (self, net_addr, owner) :
         pool = self.find_closest_address (net_addr)
         if pool is None :
-            raise ValueError \
+            msg = \
                 ( "Address %s not in the address range [%s] of this %s"
                 % (net_addr, self.net_address, self.ui_name)
                 )
+            raise FFM.Error.Address_not_in_Network \
+                (self.net_address, net_addr, msg)
         if not pool.is_free :
-            raise ValueError \
+            msg = \
                 ( "Address %s already in use by '%s'"
-                % (net_addr, self.FO.owner)
+                % (net_addr, pool.FO.owner)
                 )
+            raise FFM.Error.Address_Already_Used \
+                (net_addr, pool.FO.owner, str (owner.FO), msg)
         return self._reserve (pool, net_addr, owner)
     # end def reserve
 
