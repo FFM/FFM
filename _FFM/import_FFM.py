@@ -42,6 +42,7 @@
 #     9-Nov-2012 (RS) Import `IM_Handle` from `PAP`
 #     7-Dec-2012 (RS) Add `Antenna_Band`
 #    26-Feb-2013 (CT) Remove `Wired_Link` and `Wireless_Link`
+#     4-Mar-2013 (CT) Add `GTW.OMP.PAP.Association`
 #    ««revision-date»»···
 #--
 
@@ -49,6 +50,10 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 
 from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
+
+import _GTW._OMP._PAP.Association
+import _GTW._OMP._PAP.IM_Handle
+import _GTW._OMP._PAP.Nickname
 
 import _FFM.Entity
 
@@ -76,9 +81,6 @@ import _FFM.Wireless_Standard
 
 import _FFM.Wireless_Mode
 import _FFM.Zone
-
-import _GTW._OMP._PAP.IM_Handle
-import _GTW._OMP._PAP.Nickname
 
 import _FFM.Device_Type_made_by_Company
 import _FFM.Net_Interface_in_IP4_Network
