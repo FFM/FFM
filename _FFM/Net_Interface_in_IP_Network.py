@@ -31,6 +31,7 @@
 #    20-Sep-2012 (RS) Add `auto_cache_np`, `auto_derive_np` to `left`
 #                     remove `auto_cache` from `right`
 #     5-Mar-2013 (CT) Set `right.max_links = 1`
+#     5-Mar-2013 (CT) Replace `ip_address` by `mask_len`
 #    ««revision-date»»···
 #--
 
@@ -76,16 +77,42 @@ class Net_Interface_in_IP_Network (_Ancestor_Essence) :
 
         # end class right
 
-        class ip_address (_A_IP_Address_) :
-            """IP Address in this IP Network."""
-
-            kind               = Attr.Primary_Optional
-
-        # end class ip_address
-
         ### Non-primary attributes
 
+        class mask_len (A_Int) :
+            """Network mask used for this IP Network."""
+
+            kind               = Attr.Required
+
+        # end class mask_len
+
     # end class _Attributes
+
+    class _Predicates (_Ancestor_Essence._Predicates) :
+
+        _Ancestor = _Ancestor_Essence._Predicates
+
+        class valid_mask_len (Pred.Condition) :
+            """The `mask_len` must match the one of `right` or of any
+               network containing `right`.
+            """
+
+            kind               = Pred.Object
+            assertion          = "mask_len in possible_mask_lens"
+            attributes         = ("mask_len", "right.net_address")
+            bindings           = dict \
+                ( possible_mask_lens =
+                    """sorted """
+                      """( right.ETM.query """
+                            """( (Q.net_address.CONTAINS (right.net_address))"""
+                            """& (Q.electric == False)"""
+                            """).attr ("net_address.mask_len")"""
+                      """)"""
+                )
+
+        # end class valid_mask_len
+
+    # end class _Predicates
 
 # end class Net_Interface_in_IP_Network
 

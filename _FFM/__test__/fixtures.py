@@ -28,6 +28,7 @@
 # Revision Dates
 #     8-Jan-2013 (RS) Creation
 #     1-Feb-2013 (RS) Fix rounding error with python2.6
+#     5-Mar-2013 (CT) Adapt to signature change of `Net_Interface_in_IP_Network`
 #    ««revision-date»»···
 #--
 
@@ -39,6 +40,7 @@ from   _GTW._OMP._PAP         import PAP
 def create (scope) :
     FFM = scope.FFM
     PAP = scope.PAP
+    Adr = FFM.IP4_Network.net_address.P_Type
     mgr = PAP.Person \
         (first_name = 'Ralf', last_name = 'Schlatterbeck', raw = True)
     node1 = FFM.Node (name = "nogps", manager = mgr, raw = True)
@@ -46,20 +48,20 @@ def create (scope) :
     node2 = FFM.Node \
         (name = "node2", manager = mgr, position = gps1, raw = True)
     net = FFM.IP4_Network (dict (address = '192.168.23.0/24'), raw = True)
+    a1  = net.reserve (Adr ('192.168.23.1/32',  raw = True))
+    a2  = net.reserve (Adr ('192.168.23.2/32',  raw = True))
+    a3  = net.reserve (Adr ('192.168.23.3/32',  raw = True))
+    a4  = net.reserve (Adr ('192.168.23.4/32',  raw = True))
     devtype = FFM.Net_Device_Type.instance_or_new \
         (name = 'Generic', raw = True)
     dev = FFM.Net_Device \
         (left = devtype, node = node2, name = 'dev', raw = True)
     wr  = FFM.Wired_Interface (left = dev, name = 'wr', raw = True)
     wl  = FFM.Wireless_Interface (left = dev, name = 'wl', raw = True)
-    ir1 = FFM.Net_Interface_in_IP4_Network \
-        (wr, net, dict (address = '192.168.23.1'), raw = True)
-    il1 = FFM.Net_Interface_in_IP4_Network \
-        (wl, net, dict (address = '192.168.23.2'), raw = True)
-    ir2 = FFM.Net_Interface_in_IP4_Network \
-        (wr, net, dict (address = '192.168.23.3'), raw = True)
-    il2 = FFM.Net_Interface_in_IP4_Network \
-        (wl, net, dict (address = '192.168.23.4'), raw = True)
+    ir1 = FFM.Net_Interface_in_IP4_Network (wr, a1, mask_len = 24)
+    il1 = FFM.Net_Interface_in_IP4_Network (wl, a2, mask_len = 32)
+    ir2 = FFM.Net_Interface_in_IP4_Network (wr, a3, mask_len = 24)
+    il2 = FFM.Net_Interface_in_IP4_Network (wl, a4, mask_len = 24)
 # end def create
 
 ### __END__ FFM.__test__.fixtures

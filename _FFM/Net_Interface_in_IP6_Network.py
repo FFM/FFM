@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Dr. Ralf Schlatterbeck All rights reserved
+# Copyright (C) 2012-2013 Dr. Ralf Schlatterbeck All rights reserved
 # Reichergasse 131, A--3411 Weidling, Austria. rsc@runtux.com
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -28,6 +28,7 @@
 # Revision Dates
 #    22-May-2012 (RS) Creation
 #    21-Sep-2012 (RS) set `is_partial`
+#     5-Mar-2013 (CT) Remove redefinition of `ip_address` (gone from parent)
 #    ««revision-date»»···
 #--
 
@@ -60,13 +61,6 @@ class Net_Interface_in_IP6_Network (_Ancestor_Essence) :
             auto_cache         = True
 
         # end class right
-
-        class ip_address (A_IP6_Address) :
-            """IPv6 Address in this IPv6 Network."""
-
-            kind               = Attr.Primary_Optional
-
-        # end class ip_address
 
         ### Non-primary attributes
 

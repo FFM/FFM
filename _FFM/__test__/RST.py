@@ -28,6 +28,7 @@
 # Revision Dates
 #     9-Jan-2013 (CT) Creation
 #     1-Feb-2013 (RS) Fix rounding error with python2.6
+#     5-Mar-2013 (CT) Adapt to changes in `Net_Interface_in_IP4_Network`
 #    ««revision-date»»···
 #--
 
@@ -177,13 +178,11 @@ _test_get = r"""
             , 'left.url'
             , 'right.pid'
             , 'right.url'
-            , 'ip_address.address'
+            , 'mask_len'
             ]
         , 'entries' :
             [ { 'attributes' :
-                  { 'ip_address' :
-                      { 'address' : '192.168.23.1' }
-                  , 'left' :
+                  { 'left' :
                       { 'attributes' :
                           { 'left' :
                               { 'attributes' :
@@ -193,10 +192,10 @@ _test_get = r"""
                                           , 'name' : 'generic'
                                           , 'revision' : ''
                                           }
-                                      , 'cid' : 5
-                                      , 'pid' : 5
+                                      , 'cid' : 42
+                                      , 'pid' : 27
                                       , 'type_name' : 'FFM.Net_Device_Type'
-                                      , 'url' : '/v1/FFM-Net_Device_Type/5'
+                                      , 'url' : '/v1/FFM-Net_Device_Type/27'
                                       }
                                   , 'name' : 'dev'
                                   , 'node' :
@@ -229,34 +228,35 @@ _test_get = r"""
                                       , 'url' : '/v1/FFM-Node/3'
                                       }
                                   }
-                              , 'cid' : 6
-                              , 'pid' : 6
+                              , 'cid' : 43
+                              , 'pid' : 28
                               , 'type_name' : 'FFM.Net_Device'
-                              , 'url' : '/v1/FFM-Net_Device/6'
+                              , 'url' : '/v1/FFM-Net_Device/28'
                               }
                           , 'mac_address' : ''
                           , 'name' : 'wr'
                           }
-                      , 'cid' : 7
-                      , 'pid' : 7
+                      , 'cid' : 44
+                      , 'pid' : 29
                       , 'type_name' : 'FFM.Wired_Interface'
-                      , 'url' : '/v1/FFM-Wired_Interface/7'
+                      , 'url' : '/v1/FFM-Wired_Interface/29'
                       }
+                  , 'mask_len' : 24
                   , 'right' :
                       { 'attributes' :
                           { 'net_address' :
-                              { 'address' : '192.168.23.0/24' }
+                              { 'address' : '192.168.23.1' }
                           }
-                      , 'cid' : 4
-                      , 'pid' : 4
+                      , 'cid' : 29
+                      , 'pid' : 20
                       , 'type_name' : 'FFM.IP4_Network'
-                      , 'url' : '/v1/FFM-IP4_Network/4'
+                      , 'url' : '/v1/FFM-IP4_Network/20'
                       }
                   }
-              , 'cid' : 9
-              , 'pid' : 9
+              , 'cid' : 46
+              , 'pid' : 31
               , 'type_name' : 'FFM.Wired_Interface_in_IP4_Network'
-              , 'url' : '/v1/FFM-Net_Interface_in_IP4_Network/9'
+              , 'url' : '/v1/FFM-Net_Interface_in_IP4_Network/31'
               }
             ]
         }

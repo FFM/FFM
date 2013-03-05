@@ -33,6 +33,7 @@
 #    16-Oct-2012 (CT) Add tracebacks triggered by `FFM.Node.refuse_links`
 #    17-Dec-2012 (RS) Add tests for attributes of `belongs_to_node`
 #    17-Dec-2012 (RS) Temporary fix: `owner` can't be a `Company`
+#     5-Mar-2013 (CT) Adapt to changes in `Net_Interface_in_IP4_Network`
 #    ««revision-date»»···
 #--
 
@@ -49,6 +50,8 @@ _test_code = """
 
     >>> FFM = scope.FFM
     >>> PAP = scope.PAP
+    >>> Adr = FFM.IP4_Network.net_address.P_Type
+
     >>> mgr = PAP.Person \\
     ...     (first_name = 'Ralf', last_name = 'Schlatterbeck', raw = True)
 
@@ -111,29 +114,39 @@ _test_code = """
     >>> node3.last_changed
     datetime.datetime(2010, 5, 5, 23, 23, 23)
 
-    >>> net = FFM.IP4_Network (dict (address = '192.168.23.0/24'), raw = True)
+    >>> net = FFM.IP4_Network (dict (address = '192.168.23.0/24'), owner = mgr, raw = True)
+    >>> a1  = net.reserve (Adr ('192.168.23.1/32',  raw = True))
+    >>> a2  = net.reserve (Adr ('192.168.23.2/32',  raw = True))
+    >>> a3  = net.reserve (Adr ('192.168.23.3/32',  raw = True))
+    >>> a4  = net.reserve (Adr ('192.168.23.4/32',  raw = True))
+    >>> ax  = net.reserve (Adr ('192.168.23.42/32', raw = True))
     >>> devtype = FFM.Net_Device_Type.instance_or_new \\
     ...     (name = 'Generic', raw = True)
     >>> dev = FFM.Net_Device \\
     ...     (left = devtype, node = node3, name = 'dev', raw = True)
     >>> wr  = FFM.Wired_Interface (left = dev, name = 'wr', raw = True)
     >>> wl  = FFM.Wireless_Interface (left = dev, name = 'wl', raw = True)
-    >>> ir1 = FFM.Net_Interface_in_IP4_Network \\
-    ...     (wr, net, dict (address = R_IP4_Address ('192.168.23.1')))
-    >>> il1 = FFM.Net_Interface_in_IP4_Network \\
-    ...     (wl, net, dict (address = R_IP4_Address ('192.168.23.2')))
-    >>> irx = FFM.Net_Interface_in_IP4_Network (wr, net)
-    >>> x   = irx.set_raw (ip_address = dict (address = '192.168.23.99'))
-    >>> ir2 = FFM.Net_Interface_in_IP4_Network \\
-    ...     (wr, net, dict (address = '192.168.23.3'), raw = True)
-    >>> il2 = FFM.Net_Interface_in_IP4_Network \\
-    ...     (wl, net, dict (address = '192.168.23.4'), raw = True)
+    >>> ir1 = FFM.Net_Interface_in_IP4_Network (wr, a1, mask_len = 24)
+    >>> il1 = FFM.Net_Interface_in_IP4_Network (wl, a2, mask_len = 32)
+    >>> ir2 = FFM.Net_Interface_in_IP4_Network (wr, a3, mask_len = 24)
+    >>> il2 = FFM.Net_Interface_in_IP4_Network (wl, a4, mask_len = 24)
+
+    >>> irx = FFM.Net_Interface_in_IP4_Network (wr, ax, mask_len = 28)
+    Traceback (most recent call last):
+      ...
+    Invariants: Condition `valid_mask_len` : The `mask_len` must match the one of `right` or of any
+    network containing `right`. (mask_len in possible_mask_lens)
+        mask_len = 28
+        possible_mask_lens = [24, 32] << sorted ( right.ETM.query ( (Q.net_address.CONTAINS (right.net_address))& (Q.electric == False)).attr ("net_address.mask_len"))
+        right = 192.168.23.42
+        right.net_address = 192.168.23.42
 
     >>> FFM.Net_Device.query (Q.belongs_to_node == node3).count ()
     1
     >>> FFM.Net_Device.query (Q.belongs_to_node.manager == mgr).count ()
     1
 
+    >>> scope.commit ()
 """
 
 __test__ = Scaffold.create_test_dict \

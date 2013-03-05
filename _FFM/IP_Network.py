@@ -43,6 +43,8 @@
 #     5-Mar-2013 (CT) Fix error condition in `reserve`
 #                     (temporarily necessary as long as query attributes
 #                     don't work)
+#     5-Mar-2013 (CT) Add `electric`, fix predicate `owner_or_cool_down`
+#     5-Mar-2013 (CT) Make `owner` argument of `reserve` optional
 #    ««revision-date»»···
 #--
 
@@ -138,12 +140,12 @@ class IP_Network (_Ancestor_Essence) :
 
         # end class net_address_in_pool
 
-        class owner_or_cool_down (Pred.Region) :
+        class owner_or_cool_down (Pred.Condition) :
             """At most one of `owner` and `cool_down` can be defined at one
                time.
             """
 
-            kind               = Pred.Object
+            kind               = Pred.Region
             assertion          = "not (owner and cool_down)"
             attr_none          = ("owner", "cool_down")
 
@@ -178,10 +180,14 @@ class IP_Network (_Ancestor_Essence) :
     def find_closest_mask (self, mask_len) :
         blocks = self.ETM.query \
             ( ### XXX factor `is_free` once query attributes work properly
-              (Q.has_children         == False)
-            & (Q.cool_down            == None)
-            & (Q.owner                == self.owner)
-            & (Q.net_address.mask_len <= mask_len)
+              (Q.has_children             == False)
+            & (Q.cool_down                == None)
+            & (Q.owner                    == self.owner)
+            & ( (Q.net_address.mask_len   <  mask_len)
+              | ( (Q.net_address.mask_len == mask_len)
+                & (Q.electric             == True)
+                )
+              )
             & (Q.net_address.IN        (self.net_address))
             , sort_key = TFL.Sorted_By ("-net_address.mask_len")
             )
@@ -197,7 +203,9 @@ class IP_Network (_Ancestor_Essence) :
             (self.net_address, mask_len, msg)
     # end def find_closest_mask
 
-    def reserve (self, net_addr, owner) :
+    def reserve (self, net_addr, owner = None) :
+        if owner is None :
+            owner = self.owner
         pool = self.find_closest_address (net_addr)
         if not \
                (   pool.is_free
@@ -221,7 +229,7 @@ class IP_Network (_Ancestor_Essence) :
         results     = []
         for sn in net_address.address.subnets (net_address.mask_len + 1) :
             sn_addr = E_Type.net_address.P_Type (sn)
-            results.append (ETM (sn_addr, owner = self.owner))
+            results.append (ETM (sn_addr, owner = self.owner, electric = True))
         self.has_children = True
         return results
     # end def split
@@ -234,7 +242,7 @@ class IP_Network (_Ancestor_Essence) :
                 result, other = p1, p2
             else :
                 other, result = p1, p2
-        result.owner = owner
+        result.set (owner = owner, electric = False)
         return result
     # end def _reserve
 
