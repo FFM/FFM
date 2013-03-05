@@ -28,6 +28,7 @@
 # Revision Dates
 #    26-Jan-2013 (CT) Creation
 #     4-Mar-2013 (CT) Add tests for `allocate`
+#     5-Mar-2013 (CT) Add tests for `reserve`
 #    ««revision-date»»···
 #--
 
@@ -42,12 +43,14 @@ _test_code = """
 
     >>> FFM = scope.FFM
     >>> PAP = scope.PAP
+    >>> Adr = FFM.IP4_Network.net_address.P_Type
 
     >>> ff  = PAP.Association ("Funkfeuer", short_name = "0xFF", raw = True)
     >>> mg  = PAP.Person ("Glueck", "Martin", raw = True)
     >>> ak  = PAP.Person ("Kaplan", "Aaron", raw = True)
     >>> rs  = PAP.Person ("Schlatterbeck", "Ralf", raw = True)
     >>> ct  = PAP.Person ("Tanzer", "Christian", raw = True)
+    >>> lt  = PAP.Person ("Tanzer", "Laurens", raw = True)
     >>> osc = PAP.Company ("Open Source Consulting", raw = True)
 
     >>> show_networks (FFM.IP4_Network)
@@ -110,6 +113,11 @@ _test_code = """
     10.0.0.0/28        Schlatterbeck Ralf        False
     10.0.0.16/28       Open Source Consulting    False
 
+    >>> ct_addr = osc_pool.reserve (Adr ('10.0.0.1/32', raw = True), owner = ct)
+    Traceback (most recent call last):
+      ...
+    Address_Already_Used: Address ("10.0.0.1", ) already in use by 'Schlatterbeck Ralf'
+
     >>> show_networks (FFM.IP4_Network, Q.net_address.IN (rs_pool.net_address))
     10.0.0.0/28        Schlatterbeck Ralf        False
 
@@ -155,6 +163,47 @@ _test_code = """
 
     >>> print ("FFM.IP4_Network count:", FFM.IP4_Network.count)
     FFM.IP4_Network count: 45
+
+    >>> mg_addr = ct_pool.reserve (Adr ('10.0.0.1/32', raw = True), owner = mg)
+    >>> show_networks (FFM.IP4_Network, Q.net_address.IN (rs_pool.net_address))
+    10.0.0.0/28        Schlatterbeck Ralf        True
+    10.0.0.0/29        Schlatterbeck Ralf        True
+    10.0.0.0/30        Tanzer Christian          True
+    10.0.0.0/31        Tanzer Christian          True
+    10.0.0.8/29        Glueck Martin             False
+    10.0.0.4/30        Kaplan Aaron              False
+    10.0.0.2/31        Tanzer Christian          False
+    10.0.0.0           Tanzer Christian          False
+    10.0.0.1           Glueck Martin             False
+
+    >>> lt_addr = ct_pool.reserve (Adr ('10.0.0.2/32', raw = True), owner = lt)
+    >>> show_networks (FFM.IP4_Network, Q.net_address.IN (rs_pool.net_address))
+    10.0.0.0/28        Schlatterbeck Ralf        True
+    10.0.0.0/29        Schlatterbeck Ralf        True
+    10.0.0.0/30        Tanzer Christian          True
+    10.0.0.0/31        Tanzer Christian          True
+    10.0.0.2/31        Tanzer Christian          True
+    10.0.0.8/29        Glueck Martin             False
+    10.0.0.4/30        Kaplan Aaron              False
+    10.0.0.0           Tanzer Christian          False
+    10.0.0.1           Glueck Martin             False
+    10.0.0.2           Tanzer Laurens            False
+    10.0.0.3           Tanzer Christian          False
+
+    >>> rs_addr = ct_pool.reserve (Adr ('10.0.0.0/32', raw = True), owner = rs)
+    >>> ct_addr = ct_pool.reserve (Adr ('10.0.0.3/32', raw = True), owner = ct)
+    >>> show_networks (FFM.IP4_Network, Q.net_address.IN (rs_pool.net_address))
+    10.0.0.0/28        Schlatterbeck Ralf        True
+    10.0.0.0/29        Schlatterbeck Ralf        True
+    10.0.0.0/30        Tanzer Christian          True
+    10.0.0.0/31        Tanzer Christian          True
+    10.0.0.2/31        Tanzer Christian          True
+    10.0.0.8/29        Glueck Martin             False
+    10.0.0.4/30        Kaplan Aaron              False
+    10.0.0.0           Schlatterbeck Ralf        False
+    10.0.0.1           Glueck Martin             False
+    10.0.0.2           Tanzer Laurens            False
+    10.0.0.3           Tanzer Christian          False
 
 """
 

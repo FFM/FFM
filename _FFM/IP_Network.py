@@ -40,6 +40,9 @@
 #                     filter for `self.owner`
 #     4-Mar-2013 (CT) Change `reserve` to check for `self.owner`
 #     4-Mar-2013 (CT) Don't set `has_children` for `result` of `_reserve`
+#     5-Mar-2013 (CT) Fix error condition in `reserve`
+#                     (temporarily necessary as long as query attributes
+#                     don't work)
 #    ««revision-date»»···
 #--
 
@@ -196,7 +199,12 @@ class IP_Network (_Ancestor_Essence) :
 
     def reserve (self, net_addr, owner) :
         pool = self.find_closest_address (net_addr)
-        if not pool.is_free or pool.owner is not self.owner :
+        if not \
+               (   pool.is_free
+               and pool.owner is self.owner
+               and pool.net_interface is None ### XXX remove once query
+                                              ###   attributes work properly
+               ) :
             msg = \
                 ( "Address %s already in use by '%s'"
                 % (net_addr, pool.FO.owner)

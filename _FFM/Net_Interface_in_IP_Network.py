@@ -30,6 +30,7 @@
 #    23-May-2012 (RS) Use `_A_IP_Address_` for `ip_address`
 #    20-Sep-2012 (RS) Add `auto_cache_np`, `auto_derive_np` to `left`
 #                     remove `auto_cache` from `right`
+#     5-Mar-2013 (CT) Set `right.max_links = 1`
 #    ««revision-date»»···
 #--
 
@@ -71,7 +72,7 @@ class Net_Interface_in_IP_Network (_Ancestor_Essence) :
             """IP Network."""
 
             role_type          = FFM.IP_Network
-            ### XXX max_links          = 1
+            max_links          = 1
 
         # end class right
 
