@@ -32,6 +32,7 @@
 #                     remove `auto_cache` from `right`
 #     5-Mar-2013 (CT) Set `right.max_links = 1`
 #     5-Mar-2013 (CT) Replace `ip_address` by `mask_len`
+#     5-Mar-2013 (CT) Add predicates `network_not_split` and `valid_network`
 #    ««revision-date»»···
 #--
 
@@ -92,6 +93,18 @@ class Net_Interface_in_IP_Network (_Ancestor_Essence) :
 
         _Ancestor = _Ancestor_Essence._Predicates
 
+        class network_not_split (Pred.Condition) :
+            """To be eligible to be assigned to the
+               `%(type_base_name.lower ())s` `left`, the network `right` must
+               not be split into sub-networks.
+            """
+
+            kind               = Pred.Object
+            assertion          = "not right.has_children"
+            attributes         = ("left", "right.has_children")
+
+        # end class network_not_split
+
         class valid_mask_len (Pred.Condition) :
             """The `mask_len` must match the one of `right` or of any
                network containing `right`.
@@ -111,6 +124,19 @@ class Net_Interface_in_IP_Network (_Ancestor_Essence) :
                 )
 
         # end class valid_mask_len
+
+        class valid_network (Pred.Condition) :
+            """To be eligible to be assigned to the
+               `%(type_base_name.lower ())s` `left`, the network `right` must
+               have been explicitly allocated to an `owner`.
+            """
+
+            kind               = Pred.Object
+            assertion          = \
+                "right.owner is not None and not right.electric"
+            attributes         = ("left", "right.owner", "right.has_children")
+
+        # end class valid_network
 
     # end class _Predicates
 
