@@ -59,7 +59,7 @@ _test_code = """
     >>> show_networks (FFM.IP4_Network)
     10.0.0.0/8         Funkfeuer                 False
 
-    >>> print ("FFM.IP4_Network count:", FFM.IP4_Network.count)
+    >>> show_network_count (FFM.IP4_Network)
     FFM.IP4_Network count: 1
 
     >>> osc_pool = ff_pool.allocate (16, osc)
@@ -82,7 +82,7 @@ _test_code = """
     10.0.0.0/16        Open Source Consulting    False
     10.1.0.0/16        Funkfeuer                 False
 
-    >>> print ("FFM.IP4_Network count:", FFM.IP4_Network.count)
+    >>> show_network_count (FFM.IP4_Network)
     FFM.IP4_Network count: 17
 
     >>> rs_pool = osc_pool.allocate (28, rs)
@@ -121,7 +121,7 @@ _test_code = """
     >>> show_networks (FFM.IP4_Network, Q.net_address.IN (rs_pool.net_address))
     10.0.0.0/28        Schlatterbeck Ralf        False
 
-    >>> print ("FFM.IP4_Network count:", FFM.IP4_Network.count)
+    >>> show_network_count (FFM.IP4_Network)
     FFM.IP4_Network count: 41
 
     >>> ct_pool = rs_pool.allocate (30, ct)
@@ -145,7 +145,7 @@ _test_code = """
     10.0.0.0/30        Tanzer Christian          False
     10.0.0.4/30        Kaplan Aaron              False
 
-    >>> print ("FFM.IP4_Network count:", FFM.IP4_Network.count)
+    >>> show_network_count (FFM.IP4_Network)
     FFM.IP4_Network count: 45
 
     >>> mg_pool = rs_pool.allocate (29, mg)
@@ -161,7 +161,7 @@ _test_code = """
       ...
     No_Free_Address_Range: Address range [("10.0.0.0/28", )] of this IP4_Network doesn't contain a free subrange for mask length 30
 
-    >>> print ("FFM.IP4_Network count:", FFM.IP4_Network.count)
+    >>> show_network_count (FFM.IP4_Network)
     FFM.IP4_Network count: 45
 
     >>> mg_addr = ct_pool.reserve (Adr ('10.0.0.1/32', raw = True), owner = mg)
@@ -205,6 +205,104 @@ _test_code = """
     10.0.0.2           Tanzer Laurens            False
     10.0.0.3           Tanzer Christian          False
 
+    >>> ct_addr = ff_pool.reserve (Adr ('10.42.137.1/32', raw = True), owner = ct)
+    >>> show_networks (FFM.IP4_Network)
+    10.0.0.0/8         Funkfeuer                 True
+    10.0.0.0/9         Funkfeuer                 True
+    10.0.0.0/10        Funkfeuer                 True
+    10.0.0.0/11        Funkfeuer                 True
+    10.32.0.0/11       Funkfeuer                 True
+    10.0.0.0/12        Funkfeuer                 True
+    10.32.0.0/12       Funkfeuer                 True
+    10.0.0.0/13        Funkfeuer                 True
+    10.40.0.0/13       Funkfeuer                 True
+    10.0.0.0/14        Funkfeuer                 True
+    10.40.0.0/14       Funkfeuer                 True
+    10.0.0.0/15        Funkfeuer                 True
+    10.42.0.0/15       Funkfeuer                 True
+    10.0.0.0/16        Open Source Consulting    True
+    10.42.0.0/16       Funkfeuer                 True
+    10.0.0.0/17        Open Source Consulting    True
+    10.42.128.0/17     Funkfeuer                 True
+    10.0.0.0/18        Open Source Consulting    True
+    10.42.128.0/18     Funkfeuer                 True
+    10.0.0.0/19        Open Source Consulting    True
+    10.42.128.0/19     Funkfeuer                 True
+    10.0.0.0/20        Open Source Consulting    True
+    10.42.128.0/20     Funkfeuer                 True
+    10.0.0.0/21        Open Source Consulting    True
+    10.42.136.0/21     Funkfeuer                 True
+    10.0.0.0/22        Open Source Consulting    True
+    10.42.136.0/22     Funkfeuer                 True
+    10.0.0.0/23        Open Source Consulting    True
+    10.42.136.0/23     Funkfeuer                 True
+    10.0.0.0/24        Open Source Consulting    True
+    10.42.137.0/24     Funkfeuer                 True
+    10.0.0.0/25        Open Source Consulting    True
+    10.42.137.0/25     Funkfeuer                 True
+    10.0.0.0/26        Open Source Consulting    True
+    10.42.137.0/26     Funkfeuer                 True
+    10.0.0.0/27        Open Source Consulting    True
+    10.42.137.0/27     Funkfeuer                 True
+    10.0.0.0/28        Schlatterbeck Ralf        True
+    10.42.137.0/28     Funkfeuer                 True
+    10.0.0.0/29        Schlatterbeck Ralf        True
+    10.42.137.0/29     Funkfeuer                 True
+    10.0.0.0/30        Tanzer Christian          True
+    10.42.137.0/30     Funkfeuer                 True
+    10.0.0.0/31        Tanzer Christian          True
+    10.0.0.2/31        Tanzer Christian          True
+    10.42.137.0/31     Funkfeuer                 True
+    10.128.0.0/9       Funkfeuer                 False
+    10.64.0.0/10       Funkfeuer                 False
+    10.16.0.0/12       Funkfeuer                 False
+    10.48.0.0/12       Funkfeuer                 False
+    10.8.0.0/13        Funkfeuer                 False
+    10.32.0.0/13       Funkfeuer                 False
+    10.4.0.0/14        Funkfeuer                 False
+    10.44.0.0/14       Funkfeuer                 False
+    10.2.0.0/15        Funkfeuer                 False
+    10.40.0.0/15       Funkfeuer                 False
+    10.1.0.0/16        Funkfeuer                 False
+    10.43.0.0/16       Funkfeuer                 False
+    10.0.128.0/17      Open Source Consulting    False
+    10.42.0.0/17       Funkfeuer                 False
+    10.0.64.0/18       Open Source Consulting    False
+    10.42.192.0/18     Funkfeuer                 False
+    10.0.32.0/19       Open Source Consulting    False
+    10.42.160.0/19     Funkfeuer                 False
+    10.0.16.0/20       Open Source Consulting    False
+    10.42.144.0/20     Funkfeuer                 False
+    10.0.8.0/21        Open Source Consulting    False
+    10.42.128.0/21     Funkfeuer                 False
+    10.0.4.0/22        Open Source Consulting    False
+    10.42.140.0/22     Funkfeuer                 False
+    10.0.2.0/23        Open Source Consulting    False
+    10.42.138.0/23     Funkfeuer                 False
+    10.0.1.0/24        Open Source Consulting    False
+    10.42.136.0/24     Funkfeuer                 False
+    10.0.0.128/25      Open Source Consulting    False
+    10.42.137.128/25   Funkfeuer                 False
+    10.0.0.64/26       Open Source Consulting    False
+    10.42.137.64/26    Funkfeuer                 False
+    10.0.0.32/27       Open Source Consulting    False
+    10.42.137.32/27    Funkfeuer                 False
+    10.0.0.16/28       Open Source Consulting    False
+    10.42.137.16/28    Funkfeuer                 False
+    10.0.0.8/29        Glueck Martin             False
+    10.42.137.8/29     Funkfeuer                 False
+    10.0.0.4/30        Kaplan Aaron              False
+    10.42.137.4/30     Funkfeuer                 False
+    10.42.137.2/31     Funkfeuer                 False
+    10.0.0.0           Schlatterbeck Ralf        False
+    10.0.0.1           Glueck Martin             False
+    10.0.0.2           Tanzer Laurens            False
+    10.0.0.3           Tanzer Christian          False
+    10.42.137.0        Funkfeuer                 False
+    10.42.137.1        Tanzer Christian          False
+    >>> show_network_count (FFM.IP4_Network)
+    FFM.IP4_Network count: 93
+
 """
 
 def show_networks (ETM, * qargs, ** qkw) :
@@ -216,6 +314,10 @@ def show_networks (ETM, * qargs, ** qkw) :
             % (nw.FO.net_address, nw.FO.owner, nw.has_children)
             )
 # end def show_networks
+
+def show_network_count (ETM) :
+    print ("%s count: %s" % (ETM.type_name, ETM.count))
+# end def show_network_count
 
 __test__ = Scaffold.create_test_dict \
   ( dict
