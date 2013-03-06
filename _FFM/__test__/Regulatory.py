@@ -28,6 +28,7 @@
 #
 # Revision Dates
 #    17-Dec-2012 (RS) Creation
+#     6-Mar-2013 (CT) Fix tests for `Q.RAW.frequency`
 #    ««revision-date»»···
 #--
 
@@ -71,10 +72,22 @@ _test_code = """
     #>>> FFM.Regulatory_Permission.query (Q.RAW.eirp > '110 mW').count ()
     #1
 
-    >>> FFM.Wireless_Channel.query (Q.RAW.frequency > "5.7 GHz").count ()
-    58
-    >>> FFM.Wireless_Channel.query (Q.RAW.frequency < "5.7 GHz").count ()
-    28
+    >>> FFM.Wireless_Channel.query ().count ()
+    86
+
+    >>> FFM.Wireless_Channel.query (Q.frequency == 5.7e9).count ()
+    1
+    >>> FFM.Wireless_Channel.query (Q.frequency  > 5.7e9).count ()
+    21
+    >>> FFM.Wireless_Channel.query (Q.frequency  < 5.7e9).count ()
+    64
+
+    >>> FFM.Wireless_Channel.query (Q.RAW.frequency == "5700 MHz").count ()
+    1
+    >>> FFM.Wireless_Channel.query (Q.RAW.frequency  > "5700 MHz").count ()
+    21
+    >>> FFM.Wireless_Channel.query (Q.RAW.frequency  < "5700 MHz").count ()
+    64
 
     >>> dom   = FFM.Regulatory_Domain.instance (countrycode = "AT", raw = True)
     >>> band1 = dict (lower = "1 THz", upper = "2 THz")
