@@ -29,6 +29,7 @@
 # Revision Dates
 #    17-Dec-2012 (RS) Creation
 #     6-Mar-2013 (CT) Fix tests for `Q.RAW.frequency`
+#     7-Mar-2013 (CT) Add tests for `Q.frequency` and `...AQ.frequency`
 #    ««revision-date»»···
 #--
 
@@ -82,12 +83,26 @@ _test_code = """
     >>> FFM.Wireless_Channel.query (Q.frequency  < 5.7e9).count ()
     64
 
+
+    `FFM.Wireless_Channel.AQ` converts raw values to cooked (`Q` cannot do
+    that):
+    >>> FFM.Wireless_Channel.query (FFM.Wireless_Channel.AQ.frequency.EQ ("5.7 GHz")).count ()
+    1
+    >>> FFM.Wireless_Channel.query (FFM.Wireless_Channel.AQ.frequency.GT ("5.7 GHz")).count ()
+    21
+    >>> FFM.Wireless_Channel.query (FFM.Wireless_Channel.AQ.frequency.LT ("5.7 GHz")).count ()
+    64
+
     >>> FFM.Wireless_Channel.query (Q.RAW.frequency == "5700 MHz").count ()
     1
     >>> FFM.Wireless_Channel.query (Q.RAW.frequency  > "5700 MHz").count ()
     21
     >>> FFM.Wireless_Channel.query (Q.RAW.frequency  < "5700 MHz").count ()
     64
+
+    `Q.RAW` must match raw value exactly, "5.7 GHz" doesn't --> no match:
+    >>> FFM.Wireless_Channel.query (Q.RAW.frequency == "5.7 GHz").count ()
+    0
 
     >>> dom   = FFM.Regulatory_Domain.instance (countrycode = "AT", raw = True)
     >>> band1 = dict (lower = "1 THz", upper = "2 THz")
