@@ -44,6 +44,8 @@ _test_code = """
     >>> fixtures (scope)
 
     >>> FFM = scope.FFM
+    >>> WLC = FFM.Wireless_Channel
+
     >>> FFM.Regulatory_Permission.E_Type.eirp.attr._default_unit
     u'dBm'
     >>> FFM.Regulatory_Permission.query (Q.RAW.band.lower > '28 MHz').count ()
@@ -73,36 +75,44 @@ _test_code = """
     #>>> FFM.Regulatory_Permission.query (Q.RAW.eirp > '110 mW').count ()
     #1
 
-    >>> FFM.Wireless_Channel.query ().count ()
+    >>> WLC.query ().count ()
     86
 
-    >>> FFM.Wireless_Channel.query (Q.frequency == 5.7e9).count ()
+    >>> WLC.query (Q.frequency == 5.7e9).count ()
     1
-    >>> FFM.Wireless_Channel.query (Q.frequency  > 5.7e9).count ()
+    >>> WLC.query (Q.frequency  > 5.7e9).count ()
     21
-    >>> FFM.Wireless_Channel.query (Q.frequency  < 5.7e9).count ()
+    >>> WLC.query (Q.frequency  < 5.7e9).count ()
     64
 
 
-    `FFM.Wireless_Channel.AQ` converts raw values to cooked (`Q` cannot do
-    that):
-    >>> FFM.Wireless_Channel.query (FFM.Wireless_Channel.AQ.frequency.EQ ("5.7 GHz")).count ()
+    `...AQ` converts raw values to cooked (`Q` cannot do that):
+    >>> WLC.query (WLC.AQ.frequency.EQ ("5.7 GHz")).count ()
     1
-    >>> FFM.Wireless_Channel.query (FFM.Wireless_Channel.AQ.frequency.GT ("5.7 GHz")).count ()
+    >>> WLC.query (WLC.AQ.frequency.GT ("5.7 GHz")).count ()
     21
-    >>> FFM.Wireless_Channel.query (FFM.Wireless_Channel.AQ.frequency.LT ("5.7 GHz")).count ()
+    >>> WLC.query (WLC.AQ.frequency.LT ("5.7 GHz")).count ()
     64
 
-    >>> FFM.Wireless_Channel.query (Q.RAW.frequency == "5700 MHz").count ()
+    `...AQ...EQS` compares raw values, needs exact match,
+    "5.7 GHz" doesn't --> no match:
+    >>> WLC.query (WLC.AQ.frequency.EQS ("5.7 GHz")).count ()
+    0
+    >>> WLC.query (WLC.AQ.frequency.EQS ("5700 MHz")).count ()
     1
-    >>> FFM.Wireless_Channel.query (Q.RAW.frequency  > "5700 MHz").count ()
+
+    >>> WLC.query (Q.RAW.frequency == "5700 MHz").count ()
+    1
+    >>> WLC.query (Q.RAW.frequency  > "5700 MHz").count ()
     21
-    >>> FFM.Wireless_Channel.query (Q.RAW.frequency  < "5700 MHz").count ()
+    >>> WLC.query (Q.RAW.frequency  < "5700 MHz").count ()
     64
 
     `Q.RAW` must match raw value exactly, "5.7 GHz" doesn't --> no match:
-    >>> FFM.Wireless_Channel.query (Q.RAW.frequency == "5.7 GHz").count ()
+    >>> WLC.query (Q.RAW.frequency == "5.7 GHz").count ()
     0
+    >>> WLC.query (Q.RAW.frequency == "5700 MHz").count ()
+    1
 
     >>> dom   = FFM.Regulatory_Domain.instance (countrycode = "AT", raw = True)
     >>> band1 = dict (lower = "1 THz", upper = "2 THz")
