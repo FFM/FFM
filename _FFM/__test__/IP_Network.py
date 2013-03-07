@@ -30,6 +30,7 @@
 #     4-Mar-2013 (CT) Add tests for `allocate`
 #     5-Mar-2013 (CT) Add tests for `reserve`
 #     5-Mar-2013 (CT) Add `electric`
+#     7-Mar-2013 (RS) Test for previously failing `CONTAINS` query
 #    ««revision-date»»···
 #--
 
@@ -327,6 +328,16 @@ _test_code = """
 
     >>> show_network_count (scope)
     FFM.IP4_Network count: 95
+
+    >>> ETM = FFM.IP4_Network
+    >>> q   = ETM.query
+    >>> Net = ETM.net_address.P_Type
+    >>> n   = Net ('10.42.137.0/28', raw = True)
+    >>> q (Q.net_address.IN (n)).count ()
+    9
+    >>> s = TFL.Sorted_By ("-net_address.mask_len")
+    >>> q (Q.net_address.CONTAINS (n), sort_key = s).first ()
+    FFM.IP4_Network (("10.42.137.0/28", ))
 
 """
 
