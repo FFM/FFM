@@ -428,15 +428,17 @@ class Convert (object) :
     # end def create_device
 
     def create_interface (self, dev, name, ip) :
+        Adr = self.ffm.IP4_Network.net_address.P_Type
         # FIXME: Need info on wireless vs wired Net_Interface
         iface = self.ffm.Wired_Interface (left = dev, name = name, raw = True)
         net = IP4_Address (ip.ip, ip.cidr)
         net = self.net_dupes.get (net, net)
         network = self.ffm.IP4_Network.instance \
             (dict (address = str (net)), raw = True)
-        ip4 = IP4_Address (ip.ip)
+        manager = dev.node.manager
+        netadr  = network.reserve (Adr (ip.ip, raw = True), manager)
         self.ffm.Net_Interface_in_IP4_Network \
-            (iface, network, dict (address = ip4))
+            (iface, netadr, mask_len = 32)
     # end def create_interface
 
     def create_interfaces_for_dev (self, dev, d, ip) :
