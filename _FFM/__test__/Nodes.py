@@ -34,6 +34,7 @@
 #    17-Dec-2012 (RS) Add tests for attributes of `belongs_to_node`
 #    17-Dec-2012 (RS) Temporary fix: `owner` can't be a `Company`
 #     5-Mar-2013 (CT) Adapt to changes in `Net_Interface_in_IP4_Network`
+#     7-Mar-2013 (RS) Add test for duplicate network allocation
 #    ««revision-date»»···
 #--
 
@@ -140,6 +141,14 @@ _test_code = """
         possible_mask_lens = [24, 32] << sorted ( right.ETM.query ( (Q.net_address.CONTAINS (right.net_address))& (Q.electric == False)).attr ("net_address.mask_len"))
         right = 192.168.23.42
         right.net_address = 192.168.23.42
+
+    >>> net2 = FFM.IP4_Network (dict (address = '10.0.0.0/8'), owner = mgr, raw = True)
+    >>> a2_1 = net2.reserve (Adr ('10.139.187.0/27',  raw = True))
+    >>> a2_2 = net2.reserve (Adr ('10.139.187.2',     raw = True))
+    >>> a2_f = net2.reserve (Adr ('10.139.187.0/27',  raw = True))
+    Traceback (most recent call last):
+      ...
+    Address_Already_Used: Address ("10.139.187.0/27", ) already in use by 'Schlatterbeck Ralf'
 
     >>> FFM.Net_Device.query (Q.belongs_to_node == node3).count ()
     1
