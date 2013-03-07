@@ -96,6 +96,16 @@ class Convert (object) :
         #print self.et.pretty (with_text = 1)
         #print self.et.pretty ()
 
+        self.networks = []
+        # Umm: our test data uses lots of addresses in the 178.18.8.0/22
+        # range which according to whois belongs to some russion entity.
+        # We add this for now.
+        # Then there is one address from 178.26.0.0/30 from a range of
+        # some german cable provider which we simply ignore.
+        for n in ('10.0.0.0/8', '172.16.0.0/12', '178.18.8.0/22') :
+            n = self.ffm.IP4_Network \
+                (dict (address = n), owner = self.owner, raw = True)
+            self.networks.append (n)
 
         self.et.walk (self.insert)
         #self.et.walk (self.record_attributes)
@@ -187,10 +197,28 @@ class Convert (object) :
         net = IP4_Address (ip, mask)
         adr = IP4_Address (ip)
         assert (adr in net)
-        network = self.ffm.IP4_Network.instance_or_new \
-            (dict (address = str (net)), raw = True)
-        self.ffm.Net_Interface_in_IP4_Network.instance_or_new \
-            (interface, network, dict (address = adr))
+        netadr = self.ffm.IP4_Network.instance \
+            (dict (address = str (adr)), raw = True)
+        if netadr and not netadr.is_free :
+            ni = self.ffm.Net_Interface_in_IP4_Network.instance \
+                (interface, netadr, mask_len = net.mask)
+            assert (ni)
+        else :
+            Adr = self.ffm.IP4_Network.net_address.P_Type
+            n = [x for x in self.networks if net in x.net_address.address]
+            if len (n) < 1 :
+                print >> sys.stderr, 'Warning: ignoring address %s' % net
+                return
+            assert len (n) == 1
+            n = n [0]
+            try :
+                network = n.reserve (Adr (net), self.owner)
+            except FFM.Error.Address_Already_Used :
+                network = self.ffm.IP4_Network.instance \
+                    (dict (address = str (net)), raw = True)
+            netadr  = n.reserve (Adr (adr), self.owner)
+            self.ffm.Net_Interface_in_IP4_Network \
+                (interface, netadr, mask_len = net.mask)
     # end def insert_ip_network
 
     def insert_wired_interface (self, device, element) :
