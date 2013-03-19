@@ -371,6 +371,14 @@ _test_AQ = """
     <pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
     <is_free.AQ [Attr.Type.Querier Boolean]> -----
 
+    >>> for aq in AQ.Atoms :
+    ...     print (aq)
+    <net_address.address.AQ [Attr.Type.Querier Ckd]>
+    <owner.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <owner.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <owner.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <is_free.AQ [Attr.Type.Querier Boolean]>
+
     >>> print (formatted (AQ.As_Json_Cargo))
     { 'filters' :
         [ { 'attrs' :
