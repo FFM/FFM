@@ -371,6 +371,325 @@ _test_AQ = """
     <pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
     <is_free.AQ [Attr.Type.Querier Boolean]> -----
 
+    >>> print (formatted (AQ.As_Json_Cargo))
+    { 'filters' :
+        [ { 'attrs' :
+              [ { 'name' : 'address'
+                , 'sig_key' : 0
+                , 'ui_name' : 'Address'
+                }
+              ]
+          , 'name' : 'net_address'
+          , 'ui_name' : 'Net address'
+          }
+        , { 'Class' : 'Entity'
+          , 'attrs' :
+              [ { 'attrs' :
+                    [ { 'name' : 'start'
+                      , 'sig_key' : 0
+                      , 'ui_name' : 'Start'
+                      }
+                    , { 'name' : 'finish'
+                      , 'sig_key' : 0
+                      , 'ui_name' : 'Finish'
+                      }
+                    , { 'name' : 'alive'
+                      , 'sig_key' : 1
+                      , 'ui_name' : 'Alive'
+                      }
+                    ]
+                , 'name' : 'lifetime'
+                , 'ui_name' : 'Lifetime'
+                }
+              ]
+          , 'name' : 'owner'
+          , 'sig_key' : 2
+          , 'ui_name' : 'Owner'
+          }
+        , { 'Class' : 'Entity'
+          , 'attrs' :
+              [ { 'attrs' :
+                    [ { 'name' : 'address'
+                      , 'sig_key' : 0
+                      , 'ui_name' : 'Address'
+                      }
+                    ]
+                , 'name' : 'net_address'
+                , 'ui_name' : 'Net address'
+                }
+              , { 'Class' : 'Entity'
+                , 'attrs' :
+                    [ { 'attrs' :
+                          [ { 'name' : 'start'
+                            , 'sig_key' : 0
+                            , 'ui_name' : 'Start'
+                            }
+                          , { 'name' : 'finish'
+                            , 'sig_key' : 0
+                            , 'ui_name' : 'Finish'
+                            }
+                          , { 'name' : 'alive'
+                            , 'sig_key' : 1
+                            , 'ui_name' : 'Alive'
+                            }
+                          ]
+                      , 'name' : 'lifetime'
+                      , 'ui_name' : 'Lifetime'
+                      }
+                    ]
+                , 'name' : 'owner'
+                , 'sig_key' : 2
+                , 'ui_name' : 'Owner'
+                }
+              , { 'name' : 'is_free'
+                , 'sig_key' : 1
+                , 'ui_name' : 'Is free'
+                }
+              ]
+          , 'name' : 'pool'
+          , 'sig_key' : 2
+          , 'ui_name' : 'Pool'
+          }
+        , { 'name' : 'is_free'
+          , 'sig_key' : 1
+          , 'ui_name' : 'Is free'
+          }
+        ]
+    , 'name_sep' : '__'
+    , 'op_map' :
+        { 'CONTAINS' :
+            { 'desc' : 'Select entities where the attribute contains the specified value'
+            , 'sym' : 'contains'
+            }
+        , 'ENDSWITH' :
+            { 'desc' : 'Select entities where the attribute value ends with the specified value'
+            , 'sym' : 'ends-with'
+            }
+        , 'EQ' :
+            { 'desc' : 'Select entities where the attribute is equal to the specified value'
+            , 'sym' : '=='
+            }
+        , 'EQS' :
+            { 'desc' : 'Select entities where the attribute is equal to the specified string value'
+            , 'sym' : 'EQS'
+            }
+        , 'GE' :
+            { 'desc' : 'Select entities where the attribute is greater than, or equal to, the specified value'
+            , 'sym' : '>='
+            }
+        , 'GT' :
+            { 'desc' : 'Select entities where the attribute is greater than the specified value'
+            , 'sym' : '>'
+            }
+        , 'IN' :
+            { 'desc' : 'Select entities where the attribute is a member of the specified list of values'
+            , 'sym' : 'in'
+            }
+        , 'LE' :
+            { 'desc' : 'Select entities where the attribute is less than, or equal to, the specified value'
+            , 'sym' : '<='
+            }
+        , 'LT' :
+            { 'desc' : 'Select entities where the attribute is less than the specified value'
+            , 'sym' : '<'
+            }
+        , 'NE' :
+            { 'desc' : 'Select entities where the attribute is not equal to the specified value'
+            , 'sym' : '!='
+            }
+        , 'NES' :
+            { 'desc' : 'Select entities where the attribute is not equal to the specified string value'
+            , 'sym' : 'NES'
+            }
+        , 'STARTSWITH' :
+            { 'desc' : 'Select entities where the attribute value starts with the specified value'
+            , 'sym' : 'starts-with'
+            }
+        }
+    , 'op_sep' : '___'
+    , 'sig_map' :
+        { 0 :
+            ( 'EQ'
+            , 'GE'
+            , 'GT'
+            , 'IN'
+            , 'LE'
+            , 'LT'
+            , 'NE'
+            )
+        , 1 :
+    ( 'EQ' ,)
+        , 2 :
+            ( 'EQ'
+            , 'IN'
+            , 'NE'
+            )
+        }
+    , 'ui_sep' : '/'
+    }
+
+    >>> print (formatted (list (f.As_Template_Elem for f in AQ.Attrs)))
+    [ Record
+      ( attr = IP4_Network `net_address`
+      , attrs =
+          [ Record
+            ( attr = IP4-network `address`
+            , full_name = 'net_address.address'
+            , id = 'net_address__address'
+            , name = 'address'
+            , sig_key = 0
+            , ui_name = 'Net address/Address'
+            )
+          ]
+      , full_name = 'net_address'
+      , id = 'net_address'
+      , name = 'net_address'
+      , ui_name = 'Net address'
+      )
+    , Record
+      ( Class = 'Entity'
+      , attr = Entity `owner`
+      , attrs =
+          [ Record
+            ( attr = Date_Interval `lifetime`
+            , attrs =
+                [ Record
+                  ( attr = Date `start`
+                  , full_name = 'owner.lifetime.start'
+                  , id = 'owner__lifetime__start'
+                  , name = 'start'
+                  , sig_key = 0
+                  , ui_name = 'Owner/Lifetime/Start'
+                  )
+                , Record
+                  ( attr = Date `finish`
+                  , full_name = 'owner.lifetime.finish'
+                  , id = 'owner__lifetime__finish'
+                  , name = 'finish'
+                  , sig_key = 0
+                  , ui_name = 'Owner/Lifetime/Finish'
+                  )
+                , Record
+                  ( attr = Boolean `alive`
+                  , choices =
+                      [ 'no'
+                      , 'yes'
+                      ]
+                  , full_name = 'owner.lifetime.alive'
+                  , id = 'owner__lifetime__alive'
+                  , name = 'alive'
+                  , sig_key = 1
+                  , ui_name = 'Owner/Lifetime/Alive'
+                  )
+                ]
+            , full_name = 'owner.lifetime'
+            , id = 'owner__lifetime'
+            , name = 'lifetime'
+            , ui_name = 'Owner/Lifetime'
+            )
+          ]
+      , full_name = 'owner'
+      , id = 'owner'
+      , name = 'owner'
+      , sig_key = 2
+      , ui_name = 'Owner'
+      )
+    , Record
+      ( Class = 'Entity'
+      , attr = Entity `pool`
+      , attrs =
+          [ Record
+            ( attr = IP4_Network `net_address`
+            , attrs =
+                [ Record
+                  ( attr = IP4-network `address`
+                  , full_name = 'pool.net_address.address'
+                  , id = 'pool__net_address__address'
+                  , name = 'address'
+                  , sig_key = 0
+                  , ui_name = 'Pool/Net address/Address'
+                  )
+                ]
+            , full_name = 'pool.net_address'
+            , id = 'pool__net_address'
+            , name = 'net_address'
+            , ui_name = 'Pool/Net address'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `owner`
+            , attrs =
+                [ Record
+                  ( attr = Date_Interval `lifetime`
+                  , attrs =
+                      [ Record
+                        ( attr = Date `start`
+                        , full_name = 'pool.owner.lifetime.start'
+                        , id = 'pool__owner__lifetime__start'
+                        , name = 'start'
+                        , sig_key = 0
+                        , ui_name = 'Pool/Owner/Lifetime/Start'
+                        )
+                      , Record
+                        ( attr = Date `finish`
+                        , full_name = 'pool.owner.lifetime.finish'
+                        , id = 'pool__owner__lifetime__finish'
+                        , name = 'finish'
+                        , sig_key = 0
+                        , ui_name = 'Pool/Owner/Lifetime/Finish'
+                        )
+                      , Record
+                        ( attr = Boolean `alive`
+                        , choices = <Recursion on list...>
+                        , full_name = 'pool.owner.lifetime.alive'
+                        , id = 'pool__owner__lifetime__alive'
+                        , name = 'alive'
+                        , sig_key = 1
+                        , ui_name = 'Pool/Owner/Lifetime/Alive'
+                        )
+                      ]
+                  , full_name = 'pool.owner.lifetime'
+                  , id = 'pool__owner__lifetime'
+                  , name = 'lifetime'
+                  , ui_name = 'Pool/Owner/Lifetime'
+                  )
+                ]
+            , full_name = 'pool.owner'
+            , id = 'pool__owner'
+            , name = 'owner'
+            , sig_key = 2
+            , ui_name = 'Pool/Owner'
+            )
+          , Record
+            ( attr = Boolean `is_free`
+            , choices =
+                [ 'no'
+                , 'yes'
+                ]
+            , full_name = 'pool.is_free'
+            , id = 'pool__is_free'
+            , name = 'is_free'
+            , sig_key = 1
+            , ui_name = 'Pool/Is free'
+            )
+          ]
+      , full_name = 'pool'
+      , id = 'pool'
+      , name = 'pool'
+      , sig_key = 2
+      , ui_name = 'Pool'
+      )
+    , Record
+      ( attr = Boolean `is_free`
+      , choices = <Recursion on list...>
+      , full_name = 'is_free'
+      , id = 'is_free'
+      , name = 'is_free'
+      , sig_key = 1
+      , ui_name = 'Is free'
+      )
+    ]
+
 """
 
 def show_networks (scope, * qargs, ** qkw) :
