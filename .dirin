@@ -1,2 +1,3 @@
 . ~/.swing/system/git/dirin
 export LSE_FRAME_TITLE_PREFIX=FFM
+export PYTHONPATH=$(pwd):$PYTHONPATH

@@ -31,6 +31,7 @@
 #     5-Mar-2013 (CT) Add tests for `reserve`
 #     5-Mar-2013 (CT) Add `electric`
 #     7-Mar-2013 (RS) Test for previously failing `CONTAINS` query
+#    19-Mar-2013 (CT) Add test case `test_AQ`
 #    ««revision-date»»···
 #--
 
@@ -341,6 +342,37 @@ _test_code = """
 
 """
 
+_test_AQ = """
+    >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
+    Creating new scope MOMT__...
+
+    >>> FFM = scope.FFM
+    >>> PAP = scope.PAP
+
+    >>> AQ = FFM.IP4_Network.E_Type.AQ
+    >>> AQ
+    <Attr.Type.Querier.E_Type for FFM.IP4_Network>
+    >>> for aq in AQ.Attrs :
+    ...     print (aq)
+    <net_address.AQ [Attr.Type.Querier Composite]>
+    <owner.AQ [Attr.Type.Querier Id_Entity]>
+    <pool.AQ [Attr.Type.Querier Id_Entity]>
+    <is_free.AQ [Attr.Type.Querier Boolean]>
+
+    >>> for aq in AQ.Attrs_Transitive :
+    ...     print (aq, aq.E_Type.type_name if aq.E_Type else "-"*5)
+    <net_address.AQ [Attr.Type.Querier Composite]> GTW.OMP.NET.IP4_Network
+    <net_address.address.AQ [Attr.Type.Querier Ckd]> -----
+    <owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <owner.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <owner.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <owner.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <owner.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
+    <is_free.AQ [Attr.Type.Querier Boolean]> -----
+
+"""
+
 def show_networks (scope, * qargs, ** qkw) :
     ETM = scope.FFM.IP4_Network
     sk = TFL.Sorted_By \
@@ -368,6 +400,7 @@ def show_network_count (scope) :
 __test__ = Scaffold.create_test_dict \
   ( dict
       ( main       = _test_code
+      , test_AQ    = _test_AQ
       )
   )
 
