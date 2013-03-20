@@ -369,6 +369,15 @@ _test_AQ = """
     <owner.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
     <owner.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
     <pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
+    <pool.net_address.AQ [Attr.Type.Querier Composite]> GTW.OMP.NET.IP4_Network
+    <pool.net_address.address.AQ [Attr.Type.Querier Ckd]> -----
+    <pool.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <pool.owner.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <pool.owner.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <pool.owner.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <pool.owner.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <pool.pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
+    <pool.is_free.AQ [Attr.Type.Querier Boolean]> -----
     <is_free.AQ [Attr.Type.Querier Boolean]> -----
 
     >>> for aq in AQ.Atoms :
@@ -377,6 +386,11 @@ _test_AQ = """
     <owner.lifetime.start.AQ [Attr.Type.Querier Date]>
     <owner.lifetime.finish.AQ [Attr.Type.Querier Date]>
     <owner.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <pool.net_address.address.AQ [Attr.Type.Querier Ckd]>
+    <pool.owner.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <pool.owner.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <pool.owner.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <pool.is_free.AQ [Attr.Type.Querier Boolean]>
     <is_free.AQ [Attr.Type.Querier Boolean]>
 
     >>> print (formatted (AQ.As_Json_Cargo))
@@ -448,6 +462,50 @@ _test_AQ = """
                 , 'name' : 'owner'
                 , 'sig_key' : 2
                 , 'ui_name' : 'Owner'
+                }
+              , { 'Class' : 'Entity'
+                , 'attrs' :
+                    [ { 'attrs' :
+                          [ { 'name' : 'address'
+                            , 'sig_key' : 0
+                            , 'ui_name' : 'Address'
+                            }
+                          ]
+                      , 'name' : 'net_address'
+                      , 'ui_name' : 'Net address'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'attrs' :
+                                [ { 'name' : 'start'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Start'
+                                  }
+                                , { 'name' : 'finish'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Finish'
+                                  }
+                                , { 'name' : 'alive'
+                                  , 'sig_key' : 1
+                                  , 'ui_name' : 'Alive'
+                                  }
+                                ]
+                            , 'name' : 'lifetime'
+                            , 'ui_name' : 'Lifetime'
+                            }
+                          ]
+                      , 'name' : 'owner'
+                      , 'sig_key' : 2
+                      , 'ui_name' : 'Owner'
+                      }
+                    , { 'name' : 'is_free'
+                      , 'sig_key' : 1
+                      , 'ui_name' : 'Is free'
+                      }
+                    ]
+                , 'name' : 'pool'
+                , 'sig_key' : 2
+                , 'ui_name' : 'Pool'
                 }
               , { 'name' : 'is_free'
                 , 'sig_key' : 1
@@ -536,7 +594,7 @@ _test_AQ = """
     , 'ui_sep' : '/'
     }
 
-    >>> print (formatted (list (f.As_Template_Elem for f in AQ.Attrs)))
+    >>> print (formatted (AQ.As_Template_Elem))
     [ Record
       ( attr = IP4_Network `net_address`
       , attrs =
