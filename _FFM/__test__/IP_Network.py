@@ -364,18 +364,10 @@ _test_AQ = """
     <net_address.AQ [Attr.Type.Querier Composite]> GTW.OMP.NET.IP4_Network
     <net_address.address.AQ [Attr.Type.Querier Ckd]> -----
     <owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
-    <owner.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <owner.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <owner.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <owner.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
     <pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
     <pool.net_address.AQ [Attr.Type.Querier Composite]> GTW.OMP.NET.IP4_Network
     <pool.net_address.address.AQ [Attr.Type.Querier Ckd]> -----
     <pool.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
-    <pool.owner.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <pool.owner.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <pool.owner.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <pool.owner.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
     <pool.pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
     <pool.is_free.AQ [Attr.Type.Querier Boolean]> -----
     <is_free.AQ [Attr.Type.Querier Boolean]> -----
@@ -383,13 +375,7 @@ _test_AQ = """
     >>> for aq in AQ.Atoms :
     ...     print (aq)
     <net_address.address.AQ [Attr.Type.Querier Ckd]>
-    <owner.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <owner.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <owner.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
     <pool.net_address.address.AQ [Attr.Type.Querier Ckd]>
-    <pool.owner.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <pool.owner.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <pool.owner.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
     <pool.is_free.AQ [Attr.Type.Querier Boolean]>
     <is_free.AQ [Attr.Type.Querier Boolean]>
 
@@ -405,24 +391,11 @@ _test_AQ = """
           , 'ui_name' : 'Net address'
           }
         , { 'Class' : 'Entity'
-          , 'attrs' :
-              [ { 'attrs' :
-                    [ { 'name' : 'start'
-                      , 'sig_key' : 0
-                      , 'ui_name' : 'Start'
-                      }
-                    , { 'name' : 'finish'
-                      , 'sig_key' : 0
-                      , 'ui_name' : 'Finish'
-                      }
-                    , { 'name' : 'alive'
-                      , 'sig_key' : 1
-                      , 'ui_name' : 'Alive'
-                      }
-                    ]
-                , 'name' : 'lifetime'
-                , 'ui_name' : 'Lifetime'
-                }
+          , 'children_np' :
+              [ 'FFM.Node'
+              , 'PAP.Association'
+              , 'PAP.Company'
+              , 'PAP.Person'
               ]
           , 'name' : 'owner'
           , 'sig_key' : 2
@@ -440,69 +413,17 @@ _test_AQ = """
                 , 'ui_name' : 'Net address'
                 }
               , { 'Class' : 'Entity'
-                , 'attrs' :
-                    [ { 'attrs' :
-                          [ { 'name' : 'start'
-                            , 'sig_key' : 0
-                            , 'ui_name' : 'Start'
-                            }
-                          , { 'name' : 'finish'
-                            , 'sig_key' : 0
-                            , 'ui_name' : 'Finish'
-                            }
-                          , { 'name' : 'alive'
-                            , 'sig_key' : 1
-                            , 'ui_name' : 'Alive'
-                            }
-                          ]
-                      , 'name' : 'lifetime'
-                      , 'ui_name' : 'Lifetime'
-                      }
+                , 'children_np' :
+                    [ 'FFM.Node'
+                    , 'PAP.Association'
+                    , 'PAP.Company'
+                    , 'PAP.Person'
                     ]
                 , 'name' : 'owner'
                 , 'sig_key' : 2
                 , 'ui_name' : 'Owner'
                 }
               , { 'Class' : 'Entity'
-                , 'attrs' :
-                    [ { 'attrs' :
-                          [ { 'name' : 'address'
-                            , 'sig_key' : 0
-                            , 'ui_name' : 'Address'
-                            }
-                          ]
-                      , 'name' : 'net_address'
-                      , 'ui_name' : 'Net address'
-                      }
-                    , { 'Class' : 'Entity'
-                      , 'attrs' :
-                          [ { 'attrs' :
-                                [ { 'name' : 'start'
-                                  , 'sig_key' : 0
-                                  , 'ui_name' : 'Start'
-                                  }
-                                , { 'name' : 'finish'
-                                  , 'sig_key' : 0
-                                  , 'ui_name' : 'Finish'
-                                  }
-                                , { 'name' : 'alive'
-                                  , 'sig_key' : 1
-                                  , 'ui_name' : 'Alive'
-                                  }
-                                ]
-                            , 'name' : 'lifetime'
-                            , 'ui_name' : 'Lifetime'
-                            }
-                          ]
-                      , 'name' : 'owner'
-                      , 'sig_key' : 2
-                      , 'ui_name' : 'Owner'
-                      }
-                    , { 'name' : 'is_free'
-                      , 'sig_key' : 1
-                      , 'ui_name' : 'Is free'
-                      }
-                    ]
                 , 'name' : 'pool'
                 , 'sig_key' : 2
                 , 'ui_name' : 'Pool'
@@ -615,44 +536,11 @@ _test_AQ = """
     , Record
       ( Class = 'Entity'
       , attr = Entity `owner`
-      , attrs =
-          [ Record
-            ( attr = Date_Interval `lifetime`
-            , attrs =
-                [ Record
-                  ( attr = Date `start`
-                  , full_name = 'owner.lifetime.start'
-                  , id = 'owner__lifetime__start'
-                  , name = 'start'
-                  , sig_key = 0
-                  , ui_name = 'Owner/Lifetime/Start'
-                  )
-                , Record
-                  ( attr = Date `finish`
-                  , full_name = 'owner.lifetime.finish'
-                  , id = 'owner__lifetime__finish'
-                  , name = 'finish'
-                  , sig_key = 0
-                  , ui_name = 'Owner/Lifetime/Finish'
-                  )
-                , Record
-                  ( attr = Boolean `alive`
-                  , choices =
-                      [ 'no'
-                      , 'yes'
-                      ]
-                  , full_name = 'owner.lifetime.alive'
-                  , id = 'owner__lifetime__alive'
-                  , name = 'alive'
-                  , sig_key = 1
-                  , ui_name = 'Owner/Lifetime/Alive'
-                  )
-                ]
-            , full_name = 'owner.lifetime'
-            , id = 'owner__lifetime'
-            , name = 'lifetime'
-            , ui_name = 'Owner/Lifetime'
-            )
+      , children_np =
+          [ 'FFM.Node'
+          , 'PAP.Association'
+          , 'PAP.Company'
+          , 'PAP.Person'
           ]
       , full_name = 'owner'
       , id = 'owner'
@@ -684,47 +572,26 @@ _test_AQ = """
           , Record
             ( Class = 'Entity'
             , attr = Entity `owner`
-            , attrs =
-                [ Record
-                  ( attr = Date_Interval `lifetime`
-                  , attrs =
-                      [ Record
-                        ( attr = Date `start`
-                        , full_name = 'pool.owner.lifetime.start'
-                        , id = 'pool__owner__lifetime__start'
-                        , name = 'start'
-                        , sig_key = 0
-                        , ui_name = 'Pool/Owner/Lifetime/Start'
-                        )
-                      , Record
-                        ( attr = Date `finish`
-                        , full_name = 'pool.owner.lifetime.finish'
-                        , id = 'pool__owner__lifetime__finish'
-                        , name = 'finish'
-                        , sig_key = 0
-                        , ui_name = 'Pool/Owner/Lifetime/Finish'
-                        )
-                      , Record
-                        ( attr = Boolean `alive`
-                        , choices = <Recursion on list...>
-                        , full_name = 'pool.owner.lifetime.alive'
-                        , id = 'pool__owner__lifetime__alive'
-                        , name = 'alive'
-                        , sig_key = 1
-                        , ui_name = 'Pool/Owner/Lifetime/Alive'
-                        )
-                      ]
-                  , full_name = 'pool.owner.lifetime'
-                  , id = 'pool__owner__lifetime'
-                  , name = 'lifetime'
-                  , ui_name = 'Pool/Owner/Lifetime'
-                  )
+            , children_np =
+                [ 'FFM.Node'
+                , 'PAP.Association'
+                , 'PAP.Company'
+                , 'PAP.Person'
                 ]
             , full_name = 'pool.owner'
             , id = 'pool__owner'
             , name = 'owner'
             , sig_key = 2
             , ui_name = 'Pool/Owner'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `pool`
+            , full_name = 'pool.pool'
+            , id = 'pool__pool'
+            , name = 'pool'
+            , sig_key = 2
+            , ui_name = 'Pool/Pool'
             )
           , Record
             ( attr = Boolean `is_free`
