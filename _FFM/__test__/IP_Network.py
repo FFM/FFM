@@ -32,6 +32,7 @@
 #     5-Mar-2013 (CT) Add `electric`
 #     7-Mar-2013 (RS) Test for previously failing `CONTAINS` query
 #    19-Mar-2013 (CT) Add test case `test_AQ`
+#    22-Mar-2013 (CT) Add test for `Query_Restriction`
 #    ««revision-date»»···
 #--
 
@@ -39,6 +40,8 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 
 from   _FFM.__test__.model      import *
 from   datetime                 import datetime
+
+import _GTW._RST._TOP._MOM.Query_Restriction
 
 _test_code = """
     >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
@@ -348,7 +351,6 @@ _test_AQ = """
 
     >>> FFM = scope.FFM
     >>> PAP = scope.PAP
-
     >>> AQ = FFM.IP4_Network.E_Type.AQ
     >>> AQ
     <Attr.Type.Querier.E_Type for FFM.IP4_Network>
@@ -392,11 +394,20 @@ _test_AQ = """
           }
         , { 'Class' : 'Entity'
           , 'children_np' :
-              [ 'FFM.Node'
-              , 'PAP.Association'
-              , 'PAP.Company'
-              , 'PAP.Person'
+              [ { 'type_name' : 'FFM.Node'
+                , 'ui_name' : 'Node'
+                }
+              , { 'type_name' : 'PAP.Association'
+                , 'ui_name' : 'Association'
+                }
+              , { 'type_name' : 'PAP.Company'
+                , 'ui_name' : 'Company'
+                }
+              , { 'type_name' : 'PAP.Person'
+                , 'ui_name' : 'Person'
+                }
               ]
+          , 'default_child' : 'PAP.Person'
           , 'name' : 'owner'
           , 'sig_key' : 2
           , 'ui_name' : 'Owner'
@@ -414,11 +425,20 @@ _test_AQ = """
                 }
               , { 'Class' : 'Entity'
                 , 'children_np' :
-                    [ 'FFM.Node'
-                    , 'PAP.Association'
-                    , 'PAP.Company'
-                    , 'PAP.Person'
+                    [ { 'type_name' : 'FFM.Node'
+                      , 'ui_name' : 'Node'
+                      }
+                    , { 'type_name' : 'PAP.Association'
+                      , 'ui_name' : 'Association'
+                      }
+                    , { 'type_name' : 'PAP.Company'
+                      , 'ui_name' : 'Company'
+                      }
+                    , { 'type_name' : 'PAP.Person'
+                      , 'ui_name' : 'Person'
+                      }
                     ]
+                , 'default_child' : 'PAP.Person'
                 , 'name' : 'owner'
                 , 'sig_key' : 2
                 , 'ui_name' : 'Owner'
@@ -537,11 +557,20 @@ _test_AQ = """
       ( Class = 'Entity'
       , attr = Entity `owner`
       , children_np =
-          [ 'FFM.Node'
-          , 'PAP.Association'
-          , 'PAP.Company'
-          , 'PAP.Person'
+          [ { 'type_name' : 'FFM.Node'
+            , 'ui_name' : 'Node'
+            }
+          , { 'type_name' : 'PAP.Association'
+            , 'ui_name' : 'Association'
+            }
+          , { 'type_name' : 'PAP.Company'
+            , 'ui_name' : 'Company'
+            }
+          , { 'type_name' : 'PAP.Person'
+            , 'ui_name' : 'Person'
+            }
           ]
+      , default_child = 'PAP.Person'
       , full_name = 'owner'
       , id = 'owner'
       , name = 'owner'
@@ -573,11 +602,20 @@ _test_AQ = """
             ( Class = 'Entity'
             , attr = Entity `owner`
             , children_np =
-                [ 'FFM.Node'
-                , 'PAP.Association'
-                , 'PAP.Company'
-                , 'PAP.Person'
+                [ { 'type_name' : 'FFM.Node'
+                  , 'ui_name' : 'Node'
+                  }
+                , { 'type_name' : 'PAP.Association'
+                  , 'ui_name' : 'Association'
+                  }
+                , { 'type_name' : 'PAP.Company'
+                  , 'ui_name' : 'Company'
+                  }
+                , { 'type_name' : 'PAP.Person'
+                  , 'ui_name' : 'Person'
+                  }
                 ]
+            , default_child = 'PAP.Person'
             , full_name = 'pool.owner'
             , id = 'pool__owner'
             , name = 'owner'
@@ -622,6 +660,45 @@ _test_AQ = """
       , ui_name = 'Is free'
       )
     ]
+
+    >>> QR  = GTW.RST.TOP.MOM.Query_Restriction
+    >>> print (formatted (QR.Filter_Atoms (QR.Filter (FFM.IP4_Network, "owner"))))
+    ()
+    >>> print (formatted (QR.Filter_Atoms (QR.Filter (FFM.IP4_Network, "pool"))))
+    ( Record
+      ( AQ = <net_address.address.AQ [Attr.Type.Querier Ckd]>
+      , attr = IP4-network `address`
+      , edit = None
+      , full_name = 'net_address.address'
+      , id = 'net_address__address___AC'
+      , name = 'net_address__address___AC'
+      , op = Record
+          ( desc = 'Select entities where the attribute is equal to the specified value'
+          , label = 'auto-complete'
+          )
+      , sig_key = 0
+      , ui_name = 'Net address/Address'
+      , value = None
+      )
+    )
+
+    >>> print (formatted (QR.Filter_Atoms (QR.Filter (FFM.Net_Interface_in_IP4_Network, "right"))))
+    ( Record
+      ( AQ = <net_address.address.AQ [Attr.Type.Querier Ckd]>
+      , attr = IP4-network `address`
+      , edit = None
+      , full_name = 'net_address.address'
+      , id = 'net_address__address___AC'
+      , name = 'net_address__address___AC'
+      , op = Record
+          ( desc = 'Select entities where the attribute is equal to the specified value'
+          , label = 'auto-complete'
+          )
+      , sig_key = 0
+      , ui_name = 'Net address/Address'
+      , value = None
+      )
+    )
 
 """
 
