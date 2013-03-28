@@ -33,6 +33,7 @@
 #     7-Mar-2013 (RS) Test for previously failing `CONTAINS` query
 #    19-Mar-2013 (CT) Add test case `test_AQ`
 #    22-Mar-2013 (CT) Add test for `Query_Restriction`
+#    28-Mar-2013 (CT) Add `AQ.Attrs_Transitive...ui_name`, `.pool.pool.pool...`
 #    ««revision-date»»···
 #--
 
@@ -373,6 +374,22 @@ _test_AQ = """
     <pool.pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
     <pool.is_free.AQ [Attr.Type.Querier Boolean]> -----
     <is_free.AQ [Attr.Type.Querier Boolean]> -----
+
+    >>> for aq in AQ.Attrs_Transitive :
+    ...     str (aq._ui_name_T)
+    'Net address'
+    'Net address/Address'
+    'Owner'
+    'Pool'
+    'Pool/Net address'
+    'Pool/Net address/Address'
+    'Pool/Owner'
+    'Pool/Pool'
+    'Pool/Is free'
+    'Is free'
+
+    >>> AQ.pool.pool.pool.owner
+    <pool.pool.pool.owner.AQ [Attr.Type.Querier Id_Entity]>
 
     >>> for aq in AQ.Atoms :
     ...     print (aq)
