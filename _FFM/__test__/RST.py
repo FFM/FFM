@@ -29,6 +29,7 @@
 #     9-Jan-2013 (CT) Creation
 #     1-Feb-2013 (RS) Fix rounding error with python2.6
 #     5-Mar-2013 (CT) Adapt to changes in `Net_Interface_in_IP4_Network`
+#    28-Mar-2013 (CT) Factor `_test_limit` from `_test_get`
 #    ««revision-date»»···
 #--
 
@@ -171,6 +172,25 @@ _test_get = r"""
     }
 
 
+    >>> r = show (R.get ("/v1/FFM-Net_Interface_in_IP4_Network?brief"))
+    { 'json' :
+        { 'entries' :
+            [ 31
+            , 32
+            , 33
+            , 34
+            ]
+        , 'url_template' : '/v1/FFM-Net_Interface_in_IP4_Network/{entry}'
+        }
+    , 'status' : 200
+    , 'url' : 'http://localhost:9999/v1/FFM-Net_Interface_in_IP4_Network?brief'
+    }
+
+"""
+
+_test_limit = r"""
+    >>> server = run_server (%(p1)s, %(n1)s)
+
     >>> r = show (R.get ("/v1/FFM-Net_Interface_in_IP4_Network?verbose&closure&order_by=pid&limit=1"))
     { 'json' :
         { 'attribute_names' :
@@ -264,12 +284,12 @@ _test_get = r"""
     , 'url' : 'http://localhost:9999/v1/FFM-Net_Interface_in_IP4_Network?verbose&closure&order_by=pid&limit=1'
     }
 
-    >>> server.terminate ()
 """
 
 __test__ = Scaffold.create_test_dict \
     ( dict
-        ( test_get = _test_get
+        ( test_get   = _test_get
+        , test_limit = _test_limit
         )
     )
 
