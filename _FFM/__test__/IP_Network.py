@@ -411,17 +411,73 @@ _test_AQ = """
           }
         , { 'Class' : 'Entity'
           , 'children_np' :
-              [ { 'type_name' : 'FFM.Node'
-                , 'ui_name' : 'Node'
+              [ { 'Class' : 'Entity'
+                , 'attrs' :
+                    [ { 'name' : 'name'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Name'
+                      }
+                    ]
+                , 'name' : 'owner'
+                , 'sig_key' : 2
+                , 'type_name' : 'FFM.Node'
+                , 'ui_name' : 'Owner'
+                , 'ui_type_name' : 'Node'
                 }
-              , { 'type_name' : 'PAP.Association'
-                , 'ui_name' : 'Association'
+              , { 'Class' : 'Entity'
+                , 'attrs' :
+                    [ { 'name' : 'name'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Name'
+                      }
+                    ]
+                , 'name' : 'owner'
+                , 'sig_key' : 2
+                , 'type_name' : 'PAP.Association'
+                , 'ui_name' : 'Owner'
+                , 'ui_type_name' : 'Association'
                 }
-              , { 'type_name' : 'PAP.Company'
-                , 'ui_name' : 'Company'
+              , { 'Class' : 'Entity'
+                , 'attrs' :
+                    [ { 'name' : 'name'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Name'
+                      }
+                    , { 'name' : 'registered_in'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Registered in'
+                      }
+                    ]
+                , 'name' : 'owner'
+                , 'sig_key' : 2
+                , 'type_name' : 'PAP.Company'
+                , 'ui_name' : 'Owner'
+                , 'ui_type_name' : 'Company'
                 }
-              , { 'type_name' : 'PAP.Person'
-                , 'ui_name' : 'Person'
+              , { 'Class' : 'Entity'
+                , 'attrs' :
+                    [ { 'name' : 'last_name'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Last name'
+                      }
+                    , { 'name' : 'first_name'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'First name'
+                      }
+                    , { 'name' : 'middle_name'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Middle name'
+                      }
+                    , { 'name' : 'title'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Academic title'
+                      }
+                    ]
+                , 'name' : 'owner'
+                , 'sig_key' : 2
+                , 'type_name' : 'PAP.Person'
+                , 'ui_name' : 'Owner'
+                , 'ui_type_name' : 'Person'
                 }
               ]
           , 'default_child' : 'PAP.Person'
@@ -442,17 +498,73 @@ _test_AQ = """
                 }
               , { 'Class' : 'Entity'
                 , 'children_np' :
-                    [ { 'type_name' : 'FFM.Node'
-                      , 'ui_name' : 'Node'
+                    [ { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          ]
+                      , 'name' : 'owner'
+                      , 'sig_key' : 2
+                      , 'type_name' : 'FFM.Node'
+                      , 'ui_name' : 'Owner'
+                      , 'ui_type_name' : 'Node'
                       }
-                    , { 'type_name' : 'PAP.Association'
-                      , 'ui_name' : 'Association'
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          ]
+                      , 'name' : 'owner'
+                      , 'sig_key' : 2
+                      , 'type_name' : 'PAP.Association'
+                      , 'ui_name' : 'Owner'
+                      , 'ui_type_name' : 'Association'
                       }
-                    , { 'type_name' : 'PAP.Company'
-                      , 'ui_name' : 'Company'
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          , { 'name' : 'registered_in'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Registered in'
+                            }
+                          ]
+                      , 'name' : 'owner'
+                      , 'sig_key' : 2
+                      , 'type_name' : 'PAP.Company'
+                      , 'ui_name' : 'Owner'
+                      , 'ui_type_name' : 'Company'
                       }
-                    , { 'type_name' : 'PAP.Person'
-                      , 'ui_name' : 'Person'
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'last_name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Last name'
+                            }
+                          , { 'name' : 'first_name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'First name'
+                            }
+                          , { 'name' : 'middle_name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Middle name'
+                            }
+                          , { 'name' : 'title'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Academic title'
+                            }
+                          ]
+                      , 'name' : 'owner'
+                      , 'sig_key' : 2
+                      , 'type_name' : 'PAP.Person'
+                      , 'ui_name' : 'Owner'
+                      , 'ui_type_name' : 'Person'
                       }
                     ]
                 , 'default_child' : 'PAP.Person'
@@ -574,18 +686,122 @@ _test_AQ = """
       ( Class = 'Entity'
       , attr = Entity `owner`
       , children_np =
-          [ { 'type_name' : 'FFM.Node'
-            , 'ui_name' : 'Node'
-            }
-          , { 'type_name' : 'PAP.Association'
-            , 'ui_name' : 'Association'
-            }
-          , { 'type_name' : 'PAP.Company'
-            , 'ui_name' : 'Company'
-            }
-          , { 'type_name' : 'PAP.Person'
-            , 'ui_name' : 'Person'
-            }
+          [ Record
+            ( Class = 'Entity'
+            , attr = Entity `owner`
+            , attrs =
+                [ Record
+                  ( attr = String `name`
+                  , full_name = 'owner.name'
+                  , id = 'owner__name'
+                  , name = 'name'
+                  , sig_key = 3
+                  , ui_name = 'Owner/Name'
+                  )
+                ]
+            , full_name = 'owner'
+            , id = 'owner'
+            , name = 'owner'
+            , sig_key = 2
+            , type_name = 'FFM.Node'
+            , ui_name = 'Owner'
+            , ui_type_name = 'Node'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `owner`
+            , attrs =
+                [ Record
+                  ( attr = String `name`
+                  , full_name = 'owner.name'
+                  , id = 'owner__name'
+                  , name = 'name'
+                  , sig_key = 3
+                  , ui_name = 'Owner/Name'
+                  )
+                ]
+            , full_name = 'owner'
+            , id = 'owner'
+            , name = 'owner'
+            , sig_key = 2
+            , type_name = 'PAP.Association'
+            , ui_name = 'Owner'
+            , ui_type_name = 'Association'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `owner`
+            , attrs =
+                [ Record
+                  ( attr = String `name`
+                  , full_name = 'owner.name'
+                  , id = 'owner__name'
+                  , name = 'name'
+                  , sig_key = 3
+                  , ui_name = 'Owner/Name'
+                  )
+                , Record
+                  ( attr = String `registered_in`
+                  , full_name = 'owner.registered_in'
+                  , id = 'owner__registered_in'
+                  , name = 'registered_in'
+                  , sig_key = 3
+                  , ui_name = 'Owner/Registered in'
+                  )
+                ]
+            , full_name = 'owner'
+            , id = 'owner'
+            , name = 'owner'
+            , sig_key = 2
+            , type_name = 'PAP.Company'
+            , ui_name = 'Owner'
+            , ui_type_name = 'Company'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `owner`
+            , attrs =
+                [ Record
+                  ( attr = String `last_name`
+                  , full_name = 'owner.last_name'
+                  , id = 'owner__last_name'
+                  , name = 'last_name'
+                  , sig_key = 3
+                  , ui_name = 'Owner/Last name'
+                  )
+                , Record
+                  ( attr = String `first_name`
+                  , full_name = 'owner.first_name'
+                  , id = 'owner__first_name'
+                  , name = 'first_name'
+                  , sig_key = 3
+                  , ui_name = 'Owner/First name'
+                  )
+                , Record
+                  ( attr = String `middle_name`
+                  , full_name = 'owner.middle_name'
+                  , id = 'owner__middle_name'
+                  , name = 'middle_name'
+                  , sig_key = 3
+                  , ui_name = 'Owner/Middle name'
+                  )
+                , Record
+                  ( attr = String `title`
+                  , full_name = 'owner.title'
+                  , id = 'owner__title'
+                  , name = 'title'
+                  , sig_key = 3
+                  , ui_name = 'Owner/Academic title'
+                  )
+                ]
+            , full_name = 'owner'
+            , id = 'owner'
+            , name = 'owner'
+            , sig_key = 2
+            , type_name = 'PAP.Person'
+            , ui_name = 'Owner'
+            , ui_type_name = 'Person'
+            )
           ]
       , default_child = 'PAP.Person'
       , full_name = 'owner'
@@ -619,18 +835,122 @@ _test_AQ = """
             ( Class = 'Entity'
             , attr = Entity `owner`
             , children_np =
-                [ { 'type_name' : 'FFM.Node'
-                  , 'ui_name' : 'Node'
-                  }
-                , { 'type_name' : 'PAP.Association'
-                  , 'ui_name' : 'Association'
-                  }
-                , { 'type_name' : 'PAP.Company'
-                  , 'ui_name' : 'Company'
-                  }
-                , { 'type_name' : 'PAP.Person'
-                  , 'ui_name' : 'Person'
-                  }
+                [ Record
+                  ( Class = 'Entity'
+                  , attr = Entity `owner`
+                  , attrs =
+                      [ Record
+                        ( attr = String `name`
+                        , full_name = 'owner.name'
+                        , id = 'owner__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Owner/Name'
+                        )
+                      ]
+                  , full_name = 'owner'
+                  , id = 'owner'
+                  , name = 'owner'
+                  , sig_key = 2
+                  , type_name = 'FFM.Node'
+                  , ui_name = 'Owner'
+                  , ui_type_name = 'Node'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `owner`
+                  , attrs =
+                      [ Record
+                        ( attr = String `name`
+                        , full_name = 'owner.name'
+                        , id = 'owner__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Owner/Name'
+                        )
+                      ]
+                  , full_name = 'owner'
+                  , id = 'owner'
+                  , name = 'owner'
+                  , sig_key = 2
+                  , type_name = 'PAP.Association'
+                  , ui_name = 'Owner'
+                  , ui_type_name = 'Association'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `owner`
+                  , attrs =
+                      [ Record
+                        ( attr = String `name`
+                        , full_name = 'owner.name'
+                        , id = 'owner__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Owner/Name'
+                        )
+                      , Record
+                        ( attr = String `registered_in`
+                        , full_name = 'owner.registered_in'
+                        , id = 'owner__registered_in'
+                        , name = 'registered_in'
+                        , sig_key = 3
+                        , ui_name = 'Owner/Registered in'
+                        )
+                      ]
+                  , full_name = 'owner'
+                  , id = 'owner'
+                  , name = 'owner'
+                  , sig_key = 2
+                  , type_name = 'PAP.Company'
+                  , ui_name = 'Owner'
+                  , ui_type_name = 'Company'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `owner`
+                  , attrs =
+                      [ Record
+                        ( attr = String `last_name`
+                        , full_name = 'owner.last_name'
+                        , id = 'owner__last_name'
+                        , name = 'last_name'
+                        , sig_key = 3
+                        , ui_name = 'Owner/Last name'
+                        )
+                      , Record
+                        ( attr = String `first_name`
+                        , full_name = 'owner.first_name'
+                        , id = 'owner__first_name'
+                        , name = 'first_name'
+                        , sig_key = 3
+                        , ui_name = 'Owner/First name'
+                        )
+                      , Record
+                        ( attr = String `middle_name`
+                        , full_name = 'owner.middle_name'
+                        , id = 'owner__middle_name'
+                        , name = 'middle_name'
+                        , sig_key = 3
+                        , ui_name = 'Owner/Middle name'
+                        )
+                      , Record
+                        ( attr = String `title`
+                        , full_name = 'owner.title'
+                        , id = 'owner__title'
+                        , name = 'title'
+                        , sig_key = 3
+                        , ui_name = 'Owner/Academic title'
+                        )
+                      ]
+                  , full_name = 'owner'
+                  , id = 'owner'
+                  , name = 'owner'
+                  , sig_key = 2
+                  , type_name = 'PAP.Person'
+                  , ui_name = 'Owner'
+                  , ui_type_name = 'Person'
+                  )
                 ]
             , default_child = 'PAP.Person'
             , full_name = 'pool.owner'
