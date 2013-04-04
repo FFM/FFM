@@ -39,6 +39,7 @@
 #    13-Dec-2012 (CT) Set `owner.ui_allow_new` to `False`
 #    14-Dec-2012 (CT) Return `obj`, not `self`, from `belongs_to_node.computed`
 #    17-Dec-2012 (CT) Set `manager.ui_allow_new` to `False`
+#     4-Apr-2013 (CT) Change `owner.P_Type` back to `PAP.Subject`
 #    ««revision-date»»···
 #--
 
@@ -99,7 +100,7 @@ class Node (FFM.Entity, _Ancestor_Essence) :
 
             kind               = Attr.Optional
             Kind_Mixins        = (Attr.Computed_Mixin, )
-            P_Type             = PAP.Person
+            P_Type             = PAP.Subject
             ui_allow_new       = False
 
             def computed (self, obj) :
