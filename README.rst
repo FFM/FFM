@@ -169,22 +169,7 @@ to install some of these into a virtual python environment (virtualenv),
 see later in sectioni `How to install`_ |---| depending on your
 estimate how often you want to change external packages::
 
- pip install Babel plumbum pytz rsclib sqlalchemy werkzeug
-
-The packages ``rcssmin`` and ``rjsmin`` need to be downloaded and
-installed by hand::
-
- cd /usr/local/src
- wget http://storage.perlig.de/rcssmin/rcssmin-1.0.1.tar.bz2
- tar xvf rcssmin-1.0.1.tar.bz2
- cd rcssmin-1.0.1
- python setup.py install --prefix=/usr/local
- cd ..
- wget http://storage.perlig.de/rjsmin/rjsmin-1.0.5.tar.bz2
- tar xvf rjsmin-1.0.5.tar.bz2
- cd rjsmin-1.0.5
- python setup.py install --prefix=/usr/local
- cd ..
+ pip install Babel plumbum pytz rcssmin rjsmin rsclib sqlalchemy werkzeug
 
 Create user and database user permitted to create databases::
 
