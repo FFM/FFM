@@ -808,7 +808,9 @@ _test_AQ = """
       , id = 'owner'
       , name = 'owner'
       , sig_key = 2
+      , type_name = 'PAP.Subject'
       , ui_name = 'Owner'
+      , ui_type_name = 'Subject'
       )
     , Record
       ( Class = 'Entity'
@@ -957,7 +959,9 @@ _test_AQ = """
             , id = 'pool__owner'
             , name = 'owner'
             , sig_key = 2
+            , type_name = 'PAP.Subject'
             , ui_name = 'Pool/Owner'
+            , ui_type_name = 'Subject'
             )
           , Record
             ( Class = 'Entity'
@@ -966,7 +970,9 @@ _test_AQ = """
             , id = 'pool__pool'
             , name = 'pool'
             , sig_key = 2
+            , type_name = 'FFM.IP4_Network'
             , ui_name = 'Pool/Pool'
+            , ui_type_name = 'IP4_Network'
             )
           , Record
             ( attr = Boolean `is_free`
@@ -985,7 +991,9 @@ _test_AQ = """
       , id = 'pool'
       , name = 'pool'
       , sig_key = 2
+      , type_name = 'FFM.IP4_Network'
       , ui_name = 'Pool'
+      , ui_type_name = 'IP4_Network'
       )
     , Record
       ( attr = Boolean `is_free`
@@ -1000,7 +1008,38 @@ _test_AQ = """
 
     >>> QR  = GTW.RST.TOP.MOM.Query_Restriction
     >>> print (formatted (QR.Filter_Atoms (QR.Filter (FFM.IP4_Network, "owner"))))
-    ()
+    ( Record
+      ( AQ = <lifetime.start.AQ [Attr.Type.Querier Date]>
+      , attr = Date `start`
+      , edit = None
+      , full_name = 'lifetime.start'
+      , id = 'lifetime__start___AC'
+      , name = 'lifetime__start___AC'
+      , op = Record
+          ( desc = 'Select entities where the attribute is equal to the specified value'
+          , label = 'auto-complete'
+          )
+      , sig_key = 0
+      , ui_name = 'Lifetime/Start'
+      , value = None
+      )
+    , Record
+      ( AQ = <lifetime.finish.AQ [Attr.Type.Querier Date]>
+      , attr = Date `finish`
+      , edit = None
+      , full_name = 'lifetime.finish'
+      , id = 'lifetime__finish___AC'
+      , name = 'lifetime__finish___AC'
+      , op = Record
+          ( desc = 'Select entities where the attribute is equal to the specified value'
+          , label = 'auto-complete'
+          )
+      , sig_key = 0
+      , ui_name = 'Lifetime/Finish'
+      , value = None
+      )
+    )
+
     >>> print (formatted (QR.Filter_Atoms (QR.Filter (FFM.IP4_Network, "pool"))))
     ( Record
       ( AQ = <net_address.address.AQ [Attr.Type.Querier Ckd]>
@@ -1036,6 +1075,31 @@ _test_AQ = """
       , value = None
       )
     )
+
+    >>> for aq in FFM.Node.E_Type.AQ.Attrs_Transitive :
+    ...     print (aq._ui_name_T)
+    Name
+    Manager
+    Manager/Last name
+    Manager/First name
+    Manager/Middle name
+    Manager/Academic title
+    Manager/Lifetime
+    Manager/Lifetime/Start
+    Manager/Lifetime/Finish
+    Manager/Lifetime/Alive
+    Manager/Salutation
+    Manager/Sex
+    Lifetime
+    Lifetime/Start
+    Lifetime/Finish
+    Lifetime/Alive
+    Owner
+    Position
+    Position/Latitude
+    Position/Longitude
+    Position/Height
+    Show in map
 
 """
 
