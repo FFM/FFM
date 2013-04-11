@@ -34,6 +34,7 @@
 #    19-Mar-2013 (CT) Add test case `test_AQ`
 #    22-Mar-2013 (CT) Add test for `Query_Restriction`
 #    28-Mar-2013 (CT) Add `AQ.Attrs_Transitive...ui_name`, `.pool.pool.pool...`
+#    11-Apr-2013 (CT) Adapt to changes in `MOM.Attr.Querier`
 #    ««revision-date»»···
 #--
 
@@ -660,6 +661,18 @@ _test_AQ = """
             , 'IN'
             , 'NE'
             )
+        , 3 :
+            ( 'CONTAINS'
+            , 'ENDSWITH'
+            , 'EQ'
+            , 'GE'
+            , 'GT'
+            , 'IN'
+            , 'LE'
+            , 'LT'
+            , 'NE'
+            , 'STARTSWITH'
+            )
         }
     , 'ui_sep' : '/'
     }
@@ -696,7 +709,7 @@ _test_AQ = """
                   , id = 'owner__name'
                   , name = 'name'
                   , sig_key = 3
-                  , ui_name = 'Owner/Name'
+                  , ui_name = 'Owner[Node]/Name'
                   )
                 ]
             , full_name = 'owner'
@@ -704,7 +717,7 @@ _test_AQ = """
             , name = 'owner'
             , sig_key = 2
             , type_name = 'FFM.Node'
-            , ui_name = 'Owner'
+            , ui_name = 'Owner[Node]'
             , ui_type_name = 'Node'
             )
           , Record
@@ -717,7 +730,7 @@ _test_AQ = """
                   , id = 'owner__name'
                   , name = 'name'
                   , sig_key = 3
-                  , ui_name = 'Owner/Name'
+                  , ui_name = 'Owner[Association]/Name'
                   )
                 ]
             , full_name = 'owner'
@@ -725,7 +738,7 @@ _test_AQ = """
             , name = 'owner'
             , sig_key = 2
             , type_name = 'PAP.Association'
-            , ui_name = 'Owner'
+            , ui_name = 'Owner[Association]'
             , ui_type_name = 'Association'
             )
           , Record
@@ -738,7 +751,7 @@ _test_AQ = """
                   , id = 'owner__name'
                   , name = 'name'
                   , sig_key = 3
-                  , ui_name = 'Owner/Name'
+                  , ui_name = 'Owner[Company]/Name'
                   )
                 , Record
                   ( attr = String `registered_in`
@@ -746,7 +759,7 @@ _test_AQ = """
                   , id = 'owner__registered_in'
                   , name = 'registered_in'
                   , sig_key = 3
-                  , ui_name = 'Owner/Registered in'
+                  , ui_name = 'Owner[Company]/Registered in'
                   )
                 ]
             , full_name = 'owner'
@@ -754,7 +767,7 @@ _test_AQ = """
             , name = 'owner'
             , sig_key = 2
             , type_name = 'PAP.Company'
-            , ui_name = 'Owner'
+            , ui_name = 'Owner[Company]'
             , ui_type_name = 'Company'
             )
           , Record
@@ -767,7 +780,7 @@ _test_AQ = """
                   , id = 'owner__last_name'
                   , name = 'last_name'
                   , sig_key = 3
-                  , ui_name = 'Owner/Last name'
+                  , ui_name = 'Owner[Person]/Last name'
                   )
                 , Record
                   ( attr = String `first_name`
@@ -775,7 +788,7 @@ _test_AQ = """
                   , id = 'owner__first_name'
                   , name = 'first_name'
                   , sig_key = 3
-                  , ui_name = 'Owner/First name'
+                  , ui_name = 'Owner[Person]/First name'
                   )
                 , Record
                   ( attr = String `middle_name`
@@ -783,7 +796,7 @@ _test_AQ = """
                   , id = 'owner__middle_name'
                   , name = 'middle_name'
                   , sig_key = 3
-                  , ui_name = 'Owner/Middle name'
+                  , ui_name = 'Owner[Person]/Middle name'
                   )
                 , Record
                   ( attr = String `title`
@@ -791,7 +804,7 @@ _test_AQ = """
                   , id = 'owner__title'
                   , name = 'title'
                   , sig_key = 3
-                  , ui_name = 'Owner/Academic title'
+                  , ui_name = 'Owner[Person]/Academic title'
                   )
                 ]
             , full_name = 'owner'
@@ -799,7 +812,7 @@ _test_AQ = """
             , name = 'owner'
             , sig_key = 2
             , type_name = 'PAP.Person'
-            , ui_name = 'Owner'
+            , ui_name = 'Owner[Person]'
             , ui_type_name = 'Person'
             )
           ]
@@ -847,7 +860,7 @@ _test_AQ = """
                         , id = 'owner__name'
                         , name = 'name'
                         , sig_key = 3
-                        , ui_name = 'Owner/Name'
+                        , ui_name = 'Owner[Node]/Name'
                         )
                       ]
                   , full_name = 'owner'
@@ -855,7 +868,7 @@ _test_AQ = """
                   , name = 'owner'
                   , sig_key = 2
                   , type_name = 'FFM.Node'
-                  , ui_name = 'Owner'
+                  , ui_name = 'Owner[Node]'
                   , ui_type_name = 'Node'
                   )
                 , Record
@@ -868,7 +881,7 @@ _test_AQ = """
                         , id = 'owner__name'
                         , name = 'name'
                         , sig_key = 3
-                        , ui_name = 'Owner/Name'
+                        , ui_name = 'Owner[Association]/Name'
                         )
                       ]
                   , full_name = 'owner'
@@ -876,7 +889,7 @@ _test_AQ = """
                   , name = 'owner'
                   , sig_key = 2
                   , type_name = 'PAP.Association'
-                  , ui_name = 'Owner'
+                  , ui_name = 'Owner[Association]'
                   , ui_type_name = 'Association'
                   )
                 , Record
@@ -889,7 +902,7 @@ _test_AQ = """
                         , id = 'owner__name'
                         , name = 'name'
                         , sig_key = 3
-                        , ui_name = 'Owner/Name'
+                        , ui_name = 'Owner[Company]/Name'
                         )
                       , Record
                         ( attr = String `registered_in`
@@ -897,7 +910,7 @@ _test_AQ = """
                         , id = 'owner__registered_in'
                         , name = 'registered_in'
                         , sig_key = 3
-                        , ui_name = 'Owner/Registered in'
+                        , ui_name = 'Owner[Company]/Registered in'
                         )
                       ]
                   , full_name = 'owner'
@@ -905,7 +918,7 @@ _test_AQ = """
                   , name = 'owner'
                   , sig_key = 2
                   , type_name = 'PAP.Company'
-                  , ui_name = 'Owner'
+                  , ui_name = 'Owner[Company]'
                   , ui_type_name = 'Company'
                   )
                 , Record
@@ -918,7 +931,7 @@ _test_AQ = """
                         , id = 'owner__last_name'
                         , name = 'last_name'
                         , sig_key = 3
-                        , ui_name = 'Owner/Last name'
+                        , ui_name = 'Owner[Person]/Last name'
                         )
                       , Record
                         ( attr = String `first_name`
@@ -926,7 +939,7 @@ _test_AQ = """
                         , id = 'owner__first_name'
                         , name = 'first_name'
                         , sig_key = 3
-                        , ui_name = 'Owner/First name'
+                        , ui_name = 'Owner[Person]/First name'
                         )
                       , Record
                         ( attr = String `middle_name`
@@ -934,7 +947,7 @@ _test_AQ = """
                         , id = 'owner__middle_name'
                         , name = 'middle_name'
                         , sig_key = 3
-                        , ui_name = 'Owner/Middle name'
+                        , ui_name = 'Owner[Person]/Middle name'
                         )
                       , Record
                         ( attr = String `title`
@@ -942,7 +955,7 @@ _test_AQ = """
                         , id = 'owner__title'
                         , name = 'title'
                         , sig_key = 3
-                        , ui_name = 'Owner/Academic title'
+                        , ui_name = 'Owner[Person]/Academic title'
                         )
                       ]
                   , full_name = 'owner'
@@ -950,7 +963,7 @@ _test_AQ = """
                   , name = 'owner'
                   , sig_key = 2
                   , type_name = 'PAP.Person'
-                  , ui_name = 'Owner'
+                  , ui_name = 'Owner[Person]'
                   , ui_type_name = 'Person'
                   )
                 ]
