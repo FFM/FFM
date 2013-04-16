@@ -235,8 +235,8 @@ system should something go wrong during the upgrade::
   $ mkdir v/1/www/media
   $ ln -s v/1 active
   $ ln -s v/2 passive
-  $ git clone git@github.com:Tapyr/tapyr.git v/1/lib
-  $ git clone git@github.com:FFM/FFM.git v/1/www/app
+  $ git clone git://github.com/Tapyr/tapyr.git v/1/lib
+  $ git clone git://github.com/FFM/FFM.git     v/1/www/app
   $ cp -a v/1 v/2
 
   $ vi active/www/.ffm.config
