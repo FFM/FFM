@@ -32,15 +32,18 @@
 #    12-Oct-2012 (RS) Add tests for `Node` in role `Subject`
 #    16-Oct-2012 (CT) Add tracebacks triggered by `FFM.Node.refuse_links`
 #    17-Dec-2012 (RS) Add tests for attributes of `belongs_to_node`
-#    17-Dec-2012 (RS) Temporary fix: `owner` can't be a `Company`
 #     5-Mar-2013 (CT) Adapt to changes in `Net_Interface_in_IP4_Network`
 #     7-Mar-2013 (RS) Add test for duplicate network allocation
+#    16-Apr-2013 (CT) Add test `auto_children`,
+#                     remove `Node_has_Phone`, `Node_has_Email`
 #    ««revision-date»»···
 #--
 
 from   __future__ import absolute_import, division, print_function, unicode_literals
 
 from   _FFM.__test__.model      import *
+from   _MOM.inspect             import children_trans_iter
+
 from   datetime                 import datetime
 from   rsclib.IP_Address        import IP4_Address as R_IP4_Address
 from   rsclib.IP_Address        import IP6_Address as R_IP6_Address
@@ -56,9 +59,7 @@ _test_code = """
     >>> mgr = PAP.Person \\
     ...     (first_name = 'Ralf', last_name = 'Schlatterbeck', raw = True)
 
-    # FIXME: should allow company again
-    #>>> comp = PAP.Company (name = "Open Source Consulting", raw = True)
-    >>> comp = mgr
+    >>> comp = PAP.Company (name = "Open Source Consulting", raw = True)
     >>> node1 = FFM.Node \\
     ...     (name = "nogps", manager = mgr, position = None, raw = True)
     >>> gps1 = dict (lat = "48 d 17 m 9.64 s", lon = "15 d 52 m 27.84 s")
@@ -76,18 +77,6 @@ _test_code = """
     ...     , country = 'Austria'
     ...     )
     >>> x = PAP.Node_has_Address (node2, adr)
-
-    >>> phone = PAP.Phone ('43', '2243', '26465')
-    >>> x = PAP.Node_has_Phone (node2, phone)
-    Traceback (most recent call last):
-      ...
-    Link_Type: PAP.Node_has_Phone, FFM.Node, Node, (u'node2'), FFM.Node
-
-    >>> email = PAP.Email ('rsc@runtux.com')
-    >>> x = PAP.Node_has_Email (node2, email)
-    Traceback (most recent call last):
-      ...
-    Link_Type: PAP.Node_has_Email, FFM.Node, Node, (u'node2'), FFM.Node
 
     >>> adr2 = PAP.Address \\
     ...     ( street  = 'Example 44'
@@ -155,12 +144,86 @@ _test_code = """
     >>> FFM.Net_Device.query (Q.belongs_to_node.manager == mgr).count ()
     1
 
-    >>> scope.commit ()
+"""
+
+_test_auto_children = """
+    >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
+    Creating new scope MOMT__...
+
+    >>> FFM = scope.FFM
+    >>> PAP = scope.PAP
+
+    >>> for T, l in children_trans_iter (scope.PAP.Subject_has_Property) :
+    ...     print ("%%-30s %%s" %% ("%%s%%s" %% ("  " * l, T.type_name), sorted (T.children_np_transitive)))
+    PAP.Subject_has_Property       ['PAP.Association_has_Address', 'PAP.Association_has_Email', 'PAP.Association_has_IM_Handle', 'PAP.Association_has_Nickname', 'PAP.Association_has_Phone', 'PAP.Association_has_Url', 'PAP.Company_has_Address', 'PAP.Company_has_Email', 'PAP.Company_has_IM_Handle', 'PAP.Company_has_Nickname', 'PAP.Company_has_Phone', 'PAP.Company_has_Url', 'PAP.Node_has_Address', 'PAP.Node_has_IM_Handle', 'PAP.Node_has_Nickname', 'PAP.Node_has_Url', 'PAP.Person_has_Address', 'PAP.Person_has_Email', 'PAP.Person_has_IM_Handle', 'PAP.Person_has_Nickname', 'PAP.Person_has_Phone', 'PAP.Person_has_Url']
+      PAP.Subject_has_IM_Handle    ['PAP.Association_has_IM_Handle', 'PAP.Company_has_IM_Handle', 'PAP.Node_has_IM_Handle', 'PAP.Person_has_IM_Handle']
+        PAP.Association_has_IM_Handle ['PAP.Association_has_IM_Handle']
+        PAP.Person_has_IM_Handle   ['PAP.Person_has_IM_Handle']
+        PAP.Node_has_IM_Handle     ['PAP.Node_has_IM_Handle']
+        PAP.Company_has_IM_Handle  ['PAP.Company_has_IM_Handle']
+      PAP.Subject_has_Nickname     ['PAP.Association_has_Nickname', 'PAP.Company_has_Nickname', 'PAP.Node_has_Nickname', 'PAP.Person_has_Nickname']
+        PAP.Association_has_Nickname ['PAP.Association_has_Nickname']
+        PAP.Person_has_Nickname    ['PAP.Person_has_Nickname']
+        PAP.Node_has_Nickname      ['PAP.Node_has_Nickname']
+        PAP.Company_has_Nickname   ['PAP.Company_has_Nickname']
+      PAP.Subject_has_Address      ['PAP.Association_has_Address', 'PAP.Company_has_Address', 'PAP.Node_has_Address', 'PAP.Person_has_Address']
+        PAP.Association_has_Address ['PAP.Association_has_Address']
+        PAP.Person_has_Address     ['PAP.Person_has_Address']
+        PAP.Node_has_Address       ['PAP.Node_has_Address']
+        PAP.Company_has_Address    ['PAP.Company_has_Address']
+      PAP.Subject_has_Email        ['PAP.Association_has_Email', 'PAP.Company_has_Email', 'PAP.Person_has_Email']
+        PAP.Association_has_Email  ['PAP.Association_has_Email']
+        PAP.Person_has_Email       ['PAP.Person_has_Email']
+        PAP.Company_has_Email      ['PAP.Company_has_Email']
+      PAP.Subject_has_Phone        ['PAP.Association_has_Phone', 'PAP.Company_has_Phone', 'PAP.Person_has_Phone']
+        PAP.Association_has_Phone  ['PAP.Association_has_Phone']
+        PAP.Person_has_Phone       ['PAP.Person_has_Phone']
+        PAP.Company_has_Phone      ['PAP.Company_has_Phone']
+      PAP.Subject_has_Url          ['PAP.Association_has_Url', 'PAP.Company_has_Url', 'PAP.Node_has_Url', 'PAP.Person_has_Url']
+        PAP.Association_has_Url    ['PAP.Association_has_Url']
+        PAP.Person_has_Url         ['PAP.Person_has_Url']
+        PAP.Node_has_Url           ['PAP.Node_has_Url']
+        PAP.Company_has_Url        ['PAP.Company_has_Url']
+
+    >>> for T, l in children_trans_iter (scope.PAP.Subject_has_Property) :
+    ...     rr = T.relevant_root.type_name if T.relevant_root else sorted (T.relevant_roots)
+    ...     print ("%%-30s %%-5s %%s" %% ("%%s%%s" %% ("  " * l, T.type_name), T.is_partial, rr))
+    PAP.Subject_has_Property       True  ['PAP.Association_has_Address', 'PAP.Association_has_Email', 'PAP.Association_has_IM_Handle', 'PAP.Association_has_Nickname', 'PAP.Association_has_Phone', 'PAP.Association_has_Url', 'PAP.Company_has_Address', 'PAP.Company_has_Email', 'PAP.Company_has_IM_Handle', 'PAP.Company_has_Nickname', 'PAP.Company_has_Phone', 'PAP.Company_has_Url', 'PAP.Node_has_Address', 'PAP.Node_has_IM_Handle', 'PAP.Node_has_Nickname', 'PAP.Node_has_Url', 'PAP.Person_has_Address', 'PAP.Person_has_Email', 'PAP.Person_has_IM_Handle', 'PAP.Person_has_Nickname', 'PAP.Person_has_Phone', 'PAP.Person_has_Url']
+      PAP.Subject_has_IM_Handle    True  ['PAP.Association_has_IM_Handle', 'PAP.Company_has_IM_Handle', 'PAP.Node_has_IM_Handle', 'PAP.Person_has_IM_Handle']
+        PAP.Association_has_IM_Handle False PAP.Association_has_IM_Handle
+        PAP.Person_has_IM_Handle   False PAP.Person_has_IM_Handle
+        PAP.Node_has_IM_Handle     False PAP.Node_has_IM_Handle
+        PAP.Company_has_IM_Handle  False PAP.Company_has_IM_Handle
+      PAP.Subject_has_Nickname     True  ['PAP.Association_has_Nickname', 'PAP.Company_has_Nickname', 'PAP.Node_has_Nickname', 'PAP.Person_has_Nickname']
+        PAP.Association_has_Nickname False PAP.Association_has_Nickname
+        PAP.Person_has_Nickname    False PAP.Person_has_Nickname
+        PAP.Node_has_Nickname      False PAP.Node_has_Nickname
+        PAP.Company_has_Nickname   False PAP.Company_has_Nickname
+      PAP.Subject_has_Address      True  ['PAP.Association_has_Address', 'PAP.Company_has_Address', 'PAP.Node_has_Address', 'PAP.Person_has_Address']
+        PAP.Association_has_Address False PAP.Association_has_Address
+        PAP.Person_has_Address     False PAP.Person_has_Address
+        PAP.Node_has_Address       False PAP.Node_has_Address
+        PAP.Company_has_Address    False PAP.Company_has_Address
+      PAP.Subject_has_Email        True  ['PAP.Association_has_Email', 'PAP.Company_has_Email', 'PAP.Person_has_Email']
+        PAP.Association_has_Email  False PAP.Association_has_Email
+        PAP.Person_has_Email       False PAP.Person_has_Email
+        PAP.Company_has_Email      False PAP.Company_has_Email
+      PAP.Subject_has_Phone        True  ['PAP.Association_has_Phone', 'PAP.Company_has_Phone', 'PAP.Person_has_Phone']
+        PAP.Association_has_Phone  False PAP.Association_has_Phone
+        PAP.Person_has_Phone       False PAP.Person_has_Phone
+        PAP.Company_has_Phone      False PAP.Company_has_Phone
+      PAP.Subject_has_Url          True  ['PAP.Association_has_Url', 'PAP.Company_has_Url', 'PAP.Node_has_Url', 'PAP.Person_has_Url']
+        PAP.Association_has_Url    False PAP.Association_has_Url
+        PAP.Person_has_Url         False PAP.Person_has_Url
+        PAP.Node_has_Url           False PAP.Node_has_Url
+        PAP.Company_has_Url        False PAP.Company_has_Url
+
 """
 
 __test__ = Scaffold.create_test_dict \
   ( dict
-      ( main       = _test_code
+      ( main          = _test_code
+      , auto_children = _test_auto_children
       )
   )
 

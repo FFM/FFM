@@ -61,6 +61,8 @@ class Node (FFM.Entity, _Ancestor_Essence) :
     refuse_links = set \
         (( "GTW.OMP.PAP.Node_has_Phone"
          , "GTW.OMP.PAP.Node_has_Email"
+         , "GTW.OMP.PAP.Subject_has_Phone"
+         , "GTW.OMP.PAP.Subject_has_Email"
         ))
 
     class _Attributes (_Ancestor_Essence._Attributes) :

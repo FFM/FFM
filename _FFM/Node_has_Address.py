@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # ****************************************************************************
 # This module is part of the package FFM.
@@ -28,48 +28,15 @@
 #
 # Revision Dates
 #    12-Oct-2012 (RS) Creation
+#    16-Apr-2013 (CT) Update `auto_derive_np_kw` instead of explicit class
 #    ««revision-date»»···
 #--
 
 from   __future__            import unicode_literals
 
-from   _MOM.import_MOM        import *
-from   _GTW                   import GTW
-from   _FFM                   import FFM
-from   _GTW._OMP._PAP         import PAP
-from   _TFL.I18N              import _
+from   _GTW._OMP._PAP.Subject_has_Property import Subject_has_Property
 
-from   _GTW._OMP._PAP.Subject_has_Property   import Subject_has_Property
-from   _GTW._OMP._PAP.Address                import Address
-from   _FFM                                  import Node
+Subject_has_Property.auto_derive_np_kw \
+    ["Node_has_Address"] ["left"].update (max_links = 1)
 
-_Ancestor_Essence = Subject_has_Property
-
-class Node_has_Address (_Ancestor_Essence) :
-    """Link a Node to an address"""
-
-    class _Attributes (_Ancestor_Essence._Attributes) :
-
-        _Ancestor = _Ancestor_Essence._Attributes
-
-        class left (_Ancestor.left) :
-
-            role_type       = FFM.Node
-            max_links       = 1
-
-        # end class left
-
-        class right (_Ancestor.right) :
-            """Address of %(left.role_name)s"""
-
-            role_type = PAP.Address
-
-        # end class right
-
-    # end class _Attributes
-
-# end class Node_has_Address
-
-if __name__ != "__main__" :
-    GTW.OMP.PAP._Export ("*")
 ### __END__ FFM.Node_has_Address
