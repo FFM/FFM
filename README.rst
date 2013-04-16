@@ -169,7 +169,8 @@ to install some of these into a virtual python environment (virtualenv),
 see later in sectioni `How to install`_ |---| depending on your
 estimate how often you want to change external packages::
 
- pip install Babel plumbum pytz rcssmin rjsmin rsclib sqlalchemy werkzeug
+ pip install Babel plumbum pytz rcssmin rjsmin rsclib sqlalchemy \
+     werkzeug py-bcrypt python-openssl pyasn1 pyspkac
 
 Create user and database user permitted to create databases::
 
