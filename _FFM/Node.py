@@ -40,6 +40,8 @@
 #    14-Dec-2012 (CT) Return `obj`, not `self`, from `belongs_to_node.computed`
 #    17-Dec-2012 (CT) Set `manager.ui_allow_new` to `False`
 #     4-Apr-2013 (CT) Change `owner.P_Type` back to `PAP.Subject`
+#    16-Apr-2013 (CT) Set `owner.refuse_e_types` to `FFM.Node`
+#    17-Apr-2013 (CT) Use `Computed_Set_Mixin`, not `Computed_Mixin`
 #    ««revision-date»»···
 #--
 
@@ -101,8 +103,9 @@ class Node (FFM.Entity, _Ancestor_Essence) :
             """Owner of the node, defaults to manager"""
 
             kind               = Attr.Optional
-            Kind_Mixins        = (Attr.Computed_Mixin, )
+            Kind_Mixins        = (Attr.Computed_Set_Mixin, )
             P_Type             = PAP.Subject
+            refuse_e_types     = (str ("FFM.Node"), )
             ui_allow_new       = False
 
             def computed (self, obj) :
@@ -110,7 +113,7 @@ class Node (FFM.Entity, _Ancestor_Essence) :
                     return obj.manager
             # end def computed
 
-        # end class owner
+         # end class owner
 
         class position (A_Position) :
             """GPS position and optional height of the node"""

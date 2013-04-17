@@ -36,6 +36,7 @@
 #     7-Mar-2013 (RS) Add test for duplicate network allocation
 #    16-Apr-2013 (CT) Add test `auto_children`,
 #                     remove `Node_has_Phone`, `Node_has_Email`
+#    17-Apr-2013 (CT) Add tests `owner` and `refuse_e_types`
 #    ««revision-date»»···
 #--
 
@@ -220,10 +221,60 @@ _test_auto_children = """
 
 """
 
+_test_owner = """
+    >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
+    Creating new scope MOMT__...
+
+    >>> FFM = scope.FFM
+    >>> PAP = scope.PAP
+    >>> Adr = FFM.IP4_Network.net_address.P_Type
+
+    >>> mgr = PAP.Person \\
+    ...     (first_name = 'Ralf', last_name = 'Schlatterbeck', raw = True)
+
+    >>> node1 = FFM.Node (name = "nogps", manager = mgr, position = None, raw = True)
+    >>> node1.owner
+    PAP.Person (u'schlatterbeck', u'ralf', u'', u'')
+
+    >>> node4 = FFM.Node (name = "node4", manager = mgr, owner = node1)
+    Traceback (most recent call last):
+      ...
+    ValueError: (u'nogps') not eligible for attribute owner,
+        must be instance of Subject, but not Node
+
+"""
+
+_test_refuse_e_types = """
+    >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
+    Creating new scope MOMT__...
+
+    >>> FFM = scope.FFM
+    >>> PAP = scope.PAP
+
+    >>> for ET in scope.app_type._T_Extension :
+    ...     for a in ET.id_entity_attr :
+    ...         if getattr (a, "refuse_e_types", None) :
+    ...             print (ET.type_name, a.name, sorted (a.refuse_e_types))
+    FFM.Node owner ['FFM.Node']
+    PAP.Subject_has_Email left ['FFM.Node']
+    PAP.Subject_has_Phone left ['FFM.Node']
+
+    >>> for ET in scope.app_type._T_Extension :
+    ...     for a in ET.id_entity_attr :
+    ...         if getattr (a, "refuse_e_types", None) :
+    ...             print (ET.type_name, a.name, sorted (a.refuse_e_types_transitive))
+    FFM.Node owner ['FFM.Node']
+    PAP.Subject_has_Email left ['FFM.Node']
+    PAP.Subject_has_Phone left ['FFM.Node']
+
+"""
+
 __test__ = Scaffold.create_test_dict \
   ( dict
-      ( main          = _test_code
-      , auto_children = _test_auto_children
+      ( main            = _test_code
+      , auto_children   = _test_auto_children
+      , owner           = _test_owner
+      , refuse_e_types  = _test_refuse_e_types
       )
   )
 

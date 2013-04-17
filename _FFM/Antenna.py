@@ -36,6 +36,7 @@
 #    17-Dec-2012 (CT) Set `belongs_to_node.hidden` to `True`
 #    25-Feb-2013 (CT) Add `belongs_to_node.query_preconditions`
 #    26-Feb-2013 (CT) Disable `belongs_to_node`
+#    17-Apr-2013 (CT) Use `Computed_Set_Mixin`, not `Computed_Mixin`
 #    ««revision-date»»···
 #--
 
@@ -120,7 +121,7 @@ class Antenna (_Ancestor_Essence) :
             """
 
             kind               = Attr.Optional
-            Kind_Mixins        = (Attr.Computed_Mixin, )
+            Kind_Mixins        = (Attr.Computed_Set_Mixin, )
 
             def computed (self, obj) :
                 if obj.left :
@@ -135,7 +136,7 @@ class Antenna (_Ancestor_Essence) :
             """
 
             kind               = Attr.Optional
-            Kind_Mixins        = (Attr.Computed_Mixin, )
+            Kind_Mixins        = (Attr.Computed_Set_Mixin, )
 
             def computed (self, obj) :
                 if obj.left :
