@@ -37,6 +37,8 @@
 #    16-Apr-2013 (CT) Add test `auto_children`,
 #                     remove `Node_has_Phone`, `Node_has_Email`
 #    17-Apr-2013 (CT) Add tests `owner` and `refuse_e_types`
+#    18-Apr-2013 (CT) Add test for `eligible_e_types`,
+#                     `selectable_e_types_unique_epk`
 #    ««revision-date»»···
 #--
 
@@ -266,6 +268,329 @@ _test_refuse_e_types = """
     FFM.Node owner ['FFM.Node']
     PAP.Subject_has_Email left ['FFM.Node']
     PAP.Subject_has_Phone left ['FFM.Node']
+
+    >>> sorted (FFM.Node.manager.eligible_e_types)
+    ['PAP.Person']
+
+    >>> sorted (FFM.Node.owner.eligible_e_types)
+    ['PAP.Association', 'PAP.Company', 'PAP.Person']
+
+    >>> sorted (FFM.Node.owner.selectable_e_types_unique_epk)
+    ['PAP.Association', 'PAP.Company', 'PAP.Person']
+
+    >>> sorted (PAP.Subject_has_Property.left.eligible_e_types)
+    ['FFM.Node', 'PAP.Association', 'PAP.Company', 'PAP.Person']
+
+    >>> sorted (PAP.Subject_has_Phone.left.eligible_e_types)
+    ['PAP.Association', 'PAP.Company', 'PAP.Person']
+
+    >>> AQ = FFM.Node.AQ
+    >>> print (formatted (AQ.As_Template_Elem))
+    [ Record
+      ( attr = String `name`
+      , full_name = 'name'
+      , id = 'name'
+      , name = 'name'
+      , sig_key = 3
+      , ui_name = 'Name'
+      )
+    , Record
+      ( Class = 'Entity'
+      , attr = Entity `manager`
+      , attrs =
+          [ Record
+            ( attr = String `last_name`
+            , full_name = 'manager.last_name'
+            , id = 'manager__last_name'
+            , name = 'last_name'
+            , sig_key = 3
+            , ui_name = 'Manager/Last name'
+            )
+          , Record
+            ( attr = String `first_name`
+            , full_name = 'manager.first_name'
+            , id = 'manager__first_name'
+            , name = 'first_name'
+            , sig_key = 3
+            , ui_name = 'Manager/First name'
+            )
+          , Record
+            ( attr = String `middle_name`
+            , full_name = 'manager.middle_name'
+            , id = 'manager__middle_name'
+            , name = 'middle_name'
+            , sig_key = 3
+            , ui_name = 'Manager/Middle name'
+            )
+          , Record
+            ( attr = String `title`
+            , full_name = 'manager.title'
+            , id = 'manager__title'
+            , name = 'title'
+            , sig_key = 3
+            , ui_name = 'Manager/Academic title'
+            )
+          , Record
+            ( attr = Date_Interval `lifetime`
+            , attrs =
+                [ Record
+                  ( attr = Date `start`
+                  , full_name = 'manager.lifetime.start'
+                  , id = 'manager__lifetime__start'
+                  , name = 'start'
+                  , sig_key = 0
+                  , ui_name = 'Manager/Lifetime/Start'
+                  )
+                , Record
+                  ( attr = Date `finish`
+                  , full_name = 'manager.lifetime.finish'
+                  , id = 'manager__lifetime__finish'
+                  , name = 'finish'
+                  , sig_key = 0
+                  , ui_name = 'Manager/Lifetime/Finish'
+                  )
+                , Record
+                  ( attr = Boolean `alive`
+                  , choices =
+                      [ 'no'
+                      , 'yes'
+                      ]
+                  , full_name = 'manager.lifetime.alive'
+                  , id = 'manager__lifetime__alive'
+                  , name = 'alive'
+                  , sig_key = 1
+                  , ui_name = 'Manager/Lifetime/Alive'
+                  )
+                ]
+            , full_name = 'manager.lifetime'
+            , id = 'manager__lifetime'
+            , name = 'lifetime'
+            , ui_name = 'Manager/Lifetime'
+            )
+          , Record
+            ( attr = String `salutation`
+            , full_name = 'manager.salutation'
+            , id = 'manager__salutation'
+            , name = 'salutation'
+            , sig_key = 3
+            , ui_name = 'Manager/Salutation'
+            )
+          , Record
+            ( attr = Sex `sex`
+            , choices =
+                [
+                  ( 'F'
+                  , 'Female'
+                  )
+                ,
+                  ( 'M'
+                  , 'Male'
+                  )
+                ]
+            , full_name = 'manager.sex'
+            , id = 'manager__sex'
+            , name = 'sex'
+            , sig_key = 0
+            , ui_name = 'Manager/Sex'
+            )
+          ]
+      , full_name = 'manager'
+      , id = 'manager'
+      , name = 'manager'
+      , sig_key = 2
+      , type_name = 'PAP.Person'
+      , ui_name = 'Manager'
+      , ui_type_name = 'Person'
+      )
+    , Record
+      ( attr = Date_Interval `lifetime`
+      , attrs =
+          [ Record
+            ( attr = Date `start`
+            , full_name = 'lifetime.start'
+            , id = 'lifetime__start'
+            , name = 'start'
+            , sig_key = 0
+            , ui_name = 'Lifetime/Start'
+            )
+          , Record
+            ( attr = Date `finish`
+            , full_name = 'lifetime.finish'
+            , id = 'lifetime__finish'
+            , name = 'finish'
+            , sig_key = 0
+            , ui_name = 'Lifetime/Finish'
+            )
+          , Record
+            ( attr = Boolean `alive`
+            , choices = <Recursion on list...>
+            , full_name = 'lifetime.alive'
+            , id = 'lifetime__alive'
+            , name = 'alive'
+            , sig_key = 1
+            , ui_name = 'Lifetime/Alive'
+            )
+          ]
+      , full_name = 'lifetime'
+      , id = 'lifetime'
+      , name = 'lifetime'
+      , ui_name = 'Lifetime'
+      )
+    , Record
+      ( Class = 'Entity'
+      , attr = Entity `owner`
+      , children_np =
+          [ Record
+            ( Class = 'Entity'
+            , attr = Entity `owner`
+            , attrs =
+                [ Record
+                  ( attr = String `name`
+                  , full_name = 'owner.name'
+                  , id = 'owner__name'
+                  , name = 'name'
+                  , sig_key = 3
+                  , ui_name = 'Owner[Association]/Name'
+                  )
+                ]
+            , full_name = 'owner'
+            , id = 'owner'
+            , name = 'owner'
+            , sig_key = 2
+            , type_name = 'PAP.Association'
+            , ui_name = 'Owner[Association]'
+            , ui_type_name = 'Association'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `owner`
+            , attrs =
+                [ Record
+                  ( attr = String `name`
+                  , full_name = 'owner.name'
+                  , id = 'owner__name'
+                  , name = 'name'
+                  , sig_key = 3
+                  , ui_name = 'Owner[Company]/Name'
+                  )
+                , Record
+                  ( attr = String `registered_in`
+                  , full_name = 'owner.registered_in'
+                  , id = 'owner__registered_in'
+                  , name = 'registered_in'
+                  , sig_key = 3
+                  , ui_name = 'Owner[Company]/Registered in'
+                  )
+                ]
+            , full_name = 'owner'
+            , id = 'owner'
+            , name = 'owner'
+            , sig_key = 2
+            , type_name = 'PAP.Company'
+            , ui_name = 'Owner[Company]'
+            , ui_type_name = 'Company'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `owner`
+            , attrs =
+                [ Record
+                  ( attr = String `last_name`
+                  , full_name = 'owner.last_name'
+                  , id = 'owner__last_name'
+                  , name = 'last_name'
+                  , sig_key = 3
+                  , ui_name = 'Owner[Person]/Last name'
+                  )
+                , Record
+                  ( attr = String `first_name`
+                  , full_name = 'owner.first_name'
+                  , id = 'owner__first_name'
+                  , name = 'first_name'
+                  , sig_key = 3
+                  , ui_name = 'Owner[Person]/First name'
+                  )
+                , Record
+                  ( attr = String `middle_name`
+                  , full_name = 'owner.middle_name'
+                  , id = 'owner__middle_name'
+                  , name = 'middle_name'
+                  , sig_key = 3
+                  , ui_name = 'Owner[Person]/Middle name'
+                  )
+                , Record
+                  ( attr = String `title`
+                  , full_name = 'owner.title'
+                  , id = 'owner__title'
+                  , name = 'title'
+                  , sig_key = 3
+                  , ui_name = 'Owner[Person]/Academic title'
+                  )
+                ]
+            , full_name = 'owner'
+            , id = 'owner'
+            , name = 'owner'
+            , sig_key = 2
+            , type_name = 'PAP.Person'
+            , ui_name = 'Owner[Person]'
+            , ui_type_name = 'Person'
+            )
+          ]
+      , default_child = 'PAP.Person'
+      , full_name = 'owner'
+      , id = 'owner'
+      , name = 'owner'
+      , sig_key = 2
+      , type_name = 'PAP.Subject'
+      , ui_name = 'Owner'
+      , ui_type_name = 'Subject'
+      )
+    , Record
+      ( attr = Position `position`
+      , attrs =
+          [ Record
+            ( attr = Angle `lat`
+            , full_name = 'position.lat'
+            , id = 'position__lat'
+            , name = 'lat'
+            , sig_key = 4
+            , ui_name = 'Position/Latitude'
+            )
+          , Record
+            ( attr = Angle `lon`
+            , full_name = 'position.lon'
+            , id = 'position__lon'
+            , name = 'lon'
+            , sig_key = 4
+            , ui_name = 'Position/Longitude'
+            )
+          , Record
+            ( attr = Float `height`
+            , full_name = 'position.height'
+            , id = 'position__height'
+            , name = 'height'
+            , sig_key = 0
+            , ui_name = 'Position/Height'
+            )
+          ]
+      , full_name = 'position'
+      , id = 'position'
+      , name = 'position'
+      , ui_name = 'Position'
+      )
+    , Record
+      ( attr = Boolean `show_in_map`
+      , choices =
+          [ 'no'
+          , 'yes'
+          ]
+      , full_name = 'show_in_map'
+      , id = 'show_in_map'
+      , name = 'show_in_map'
+      , sig_key = 1
+      , ui_name = 'Show in map'
+      )
+    ]
 
 """
 
