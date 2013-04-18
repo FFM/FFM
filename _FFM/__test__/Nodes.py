@@ -239,7 +239,7 @@ _test_owner = """
     >>> node4 = FFM.Node (name = "node4", manager = mgr, owner = node1)
     Traceback (most recent call last):
       ...
-    ValueError: (u'nogps') not eligible for attribute owner,
+    Wrong_Type: Node 'nogps' not eligible for attribute owner,
         must be instance of Subject, but not Node
 
 """
