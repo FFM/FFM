@@ -38,7 +38,8 @@ import model
 class Convert (object) :
 
     def __init__ (self, cmd, scope, debug = False) :
-        self.debug = debug
+        self.debug   = debug
+        self.verbose = cmd.verbose
         if len (cmd.argv) > 0 :
             f  = open (cmd.argv [0])
         else :
@@ -337,6 +338,8 @@ class Convert (object) :
             if not m.lastname :
                 print "WARN: skipping person, no lastname: %s" % m.id
                 continue
+            if self.verbose :
+                print "Creating person:", m.lastname, m.firstname
             person = self.pap.Person \
                 ( first_name = m.firstname
                 , last_name  = m.lastname

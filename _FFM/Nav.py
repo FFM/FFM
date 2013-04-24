@@ -46,6 +46,8 @@
 #    26-Feb-2013 (CT) Add `Virtual_Wireless_Interface`
 #    27-Feb-2013 (CT) Remove `hardware.left` from
 #                     `Virtual_Wireless_Interface.list_display`
+#    24-Apr-2013 (CT) Add `virtual_wireless_interfaces` to
+#                     `Net_Device...include_links`
 #    ««revision-date»»···
 #--
 
@@ -193,7 +195,12 @@ FFM.Antenna_Type.GTW.afs_spec = Spec.Entity (include_links = ("bands",))
 
 FFM.Antenna.GTW.afs_spec = Spec.Entity (include_links = ("interface", ))
 FFM.Net_Device.GTW.afs_spec = Spec.Entity \
-    (include_links = ("wired_interfaces", "wireless_interfaces"))
+    ( include_links =
+        ( "wired_interfaces"
+        , "wireless_interfaces"
+        , "virtual_wireless_interfaces"
+        )
+    )
 ### FFM.Net_Device_Type.GTW.afs_spec = Spec.Entity (include_links = ("FFM.Device_Type_made_by_Company", ))
 FFM.Wireless_Interface.GTW.afs_spec = Spec.Entity \
     (include_links = ("antennas", ))

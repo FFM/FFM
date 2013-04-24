@@ -248,14 +248,14 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
                         ( name            = "wireless-interface"
                         , short_title     = _T ("Wireless IF")
                          )
-                    , RST_addons.User_Wireless_Interface_uses_Antenna
-                        ( name            = "wireless-interface-uses-antenna"
-                        , short_title     = _T ("WIF Antenna")
-                        )
-                    , RST_addons.User_Wireless_Interface_uses_Wireless_Channel
-                        ( name            = "wireless-interface-uses-channel"
-                        , short_title     = _T ("WIF Channel")
-                        )
+#                    , RST_addons.User_Wireless_Interface_uses_Antenna
+#                        ( name            = "wireless-interface-uses-antenna"
+#                        , short_title     = _T ("WIF Antenna")
+#                        )
+#                    , RST_addons.User_Wireless_Interface_uses_Wireless_Channel
+#                        ( name            = "wireless-interface-uses-channel"
+#                        , short_title     = _T ("WIF Channel")
+#                        )
                     ]
                 )
             , TOP.Page_ReST

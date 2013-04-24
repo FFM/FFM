@@ -42,7 +42,6 @@ from   _FFM                     import FFM
 import _FFM.Entity
 import _FFM.Node
 
-
 _Ancestor_Essence = FFM.Entity
 
 class _Belongs_to_Node_ (_Ancestor_Essence) :

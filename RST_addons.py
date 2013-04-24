@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -32,6 +32,7 @@
 #    14-Dec-2012 (CT) Factor `GTW.RST.TOP.MOM.Admin_Restricted`
 #    14-Dec-2012 (CT) Factor `User_Entity`
 #    17-Dec-2012 (CT) Add `User_Node_Dependent` and descendents
+#    24-Apr-2013 (CT) Fix `Is_Owner_or_Manager.predicate`
 #    ««revision-date»»···
 #--
 
@@ -67,9 +68,14 @@ class Is_Owner_or_Manager (GTW.RST._Permission_) :
             else :
                 if qf is not None :
                     obj  = getattr (page, "obj", None)
-                    node = getattr (obj, "belongs_to_node", None)
-                    if node is not None :
-                        return qf (node)
+                    if obj is not None :
+                        ### `qf (obj)` is necessary because `belongs_to_node`
+                        ### doesn't work as it should
+                        node = getattr (obj, "belongs_to_node", None)
+                        return \
+                            (   qf (obj)
+                            or (qf (node) if node is not None else False)
+                            )
     # end def predicate
 
 # end class Is_Owner_or_Manager

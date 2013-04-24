@@ -40,6 +40,7 @@
 #                     factor and export `_Wireless_Interface_`
 #    27-Feb-2013 (CT) Add `Virtual_Wireless_Interface.hardware.sort_skip = True`
 #    27-Feb-2013 (CT) Add `Init_Only_Mixin` and `ui_allow_new` to `hardware`
+#    24-Apr-2013 (CT) Move `left.auto_cache` to non-partial classes
 #    ««revision-date»»···
 #--
 
@@ -64,13 +65,6 @@ class _Wireless_Interface_ (_Ancestor_Essence) :
     class _Attributes (_Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
-
-        class left (_Ancestor.left) :
-            """Type of net device"""
-
-            auto_cache         = True
-
-        # end class left
 
         ### Non-primary attributes
 
@@ -126,6 +120,19 @@ _Ancestor_Essence = _Wireless_Interface_
 class Wireless_Interface (_Ancestor_Essence) :
     """Wireless interface of a FFM device"""
 
+    class _Attributes (_Ancestor_Essence._Attributes) :
+
+        _Ancestor = _Ancestor_Essence._Attributes
+
+        class left (_Ancestor.left) :
+            """Type of net device"""
+
+            auto_cache         = True
+
+        # end class left
+
+    # end class _Attributes
+
 # end class Wireless_Interface
 
 _Ancestor_Essence = _Wireless_Interface_
@@ -136,6 +143,13 @@ class Virtual_Wireless_Interface (_Ancestor_Essence) :
     class _Attributes (_Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
+
+        class left (_Ancestor.left) :
+            """Type of net device"""
+
+            auto_cache         = True
+
+        # end class left
 
         class hardware (A_Id_Entity) :
             """Hardware interface used by virtual interface."""
