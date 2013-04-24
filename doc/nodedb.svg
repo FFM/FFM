@@ -852,6 +852,15 @@
         </tspan>
       </textPath>
     </text>
+    <text fill="#666" font-family="sans-serif" font-size="18">
+      <textPath startOffset="10%" text-anchor="start"
+                xlink:href="#FFM.Net_Interface_in_IP_Network.right:FFM.IP_Network::path"
+      >
+        <tspan dy="18">
+          0 .. 1
+        </tspan>
+      </textPath>
+    </text>
   </g>
   <g id="FFM.Net_Link.left:FFM.Net_Interface" opacity="1.0">
     <title>
@@ -932,15 +941,15 @@
       </textPath>
     </text>
   </g>
-  <g id="FFM.Node.owner:PAP.Person" opacity="1.0">
+  <g id="FFM.Node.owner:PAP.Subject" opacity="1.0">
     <title>
       FFM.Node attribute owner: Owner of the node, defaults to manager
     </title>
     <polyline fill="none" marker-start="url(#MOM:AM)"
-              points="560,400 720,400" stroke="#FFA022" stroke-opacity="0.7"
-              stroke-width="5"
+              points="560,400 680,400 680,700 720,700" stroke="#FFA022"
+              stroke-opacity="0.7" stroke-width="5"
     />
-    <path d="M 560 400 L 720 400" id="FFM.Node.owner:PAP.Person::path"
+    <path d="M 560 400 L 680 400" id="FFM.Node.owner:PAP.Subject::path"
           fill="none" stroke="none"
     >
     </path>
@@ -948,7 +957,7 @@
           font-size="18"
     >
       <textPath startOffset="10%" text-anchor="start"
-                xlink:href="#FFM.Node.owner:PAP.Person::path"
+                xlink:href="#FFM.Node.owner:PAP.Subject::path"
       >
         <tspan dy="-7.0">
           owner
@@ -959,7 +968,7 @@
           font-size="18"
     >
       <textPath startOffset="10%" text-anchor="start"
-                xlink:href="#FFM.Node.owner:PAP.Person::path"
+                xlink:href="#FFM.Node.owner:PAP.Subject::path"
       >
         <tspan dy="18">
           [optional]
@@ -972,10 +981,10 @@
       FFM.Node is-a PAP.Subject: FFM.Node is derived from PAP.Subject
     </title>
     <polyline fill="none" marker-end="url(#MOM:IM)"
-              points="560,450 600,450 600,725 720,725" stroke="#08D"
+              points="560,450 600,450 600,750 720,750" stroke="#08D"
               stroke-opacity="0.45" stroke-width="5"
     />
-    <path d="M 600 450 L 600 725" id="FFM.Node:is_a:PAP.Subject::path"
+    <path d="M 600 450 L 600 750" id="FFM.Node:is_a:PAP.Subject::path"
           fill="none" stroke="none"
     >
     </path>
