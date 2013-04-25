@@ -33,6 +33,8 @@
 #    14-Dec-2012 (CT) Factor `User_Entity`
 #    17-Dec-2012 (CT) Add `User_Node_Dependent` and descendents
 #    24-Apr-2013 (CT) Fix `Is_Owner_or_Manager.predicate`
+#    25-Apr-2013 (CT) Add `eligible_objects`, `cls_postconditions`,
+#                     `_pre_commit_entity_check`
 #    ««revision-date»»···
 #--
 
@@ -44,6 +46,8 @@ from   _JNJ                     import JNJ
 from   _MOM                     import MOM
 from   _TFL                     import TFL
 
+import _FFM.import_FFM
+
 import _GTW._RST._TOP.import_TOP
 import _GTW._RST._TOP._MOM.import_MOM
 
@@ -53,7 +57,7 @@ import _GTW._RST._TOP._MOM.Admin_Restricted
 from   _MOM.import_MOM          import Q
 
 from   _TFL._Meta.Once_Property import Once_Property
-from   _TFL.Decorator           import getattr_safe
+from   _TFL.Decorator           import getattr_safe, Add_New_Method
 from   _TFL.I18N                import _, _T, _Tn
 
 class Is_Owner_or_Manager (GTW.RST._Permission_) :
@@ -80,6 +84,24 @@ class Is_Owner_or_Manager (GTW.RST._Permission_) :
 
 # end class Is_Owner_or_Manager
 
+@Add_New_Method (FFM.Net_Device, FFM.Wired_Interface, FFM.Wireless_Interface)
+def _FFM_User_Entity_PRC (self, resource, request, response, attribute_changes) :
+    for eia in self.id_entity_attr :
+        if eia.name in attribute_changes or eia.is_primary :
+            ET = eia.E_Type
+            restricted, eligible = resource.eligible_objects (ET.type_name)
+            if restricted :
+                ent = getattr (self, eia.name)
+                if ent not in eligible :
+                    err = MOM.Error.Permission (self, eia, ent, eligible)
+                    ### XXX make a nicer interface to set this error
+                    self._pred_man.errors ["object"].append (err)
+                    raise err
+# end def _FFM_User_Entity_PRC
+
+_pre_commit_entity_check = GTW.RST.MOM.Pre_Commit_Entity_Check \
+    ("_FFM_User_Entity_PRC")
+
 _Ancestor = GTW.RST.TOP.MOM.Admin_Restricted.E_Type
 
 class User_Entity (_Ancestor) :
@@ -89,6 +111,7 @@ class User_Entity (_Ancestor) :
         ( change          = Is_Owner_or_Manager
         , delete          = Is_Owner_or_Manager
         )
+    cls_postconditions    = (_pre_commit_entity_check, )
     et_map_name           = "admin_noom"
     restriction_desc      = _ ("owned/managed by")
 
@@ -113,6 +136,14 @@ class User_Entity (_Ancestor) :
         user = self.top.user
         return user.person if user else None
     # end def user_restriction
+
+    def eligible_objects (self, type_name) :
+        etn = getattr (type_name, "type_name", type_name)
+        adm = getattr (self.ET_Map.get (etn), self.et_map_name, None)
+        if adm is not None :
+            return True, adm.objects
+        return False, None
+    # end def eligible_objects
 
     def query_filters_restricted (self) :
         person = self.user_restriction
