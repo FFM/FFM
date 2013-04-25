@@ -33,7 +33,7 @@
 #    14-Dec-2012 (CT) Factor `User_Entity`
 #    17-Dec-2012 (CT) Add `User_Node_Dependent` and descendents
 #    24-Apr-2013 (CT) Fix `Is_Owner_or_Manager.predicate`
-#    25-Apr-2013 (CT) Add `eligible_objects`, `cls_postconditions`,
+#    25-Apr-2013 (CT) Add `eligible_objects`, `child_postconditions_map`,
 #                     `_pre_commit_entity_check`
 #    ««revision-date»»···
 #--
@@ -107,13 +107,16 @@ _Ancestor = GTW.RST.TOP.MOM.Admin_Restricted.E_Type
 class User_Entity (_Ancestor) :
     """Directory displaying instances of one E_Type belonging to the current user."""
 
-    child_permission_map  = dict \
-        ( change          = Is_Owner_or_Manager
-        , delete          = Is_Owner_or_Manager
+    child_permission_map      = dict \
+        ( change              = Is_Owner_or_Manager
+        , delete              = Is_Owner_or_Manager
         )
-    cls_postconditions    = (_pre_commit_entity_check, )
-    et_map_name           = "admin_noom"
-    restriction_desc      = _ ("owned/managed by")
+    child_postconditions_map  = dict \
+        ( create              = (_pre_commit_entity_check, )
+        , change              = (_pre_commit_entity_check, )
+        )
+    et_map_name               = "admin_noom"
+    restriction_desc          = _ ("owned/managed by")
 
     def __init__ (self, ** kw) :
         app_type = self.top.App_Type
