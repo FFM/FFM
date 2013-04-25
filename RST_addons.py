@@ -35,6 +35,7 @@
 #    24-Apr-2013 (CT) Fix `Is_Owner_or_Manager.predicate`
 #    25-Apr-2013 (CT) Add `eligible_objects`, `child_postconditions_map`,
 #                     `_pre_commit_entity_check`
+#    25-Apr-2013 (CT) Add `eligible_object_restriction`
 #    ««revision-date»»···
 #--
 
@@ -89,8 +90,8 @@ def _FFM_User_Entity_PRC (self, resource, request, response, attribute_changes) 
     for eia in self.id_entity_attr :
         if eia.name in attribute_changes or eia.is_primary :
             ET = eia.E_Type
-            restricted, eligible = resource.eligible_objects (ET.type_name)
-            if restricted :
+            eligible = resource.eligible_objects (ET.type_name)
+            if eligible is not None :
                 ent = getattr (self, eia.name)
                 if ent not in eligible :
                     err = MOM.Error.Permission (self, eia, ent, eligible)
@@ -144,9 +145,15 @@ class User_Entity (_Ancestor) :
         etn = getattr (type_name, "type_name", type_name)
         adm = getattr (self.ET_Map.get (etn), self.et_map_name, None)
         if adm is not None :
-            return True, adm.objects
-        return False, None
+            return adm.objects
     # end def eligible_objects
+
+    def eligible_object_restriction (self, type_name) :
+        etn = getattr (type_name, "type_name", type_name)
+        adm = getattr (self.ET_Map.get (etn), self.et_map_name, None)
+        if adm is not None :
+            return adm.query_filters_restricted ()
+    # end def eligible_object_restriction
 
     def query_filters_restricted (self) :
         person = self.user_restriction
