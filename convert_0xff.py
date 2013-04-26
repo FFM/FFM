@@ -27,6 +27,7 @@ from   rsclib.Phone           import Phone
 from   rsclib.sqlparser       import make_naive, SQL_Parser
 from   _GTW                   import GTW
 from   _TFL                   import TFL
+from   _TFL                   import pyk
 from   _FFM                   import FFM
 from   _GTW._OMP._PAP         import PAP
 from   _GTW._OMP._Auth        import Auth
@@ -56,7 +57,7 @@ class Convert (object) :
         self.rev_mid      = {}
         for k, v in self.olsr_mid.iteritems () :
             if k not in self.olsr_nodes :
-                print "WARN: MIB %s: not in OLSR Topology" % k
+                pyk.fprint ("WARN: MIB %s: not in OLSR Topology" % k)
             #assert k in self.olsr_nodes
             for mid in v :
                 assert mid not in self.rev_mid
@@ -90,7 +91,7 @@ class Convert (object) :
         create_time = make_naive (create_time)
         self.scope.ems.convert_creation_change \
             (obj.pid, c_time = create_time, time = change_time or create_time)
-        #print obj, obj.creation_date, obj.last_changed
+        #pyk.fprint (obj, obj.creation_date, obj.last_changed)
     # end def set_last_change
 
     def create_nodes (self) :
@@ -126,15 +127,17 @@ class Convert (object) :
             if n.id_tech_c and n.id_tech_c != n.id_members :
                 manager = self.person_by_id.get (n.id_tech_c)
                 assert (manager)
-                print "INFO: Tech contact found: %s" % n.id_tech_c
+                pyk.fprint ("INFO: Tech contact found: %s" % n.id_tech_c)
             else :
                 manager = person
                 person  = None
             # node with missing manager has devices, use 0xff admin as owner
             if not manager and n.id in self.dev_by_node :
                 manager = self.person_by_id.get (1)
-                print "WARN: Node %s: member %s not found, using 1" \
+                pyk.fprint \
+                    ( "WARN: Node %s: member %s not found, using 1"
                     % (n.id, n.id_members)
+                    )
             if manager :
                 node = self.ffm.Node \
                     ( name        = n.name
@@ -148,8 +151,10 @@ class Convert (object) :
                 assert (node)
                 self.node_by_id [n.id] = node
             else :
-                print "ERR:  Node %s: member %s not found" \
+                pyk.fprint \
+                    ( "ERR:  Node %s: member %s not found"
                     % (n.id, n.id_members)
+                    )
     # end def create_nodes
 
     # first id is the one to remove, the second one is the correct one
@@ -223,7 +228,7 @@ class Convert (object) :
                 p = Phone (x, m.town, c)
             except ValueError, err :
                 if str (err).startswith ('WARN') :
-                    print err
+                    pyk.fprint (err)
                     return
             if not p :
                 return
@@ -236,8 +241,10 @@ class Convert (object) :
                     or self.pap.Person_has_Phone.instance (person, t)
                     ) :
                     return # don't insert twice
-                print "WARN: %s/%s %s/%s: Duplicate phone: %s" \
+                pyk.fprint \
+                    ( "WARN: %s/%s %s/%s: Duplicate phone: %s"
                     % (eid, prs.pid, m.id, person.pid, x)
+                    )
             else :
                 t = self.pap.Phone (* p)
                 self.phone_ids [k] = m.id
@@ -252,14 +259,18 @@ class Convert (object) :
                 return
             eid = self.email_ids [mail.lower ()]
             prs = self.person_by_id [eid]
-            print "WARN: %s/%s %s/%s: Duplicate email: %s" \
+            pyk.fprint \
+                ( "WARN: %s/%s %s/%s: Duplicate email: %s"
                 % (eid, prs.pid, m.id, person.pid, mail)
+                )
         else :
             desc = None
             if second :
                 desc = "von 2. Account"
-                print "INFO: Second email for %s/%s: %s" \
+                pyk.fprint \
+                    ( "INFO: Second email for %s/%s: %s"
                     % (m.id, person.pid, mail)
+                    )
             self.email_ids [mail.lower ()] = m.id
             email = self.pap.Email (address = mail, desc = desc)
             self.pap.Person_has_Email (person, email)
@@ -285,7 +296,8 @@ class Convert (object) :
     # end def try_insert_url
 
     def try_insert_im (self, m, person) :
-        print "INFO: Instant messenger nickname: %s" % m.instant_messenger_nick
+        pyk.fprint \
+            ("INFO: Instant messenger nickname: %s" % m.instant_messenger_nick)
         im = self.pap.IM_Handle (address = m.instant_messenger_nick)
         self.pap.Person_has_IM_Handle (person, im)
     # end def try_insert_im
@@ -301,8 +313,10 @@ class Convert (object) :
         if street or m.town or m.zip :
             country = 'Austria'.decode ('latin1')
             if not m.town :
-                print 'INFO: no city (setting to "Wien"): %s/%s' \
+                pyk.fprint \
+                    ( 'INFO: no city (setting to "Wien"): %s/%s'
                     % (m.id, person.pid)
+                    )
                 m ['town'] = 'Wien'
             if not m.zip :
                 if m.id == 653 :
@@ -310,7 +324,7 @@ class Convert (object) :
                 elif m.id == 787 :
                     m ['zip'] = '2351'
                 else :
-                    print "INFO: no zip: %s/%s" % (m.id, person.pid)
+                    pyk.fprint ("INFO: no zip: %s/%s" % (m.id, person.pid))
             elif m.zip.startswith ('I-') :
                 m ['zip'] = m.zip [2:]
                 country = 'Italy'.decode ('latin1')
@@ -329,17 +343,20 @@ class Convert (object) :
             if m.id == 309 and m.street.startswith ("'") :
                 m.street = m.street [1:]
             if m.id in self.person_dupes :
-                print "INFO: skipping person %s (duplicate of %s)" \
+                pyk.fprint \
+                    ( "INFO: skipping person %s (duplicate of %s)"
                     % (m.id, self.person_dupes [m.id])
+                    )
                 continue
             if not m.firstname and not m.lastname :
-                print "WARN: skipping person, no name:", m.id
+                pyk.fprint ("WARN: skipping person, no name:", m.id)
                 continue
             if not m.lastname :
-                print "WARN: skipping person, no lastname: %s" % m.id
+                pyk.fprint ("WARN: skipping person, no lastname: %s" % m.id)
                 continue
             if self.verbose :
-                print "Creating person:", m.lastname, m.firstname
+                pyk.fprint \
+                    ("Creating person:", repr (m.lastname), repr (m.firstname))
             person = self.pap.Person \
                 ( first_name = m.firstname
                 , last_name  = m.lastname
@@ -353,7 +370,8 @@ class Convert (object) :
                 self.try_insert_email (person, m)
             if m.fax and '@' in m.fax :
                 self.try_insert_email (person, m, attr = 'fax')
-                print "INFO: Using email %s in fax field as email" % m.fax
+                pyk.fprint \
+                    ("INFO: Using email %s in fax field as email" % m.fax)
             if m.instant_messenger_nick :
                 self.try_insert_im (m, person)
             for a, c in self.phone_types.iteritems () :
@@ -405,7 +423,7 @@ class Convert (object) :
 
     def create_device (self, d) :
         if self.debug :
-            print 'dev:', d.id, d.name
+            pyk.fprint ('dev:', d.id, d.name)
         node = self.node_by_id [d.id_nodes]
         # FIXME: We want correct info from nodes directly
         # looks like most firmware can give us this info
@@ -448,8 +466,10 @@ class Convert (object) :
         ips = self.ip_by_dev [d.id]
         l = len (ips)
         if l > 1 :
-            print "WARN: dev %s.%s has %d ips: %s" \
+            pyk.fprint \
+                ( "WARN: dev %s.%s has %d ips: %s" \
                 % (dev.node.name, d.name, l, ', '.join (i.ip for i in ips))
+                )
             for n, dev_ip in enumerate (ips) :
                 name = "%s-%d" % (d.name, n)
                 self.create_interface (dev, name, dev_ip)
@@ -469,11 +489,11 @@ class Convert (object) :
                 d = self.dev_by_id [ip.id_devices]
                 nodes [d.id_nodes] = ({ ip.id_devices : d }, { ip.id : ip })
             else :
-                print "ERR:  key %s from mid has no device" % ip4
+                pyk.fprint ("ERR:  key %s from mid has no device" % ip4)
             for a in aliases :
                 ip = self.ip_by_ip [a]
                 if not ip.id_devices :
-                    print "ERR:  %s from mid %s has no device" % (a, ip4)
+                    pyk.fprint ("ERR:  %s from mid %s has no device" % (a, ip4))
                     continue
                 d  = self.dev_by_id [ip.id_devices]
                 if d.id_nodes not in nodes :
@@ -481,7 +501,8 @@ class Convert (object) :
                 nodes [d.id_nodes] [0] [ip.id_devices] = d
                 nodes [d.id_nodes] [1] [ip.id] = ip
             if len (nodes) > 1 :
-                print "WARN: mid %s expands to %s nodes" % (ip4, len (nodes))
+                pyk.fprint \
+                    ("WARN: mid %s expands to %s nodes" % (ip4, len (nodes)))
             # all devices from same node (!), get dev with shortest name
             for n, (devs, ips) in nodes.iteritems () :
                 nd = None
@@ -537,7 +558,7 @@ class Convert (object) :
             for ip4 in self.olsr_hna.by_dest :
                 for nw in self.networks.iterkeys () :
                     if ip4 in nw :
-                        print "HNA: %s" % ip4
+                        pyk.fprint ("HNA: %s" % ip4)
 
         # remaining ips
         for ip in self.contents ['ips'] :
@@ -589,18 +610,18 @@ class Convert (object) :
         # check nodes from topology
         for ip4 in self.olsr_nodes :
             if ip4 not in self.ip_by_ip :
-                print "WARN: ip %s from olsr topo not in ips" % ip4
+                pyk.fprint ("WARN: ip %s from olsr topo not in ips" % ip4)
                 del self.olsr_nodes [ip4]
         # check mid table
         midkey = []
         midtbl = {}
         for ip4, aliases in self.olsr_mid.iteritems () :
             if ip4 not in self.ip_by_ip :
-                print "WARN: key ip %s from olsr mid not in ips" % ip4
+                pyk.fprint ("WARN: key ip %s from olsr mid not in ips" % ip4)
                 midkey.append (ip4)
             for a in aliases :
                 if a not in self.ip_by_ip :
-                    print "WARN: ip %s from olsr mid not in ips" % a
+                    pyk.fprint ("WARN: ip %s from olsr mid not in ips" % a)
                     if ip4 not in midtbl :
                         midtbl [ip4] = []
                     midtbl [ip4].append (a)
@@ -614,21 +635,21 @@ class Convert (object) :
 
     def debug_output (self) :
         for k in sorted (self.olsr_nodes.iterkeys ()) :
-            print k
+            pyk.fprint (k)
         for node in self.contents ['nodes'] :
-            print "Node: %s (%s)" % (node.name.encode ('latin1'), node.id)
+            pyk.fprint ("Node: %s (%s)" % (node.name.encode ('latin1'), node.id))
             for d in self.dev_by_node.get (node.id, []) :
-                print "    Device: %s" % d.name
+                pyk.fprint ("    Device: %s" % d.name)
                 ips = self.ip_by_dev.get (d.id, [])
                 ips.sort ()
                 for ip in ips :
                     x = ''
                     if IP4_Address (ip.ip) in self.olsr_nodes :
                         x = ' USED'
-                    print "        IP: %s/%s%s" % (ip.ip, ip.cidr, x)
+                    pyk.fprint ("        IP: %s/%s%s" % (ip.ip, ip.cidr, x))
                 l = len (ips)
                 if not l :
-                    print "    No IPs!!"
+                    pyk.fprint ("    No IPs!!")
                 for ip in ips :
                     adr = IP4_Address (ip.ip)
                     if adr in self.olsr_mid :
@@ -638,11 +659,11 @@ class Convert (object) :
                         ips2.append (ip.ip)
                         ips2.sort ()
                         if ips1 != ips2 :
-                            print "        Ooops: %s/%s" % (ips1, ips2)
+                            pyk.fprint ("        Ooops: %s/%s" % (ips1, ips2))
                         break
                 else :
                     if l > 1 :
-                        print "        Not found in olsr_mid!"
+                        pyk.fprint ("        Not found in olsr_mid!")
     # end def debug_output
 
     def create (self) :
