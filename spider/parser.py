@@ -109,12 +109,12 @@ class Inet (autosuper) :
     """IP Network address
     """
 
-    def __init__ (self, ip, netmask, scope = None, iface = None) :
+    def __init__ (self, ip, netmask, scope = None, iface = None, bcast = None) :
         self.ip      = ip
         self.netmask = netmask
         self.scope   = scope
         self.iface   = iface
-        self.bcast   = None
+        self.bcast   = bcast
     # end def __init__
 
     def __str__ (self) :
@@ -128,14 +128,17 @@ class Inet (autosuper) :
 class Inet4 (Inet) :
 
     def __init__ (self, ip, netmask, bcast, scope = None, iface = None) :
-        self.__super.__init__ (ip, netmask, scope, iface)
-        self.bcast = bcast
+        self.__super.__init__ (ip, netmask, scope, iface, bcast = bcast)
     # end def __init__
 
 # end class Inet4
 
 class Inet6 (Inet) :
-    pass
+
+    def __init__ (self, ip, netmask, bcast, scope = None, iface = None) :
+        self.__super.__init__ (ip, netmask, scope, iface, bcast = bcast)
+    # end def __init__
+
 # end class Inet6
 
 class Interface (autosuper) :
@@ -160,14 +163,18 @@ class Interface (autosuper) :
         if not inet.iface.startswith (self.name) :
             raise Parse_Error \
                 ( "Wrong interface name in inet4 address: %s %s"
-                % inet.iface, self.name
+                % (inet.iface, self.name)
                 )
         inet.iface = self
     # end def append_inet4
 
     def append_inet6 (self, inet) :
         self.inet6.append (inet)
-        assert inet.iface is None
+        if inet.iface is not None and not inet.iface.startswith (self.name) :
+            raise Parse_Error \
+                ( "Wrong interface name in inet6 address: %s %s"
+                % (inet.iface, self.name)
+                )
         inet.iface = self
     # end def append_inet6
 
@@ -253,11 +260,11 @@ class Interface_Config (Parser) :
 
     def inet (self, state, new_state, match) :
         self.interface.append_inet4 (Inet4 (* match.groups ()))
-    # end def link
+    # end def inet
 
     def inet6 (self, state, new_state, match) :
         self.interface.append_inet6 (Inet6 (* match.groups ()))
-    # end def link
+    # end def inet6
 
     def __str__ (self) :
         r = []
@@ -443,11 +450,15 @@ class Backfire (Page_Tree) :
                         iface.is_wlan = wlan == 'Yes'
                     if status == 'DOWN' :
                         continue
-                    i4 = Inet4 (ip, mask, bcast, iface = name)
-                    iface.append_inet4 (i4)
-                    if not is_rfc1918 (i4.ip) :
-                        self.if_by_name [name] = iface
-                        self.ips [i4] = True
+                    if ':' in ip :
+                        i6 = Inet6 (ip, mask, bcast, iface = name)
+                        iface.append_inet6 (i6)
+                    else :
+                        i4 = Inet4 (ip, mask, bcast, iface = name)
+                        iface.append_inet4 (i4)
+                        if not is_rfc1918 (i4.ip) :
+                            self.if_by_name [name] = iface
+                            self.ips [i4] = True
         if not self.if_by_name :
             raise ValueError, "No interface config found"
         if self.bf_version and self.luci_version :
@@ -516,8 +527,8 @@ if __name__ == '__main__' :
         print v
     for ip in ff.ips.iterkeys () :
         print ip
-    for k, v in ff.__dict__.iteritems () :
-        print "%s: %s" % (k, v)
-    f = open ('singleip.dump', 'wb')
-    pickle.dump (ff, f)
-    f.close ()
+    #for k, v in ff.__dict__.iteritems () :
+    #    print "%s: %s" % (k, v)
+    #f = open ('singleip.dump', 'wb')
+    #pickle.dump (ff, f)
+    #f.close ()
