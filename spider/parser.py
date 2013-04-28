@@ -204,6 +204,7 @@ class Interface_Config (Parser) :
     re_assign = re.compile (r'^([a-zA-Z0-9_]+)\s*=\s*([a-zA-Z0-9 ]*)$')
     re_brhead = re.compile (r'^bridge name.*$')
     re_bridge = re.compile (r'^(\S+)\s*(\S+)\s*(\S+)\s*(\S+)$')
+    re_ifonly = re.compile (r'^\s+(\S+)$')
     re_if     = re.compile \
         (r'^(\d+):\s*(\S+):\s*mtu\s*(\d+)\s*qdisc\s*(\S+)(?:qlen\s*(\d+))?')
     pt_mac    = pt_mac
@@ -224,6 +225,7 @@ class Interface_Config (Parser) :
         , ["init",   re_if,     "iface",  "iface"]
         , ["init",   None,      "init",   None]
         , ["bridge", re_bridge, "bridge", "bridge"]
+        , ["bridge", re_ifonly, "bridge", None]
         , ["bridge", '',        "init",   None]
         , ["iface",  re_link,   "iface",  "link"]
         , ["iface",  re_inet,   "iface",  "inet"]
