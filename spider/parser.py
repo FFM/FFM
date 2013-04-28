@@ -79,6 +79,13 @@ class Guess (Page_Tree) :
         return r
     # end def __getattr__
 
+    def __getstate__ (self) :
+        exc = dict (tree = None)
+        d   = dict ()
+        for k, v in self.__dict__.iteritems () :
+            d [k] = exc.get (k, v)
+    # end def __getstate__
+
 # end class Guess
 
 class Net_Link (autosuper) :
@@ -493,6 +500,7 @@ class Backfire_WLAN_Config (Page_Tree) :
 
 if __name__ == '__main__' :
     import sys
+    import pickle
     # For testing we download the index page and cgi-bin-status.html
     # page into a directory named with the ip address
     ip   = '193.238.158.241'
@@ -508,3 +516,8 @@ if __name__ == '__main__' :
         print v
     for ip in ff.ips.iterkeys () :
         print ip
+    for k, v in ff.__dict__.iteritems () :
+        print "%s: %s" % (k, v)
+    f = open ('singleip.dump', 'wb')
+    pickle.dump (ff, f)
+    f.close ()
