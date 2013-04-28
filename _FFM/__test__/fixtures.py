@@ -69,22 +69,23 @@ def net_fixtures (scope) :
         queries on owner.
     """
     create (scope)
+    scope.commit ()
     FFM   = scope.FFM
     PAP   = scope.PAP
-    cta   = PAP.Person 
+    cta   = PAP.Person \
         (first_name = 'Christian', last_name = 'Tanzer', raw = True)
     dtype = FFM.Net_Device_Type.instance (name = 'Generic', raw = True)
-    rsc   = PAP.Person.instance.query (first_name = 'Ralf').one ()
+    rsc   = PAP.Person.query (first_name = 'ralf').one ()
     swing = PAP.Company (name = "Swing")
     ff    = PAP.Association (name = "Funkfeuer")
-    n1    = FFM.Node
+    n1    = FFM.Node \
         (name = "Node-net1", manager = cta, owner = swing, raw = True)
     n2    = FFM.Node (name = "Node-net2", manager = cta, owner = ff, raw = True)
     n3    = FFM.Node (name = "Node-net3", manager = rsc, owner = ff, raw = True)
     n4    = FFM.Node (name = "Node-net4", manager = rsc, raw = True)
-    net   = FFM.IP4_Network
+    net   = FFM.IP4_Network \
         (dict (address = '10.10.0.0/16'), owner = ff, raw = True)
-    nv6   = FFM.IP6_Network
+    nv6   = FFM.IP6_Network \
         (dict (address = '2001:db8::/32'), owner = swing, raw = True)
     n1d1  = FFM.Net_Device \
         (left = dtype, node = n1, name = 'n1d1', raw = True)
