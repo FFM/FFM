@@ -436,6 +436,9 @@ class Backfire (Page_Tree) :
                             self.luci_version = t
             if div.get ('class') == 'header_right' :
                 self.bf_version = div.text
+            if div.get ('class') == 'hostinfo' :
+                assert self.bf_version is None
+                self.bf_version = div.text.split ('|') [0].strip ()
             if div.get ('id') == 'maincontent' and not self.if_by_name :
                 tbl = div.find (".//%s" % tag ("table"))
                 for n, tr in enumerate (tbl) :
@@ -461,10 +464,16 @@ class Backfire (Page_Tree) :
                         if not is_rfc1918 (i4.ip) :
                             self.if_by_name [name] = iface
                             self.ips [i4] = True
+        if self.luci_version is None :
+            p = root [-1][-1]
+            if p.tag == tag ('p') and p.get ('class') == 'luci' :
+                self.luci_version = p.text
         if not self.if_by_name :
             raise ValueError, "No interface config found"
         if self.bf_version and self.luci_version :
             self.version = "%s / Luci %s" % (self.bf_version, self.luci_version)
+#        else :
+#            print "bf: %s luci: %s" % (self.bf_version, self.luci_version)
         bfw = Backfire_WLAN_Config (site = self.site)
         for d in bfw.wlans :
             if d.name in self.if_by_name :
