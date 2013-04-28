@@ -37,6 +37,7 @@
 #                     `_pre_commit_entity_check`
 #    25-Apr-2013 (CT) Add `eligible_object_restriction`
 #    28-Apr-2013 (CT) DRY `User_Node.form_parameters`
+#    28-Apr-2013 (CT) Add `Login_has_Person`
 #    ««revision-date»»···
 #--
 
@@ -85,6 +86,16 @@ class Is_Owner_or_Manager (GTW.RST._Permission_) :
     # end def predicate
 
 # end class Is_Owner_or_Manager
+
+class Login_has_Person (GTW.RST._Permission_) :
+    """Permission if user has an associated person"""
+
+    def predicate (self, user, page, * args, ** kw) :
+        if user :
+            return user.person is not None
+    # end def predicate
+
+# end class Login_has_Person
 
 @Add_New_Method (FFM.Net_Device, FFM.Wired_Interface, FFM.Wireless_Interface)
 def _FFM_User_Entity_PRC (self, resource, request, response, attribute_changes) :

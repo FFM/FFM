@@ -232,6 +232,7 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
                 ( name            = "My-Funkfeuer"
                 , short_title     = "My Funkfeuer"
                 , login_required  = True
+                , permission      = RST_addons.Login_has_Person
                 , entries         =
                     [ RST_addons.User_Node
                         ( name            = "node"
