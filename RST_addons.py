@@ -36,6 +36,7 @@
 #    25-Apr-2013 (CT) Add `eligible_objects`, `child_postconditions_map`,
 #                     `_pre_commit_entity_check`
 #    25-Apr-2013 (CT) Add `eligible_object_restriction`
+#    28-Apr-2013 (CT) DRY `User_Node.form_parameters`
 #    ««revision-date»»···
 #--
 
@@ -175,16 +176,14 @@ class User_Node (User_Entity) :
     @getattr_safe
     def form_parameters (self) :
         result = self.__super.form_parameters
-        u = self.top.user
-        if u and u.person :
-            u = u.person
-            if u :
-                result.setdefault ("form_kw", {}).update \
-                    ( manager = dict
-                        ( prefilled   = True
-                        , init        = u
-                        )
+        u = self.user_restriction
+        if u is not None :
+            result.setdefault ("form_kw", {}).update \
+                ( manager = dict
+                    ( prefilled   = True
+                    , init        = u
                     )
+                )
         return result
     # end def form_parameters
 
