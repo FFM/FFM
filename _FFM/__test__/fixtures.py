@@ -64,4 +64,50 @@ def create (scope) :
     il2 = FFM.Net_Interface_in_IP4_Network (wl, a4, mask_len = 24)
 # end def create
 
+def net_fixtures (scope) :
+    """ Create more fixtures for testing IP allocation and polymorphic
+        queries on owner.
+    """
+    create (scope)
+    FFM   = scope.FFM
+    PAP   = scope.PAP
+    cta   = PAP.Person 
+        (first_name = 'Christian', last_name = 'Tanzer', raw = True)
+    dtype = FFM.Net_Device_Type.instance (name = 'Generic', raw = True)
+    rsc   = PAP.Person.instance.query (first_name = 'Ralf').one ()
+    swing = PAP.Company (name = "Swing")
+    ff    = PAP.Association (name = "Funkfeuer")
+    n1    = FFM.Node
+        (name = "Node-net1", manager = cta, owner = swing, raw = True)
+    n2    = FFM.Node (name = "Node-net2", manager = cta, owner = ff, raw = True)
+    n3    = FFM.Node (name = "Node-net3", manager = rsc, owner = ff, raw = True)
+    n4    = FFM.Node (name = "Node-net4", manager = rsc, raw = True)
+    net   = FFM.IP4_Network
+        (dict (address = '10.10.0.0/16'), owner = ff, raw = True)
+    nv6   = FFM.IP6_Network
+        (dict (address = '2001:db8::/32'), owner = swing, raw = True)
+    n1d1  = FFM.Net_Device \
+        (left = dtype, node = n1, name = 'n1d1', raw = True)
+    n1d2  = FFM.Net_Device \
+        (left = dtype, node = n1, name = 'n1d2', raw = True)
+    n2d1  = FFM.Net_Device \
+        (left = dtype, node = n2, name = 'n2d1', raw = True)
+    n2d2  = FFM.Net_Device \
+        (left = dtype, node = n2, name = 'n2d2', raw = True)
+    n2d3  = FFM.Net_Device \
+        (left = dtype, node = n2, name = 'n2d3', raw = True)
+    n3d1  = FFM.Net_Device \
+        (left = dtype, node = n3, name = 'n3d1', raw = True)
+    n4d1  = FFM.Net_Device \
+        (left = dtype, node = n4, name = 'n4d1', raw = True)
+    n4d2  = FFM.Net_Device \
+        (left = dtype, node = n4, name = 'n4d2', raw = True)
+    n4d3  = FFM.Net_Device \
+        (left = dtype, node = n4, name = 'n4d3', raw = True)
+    n4d4  = FFM.Net_Device \
+        (left = dtype, node = n4, name = 'n4d4', raw = True)
+    n4d5  = FFM.Net_Device \
+        (left = dtype, node = n4, name = 'n4d5', raw = True)
+# end def net_fixtures
+
 ### __END__ FFM.__test__.fixtures
