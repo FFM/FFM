@@ -40,7 +40,7 @@ def is_rfc1918 (ip) :
 # end def is_rfc1918
 
 class Guess (Page_Tree) :
-    site    = 'http://%(ip)s/'
+    site    = 'http://%(ip)s'
     url     = ''
     delay   = 0
     retries = 2
@@ -520,6 +520,7 @@ if __name__ == '__main__' :
     site = Guess.site % locals ()
     #site = 'file:///' + os.path.abspath (ip)
     url  = ''
+    #url  = 'index.html'
     ff   = Guess (site = site, url = url)
     print "Type:    %s" % ff.type
     print "Version: %s" % ff.version
