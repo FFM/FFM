@@ -468,6 +468,11 @@ class Backfire (Page_Tree) :
             p = root [-1][-1]
             if p.tag == tag ('p') and p.get ('class') == 'luci' :
                 self.luci_version = p.text
+        if  (   self.luci_version
+            and self.luci_version.startswith ('Powered by LuCI Trunk (')
+            ) :
+            self.luci_version = self.luci_version.split ('(', 1) [-1]
+            self.luci_version = self.luci_version.split (')', 1) [0]
         if not self.if_by_name :
             raise ValueError, "No interface config found"
         if self.bf_version and self.luci_version :
