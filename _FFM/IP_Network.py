@@ -45,6 +45,7 @@
 #                     don't work)
 #     5-Mar-2013 (CT) Add `electric`, fix predicate `owner_or_cool_down`
 #     5-Mar-2013 (CT) Make `owner` argument of `reserve` optional
+#    28-Apr-2013 (CT) Add attribute `desc`
 #    ««revision-date»»···
 #--
 
@@ -79,6 +80,14 @@ class IP_Network (_Ancestor_Essence) :
         # end class net_address
 
         ### Non-primary attributes
+
+        class desc (A_String) :
+            """Description of and remarks about the IP_Network/Pool"""
+
+            kind               = Attr.Optional
+            max_length         = 80
+
+        # end class desc
 
         class is_free (A_Boolean) :
             """Indicates whether this `%(type_name)s` can be assigned"""

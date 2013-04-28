@@ -35,6 +35,7 @@
 #    22-Mar-2013 (CT) Add test for `Query_Restriction`
 #    28-Mar-2013 (CT) Add `AQ.Attrs_Transitive...ui_name`, `.pool.pool.pool...`
 #    11-Apr-2013 (CT) Adapt to changes in `MOM.Attr.Querier`
+#    28-Apr-2013 (CT) Adapt to addition of `IP_Network.desc`
 #    ««revision-date»»···
 #--
 
@@ -359,6 +360,7 @@ _test_AQ = """
     >>> for aq in AQ.Attrs :
     ...     print (aq)
     <net_address.AQ [Attr.Type.Querier Composite]>
+    <desc.AQ [Attr.Type.Querier String]>
     <owner.AQ [Attr.Type.Querier Id_Entity]>
     <pool.AQ [Attr.Type.Querier Id_Entity]>
     <is_free.AQ [Attr.Type.Querier Boolean]>
@@ -367,10 +369,12 @@ _test_AQ = """
     ...     print (aq, aq.E_Type.type_name if aq.E_Type else "-"*5)
     <net_address.AQ [Attr.Type.Querier Composite]> GTW.OMP.NET.IP4_Network
     <net_address.address.AQ [Attr.Type.Querier Ckd]> -----
+    <desc.AQ [Attr.Type.Querier String]> -----
     <owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
     <pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
     <pool.net_address.AQ [Attr.Type.Querier Composite]> GTW.OMP.NET.IP4_Network
     <pool.net_address.address.AQ [Attr.Type.Querier Ckd]> -----
+    <pool.desc.AQ [Attr.Type.Querier String]> -----
     <pool.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
     <pool.pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
     <pool.is_free.AQ [Attr.Type.Querier Boolean]> -----
@@ -380,10 +384,12 @@ _test_AQ = """
     ...     str (aq._ui_name_T)
     'Net address'
     'Net address/Address'
+    'Desc'
     'Owner'
     'Pool'
     'Pool/Net address'
     'Pool/Net address/Address'
+    'Pool/Desc'
     'Pool/Owner'
     'Pool/Pool'
     'Pool/Is free'
@@ -395,7 +401,9 @@ _test_AQ = """
     >>> for aq in AQ.Atoms :
     ...     print (aq)
     <net_address.address.AQ [Attr.Type.Querier Ckd]>
+    <desc.AQ [Attr.Type.Querier String]>
     <pool.net_address.address.AQ [Attr.Type.Querier Ckd]>
+    <pool.desc.AQ [Attr.Type.Querier String]>
     <pool.is_free.AQ [Attr.Type.Querier Boolean]>
     <is_free.AQ [Attr.Type.Querier Boolean]>
 
@@ -409,6 +417,10 @@ _test_AQ = """
               ]
           , 'name' : 'net_address'
           , 'ui_name' : 'Net address'
+          }
+        , { 'name' : 'desc'
+          , 'sig_key' : 3
+          , 'ui_name' : 'Desc'
           }
         , { 'Class' : 'Entity'
           , 'children_np' :
@@ -496,6 +508,10 @@ _test_AQ = """
                     ]
                 , 'name' : 'net_address'
                 , 'ui_name' : 'Net address'
+                }
+              , { 'name' : 'desc'
+                , 'sig_key' : 3
+                , 'ui_name' : 'Desc'
                 }
               , { 'Class' : 'Entity'
                 , 'children_np' :
@@ -696,6 +712,14 @@ _test_AQ = """
       , ui_name = 'Net address'
       )
     , Record
+      ( attr = String `desc`
+      , full_name = 'desc'
+      , id = 'desc'
+      , name = 'desc'
+      , sig_key = 3
+      , ui_name = 'Desc'
+      )
+    , Record
       ( Class = 'Entity'
       , attr = Entity `owner`
       , children_np =
@@ -845,6 +869,14 @@ _test_AQ = """
             , id = 'pool__net_address'
             , name = 'net_address'
             , ui_name = 'Pool/Net address'
+            )
+          , Record
+            ( attr = String `desc`
+            , full_name = 'pool.desc'
+            , id = 'pool__desc'
+            , name = 'desc'
+            , sig_key = 3
+            , ui_name = 'Pool/Desc'
             )
           , Record
             ( Class = 'Entity'
