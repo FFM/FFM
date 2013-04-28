@@ -43,6 +43,7 @@
 #     7-Dec-2012 (RS) Add `Antenna_Band`
 #    26-Feb-2013 (CT) Remove `Wired_Link` and `Wireless_Link`
 #     4-Mar-2013 (CT) Add `GTW.OMP.PAP.Association`
+#    28-Apr-2013 (CT) Add `Person_acts_for_Legal_Entity`
 #    ««revision-date»»···
 #--
 
@@ -71,6 +72,7 @@ import _FFM.Net_Device
 import _FFM.Net_Device_Type
 import _FFM.Net_Interface
 import _FFM.Node
+import _FFM.Person_acts_for_Legal_Entity
 import _FFM.Regulatory_Domain
 import _FFM.Regulatory_Permission
 import _FFM.Routing_Zone
