@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the web page ffm.funkfeuer.at.
@@ -29,6 +29,7 @@
 #    29-Mar-2012 (CT) Creation
 #     4-Dec-2012 (CT) Remove `http:` (--> protocol-relative)
 #    17-Dec-2012 (CT) Add rules for `textarea.Long` and `.Very-Long`
+#    29-Apr-2013 (CT) Add `GTW.Script._.GTW_jq_util`
 #    ««revision-date»»···
 #--
 
@@ -100,7 +101,7 @@ Script \
     , rank      = -1000000000
     )
 
-Script (GTW.Script._.GTW_util)
+Script (GTW.Script._.GTW_jq_util)
 
 JS_On_Ready (GTW.JS_On_Ready._.de_obfuscate_a)
 JS_On_Ready (GTW.JS_On_Ready._.GTW_Externalize)
