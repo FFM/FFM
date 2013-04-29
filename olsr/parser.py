@@ -18,7 +18,7 @@
 
 import re
 
-#from   rsclib.HTML_Parse  import Page_Tree
+from   rsclib.HTML_Parse  import Page_Tree, tag
 from   rsclib.autosuper   import autosuper
 from   rsclib.stateparser import Parser
 from   rsclib.IP_Address  import IP4_Address
@@ -75,7 +75,7 @@ class MID (autosuper) :
 
     def __str__ (self) :
         return '\n'.join \
-            ("MID %s -> %s" % (k, ';'.join (v))
+            ("MID %s -> %s" % (k, ';'.join (str (i) for i in v))
              for k, v in self.by_ip.iteritems ()
             )
     # end def __str__
@@ -165,13 +165,122 @@ class OLSR_Parser (Parser) :
 
 # end class OLSR_Parser
 
+class Backfire_MID_Parser (Page_Tree) :
+
+    url = 'cgi-bin/luci/freifunk/olsr/mid/'
+
+    def __init__ (self, site, mid) :
+        self.mid = mid
+        self.__super.__init__ (site = site)
+    # end def __init__
+
+    def parse (self) :
+        root = self.tree.getroot ()
+        for fs in root.findall (".//%s" % tag ("fieldset")) :
+            if fs.get ('class') == 'cbi-section' :
+                tbl = fs.find (".//%s" % tag ("table"))
+                assert tbl.get ('class') == 'cbi-section-table'
+                for tr in tbl :
+                    if tr [0].tag == tag ('th') :
+                        assert tr [0].text == 'OLSR node'
+                        continue
+                    assert tr [0][0].tag == tag ('a')
+                    self.mid.add (tr [0][0].text, * tr [1].text.split (';'))
+    # end def parse
+
+# end class Backfire_MID_Parser
+
+class Backfire_HNA_Parser (Page_Tree) :
+
+    url = 'cgi-bin/luci/freifunk/olsr/hna/'
+
+    def __init__ (self, site, hna) :
+        self.hna = hna
+        self.__super.__init__ (site = site)
+    # end def __init__
+
+    def parse (self) :
+        root = self.tree.getroot ()
+        for fs in root.findall (".//%s" % tag ("fieldset")) :
+            if fs.get ('class') == 'cbi-section' :
+                tbl = fs.find (".//%s" % tag ("table"))
+                assert tbl.get ('class') == 'cbi-section-table'
+                for tr in tbl :
+                    if tr [0].tag == tag ('th') :
+                        assert tr [0].text == 'Announced network'
+                        continue
+                    assert tr [1][0].tag == tag ('a')
+                    self.hna.add (HNA_Entry (tr [0].text, tr [1][0].text))
+    # end def parse
+
+# end class Backfire_HNA_Parser
+
+class Backfire_Topo_Parser (Page_Tree) :
+
+    url = 'cgi-bin/luci/freifunk/olsr/topology/'
+
+    def __init__ (self, site, topo) :
+        self.topo = topo
+        self.__super.__init__ (site = site)
+    # end def __init__
+
+    def parse (self) :
+        root = self.tree.getroot ()
+        for fs in root.findall (".//%s" % tag ("fieldset")) :
+            if fs.get ('class') == 'cbi-section' :
+                tbl = fs.find (".//%s" % tag ("table"))
+                assert tbl.get ('class') == 'cbi-section-table'
+                for tr in tbl :
+                    if tr [0].tag == tag ('th') :
+                        assert tr [0].text == 'OLSR node'
+                        continue
+                    assert tr [0][0].tag == tag ('a')
+                    assert tr [1][0].tag == tag ('a')
+                    p = [tr [0][0].text, tr [1][0].text]
+                    for v in tr [2:] :
+                        v = v.text
+                        if v == 'INFINITE' : v = 'inf'
+                        v = float (v)
+                        p.append (v)
+                    self.topo.add (Topo_Entry (* p))
+    # end def parse
+
+# end class Backfire_Topo_Parser
+
+class Backfire_OLSR_Parser (autosuper) :
+
+    def __init__ (self, site) :
+        self.hna  = HNA      ()
+        self.mid  = MID      ()
+        self.topo = Topology ()
+        self.__super.__init__ (site = site)
+        p = Backfire_MID_Parser (site, self.mid)
+        p = Backfire_HNA_Parser (site, self.hna)
+        p = Backfire_Topo_Parser (site, self.topo)
+    # end def __init__
+
+# end class Backfire_OLSR_Parser
+
+def get_olsr_container (file_or_url) :
+    if file_or_url.startswith ('http://') :
+        olsr = Backfire_OLSR_Parser (site = file_or_url)
+    else :
+        f = open (file_or_url)
+        olsr = OLSR_Parser (verbose = 0)
+        olsr.parse (f)
+    return olsr
+# end def get_olsr_container
+
 if __name__ == "__main__" :
     import sys
-    f = open (sys.argv [1])
-    parser = OLSR_Parser (verbose = 1)
-    parser.parse (f)
-    for t in parser.topo.forward.itervalues () :
+    import os
+    if len (sys.argv) != 2 :
+        bn = os.path.basename (sys.argv [0])
+        print >> sys.stderr, "Usage: %(bn)s <file-or-url>" % locals ()
+        sys.exit (23)
+    olsr = get_olsr_container (sys.argv [1])
+    for t in olsr.topo.forward.itervalues () :
         print t
-    print parser.mid
-    for h in parser.hna.by_dest.itervalues () :
+    print olsr.mid
+    for h in olsr.hna.by_dest.itervalues () :
         print h
