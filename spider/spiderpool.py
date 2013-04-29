@@ -77,21 +77,21 @@ class Worker (Log, Timeout) :
                 return
             self.disable_alarm ()
             result = []
-            for iface_ip in g.ips.iterkeys () :
-                iface = iface_ip.iface
-                r = [iface.name]
-                if iface.is_wlan :
-                    r.extend \
-                        (( True
-                        ,  iface.wlan_info.ssid
-                        ,  iface.wlan_info.mode
-                        ,  iface.wlan_info.channel
-                        ,  iface.wlan_info.bssid
-                        ))
-                else :
-                    r.append (False)
-                result.append (r)
-            self.result_dict [self.ip] = result
+#            for iface_ip in g.ips.iterkeys () :
+#                iface = iface_ip.iface
+#                r = [iface.name]
+#                if iface.is_wlan :
+#                    r.extend \
+#                        (( True
+#                        ,  iface.wlan_info.ssid
+#                        ,  iface.wlan_info.mode
+#                        ,  iface.wlan_info.channel
+#                        ,  iface.wlan_info.bssid
+#                        ))
+#                else :
+#                    r.append (False)
+#                result.append (r)
+            self.result_dict [self.ip] = g
         except Exception, err :
             self.log.error ("Error in IP %s:" % self.ip)
             self.log_exception ()
@@ -138,7 +138,8 @@ class Spider (Log) :
         for node in self.olsr_nodes :
             self.pool.apply_async \
                 ( get_node_info
-                , (self.result_dict, str (node), self.timeout, self.debug))
+                , (self.result_dict, str (node), self.timeout, self.debug)
+                )
         self.pool.close ()
         self.pool.join  ()
         # broken dict proxy interface, make local dict with full interface

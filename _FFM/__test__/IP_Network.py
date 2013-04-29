@@ -46,6 +46,8 @@ from   datetime                 import datetime
 
 import _GTW._RST._TOP._MOM.Query_Restriction
 
+from _FFM.__test__.fixtures import net_fixtures
+
 _test_code = """
     >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
     Creating new scope MOMT__...
@@ -1148,6 +1150,15 @@ _test_AQ = """
 
 """
 
+_test_with_fixtures = """
+    >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
+    Creating new scope MOMT__...
+
+    >>> FFM = scope.FFM
+    >>> PAP = scope.PAP
+    >>> net_fixtures (scope)
+"""
+
 def show_networks (scope, * qargs, ** qkw) :
     ETM = scope.FFM.IP4_Network
     sk = TFL.Sorted_By \
@@ -1174,8 +1185,9 @@ def show_network_count (scope) :
 
 __test__ = Scaffold.create_test_dict \
   ( dict
-      ( main       = _test_code
-      , test_AQ    = _test_AQ
+      ( main               = _test_code
+      , test_AQ            = _test_AQ
+      , test_with_fixtures = _test_with_fixtures
       )
   )
 

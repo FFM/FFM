@@ -40,7 +40,7 @@ def is_rfc1918 (ip) :
 # end def is_rfc1918
 
 class Guess (Page_Tree) :
-    site    = 'http://%(ip)s/'
+    site    = 'http://%(ip)s'
     url     = ''
     delay   = 0
     retries = 2
@@ -79,6 +79,13 @@ class Guess (Page_Tree) :
         return r
     # end def __getattr__
 
+    def __getstate__ (self) :
+        exc = dict (tree = None)
+        d   = dict ()
+        for k, v in self.__dict__.iteritems () :
+            d [k] = exc.get (k, v)
+    # end def __getstate__
+
 # end class Guess
 
 class Net_Link (autosuper) :
@@ -102,12 +109,12 @@ class Inet (autosuper) :
     """IP Network address
     """
 
-    def __init__ (self, ip, netmask, scope = None, iface = None) :
+    def __init__ (self, ip, netmask, scope = None, iface = None, bcast = None) :
         self.ip      = ip
         self.netmask = netmask
         self.scope   = scope
         self.iface   = iface
-        self.bcast   = None
+        self.bcast   = bcast
     # end def __init__
 
     def __str__ (self) :
@@ -121,14 +128,17 @@ class Inet (autosuper) :
 class Inet4 (Inet) :
 
     def __init__ (self, ip, netmask, bcast, scope = None, iface = None) :
-        self.__super.__init__ (ip, netmask, scope, iface)
-        self.bcast = bcast
+        self.__super.__init__ (ip, netmask, scope, iface, bcast = bcast)
     # end def __init__
 
 # end class Inet4
 
 class Inet6 (Inet) :
-    pass
+
+    def __init__ (self, ip, netmask, bcast, scope = None, iface = None) :
+        self.__super.__init__ (ip, netmask, scope, iface, bcast = bcast)
+    # end def __init__
+
 # end class Inet6
 
 class Interface (autosuper) :
@@ -153,14 +163,18 @@ class Interface (autosuper) :
         if not inet.iface.startswith (self.name) :
             raise Parse_Error \
                 ( "Wrong interface name in inet4 address: %s %s"
-                % inet.iface, self.name
+                % (inet.iface, self.name)
                 )
         inet.iface = self
     # end def append_inet4
 
     def append_inet6 (self, inet) :
         self.inet6.append (inet)
-        assert inet.iface is None
+        if inet.iface is not None and not inet.iface.startswith (self.name) :
+            raise Parse_Error \
+                ( "Wrong interface name in inet6 address: %s %s"
+                % (inet.iface, self.name)
+                )
         inet.iface = self
     # end def append_inet6
 
@@ -190,6 +204,7 @@ class Interface_Config (Parser) :
     re_assign = re.compile (r'^([a-zA-Z0-9_]+)\s*=\s*([a-zA-Z0-9 ]*)$')
     re_brhead = re.compile (r'^bridge name.*$')
     re_bridge = re.compile (r'^(\S+)\s*(\S+)\s*(\S+)\s*(\S+)$')
+    re_ifonly = re.compile (r'^\s+(\S+)$')
     re_if     = re.compile \
         (r'^(\d+):\s*(\S+):\s*mtu\s*(\d+)\s*qdisc\s*(\S+)(?:qlen\s*(\d+))?')
     pt_mac    = pt_mac
@@ -210,6 +225,7 @@ class Interface_Config (Parser) :
         , ["init",   re_if,     "iface",  "iface"]
         , ["init",   None,      "init",   None]
         , ["bridge", re_bridge, "bridge", "bridge"]
+        , ["bridge", re_ifonly, "bridge", None]
         , ["bridge", '',        "init",   None]
         , ["iface",  re_link,   "iface",  "link"]
         , ["iface",  re_inet,   "iface",  "inet"]
@@ -246,11 +262,11 @@ class Interface_Config (Parser) :
 
     def inet (self, state, new_state, match) :
         self.interface.append_inet4 (Inet4 (* match.groups ()))
-    # end def link
+    # end def inet
 
     def inet6 (self, state, new_state, match) :
         self.interface.append_inet6 (Inet6 (* match.groups ()))
-    # end def link
+    # end def inet6
 
     def __str__ (self) :
         r = []
@@ -420,6 +436,9 @@ class Backfire (Page_Tree) :
                             self.luci_version = t
             if div.get ('class') == 'header_right' :
                 self.bf_version = div.text
+            if div.get ('class') == 'hostinfo' :
+                assert self.bf_version is None
+                self.bf_version = div.text.split ('|') [0].strip ()
             if div.get ('id') == 'maincontent' and not self.if_by_name :
                 tbl = div.find (".//%s" % tag ("table"))
                 for n, tr in enumerate (tbl) :
@@ -436,15 +455,30 @@ class Backfire (Page_Tree) :
                         iface.is_wlan = wlan == 'Yes'
                     if status == 'DOWN' :
                         continue
-                    i4 = Inet4 (ip, mask, bcast, iface = name)
-                    iface.append_inet4 (i4)
-                    if not is_rfc1918 (i4.ip) :
-                        self.if_by_name [name] = iface
-                        self.ips [i4] = True
+                    if ':' in ip :
+                        i6 = Inet6 (ip, mask, bcast, iface = name)
+                        iface.append_inet6 (i6)
+                    else :
+                        i4 = Inet4 (ip, mask, bcast, iface = name)
+                        iface.append_inet4 (i4)
+                        if not is_rfc1918 (i4.ip) :
+                            self.if_by_name [name] = iface
+                            self.ips [i4] = True
+        if self.luci_version is None :
+            p = root [-1][-1]
+            if p.tag == tag ('p') and p.get ('class') == 'luci' :
+                self.luci_version = p.text
+        if  (   self.luci_version
+            and self.luci_version.startswith ('Powered by LuCI Trunk (')
+            ) :
+            self.luci_version = self.luci_version.split ('(', 1) [-1]
+            self.luci_version = self.luci_version.split (')', 1) [0]
         if not self.if_by_name :
             raise ValueError, "No interface config found"
         if self.bf_version and self.luci_version :
             self.version = "%s / Luci %s" % (self.bf_version, self.luci_version)
+#        else :
+#            print "bf: %s luci: %s" % (self.bf_version, self.luci_version)
         bfw = Backfire_WLAN_Config (site = self.site)
         for d in bfw.wlans :
             if d.name in self.if_by_name :
@@ -493,6 +527,7 @@ class Backfire_WLAN_Config (Page_Tree) :
 
 if __name__ == '__main__' :
     import sys
+    import pickle
     # For testing we download the index page and cgi-bin-status.html
     # page into a directory named with the ip address
     ip   = '193.238.158.241'
@@ -501,6 +536,7 @@ if __name__ == '__main__' :
     site = Guess.site % locals ()
     #site = 'file:///' + os.path.abspath (ip)
     url  = ''
+    #url  = 'index.html'
     ff   = Guess (site = site, url = url)
     print "Type:    %s" % ff.type
     print "Version: %s" % ff.version
@@ -508,3 +544,8 @@ if __name__ == '__main__' :
         print v
     for ip in ff.ips.iterkeys () :
         print ip
+    #for k, v in ff.__dict__.iteritems () :
+    #    print "%s: %s" % (k, v)
+    #f = open ('singleip.dump', 'wb')
+    #pickle.dump (ff, f)
+    #f.close ()
