@@ -22,7 +22,7 @@ from rsclib.autosuper  import autosuper
 from rsclib.execute    import Log
 from rsclib.timeout    import Timeout, Timeout_Error
 from rsclib.HTML_Parse import Retries_Exceeded
-from olsr.parser       import OLSR_Parser
+from olsr.parser       import get_olsr_container
 from spider.parser     import Guess
 from itertools         import islice
 from logging           import INFO
@@ -112,12 +112,11 @@ class Spider (Log) :
         , ** kw
         ) :
         self.__super.__init__ (**kw)
-        olsr_parser = OLSR_Parser ()
-        olsr_parser.parse (open (olsr_file))
+        olsr = get_olsr_container (olsr_file)
         self.olsr_nodes = {}
-        for t in olsr_parser.topo.forward.iterkeys () :
+        for t in olsr.topo.forward.iterkeys () :
             self.olsr_nodes [t] = True
-        for t in olsr_parser.topo.reverse.iterkeys () :
+        for t in olsr.topo.reverse.iterkeys () :
             self.olsr_nodes [t] = True
         # limit to N elements
         if N :
@@ -168,6 +167,13 @@ if __name__ == '__main__' :
         , default = "Funkfeuer-spider-pickle.dump"
         )
     cmd.add_option \
+        ( "-i", "--ip-port"
+        , dest    = "ip_port"
+        , action  = "append"
+        , help    = "IP-Addres:Port combination with non-standard port"
+        , default = []
+        )
+    cmd.add_option \
         ( "-n", "--limit-nodes"
         , dest    = "limit_nodes"
         , help    = "Limit spidering to given number of nodes"
@@ -184,7 +190,7 @@ if __name__ == '__main__' :
     cmd.add_option \
         ( "-o", "--olsr-file"
         , dest    = "olsr_file"
-        , help    = "File containing OLSR information"
+        , help    = "File or Backfire-URL containing OLSR information"
         , default = "olsr/txtinfo.txt"
         )
     cmd.add_option \

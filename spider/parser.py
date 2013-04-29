@@ -39,55 +39,6 @@ def is_rfc1918 (ip) :
     return False
 # end def is_rfc1918
 
-class Guess (Page_Tree) :
-    site    = 'http://%(ip)s'
-    url     = ''
-    delay   = 0
-    retries = 2
-    timeout = 10
-
-    status_url = 'cgi-bin-status.html'
-
-    def parse (self) :
-        #print self.tree_as_string ()
-        root = self.tree.getroot ()
-        for meta in root.findall (".//%s" % tag ("meta")) :
-            if meta.get ('http-equiv') == 'refresh' :
-                c = meta.get ('content')
-                if c and c.endswith ('cgi-bin/luci') :
-                    self.status  = Backfire (site = self.site)
-                    self.version = self.status.version
-                    break
-        else : # Freifunk
-            for sm in root.findall (".//%s" % tag ("small")) :
-                if sm.text.startswith ('v1') :
-                    self.version = sm.text
-                    break
-            else :
-                self.version = "Unknown"
-            #print "Version: %s" % self.version
-            for a in root.findall (".//%s" % tag ("a")) :
-                if a.get ('class') == 'plugin' and a.text == 'Status' :
-                    self.status_url = a.get ('href')
-            self.status = Freifunk (site = self.site, url = self.status_url)
-        self.type = self.status.__class__.__name__
-    # end def parse
-
-    def __getattr__ (self, name) :
-        r = getattr (self.status, name)
-        setattr (self, name, r)
-        return r
-    # end def __getattr__
-
-    def __getstate__ (self) :
-        exc = dict (tree = None)
-        d   = dict ()
-        for k, v in self.__dict__.iteritems () :
-            d [k] = exc.get (k, v)
-    # end def __getstate__
-
-# end class Guess
-
 class Net_Link (autosuper) :
     """Physical layer link interface
     """
@@ -127,16 +78,16 @@ class Inet (autosuper) :
 
 class Inet4 (Inet) :
 
-    def __init__ (self, ip, netmask, bcast, scope = None, iface = None) :
-        self.__super.__init__ (ip, netmask, scope, iface, bcast = bcast)
+    def __init__ (self, ip, mask, bcast, scope = None, iface = None, ** kw) :
+        self.__super.__init__ (ip, mask, scope, iface, bcast = bcast)
     # end def __init__
 
 # end class Inet4
 
 class Inet6 (Inet) :
 
-    def __init__ (self, ip, netmask, bcast, scope = None, iface = None) :
-        self.__super.__init__ (ip, netmask, scope, iface, bcast = bcast)
+    def __init__ (self, ip, mask, bcast, scope = None, iface = None, ** kw) :
+        self.__super.__init__ (ip, mask, scope, iface, bcast = bcast)
     # end def __init__
 
 # end class Inet6
@@ -352,6 +303,7 @@ class Freifunk (Page_Tree) :
     retries   = 2
     wlan_info = None
     timeout   = 10
+    version   = 'Unknown'
 
     def parse (self) :
         #print self.tree_as_string ()
@@ -406,9 +358,73 @@ class Freifunk (Page_Tree) :
                     iface.wlan_info = self.wlan_info
                     wl_count += 1
         assert wl_count <= 1
+        for sm in root.findall (".//%s" % tag ("small")) :
+            if sm.text.startswith ('v1') :
+                self.version = sm.text
+                break
+        if self.version == 'Unknown' :
+            for td in root.findall (".//%s" % tag ("td")) :
+                if td.text and td.text.strip ().startswith ('v1.') :
+                    self.version = td.text.strip ()
     # end def parse
 
 # end class Freifunk
+
+class OLSR (Page_Tree) :
+    url     = None
+    retries = 2
+    timeout = 10
+
+    def append_iface (self, n, name, ** kw) :
+        iface = Interface (n, name, kw ['mtu'])
+        i4 = Inet4 (iface = name, ** kw)
+        iface.append_inet4 (i4)
+        iface.is_wlan = kw ['wlan'].lower () == 'yes'
+        self.if_by_name [name] = iface
+        self.ips [iface.inet4 [0]] = True
+    # end def append_iface
+
+    def parse (self) :
+        self.if_by_name = {}
+        self.ips        = {}
+        root = self.tree.getroot ()
+        for div in root.findall (".//%s" % tag ('div')) :
+            if div.get ('id') == 'maintable' :
+                break
+        else :
+            raise Parse_Error ("Unable to find main table")
+        # get version
+        vt = div.text
+        assert vt.startswith ('Version:')
+        self.version = vt.split (' - ') [1].strip ()
+        # we search for the first table after the h2 Interfaces element
+        found = False
+        for e in div :
+            if e.tag == tag ('h2') and e.text == 'Interfaces' :
+                found = True
+            if found and e.tag == tag ('table') :
+                tbl  = e
+                name = None
+                d    = {}
+                n    = 0
+                for tr in tbl :
+                    if tr [0].tag == tag ('th') :
+                        if name and d.get ('status') == 'UP' :
+                            self.append_iface (n, name, ** d)
+                            n += 1
+                        name = tr [0].text
+                        d    = {}
+                    else :
+                        for td in tr :
+                            k, v = (x.strip () for x in td.text.split (':', 1))
+                            d [k.lower ()] = v
+                if name and d.get ('status') == 'UP' :
+                    self.append_iface (n, name, ** d)
+                    n += 1
+                break
+    # end def parse
+
+# end class OLSR
 
 class Backfire (Page_Tree) :
     url          = 'cgi-bin/luci/freifunk/olsr/interfaces'
@@ -524,28 +540,131 @@ class Backfire_WLAN_Config (Page_Tree) :
     # end def parse
 # end class Backfire_WLAN_Config
 
+class Guess (Page_Tree) :
+    site    = 'http://%(ip)s'
+    url     = ''
+    delay   = 0
+    retries = 2
+    timeout = 10
+
+    status_url = 'cgi-bin-status.html'
+
+    backend_table = dict \
+        ( Backfire = Backfire
+        , Freifunk = Freifunk
+        , OLSR     = OLSR
+        )
+
+    def __init__ (self, site, url, port = 0) :
+        if port :
+            site = "%s:%s" % (site, port)
+        self.__super.__init__ (site = site, url = url)
+    # end def __init__
+
+    def parse (self) :
+        #print self.tree_as_string ()
+        root = self.tree.getroot ()
+        self.backend = None
+        self.version = "Unknown"
+        title = root.find (".//%s" % tag ("title"))
+        t     = 'olsr.org httpinfo plugin'
+        if title is not None and title.text and title.text.strip () == t :
+            self.backend = 'OLSR'
+            self.params  = dict (site = self.url)
+        if not self.backend :
+            for meta in root.findall (".//%s" % tag ("meta")) :
+                if meta.get ('http-equiv') == 'refresh' :
+                    c = meta.get ('content')
+                    if c and c.endswith ('cgi-bin/luci') :
+                        self.backend = 'Backfire'
+                        self.params  = dict (site = self.site)
+                        break
+            else : # Freifunk
+                for sm in root.findall (".//%s" % tag ("small")) :
+                    if sm.text.startswith ('v1') :
+                        self.version = sm.text
+                        break
+                #print "Version: %s" % self.version
+                for a in root.findall (".//%s" % tag ("a")) :
+                    if a.get ('class') == 'plugin' and a.text == 'Status' :
+                        self.status_url = a.get ('href')
+                self.backend = "Freifunk"
+                self.params  = dict (site = self.site, url = self.status_url)
+
+        self.status = self.backend_table [self.backend] (** self.params)
+        if self.version == "Unknown" :
+            try :
+                self.version = self.status.version
+            except AttributeError :
+                pass
+        self.type = self.status.__class__.__name__
+    # end def parse
+
+    def verbose_repr (self) :
+        r = [str (self)]
+        for v in self.if_by_name.itervalues () :
+            r.append (str (v))
+        for v in self.ips.iterkeys () :
+            r.append (str (v))
+        return '\n'.join (r)
+    # end def verbose_repr
+
+    def __getattr__ (self, name) :
+        if 'status' not in self.__dict__ :
+            raise AttributeError ("my 'status' attribute vanished")
+        r = getattr (self.status, name)
+        setattr (self, name, r)
+        return r
+    # end def __getattr__
+
+    def __str__ (self) :
+        return "%s Version: %s" % (self.type, self.version)
+    # end def __str__
+
+# end class Guess
 
 if __name__ == '__main__' :
     import sys
     import pickle
+    from optparse import OptionParser
+
+    cmd = OptionParser ()
+    cmd.add_option \
+        ( "-l", "--local"
+        , dest    = "local"
+        , action  = "store_true"
+        , help    = "Use local download for testing with file:// url"
+        )
+    cmd.add_option \
+        ( "-o", "--output-pickle"
+        , dest    = "output_pickle"
+        , help    = "Optional pickle output file"
+        )
+    cmd.add_option \
+        ( "-p", "--port"
+        , dest    = "port"
+        , help    = "Optional port number to fetch from"
+        , type    = "int"
+        , default = 0
+        )
+    (opt, args) = cmd.parse_args ()
+    if len (args) != 1 :
+        cmd.print_help ()
+        sys.exit (23)
+    ip   = args [0]
+    site = Guess.site % locals ()
+    url  = ''
     # For testing we download the index page and cgi-bin-status.html
     # page into a directory named with the ip address
-    ip   = '193.238.158.241'
-    if len (sys.argv) > 1 :
-        ip = sys.argv [1]
-    site = Guess.site % locals ()
-    #site = 'file:///' + os.path.abspath (ip)
-    url  = ''
-    #url  = 'index.html'
-    ff   = Guess (site = site, url = url)
-    print "Type:    %s" % ff.type
-    print "Version: %s" % ff.version
-    for v in ff.if_by_name.itervalues () :
-        print v
-    for ip in ff.ips.iterkeys () :
-        print ip
+    if opt.local :
+        site = 'file://' + os.path.abspath (ip)
+        url  = 'index.html'
+    ff = Guess (site = site, url = url, port = opt.port)
+    print ff.verbose_repr ()
+    if opt.output_pickle :
+        d = {str (ip) : ff}
+        f = open (opt.output_pickle, 'wb')
+        pickle.dump (d, f)
     #for k, v in ff.__dict__.iteritems () :
     #    print "%s: %s" % (k, v)
-    #f = open ('singleip.dump', 'wb')
-    #pickle.dump (ff, f)
     #f.close ()
