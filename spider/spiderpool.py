@@ -138,7 +138,8 @@ class Spider (Log) :
         for node in self.olsr_nodes :
             self.pool.apply_async \
                 ( get_node_info
-                , (self.result_dict, str (node), self.timeout, self.debug))
+                , (self.result_dict, str (node), self.timeout, self.debug)
+                )
         self.pool.close ()
         self.pool.join  ()
         # broken dict proxy interface, make local dict with full interface
