@@ -548,6 +548,7 @@ class Guess (Page_Tree) :
     timeout = 10
 
     status_url = 'cgi-bin-status.html'
+    status_ok  = 0
 
     backend_table = dict \
         ( Backfire = Backfire
@@ -586,8 +587,14 @@ class Guess (Page_Tree) :
                         break
                 #print "Version: %s" % self.version
                 for a in root.findall (".//%s" % tag ("a")) :
-                    if a.get ('class') == 'plugin' and a.text == 'Status' :
-                        self.status_url = a.get ('href')
+                    if a.get ('class') == 'plugin' :
+                        # Allow 'Status klassisch' to override status
+                        # even if found first
+                        if a.text == 'Status klassisch' :
+                            self.status_url = a.get ('href')
+                            self.status_ok = 1
+                        elif a.text == 'Status' and not self.status_ok :
+                            self.status_url = a.get ('href')
                 self.backend = "Freifunk"
                 self.params  = dict (site = self.site, url = self.status_url)
 
