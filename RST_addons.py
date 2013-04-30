@@ -38,6 +38,9 @@
 #    25-Apr-2013 (CT) Add `eligible_object_restriction`
 #    28-Apr-2013 (CT) DRY `User_Node.form_parameters`
 #    28-Apr-2013 (CT) Add `Login_has_Person`
+#    30-Apr-2013 (CT) Add `Node_Manager_Error`, `_pre_commit_node_check`
+#    30-Apr-2013 (CT) Remove `prefilled` from `User_Node.form_parameters` for
+#                     `manager`
 #    ««revision-date»»···
 #--
 
@@ -62,6 +65,57 @@ from   _MOM.import_MOM          import Q
 from   _TFL._Meta.Once_Property import Once_Property
 from   _TFL.Decorator           import getattr_safe, Add_New_Method
 from   _TFL.I18N                import _, _T, _Tn
+
+class Node_Manager_Error (MOM.Error._Invariant_, TypeError) :
+    """You are not allowed to change owner or manager unless after the change
+       you are still either owner or manager
+    """
+
+    class inv :
+        name       = "Node_Manager_Error"
+
+    def __init__ (self, obj, changed, user) :
+        self.__super.__init__ (obj)
+        self.obj          = obj
+        self.changed      = tuple \
+            ((c, getattr (obj.E_Type, c).ui_name_T) for c in changed)
+        self.user         = user
+        self.attributes   = ("manager", "owner")
+        self.values = vs  = tuple \
+            (  (v.ui_display if v is not None else v)
+            for v in (getattr (obj, k) for k in self.attributes)
+            )
+        self.args         = (obj, changed, vs, user)
+    # end def __init__
+
+    @Once_Property
+    def as_unicode (self) :
+        bindings = dict (self.bindings)
+        result = \
+            ( _T( "You are not allowed to change %s unless afterwards "
+                  "you [%s] are still either manager or owner"
+                )
+            % ( _T (" and ").join
+                  ( "'%s' %s '%s'"
+                  % (d, _T ("to"), bindings [k]) for k, d in self.changed
+                  )
+              , self.user
+              )
+            )
+        return result
+    # end def as_unicode
+
+    @Once_Property
+    def bindings (self) :
+        return zip (self.attributes, self.values)
+    # end def bindings
+
+    @Once_Property
+    def head (self) :
+        return unicode (self)
+    # end def head
+
+# end class Node_Manager_Error
 
 class Is_Owner_or_Manager (GTW.RST._Permission_) :
     """Permission if user is the owner or manager of the object"""
@@ -107,13 +161,26 @@ def _FFM_User_Entity_PRC (self, resource, request, response, attribute_changes) 
                 ent = getattr (self, eia.name)
                 if ent not in eligible :
                     err = MOM.Error.Permission (self, eia, ent, eligible)
-                    ### XXX make a nicer interface to set this error
-                    self._pred_man.errors ["object"].append (err)
+                    self.add_error (err)
                     raise err
 # end def _FFM_User_Entity_PRC
 
 _pre_commit_entity_check = GTW.RST.MOM.Pre_Commit_Entity_Check \
     ("_FFM_User_Entity_PRC")
+
+@Add_New_Method (FFM.Node)
+def _FFM_Node_PRC (self, resource, request, response, attribute_changes) :
+    changed = tuple (k for k in ("manager", "owner") if k in attribute_changes)
+    if changed :
+        user = resource.user_restriction
+        if not (self.manager is user or self.owner is user) :
+            err = Node_Manager_Error (self, changed, user.ui_display)
+            self.add_error (err)
+            raise err
+# end def _FFM_Node_PRC
+
+_pre_commit_node_check = GTW.RST.MOM.Pre_Commit_Entity_Check \
+    ("_FFM_Node_PRC")
 
 _Ancestor = GTW.RST.TOP.MOM.Admin_Restricted.E_Type
 
@@ -183,6 +250,11 @@ class User_Node (User_Entity) :
 
     _ETM                  = "FFM.Node"
 
+    child_postconditions_map  = dict \
+        ( User_Entity.child_postconditions_map
+        , change = (_pre_commit_node_check, _pre_commit_entity_check)
+        )
+
     @property
     @getattr_safe
     def form_parameters (self) :
@@ -190,11 +262,7 @@ class User_Node (User_Entity) :
         u = self.user_restriction
         if u is not None :
             result.setdefault ("form_kw", {}).update \
-                ( manager = dict
-                    ( prefilled   = True
-                    , init        = u
-                    )
-                )
+                (manager = dict (init = u))
         return result
     # end def form_parameters
 
