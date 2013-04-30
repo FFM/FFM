@@ -630,12 +630,18 @@ class Guess (Page_Tree) :
 
 # end class Guess
 
-if __name__ == '__main__' :
+def main () :
     import sys
     import pickle
     from optparse import OptionParser
 
     cmd = OptionParser ()
+    cmd.add_option \
+        ( "-d", "--debug"
+        , dest    = "debug"
+        , action  = "store_true"
+        , help    = "Debug merging of pickle dumps"
+        )
     cmd.add_option \
         ( "-l", "--local"
         , dest    = "local"
@@ -654,24 +660,82 @@ if __name__ == '__main__' :
         , type    = "int"
         , default = 0
         )
+    cmd.add_option \
+        ( "-r", "--read-pickle"
+        , dest    = "read_pickle"
+        , help    = "Read old pickle files, merge and preserve information"
+        , action  = "append"
+        , default = []
+        )
     (opt, args) = cmd.parse_args ()
-    if len (args) != 1 :
+    if len (args) < 1 and not opt.read_pickle :
         cmd.print_help ()
         sys.exit (23)
-    ip   = args [0]
-    site = Guess.site % locals ()
-    url  = ''
-    # For testing we download the index page and cgi-bin-status.html
-    # page into a directory named with the ip address
-    if opt.local :
-        site = 'file://' + os.path.abspath (ip)
-        url  = 'index.html'
-    ff = Guess (site = site, url = url, port = opt.port)
-    print ff.verbose_repr ()
+    ipdict = {}
+    for fn in opt.read_pickle :
+        if opt.debug :
+            print "Processing pickle dump %s" % fn
+        keys = dict.fromkeys (ipdict.iterkeys ())
+        f    = open (fn, 'r')
+        obj  = pickle.load (f)
+        for k, v in obj.iteritems () :
+            if k in ipdict :
+                keys [k] = True
+                ov       = ipdict [k]
+                istuple  = isinstance (v, tuple)
+                if isinstance (ov, tuple) :
+                    overwrite = False
+                    if not istuple :
+                        overwrite = True
+                    elif ov [0] == 'Timeout_Error' :
+                        overwrite = True
+                    elif v [0] == 'ValueError' :
+                        overwrite = True
+                    if overwrite :
+                        #print opt.debug, istuple, v, ov [0]
+                        if (opt.debug and (not istuple or v [0] != ov [0])) :
+                            print "%s: overwriting %s with %s" % (k, ov, v)
+                        ipdict [k] = v
+                    elif istuple and ov [0] != v [0] and opt.debug :
+                        print "%s: Not overwriting %s with %s" % (k, ov, v)
+                else :
+                    assert isinstance (ov, Guess)
+                    if istuple and opt.debug :
+                        print "%s: Not overwriting %s with %s" % (k, ov, v)
+                    else :
+                        assert isinstance (v, Guess)
+                        ipdict [k] = v
+            else :
+                if opt.debug :
+                    print "%s: new: %s" % (k, v)
+                ipdict [k] = v
+        if opt.debug :
+            for k, v in keys.iteritems () :
+                if not v :
+                    print "%s: not existing in dump %s" % (k, fn)
+
+    for ip in args :
+        port = opt.port
+        try :
+            ip, port = ip.split (':', 1)
+        except ValueError :
+            pass
+        site = Guess.site % locals ()
+        url  = ''
+        # For testing we download the index page and cgi-bin-status.html
+        # page into a directory named with the ip address
+        if opt.local :
+            site = 'file://' + os.path.abspath (ip)
+            url  = 'index.html'
+        ff = Guess (site = site, url = url, port = port)
+        print ff.verbose_repr ()
+        ipdict [str (ip)] = ff
     if opt.output_pickle :
-        d = {str (ip) : ff}
         f = open (opt.output_pickle, 'wb')
-        pickle.dump (d, f)
-    #for k, v in ff.__dict__.iteritems () :
-    #    print "%s: %s" % (k, v)
-    #f.close ()
+        pickle.dump (ipdict, f)
+        f.close ()
+# end def main
+
+if __name__ == '__main__' :
+    import spider.parser
+    spider.parser.main ()
