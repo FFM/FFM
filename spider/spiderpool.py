@@ -27,8 +27,10 @@ from spider.parser     import Guess
 from itertools         import islice
 from logging           import INFO
 
-def get_node_info (result_dict, ip, timeout = 180, debug = False) :
-    w = Worker (result_dict, ip, timeout = timeout, debug = debug)
+def get_node_info \
+    (result_dict, ip, timeout = 180, ip_port = {}, debug = False) :
+    w = Worker \
+        (result_dict, ip, timeout = timeout, ip_port = ip_port, debug = debug)
     try :
         return w.get_node_info ()
     except Exception, err :
@@ -38,11 +40,20 @@ def get_node_info (result_dict, ip, timeout = 180, debug = False) :
 
 class Worker (Log, Timeout) :
 
-    def __init__ (self, result_dict, ip, timeout = 180, debug = False, **kw) :
+    def __init__ \
+        ( self
+        , result_dict
+        , ip
+        , timeout = 180
+        , ip_port = {}
+        , debug = False
+        , **kw
+        ) :
         self.__super.__init__ (** kw)
         self.ip          = ip
         self.result_dict = result_dict
         self.timeout     = timeout
+        self.ip_port     = ip_port
         if not debug :
             self.log.setLevel (INFO)
     # end def __init__
@@ -56,7 +67,10 @@ class Worker (Log, Timeout) :
                 url  = ''
                 site = Guess.site % self.__dict__
                 self.log.debug ("%s: before guess" % self.ip)
-                g    = Guess (site = site, url = 'index.html')
+                port = None
+                if self.ip in self.ip_port :
+                    port = self.ip_port [self.ip]
+                g    = Guess (site = site, url = '', port = port)
                 self.log.debug ("%s: after  guess" % self.ip)
             except ValueError, err :
                 self.log.error ("Error in IP %s:" % self.ip)
@@ -108,6 +122,7 @@ class Spider (Log) :
         , processes =    20
         , N         =     0
         , timeout   =   180
+        , ip_port   =    {}
         , debug     = False
         , ** kw
         ) :
@@ -126,6 +141,7 @@ class Spider (Log) :
         self.mgr         = Manager ()
         self.result_dict = self.mgr.dict ()
         self.timeout     = timeout
+        self.ip_port     = ip_port
         self.debug       = debug
         olsr_nodes       = None
         if not debug :
@@ -137,7 +153,12 @@ class Spider (Log) :
         for node in self.olsr_nodes :
             self.pool.apply_async \
                 ( get_node_info
-                , (self.result_dict, str (node), self.timeout, self.debug)
+                , ( self.result_dict
+                  , str (node)
+                  , self.timeout
+                  , self.ip_port
+                  , self.debug
+                  )
                 )
         self.pool.close ()
         self.pool.join  ()
@@ -205,7 +226,13 @@ if __name__ == '__main__' :
         cmd.print_help ()
         sys.exit (23)
     sp = Spider \
-        (opt.olsr_file, opt.processes, opt.limit_nodes, opt.timeout, opt.debug)
+        ( opt.olsr_file
+        , opt.processes
+        , opt.limit_nodes
+        , opt.timeout
+        , dict (x.split (':', 1) for x in opt.ip_port)
+        , opt.debug
+        )
     try :
         sp.process ()
         f = open (opt.dump, "wb")
