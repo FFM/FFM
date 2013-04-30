@@ -19,7 +19,7 @@
 
 from   rsclib.HTML_Parse  import tag, Page_Tree
 from   rsclib.autosuper   import autosuper
-from   spider.common      import Interface, Inet4, Inet6, is_rfc1918
+from   spider.common      import Interface, Inet4, Inet6, unroutable
 from   spider.common      import WLAN_Config
 from   olsr.common        import Topo_Entry, HNA_Entry
 
@@ -94,7 +94,7 @@ class Interfaces (Page_Tree, Version_Mixin) :
                     else :
                         i4 = Inet4 (ip, mask, bcast, iface = name)
                         iface.append_inet4 (i4)
-                        if not is_rfc1918 (i4.ip) :
+                        if not unroutable (i4.ip) :
                             self.if_by_name [name] = iface
                             self.ips [i4] = True
         self.set_version (root)

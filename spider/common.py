@@ -23,17 +23,32 @@ from   rsclib.IP_Address  import IP4_Address
 class Parse_Error (ValueError) :
     pass
 
+rfc1918_networks = \
+    [IP4_Address (x)
+     for x in ('10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16')
+    ]
+localnet  = IP4_Address ('127.0.0.0/8')
+linklocal = IP4_Address ('169.254.0.0/16')
+
 def is_rfc1918 (ip) :
-    networks = \
-        [IP4_Address (x)
-         for x in ('10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16')
-        ]
-    ip = IP4_Address (ip)
-    for n in networks :
+    for n in rfc1918_networks :
         if ip in n :
             return True
     return False
 # end def is_rfc1918
+
+def is_local (ip) :
+    return ip in localnet
+# end def is_local
+
+def is_link_local (ip) :
+    return ip in linklocal
+# end def is_link_local
+
+def unroutable (ip) :
+    ip  = IP4_Address (ip)
+    return is_rfc1918 (ip) or is_local (ip) or is_link_local (ip)
+# end def unroutable
 
 class Net_Link (autosuper) :
     """Physical layer link interface

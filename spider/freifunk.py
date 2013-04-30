@@ -21,7 +21,7 @@ import re
 from   rsclib.HTML_Parse  import tag, Page_Tree
 from   rsclib.autosuper   import autosuper
 from   rsclib.stateparser import Parser
-from   spider.common      import is_rfc1918, Net_Link
+from   spider.common      import unroutable, Net_Link
 from   spider.common      import Inet4, Inet6, Interface, WLAN_Config
 
 pt_mac    = r'((?:[0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2})'
@@ -157,6 +157,18 @@ class Status (Page_Tree) :
     timeout   = 10
     version   = 'Unknown'
 
+    def _check_interface (self, iface, is_wlan = False) :
+        found = False
+        for ip4 in iface.inet4 :
+            if unroutable (ip4.ip) :
+                continue
+            found = True
+            self.ips [ip4] = True
+        if found :
+            self.if_by_name [iface.name] = iface
+            iface.is_wlan = is_wlan
+    # end def _check_interface
+
     def parse (self) :
         #print self.tree_as_string ()
         root = self.tree.getroot ()
@@ -185,15 +197,10 @@ class Status (Page_Tree) :
                     if v not in self.ifconfig.if_by_name :
                         continue
                     iface = self.ifconfig.if_by_name [v]
-                    found = False
-                    for ip4 in iface.inet4 :
-                        if is_rfc1918 (ip4.ip) :
-                            continue
-                        found = True
-                        self.ips [ip4] = True
-                    if found :
-                        self.if_by_name [iface.name] = iface
-                        iface.is_wlan = is_wlan
+                    self._check_interface (iface, is_wlan)
+                for iface in self.ifconfig.interfaces :
+                    if iface.name not in self.if_by_name :
+                        self._check_interface (iface)
                 break
         else :
             raise ValueError, "No interface config found"

@@ -57,8 +57,9 @@ class Guess (Page_Tree) :
         self.backend = None
         self.version = "Unknown"
         self.rqinfo  = dict.fromkeys (('status', 'ips', 'interfaces'))
-        self.params  = dict (request = self.rqinfo)
+        self.params  = dict (request = self.rqinfo, site = self.site)
         root  = self.tree.getroot ()
+        #print self.tree_as_string (root)
         title = root.find (".//%s" % tag ("title"))
         t     = 'olsr.org httpinfo plugin'
         if title is not None and title.text and title.text.strip () == t :
@@ -70,7 +71,10 @@ class Guess (Page_Tree) :
                     c = meta.get ('content')
                     if c and c.endswith ('cgi-bin/luci') :
                         self.backend = 'Backfire'
-                        self.params.update (site = self.site)
+                        break
+                    elif c and c.endswith ('URL=/cgi-bin-index.html') :
+                        # e.g. Fonera
+                        self.backend = 'Freifunk'
                         break
             else : # Freifunk
                 for big in root.findall (".//%s" % tag ("big")) :
@@ -89,7 +93,7 @@ class Guess (Page_Tree) :
                             self.status_ok = 1
                         elif a.text == 'Status' and not self.status_ok :
                             self.status_url = a.get ('href')
-                self.params.update (site = self.site, url = self.status_url)
+                self.params.update (url = self.status_url)
 
         self.status = self.backend_table [self.backend] (** self.params)
         try :
@@ -162,6 +166,12 @@ def main () :
         , action  = "append"
         , default = []
         )
+    cmd.add_option \
+        ( "-v", "--verbose"
+        , dest    = "verbose"
+        , action  = "count"
+        , help    = "Show verbose results"
+        )
     (opt, args) = cmd.parse_args ()
     if len (args) < 1 and not opt.read_pickle :
         cmd.print_help ()
@@ -230,6 +240,17 @@ def main () :
         f = open (opt.output_pickle, 'wb')
         pickle.dump (ipdict, f)
         f.close ()
+    if opt.verbose :
+        for ip, guess in ipdict.iteritems () :
+            if opt.verbose > 1 :
+                print "%-15s" % ip
+                print '=' * 15
+                if isinstance (guess, Guess) :
+                    print guess.verbose_repr ()
+                else :
+                    print guess
+            else :
+                print "%-15s: %s" % (ip, guess)
 # end def main
 
 if __name__ == '__main__' :
