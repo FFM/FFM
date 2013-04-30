@@ -359,13 +359,18 @@ class Freifunk (Page_Tree) :
                     wl_count += 1
         assert wl_count <= 1
         for sm in root.findall (".//%s" % tag ("small")) :
-            if sm.text.startswith ('v1') :
-                self.version = sm.text
-                break
+            if sm.text :
+                s = sm.text.strip ()
+                if s.startswith ('v1.') or s.startswith ('1.') :
+                    self.version = sm.text
+                    break
         if self.version == 'Unknown' :
             for td in root.findall (".//%s" % tag ("td")) :
-                if td.text and td.text.strip ().startswith ('v1.') :
-                    self.version = td.text.strip ()
+                if td.text :
+                    s = td.text.strip ()
+                    if s.startswith ('v1.') or s.startswith ('Fonera-1') :
+                        self.version = td.text.strip ()
+                        break
     # end def parse
 
 # end class Freifunk
@@ -582,7 +587,7 @@ class Guess (Page_Tree) :
                         break
             else : # Freifunk
                 for sm in root.findall (".//%s" % tag ("small")) :
-                    if sm.text.startswith ('v1') :
+                    if sm.text.startswith ('v1.') :
                         self.version = sm.text
                         break
                 #print "Version: %s" % self.version
