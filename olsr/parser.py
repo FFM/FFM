@@ -22,24 +22,8 @@ from   rsclib.HTML_Parse  import Page_Tree, tag
 from   rsclib.autosuper   import autosuper
 from   rsclib.stateparser import Parser
 from   rsclib.IP_Address  import IP4_Address
-
-class Topo_Entry (autosuper) :
-    """ Model an OLSR topology entry. """
-
-    def __init__ (self, dst_ip, last_hop, lq, nlq, cost) :
-        self.dst_ip   = IP4_Address (dst_ip)
-        self.last_hop = IP4_Address (last_hop)
-        self.lq       = lq
-        self.nlq      = nlq
-        self.cost     = cost
-    # end def __init__
-
-    def __str__ (self) :
-        return "Topo_Entry (%(dst_ip)s, %(last_hop)s)" % self.__dict__
-    # end def __str__
-    __repr__ = __str__
-
-# end class Topo_Entry
+from   olsr.common        import Topo_Entry, HNA_Entry
+from   spider.backfire    import Backfire
 
 class Topology (autosuper) :
 
@@ -82,20 +66,6 @@ class MID (autosuper) :
     __repr__ = __str__
 
 # end class MID
-
-class HNA_Entry (autosuper) :
-
-    def __init__ (self, dest, gw) :
-        self.dest = IP4_Address (dest)
-        self.gw   = IP4_Address (gw)
-    # end def __init__
-
-    def __str__ (self) :
-        return "HNA_Entry (%(dest)s, %(gw)s)" % self.__dict__
-    # end def __str__
-    __repr__ = __str__
-
-# end class HNA_Entry
 
 class HNA (autosuper) :
 
@@ -165,98 +135,15 @@ class OLSR_Parser (Parser) :
 
 # end class OLSR_Parser
 
-class Backfire_MID_Parser (Page_Tree) :
-
-    url = 'cgi-bin/luci/freifunk/olsr/mid/'
-
-    def __init__ (self, site, mid) :
-        self.mid = mid
-        self.__super.__init__ (site = site)
-    # end def __init__
-
-    def parse (self) :
-        root = self.tree.getroot ()
-        for fs in root.findall (".//%s" % tag ("fieldset")) :
-            if fs.get ('class') == 'cbi-section' :
-                tbl = fs.find (".//%s" % tag ("table"))
-                assert tbl.get ('class') == 'cbi-section-table'
-                for tr in tbl :
-                    if tr [0].tag == tag ('th') :
-                        assert tr [0].text == 'OLSR node'
-                        continue
-                    assert tr [0][0].tag == tag ('a')
-                    self.mid.add (tr [0][0].text, * tr [1].text.split (';'))
-    # end def parse
-
-# end class Backfire_MID_Parser
-
-class Backfire_HNA_Parser (Page_Tree) :
-
-    url = 'cgi-bin/luci/freifunk/olsr/hna/'
-
-    def __init__ (self, site, hna) :
-        self.hna = hna
-        self.__super.__init__ (site = site)
-    # end def __init__
-
-    def parse (self) :
-        root = self.tree.getroot ()
-        for fs in root.findall (".//%s" % tag ("fieldset")) :
-            if fs.get ('class') == 'cbi-section' :
-                tbl = fs.find (".//%s" % tag ("table"))
-                assert tbl.get ('class') == 'cbi-section-table'
-                for tr in tbl :
-                    if tr [0].tag == tag ('th') :
-                        assert tr [0].text == 'Announced network'
-                        continue
-                    assert tr [1][0].tag == tag ('a')
-                    self.hna.add (HNA_Entry (tr [0].text, tr [1][0].text))
-    # end def parse
-
-# end class Backfire_HNA_Parser
-
-class Backfire_Topo_Parser (Page_Tree) :
-
-    url = 'cgi-bin/luci/freifunk/olsr/topology/'
-
-    def __init__ (self, site, topo) :
-        self.topo = topo
-        self.__super.__init__ (site = site)
-    # end def __init__
-
-    def parse (self) :
-        root = self.tree.getroot ()
-        for fs in root.findall (".//%s" % tag ("fieldset")) :
-            if fs.get ('class') == 'cbi-section' :
-                tbl = fs.find (".//%s" % tag ("table"))
-                assert tbl.get ('class') == 'cbi-section-table'
-                for tr in tbl :
-                    if tr [0].tag == tag ('th') :
-                        assert tr [0].text == 'OLSR node'
-                        continue
-                    assert tr [0][0].tag == tag ('a')
-                    assert tr [1][0].tag == tag ('a')
-                    p = [tr [0][0].text, tr [1][0].text]
-                    for v in tr [2:] :
-                        v = v.text
-                        if v == 'INFINITE' : v = 'inf'
-                        v = float (v)
-                        p.append (v)
-                    self.topo.add (Topo_Entry (* p))
-    # end def parse
-
-# end class Backfire_Topo_Parser
-
 class Backfire_OLSR_Parser (autosuper) :
 
     def __init__ (self, site) :
         self.hna  = HNA      ()
         self.mid  = MID      ()
         self.topo = Topology ()
+        d = dict (hna = self.hna, mid = self.mid, topo = self.topo)
         self.__super.__init__ (site = site)
-        p = Backfire_MID_Parser (site, self.mid)
-        p = Backfire_HNA_Parser (site, self.hna)
-        p = Backfire_Topo_Parser (site, self.topo)
+        Backfire (site = site, request = d)
     # end def __init__
 
 # end class Backfire_OLSR_Parser

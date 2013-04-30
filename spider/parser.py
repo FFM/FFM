@@ -19,12 +19,12 @@
 
 import os
 import re
-from   rsclib.HTML_Parse  import tag, Page_Tree
-from   rsclib.stateparser import Parser
-from   rsclib.autosuper   import autosuper
-from   rsclib.IP_Address  import IP4_Address
-from   spider.freifunk    import Freifunk
-from   spider.olsr        import OLSR
+from   rsclib.HTML_Parse    import tag, Page_Tree
+from   rsclib.stateparser   import Parser
+from   rsclib.autosuper     import autosuper
+from   rsclib.IP_Address    import IP4_Address
+from   spider.freifunk      import Freifunk
+from   spider.olsr_httpinfo import OLSR
 from   spider.backfire    import Backfire
 
 # for pickle
@@ -54,29 +54,32 @@ class Guess (Page_Tree) :
     # end def __init__
 
     def parse (self) :
-        #print self.tree_as_string ()
-        root = self.tree.getroot ()
         self.backend = None
         self.version = "Unknown"
+        self.rqinfo  = dict.fromkeys (('status', 'ips', 'interfaces'))
+        self.params  = dict (request = self.rqinfo)
+        root  = self.tree.getroot ()
         title = root.find (".//%s" % tag ("title"))
         t     = 'olsr.org httpinfo plugin'
         if title is not None and title.text and title.text.strip () == t :
             self.backend = 'OLSR'
-            self.params  = dict (site = self.url)
+            self.params.update (site = self.url)
         if not self.backend :
             for meta in root.findall (".//%s" % tag ("meta")) :
                 if meta.get ('http-equiv') == 'refresh' :
                     c = meta.get ('content')
                     if c and c.endswith ('cgi-bin/luci') :
                         self.backend = 'Backfire'
-                        self.params  = dict (site = self.site)
+                        self.params.update (site = self.site)
                         break
             else : # Freifunk
-                for sm in root.findall (".//%s" % tag ("small")) :
-                    if sm.text.startswith ('v1.') :
-                        self.version = sm.text
+                for big in root.findall (".//%s" % tag ("big")) :
+                    if big.get ('class') == 'plugin' :
+                        self.backend = "Freifunk"
                         break
-                #print "Version: %s" % self.version
+                else :
+                    raise ValueError ("Unknown Web Frontend")
+                # Best effort to find status url
                 for a in root.findall (".//%s" % tag ("a")) :
                     if a.get ('class') == 'plugin' :
                         # Allow 'Status klassisch' to override status
@@ -86,21 +89,19 @@ class Guess (Page_Tree) :
                             self.status_ok = 1
                         elif a.text == 'Status' and not self.status_ok :
                             self.status_url = a.get ('href')
-                self.backend = "Freifunk"
-                self.params  = dict (site = self.site, url = self.status_url)
+                self.params.update (site = self.site, url = self.status_url)
 
         self.status = self.backend_table [self.backend] (** self.params)
-        if self.version == "Unknown" :
-            try :
-                self.version = self.status.version
-            except AttributeError :
-                pass
+        try :
+            self.version = self.rqinfo ['version']
+        except KeyError :
+            pass
         self.type = self.status.__class__.__name__
     # end def parse
 
     def verbose_repr (self) :
         r = [str (self)]
-        for v in self.if_by_name.itervalues () :
+        for v in self.interfaces.itervalues () :
             r.append (str (v))
         for v in self.ips.iterkeys () :
             r.append (str (v))
@@ -108,9 +109,12 @@ class Guess (Page_Tree) :
     # end def verbose_repr
 
     def __getattr__ (self, name) :
-        if 'status' not in self.__dict__ :
-            raise AttributeError ("my 'status' attribute vanished")
-        r = getattr (self.status, name)
+        if 'rqinfo' not in self.__dict__ :
+            raise AttributeError ("my 'rqinfo' attribute vanished")
+        try :
+            r = self.rqinfo [name]
+        except KeyError, cause :
+            raise AttributeError (cause)
         setattr (self, name, r)
         return r
     # end def __getattr__

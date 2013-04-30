@@ -18,9 +18,10 @@
 # #*** </License> ***********************************************************#
 
 from   rsclib.HTML_Parse  import tag, Page_Tree
+from   rsclib.autosuper   import autosuper
 from   spider.common      import Interface, Inet4, Inet6
 
-class OLSR (Page_Tree) :
+class Config (Page_Tree) :
     url     = None
     retries = 2
     timeout = 10
@@ -73,5 +74,20 @@ class OLSR (Page_Tree) :
                     n += 1
                 break
     # end def parse
+
+# end class Config
+
+class OLSR (autosuper) :
+
+    def __init__ (self, site, request, url = None) :
+        self.site    = site
+        self.url     = url
+        self.request = request
+        if 'interfaces' in self.request or 'ips' in self.request :
+            cfg = Config (site = self.site, url = url)
+            self.request ['ips']        = cfg.ips
+            self.request ['interfaces'] = cfg.if_by_name
+            self.request ['version']    = cfg.version
+    # end def __init__
 
 # end class OLSR

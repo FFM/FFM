@@ -19,6 +19,7 @@
 
 import re
 from   rsclib.HTML_Parse  import tag, Page_Tree
+from   rsclib.autosuper   import autosuper
 from   rsclib.stateparser import Parser
 from   spider.common      import is_rfc1918, Net_Link
 from   spider.common      import Inet4, Inet6, Interface, WLAN_Config
@@ -149,7 +150,7 @@ class WLAN_Config_Freifunk (WLAN_Config, Parser) :
 
 # end class WLAN_Config_Freifunk
 
-class Freifunk (Page_Tree) :
+class Status (Page_Tree) :
     url       = 'cgi-bin-status.html'
     retries   = 2
     wlan_info = None
@@ -224,4 +225,19 @@ class Freifunk (Page_Tree) :
                         break
     # end def parse
 
+# end class Status
+
+class Freifunk (autosuper) :
+
+    def __init__ (self, site, request, url = None) :
+        self.site    = site
+        self.request = request
+        if 'interfaces' in self.request or 'ips' in self.request :
+            st = Status (site = self.site, url = url)
+            self.request ['ips']        = st.ips
+            self.request ['interfaces'] = st.if_by_name
+            self.request ['version']    = st.version
+    # end def __init__
+
 # end class Freifunk
+
