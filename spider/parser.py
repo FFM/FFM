@@ -31,7 +31,7 @@ from   spider.backfire    import Backfire
 from   spider.common      import Interface, Net_Link, Inet4, Inet6, WLAN_Config
 from   spider.freifunk    import Interface_Config, WLAN_Config_Freifunk
 
-class Guess (Page_Tree) :
+class First_Guess (Page_Tree) :
     site    = 'http://%(ip)s'
     url     = ''
     delay   = 0
@@ -41,23 +41,16 @@ class Guess (Page_Tree) :
     status_url = 'cgi-bin-status.html'
     status_ok  = 0
 
-    backend_table = dict \
-        ( Backfire = Backfire
-        , Freifunk = Freifunk
-        , OLSR     = OLSR
-        )
-
-    def __init__ (self, site, url, port = 0) :
+    def __init__ (self, rqinfo, site, url, port = 0) :
+        self.rqinfo = rqinfo
         if port :
             site = "%s:%s" % (site, port)
         self.__super.__init__ (site = site, url = url)
+        self.params = dict (request = self.rqinfo, site = self.site)
     # end def __init__
 
     def parse (self) :
         self.backend = None
-        self.version = "Unknown"
-        self.rqinfo  = dict.fromkeys (('status', 'ips', 'interfaces'))
-        self.params  = dict (request = self.rqinfo, site = self.site)
         root  = self.tree.getroot ()
         #print self.tree_as_string (root)
         title = root.find (".//%s" % tag ("title"))
@@ -70,7 +63,7 @@ class Guess (Page_Tree) :
                 if meta.get ('http-equiv') == 'refresh' :
                     c = meta.get ('content')
                     if c and c.endswith ('cgi-bin/luci') :
-                        self.backend = 'Backfire'
+                        self.backend = 'Luci'
                         break
                     elif c and c.endswith ('URL=/cgi-bin-index.html') :
                         # e.g. Fonera
@@ -95,13 +88,64 @@ class Guess (Page_Tree) :
                             self.status_url = a.get ('href')
                 self.params.update (url = self.status_url)
 
-        self.status = self.backend_table [self.backend] (** self.params)
+    # end def parse
+
+# end class First_Guess
+
+class Luci_Guess (Page_Tree) :
+    delay        = 0
+    retries      = 2
+    timeout      = 10
+    url          = 'cgi-bin/luci'
+    html_charset = 'utf-8' # force utf-8 encoding
+
+    def __init__ (self, rqinfo, site, url = None) :
+        self.rqinfo = rqinfo
+        self.params = dict (request = self.rqinfo, site = site)
+        self.__super.__init__ (site = site, url = url)
+    # end def __init__
+
+    def parse (self) :
+        self.backend = 'Backfire'
+        root  = self.tree.getroot ()
+        #print self.tree_as_string (root)
+        for h in root.findall (".//%s" % tag ('div')) :
+            if h.get ('id') == 'header' :
+                for p in h :
+                    if p.tag not in (tag ('p'), tag ('h1')) :
+                        break
+                else :
+                    self.backend = 'OpenWRT'
+                break
+    # end def parse
+
+# end class Luci_Guess
+
+class Guess (autosuper) :
+
+    backend_table = dict \
+        ( Backfire = Backfire
+        , Freifunk = Freifunk
+        , OLSR     = OLSR
+        )
+
+    def __init__ (self, site, url = None, port = 0) :
+        self.version = "Unknown"
+        self.rqinfo  = dict.fromkeys (('status', 'ips', 'interfaces'))
+        g = First_Guess (self.rqinfo, site, url, port)
+        self.params  = g.params
+        self.backend = g.backend
+        if self.backend == 'Luci' :
+            g2  = Luci_Guess (self.rqinfo, self.params ['site'])
+            self.params  = g2.params
+            self.backend = g2.backend
+        self.status  = self.backend_table [self.backend] (** self.params)
         try :
             self.version = self.rqinfo ['version']
         except KeyError :
             pass
         self.type = self.status.__class__.__name__
-    # end def parse
+    # end def __init__
 
     def verbose_repr (self) :
         r = [str (self)]
@@ -226,7 +270,7 @@ def main () :
             ip, port = ip.split (':', 1)
         except ValueError :
             pass
-        site = Guess.site % locals ()
+        site = First_Guess.site % locals ()
         url  = ''
         # For testing we download the index page and cgi-bin-status.html
         # page into a directory named with the ip address
