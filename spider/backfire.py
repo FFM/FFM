@@ -21,43 +21,8 @@ from   rsclib.HTML_Parse  import tag, Page_Tree
 from   rsclib.autosuper   import autosuper
 from   spider.common      import Interface, Inet4, Inet6, unroutable
 from   spider.common      import WLAN_Config
+from   spider.luci        import Version_Mixin
 from   olsr.common        import Topo_Entry, HNA_Entry
-
-class Version_Mixin (autosuper) :
-    version      = "Unknown"
-    luci_version = bf_version = None
-
-    def try_get_version (self, div) :
-        if div.get ('class') == 'footer' :
-            for p in div.findall (".//%s" % tag ("p")) :
-                if  (   p.get ('class') == 'luci'
-                    and len (p)
-                    and p [0].tag == tag ("a")
-                    ) :
-                    a = p [0]
-                    if a.text.startswith ("Powered by LuCI") :
-                        self.luci_version = a.text
-        if div.get ('class') == 'header_right' :
-            self.bf_version = div.text
-        if div.get ('class') == 'hostinfo' :
-            assert self.bf_version is None
-            self.bf_version = div.text.split ('|') [0].strip ()
-    # end def try_get_version
-
-    def set_version (self, root) :
-        lv = self.luci_version
-        if lv is None :
-            p = root [-1][-1]
-            if p.tag == tag ('p') and p.get ('class') == 'luci' :
-                lv = self.luci_version = p.text
-        if (lv and lv.startswith ('Powered by LuCI')) :
-            lv = lv.split ('(', 1) [-1].split (')', 1) [0]
-            self.luci_version = lv
-        if self.bf_version and self.luci_version :
-            self.version = "%s / Luci %s" % (self.bf_version, self.luci_version)
-    # end def set_version
-
-# end class Version_Mixin
 
 class Interfaces (Page_Tree, Version_Mixin) :
     url          = 'cgi-bin/luci/freifunk/olsr/interfaces'

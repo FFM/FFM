@@ -85,6 +85,14 @@ class Inet (autosuper) :
     # end def __str__
     __repr__ = __str__
 
+    def __hash__ (self) :
+        return hash (self.ip)
+    # end def __hash__
+
+    def __eq__ (self, other) :
+        return self.ip == other.ip
+    # end def __eq__
+
 # end class Inet
 
 class Inet4 (Inet) :
@@ -107,7 +115,7 @@ class Interface (autosuper) :
     """Network interface
     """
 
-    def __init__ (self, number, name, mtu, qdisc = None, qlen = None) :
+    def __init__ (self, number, name, mtu = None, qdisc = None, qlen = None) :
         self.number    = number
         self.name      = name
         self.mtu       = mtu
@@ -162,11 +170,20 @@ class Interface (autosuper) :
 
 class WLAN_Config (autosuper) :
 
+    modes = \
+        { 'ad-hoc' : 'Ad-Hoc'
+        , 'adhoc'  : 'Ad-Hoc'
+        }
+
     def __init__ (self, **kw) :
-        self.ssid    = kw.get ('ssid')
-        self.mode    = kw.get ('mode')
-        self.channel = kw.get ('channel')
-        self.bssid   = kw.get ('bssid')
+        self.ssid     = kw.get ('ssid')
+        mode          = kw.get ('mode')
+        if mode :
+            mode = mode.lower ()
+            mode = self.modes.get (mode, mode)
+            self.mode = mode
+        self.channel  = kw.get ('channel')
+        self.bssid    = kw.get ('bssid')
         self.__super.__init__ (** kw)
     # end def __init__
 

@@ -23,7 +23,7 @@ from rsclib.execute    import Log
 from rsclib.timeout    import Timeout, Timeout_Error
 from rsclib.HTML_Parse import Retries_Exceeded
 from olsr.parser       import get_olsr_container
-from spider.parser     import Guess
+from spider.parser     import Guess, site_template
 from itertools         import islice
 from logging           import INFO
 
@@ -65,12 +65,12 @@ class Worker (Log, Timeout) :
             self.arm_alarm (timeout = self.timeout)
             try :
                 url  = ''
-                site = Guess.site % self.__dict__
+                site = site_template % self.__dict__
                 self.log.debug ("%s: before guess" % self.ip)
                 port = None
                 if self.ip in self.ip_port :
                     port = self.ip_port [self.ip]
-                g    = Guess (site = site, url = '', port = port)
+                g    = Guess (site = site, ip = self.ip, url = '', port = port)
                 self.log.debug ("%s: after  guess" % self.ip)
             except ValueError, err :
                 self.log.error ("Error in IP %s:" % self.ip)

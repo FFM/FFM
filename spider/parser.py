@@ -25,14 +25,16 @@ from   rsclib.autosuper     import autosuper
 from   rsclib.IP_Address    import IP4_Address
 from   spider.freifunk      import Freifunk
 from   spider.olsr_httpinfo import OLSR
-from   spider.backfire    import Backfire
+from   spider.backfire      import Backfire
+from   spider.openwrt       import OpenWRT
 
 # for pickle
 from   spider.common      import Interface, Net_Link, Inet4, Inet6, WLAN_Config
 from   spider.freifunk    import Interface_Config, WLAN_Config_Freifunk
 
+site_template = 'http://%(ip)s'
+
 class First_Guess (Page_Tree) :
-    site    = 'http://%(ip)s'
     url     = ''
     delay   = 0
     retries = 2
@@ -45,8 +47,8 @@ class First_Guess (Page_Tree) :
         self.rqinfo = rqinfo
         if port :
             site = "%s:%s" % (site, port)
+        self.params = dict (request = self.rqinfo, site = site)
         self.__super.__init__ (site = site, url = url)
-        self.params = dict (request = self.rqinfo, site = self.site)
     # end def __init__
 
     def parse (self) :
@@ -127,11 +129,13 @@ class Guess (autosuper) :
         ( Backfire = Backfire
         , Freifunk = Freifunk
         , OLSR     = OLSR
+        , OpenWRT  = OpenWRT
         )
 
-    def __init__ (self, site, url = None, port = 0) :
+    def __init__ (self, site, ip, url = None, port = 0) :
         self.version = "Unknown"
-        self.rqinfo  = dict.fromkeys (('status', 'ips', 'interfaces'))
+        self.rqinfo  = dict.fromkeys (('ips', 'interfaces'))
+        self.rqinfo ['ip'] = ip
         g = First_Guess (self.rqinfo, site, url, port)
         self.params  = g.params
         self.backend = g.backend
@@ -270,14 +274,14 @@ def main () :
             ip, port = ip.split (':', 1)
         except ValueError :
             pass
-        site = First_Guess.site % locals ()
+        site = site_template % locals ()
         url  = ''
         # For testing we download the index page and cgi-bin-status.html
         # page into a directory named with the ip address
         if opt.local :
             site = 'file://' + os.path.abspath (ip)
             url  = 'index.html'
-        ff = Guess (site = site, url = url, port = port)
+        ff = Guess (site = site, ip = ip, url = url, port = port)
         print ff.verbose_repr ()
         ipdict [str (ip)] = ff
     if opt.output_pickle :
