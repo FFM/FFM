@@ -114,6 +114,8 @@ System requirements
 
   * `pytz`_
 
+  * `passlib`_
+
   * `py-bcrypt`_
 
   * `rcssmin`_, `rjsmin`_ (for minimization of CSS and Javascript files)
@@ -123,6 +125,10 @@ System requirements
   * `sqlalchemy`_
 
   * `werkzeug`_
+
+  * `pyOpenSSL`_
+
+  * `pyasn1`_
 
   Most packages are available via the `Python Package Index`_
 
@@ -137,18 +143,21 @@ System requirements
 .. _`mysql package`:   http://mysql-python.sourceforge.net/
 .. _`pyquery`:         http://github.com/gawel/pyquery/
 .. _`pytz`:            http://pytz.sourceforge.net/
-.. _`py-bcrypt`:       http://www.mindrot.org/projects/py-bcrypt/
+.. _`passlib`:         http://code.google.com/p/passlib/
+.. _`py-bcrypt`:       http://code.google.com/p/py-bcrypt/
 .. _`rcssmin`:         http://opensource.perlig.de/rcssmin/
 .. _`rjsmin`:          http://opensource.perlig.de/rjsmin/
 .. _`rsclib`:          http://rsclib.sourceforge.net/
 .. _`sqlalchemy`:      http://www.sqlalchemy.org/
 .. _`werkzeug`:        http://werkzeug.pocoo.org/
+.. _`pyOpenSSL`:       https://launchpad.net/pyopenssl
+.. _`pyasn1`:          http://pyasn1.sourceforge.net/
 .. _`Python Package Index`: http://pypi.python.org/pypi
 
 Package Installation for Debian Stable aka Squeeze
 --------------------------------------------------
 
-The following is an example installation on Debian Stable. It contains
+The following is an example installation on Debian Wheezy. It contains
 some information that is applicable to other distributions but is quite
 Debian-specific in other parts.
 
@@ -160,17 +169,19 @@ be useful. The following packages can be installed via the Debian
 installer::
 
  apt-get install git libapache2-mod-fcgid postgresql python-pip \
-     python-virtualenv python-distribute build-essentials python-pybabel \
-     python-dateutil python-docutils python-flup python-jinja2 \
-     python-psycopg2 python-dev apache2-mpm-worker
+     python-virtualenv python-distribute build-essentials python-babel \
+     python-bs4 python-dateutil python-docutils python-flup python-jinja2 \
+     python-psycopg2 python-dev apache2-mpm-worker python-tz \
+     python-sqlalchemy python-werkzeug python-passlib python-openssl \
+     python-pyquery
+
 
 Other packages can be installed using ``pip`` |---| note that you may want
 to install some of these into a virtual python environment (virtualenv),
 see later in sectioni `How to install`_ |---| depending on your
 estimate how often you want to change external packages::
 
- pip install Babel plumbum pytz rcssmin rjsmin rsclib sqlalchemy \
-     werkzeug py-bcrypt python-openssl pyasn1 pyspkac
+ pip install plumbum py-bcrypt rcssmin rjsmin rsclib pyasn1 pyspkac
 
 Create user and database user permitted to create databases::
 
