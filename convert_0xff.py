@@ -31,7 +31,7 @@ from   _TFL                   import pyk
 from   _FFM                   import FFM
 from   _GTW._OMP._PAP         import PAP
 from   _GTW._OMP._Auth        import Auth
-from   olsr.parser            import OLSR_Parser
+from   olsr.parser            import get_olsr_container
 
 import _TFL.CAO
 import model
@@ -45,15 +45,14 @@ class Convert (object) :
             f  = open (cmd.argv [0])
         else :
             f = sys.stdin
-        olsr_parser       = OLSR_Parser ()
-        olsr_parser.parse (open (cmd.olsr_file))
+        olsr = get_olsr_container (cmd.olsr_file)
         self.olsr_nodes   = {}
-        for t in olsr_parser.topo.forward.iterkeys () :
+        for t in olsr.topo.forward.iterkeys () :
             self.olsr_nodes [t]   = True
-        for t in olsr_parser.topo.reverse.iterkeys () :
+        for t in olsr.topo.reverse.iterkeys () :
             self.olsr_nodes [t]   = True
-        self.olsr_mid     = olsr_parser.mid.by_ip
-        self.olsr_hna     = olsr_parser.hna
+        self.olsr_mid     = olsr.mid.by_ip
+        self.olsr_hna     = olsr.hna
         self.rev_mid      = {}
         for k, v in self.olsr_mid.iteritems () :
             if k not in self.olsr_nodes :
@@ -197,6 +196,11 @@ class Convert (object) :
                          , (580, 898) # checked, real dupe
                          , (894, 896) # checked, real dupe
                          , (910, 766) # checked, real dupe
+                         , (926, 927) # checked, real dupe
+                         , (938, 939) # checked, real dupe
+                         , (584, 939) # not entirely sure but all
+                                      # lowercase in both records
+                                      # indicates same person
                          , (  0,   1) # ignore Funkfeuer Parkplatz
                         ))
     rev_person_dupes = dict ((v, k) for k, v in person_dupes.iteritems ())
@@ -222,6 +226,7 @@ class Convert (object) :
 
     def try_insert_phone (self, person, m, x, c) :
         if x :
+            p = None
             if x in self.phone_bogus :
                 return
             try :
@@ -323,6 +328,8 @@ class Convert (object) :
                     m ['zip'] = 'USA'
                 elif m.id == 787 :
                     m ['zip'] = '2351'
+                elif m.id == 836 :
+                    m ['zip'] = '1160'
                 else :
                     pyk.fprint ("INFO: no zip: %s/%s" % (m.id, person.pid))
             elif m.zip.startswith ('I-') :
