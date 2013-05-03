@@ -20,6 +20,7 @@
 import sys, os
 import re
 import uuid
+import pickle
 
 from   datetime               import datetime, tzinfo, timedelta
 from   rsclib.IP_Address      import IP4_Address
@@ -32,6 +33,7 @@ from   _FFM                   import FFM
 from   _GTW._OMP._PAP         import PAP
 from   _GTW._OMP._Auth        import Auth
 from   olsr.parser            import get_olsr_container
+from   spider.parser          import Guess
 
 import _TFL.CAO
 import model
@@ -61,6 +63,47 @@ class Convert (object) :
             for mid in v :
                 assert mid not in self.rev_mid
                 self.rev_mid [mid] = True
+        self.spider_info  = pickle.load (open (cmd.spider_dump, 'rb'))
+        self.spider_devs  = {}
+        self.spider_iface = {}
+        for ip, dev in self.spider_info.iteritems () :
+            pyk.fprint ("IP:", ip)
+            # ignore spider errors
+            if not isinstance (dev, Guess) :
+                continue
+            #if not hasattr (dev, 'interfaces') :
+            #    pyk.fprint ("No interfaces: %s" % ip)
+            #    continue
+            for iface in dev.interfaces.itervalues () :
+                for ip4 in iface.inet4 :
+                    i4 = ip4.ip
+                    if  (   i4 in self.spider_devs
+                        and self.spider_devs [i4] != dev
+                        ) :
+                        pyk.fprint ("WARN: Device not equal:")
+                        pyk.fprint ("=" * 30)
+                        pyk.fprint (dev.verbose_repr ())
+                        pyk.fprint (self.spider_devs [i4].verbose_repr ())
+                        pyk.fprint ("=" * 30)
+                    elif (   i4 in self.spider_iface
+                         and self.spider_iface [i4] != iface
+                         ) :
+                        assert dev == self.spider_devs [i4]
+                        pyk.fprint ("WARN: Interface not equal:")
+                        pyk.fprint ("=" * 30)
+                        pyk.fprint (iface)
+                        pyk.fprint (self.spider_iface [i4])
+                        pyk.fprint ("-" * 30)
+                        pyk.fprint (dev.verbose_repr ())
+                        pyk.fprint ("-" * 30)
+                        pyk.fprint (self.spider_devs [i4].verbose_repr ())
+                        pyk.fprint ("=" * 30)
+                    self.spider_devs  [i4] = dev
+                    self.spider_iface [i4] = iface
+            if ip not in self.spider_devs :
+                pyk.fprint \
+                    ("WARN: ip %s not in dev %s" % (ip , dev.verbose_repr ()))
+
         self.scope        = scope
         self.ffm          = self.scope.FFM
         self.pap          = self.scope.GTW.OMP.PAP
@@ -707,6 +750,7 @@ _Command = TFL.CAO.Cmd \
         ( "verbose:B"
         , "create:B"
         , "olsr_file:S=olsr/txtinfo.txt?OLSR dump-file to convert"
+        , "spider_dump:S=Funkfeuer.dump?Spider pickle dump"
         ) + model.opts
     , min_args        = 1
     , defaults        = model.command.defaults
