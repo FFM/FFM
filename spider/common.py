@@ -148,6 +148,16 @@ class Interface (autosuper) :
         inet.iface = self
     # end def append_inet6
 
+    def __eq__ (self, other) :
+        return \
+            (   self.name      == other.name
+            and self.inet4     == other.inet4
+            and self.inet6     == other.inet6
+            and self.is_wlan   == other.is_wlan
+            and self.wlan_info == other.wlan_info
+            )
+    # end def __eq__
+
     def __str__ (self) :
         r = []
         r.append \
@@ -177,15 +187,23 @@ class WLAN_Config (autosuper) :
 
     def __init__ (self, **kw) :
         self.ssid     = kw.get ('ssid')
-        mode          = kw.get ('mode')
-        if mode :
-            mode = mode.lower ()
-            mode = self.modes.get (mode, mode)
-            self.mode = mode
+        self.mode     = kw.get ('mode')
+        if self.mode :
+            self.mode = self.mode.lower ()
+            self.mode = self.modes.get (mode, mode)
         self.channel  = kw.get ('channel')
         self.bssid    = kw.get ('bssid')
         self.__super.__init__ (** kw)
     # end def __init__
+
+    def __eq__ (self, other) :
+        return \
+            (   self.ssid    == other.ssid
+            and self.mode    == other.mode
+            and self.channel == other.channel
+            and self.bssid   == other.bssid
+            )
+    # end def __eq__
 
     def __str__ (self) :
         x = [self.__class__.__name__, "\n        ( "]

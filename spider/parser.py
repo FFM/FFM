@@ -160,9 +160,13 @@ class Guess (autosuper) :
         return '\n'.join (r)
     # end def verbose_repr
 
+    def __eq__ (self, other) :
+        return self.ips == other.ips and self.interfaces == other.interfaces
+    # end def __eq__
+
     def __getattr__ (self, name) :
         if 'rqinfo' not in self.__dict__ :
-            raise AttributeError ("my 'rqinfo' attribute vanished")
+            raise AttributeError ("my 'rqinfo' attribute vanished: %s" % name)
         try :
             r = self.rqinfo [name]
         except KeyError, cause :
@@ -232,6 +236,12 @@ def main () :
         f    = open (fn, 'r')
         obj  = pickle.load (f)
         for k, v in obj.iteritems () :
+            # Fixup of object
+            if isinstance (v, Guess) and not hasattr (v, 'rqinfo') :
+                v.rqinfo                = {}
+                v.rqinfo ['ips']        = v.status.ips
+                v.rqinfo ['interfaces'] = v.status.if_by_name
+                v.status                = None
             if k in ipdict :
                 keys [k] = True
                 ov       = ipdict [k]
