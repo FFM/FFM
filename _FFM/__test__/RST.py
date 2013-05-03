@@ -60,6 +60,15 @@ class FFM_RST_Test_Command (GTW_RST_Test_Command) :
     def fixtures (self, scope) :
         from _FFM.__test__.fixtures import create
         create (scope)
+        PAP = scope.PAP
+        nod = scope.FFM.Node.query (name = "node2").one ()
+        nod.address = PAP.Address \
+            ( street  = 'Beispiel 23'
+            , zip     = '1010'
+            , city    = 'Wien'
+            , country = 'Austria'
+            )
+        scope.commit ()
     # end def fixtures
 
 # end class FFM_RST_Test_Command
@@ -95,6 +104,8 @@ _test_get = r"""
             , 'manager.url'
             , 'lifetime.start'
             , 'lifetime.finish'
+            , 'address.pid'
+            , 'address.url'
             , 'owner.pid'
             , 'owner.url'
             , 'position.lat'
@@ -133,6 +144,8 @@ _test_get = r"""
             , 'manager.url'
             , 'lifetime.start'
             , 'lifetime.finish'
+            , 'address.pid'
+            , 'address.url'
             , 'owner.pid'
             , 'owner.url'
             , 'position.lat'
@@ -220,7 +233,19 @@ _test_limit = r"""
                                   , 'name' : 'dev'
                                   , 'node' :
                                       { 'attributes' :
-                                          { 'manager' :
+                                          { 'address' :
+                                              { 'attributes' :
+                                                  { 'city' : 'wien'
+                                                  , 'country' : 'austria'
+                                                  , 'street' : 'beispiel 23'
+                                                  , 'zip' : '1010'
+                                                  }
+                                              , 'cid' : 50
+                                              , 'pid' : 35
+                                              , 'type_name' : 'PAP.Address'
+                                              , 'url' : '/v1/PAP-Address/35'
+                                              }
+                                          , 'manager' :
                                               { 'attributes' :
                                                   { 'first_name' : 'ralf'
                                                   , 'last_name' : 'schlatterbeck'
@@ -242,7 +267,7 @@ _test_limit = r"""
                                               , 'lon' : 15.8744
                                               }
                                           }
-                                      , 'cid' : 3
+                                      , 'cid' : 51
                                       , 'pid' : 3
                                       , 'type_name' : 'FFM.Node'
                                       , 'url' : '/v1/FFM-Node/3'
