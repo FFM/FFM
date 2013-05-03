@@ -45,6 +45,7 @@
 #    17-Dec-2012 (CT) Add `User_Net_Device`, ...
 #    17-Dec-2012 (CT) Wrap `User_...` resources in `TOP.Dir`
 #    15-Apr-2013 (CT) Add `exclude_robots` to resource `/api`
+#     3-May-2013 (CT) Rename `login_required` to `auth_required`
 #    ««revision-date»»···
 #--
 
@@ -231,7 +232,7 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
             ( TOP.Dir
                 ( name            = "My-Funkfeuer"
                 , short_title     = "My Funkfeuer"
-                , login_required  = True
+                , auth_required   = True
                 , permission      = RST_addons.Login_has_Person
                 , entries         =
                     [ RST_addons.User_Node
@@ -276,7 +277,7 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
                 , pid             = "Admin"
                 , title           = _ ("Administration of FFM node database")
                 , head_line       = _ ("Administration of FFM node database")
-                , login_required  = True
+                , auth_required   = True
                 , entries         =
                     [ self.nav_admin_group
                         ( "FFM"
