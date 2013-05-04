@@ -50,6 +50,14 @@ def unroutable (ip) :
     return is_rfc1918 (ip) or is_local (ip) or is_link_local (ip)
 # end def unroutable
 
+class Compare_Mixin (autosuper) :
+
+    def __ne__ (self, other) :
+        return not self == other
+    # end def __ne__
+
+# end class Compare_Mixin
+
 class Net_Link (autosuper) :
     """Physical layer link interface
     """
@@ -67,7 +75,7 @@ class Net_Link (autosuper) :
 
 # end class Net_Link
 
-class Inet (autosuper) :
+class Inet (Compare_Mixin) :
     """IP Network address
     """
 
@@ -111,7 +119,7 @@ class Inet6 (Inet) :
 
 # end class Inet6
 
-class Interface (autosuper) :
+class Interface (Compare_Mixin) :
     """Network interface
     """
 
@@ -176,9 +184,16 @@ class Interface (autosuper) :
     # end def __str__
     __repr__ = __str__
 
+    def __getattr__ (self, name) :
+        if name == 'names' :
+            self.names = [self.name]
+            return self.names
+        raise AttributeError, name
+    # end def __getattr__
+
 # end class Interface
 
-class WLAN_Config (autosuper) :
+class WLAN_Config (Compare_Mixin) :
 
     modes = \
         { 'ad-hoc' : 'Ad-Hoc'
