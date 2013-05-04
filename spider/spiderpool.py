@@ -22,6 +22,7 @@ from rsclib.autosuper  import autosuper
 from rsclib.execute    import Log
 from rsclib.timeout    import Timeout, Timeout_Error
 from rsclib.HTML_Parse import Retries_Exceeded
+from rsclib.IP_Address import IP4_Address
 from olsr.parser       import get_olsr_container
 from spider.parser     import Guess, site_template
 from itertools         import islice
@@ -221,6 +222,12 @@ if __name__ == '__main__' :
         , type    = "int"
         , default = 180
         )
+    cmd.add_option \
+        ( "-v", "--verbose"
+        , dest    = "verbose"
+        , help    = "Show verbose results"
+        , action  = "count"
+        )
     (opt, args) = cmd.parse_args ()
     if len (args) :
         cmd.print_help ()
@@ -238,10 +245,11 @@ if __name__ == '__main__' :
         f = open (opt.dump, "wb")
         pickle.dump (sp.result_dict, f)
         f.close ()
-        for k, v in sorted \
-            ( sp.result_dict.iteritems ()
-            , key = lambda z : (z [1], z [0])
-            ) :
-            print k, v
+        if opt.verbose :
+            for k, v in sorted \
+                ( sp.result_dict.iteritems ()
+                , key = lambda z : IP4_Address (z [0])
+                ) :
+                print k, v
     except Exception, err :
         sp.log_exception ()

@@ -162,6 +162,8 @@ class Guess (Compare_Mixin) :
     # end def verbose_repr
 
     def __eq__ (self, other) :
+        if not hasattr (other, 'interfaces') :
+            return False
         return self.ips == other.ips and self.interfaces == other.interfaces
     # end def __eq__
 

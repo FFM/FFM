@@ -235,7 +235,7 @@ class Status (Page_Tree) :
                 if iface.is_wlan :
                     iface.wlan_info = self.wlan_info
                     wl_count += 1
-        if not wl_count and hasattr (self.wlan_info, 'name') :
+        if not wl_count and getattr (self.wlan_info, 'name', None) :
             iface = self.if_by_name [self.wlan_info.name]
             iface.is_wlan = True
             iface.wlan_info = self.wlan_info
