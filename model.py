@@ -46,6 +46,7 @@
 #    17-Dec-2012 (CT) Wrap `User_...` resources in `TOP.Dir`
 #    15-Apr-2013 (CT) Add `exclude_robots` to resource `/api`
 #     3-May-2013 (CT) Rename `login_required` to `auth_required`
+#     4-May-2013 (CT) Add `auth_required` to `RST.MOM.Scope`
 #    ««revision-date»»···
 #--
 
@@ -301,6 +302,7 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
                 )
             , GTW.RST.MOM.Scope
                 ( name            = "api"
+                , auth_required   = True
                 , exclude_robots  = True
                 , json_indent     = 2
                 )
