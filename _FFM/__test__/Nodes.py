@@ -79,21 +79,9 @@ _test_code = """
     ...     , city    = 'Wien'
     ...     , country = 'Austria'
     ...     )
-    >>> x = PAP.Node_has_Address (node2, adr)
-
-    >>> adr2 = PAP.Address \\
-    ...     ( street  = 'Example 44'
-    ...     , zip     = '1010'
-    ...     , city    = 'Wien'
-    ...     , country = 'Austria'
-    ...     )
-    >>> x = PAP.Node_has_Address (node2, adr2)
-    Traceback (most recent call last):
-      ...
-    Multiplicity: The new definition of Node_has_Address (FFM.Node (u'node2'), PAP.Address (u'example 44', u'1010', u'wien', u'austria')) would exceed the maximum number [1] of links allowed for FFM.Node (u'node2',).
-      Already existing:
-        PAP.Node_has_Address ((u'node2', 'FFM.Node'), (u'Example 23', u'1010', u'Wien', u'Austria', 'PAP.Address'))
-
+    >>> node1.address = adr
+    >>> node1.address
+    PAP.Address (u'example 23', u'1010', u'wien', u'austria')
 
     >>> gps2 = dict (lat = "48.367088", lon = "16.187672")
     >>> node3 = FFM.Node \\
@@ -158,7 +146,7 @@ _test_auto_children = """
 
     >>> for T, l in children_trans_iter (scope.PAP.Subject_has_Property) :
     ...     print ("%%-30s %%s" %% ("%%s%%s" %% ("  " * l, T.type_name), sorted (T.children_np_transitive)))
-    PAP.Subject_has_Property       ['PAP.Association_has_Address', 'PAP.Association_has_Email', 'PAP.Association_has_IM_Handle', 'PAP.Association_has_Nickname', 'PAP.Association_has_Phone', 'PAP.Association_has_Url', 'PAP.Company_has_Address', 'PAP.Company_has_Email', 'PAP.Company_has_IM_Handle', 'PAP.Company_has_Nickname', 'PAP.Company_has_Phone', 'PAP.Company_has_Url', 'PAP.Node_has_Address', 'PAP.Node_has_IM_Handle', 'PAP.Node_has_Nickname', 'PAP.Node_has_Url', 'PAP.Person_has_Address', 'PAP.Person_has_Email', 'PAP.Person_has_IM_Handle', 'PAP.Person_has_Nickname', 'PAP.Person_has_Phone', 'PAP.Person_has_Url']
+    PAP.Subject_has_Property       ['PAP.Association_has_Address', 'PAP.Association_has_Email', 'PAP.Association_has_IM_Handle', 'PAP.Association_has_Nickname', 'PAP.Association_has_Phone', 'PAP.Association_has_Url', 'PAP.Company_has_Address', 'PAP.Company_has_Email', 'PAP.Company_has_IM_Handle', 'PAP.Company_has_Nickname', 'PAP.Company_has_Phone', 'PAP.Company_has_Url', 'PAP.Node_has_IM_Handle', 'PAP.Node_has_Nickname', 'PAP.Node_has_Url', 'PAP.Person_has_Address', 'PAP.Person_has_Email', 'PAP.Person_has_IM_Handle', 'PAP.Person_has_Nickname', 'PAP.Person_has_Phone', 'PAP.Person_has_Url']
       PAP.Subject_has_IM_Handle    ['PAP.Association_has_IM_Handle', 'PAP.Company_has_IM_Handle', 'PAP.Node_has_IM_Handle', 'PAP.Person_has_IM_Handle']
         PAP.Association_has_IM_Handle ['PAP.Association_has_IM_Handle']
         PAP.Person_has_IM_Handle   ['PAP.Person_has_IM_Handle']
@@ -169,10 +157,9 @@ _test_auto_children = """
         PAP.Person_has_Nickname    ['PAP.Person_has_Nickname']
         PAP.Node_has_Nickname      ['PAP.Node_has_Nickname']
         PAP.Company_has_Nickname   ['PAP.Company_has_Nickname']
-      PAP.Subject_has_Address      ['PAP.Association_has_Address', 'PAP.Company_has_Address', 'PAP.Node_has_Address', 'PAP.Person_has_Address']
+      PAP.Subject_has_Address      ['PAP.Association_has_Address', 'PAP.Company_has_Address', 'PAP.Person_has_Address']
         PAP.Association_has_Address ['PAP.Association_has_Address']
         PAP.Person_has_Address     ['PAP.Person_has_Address']
-        PAP.Node_has_Address       ['PAP.Node_has_Address']
         PAP.Company_has_Address    ['PAP.Company_has_Address']
       PAP.Subject_has_Email        ['PAP.Association_has_Email', 'PAP.Company_has_Email', 'PAP.Person_has_Email']
         PAP.Association_has_Email  ['PAP.Association_has_Email']
@@ -191,7 +178,7 @@ _test_auto_children = """
     >>> for T, l in children_trans_iter (scope.PAP.Subject_has_Property) :
     ...     rr = T.relevant_root.type_name if T.relevant_root else sorted (T.relevant_roots)
     ...     print ("%%-30s %%-5s %%s" %% ("%%s%%s" %% ("  " * l, T.type_name), T.is_partial, rr))
-    PAP.Subject_has_Property       True  ['PAP.Association_has_Address', 'PAP.Association_has_Email', 'PAP.Association_has_IM_Handle', 'PAP.Association_has_Nickname', 'PAP.Association_has_Phone', 'PAP.Association_has_Url', 'PAP.Company_has_Address', 'PAP.Company_has_Email', 'PAP.Company_has_IM_Handle', 'PAP.Company_has_Nickname', 'PAP.Company_has_Phone', 'PAP.Company_has_Url', 'PAP.Node_has_Address', 'PAP.Node_has_IM_Handle', 'PAP.Node_has_Nickname', 'PAP.Node_has_Url', 'PAP.Person_has_Address', 'PAP.Person_has_Email', 'PAP.Person_has_IM_Handle', 'PAP.Person_has_Nickname', 'PAP.Person_has_Phone', 'PAP.Person_has_Url']
+    PAP.Subject_has_Property       True  ['PAP.Association_has_Address', 'PAP.Association_has_Email', 'PAP.Association_has_IM_Handle', 'PAP.Association_has_Nickname', 'PAP.Association_has_Phone', 'PAP.Association_has_Url', 'PAP.Company_has_Address', 'PAP.Company_has_Email', 'PAP.Company_has_IM_Handle', 'PAP.Company_has_Nickname', 'PAP.Company_has_Phone', 'PAP.Company_has_Url', 'PAP.Node_has_IM_Handle', 'PAP.Node_has_Nickname', 'PAP.Node_has_Url', 'PAP.Person_has_Address', 'PAP.Person_has_Email', 'PAP.Person_has_IM_Handle', 'PAP.Person_has_Nickname', 'PAP.Person_has_Phone', 'PAP.Person_has_Url']
       PAP.Subject_has_IM_Handle    True  ['PAP.Association_has_IM_Handle', 'PAP.Company_has_IM_Handle', 'PAP.Node_has_IM_Handle', 'PAP.Person_has_IM_Handle']
         PAP.Association_has_IM_Handle False PAP.Association_has_IM_Handle
         PAP.Person_has_IM_Handle   False PAP.Person_has_IM_Handle
@@ -202,10 +189,9 @@ _test_auto_children = """
         PAP.Person_has_Nickname    False PAP.Person_has_Nickname
         PAP.Node_has_Nickname      False PAP.Node_has_Nickname
         PAP.Company_has_Nickname   False PAP.Company_has_Nickname
-      PAP.Subject_has_Address      True  ['PAP.Association_has_Address', 'PAP.Company_has_Address', 'PAP.Node_has_Address', 'PAP.Person_has_Address']
+      PAP.Subject_has_Address      True  ['PAP.Association_has_Address', 'PAP.Company_has_Address', 'PAP.Person_has_Address']
         PAP.Association_has_Address False PAP.Association_has_Address
         PAP.Person_has_Address     False PAP.Person_has_Address
-        PAP.Node_has_Address       False PAP.Node_has_Address
         PAP.Company_has_Address    False PAP.Company_has_Address
       PAP.Subject_has_Email        True  ['PAP.Association_has_Email', 'PAP.Company_has_Email', 'PAP.Person_has_Email']
         PAP.Association_has_Email  False PAP.Association_has_Email
@@ -258,6 +244,7 @@ _test_refuse_e_types = """
     ...         if getattr (a, "refuse_e_types", None) :
     ...             print (ET.type_name, a.name, sorted (a.refuse_e_types))
     FFM.Node owner ['FFM.Node']
+    PAP.Subject_has_Address left ['FFM.Node']
     PAP.Subject_has_Email left ['FFM.Node']
     PAP.Subject_has_Phone left ['FFM.Node']
 
@@ -266,6 +253,7 @@ _test_refuse_e_types = """
     ...         if getattr (a, "refuse_e_types", None) :
     ...             print (ET.type_name, a.name, sorted (a.refuse_e_types_transitive))
     FFM.Node owner ['FFM.Node']
+    PAP.Subject_has_Address left ['FFM.Node']
     PAP.Subject_has_Email left ['FFM.Node']
     PAP.Subject_has_Phone left ['FFM.Node']
 
@@ -435,6 +423,67 @@ _test_refuse_e_types = """
       , id = 'lifetime'
       , name = 'lifetime'
       , ui_name = 'Lifetime'
+      )
+    , Record
+      ( Class = 'Entity'
+      , attr = Entity `address`
+      , attrs =
+          [ Record
+            ( attr = String `street`
+            , full_name = 'address.street'
+            , id = 'address__street'
+            , name = 'street'
+            , sig_key = 3
+            , ui_name = 'Address/Street'
+            )
+          , Record
+            ( attr = String `zip`
+            , full_name = 'address.zip'
+            , id = 'address__zip'
+            , name = 'zip'
+            , sig_key = 3
+            , ui_name = 'Address/Zip code'
+            )
+          , Record
+            ( attr = String `city`
+            , full_name = 'address.city'
+            , id = 'address__city'
+            , name = 'city'
+            , sig_key = 3
+            , ui_name = 'Address/City'
+            )
+          , Record
+            ( attr = String `country`
+            , full_name = 'address.country'
+            , id = 'address__country'
+            , name = 'country'
+            , sig_key = 3
+            , ui_name = 'Address/Country'
+            )
+          , Record
+            ( attr = String `desc`
+            , full_name = 'address.desc'
+            , id = 'address__desc'
+            , name = 'desc'
+            , sig_key = 3
+            , ui_name = 'Address/Description'
+            )
+          , Record
+            ( attr = String `region`
+            , full_name = 'address.region'
+            , id = 'address__region'
+            , name = 'region'
+            , sig_key = 3
+            , ui_name = 'Address/Region'
+            )
+          ]
+      , full_name = 'address'
+      , id = 'address'
+      , name = 'address'
+      , sig_key = 2
+      , type_name = 'PAP.Address'
+      , ui_name = 'Address'
+      , ui_type_name = 'Address'
       )
     , Record
       ( Class = 'Entity'

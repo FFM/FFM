@@ -1141,6 +1141,13 @@ _test_AQ = """
     Lifetime/Start
     Lifetime/Finish
     Lifetime/Alive
+    Address
+    Address/Street
+    Address/Zip code
+    Address/City
+    Address/Country
+    Address/Description
+    Address/Region
     Owner
     Position
     Position/Latitude

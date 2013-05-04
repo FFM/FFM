@@ -42,6 +42,8 @@
 #     4-Apr-2013 (CT) Change `owner.P_Type` back to `PAP.Subject`
 #    16-Apr-2013 (CT) Set `owner.refuse_e_types` to `FFM.Node`
 #    17-Apr-2013 (CT) Use `Computed_Set_Mixin`, not `Computed_Mixin`
+#     3-May-2013 (CT) Add attribute `address`,
+#                     put `Node_has_Address` into `refuse_links`
 #    ««revision-date»»···
 #--
 
@@ -50,7 +52,7 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 from   _MOM.import_MOM          import *
 from   _MOM._Attr.Position      import A_Position
 from   _FFM                     import FFM
-from   _GTW._OMP._PAP           import PAP, Person, Subject
+from   _GTW._OMP._PAP           import PAP, Person, Subject, Address
 from   _GTW._OMP._DNS.Attr_Type import A_DNS_Label
 
 import _FFM.Entity
@@ -61,15 +63,19 @@ class Node (FFM.Entity, _Ancestor_Essence) :
     """Model a node of FFM"""
 
     refuse_links = set \
-        (( "GTW.OMP.PAP.Node_has_Phone"
+        (( "GTW.OMP.PAP.Node_has_Address"
          , "GTW.OMP.PAP.Node_has_Email"
-         , "GTW.OMP.PAP.Subject_has_Phone"
+         , "GTW.OMP.PAP.Node_has_Phone"
+         , "GTW.OMP.PAP.Subject_has_Address"
          , "GTW.OMP.PAP.Subject_has_Email"
+         , "GTW.OMP.PAP.Subject_has_Phone"
         ))
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
         _Ancestor    = _Ancestor_Essence._Attributes
+
+        ### Primary attributes
 
         class name (A_DNS_Label) :
             """Name of the node"""
@@ -78,6 +84,17 @@ class Node (FFM.Entity, _Ancestor_Essence) :
             completer          = Attr.Completer_Spec  (2, Attr.Selector.primary)
 
         # end class name
+
+        ### Non-primary attributes
+
+        class address (A_Id_Entity) :
+            """Address of the node (if stationary)."""
+
+            kind               = Attr.Optional
+            P_Type             = PAP.Address
+            ui_allow_new       = True
+
+        # end class address
 
         class belongs_to_node (A_Id_Entity) :
             """Node to which this entity belongs."""
@@ -134,6 +151,7 @@ class Node (FFM.Entity, _Ancestor_Essence) :
 
 # end class Node
 
+### fix recursive attribute
 Node._Attributes.belongs_to_node.P_Type = Node
 
 if __name__ != "__main__" :

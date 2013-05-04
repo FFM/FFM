@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the program FFM.
@@ -40,7 +40,6 @@ from _FFM import FFM
 
 def create (scope) :
     Auth = scope.Auth
-    Auth.Account_Anonymous ("anonymous")
     FFM = scope.FFM
     ant = FFM.Antenna_Type \
         ( name         = "Generic"
