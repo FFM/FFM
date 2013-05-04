@@ -34,6 +34,7 @@ from   _GTW._OMP._PAP         import PAP
 from   _GTW._OMP._Auth        import Auth
 from   olsr.parser            import get_olsr_container
 from   spider.parser          import Guess
+from   spider.common          import unroutable, Interface, Inet4
 
 import _TFL.CAO
 import model
@@ -67,42 +68,61 @@ class Convert (object) :
         self.spider_devs  = {}
         self.spider_iface = {}
         for ip, dev in self.spider_info.iteritems () :
-            pyk.fprint ("IP:", ip)
+            if self.verbose :
+                pyk.fprint ("IP:", ip)
             # ignore spider errors
             if not isinstance (dev, Guess) :
                 continue
-            #if not hasattr (dev, 'interfaces') :
-            #    pyk.fprint ("No interfaces: %s" % ip)
-            #    continue
             for iface in dev.interfaces.itervalues () :
                 for ip4 in iface.inet4 :
                     i4 = ip4.ip
+                    # ignore rfc1918, link local, localnet
+                    if unroutable (i4) :
+                        continue
                     if  (   i4 in self.spider_devs
                         and self.spider_devs [i4] != dev
                         ) :
-                        pyk.fprint ("WARN: Device not equal:")
-                        pyk.fprint ("=" * 30)
+                        pyk.fprint ("WARN: Device %s/%s not equal:" % (ip, i4))
+                        pyk.fprint ("=" * 60)
                         pyk.fprint (dev.verbose_repr ())
+                        pyk.fprint ("-" * 60)
                         pyk.fprint (self.spider_devs [i4].verbose_repr ())
-                        pyk.fprint ("=" * 30)
+                        pyk.fprint ("=" * 60)
                     elif (   i4 in self.spider_iface
                          and self.spider_iface [i4] != iface
                          ) :
                         assert dev == self.spider_devs [i4]
-                        pyk.fprint ("WARN: Interface not equal:")
-                        pyk.fprint ("=" * 30)
-                        pyk.fprint (iface)
-                        pyk.fprint (self.spider_iface [i4])
-                        pyk.fprint ("-" * 30)
-                        pyk.fprint (dev.verbose_repr ())
-                        pyk.fprint ("-" * 30)
-                        pyk.fprint (self.spider_devs [i4].verbose_repr ())
-                        pyk.fprint ("=" * 30)
+                        spif = self.spider_iface [i4]
+                        pyk.fprint \
+                            ( "WARN: Interfaces %s/%s of dev-ip %s share ip %s"
+                            % (iface.name, spif.name, ip, i4)
+                            )
+                        spif.names.append (iface.name)
+                        if iface.is_wlan :
+                            spif.is_wlan = iface.is_wlan
+                            spif.wlan_info = getattr (iface, 'wlan_info', None)
+                        if self.verbose :
+                            pyk.fprint ("=" * 60)
+                            pyk.fprint (iface)
+                            pyk.fprint (spif)
+                            pyk.fprint ("-" * 60)
+                            pyk.fprint (dev.verbose_repr ())
+                            pyk.fprint ("=" * 60)
+                        iface = spif
                     self.spider_devs  [i4] = dev
                     self.spider_iface [i4] = iface
+                    iface.device = dev
             if ip not in self.spider_devs :
-                pyk.fprint \
-                    ("WARN: ip %s not in dev %s" % (ip , dev.verbose_repr ()))
+                pyk.fprint ("WARN: ip %s not in dev" % ip)
+                if self.verbose :
+                    pyk.fprint ("=" * 60)
+                    pyk.fprint (dev.verbose_repr ())
+                    pyk.fprint ("=" * 60)
+                name = 'unknown'
+                assert name not in dev.interfaces
+                iface = Interface (4711, name)
+                dev.interfaces [name] = iface
+                iface.append_inet4 (Inet4 (ip, None, None, iface = name))
 
         self.scope        = scope
         self.ffm          = self.scope.FFM

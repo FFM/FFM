@@ -109,14 +109,22 @@ class Interface_Config (Parser) :
 # end class Interface_Config
 
 class WLAN_Config_Freifunk (WLAN_Config, Parser) :
-    re_ssid   = re.compile (r'^SSID:\s+"([^"]+)"')
-    re_mode   = re.compile \
-        (r'Mode:\s+(.*)\s+(?:rssi|RSSI).*Channel:\s+(\d+)')
+    r_ifname  = r'^(?:([a-zA-Z0-9]+).*)?'
+    r_nick    = r'(?:\s*Nickname:\s*"[^"]*")?'
+    re_ssid   = re.compile (r'%sE?SSID:\s*"([^"]+)"%s' % (r_ifname, r_nick))
+    r_mode    = r'Mode:\s*(.*)'
+    r_frq     = r'Frequency:\s*([0-9.]+)\s*GHz'
+    re_mode   = re.compile (r'%s\s+(?:rssi|RSSI).*Channel:\s+(\d+)' % r_mode)
+    re_mode2  = re.compile \
+        (r'%s\s+%s\s+Cell:\s*([0-9a-fA-F:]+)' % (r_mode, r_frq))
     re_bssid  = re.compile (r'BSSID:\s+%(pt_mac)s' % globals ())
     re_ssid_e = re.compile \
         (r'\s+'.join ((re_ssid.pattern, re_mode.pattern, re_bssid.pattern)))
+    re_ssid_x = re.compile \
+        (r'\s+'.join ((re_ssid.pattern, re_mode2.pattern)))
     matrix = \
-        [ ["init",   re_ssid_e, "init",   "p_ssid"]
+        [ ["init",   re_ssid_x, "init",   "p_ssid2"]
+        , ["init",   re_ssid_e, "init",   "p_ssid"]
         , ["init",   re_ssid,   "init",   "p_ssid"]
         , ["init",   re_mode,   "init",   "p_mode"]
         , ["init",   re_bssid,  "init",   "p_bssid"]
@@ -132,21 +140,32 @@ class WLAN_Config_Freifunk (WLAN_Config, Parser) :
     # end def __init__
 
     def p_bssid (self, state, new_state, match) :
-        self.bssid = match.group (1)
+        self.set (bssid = match.group (1))
     # end def p_bssid
 
     def p_mode (self, state, new_state, match) :
-        self.mode    = match.group (1).strip ()
-        self.channel = match.group (2)
+        self.set (mode = match.group (1).strip (), channel = match.group (2))
     # end def p_mode
 
     def p_ssid (self, state, new_state, match) :
-        self.ssid = match.group (1)
-        if len (match.groups ()) > 1 :
-            self.mode    = match.group (2)
-            self.channel = match.group (3)
-            self.bssid   = match.group (4)
+        self.set (name = match.group (1), ssid = match.group (2))
+        if len (match.groups ()) > 2 :
+            self.set \
+                ( mode    = match.group (3)
+                , channel = match.group (4)
+                , bssid   = match.group (5)
+                )
     # end def p_ssid
+
+    def p_ssid2 (self, state, new_state, match) :
+        self.set \
+            ( name      = match.group (1)
+            , ssid      = match.group (2)
+            , mode      = match.group (3)
+            , frequency = match.group (4)
+            , bssid     = match.group (5)
+            )
+    # end def p_ssid2
 
 # end class WLAN_Config_Freifunk
 
@@ -205,7 +224,7 @@ class Status (Page_Tree) :
         else :
             raise ValueError, "No interface config found"
         for td in root.findall (".//%s" % tag ("td")) :
-            if not td.text or not td.text.startswith ('SSID:') :
+            if (not td.text or 'SSID:' not in td.text) :
                 continue
             self.wlan_info = WLAN_Config_Freifunk ()
             self.wlan_info.parse (td.text.split ('\n'))
@@ -216,6 +235,12 @@ class Status (Page_Tree) :
                 if iface.is_wlan :
                     iface.wlan_info = self.wlan_info
                     wl_count += 1
+        if not wl_count and hasattr (self.wlan_info, 'name') :
+            iface = self.if_by_name [self.wlan_info.name]
+            iface.is_wlan = True
+            iface.wlan_info = self.wlan_info
+            wl_count += 1
+
         assert wl_count <= 1
         for sm in root.findall (".//%s" % tag ("small")) :
             if sm.text :
