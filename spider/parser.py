@@ -30,6 +30,7 @@ from   spider.openwrt       import OpenWRT
 
 # for pickle
 from   spider.common      import Interface, Net_Link, Inet4, Inet6, WLAN_Config
+from   spider.common      import Compare_Mixin
 from   spider.freifunk    import Interface_Config, WLAN_Config_Freifunk
 
 site_template = 'http://%(ip)s'
@@ -123,7 +124,7 @@ class Luci_Guess (Page_Tree) :
 
 # end class Luci_Guess
 
-class Guess (autosuper) :
+class Guess (Compare_Mixin) :
 
     backend_table = dict \
         ( Backfire = Backfire

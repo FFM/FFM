@@ -50,6 +50,14 @@ def unroutable (ip) :
     return is_rfc1918 (ip) or is_local (ip) or is_link_local (ip)
 # end def unroutable
 
+class Compare_Mixin (autosuper) :
+
+    def __ne__ (self, other) :
+        return not self == other
+    # end def __ne__
+
+# end class Compare_Mixin
+
 class Net_Link (autosuper) :
     """Physical layer link interface
     """
@@ -67,7 +75,7 @@ class Net_Link (autosuper) :
 
 # end class Net_Link
 
-class Inet (autosuper) :
+class Inet (Compare_Mixin) :
     """IP Network address
     """
 
@@ -111,7 +119,7 @@ class Inet6 (Inet) :
 
 # end class Inet6
 
-class Interface (autosuper) :
+class Interface (Compare_Mixin) :
     """Network interface
     """
 
@@ -176,25 +184,57 @@ class Interface (autosuper) :
     # end def __str__
     __repr__ = __str__
 
+    def __getattr__ (self, name) :
+        if name == 'names' :
+            self.names = [self.name]
+            return self.names
+        raise AttributeError, name
+    # end def __getattr__
+
 # end class Interface
 
-class WLAN_Config (autosuper) :
+class WLAN_Config (Compare_Mixin) :
 
     modes = \
         { 'ad-hoc' : 'Ad-Hoc'
         , 'adhoc'  : 'Ad-Hoc'
+        , 'ad hoc' : 'Ad-Hoc'
         }
 
-    def __init__ (self, **kw) :
+    frq = \
+        { '2.412' :  '1'
+        , '2.417' :  '2'
+        , '2.422' :  '3'
+        , '2.427' :  '4'
+        , '2.432' :  '5'
+        , '2.437' :  '6'
+        , '2.442' :  '7'
+        , '2.447' :  '8'
+        , '2.452' :  '9'
+        , '2.457' : '10'
+        , '2.462' : '11'
+        , '2.467' : '12'
+        , '2.472' : '13'
+        , '2.484' : '14'
+        }
+
+    def __init__ (self, ** kw) :
+        self.set (** kw)
+        self.__super.__init__ (** kw)
+    # end def __init__
+
+    def set (self, ** kw) :
+        self.name     = kw.get ('name')
         self.ssid     = kw.get ('ssid')
         self.mode     = kw.get ('mode')
         if self.mode :
             self.mode = self.mode.lower ()
-            self.mode = self.modes.get (mode, mode)
+            self.mode = self.modes.get (self.mode, self.mode)
         self.channel  = kw.get ('channel')
         self.bssid    = kw.get ('bssid')
-        self.__super.__init__ (** kw)
-    # end def __init__
+        if not self.channel and 'frequency' in kw :
+            self.channel = self.frq [kw ['frequency']]
+    # end def set
 
     def __eq__ (self, other) :
         return \
