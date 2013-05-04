@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the program FFM.
@@ -31,6 +31,8 @@
 #    29-Jul-2012 (CT) Change to use `GTW.RST.TOP` instead of `GTW.NAV`
 #    29-Jul-2012 (CT) Rename to `rst_top`
 #     4-Dec-2012 (CT) Remove `http:` (--> protocol-relative)
+#     4-May-2013 (CT) Re-add `http:` for external URLs
+#     4-May-2013 (CT) Add `RAT`
 #    ««revision-date»»···
 #--
 
@@ -48,6 +50,7 @@ from   _TFL.I18N              import _, _T, _Tn
 
 import _GTW.Media
 
+import _GTW._RST.RAT
 import _GTW._RST._TOP.import_TOP
 import _GTW._RST._TOP._MOM.import_MOM
 
@@ -70,12 +73,12 @@ template_dirs     = [src_dir, base_template_dir]
 
 web_links = \
     [ TFL.Record
-        ( href        = "//guifi.net/en/"
+        ( href        = "http://guifi.net/en/"
         , title       = "Spanish open wireless network"
         , short_title = "Guifi.net"
         )
     , TFL.Record
-        ( href        = "//wlan-si.net/"
+        ( href        = "http://wlan-si.net/"
         , title       = "Slovenian open wireless network"
         , short_title = "wlan-si"
         )
@@ -98,6 +101,9 @@ def root_kw_args (cmd, ** kw) :
         , web_links         = web_links
         , webmaster         =
             ("christian.tanzer@gmail.com", "Christian Tanzer") ### XXX ???
+        , entries           =
+            [ GTW.RST.RAT (name = "RAT")
+            ]
         , ** kw
         )
 # end def root_kw_args

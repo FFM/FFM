@@ -169,7 +169,7 @@ be useful. The following packages can be installed via the Debian
 installer::
 
  apt-get install git libapache2-mod-fcgid postgresql python-pip \
-     python-virtualenv python-distribute build-essentials python-babel \
+     python-virtualenv python-distribute build-essential python-babel \
      python-bs4 python-dateutil python-docutils python-flup python-jinja2 \
      python-psycopg2 python-dev apache2-mpm-worker python-tz \
      python-sqlalchemy python-werkzeug python-passlib python-openssl \
