@@ -302,7 +302,8 @@ def main () :
         pickle.dump (ipdict, f)
         f.close ()
     if opt.verbose :
-        for ip, guess in ipdict.iteritems () :
+        key = lambda x : IP4_Address (x [0])
+        for ip, guess in sorted (ipdict.iteritems (), key = key) :
             if opt.verbose > 1 :
                 print "%-15s" % ip
                 print '=' * 15

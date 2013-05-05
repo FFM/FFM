@@ -23,7 +23,7 @@ import uuid
 import pickle
 
 from   datetime               import datetime, tzinfo, timedelta
-from   rsclib.IP_Address      import IP4_Address
+from   rsclib.IP_Address      import IP4_Address, IP6_Address
 from   rsclib.Phone           import Phone
 from   rsclib.sqlparser       import make_naive, SQL_Parser
 from   _GTW                   import GTW
@@ -32,12 +32,18 @@ from   _TFL                   import pyk
 from   _FFM                   import FFM
 from   _GTW._OMP._PAP         import PAP
 from   _GTW._OMP._Auth        import Auth
+from   _MOM.import_MOM        import Q
 from   olsr.parser            import get_olsr_container
 from   spider.parser          import Guess
 from   spider.common          import unroutable, Interface, Inet4
 
 import _TFL.CAO
 import model
+
+def ip_mask_key (x) :
+    """ Key for sorting IPs (as key of a dict iter) """
+    return (x [0].mask, x [0], x [1:])
+# end def ip_mask_key
 
 class Convert (object) :
 
@@ -48,6 +54,17 @@ class Convert (object) :
             f  = open (cmd.argv [0])
         else :
             f = sys.stdin
+        self.ip4nets = {}
+        self.ip6nets = {}
+        if cmd.network :
+            for n in cmd.network :
+                ip, comment = n.split (';', 1)
+                if ':' in ip :
+                    ip = IP6_Address (ip)
+                    self.ip6nets [ip] = comment
+                else :
+                    ip = IP4_Address (ip)
+                    self.ip4nets [ip] = comment
         olsr = get_olsr_container (cmd.olsr_file)
         self.olsr_nodes   = {}
         for t in olsr.topo.forward.iterkeys () :
@@ -128,7 +145,6 @@ class Convert (object) :
         self.ffm          = self.scope.FFM
         self.pap          = self.scope.GTW.OMP.PAP
         self.mentor       = {}
-        self.networks     = {}
         self.rsrvd_nets   = {}
         self.net_dupes    = {}
         self.node_by_id   = {}
@@ -432,6 +448,8 @@ class Convert (object) :
                 , last_name  = m.lastname
                 , raw        = True
                 )
+            if m.id == 1 :
+                self.ff_subject = person
             if m.id not in self.rev_person_dupes :
                 self.set_last_change (person, m.changed, m.created)
             self.person_by_id [m.id] = person
@@ -593,11 +611,11 @@ class Convert (object) :
 
         # devices and reserved nets from hna table
         for ip4 in self.olsr_hna.by_dest.iterkeys () :
-            for n in self.networks.iterkeys () :
+            for n in self.ip4nets.iterkeys () :
                 if ip4 in n :
                     break
             else :
-                # only subnets of one of our networks
+                # only subnets of one of our ip4nets
                 continue
             if ip4.mask == 32 :
                 if ip4 not in self.olsr_nodes :
@@ -626,7 +644,7 @@ class Convert (object) :
                     assert i not in self.rev_mid
         if self.debug :
             for ip4 in self.olsr_hna.by_dest :
-                for nw in self.networks.iterkeys () :
+                for nw in self.ip4nets.iterkeys () :
                     if ip4 in nw :
                         pyk.fprint ("HNA: %s" % ip4)
 
@@ -649,6 +667,28 @@ class Convert (object) :
             self.create_interfaces_for_dev (dev, d, ip)
     # end def create_ips_and_devices
 
+    def reserve_net (self, nets, typ) :
+        Adr = typ.net_address.P_Type
+        for net, comment in sorted (nets.iteritems (), key = ip_mask_key) :
+            if self.verbose
+                pyk.fprint (net, comment)
+            adr = Adr (str (net), raw = True)
+            r = typ.query \
+                ( Q.net_address.CONTAINS (adr)
+                , sort_key = TFL.Sorted_By ("-net_address.mask_len")
+                ).first ()
+            if r :
+                network = r.reserve (adr, self.ff_subject)
+            else :
+                network = typ \
+                    ( dict (address = str (net))
+                    , owner = self.ff_subject
+                    , raw   = True
+                    )
+            if isinstance (comment, type ('')) :
+                network.set_raw (desc = comment [:80])
+    # end def reserve_net
+
     def build_device_structure (self) :
         for ip in self.contents ['ips'] :
             self.ip_by_ip [IP4_Address (ip.ip)] = ip
@@ -657,20 +697,8 @@ class Convert (object) :
                     self.ip_by_dev [ip.id_devices] = []
                 self.ip_by_dev [ip.id_devices].append (ip)
             net = IP4_Address (ip.ip, ip.cidr)
-            self.networks [net] = True
-        self.net_dupes = {}
-        for net in self.networks.iterkeys () :
-            for net2 in self.networks.iterkeys () :
-                if net != net2 :
-                    if net in net2 :
-                        self.net_dupes [net]  = net2
-                    if net2 in net :
-                        self.net_dupes [net2] = net
-        for net in self.net_dupes :
-            del self.networks [net]
-        for net in self.networks :
-            network = self.ffm.IP4_Network.instance_or_new \
-                (dict (address = str (net)), raw = True)
+            if net not in self.ip4nets :
+                self.ip4nets [net] = True
         for d in self.contents ['devices'] :
             if d.id_nodes not in self.dev_by_node :
                 self.dev_by_node [d.id_nodes] = []
@@ -741,6 +769,8 @@ class Convert (object) :
         if self.debug :
             self.debug_output       ()
         self.create_persons         ()
+        self.reserve_net            (self.ip4nets, self.ffm.IP4_Network)
+        self.reserve_net            (self.ip6nets, self.ffm.IP6_Network)
         self.create_nodes           ()
         self.create_ips_and_devices ()
     # end def create
@@ -771,6 +801,7 @@ _Command = TFL.CAO.Cmd \
         , "create:B"
         , "olsr_file:S=olsr/txtinfo.txt?OLSR dump-file to convert"
         , "spider_dump:S=Funkfeuer.dump?Spider pickle dump"
+        , "network:S,?Networks already reserved"
         ) + model.opts
     , min_args        = 1
     , defaults        = model.command.defaults
@@ -778,4 +809,4 @@ _Command = TFL.CAO.Cmd \
 
 if __name__ == "__main__" :
     _Command ()
-### __END__ cnml_import
+### __END__ convert_0xFF
