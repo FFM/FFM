@@ -167,6 +167,13 @@ class Guess (Compare_Mixin) :
         return self.ips == other.ips and self.interfaces == other.interfaces
     # end def __eq__
 
+    def __hash__ (self) :
+        return hash \
+            (( tuple (self.ips.iterkeys ())
+             , tuple (self.interfaces.itervalues ())
+            ))
+    # end def __hash__
+
     def __getattr__ (self, name) :
         if 'rqinfo' not in self.__dict__ :
             raise AttributeError ("my 'rqinfo' attribute vanished: %s" % name)

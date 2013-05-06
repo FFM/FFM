@@ -166,6 +166,16 @@ class Interface (Compare_Mixin) :
             )
     # end def __eq__
 
+    def __hash__ (self) :
+        return hash \
+            (( self.name
+             , tuple (self.inet4)
+             , tuple (self.inet6)
+             , self.is_wlan
+             , self.wlan_info
+            ))
+    # end def __hash__
+
     def __str__ (self) :
         r = []
         r.append \
@@ -244,6 +254,10 @@ class WLAN_Config (Compare_Mixin) :
             and self.bssid   == other.bssid
             )
     # end def __eq__
+
+    def __hash__ (self) :
+        return hash ((self.ssid, self.mode, self.channel, self.bssid))
+    # end def __hash__
 
     def __str__ (self) :
         x = [self.__class__.__name__, "\n        ( "]
