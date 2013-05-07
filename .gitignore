@@ -12,3 +12,5 @@ CA/
 test.hps*
 test.sql*
 *.sqlite
+call_convert
+call_spider
