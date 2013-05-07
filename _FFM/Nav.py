@@ -48,6 +48,7 @@
 #                     `Virtual_Wireless_Interface.list_display`
 #    24-Apr-2013 (CT) Add `virtual_wireless_interfaces` to
 #                     `Net_Device...include_links`
+#     7-May-2013 (RS) Add IPv6 related classes
 #    ««revision-date»»···
 #--
 
@@ -93,6 +94,10 @@ class Admin (object) :
 
     IP4_Network           = dict \
         ( ETM             = "FFM.IP4_Network"
+        )
+
+    IP6_Network           = dict \
+        ( ETM             = "FFM.IP6_Network"
         )
 
     Net_Credentials       = dict \
@@ -169,6 +174,10 @@ class Admin (object) :
 
         Net_Interface_in_IP4_Network = dict \
             ( ETM            = "FFM.Net_Interface_in_IP4_Network"
+            )
+
+        Net_Interface_in_IP6_Network = dict \
+            ( ETM            = "FFM.Net_Interface_in_IP6_Network"
             )
 
         Net_Interface_in_IP_Network = dict \
