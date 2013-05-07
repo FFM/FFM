@@ -32,6 +32,7 @@
 #    22-Sep-2012 (RS) make `name` `A_DNS_Label`
 #     6-Dec-2012 (RS) Add `belongs_to_node`
 #    26-Jan-2013 (CT) Set `Net_Interface.is_relevant`
+#     7-May-2013 (RS) Add `desc`
 #    ««revision-date»»···
 #--
 
@@ -92,6 +93,13 @@ class Net_Interface (_Mixin, _Ancestor_Essence) :
             kind               = Attr.Optional
 
         # end class is_active
+
+        class desc (A_Text) :
+            """Description of device"""
+
+            kind               = Attr.Optional
+
+        # end class desc
 
     # end class _Attributes
 
