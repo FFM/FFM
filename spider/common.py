@@ -233,6 +233,13 @@ class WLAN_Config (Compare_Mixin) :
         self.__super.__init__ (** kw)
     # end def __init__
 
+    @property
+    def standard (self) :
+        if int (self.channel) <= 14 :
+            return '802.11g'
+        return '802.11a'
+    # end def standard
+
     def set (self, ** kw) :
         self.name     = kw.get ('name')
         self.ssid     = kw.get ('ssid')
