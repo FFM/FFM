@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    28-Apr-2013 (CT) Creation
+#     7-May-2013 (RS) Add auto_cache `acts_for` for `Legal_Entity`
 #    ««revision-date»»···
 #--
 
@@ -63,6 +64,7 @@ class Person_acts_for_Legal_Entity (_Ancestor_Essence) :
             """Legal entity"""
 
             role_type          = PAP.Legal_Entity
+            auto_cache         = "acts_for"
 
         # end class right
 
