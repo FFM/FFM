@@ -421,14 +421,21 @@ class Convert (object) :
                     lon = lon + " %f s" % n.gps_lon_sec
                 gps = dict (lat = lat, lon = lon)
             id = self.person_dupes.get (n.id_members, n.id_members)
-            person = self.person_by_id.get (id)
-            if n.id_tech_c and n.id_tech_c != n.id_members :
+            owner = self.person_by_id.get (id)
+            if not isinstance (owner, self.pap.Person) :
+                assert len (owner.actor) == 1
+                manager = iter (owner.actor).next ()
+            elif id in self.companies or id in self.associations :
+                manager = owner
+                assert len (manager.acts_for) == 1
+                owner   = iter (manager.acts_for).next ()
+            elif n.id_tech_c and n.id_tech_c != n.id_members :
                 manager = self.person_by_id.get (n.id_tech_c)
                 assert (manager)
                 pyk.fprint ("INFO: Tech contact found: %s" % n.id_tech_c)
             else :
-                manager = person
-                person  = None
+                manager = owner
+                owner   = None
             # node with missing manager has devices, use 0xff admin as owner
             if not manager and n.id in self.dev_by_node :
                 manager = self.person_by_id.get (1)
@@ -442,7 +449,7 @@ class Convert (object) :
                     , position    = gps
                     , show_in_map = n.map
                     , manager     = manager
-                    , owner       = person
+                    , owner       = owner
                     , raw         = True
                     )
                 self.set_last_change (node, n.changed, n.created)
@@ -500,6 +507,7 @@ class Convert (object) :
                          , (584, 939) # not entirely sure but all
                                       # lowercase in both records
                                       # indicates same person
+                         , (756, 758) # checked, real dupe
                          , (  0,   1) # ignore Funkfeuer Parkplatz
                         ))
     rev_person_dupes = dict ((v, k) for k, v in person_dupes.iteritems ())
@@ -523,6 +531,13 @@ class Convert (object) :
         ,  '1013'
         ))
 
+    companies         = dict.fromkeys ((112, ))
+    associations      = dict.fromkeys ((146, 176, 318, 438, 737, 809))
+    company_actor     = {134 : 37} 
+    association_actor = {  1 : 15, 838 : 671}
+    person_disable    = dict.fromkeys ((263, 385, 612, 621))
+    person_remove     = dict.fromkeys ((549, 608))
+
     def try_insert_phone (self, person, m, x, c) :
         if x :
             p = None
@@ -542,7 +557,7 @@ class Convert (object) :
                 eid = self.phone_ids [k]
                 prs = self.person_by_id [eid]
                 if  (  prs.pid == person.pid
-                    or self.pap.Person_has_Phone.instance (person, t)
+                    or self.pap.Subject_has_Phone.instance (person, t)
                     ) :
                     return # don't insert twice
                 pyk.fprint \
@@ -552,7 +567,7 @@ class Convert (object) :
             else :
                 t = self.pap.Phone (* p)
                 self.phone_ids [k] = m.id
-            self.pap.Person_has_Phone (person, t)
+            self.pap.Subject_has_Phone (person, t)
     # end def try_insert_phone
 
     def try_insert_email (self, person, m, attr = 'email', second = False) :
@@ -577,14 +592,17 @@ class Convert (object) :
                     )
             self.email_ids [mail.lower ()] = m.id
             email = self.pap.Email (address = mail, desc = desc)
-            self.pap.Person_has_Email (person, email)
-            auth  = self.scope.Auth.Account.create_new_account_x \
-                ( mail
-                , enabled   = True
-                , suspended = True
-                , password  = uuid.uuid4 ().hex
-                )
-            self.pap.Person_has_Account (person, auth)
+            self.pap.Subject_has_Email (person, email)
+            if  (   m.id not in self.company_actor
+                and m.id not in self.association_actor
+                ) :
+                auth  = self.scope.Auth.Account.create_new_account_x \
+                    ( mail
+                    , enabled   = True
+                    , suspended = True
+                    , password  = uuid.uuid4 ().hex
+                    )
+                self.pap.Person_has_Account (person, auth)
     # end def try_insert_email
 
     def try_insert_url (self, m, person) :
@@ -596,14 +614,14 @@ class Convert (object) :
         if url :
             return
         url = self.pap.Url (hp, desc = 'Homepage', raw = True)
-        self.pap.Person_has_Url (person, url)
+        self.pap.Subject_has_Url (person, url)
     # end def try_insert_url
 
     def try_insert_im (self, m, person) :
         pyk.fprint \
             ("INFO: Instant messenger nickname: %s" % m.instant_messenger_nick)
         im = self.pap.IM_Handle (address = m.instant_messenger_nick)
-        self.pap.Person_has_IM_Handle (person, im)
+        self.pap.Subject_has_IM_Handle (person, im)
     # end def try_insert_im
 
     phone_types = dict \
@@ -640,14 +658,22 @@ class Convert (object) :
                 , city       = m.town
                 , country    = country
                 )
-            self.pap.Person_has_Address (person, address)
+            self.pap.Subject_has_Address (person, address)
     # end def try_insert_address
 
     def create_persons (self) :
+        # FIXME: Set role for person so that person can edit only their
+        # personal data, see self.person_disable
         for m in sorted (self.contents ['members'], key = lambda x : x.id) :
             self.member_by_id [m.id] = m
             if m.id == 309 and m.street.startswith ("'") :
                 m.street = m.street [1:]
+            if m.id in self.person_remove :
+                pyk.fprint \
+                    ( "INFO: removing person %s %s %s"
+                    % (m.id, m.firstname, m.lastname)
+                    )
+                continue
             if m.id in self.person_dupes :
                 pyk.fprint \
                     ( "INFO: skipping person %s (duplicate of %s)"
@@ -660,14 +686,19 @@ class Convert (object) :
             if not m.lastname :
                 pyk.fprint ("WARN: skipping person, no lastname: %s" % m.id)
                 continue
+            cls  = self.pap.Person
+            name = ' '.join ((m.firstname, m.lastname))
+            pd   = dict (name = name)
+            if m.id in self.company_actor :
+                cls = self.pap.Company
+            elif m.id in self.association_actor :
+                cls = self.pap.Association
+            else :
+                pd = dict (first_name = m.firstname, last_name = m.lastname)
             if self.verbose :
-                pyk.fprint \
-                    ("Creating person:", repr (m.lastname), repr (m.firstname))
-            person = self.pap.Person \
-                ( first_name = m.firstname
-                , last_name  = m.lastname
-                , raw        = True
-                )
+                type = cls.__name__.lower ()
+                pyk.fprint ( "Creating %s: %s" % (type, repr (name)))
+            person = cls (raw = True, ** pd)
             if m.id == 1 :
                 self.ff_subject = person
             if m.id not in self.rev_person_dupes :
@@ -689,9 +720,29 @@ class Convert (object) :
                 self.mentor [m.id] = m.mentor_id
             if m.nickname :
                 nick = self.pap.Nickname (m.nickname, raw = True)
-                self.pap.Person_has_Nickname (person, nick)
+                self.pap.Subject_has_Nickname (person, nick)
             if m.homepage :
                 self.try_insert_url (m, person)
+            if m.id in self.companies or m.id in self.associations :
+                if m.id in self.companies :
+                    cls = self.pap.Company
+                if m.id in self.associations :
+                    cls = self.pap.Association
+                name = ' '.join ((m.firstname, m.lastname))
+                type = cls.__name__.lower ()
+                pyk.fprint ( "Creating %s: %s" % (type, repr (name)))
+                legal = cls (name = name, raw = True)
+                # copy property links over
+                q = self.pap.Subject_has_Property.query
+                for p in q (left = person).all () :
+                    self.pap.Subject_has_Property (legal, p.right)
+                self.ffm.Person_acts_for_Legal_Entity (person, legal)
+        x = dict (self.company_actor)
+        x.update (self.association_actor)
+        for l_id, p_id in x.iteritems () :
+            person = self.person_by_id [p_id]
+            legal  = self.person_by_id [l_id]
+            self.ffm.Person_acts_for_Legal_Entity (person, legal)
         for mentor_id, person_id in self.mentor.iteritems () :
             mentor = self.person_by_id [mentor_id]
             person = self.person_by_id [person_id]
@@ -720,7 +771,7 @@ class Convert (object) :
                 assert (False)
             if d.nickname :
                 nick = self.pap.Nickname (d.nickname, raw = True)
-                self.pap.Person_has_Nickname (person, nick)
+                self.pap.Subject_has_Nickname (person, nick)
             if d.homepage :
                 self.try_insert_url (d, person)
             if d.instant_messenger_nick :
