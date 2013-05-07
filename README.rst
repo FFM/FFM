@@ -175,7 +175,6 @@ installer::
      python-sqlalchemy python-werkzeug python-passlib python-openssl \
      python-pyquery
 
-
 Other packages can be installed using ``pip`` |---| note that you may want
 to install some of these into a virtual python environment (virtualenv),
 see later in sectioni `How to install`_ |---| depending on your
