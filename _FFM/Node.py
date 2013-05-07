@@ -100,6 +100,7 @@ class Node (FFM.Entity, _Ancestor_Essence) :
             """Node to which this entity belongs."""
 
             kind               = Attr.Computed
+            P_Type             = "FFM.Node"
 
             def computed (self, obj) :
                 return obj
@@ -150,9 +151,6 @@ class Node (FFM.Entity, _Ancestor_Essence) :
     # end class _Attributes
 
 # end class Node
-
-### fix recursive attribute
-Node._Attributes.belongs_to_node.P_Type = Node
 
 if __name__ != "__main__" :
     FFM._Export ("*")
