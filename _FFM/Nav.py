@@ -49,6 +49,7 @@
 #    24-Apr-2013 (CT) Add `virtual_wireless_interfaces` to
 #                     `Net_Device...include_links`
 #     7-May-2013 (RS) Add IPv6 related classes
+#     8-May-2013 (RS) Add `channels` to `Spec.Entity` for `Wireless_Interface`
 #    ««revision-date»»···
 #--
 
@@ -210,9 +211,10 @@ FFM.Net_Device.GTW.afs_spec = Spec.Entity \
         , "virtual_wireless_interfaces"
         )
     )
-### FFM.Net_Device_Type.GTW.afs_spec = Spec.Entity (include_links = ("FFM.Device_Type_made_by_Company", ))
+### FFM.Net_Device_Type.GTW.afs_spec = Spec.Entity \
+###    (include_links = ("FFM.Device_Type_made_by_Company", ))
 FFM.Wireless_Interface.GTW.afs_spec = Spec.Entity \
-    (include_links = ("antennas", ))
+    (include_links = ("antennas", "channels"))
 
 if __name__ != "__main__" :
     FFM._Export_Module ()
