@@ -81,7 +81,11 @@ class Backfire_WLAN_Config (Page_Tree) :
     html_charset = 'utf-8' # force utf-8 encoding
 
     def parse (self) :
-        wlo = ('Wireless Overview', 'Drahtlosübersicht'.decode ('latin1'))
+        wlo = \
+            ( 'Wireless Overview'
+            , 'Drahtlosübersicht'.decode ('latin1')
+            , 'WLAN Übersicht'.decode ('latin1')
+            )
         root = self.tree.getroot ()
         self.wlans = []
         for div in root.findall (".//%s" % tag ("div")) :
@@ -105,7 +109,7 @@ class Backfire_WLAN_Config (Page_Tree) :
                     else :
                         k = 'name'
                     v = td.text
-                    setattr (d, k, v)
+                    d.set (** {k : v})
             break
     # end def parse
 # end class Backfire_WLAN_Config
