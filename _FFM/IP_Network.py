@@ -46,6 +46,7 @@
 #     5-Mar-2013 (CT) Add `electric`, fix predicate `owner_or_cool_down`
 #     5-Mar-2013 (CT) Make `owner` argument of `reserve` optional
 #    28-Apr-2013 (CT) Add attribute `desc`
+#     8-May-2013 (CT) Set `pool.P_Type` to `FFM.IP_Network`
 #    ««revision-date»»···
 #--
 
@@ -131,6 +132,7 @@ class IP_Network (_Ancestor_Essence) :
             """Pool the `%(type_name)s` belongs to."""
 
             kind               = Attr.Optional
+            P_Type             = "FFM.IP_Network"
 
         # end class pool
 
