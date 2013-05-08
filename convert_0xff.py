@@ -35,7 +35,7 @@ from   _GTW._OMP._Auth        import Auth
 from   _MOM.import_MOM        import Q
 from   olsr.parser            import get_olsr_container
 from   spider.parser          import Guess
-from   spider.common          import unroutable, Interface, Inet4
+from   spider.common          import unroutable, Interface, Inet4, WLAN_Config
 
 import _TFL.CAO
 import model
@@ -58,6 +58,9 @@ class Consolidated_Interface (object) :
         The original ip address is used as identity of this object, it
         is used to store the interface in a Consolidated_Device.
     """
+
+    wl_modes = WLAN_Config.modes
+
     def __init__ (self, convert, device, ip, idx) :
         self.convert       = convert
         self.device        = device
@@ -71,6 +74,7 @@ class Consolidated_Interface (object) :
         self.is_wlan       = False
         self.wlan_info     = None
         self.names         = []
+        self.spider_ip     = None
         self.verbose       = convert.verbose
     # end def __init__
 
@@ -79,23 +83,29 @@ class Consolidated_Interface (object) :
         dev   = self.device.net_device
         ffm   = self.convert.ffm
         Adr   = ffm.IP4_Network.net_address.P_Type
-        desc  = None
+        desc  = []
         if self.names :
-            desc = 'Spider Interfaces: %s' % ', '.join (self.names)
+            desc.append ('Spider Interfaces: %s' % ', '.join (self.names))
+        if self.spider_ip :
+            desc.append ('Spider IP: %s' % self.spider_ip)
+        desc = '\n'.join (desc) or None
         if self.is_wlan :
             iface   = self.net_interface = ffm.Wireless_Interface \
-                (left = dev, name = self.ifname, raw = True)
+                (left = dev, name = self.ifname, desc = desc, raw = True)
             if self.wlan_info :
-                std = Wireless_Standard.instance \
-                    (name = self.wlan_info.standard, desc = desc, raw = True)
+                std  = ffm.Wireless_Standard.instance \
+                    (name = self.wlan_info.standard, raw = True)
+                mode = self.wlan_info.mode.lower ()
+                mode = self.wl_modes [mode]
                 iface.set_raw \
-                    ( mode     = self.wlan_info.mode
+                    ( mode     = mode
                     , essid    = self.wlan_info.ssid
                     , bssid    = self.wlan_info.bssid
                     , standard = std
                     )
-                ffm.Wireless_Interface_uses_Wireless_Channel \
-                    (self.wlan_info.channel, raw = True)
+                chan = ffm.Wireless_Channel.instance \
+                    (std, self.wlan_info.channel, raw = True)
+                ffm.Wireless_Interface_uses_Wireless_Channel (iface, chan)
         else :
             iface   = self.net_interface = ffm.Wired_Interface \
                 (left = dev, name = self.ifname, desc = desc, raw = True)
@@ -358,6 +368,7 @@ class Convert (object) :
                 iface = Interface (4711, name)
                 iface.done = False
                 dev.interfaces [name] = iface
+                iface.device = dev
                 iface.append_inet4 (Inet4 (ip, None, None, iface = name))
                 self.spider_iface [ip] = iface
                 self.spider_devs  [ip] = dev
@@ -970,10 +981,6 @@ class Convert (object) :
                         pyk.fprint ("ERR: ip %s from spider has no device" % i4)
                         continue
                     d = self.cons_dev [ip.id_devices]
-                    if sif.is_wlan :
-                        d.is_wlan   = True
-                        d.wlan_info = getattr (sif, 'wlan_info', None)
-                    d.names = sif.names
                     if sdev not in node_by_sdev :
                         node_by_sdev [sdev] = {}
                     if d.id_nodes not in node_by_sdev [sdev] :
@@ -1025,8 +1032,6 @@ class Convert (object) :
                 for sif, ips in sifs.iteritems () :
                     l = len (ips)
                     assert l >= 1
-                    if l == 1 :
-                        continue
                     ifaces = {}
                     for ip in ips :
                         ifaces [ip] = dev1.interfaces [ip]
@@ -1050,6 +1055,11 @@ class Convert (object) :
                         else :
                             if1 = ifc
                             ip1 = ip
+                            if sif.is_wlan :
+                                if1.is_wlan   = True
+                                if1.wlan_info = getattr (sif, 'wlan_info', None)
+                            if1.names = sif.names
+                            if1.spider_ip = sif.device.mainip
     # end def build_device_structure
 
     def debug_output (self) :
