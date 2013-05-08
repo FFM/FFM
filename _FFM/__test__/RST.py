@@ -31,6 +31,7 @@
 #     5-Mar-2013 (CT) Adapt to changes in `Net_Interface_in_IP4_Network`
 #    28-Mar-2013 (CT) Factor `_test_limit` from `_test_get`
 #     3-May-2013 (CT) Add test for `META` query argument
+#     8-May-2013 (CT) Remove `.pid`, `.url` from `attribute_names`, unless CSV
 #    ««revision-date»»···
 #--
 
@@ -101,14 +102,11 @@ _test_get = r"""
     { 'json' :
         { 'attribute_names' :
             [ 'name'
-            , 'manager.pid'
-            , 'manager.url'
+            , 'manager'
             , 'lifetime.start'
             , 'lifetime.finish'
-            , 'address.pid'
-            , 'address.url'
-            , 'owner.pid'
-            , 'owner.url'
+            , 'address'
+            , 'owner'
             , 'position.lat'
             , 'position.lon'
             , 'position.height'
@@ -141,14 +139,11 @@ _test_get = r"""
     { 'json' :
         { 'attribute_names' :
             [ 'name'
-            , 'manager.pid'
-            , 'manager.url'
+            , 'manager'
             , 'lifetime.start'
             , 'lifetime.finish'
-            , 'address.pid'
-            , 'address.url'
-            , 'owner.pid'
-            , 'owner.url'
+            , 'address'
+            , 'owner'
             , 'position.lat'
             , 'position.lon'
             , 'position.height'
@@ -208,10 +203,8 @@ _test_limit = r"""
     >>> r = show (R.get ("/v1/FFM-Net_Interface_in_IP4_Network?verbose&closure&order_by=pid&limit=1"))
     { 'json' :
         { 'attribute_names' :
-            [ 'left.pid'
-            , 'left.url'
-            , 'right.pid'
-            , 'right.url'
+            [ 'left'
+            , 'right'
             , 'mask_len'
             ]
         , 'entries' :
@@ -313,10 +306,8 @@ _test_limit = r"""
     >>> r = show (R.get ("/v1/FFM-Net_Interface_in_IP4_Network?verbose&closure&order_by=pid&limit=1&META"), cleaner = date_cleaner)
     { 'json' :
         { 'attribute_names' :
-            [ 'left.pid'
-            , 'left.url'
-            , 'right.pid'
-            , 'right.url'
+            [ 'left'
+            , 'right'
             , 'mask_len'
             ]
         , 'entries' :
