@@ -206,9 +206,14 @@ class Interface (Compare_Mixin) :
 class WLAN_Config (Compare_Mixin) :
 
     modes = \
-        { 'ad-hoc' : 'Ad-Hoc'
-        , 'adhoc'  : 'Ad-Hoc'
-        , 'ad hoc' : 'Ad-Hoc'
+        { 'ad hoc'  : 'Ad_Hoc'
+        , 'ad_hoc'  : 'Ad_Hoc'
+        , 'ad-hoc'  : 'Ad_Hoc'
+        , 'adhoc'   : 'Ad_Hoc'
+        , 'ap'      : 'AP'
+        , 'client'  : 'Client'
+        , 'managed' : 'Client'
+        , 'master'  : 'AP'
         }
 
     frq = \
@@ -229,6 +234,7 @@ class WLAN_Config (Compare_Mixin) :
         }
 
     def __init__ (self, ** kw) :
+        self.name = self.ssid = self.mode = self.channel = self.bssid = None
         self.set (** kw)
         self.__super.__init__ (** kw)
     # end def __init__
@@ -241,14 +247,18 @@ class WLAN_Config (Compare_Mixin) :
     # end def standard
 
     def set (self, ** kw) :
-        self.name     = kw.get ('name')
-        self.ssid     = kw.get ('ssid')
-        self.mode     = kw.get ('mode')
-        if self.mode :
-            self.mode = self.mode.lower ()
-            self.mode = self.modes.get (self.mode, self.mode)
-        self.channel  = kw.get ('channel')
-        self.bssid    = kw.get ('bssid')
+        """ Set attributes, don't overwrite existing ones.
+            Note that name isn't guaranteed to be set for old spider
+            runs.
+        """
+        self.name     = getattr (self, 'name', None) or kw.get ('name')
+        self.ssid     = getattr (self, 'ssid', None) or kw.get ('ssid')
+        if not hasattr (self, 'mode') or not self.mode :
+            self.mode     = kw.get ('mode')
+            if self.mode :
+                self.mode = self.modes.get (self.mode.lower (), self.mode)
+        self.channel  = getattr (self, 'channel', None) or kw.get ('channel')
+        self.bssid    = getattr (self, 'bssid',   None) or kw.get ('bssid')
         if not self.channel and 'frequency' in kw :
             self.channel = self.frq [kw ['frequency']]
     # end def set
