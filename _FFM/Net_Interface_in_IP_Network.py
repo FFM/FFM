@@ -33,6 +33,7 @@
 #     5-Mar-2013 (CT) Set `right.max_links = 1`
 #     5-Mar-2013 (CT) Replace `ip_address` by `mask_len`
 #     5-Mar-2013 (CT) Add predicates `network_not_split` and `valid_network`
+#    15-May-2013 (CT) Rename `auto_cache_np` to `auto_rev_ref_np`
 #    ««revision-date»»···
 #--
 
@@ -64,9 +65,9 @@ class Net_Interface_in_IP_Network (_Ancestor_Essence) :
             """Network interface."""
 
             role_type          = FFM.Net_Interface
-            auto_cache         = True
             auto_derive_np     = True
-            auto_cache_np      = True
+            auto_rev_ref       = True
+            auto_rev_ref_np    = True
 
         # end class left
 

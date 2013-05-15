@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -29,6 +29,8 @@
 #    28-Mar-2012 (CT) Creation
 #    10-May-2012 (RS) Allow multiple interfaces to use same antenna
 #     6-Dec-2012 (RS) Add `belongs_to_node`
+#    15-May-2013 (CT) Replace `auto_cache` by
+#                     `rev_ref_attr_name`, `auto_rev_ref`
 #    ««revision-date»»···
 #--
 
@@ -58,7 +60,7 @@ class Wireless_Interface_uses_Antenna (_Mixin, _Ancestor_Essence) :
             """Wireless interface."""
 
             role_type          = FFM.Wireless_Interface
-            auto_cache         = "interface"
+            rev_ref_attr_name  = "interface"
 
         # end class left
 
@@ -66,7 +68,7 @@ class Wireless_Interface_uses_Antenna (_Mixin, _Ancestor_Essence) :
             """Antenna."""
 
             role_type          = FFM.Antenna
-            auto_cache         = True
+            auto_rev_ref       = True
             ui_allow_new       = True
             max_links          = 1
 

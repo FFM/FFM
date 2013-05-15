@@ -29,6 +29,7 @@
 #    22-May-2012 (RS) Creation
 #    21-Sep-2012 (RS) set `is_partial`
 #     5-Mar-2013 (CT) Remove redefinition of `ip_address` (gone from parent)
+#    15-May-2013 (CT) Rename `auto_cache` to `auto_rev_ref`
 #    ««revision-date»»···
 #--
 
@@ -58,7 +59,7 @@ class Net_Interface_in_IP6_Network (_Ancestor_Essence) :
             """IP Network."""
 
             role_type          = FFM.IP6_Network
-            auto_cache         = True
+            auto_rev_ref       = True
 
         # end class right
 

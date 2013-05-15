@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -28,6 +28,7 @@
 # Revision Dates
 #    14-Mar-2012 (CT) Creation
 #     6-Dec-2012 (RS) Add `belongs_to_node`, add `max_links`
+#    15-May-2013 (CT) Replace `auto_cache` by `link_ref_attr_name`
 #    ««revision-date»»···
 #--
 
@@ -65,7 +66,7 @@ class _Net_Credentials_ (_Mixin, _Ancestor_Essence) :
 
             role_type          = FFM.Net_Interface
             role_name          = "interface"
-            auto_cache         = "credentials"
+            link_ref_attr_name = "credentials"
             max_links          = 1
 
         # end class left

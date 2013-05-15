@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #     7-Dec-2012 (RS) Creation
+#    15-May-2013 (CT) Replace `auto_cache` by `link_ref_attr_name`
 #    ««revision-date»»···
 #--
 
@@ -52,7 +53,7 @@ class Antenna_Band (_Ancestor_Essence) :
 
             role_type          = FFM.Antenna_Type
             ui_allow_new       = False
-            auto_cache         = "bands"
+            link_ref_attr_name = "band"
 
         # end class left
 

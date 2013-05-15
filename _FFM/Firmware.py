@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -28,6 +28,7 @@
 # Revision Dates
 #    28-Mar-2012 (CT) Creation
 #    18-Jun-2012 (CT) Add missing `is_partial` to `Firmware_Bin`
+#    15-May-2013 (CT) Rename `auto_cache` to `auto_rev_ref`
 #    ««revision-date»»···
 #--
 
@@ -189,7 +190,7 @@ class Firmware_Binary_in_Firmware_Bundle (_Ancestor_Essence) :
             """Binary."""
 
             role_type          = Firmware_Binary
-            auto_cache         = "binaries"
+            auto_rev_ref       = "binary"
 
         # end class left
 

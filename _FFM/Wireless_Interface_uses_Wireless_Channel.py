@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -28,6 +28,7 @@
 # Revision Dates
 #    20-Aug-2012 (RS) Creation
 #     6-Dec-2012 (RS) Add `belongs_to_node`
+#    15-May-2013 (CT) Rename `auto_cache` to `auto_rev_ref`
 #    ««revision-date»»···
 #--
 
@@ -57,7 +58,7 @@ class Wireless_Interface_uses_Wireless_Channel (_Mixin, _Ancestor_Essence) :
             """Wireless interface."""
 
             role_type          = FFM.Wireless_Interface
-            auto_cache         = True
+            auto_rev_ref       = True
             role_name          = "interface"
 
         # end class left
@@ -66,7 +67,7 @@ class Wireless_Interface_uses_Wireless_Channel (_Mixin, _Ancestor_Essence) :
             """Wireless channel."""
 
             role_type          = FFM.Wireless_Channel
-            auto_cache         = True
+            auto_rev_ref       = True
             role_name          = "channel"
 
         # end class right

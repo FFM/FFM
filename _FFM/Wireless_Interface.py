@@ -41,6 +41,7 @@
 #    27-Feb-2013 (CT) Add `Virtual_Wireless_Interface.hardware.sort_skip = True`
 #    27-Feb-2013 (CT) Add `Init_Only_Mixin` and `ui_allow_new` to `hardware`
 #    24-Apr-2013 (CT) Move `left.auto_cache` to non-partial classes
+#    15-May-2013 (CT) Remove `auto_cache`
 #    ««revision-date»»···
 #--
 
@@ -127,8 +128,6 @@ class Wireless_Interface (_Ancestor_Essence) :
         class left (_Ancestor.left) :
             """Type of net device"""
 
-            auto_cache         = True
-
         # end class left
 
     # end class _Attributes
@@ -146,8 +145,6 @@ class Virtual_Wireless_Interface (_Ancestor_Essence) :
 
         class left (_Ancestor.left) :
             """Type of net device"""
-
-            auto_cache         = True
 
         # end class left
 

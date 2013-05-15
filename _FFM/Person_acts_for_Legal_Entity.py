@@ -28,6 +28,7 @@
 # Revision Dates
 #    28-Apr-2013 (CT) Creation
 #     7-May-2013 (RS) Add auto_cache `acts_for` for `Legal_Entity`
+#    15-May-2013 (CT) Rename `auto_cache` to `auto_rev_ref`
 #    ««revision-date»»···
 #--
 
@@ -56,7 +57,8 @@ class Person_acts_for_Legal_Entity (_Ancestor_Essence) :
             """Person allowed to act for a legal entity"""
 
             role_type          = PAP.Person
-            auto_cache         = "actor"
+            auto_rev_ref       = "actor"
+            rev_ref_singular   = True
 
         # end class left
 
@@ -64,7 +66,8 @@ class Person_acts_for_Legal_Entity (_Ancestor_Essence) :
             """Legal entity"""
 
             role_type          = PAP.Legal_Entity
-            auto_cache         = "acts_for"
+            auto_rev_ref       = "acts_for"
+            rev_ref_singular   = True
 
         # end class right
 

@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #     6-Mar-2012 (CT) Creation
+#    15-May-2013 (CT) Rename `auto_cache` to `auto_rev_ref`
 #    ««revision-date»»···
 #--
 
@@ -57,7 +58,7 @@ class Device_Type_made_by_Company (_Ancestor_Essence) :
             """Device type."""
 
             role_type          = FFM.Device_Type
-            auto_cache         = True
+            auto_rev_ref       = True
             max_links          = 1
 
         # end class left

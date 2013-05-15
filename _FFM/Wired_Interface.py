@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -28,6 +28,7 @@
 # Revision Dates
 #    10-May-2012 (CT) Creation
 #    17-Dec-2012 (RS) Add `auto_cache` for `left`
+#    13-May-2013 (CT) Remove `auto_cache`
 #    ««revision-date»»···
 #--
 
@@ -50,8 +51,6 @@ class Wired_Interface (_Ancestor_Essence) :
 
         class left (_Ancestor.left) :
             """Type of net device"""
-
-            auto_cache         = True
 
         # end class left
 
