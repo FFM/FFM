@@ -47,6 +47,7 @@
 #    15-Apr-2013 (CT) Add `exclude_robots` to resource `/api`
 #     3-May-2013 (CT) Rename `login_required` to `auth_required`
 #     4-May-2013 (CT) Add `auth_required` to `RST.MOM.Scope`
+#    20-May-2013 (CT) Import `_FFM.RST_Api_addons`
 #    ««revision-date»»···
 #--
 
@@ -75,6 +76,7 @@ import _GTW._Werkzeug.Command
 import _GTW._OMP._Auth.Nav
 import _GTW._OMP._PAP.Nav
 import _FFM.Nav
+import _FFM.RST_Api_addons
 
 import _GTW.HTML
 import _ReST.To_Html

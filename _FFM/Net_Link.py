@@ -31,6 +31,7 @@
 #    19-Sep-2012 (CT) Use `force_role_name`, not `role_name`
 #    26-Feb-2013 (CT) Remove `is_partial = True`,
 #                     i.e., allow links between different `Net_Interface`
+#    20-May-2013 (CT) Add `link_ref_suffix` to `left` and `right`
 #    ««revision-date»»···
 #--
 
@@ -57,6 +58,7 @@ class Net_Link (_Ancestor_Essence) :
 
             role_type          = FFM.Net_Interface
             force_role_name    = "left"
+            link_ref_suffix    = "_net_link"
 
         # end class left
 
@@ -65,6 +67,7 @@ class Net_Link (_Ancestor_Essence) :
 
             role_type          = FFM.Net_Interface
             force_role_name    = "right"
+            link_ref_suffix    = "_net_link"
 
         # end class right
 

@@ -29,6 +29,7 @@
 #    14-Mar-2012 (CT) Creation
 #     6-Dec-2012 (RS) Add `belongs_to_node`, add `max_links`
 #    15-May-2013 (CT) Replace `auto_cache` by `link_ref_attr_name`
+#    20-May-2013 (CT) Set `_Net_Credentials_.left.link_ref_suffix` to `None`
 #    ««revision-date»»···
 #--
 
@@ -67,6 +68,7 @@ class _Net_Credentials_ (_Mixin, _Ancestor_Essence) :
             role_type          = FFM.Net_Interface
             role_name          = "interface"
             link_ref_attr_name = "credentials"
+            link_ref_suffix    = None
             max_links          = 1
 
         # end class left
