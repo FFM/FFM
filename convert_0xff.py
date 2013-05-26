@@ -28,7 +28,7 @@ from   rsclib.Phone           import Phone
 from   rsclib.sqlparser       import make_naive, SQL_Parser
 from   _GTW                   import GTW
 from   _TFL                   import TFL
-from   _TFL                   import pyk
+from   _TFL.pyk               import pyk
 from   _FFM                   import FFM
 from   _GTW._OMP._PAP         import PAP
 from   _GTW._OMP._Auth        import Auth
