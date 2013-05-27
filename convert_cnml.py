@@ -368,7 +368,6 @@ class Convert (object) :
     # end def insert
 # end def Convert
 
-
 def _main (cmd) :
     scope = model.scope (cmd)
     if cmd.Break :
@@ -379,6 +378,8 @@ def _main (cmd) :
     scope.commit ()
     scope.ems.compact ()
     scope.destroy ()
+    model.command._handle_load_auth_mig \
+        (cmd, mig_auth_file = model.command.default_mig_auth_file + ".cnml")
 # end def _main
 
 _Command = TFL.CAO.Cmd \

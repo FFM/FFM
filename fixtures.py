@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the program FFM.
@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    17-Dec-2012 (RS) Creation, move old fixtures.py to _FFM
+#    27-May-2013 (CT) Remove trivial `password` values
 #    ««revision-date»»···
 #--
 
@@ -38,11 +39,11 @@ def create (scope) :
     Auth = scope.Auth
     Auth.Account.create_new_account_x \
         ( "christian.tanzer@gmail.com"
-        , password = "123", enabled = True, superuser = True, suspended = False
+        , enabled = True, superuser = True, suspended = False
         )
     Auth.Account.create_new_account_x \
         ( "tanzer@swing.co.at"
-        , password = "456", enabled = True, suspended = False
+        , enabled = True, suspended = False
         )
     Auth.Group ("FFM")
     Auth.Account_in_Group ("tanzer@swing.co.at", "FFM")

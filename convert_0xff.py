@@ -544,7 +544,7 @@ class Convert (object) :
 
     companies         = dict.fromkeys ((112, ))
     associations      = dict.fromkeys ((146, 176, 318, 438, 737, 809))
-    company_actor     = {134 : 37} 
+    company_actor     = {134 : 37}
     association_actor = {  1 : 15, 838 : 671}
     person_disable    = dict.fromkeys ((263, 385, 612, 621))
     person_remove     = dict.fromkeys ((549, 608))
@@ -1108,7 +1108,6 @@ class Convert (object) :
 
 # end def Convert
 
-
 def _main (cmd) :
     scope = model.scope (cmd)
     if cmd.Break :
@@ -1119,6 +1118,8 @@ def _main (cmd) :
     scope.commit ()
     scope.ems.compact ()
     scope.destroy ()
+    model.command._handle_load_auth_mig \
+        (cmd, mig_auth_file = model.command.default_mig_auth_file + ".0xff")
 # end def _main
 
 _Command = TFL.CAO.Cmd \
@@ -1140,4 +1141,4 @@ _Command = TFL.CAO.Cmd \
 
 if __name__ == "__main__" :
     _Command ()
-### __END__ convert_0xFF
+### __END__ convert_0xff
