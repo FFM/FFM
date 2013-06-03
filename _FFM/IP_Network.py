@@ -168,8 +168,8 @@ class IP_Network (_Ancestor_Essence) :
         pool   = self.find_closest_mask (mask_len)
         ETM    = self.ETM
         E_Type = self.E_Type
-        net_addr = E_Type.net_address.P_Type \
-            (pool.net_address.address.subnets (mask_len).next ())
+        NA_ET  = E_Type.attr_prop ("net_address").P_Type
+        net_addr = NA_ET (pool.net_address.address.subnets (mask_len).next ())
         return self._reserve (pool, net_addr, owner)
     # end def allocate
 
@@ -236,10 +236,11 @@ class IP_Network (_Ancestor_Essence) :
     def split (self) :
         ETM         = self.ETM
         E_Type      = self.E_Type
+        Net_Addr_ET = E_Type.attr_prop ("net_address").P_Type
         net_address = self.net_address
         results     = []
         for sn in net_address.address.subnets (net_address.mask_len + 1) :
-            sn_addr = E_Type.net_address.P_Type (sn)
+            sn_addr = Net_Addr_ET (sn)
             results.append (ETM (sn_addr, owner = self.owner, electric = True))
         self.has_children = True
         return results

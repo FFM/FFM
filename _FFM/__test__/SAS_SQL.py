@@ -1139,988 +1139,988 @@ _test_tables = """
 
     >>> show_tables (scope)
     Auth.Account_in_Group <Table Auth__Account_in_Group>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Account left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Group right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     Auth.Certificate <Table Auth__Certificate>
-        Column __validity_finish         : Datetime
-        Column __validity_start          : Datetime
-        Column desc                      : Varchar(40)
-        Column electric                  : Boolean
-        Column email                     : Varchar(80)
-        Column last_cid                  : Integer
-        Column pem                       : Blob
-        Column pid                       : Integer              primary
-        Column revocation_date           : Datetime
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __validity_finish         : Datetime             Optional__Nested Date-Time finish
+        Column __validity_start          : Datetime             Necessary__Nested Date-Time start
+        Column desc                      : Varchar(40)          Primary_Optional String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column email                     : Varchar(80)          Primary Email email
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column pem                       : Blob                 Internal None pem
+        Column pid                       : Integer              ---------- primary
+        Column revocation_date           : Datetime             Optional Date-Time revocation_date
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     Auth.Group <Table Auth__Group>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column name                      : Varchar(32)
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column name                      : Varchar(32)          Primary Name name
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     Auth._Account_ <Table Auth___Account_>
-        Column electric                  : Boolean
-        Column enabled                   : Boolean
-        Column last_cid                  : Integer
-        Column name                      : Varchar(80)
-        Column pid                       : Integer              primary
-        Column superuser                 : Boolean
-        Column suspended                 : Boolean
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column enabled                   : Boolean              Optional Boolean enabled
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column name                      : Varchar(80)          Primary Email name
+        Column pid                       : Integer              ---------- primary
+        Column superuser                 : Boolean              Optional Boolean superuser
+        Column suspended                 : Boolean              Internal Boolean suspended
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     Auth.Account Auth._Account_ <Table Auth__Account>
-        Column Auth___Account__pid       : Integer              primary ForeignKey(u'Auth___Account_.pid')
-        Column password                  : Varchar(120)
-        Column ph_name                   : Varchar(64)
+        Column Auth___Account__pid       : Integer              ---------- primary ForeignKey(u'Auth___Account_.pid')
+        Column password                  : Varchar(120)         Internal String password
+        Column ph_name                   : Varchar(64)          Internal__Sticky String ph_name
     EVT.Event <Table EVT__Event>
-        Column __date_finish             : Date
-        Column __date_start              : Date
-        Column __time_finish             : Time
-        Column __time_start              : Time
-        Column calendar_pid              : Integer
-        Column detail                    : Varchar(160)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column short_title               : Varchar(64)
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __date_finish             : Date                 Optional__Nested Date finish
+        Column __date_start              : Date                 Necessary__Nested Date start
+        Column __time_finish             : Time                 Optional__Nested Time finish
+        Column __time_start              : Time                 Necessary__Nested Time start
+        Column calendar_pid              : Integer              Primary_Optional__Id_Entity_Reference Entity calendar
+        Column detail                    : Varchar(160)         Optional String detail
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role__Init_Only Page left
+        Column pid                       : Integer              ---------- primary
+        Column short_title               : Varchar(64)          Optional__Computed_Set String short_title
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     EVT.Event_occurs <Table EVT__Event_occurs>
-        Column __time_finish             : Time
-        Column __time_start              : Time
-        Column date                      : Date
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __time_finish             : Time                 Optional__Nested Time finish
+        Column __time_start              : Time                 Necessary__Nested Time start
+        Column date                      : Date                 Primary Date date
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role__Init_Only Event left
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     EVT.Recurrence_Rule <Table EVT__Recurrence_Rule>
-        Column count                     : Integer
-        Column desc                      : Varchar(20)
-        Column easter_offset             : Blob
-        Column electric                  : Boolean
-        Column finish                    : Date
-        Column is_exception              : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column month                     : Blob
-        Column month_day                 : Blob
-        Column period                    : Integer
-        Column pid                       : Integer              primary
-        Column restrict_pos              : Blob
-        Column start                     : Date
-        Column type_name                 : Varchar(60)
-        Column unit                      : Integer
-        Column week                      : Blob
-        Column week_day                  : Blob
-        Column x_locked                  : Boolean
-        Column year_day                  : Blob
+        Column count                     : Integer              Optional Int count
+        Column desc                      : Varchar(20)          Primary_Optional String desc
+        Column easter_offset             : Blob                 Optional__Typed_Collection Int_List easter_offset
+        Column electric                  : Boolean              Internal Boolean electric
+        Column finish                    : Date                 Optional__Computed_Set Date finish
+        Column is_exception              : Boolean              Primary_Optional Boolean is_exception
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role__Init_Only Recurrence_Spec left
+        Column month                     : Blob                 Optional__Typed_Collection Int_List month
+        Column month_day                 : Blob                 Optional__Typed_Collection Int_List month_day
+        Column period                    : Integer              Optional Int period
+        Column pid                       : Integer              ---------- primary
+        Column restrict_pos              : Blob                 Optional__Typed_Collection Int_List restrict_pos
+        Column start                     : Date                 Optional__Computed_Set Date start
+        Column type_name                 : Varchar(60)          ----------
+        Column unit                      : Integer              Optional__Sticky Unit unit
+        Column week                      : Blob                 Optional__Typed_Collection Int_List week
+        Column week_day                  : Blob                 Optional__Typed_Collection Weekday_RR_List week_day
+        Column x_locked                  : Boolean              Internal Boolean x_locked
+        Column year_day                  : Blob                 Optional__Typed_Collection Int_List year_day
     EVT.Recurrence_Spec <Table EVT__Recurrence_Spec>
-        Column date_exceptions           : Blob
-        Column dates                     : Blob
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column date_exceptions           : Blob                 Optional__Typed_Collection Date_List date_exceptions
+        Column dates                     : Blob                 Optional__Typed_Collection Date_List dates
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role__Init_Only Event left
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     EVT.Calendar <Table EVT__Calendar>
-        Column desc                      : Varchar(80)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column name                      : Varchar(32)
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(80)          Optional String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column name                      : Varchar(32)          Primary Name name
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Firmware_Binary <Table FFM__Firmware_Binary>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role__Init_Only Firmware_Version left
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Firmware_Bundle <Table FFM__Firmware_Bundle>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column name                      : Varchar(128)
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column version                   : Varchar(16)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column name                      : Varchar(128)         Primary String name
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column version                   : Varchar(16)          Primary String version
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Antenna_Band <Table FFM__Antenna_Band>
-        Column __band___raw_lower        : Varchar(60)
-        Column __band___raw_upper        : Varchar(60)
-        Column __band_lower              : Float
-        Column __band_upper              : Float
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __band___raw_lower        : Varchar(60)          Necessary__Raw_Value__Nested Frequency lower
+        Column __band___raw_upper        : Varchar(60)          Necessary__Raw_Value__Nested Frequency upper
+        Column __band_lower              : Float                Necessary__Raw_Value__Nested Frequency lower
+        Column __band_upper              : Float                Necessary__Raw_Value__Nested Frequency upper
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role__Init_Only Antenna_Type left
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Antenna <Table FFM__Antenna>
-        Column __raw_azimuth             : Varchar(60)
-        Column __raw_name                : Varchar(60)
-        Column azimuth                   : Float
-        Column desc                      : Text
-        Column electric                  : Boolean
-        Column elevation                 : Smallint
-        Column gain                      : Float
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column name                      : Varchar(40)
-        Column pid                       : Integer              primary
-        Column polarization              : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __raw_azimuth             : Varchar(60)          Required__Raw_Value Angle azimuth
+        Column __raw_name                : Varchar(60)          Primary_Optional__Raw_Value String name
+        Column azimuth                   : Float                Required__Raw_Value Angle azimuth
+        Column desc                      : Text                 Optional Text desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column elevation                 : Smallint             Optional__Sticky Int elevation
+        Column gain                      : Float                Optional__Computed_Set Float gain
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role__Init_Only Antenna_Type left
+        Column name                      : Varchar(40)          Primary_Optional__Raw_Value String name
+        Column pid                       : Integer              ---------- primary
+        Column polarization              : Integer              Optional__Computed_Set Antenna Polarization polarization
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Net_Device <Table FFM__Net_Device>
-        Column __raw_name                : Varchar(60)
-        Column desc                      : Text
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column name                      : Varchar(40)
-        Column node_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __raw_name                : Varchar(60)          Primary_Optional__Raw_Value String name
+        Column desc                      : Text                 Optional Text desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role__Init_Only Net_Device_Type left
+        Column name                      : Varchar(40)          Primary_Optional__Raw_Value String name
+        Column node_pid                  : Integer              Query__Auto_Update__Id_Entity_Reference Entity belongs_to_node
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Firmware_Version <Table FFM__Firmware_Version>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column version                   : Varchar(16)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role__Init_Only Firmware_Type left
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column version                   : Varchar(16)          Primary String version
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Net_Interface <Table FFM__Net_Interface>
-        Column __raw_name                : Varchar(60)
-        Column desc                      : Text
-        Column electric                  : Boolean
-        Column is_active                 : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column mac_address               : Varchar(17)
-        Column name                      : Varchar(63)
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __raw_name                : Varchar(60)          Primary_Optional__Raw_Value String name
+        Column desc                      : Text                 Optional Text desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column is_active                 : Boolean              Optional Boolean is_active
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role__Init_Only Net_Device left
+        Column mac_address               : Varchar(17)          Primary_Optional MAC-address mac_address
+        Column name                      : Varchar(63)          Primary_Optional__Raw_Value String name
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Wired_Interface FFM.Net_Interface <Table FFM__Wired_Interface>
-        Column FFM__Net_Interface_pid    : Integer              primary ForeignKey(u'FFM__Net_Interface.pid')
+        Column FFM__Net_Interface_pid    : Integer              ---------- primary ForeignKey(u'FFM__Net_Interface.pid')
     FFM._Wireless_Interface_ FFM.Net_Interface <Table FFM___Wireless_Interface_>
-        Column FFM__Net_Interface_pid    : Integer              primary ForeignKey(u'FFM__Net_Interface.pid')
-        Column __raw_txpower             : Varchar(60)
-        Column bssid                     : Varchar(17)
-        Column essid                     : Varchar(32)
-        Column mode                      : Varchar(6)
-        Column standard_pid              : Integer
-        Column txpower                   : Float
+        Column FFM__Net_Interface_pid    : Integer              ---------- primary ForeignKey(u'FFM__Net_Interface.pid')
+        Column __raw_txpower             : Varchar(60)          Optional__Raw_Value TX Power txpower
+        Column bssid                     : Varchar(17)          Optional MAC-address bssid
+        Column essid                     : Varchar(32)          Optional String essid
+        Column mode                      : Varchar(6)           Optional wl-mode mode
+        Column standard_pid              : Integer              Necessary__Id_Entity_Reference Entity standard
+        Column txpower                   : Float                Optional__Raw_Value TX Power txpower
     FFM.Virtual_Wireless_Interface FFM.Net_Interface <Table FFM__Virtual_Wireless_Interface>
-        Column FFM___Wireless_Interface__pid : Integer              primary ForeignKey(u'FFM___Wireless_Interface_.FFM__Net_Interface_pid')
-        Column hardware_pid              : Integer
+        Column FFM___Wireless_Interface__pid : Integer              ---------- primary ForeignKey(u'FFM___Wireless_Interface_.FFM__Net_Interface_pid')
+        Column hardware_pid              : Integer              Primary__Init_Only__Id_Entity_Reference Entity hardware
     FFM.Wireless_Interface FFM.Net_Interface <Table FFM__Wireless_Interface>
-        Column FFM___Wireless_Interface__pid : Integer              primary ForeignKey(u'FFM___Wireless_Interface_.FFM__Net_Interface_pid')
+        Column FFM___Wireless_Interface__pid : Integer              ---------- primary ForeignKey(u'FFM___Wireless_Interface_.FFM__Net_Interface_pid')
     FFM.Regulatory_Permission <Table FFM__Regulatory_Permission>
-        Column __band___raw_lower        : Varchar(60)
-        Column __band___raw_upper        : Varchar(60)
-        Column __band_lower              : Float
-        Column __band_upper              : Float
-        Column __raw_bandwidth           : Varchar(60)
-        Column __raw_eirp                : Varchar(60)
-        Column bandwidth                 : Float
-        Column eirp                      : Float
-        Column electric                  : Boolean
-        Column gain                      : Float
-        Column indoor_only               : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column need_DFS                  : Boolean
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __band___raw_lower        : Varchar(60)          Necessary__Raw_Value__Nested Frequency lower
+        Column __band___raw_upper        : Varchar(60)          Necessary__Raw_Value__Nested Frequency upper
+        Column __band_lower              : Float                Necessary__Raw_Value__Nested Frequency lower
+        Column __band_upper              : Float                Necessary__Raw_Value__Nested Frequency upper
+        Column __raw_bandwidth           : Varchar(60)          Necessary__Raw_Value Frequency bandwidth
+        Column __raw_eirp                : Varchar(60)          Optional__Raw_Value TX Power eirp
+        Column bandwidth                 : Float                Necessary__Raw_Value Frequency bandwidth
+        Column eirp                      : Float                Optional__Raw_Value TX Power eirp
+        Column electric                  : Boolean              Internal Boolean electric
+        Column gain                      : Float                Optional Float gain
+        Column indoor_only               : Boolean              Necessary Boolean indoor_only
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role__Init_Only Regulatory_Domain left
+        Column need_DFS                  : Boolean              Necessary Boolean need_DFS
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Routing_Zone_OLSR <Table FFM__Routing_Zone_OLSR>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role__Init_Only Zone left
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Wireless_Channel <Table FFM__Wireless_Channel>
-        Column __raw_frequency           : Varchar(60)
-        Column electric                  : Boolean
-        Column frequency                 : Float
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column number                    : Integer
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __raw_frequency           : Varchar(60)          Necessary__Raw_Value Frequency frequency
+        Column electric                  : Boolean              Internal Boolean electric
+        Column frequency                 : Float                Necessary__Raw_Value Frequency frequency
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role__Init_Only Wireless_Standard left
+        Column number                    : Integer              Primary Int number
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.WPA_Credentials <Table FFM__WPA_Credentials>
-        Column electric                  : Boolean
-        Column key                       : Varchar(32)
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column key                       : Varchar(32)          Required None key
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role__Init_Only Net_Interface left
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Device_Type_made_by_Company <Table FFM__Device_Type_made_by_Company>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Device_Type left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Company right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Firmware_Binary_in_Firmware_Bundle <Table FFM__Firmware_Binary_in_Firmware_Bundle>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Firmware_Binary left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Firmware_Bundle right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Virtual_Wireless_Interface_in_IP4_Network <Table FFM__Virtual_Wireless_Interface_in_IP4_Network>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column mask_len                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Virtual_Wireless_Interface left
+        Column mask_len                  : Integer              Required Int mask_len
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role IP4_Network right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Wired_Interface_in_IP4_Network <Table FFM__Wired_Interface_in_IP4_Network>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column mask_len                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Wired_Interface left
+        Column mask_len                  : Integer              Required Int mask_len
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role IP4_Network right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Wireless_Interface_in_IP4_Network <Table FFM__Wireless_Interface_in_IP4_Network>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column mask_len                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Wireless_Interface left
+        Column mask_len                  : Integer              Required Int mask_len
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role IP4_Network right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Virtual_Wireless_Interface_in_IP6_Network <Table FFM__Virtual_Wireless_Interface_in_IP6_Network>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column mask_len                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Virtual_Wireless_Interface left
+        Column mask_len                  : Integer              Required Int mask_len
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role IP6_Network right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Wired_Interface_in_IP6_Network <Table FFM__Wired_Interface_in_IP6_Network>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column mask_len                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Wired_Interface left
+        Column mask_len                  : Integer              Required Int mask_len
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role IP6_Network right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Wireless_Interface_in_IP6_Network <Table FFM__Wireless_Interface_in_IP6_Network>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column mask_len                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Wireless_Interface left
+        Column mask_len                  : Integer              Required Int mask_len
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role IP6_Network right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Net_Link <Table FFM__Net_Link>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Net_Interface left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Net_Interface right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Person_acts_for_Legal_Entity <Table FFM__Person_acts_for_Legal_Entity>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Person left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Legal_Entity right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Person_mentors_Person <Table FFM__Person_mentors_Person>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Person left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Person right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Wireless_Interface_uses_Antenna <Table FFM__Wireless_Interface_uses_Antenna>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column relative_height           : Float
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Wireless_Interface left
+        Column pid                       : Integer              ---------- primary
+        Column relative_height           : Float                Optional__Sticky Float relative_height
+        Column right_pid                 : Integer              Link_Role Antenna right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Wireless_Interface_uses_Wireless_Channel <Table FFM__Wireless_Interface_uses_Wireless_Channel>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Wireless_Interface left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Wireless_Channel right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Antenna_Type <Table FFM__Antenna_Type>
-        Column __raw_model_no            : Varchar(60)
-        Column __raw_name                : Varchar(60)
-        Column __raw_revision            : Varchar(60)
-        Column desc                      : Text
-        Column electric                  : Boolean
-        Column gain                      : Float
-        Column last_cid                  : Integer
-        Column model_no                  : Varchar(40)
-        Column name                      : Varchar(40)
-        Column pid                       : Integer              primary
-        Column polarization              : Integer
-        Column revision                  : Varchar(32)
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __raw_model_no            : Varchar(60)          Primary_Optional__Raw_Value String model_no
+        Column __raw_name                : Varchar(60)          Primary__Raw_Value String name
+        Column __raw_revision            : Varchar(60)          Primary_Optional__Raw_Value String revision
+        Column desc                      : Text                 Optional Text desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column gain                      : Float                Necessary Float gain
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column model_no                  : Varchar(40)          Primary_Optional__Raw_Value String model_no
+        Column name                      : Varchar(40)          Primary__Raw_Value String name
+        Column pid                       : Integer              ---------- primary
+        Column polarization              : Integer              Necessary Antenna Polarization polarization
+        Column revision                  : Varchar(32)          Primary_Optional__Raw_Value String revision
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Net_Device_Type <Table FFM__Net_Device_Type>
-        Column __raw_model_no            : Varchar(60)
-        Column __raw_name                : Varchar(60)
-        Column __raw_revision            : Varchar(60)
-        Column desc                      : Text
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column model_no                  : Varchar(40)
-        Column name                      : Varchar(40)
-        Column pid                       : Integer              primary
-        Column revision                  : Varchar(32)
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __raw_model_no            : Varchar(60)          Primary_Optional__Raw_Value String model_no
+        Column __raw_name                : Varchar(60)          Primary__Raw_Value String name
+        Column __raw_revision            : Varchar(60)          Primary_Optional__Raw_Value String revision
+        Column desc                      : Text                 Optional Text desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column model_no                  : Varchar(40)          Primary_Optional__Raw_Value String model_no
+        Column name                      : Varchar(40)          Primary__Raw_Value String name
+        Column pid                       : Integer              ---------- primary
+        Column revision                  : Varchar(32)          Primary_Optional__Raw_Value String revision
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Firmware_Type <Table FFM__Firmware_Type>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column name                      : Varchar(128)
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column url                       : Varchar(160)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column name                      : Varchar(128)         Primary String name
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column url                       : Varchar(160)         Primary Url url
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.IP4_Network <Table FFM__IP4_Network>
-        Column __net_address_address     : Varchar(18)
-        Column __net_address_mask_len    : Integer
-        Column __net_address_numeric_address : Integer
-        Column __net_address_upper_bound : Integer
-        Column cool_down                 : Datetime
-        Column desc                      : Varchar(80)
-        Column electric                  : Boolean
-        Column has_children              : Boolean
-        Column last_cid                  : Integer
-        Column owner_pid                 : Integer
-        Column pid                       : Integer              primary
-        Column pool_pid                  : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __net_address_address     : Varchar(18)          Necessary__Nested IP4-network address
+        Column __net_address_mask_len    : Integer              Internal__Auto_Update__Nested Int mask_len
+        Column __net_address_numeric_address : Integer              Internal__Auto_Update__Nested Int numeric_address
+        Column __net_address_upper_bound : Integer              Internal__Auto_Update__Nested Int upper_bound
+        Column cool_down                 : Datetime             Internal Date-Time cool_down
+        Column desc                      : Varchar(80)          Optional String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column has_children              : Boolean              Internal Boolean has_children
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column owner_pid                 : Integer              Optional__Id_Entity_Reference Entity owner
+        Column pid                       : Integer              ---------- primary
+        Column pool_pid                  : Integer              Optional__Id_Entity_Reference Entity pool
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.IP6_Network <Table FFM__IP6_Network>
-        Column __net_address_address     : Varchar(43)
-        Column __net_address_mask_len    : Integer
-        Column __net_address_numeric_address_high : Bigint
-        Column __net_address_numeric_address_low : Bigint
-        Column __net_address_upper_bound_high : Bigint
-        Column __net_address_upper_bound_low : Bigint
-        Column cool_down                 : Datetime
-        Column desc                      : Varchar(80)
-        Column electric                  : Boolean
-        Column has_children              : Boolean
-        Column last_cid                  : Integer
-        Column owner_pid                 : Integer
-        Column pid                       : Integer              primary
-        Column pool_pid                  : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __net_address_address     : Varchar(43)          Necessary__Nested IP6-network address
+        Column __net_address_mask_len    : Integer              Internal__Auto_Update__Nested Int mask_len
+        Column __net_address_numeric_address_high : Bigint               Internal__Auto_Update__Nested Int numeric_address_high
+        Column __net_address_numeric_address_low : Bigint               Internal__Auto_Update__Nested Int numeric_address_low
+        Column __net_address_upper_bound_high : Bigint               Internal__Auto_Update__Nested Int upper_bound_high
+        Column __net_address_upper_bound_low : Bigint               Internal__Auto_Update__Nested Int upper_bound_low
+        Column cool_down                 : Datetime             Internal Date-Time cool_down
+        Column desc                      : Varchar(80)          Optional String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column has_children              : Boolean              Internal Boolean has_children
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column owner_pid                 : Integer              Optional__Id_Entity_Reference Entity owner
+        Column pid                       : Integer              ---------- primary
+        Column pool_pid                  : Integer              Optional__Id_Entity_Reference Entity pool
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Regulatory_Domain <Table FFM__Regulatory_Domain>
-        Column __raw_countrycode         : Varchar(60)
-        Column countrycode               : Varchar(2)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __raw_countrycode         : Varchar(60)          Primary__Raw_Value String countrycode
+        Column countrycode               : Varchar(2)           Primary__Raw_Value String countrycode
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Wireless_Standard <Table FFM__Wireless_Standard>
-        Column __raw_bandwidth           : Varchar(60)
-        Column __raw_name                : Varchar(60)
-        Column bandwidth                 : Float
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column name                      : Varchar(20)
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __raw_bandwidth           : Varchar(60)          Necessary__Raw_Value Frequency bandwidth
+        Column __raw_name                : Varchar(60)          Primary__Raw_Value String name
+        Column bandwidth                 : Float                Necessary__Raw_Value Frequency bandwidth
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column name                      : Varchar(20)          Primary__Raw_Value String name
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Zone <Table FFM__Zone>
-        Column __raw_name                : Varchar(60)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column name                      : Varchar(64)
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __raw_name                : Varchar(60)          Primary__Raw_Value String name
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column name                      : Varchar(64)          Primary__Raw_Value String name
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Address_Position <Table PAP__Address_Position>
-        Column __position___raw_lat      : Varchar(60)
-        Column __position___raw_lon      : Varchar(60)
-        Column __position_height         : Float
-        Column __position_lat            : Float
-        Column __position_lon            : Float
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __position___raw_lat      : Varchar(60)          Necessary__Raw_Value__Nested Angle lat
+        Column __position___raw_lon      : Varchar(60)          Necessary__Raw_Value__Nested Angle lon
+        Column __position_height         : Float                Optional__Nested Float height
+        Column __position_lat            : Float                Necessary__Raw_Value__Nested Angle lat
+        Column __position_lon            : Float                Necessary__Raw_Value__Nested Angle lon
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role__Init_Only Address left
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     SRM.Boat <Table SRM__Boat>
-        Column __raw_sail_number         : Varchar(60)
-        Column __raw_sail_number_x       : Varchar(60)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column name                      : Varchar(48)
-        Column nation                    : Varchar(3)
-        Column pid                       : Integer              primary
-        Column sail_number               : Integer
-        Column sail_number_x             : Varchar(8)
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __raw_sail_number         : Varchar(60)          Primary_Optional__Raw_Value Int sail_number
+        Column __raw_sail_number_x       : Varchar(60)          Primary_Optional__Raw_Value String sail_number_x
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role__Init_Only Boat_Class left
+        Column name                      : Varchar(48)          Optional String name
+        Column nation                    : Varchar(3)           Primary_Optional Nation nation
+        Column pid                       : Integer              ---------- primary
+        Column sail_number               : Integer              Primary_Optional__Raw_Value Int sail_number
+        Column sail_number_x             : Varchar(8)           Primary_Optional__Raw_Value String sail_number_x
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     SRM.Race_Result <Table SRM__Race_Result>
-        Column discarded                 : Boolean
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column points                    : Integer
-        Column race                      : Integer
-        Column status                    : Varchar(8)
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column discarded                 : Boolean              Optional__Sticky Boolean discarded
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role__Init_Only Boat_in_Regatta left
+        Column pid                       : Integer              ---------- primary
+        Column points                    : Integer              Necessary Int points
+        Column race                      : Integer              Primary Int race
+        Column status                    : Varchar(8)           Optional String status
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     SRM.Regatta <Table SRM__Regatta>
-        Column __result_date             : Datetime
-        Column __result_software         : Varchar(64)
-        Column __result_status           : Varchar(64)
-        Column boat_class_pid            : Integer
-        Column discards                  : Integer
-        Column electric                  : Boolean
-        Column is_cancelled              : Boolean
-        Column kind                      : Varchar(32)
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column perma_name                : Varchar(64)
-        Column pid                       : Integer              primary
-        Column races                     : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __result_date             : Datetime             Necessary__Nested Date-Time date
+        Column __result_software         : Varchar(64)          Optional__Nested String software
+        Column __result_status           : Varchar(64)          Optional__Nested String status
+        Column boat_class_pid            : Integer              Primary__Id_Entity_Reference Entity boat_class
+        Column discards                  : Integer              Optional Int discards
+        Column electric                  : Boolean              Internal Boolean electric
+        Column is_cancelled              : Boolean              Optional__Computed_Set Boolean is_cancelled
+        Column kind                      : Varchar(32)          Optional String kind
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role__Init_Only Regatta_Event left
+        Column perma_name                : Varchar(64)          Internal__Auto_Update_Lazy__Computed_Set String perma_name
+        Column pid                       : Integer              ---------- primary
+        Column races                     : Integer              Optional Int races
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     SRM.Regatta_C SRM.Regatta <Table SRM__Regatta_C>
-        Column SRM__Regatta_pid          : Integer              primary ForeignKey(u'SRM__Regatta.pid')
-        Column is_team_race              : Boolean
+        Column SRM__Regatta_pid          : Integer              ---------- primary ForeignKey(u'SRM__Regatta.pid')
+        Column is_team_race              : Boolean              Optional Boolean is_team_race
     SRM.Regatta_H SRM.Regatta <Table SRM__Regatta_H>
-        Column SRM__Regatta_pid          : Integer              primary ForeignKey(u'SRM__Regatta.pid')
+        Column SRM__Regatta_pid          : Integer              ---------- primary ForeignKey(u'SRM__Regatta.pid')
     SRM.Sailor <Table SRM__Sailor>
-        Column __raw_mna_number          : Varchar(60)
-        Column club_pid                  : Integer
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column mna_number                : Integer
-        Column nation                    : Varchar(3)
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __raw_mna_number          : Varchar(60)          Primary_Optional__Raw_Value Int mna_number
+        Column club_pid                  : Integer              Primary_Optional__Id_Entity_Reference Entity club
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role__Init_Only Person left
+        Column mna_number                : Integer              Primary_Optional__Raw_Value Int mna_number
+        Column nation                    : Varchar(3)           Primary_Optional Nation nation
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     SRM.Team <Table SRM__Team>
-        Column __raw_name                : Varchar(60)
-        Column club_pid                  : Integer
-        Column desc                      : Varchar(160)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column leader_pid                : Integer
-        Column left_pid                  : Integer
-        Column name                      : Varchar(64)
-        Column pid                       : Integer              primary
-        Column place                     : Integer
-        Column registration_date         : Date
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __raw_name                : Varchar(60)          Primary__Raw_Value String name
+        Column club_pid                  : Integer              Optional__Id_Entity_Reference Entity club
+        Column desc                      : Varchar(160)         Optional String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column leader_pid                : Integer              Optional__Id_Entity_Reference Entity leader
+        Column left_pid                  : Integer              Link_Role__Init_Only Regatta_C left
+        Column name                      : Varchar(64)          Primary__Raw_Value String name
+        Column pid                       : Integer              ---------- primary
+        Column place                     : Integer              Optional Int place
+        Column registration_date         : Date                 Internal Date registration_date
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     SWP.Clip_O <Table SWP__Clip_O>
-        Column __date_finish             : Date
-        Column __date_start              : Date
-        Column __date_x_finish           : Date
-        Column __date_x_start            : Date
-        Column abstract                  : Text
-        Column contents                  : Text
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column prio                      : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __date_finish             : Date                 Optional__Nested Date finish
+        Column __date_start              : Date                 Necessary__Nested Date start
+        Column __date_x_finish           : Date                 Optional__Nested Date finish
+        Column __date_x_start            : Date                 Necessary__Nested Date start
+        Column abstract                  : Text                 Required Text abstract
+        Column contents                  : Text                 Internal__Auto_Update Text contents
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role__Init_Only Object_PN left
+        Column pid                       : Integer              ---------- primary
+        Column prio                      : Integer              Optional__Sticky Int prio
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     SWP.Picture <Table SWP__Picture>
-        Column __photo_extension         : Varchar(10)
-        Column __photo_height            : Smallint
-        Column __photo_width             : Smallint
-        Column __thumb_extension         : Varchar(10)
-        Column __thumb_height            : Smallint
-        Column __thumb_width             : Smallint
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column name                      : Varchar(100)
-        Column number                    : Integer
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __photo_extension         : Varchar(10)          Optional__Init_Only__Nested String extension
+        Column __photo_height            : Smallint             Necessary__Nested Y height
+        Column __photo_width             : Smallint             Necessary__Nested X width
+        Column __thumb_extension         : Varchar(10)          Optional__Init_Only__Nested String extension
+        Column __thumb_height            : Smallint             Necessary__Nested Y height
+        Column __thumb_width             : Smallint             Necessary__Nested X width
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role__Init_Only Gallery left
+        Column name                      : Varchar(100)         Optional__Computed_Set String name
+        Column number                    : Integer              Primary Int number
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Person_has_Account <Table PAP__Person_has_Account>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Person left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Account right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Association_has_Address <Table PAP__Association_has_Address>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional__Computed_Set String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Association left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Address right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Company_has_Address <Table PAP__Company_has_Address>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional__Computed_Set String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Company left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Address right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Person_has_Address <Table PAP__Person_has_Address>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional__Computed_Set String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Person left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Address right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Association_has_Email <Table PAP__Association_has_Email>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional__Computed_Set String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Association left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Email right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Company_has_Email <Table PAP__Company_has_Email>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional__Computed_Set String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Company left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Email right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Person_has_Email <Table PAP__Person_has_Email>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional__Computed_Set String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Person left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Email right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Association_has_IM_Handle <Table PAP__Association_has_IM_Handle>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional__Computed_Set String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Association left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role IM_Handle right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Company_has_IM_Handle <Table PAP__Company_has_IM_Handle>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional__Computed_Set String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Company left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role IM_Handle right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Node_has_IM_Handle <Table PAP__Node_has_IM_Handle>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional__Computed_Set String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Node left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role IM_Handle right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Person_has_IM_Handle <Table PAP__Person_has_IM_Handle>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional__Computed_Set String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Person left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role IM_Handle right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Association_has_Nickname <Table PAP__Association_has_Nickname>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional__Computed_Set String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Association left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Nickname right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Company_has_Nickname <Table PAP__Company_has_Nickname>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional__Computed_Set String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Company left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Nickname right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Node_has_Nickname <Table PAP__Node_has_Nickname>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional__Computed_Set String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Node left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Nickname right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Person_has_Nickname <Table PAP__Person_has_Nickname>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional__Computed_Set String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Person left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Nickname right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Association_has_Phone <Table PAP__Association_has_Phone>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column extension                 : Varchar(5)
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional__Computed_Set String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column extension                 : Varchar(5)           Primary_Optional Numeric_String extension
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Association left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Phone right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Company_has_Phone <Table PAP__Company_has_Phone>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column extension                 : Varchar(5)
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional__Computed_Set String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column extension                 : Varchar(5)           Primary_Optional Numeric_String extension
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Company left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Phone right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Person_has_Phone <Table PAP__Person_has_Phone>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column extension                 : Varchar(5)
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional__Computed_Set String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column extension                 : Varchar(5)           Primary_Optional Numeric_String extension
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Person left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Phone right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Association_has_Url <Table PAP__Association_has_Url>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional__Computed_Set String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Association left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Url right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Company_has_Url <Table PAP__Company_has_Url>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional__Computed_Set String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Company left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Url right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Node_has_Url <Table PAP__Node_has_Url>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional__Computed_Set String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Node left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Url right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Person_has_Url <Table PAP__Person_has_Url>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional__Computed_Set String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Person left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Url right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     SRM.Boat_in_Regatta <Table SRM__Boat_in_Regatta>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column place                     : Integer
-        Column points                    : Integer
-        Column rank                      : Integer
-        Column registration_date         : Date
-        Column right_pid                 : Integer
-        Column skipper_pid               : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Boat left
+        Column pid                       : Integer              ---------- primary
+        Column place                     : Integer              Optional Int place
+        Column points                    : Integer              Optional Int points
+        Column rank                      : Integer              Internal Int rank
+        Column registration_date         : Date                 Internal__Init_Only Date registration_date
+        Column right_pid                 : Integer              Link_Role Regatta right
+        Column skipper_pid               : Integer              Required__Id_Entity_Reference Entity skipper
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     SRM.Crew_Member <Table SRM__Crew_Member>
-        Column electric                  : Boolean
-        Column key                       : Integer
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column role                      : Varchar(32)
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column key                       : Integer              Optional__Sticky Int key
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Boat_in_Regatta left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Sailor right
+        Column role                      : Varchar(32)          Optional String role
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     SRM.Team_has_Boat_in_Regatta <Table SRM__Team_has_Boat_in_Regatta>
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column left_pid                  : Integer
-        Column pid                       : Integer              primary
-        Column right_pid                 : Integer
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column left_pid                  : Integer              Link_Role Team left
+        Column pid                       : Integer              ---------- primary
+        Column right_pid                 : Integer              Link_Role Boat_in_Regatta right
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Address <Table PAP__Address>
-        Column __raw_city                : Varchar(60)
-        Column __raw_country             : Varchar(60)
-        Column __raw_region              : Varchar(60)
-        Column __raw_street              : Varchar(60)
-        Column __raw_zip                 : Varchar(60)
-        Column city                      : Varchar(30)
-        Column country                   : Varchar(20)
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column pid                       : Integer              primary
-        Column region                    : Varchar(20)
-        Column street                    : Varchar(60)
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
-        Column zip                       : Varchar(6)
+        Column __raw_city                : Varchar(60)          Primary__Raw_Value String city
+        Column __raw_country             : Varchar(60)          Primary__Raw_Value String country
+        Column __raw_region              : Varchar(60)          Optional__Raw_Value String region
+        Column __raw_street              : Varchar(60)          Primary__Raw_Value String street
+        Column __raw_zip                 : Varchar(60)          Primary__Raw_Value String zip
+        Column city                      : Varchar(30)          Primary__Raw_Value String city
+        Column country                   : Varchar(20)          Primary__Raw_Value String country
+        Column desc                      : Varchar(20)          Optional String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column pid                       : Integer              ---------- primary
+        Column region                    : Varchar(20)          Optional__Raw_Value String region
+        Column street                    : Varchar(60)          Primary__Raw_Value String street
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
+        Column zip                       : Varchar(6)           Primary__Raw_Value String zip
     PAP.Email <Table PAP__Email>
-        Column __raw_address             : Varchar(60)
-        Column address                   : Varchar(80)
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __raw_address             : Varchar(60)          Primary__Raw_Value Email address
+        Column address                   : Varchar(80)          Primary__Raw_Value Email address
+        Column desc                      : Varchar(20)          Optional String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.IM_Handle <Table PAP__IM_Handle>
-        Column __raw_address             : Varchar(60)
-        Column address                   : Varchar(80)
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column pid                       : Integer              primary
-        Column protocol                  : Varchar(16)
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __raw_address             : Varchar(60)          Primary__Raw_Value String address
+        Column address                   : Varchar(80)          Primary__Raw_Value String address
+        Column desc                      : Varchar(20)          Optional String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column pid                       : Integer              ---------- primary
+        Column protocol                  : Varchar(16)          Primary im_protocol protocol
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Nickname <Table PAP__Nickname>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column name                      : Varchar(32)
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column name                      : Varchar(32)          Primary String name
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Phone <Table PAP__Phone>
-        Column area_code                 : Varchar(5)
-        Column country_code              : Varchar(3)
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column number                    : Varchar(14)
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column area_code                 : Varchar(5)           Primary Numeric_String area_code
+        Column country_code              : Varchar(3)           Primary Numeric_String country_code
+        Column desc                      : Varchar(20)          Optional String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column number                    : Varchar(14)          Primary Numeric_String number
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Url <Table PAP__Url>
-        Column desc                      : Varchar(20)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column value                     : Varchar(160)
-        Column x_locked                  : Boolean
+        Column desc                      : Varchar(20)          Optional String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column value                     : Varchar(160)         Primary Url value
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     FFM.Node <Table FFM__Node>
-        Column __lifetime_finish         : Date
-        Column __lifetime_start          : Date
-        Column __position___raw_lat      : Varchar(60)
-        Column __position___raw_lon      : Varchar(60)
-        Column __position_height         : Float
-        Column __position_lat            : Float
-        Column __position_lon            : Float
-        Column __raw_name                : Varchar(60)
-        Column address_pid               : Integer
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column manager_pid               : Integer
-        Column name                      : Varchar(63)
-        Column owner_pid                 : Integer
-        Column pid                       : Integer              primary
-        Column show_in_map               : Boolean
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __lifetime_finish         : Date                 Optional__Nested Date finish
+        Column __lifetime_start          : Date                 Necessary__Nested Date start
+        Column __position___raw_lat      : Varchar(60)          Necessary__Raw_Value__Nested Angle lat
+        Column __position___raw_lon      : Varchar(60)          Necessary__Raw_Value__Nested Angle lon
+        Column __position_height         : Float                Optional__Nested Float height
+        Column __position_lat            : Float                Necessary__Raw_Value__Nested Angle lat
+        Column __position_lon            : Float                Necessary__Raw_Value__Nested Angle lon
+        Column __raw_name                : Varchar(60)          Primary__Raw_Value String name
+        Column address_pid               : Integer              Optional__Id_Entity_Reference Entity address
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column manager_pid               : Integer              Required__Id_Entity_Reference Entity manager
+        Column name                      : Varchar(63)          Primary__Raw_Value String name
+        Column owner_pid                 : Integer              Optional__Computed_Set__Id_Entity_Reference Entity owner
+        Column pid                       : Integer              ---------- primary
+        Column show_in_map               : Boolean              Optional Boolean show_in_map
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Association <Table PAP__Association>
-        Column __lifetime_finish         : Date
-        Column __lifetime_start          : Date
-        Column __raw_name                : Varchar(60)
-        Column __raw_short_name          : Varchar(60)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column name                      : Varchar(64)
-        Column pid                       : Integer              primary
-        Column short_name                : Varchar(12)
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __lifetime_finish         : Date                 Optional__Nested Date finish
+        Column __lifetime_start          : Date                 Necessary__Nested Date start
+        Column __raw_name                : Varchar(60)          Primary__Raw_Value String name
+        Column __raw_short_name          : Varchar(60)          Optional__Raw_Value String short_name
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column name                      : Varchar(64)          Primary__Raw_Value String name
+        Column pid                       : Integer              ---------- primary
+        Column short_name                : Varchar(12)          Optional__Raw_Value String short_name
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Company <Table PAP__Company>
-        Column __lifetime_finish         : Date
-        Column __lifetime_start          : Date
-        Column __raw_name                : Varchar(60)
-        Column __raw_registered_in       : Varchar(60)
-        Column __raw_short_name          : Varchar(60)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column name                      : Varchar(64)
-        Column pid                       : Integer              primary
-        Column registered_in             : Varchar(64)
-        Column short_name                : Varchar(12)
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __lifetime_finish         : Date                 Optional__Nested Date finish
+        Column __lifetime_start          : Date                 Necessary__Nested Date start
+        Column __raw_name                : Varchar(60)          Primary__Raw_Value String name
+        Column __raw_registered_in       : Varchar(60)          Primary_Optional__Raw_Value String registered_in
+        Column __raw_short_name          : Varchar(60)          Optional__Raw_Value String short_name
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column name                      : Varchar(64)          Primary__Raw_Value String name
+        Column pid                       : Integer              ---------- primary
+        Column registered_in             : Varchar(64)          Primary_Optional__Raw_Value String registered_in
+        Column short_name                : Varchar(12)          Optional__Raw_Value String short_name
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     PAP.Person <Table PAP__Person>
-        Column __lifetime_finish         : Date
-        Column __lifetime_start          : Date
-        Column __raw_first_name          : Varchar(60)
-        Column __raw_last_name           : Varchar(60)
-        Column __raw_middle_name         : Varchar(60)
-        Column __raw_title               : Varchar(60)
-        Column electric                  : Boolean
-        Column first_name                : Varchar(32)
-        Column last_cid                  : Integer
-        Column last_name                 : Varchar(48)
-        Column middle_name               : Varchar(32)
-        Column pid                       : Integer              primary
-        Column salutation                : Varchar(80)
-        Column sex                       : Varchar(1)
-        Column title                     : Varchar(20)
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __lifetime_finish         : Date                 Optional__Nested Date finish
+        Column __lifetime_start          : Date                 Necessary__Nested Date start
+        Column __raw_first_name          : Varchar(60)          Primary__Raw_Value String first_name
+        Column __raw_last_name           : Varchar(60)          Primary__Raw_Value String last_name
+        Column __raw_middle_name         : Varchar(60)          Primary_Optional__Raw_Value String middle_name
+        Column __raw_title               : Varchar(60)          Primary_Optional__Raw_Value String title
+        Column electric                  : Boolean              Internal Boolean electric
+        Column first_name                : Varchar(32)          Primary__Raw_Value String first_name
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column last_name                 : Varchar(48)          Primary__Raw_Value String last_name
+        Column middle_name               : Varchar(32)          Primary_Optional__Raw_Value String middle_name
+        Column pid                       : Integer              ---------- primary
+        Column salutation                : Varchar(80)          Optional String salutation
+        Column sex                       : Varchar(1)           Necessary Sex sex
+        Column title                     : Varchar(20)          Primary_Optional__Raw_Value String title
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     SRM.Club <Table SRM__Club>
-        Column __raw_name                : Varchar(60)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column long_name                 : Varchar(64)
-        Column name                      : Varchar(8)
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __raw_name                : Varchar(60)          Primary__Raw_Value String name
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column long_name                 : Varchar(64)          Optional String long_name
+        Column name                      : Varchar(8)           Primary__Raw_Value String name
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     SRM.Page SWP.Page <Table SRM__Page>
-        Column SWP__Page_pid             : Integer              primary ForeignKey(u'SWP__Page.pid')
-        Column desc                      : Varchar(30)
-        Column event_pid                 : Integer
+        Column SWP__Page_pid             : Integer              ---------- primary ForeignKey(u'SWP__Page.pid')
+        Column desc                      : Varchar(30)          Optional__Computed_Set String desc
+        Column event_pid                 : Integer              Primary__Id_Entity_Reference Entity event
     SRM.Regatta_Event <Table SRM__Regatta_Event>
-        Column __date_finish             : Date
-        Column __date_start              : Date
-        Column __raw_name                : Varchar(60)
-        Column club_pid                  : Integer
-        Column desc                      : Varchar(160)
-        Column electric                  : Boolean
-        Column is_cancelled              : Boolean
-        Column last_cid                  : Integer
-        Column name                      : Varchar(64)
-        Column perma_name                : Varchar(64)
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __date_finish             : Date                 Optional__Computed_Set__Nested Date finish
+        Column __date_start              : Date                 Necessary__Nested Date start
+        Column __raw_name                : Varchar(60)          Primary__Raw_Value String name
+        Column club_pid                  : Integer              Optional__Id_Entity_Reference Entity club
+        Column desc                      : Varchar(160)         Optional String desc
+        Column electric                  : Boolean              Internal Boolean electric
+        Column is_cancelled              : Boolean              Optional Boolean is_cancelled
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column name                      : Varchar(64)          Primary__Raw_Value String name
+        Column perma_name                : Varchar(64)          Internal__Auto_Update_Lazy__Computed_Set String perma_name
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     SRM._Boat_Class_ <Table SRM___Boat_Class_>
-        Column __raw_name                : Varchar(60)
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column name                      : Varchar(48)
-        Column pid                       : Integer              primary
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __raw_name                : Varchar(60)          Primary__Raw_Value String name
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column name                      : Varchar(48)          Primary__Raw_Value String name
+        Column pid                       : Integer              ---------- primary
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     SRM.Boat_Class SRM._Boat_Class_ <Table SRM__Boat_Class>
-        Column SRM___Boat_Class__pid     : Integer              primary ForeignKey(u'SRM___Boat_Class_.pid')
-        Column beam                      : Float
-        Column loa                       : Float
-        Column max_crew                  : Smallint
-        Column sail_area                 : Float
+        Column SRM___Boat_Class__pid     : Integer              ---------- primary ForeignKey(u'SRM___Boat_Class_.pid')
+        Column beam                      : Float                Optional Float beam
+        Column loa                       : Float                Optional Float loa
+        Column max_crew                  : Smallint             Required Int max_crew
+        Column sail_area                 : Float                Optional Float sail_area
     SRM.Handicap SRM._Boat_Class_ <Table SRM__Handicap>
-        Column SRM___Boat_Class__pid     : Integer              primary ForeignKey(u'SRM___Boat_Class_.pid')
+        Column SRM___Boat_Class__pid     : Integer              ---------- primary ForeignKey(u'SRM___Boat_Class_.pid')
     SWP.Gallery <Table SWP__Gallery>
-        Column __date_finish             : Date
-        Column __date_start              : Date
-        Column directory                 : Text
-        Column electric                  : Boolean
-        Column last_cid                  : Integer
-        Column perma_name                : Varchar(80)
-        Column pid                       : Integer              primary
-        Column short_title               : Varchar(30)
-        Column title                     : Varchar(120)
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __date_finish             : Date                 Optional__Nested Date finish
+        Column __date_start              : Date                 Necessary__Sticky__Nested Date start
+        Column directory                 : Text                 Necessary Directory directory
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column perma_name                : Varchar(80)          Primary Date-Slug perma_name
+        Column pid                       : Integer              ---------- primary
+        Column short_title               : Varchar(30)          Necessary String short_title
+        Column title                     : Varchar(120)         Necessary String title
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     SWP.Page <Table SWP__Page>
-        Column __date_finish             : Date
-        Column __date_start              : Date
-        Column contents                  : Text
-        Column electric                  : Boolean
-        Column format                    : Varchar(8)
-        Column head_line                 : Varchar(256)
-        Column hidden                    : Boolean
-        Column last_cid                  : Integer
-        Column perma_name                : Varchar(80)
-        Column pid                       : Integer              primary
-        Column prio                      : Integer
-        Column short_title               : Varchar(30)
-        Column text                      : Text
-        Column title                     : Varchar(120)
-        Column type_name                 : Varchar(60)
-        Column x_locked                  : Boolean
+        Column __date_finish             : Date                 Optional__Nested Date finish
+        Column __date_start              : Date                 Necessary__Sticky__Nested Date start
+        Column contents                  : Text                 Internal__Auto_Update Text contents
+        Column electric                  : Boolean              Internal Boolean electric
+        Column format                    : Varchar(8)           Optional__Sticky Format format
+        Column head_line                 : Varchar(256)         Optional String head_line
+        Column hidden                    : Boolean              Optional Boolean hidden
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column perma_name                : Varchar(80)          Primary Date-Slug perma_name
+        Column pid                       : Integer              ---------- primary
+        Column prio                      : Integer              Optional__Sticky Int prio
+        Column short_title               : Varchar(30)          Necessary String short_title
+        Column text                      : Text                 Required Text text
+        Column title                     : Varchar(120)         Necessary String title
+        Column type_name                 : Varchar(60)          ----------
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     SWP.Clip_X SWP.Page <Table SWP__Clip_X>
-        Column SWP__Page_pid             : Integer              primary ForeignKey(u'SWP__Page.pid')
-        Column link_to                   : Varchar(160)
+        Column SWP__Page_pid             : Integer              ---------- primary ForeignKey(u'SWP__Page.pid')
+        Column link_to                   : Varchar(160)         Optional Url link_to
     SWP.Page_Y SWP.Page <Table SWP__Page_Y>
-        Column SWP__Page_pid             : Integer              primary ForeignKey(u'SWP__Page.pid')
-        Column year                      : Integer
+        Column SWP__Page_pid             : Integer              ---------- primary ForeignKey(u'SWP__Page.pid')
+        Column year                      : Integer              Primary_Optional Int year
 
 """
 

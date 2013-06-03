@@ -46,7 +46,7 @@ _test_code = """
     >>> FFM = scope.FFM
     >>> WLC = FFM.Wireless_Channel
 
-    >>> FFM.Regulatory_Permission.E_Type.eirp.attr._default_unit
+    >>> FFM.Regulatory_Permission.E_Type.attr_prop ("eirp").attr._default_unit
     u'dBm'
     >>> FFM.Regulatory_Permission.query (Q.RAW.band.lower > '28 MHz').count ()
     3

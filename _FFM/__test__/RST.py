@@ -70,7 +70,6 @@ class FFM_RST_Test_Command (GTW_RST_Test_Command) :
             , city    = 'Wien'
             , country = 'Austria'
             )
-        scope.commit ()
     # end def fixtures
 
 # end class FFM_RST_Test_Command
@@ -440,10 +439,106 @@ _test_limit = r"""
 
 """
 
+def show_by_pid (ETM) :
+    for x in ETM.query ().order_by (Q.pid) :
+        print ("%-3s : %s" % (x.pid, x.ui_display))
+# end def show_by_pid
+
+_test_local_query = """
+    >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
+    Creating new scope MOMT__...
+
+    >>> FFM = scope.FFM
+    >>> PAP = scope.PAP
+
+    >>> show_by_pid (scope.FFM.Node)
+    2   : nogps
+    3   : node2
+
+    >>> show_by_pid (scope.FFM.Net_Device)
+    28  : Generic, node2, dev
+
+    >>> show_by_pid (scope.FFM.Net_Interface)
+    29  : Generic, node2, dev, wr
+    30  : Generic, node2, dev, wl
+
+    >>> show_by_pid (scope.FFM.Net_Interface_in_IP4_Network)
+    31  : Generic, node2, dev, wr, 192.168.23.1
+    32  : Generic, node2, dev, wl, 192.168.23.2
+    33  : Generic, node2, dev, wr, 192.168.23.3
+    34  : Generic, node2, dev, wl, 192.168.23.4
+
+    >>> show_by_pid (scope.FFM.IP4_Network)
+    4   : 192.168.23.0/24
+    5   : 192.168.23.0/25
+    6   : 192.168.23.128/25
+    7   : 192.168.23.0/26
+    8   : 192.168.23.64/26
+    9   : 192.168.23.0/27
+    10  : 192.168.23.32/27
+    11  : 192.168.23.0/28
+    12  : 192.168.23.16/28
+    13  : 192.168.23.0/29
+    14  : 192.168.23.8/29
+    15  : 192.168.23.0/30
+    16  : 192.168.23.4/30
+    17  : 192.168.23.0/31
+    18  : 192.168.23.2/31
+    19  : 192.168.23.0
+    20  : 192.168.23.1
+    21  : 192.168.23.2
+    22  : 192.168.23.3
+    23  : 192.168.23.4/31
+    24  : 192.168.23.6/31
+    25  : 192.168.23.4
+    26  : 192.168.23.5
+
+    >>> for i in range (1, 36) :
+    ...     x = scope.pid_query (i)
+    ...     print ("%%-3s %%s" %% (i, x.ui_display if x is not None else x))
+    1   Schlatterbeck Ralf
+    2   nogps
+    3   node2
+    4   192.168.23.0/24
+    5   192.168.23.0/25
+    6   192.168.23.128/25
+    7   192.168.23.0/26
+    8   192.168.23.64/26
+    9   192.168.23.0/27
+    10  192.168.23.32/27
+    11  192.168.23.0/28
+    12  192.168.23.16/28
+    13  192.168.23.0/29
+    14  192.168.23.8/29
+    15  192.168.23.0/30
+    16  192.168.23.4/30
+    17  192.168.23.0/31
+    18  192.168.23.2/31
+    19  192.168.23.0
+    20  192.168.23.1
+    21  192.168.23.2
+    22  192.168.23.3
+    23  192.168.23.4/31
+    24  192.168.23.6/31
+    25  192.168.23.4
+    26  192.168.23.5
+    27  Generic
+    28  Generic, node2, dev
+    29  Generic, node2, dev, wr
+    30  Generic, node2, dev, wl
+    31  Generic, node2, dev, wr, 192.168.23.1
+    32  Generic, node2, dev, wl, 192.168.23.2
+    33  Generic, node2, dev, wr, 192.168.23.3
+    34  Generic, node2, dev, wl, 192.168.23.4
+    35  Beispiel 23, 1010, Wien, Austria
+
+"""
+
 __test__ = Scaffold.create_test_dict \
     ( dict
-        ( test_get   = _test_get
-        , test_limit = _test_limit
+        ( test_get         = _test_get
+        , test_limit       = _test_limit
+        , test_local_query = _test_local_query
         )
     )
 

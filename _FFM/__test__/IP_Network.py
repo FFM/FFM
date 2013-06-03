@@ -46,9 +46,9 @@ from   datetime                 import datetime
 
 import _GTW._RST._TOP._MOM.Query_Restriction
 
-from _FFM.__test__.fixtures import net_fixtures
+from _FFM.__test__.fixtures import net_fixtures, create as std_fixtures
 
-_test_code = """
+_test_alloc = """
     >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
     Creating new scope MOMT__...
 
@@ -1157,14 +1157,96 @@ _test_AQ = """
 
 """
 
-_test_with_fixtures = """
+_test_net_fixtures = """
     >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
     Creating new scope MOMT__...
 
     >>> FFM = scope.FFM
     >>> PAP = scope.PAP
     >>> net_fixtures (scope)
+    >>> scope.commit ()
+
+    >>> show_by_pid (scope.FFM.Node)
+    2   : Node                      nogps
+    3   : Node                      node2
+    38  : Node                      Node-net1
+    39  : Node                      Node-net2
+    40  : Node                      Node-net3
+    41  : Node                      Node-net4
+
+    >>> show_by_pid (scope.FFM.Net_Device)
+    28  : Net_Device                Generic, node2, dev
+    44  : Net_Device                Generic, Node-net1, n1d1
+    45  : Net_Device                Generic, Node-net1, n1d2
+    46  : Net_Device                Generic, Node-net2, n2d1
+    47  : Net_Device                Generic, Node-net2, n2d2
+    48  : Net_Device                Generic, Node-net2, n2d3
+    49  : Net_Device                Generic, Node-net3, n3d1
+    50  : Net_Device                Generic, Node-net4, n4d1
+    51  : Net_Device                Generic, Node-net4, n4d2
+    52  : Net_Device                Generic, Node-net4, n4d3
+    53  : Net_Device                Generic, Node-net4, n4d4
+    54  : Net_Device                Generic, Node-net4, n4d5
+
 """
+
+_test_std_fixtures = """
+    >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
+    Creating new scope MOMT__...
+
+    >>> FFM = scope.FFM
+    >>> PAP = scope.PAP
+    >>> std_fixtures (scope)
+    >>> scope.commit ()
+
+    >>> show_by_pid (scope.FFM.Node)
+    2   : Node                      nogps
+    3   : Node                      node2
+
+    >>> show_by_pid (scope.FFM.Net_Device)
+    28  : Net_Device                Generic, node2, dev
+
+    >>> show_by_pid (scope.FFM.Net_Interface)
+    29  : Wired_Interface           Generic, node2, dev, wr
+    30  : Wireless_Interface        Generic, node2, dev, wl
+
+    >>> show_by_pid (scope.FFM.Net_Interface_in_IP4_Network)
+    31  : Wired_Interface_in_IP4_Network Generic, node2, dev, wr, 192.168.23.1
+    32  : Wireless_Interface_in_IP4_Network Generic, node2, dev, wl, 192.168.23.2
+    33  : Wired_Interface_in_IP4_Network Generic, node2, dev, wr, 192.168.23.3
+    34  : Wireless_Interface_in_IP4_Network Generic, node2, dev, wl, 192.168.23.4
+
+    >>> show_by_pid (scope.FFM.IP4_Network)
+    4   : IP4_Network               192.168.23.0/24
+    5   : IP4_Network               192.168.23.0/25
+    6   : IP4_Network               192.168.23.128/25
+    7   : IP4_Network               192.168.23.0/26
+    8   : IP4_Network               192.168.23.64/26
+    9   : IP4_Network               192.168.23.0/27
+    10  : IP4_Network               192.168.23.32/27
+    11  : IP4_Network               192.168.23.0/28
+    12  : IP4_Network               192.168.23.16/28
+    13  : IP4_Network               192.168.23.0/29
+    14  : IP4_Network               192.168.23.8/29
+    15  : IP4_Network               192.168.23.0/30
+    16  : IP4_Network               192.168.23.4/30
+    17  : IP4_Network               192.168.23.0/31
+    18  : IP4_Network               192.168.23.2/31
+    19  : IP4_Network               192.168.23.0
+    20  : IP4_Network               192.168.23.1
+    21  : IP4_Network               192.168.23.2
+    22  : IP4_Network               192.168.23.3
+    23  : IP4_Network               192.168.23.4/31
+    24  : IP4_Network               192.168.23.6/31
+    25  : IP4_Network               192.168.23.4
+    26  : IP4_Network               192.168.23.5
+
+"""
+
+def show_by_pid (ETM) :
+    for x in ETM.query ().order_by (Q.pid) :
+        print ("%-3s : %-25s %s" % (x.pid, x.type_base_name, x.ui_display))
+# end def show_by_pid
 
 def show_networks (scope, * qargs, ** qkw) :
     ETM = scope.FFM.IP4_Network
@@ -1192,9 +1274,10 @@ def show_network_count (scope) :
 
 __test__ = Scaffold.create_test_dict \
   ( dict
-      ( main               = _test_code
+      ( test_alloc         = _test_alloc
       , test_AQ            = _test_AQ
-      , test_with_fixtures = _test_with_fixtures
+      , test_net_fixtures  = _test_net_fixtures
+      , test_std_fixtures  = _test_std_fixtures
       )
   )
 
