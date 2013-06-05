@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -34,6 +34,7 @@
 #    05-Dec-2012 (RS) Add `A_Polarization`
 #    17-Dec-2012 (CT) Add `A_Wireless_Mode`
 #    17-Dec-2012 (RS) Fix unit dBW, use decadic logarithm for dB
+#     5-Jun-2013 (CT) Use `is_attr_type`, not home-grown code
 #    ««revision-date»»···
 #--
 
@@ -112,10 +113,7 @@ class A_Wireless_Mode (MOM.Attr._A_Named_Object_) :
 
 # end class A_Wireless_Mode
 
-__all__ = tuple \
-    (  k for (k, v) in globals ().iteritems ()
-    if isinstance (v, MOM.Meta.M_Attr_Type)
-    )
+__all__ = tuple (k for (k, v) in globals ().iteritems () if is_attr_type (v))
 
 if __name__ != "__main__" :
     FFM._Export ("*")
