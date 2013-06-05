@@ -381,6 +381,42 @@ _test_refuse_e_types = """
             , sig_key = 0
             , ui_name = 'Manager/Sex'
             )
+          , Record
+            ( attr = Boolean `electric`
+            , choices =
+                [ 'no'
+                , 'yes'
+                ]
+            , full_name = 'manager.electric'
+            , id = 'manager__electric'
+            , name = 'electric'
+            , sig_key = 1
+            , ui_name = 'Manager/Electric'
+            )
+          , Record
+            ( attr = Int `last_cid`
+            , full_name = 'manager.last_cid'
+            , id = 'manager__last_cid'
+            , name = 'last_cid'
+            , sig_key = 0
+            , ui_name = 'Manager/Last cid'
+            )
+          , Record
+            ( attr = Surrogate `pid`
+            , full_name = 'manager.pid'
+            , id = 'manager__pid'
+            , name = 'pid'
+            , sig_key = 0
+            , ui_name = 'Manager/Pid'
+            )
+          , Record
+            ( attr = String `type_name`
+            , full_name = 'manager.type_name'
+            , id = 'manager__type_name'
+            , name = 'type_name'
+            , sig_key = 3
+            , ui_name = 'Manager/Type name'
+            )
           ]
       , full_name = 'manager'
       , id = 'manager'
@@ -475,6 +511,39 @@ _test_refuse_e_types = """
             , name = 'region'
             , sig_key = 3
             , ui_name = 'Address/Region'
+            )
+          , Record
+            ( attr = Boolean `electric`
+            , choices = <Recursion on list...>
+            , full_name = 'address.electric'
+            , id = 'address__electric'
+            , name = 'electric'
+            , sig_key = 1
+            , ui_name = 'Address/Electric'
+            )
+          , Record
+            ( attr = Int `last_cid`
+            , full_name = 'address.last_cid'
+            , id = 'address__last_cid'
+            , name = 'last_cid'
+            , sig_key = 0
+            , ui_name = 'Address/Last cid'
+            )
+          , Record
+            ( attr = Surrogate `pid`
+            , full_name = 'address.pid'
+            , id = 'address__pid'
+            , name = 'pid'
+            , sig_key = 0
+            , ui_name = 'Address/Pid'
+            )
+          , Record
+            ( attr = String `type_name`
+            , full_name = 'address.type_name'
+            , id = 'address__type_name'
+            , name = 'type_name'
+            , sig_key = 3
+            , ui_name = 'Address/Type name'
             )
           ]
       , full_name = 'address'
@@ -638,6 +707,39 @@ _test_refuse_e_types = """
       , name = 'show_in_map'
       , sig_key = 1
       , ui_name = 'Show in map'
+      )
+    , Record
+      ( attr = Boolean `electric`
+      , choices = <Recursion on list...>
+      , full_name = 'electric'
+      , id = 'electric'
+      , name = 'electric'
+      , sig_key = 1
+      , ui_name = 'Electric'
+      )
+    , Record
+      ( attr = Int `last_cid`
+      , full_name = 'last_cid'
+      , id = 'last_cid'
+      , name = 'last_cid'
+      , sig_key = 0
+      , ui_name = 'Last cid'
+      )
+    , Record
+      ( attr = Surrogate `pid`
+      , full_name = 'pid'
+      , id = 'pid'
+      , name = 'pid'
+      , sig_key = 0
+      , ui_name = 'Pid'
+      )
+    , Record
+      ( attr = String `type_name`
+      , full_name = 'type_name'
+      , id = 'type_name'
+      , name = 'type_name'
+      , sig_key = 3
+      , ui_name = 'Type name'
       )
     ]
 

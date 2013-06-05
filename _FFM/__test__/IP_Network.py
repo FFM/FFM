@@ -365,37 +365,79 @@ _test_AQ = """
     <desc.AQ [Attr.Type.Querier String]>
     <owner.AQ [Attr.Type.Querier Id_Entity]>
     <pool.AQ [Attr.Type.Querier Id_Entity]>
+    <electric.AQ [Attr.Type.Querier Boolean]>
+    <last_cid.AQ [Attr.Type.Querier Ckd]>
+    <pid.AQ [Attr.Type.Querier Ckd]>
+    <type_name.AQ [Attr.Type.Querier String]>
     <is_free.AQ [Attr.Type.Querier Boolean]>
+    <cool_down.AQ [Attr.Type.Querier Ckd]>
+    <has_children.AQ [Attr.Type.Querier Boolean]>
 
     >>> for aq in AQ.Attrs_Transitive :
     ...     print (aq, aq.E_Type.type_name if aq.E_Type else "-"*5)
     <net_address.AQ [Attr.Type.Querier Composite]> NET.IP4_Network
     <net_address.address.AQ [Attr.Type.Querier Ckd]> -----
+    <net_address.numeric_address.AQ [Attr.Type.Querier Ckd]> -----
+    <net_address.mask_len.AQ [Attr.Type.Querier Ckd]> -----
+    <net_address.upper_bound.AQ [Attr.Type.Querier Ckd]> -----
     <desc.AQ [Attr.Type.Querier String]> -----
     <owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
     <pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
     <pool.net_address.AQ [Attr.Type.Querier Composite]> NET.IP4_Network
     <pool.net_address.address.AQ [Attr.Type.Querier Ckd]> -----
+    <pool.net_address.numeric_address.AQ [Attr.Type.Querier Ckd]> -----
+    <pool.net_address.mask_len.AQ [Attr.Type.Querier Ckd]> -----
+    <pool.net_address.upper_bound.AQ [Attr.Type.Querier Ckd]> -----
     <pool.desc.AQ [Attr.Type.Querier String]> -----
     <pool.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
     <pool.pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
+    <pool.electric.AQ [Attr.Type.Querier Boolean]> -----
+    <pool.last_cid.AQ [Attr.Type.Querier Ckd]> -----
+    <pool.pid.AQ [Attr.Type.Querier Ckd]> -----
+    <pool.type_name.AQ [Attr.Type.Querier String]> -----
     <pool.is_free.AQ [Attr.Type.Querier Boolean]> -----
+    <pool.cool_down.AQ [Attr.Type.Querier Ckd]> -----
+    <pool.has_children.AQ [Attr.Type.Querier Boolean]> -----
+    <electric.AQ [Attr.Type.Querier Boolean]> -----
+    <last_cid.AQ [Attr.Type.Querier Ckd]> -----
+    <pid.AQ [Attr.Type.Querier Ckd]> -----
+    <type_name.AQ [Attr.Type.Querier String]> -----
     <is_free.AQ [Attr.Type.Querier Boolean]> -----
+    <cool_down.AQ [Attr.Type.Querier Ckd]> -----
+    <has_children.AQ [Attr.Type.Querier Boolean]> -----
 
     >>> for aq in AQ.Attrs_Transitive :
     ...     str (aq._ui_name_T)
     'Net address'
     'Net address/Address'
+    'Net address/Numeric address'
+    'Net address/Mask len'
+    'Net address/Upper bound'
     'Desc'
     'Owner'
     'Pool'
     'Pool/Net address'
     'Pool/Net address/Address'
+    'Pool/Net address/Numeric address'
+    'Pool/Net address/Mask len'
+    'Pool/Net address/Upper bound'
     'Pool/Desc'
     'Pool/Owner'
     'Pool/Pool'
+    'Pool/Electric'
+    'Pool/Last cid'
+    'Pool/Pid'
+    'Pool/Type name'
     'Pool/Is free'
+    'Pool/Cool down'
+    'Pool/Has children'
+    'Electric'
+    'Last cid'
+    'Pid'
+    'Type name'
     'Is free'
+    'Cool down'
+    'Has children'
 
     >>> AQ.pool.pool.pool.owner
     <pool.pool.pool.owner.AQ [Attr.Type.Querier Id_Entity]>
@@ -403,11 +445,29 @@ _test_AQ = """
     >>> for aq in AQ.Atoms :
     ...     print (aq)
     <net_address.address.AQ [Attr.Type.Querier Ckd]>
+    <net_address.numeric_address.AQ [Attr.Type.Querier Ckd]>
+    <net_address.mask_len.AQ [Attr.Type.Querier Ckd]>
+    <net_address.upper_bound.AQ [Attr.Type.Querier Ckd]>
     <desc.AQ [Attr.Type.Querier String]>
     <pool.net_address.address.AQ [Attr.Type.Querier Ckd]>
+    <pool.net_address.numeric_address.AQ [Attr.Type.Querier Ckd]>
+    <pool.net_address.mask_len.AQ [Attr.Type.Querier Ckd]>
+    <pool.net_address.upper_bound.AQ [Attr.Type.Querier Ckd]>
     <pool.desc.AQ [Attr.Type.Querier String]>
+    <pool.electric.AQ [Attr.Type.Querier Boolean]>
+    <pool.last_cid.AQ [Attr.Type.Querier Ckd]>
+    <pool.pid.AQ [Attr.Type.Querier Ckd]>
+    <pool.type_name.AQ [Attr.Type.Querier String]>
     <pool.is_free.AQ [Attr.Type.Querier Boolean]>
+    <pool.cool_down.AQ [Attr.Type.Querier Ckd]>
+    <pool.has_children.AQ [Attr.Type.Querier Boolean]>
+    <electric.AQ [Attr.Type.Querier Boolean]>
+    <last_cid.AQ [Attr.Type.Querier Ckd]>
+    <pid.AQ [Attr.Type.Querier Ckd]>
+    <type_name.AQ [Attr.Type.Querier String]>
     <is_free.AQ [Attr.Type.Querier Boolean]>
+    <cool_down.AQ [Attr.Type.Querier Ckd]>
+    <has_children.AQ [Attr.Type.Querier Boolean]>
 
     >>> print (formatted (AQ.As_Json_Cargo))
     { 'filters' :
@@ -415,6 +475,18 @@ _test_AQ = """
               [ { 'name' : 'address'
                 , 'sig_key' : 0
                 , 'ui_name' : 'Address'
+                }
+              , { 'name' : 'numeric_address'
+                , 'sig_key' : 0
+                , 'ui_name' : 'Numeric address'
+                }
+              , { 'name' : 'mask_len'
+                , 'sig_key' : 0
+                , 'ui_name' : 'Mask len'
+                }
+              , { 'name' : 'upper_bound'
+                , 'sig_key' : 0
+                , 'ui_name' : 'Upper bound'
                 }
               ]
           , 'name' : 'net_address'
@@ -507,6 +579,18 @@ _test_AQ = """
                       , 'sig_key' : 0
                       , 'ui_name' : 'Address'
                       }
+                    , { 'name' : 'numeric_address'
+                      , 'sig_key' : 0
+                      , 'ui_name' : 'Numeric address'
+                      }
+                    , { 'name' : 'mask_len'
+                      , 'sig_key' : 0
+                      , 'ui_name' : 'Mask len'
+                      }
+                    , { 'name' : 'upper_bound'
+                      , 'sig_key' : 0
+                      , 'ui_name' : 'Upper bound'
+                      }
                     ]
                 , 'name' : 'net_address'
                 , 'ui_name' : 'Net address'
@@ -596,18 +680,66 @@ _test_AQ = """
                 , 'sig_key' : 2
                 , 'ui_name' : 'Pool'
                 }
+              , { 'name' : 'electric'
+                , 'sig_key' : 1
+                , 'ui_name' : 'Electric'
+                }
+              , { 'name' : 'last_cid'
+                , 'sig_key' : 0
+                , 'ui_name' : 'Last cid'
+                }
+              , { 'name' : 'pid'
+                , 'sig_key' : 0
+                , 'ui_name' : 'Pid'
+                }
+              , { 'name' : 'type_name'
+                , 'sig_key' : 3
+                , 'ui_name' : 'Type name'
+                }
               , { 'name' : 'is_free'
                 , 'sig_key' : 1
                 , 'ui_name' : 'Is free'
+                }
+              , { 'name' : 'cool_down'
+                , 'sig_key' : 0
+                , 'ui_name' : 'Cool down'
+                }
+              , { 'name' : 'has_children'
+                , 'sig_key' : 1
+                , 'ui_name' : 'Has children'
                 }
               ]
           , 'name' : 'pool'
           , 'sig_key' : 2
           , 'ui_name' : 'Pool'
           }
+          , { 'name' : 'electric'
+          , 'sig_key' : 1
+          , 'ui_name' : 'Electric'
+          }
+        , { 'name' : 'last_cid'
+          , 'sig_key' : 0
+          , 'ui_name' : 'Last cid'
+          }
+        , { 'name' : 'pid'
+          , 'sig_key' : 0
+          , 'ui_name' : 'Pid'
+          }
+        , { 'name' : 'type_name'
+          , 'sig_key' : 3
+          , 'ui_name' : 'Type name'
+          }
         , { 'name' : 'is_free'
           , 'sig_key' : 1
           , 'ui_name' : 'Is free'
+          }
+        , { 'name' : 'cool_down'
+          , 'sig_key' : 0
+          , 'ui_name' : 'Cool down'
+          }
+        , { 'name' : 'has_children'
+          , 'sig_key' : 1
+          , 'ui_name' : 'Has children'
           }
         ]
     , 'name_sep' : '__'
@@ -706,6 +838,30 @@ _test_AQ = """
             , name = 'address'
             , sig_key = 0
             , ui_name = 'Net address/Address'
+            )
+          , Record
+            ( attr = Int `numeric_address`
+            , full_name = 'net_address.numeric_address'
+            , id = 'net_address__numeric_address'
+            , name = 'numeric_address'
+            , sig_key = 0
+            , ui_name = 'Net address/Numeric address'
+            )
+          , Record
+            ( attr = Int `mask_len`
+            , full_name = 'net_address.mask_len'
+            , id = 'net_address__mask_len'
+            , name = 'mask_len'
+            , sig_key = 0
+            , ui_name = 'Net address/Mask len'
+            )
+          , Record
+            ( attr = Int `upper_bound`
+            , full_name = 'net_address.upper_bound'
+            , id = 'net_address__upper_bound'
+            , name = 'upper_bound'
+            , sig_key = 0
+            , ui_name = 'Net address/Upper bound'
             )
           ]
       , full_name = 'net_address'
@@ -866,6 +1022,30 @@ _test_AQ = """
                   , sig_key = 0
                   , ui_name = 'Pool/Net address/Address'
                   )
+                , Record
+                  ( attr = Int `numeric_address`
+                  , full_name = 'pool.net_address.numeric_address'
+                  , id = 'pool__net_address__numeric_address'
+                  , name = 'numeric_address'
+                  , sig_key = 0
+                  , ui_name = 'Pool/Net address/Numeric address'
+                  )
+                , Record
+                  ( attr = Int `mask_len`
+                  , full_name = 'pool.net_address.mask_len'
+                  , id = 'pool__net_address__mask_len'
+                  , name = 'mask_len'
+                  , sig_key = 0
+                  , ui_name = 'Pool/Net address/Mask len'
+                  )
+                , Record
+                  ( attr = Int `upper_bound`
+                  , full_name = 'pool.net_address.upper_bound'
+                  , id = 'pool__net_address__upper_bound'
+                  , name = 'upper_bound'
+                  , sig_key = 0
+                  , ui_name = 'Pool/Net address/Upper bound'
+                  )
                 ]
             , full_name = 'pool.net_address'
             , id = 'pool__net_address'
@@ -1022,6 +1202,42 @@ _test_AQ = """
             , ui_type_name = 'IP4_Network'
             )
           , Record
+            ( attr = Boolean `electric`
+            , choices =
+                [ 'no'
+                , 'yes'
+                ]
+            , full_name = 'pool.electric'
+            , id = 'pool__electric'
+            , name = 'electric'
+            , sig_key = 1
+            , ui_name = 'Pool/Electric'
+            )
+          , Record
+            ( attr = Int `last_cid`
+            , full_name = 'pool.last_cid'
+            , id = 'pool__last_cid'
+            , name = 'last_cid'
+            , sig_key = 0
+            , ui_name = 'Pool/Last cid'
+            )
+          , Record
+            ( attr = Surrogate `pid`
+            , full_name = 'pool.pid'
+            , id = 'pool__pid'
+            , name = 'pid'
+            , sig_key = 0
+            , ui_name = 'Pool/Pid'
+            )
+          , Record
+            ( attr = String `type_name`
+            , full_name = 'pool.type_name'
+            , id = 'pool__type_name'
+            , name = 'type_name'
+            , sig_key = 3
+            , ui_name = 'Pool/Type name'
+            )
+          , Record
             ( attr = Boolean `is_free`
             , choices =
                 [ 'no'
@@ -1033,6 +1249,26 @@ _test_AQ = """
             , sig_key = 1
             , ui_name = 'Pool/Is free'
             )
+          , Record
+            ( attr = Date-Time `cool_down`
+            , full_name = 'pool.cool_down'
+            , id = 'pool__cool_down'
+            , name = 'cool_down'
+            , sig_key = 0
+            , ui_name = 'Pool/Cool down'
+            )
+          , Record
+            ( attr = Boolean `has_children`
+            , choices =
+                [ 'no'
+                , 'yes'
+                ]
+            , full_name = 'pool.has_children'
+            , id = 'pool__has_children'
+            , name = 'has_children'
+            , sig_key = 1
+            , ui_name = 'Pool/Has children'
+            )
           ]
       , full_name = 'pool'
       , id = 'pool'
@@ -1043,6 +1279,39 @@ _test_AQ = """
       , ui_type_name = 'IP4_Network'
       )
     , Record
+      ( attr = Boolean `electric`
+      , choices = <Recursion on list...>
+      , full_name = 'electric'
+      , id = 'electric'
+      , name = 'electric'
+      , sig_key = 1
+      , ui_name = 'Electric'
+      )
+    , Record
+      ( attr = Int `last_cid`
+      , full_name = 'last_cid'
+      , id = 'last_cid'
+      , name = 'last_cid'
+      , sig_key = 0
+      , ui_name = 'Last cid'
+      )
+    , Record
+      ( attr = Surrogate `pid`
+      , full_name = 'pid'
+      , id = 'pid'
+      , name = 'pid'
+      , sig_key = 0
+      , ui_name = 'Pid'
+      )
+    , Record
+      ( attr = String `type_name`
+      , full_name = 'type_name'
+      , id = 'type_name'
+      , name = 'type_name'
+      , sig_key = 3
+      , ui_name = 'Type name'
+      )
+    , Record
       ( attr = Boolean `is_free`
       , choices = <Recursion on list...>
       , full_name = 'is_free'
@@ -1050,6 +1319,23 @@ _test_AQ = """
       , name = 'is_free'
       , sig_key = 1
       , ui_name = 'Is free'
+      )
+    , Record
+      ( attr = Date-Time `cool_down`
+      , full_name = 'cool_down'
+      , id = 'cool_down'
+      , name = 'cool_down'
+      , sig_key = 0
+      , ui_name = 'Cool down'
+      )
+    , Record
+      ( attr = Boolean `has_children`
+      , choices = <Recursion on list...>
+      , full_name = 'has_children'
+      , id = 'has_children'
+      , name = 'has_children'
+      , sig_key = 1
+      , ui_name = 'Has children'
       )
     ]
 
@@ -1083,6 +1369,70 @@ _test_AQ = """
           )
       , sig_key = 0
       , ui_name = 'Lifetime/Finish'
+      , value = None
+      )
+    , Record
+      ( AQ = <electric.AQ [Attr.Type.Querier Boolean]>
+      , attr = Boolean `electric`
+      , choices =
+          [ 'no'
+          , 'yes'
+          ]
+      , edit = None
+      , full_name = 'electric'
+      , id = 'electric___AC'
+      , name = 'electric___AC'
+      , op = Record
+          ( desc = 'Select entities where the attribute is equal to the specified value'
+          , label = 'auto-complete'
+          )
+      , sig_key = 1
+      , ui_name = 'Electric'
+      , value = None
+      )
+    , Record
+      ( AQ = <last_cid.AQ [Attr.Type.Querier Ckd]>
+      , attr = Int `last_cid`
+      , edit = None
+      , full_name = 'last_cid'
+      , id = 'last_cid___AC'
+      , name = 'last_cid___AC'
+      , op = Record
+          ( desc = 'Select entities where the attribute is equal to the specified value'
+          , label = 'auto-complete'
+          )
+      , sig_key = 0
+      , ui_name = 'Last cid'
+      , value = None
+      )
+    , Record
+      ( AQ = <pid.AQ [Attr.Type.Querier Ckd]>
+      , attr = Surrogate `pid`
+      , edit = None
+      , full_name = 'pid'
+      , id = 'pid___AC'
+      , name = 'pid___AC'
+      , op = Record
+          ( desc = 'Select entities where the attribute is equal to the specified value'
+          , label = 'auto-complete'
+          )
+      , sig_key = 0
+      , ui_name = 'Pid'
+      , value = None
+      )
+    , Record
+      ( AQ = <type_name.AQ [Attr.Type.Querier String]>
+      , attr = String `type_name`
+      , edit = None
+      , full_name = 'type_name'
+      , id = 'type_name___AC'
+      , name = 'type_name___AC'
+      , op = Record
+          ( desc = 'Select entities where the attribute value starts with the specified value'
+          , label = 'auto-complete'
+          )
+      , sig_key = 3
+      , ui_name = 'Type name'
       , value = None
       )
     )
@@ -1137,6 +1487,10 @@ _test_AQ = """
     Manager/Lifetime/Alive
     Manager/Salutation
     Manager/Sex
+    Manager/Electric
+    Manager/Last cid
+    Manager/Pid
+    Manager/Type name
     Lifetime
     Lifetime/Start
     Lifetime/Finish
@@ -1148,12 +1502,20 @@ _test_AQ = """
     Address/Country
     Address/Description
     Address/Region
+    Address/Electric
+    Address/Last cid
+    Address/Pid
+    Address/Type name
     Owner
     Position
     Position/Latitude
     Position/Longitude
     Position/Height
     Show in map
+    Electric
+    Last cid
+    Pid
+    Type name
 
 """
 
