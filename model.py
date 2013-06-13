@@ -48,6 +48,7 @@
 #     3-May-2013 (CT) Rename `login_required` to `auth_required`
 #     4-May-2013 (CT) Add `auth_required` to `RST.MOM.Scope`
 #    20-May-2013 (CT) Import `_FFM.RST_Api_addons`
+#    13-Jun-2013 (CT) Remove `PNS_Aliases`
 #    ««revision-date»»···
 #--
 
@@ -191,11 +192,6 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
     """Manage database, run server or WSGI app."""
 
     ANS                     = FFM
-    PNS_Aliases             = dict \
-        ( Auth              = GTW.OMP.Auth
-        , NET               = GTW.OMP.NET
-        , PAP               = GTW.OMP.PAP
-        )
     SALT                    = bytes ("fa89356c-0af1-4644-80d7-92702e4fd524")
 
     _default_db_name        = "ffm"

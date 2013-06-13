@@ -42,6 +42,7 @@
 #    17-Dec-2012 (CT) Remove `Wireless_Mode`
 #    17-Dec-2012 (RS) Skip explicit links from children of `Net_Interface`
 #    26-Feb-2013 (CT) Remove `Wired_Link` and `Wireless_Link`
+#    13-Jun-2013 (CT) Remove `PNS_Aliases`
 #    ««revision-date»»···
 #--
 
@@ -168,14 +169,6 @@ def graph (app_type) :
 class Command (MOM.Graph.Command) :
 
     PNS                   = FFM
-
-    @property
-    def PNS_Aliases (self) :
-        return dict \
-            ( Auth        = GTW.OMP.Auth
-            , PAP         = GTW.OMP.PAP
-            )
-    # end def PNS_Aliases
 
     _defaults             = dict \
         ( name            = "nodedb"

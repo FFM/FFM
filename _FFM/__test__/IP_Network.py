@@ -369,12 +369,12 @@ _test_AQ = """
 
     >>> for aq in AQ.Attrs_Transitive :
     ...     print (aq, aq.E_Type.type_name if aq.E_Type else "-"*5)
-    <net_address.AQ [Attr.Type.Querier Composite]> GTW.OMP.NET.IP4_Network
+    <net_address.AQ [Attr.Type.Querier Composite]> NET.IP4_Network
     <net_address.address.AQ [Attr.Type.Querier Ckd]> -----
     <desc.AQ [Attr.Type.Querier String]> -----
     <owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
     <pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
-    <pool.net_address.AQ [Attr.Type.Querier Composite]> GTW.OMP.NET.IP4_Network
+    <pool.net_address.AQ [Attr.Type.Querier Composite]> NET.IP4_Network
     <pool.net_address.address.AQ [Attr.Type.Querier Ckd]> -----
     <pool.desc.AQ [Attr.Type.Querier String]> -----
     <pool.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject

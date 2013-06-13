@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.__test__.
@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    18-Sep-2012 (CT) Creation
+#    13-Jun-2013 (CT) Remove `PNS_Aliases`
 #    ««revision-date»»···
 #--
 
@@ -48,10 +49,6 @@ class _FFM_Test_Command_ (GTW_Test_Command) :
     _rn_prefix              = "_FFM_Test"
 
     ANS                     = FFM
-    PNS_Aliases             = dict \
-        ( Auth              = GTW.OMP.Auth
-        , PAP               = GTW.OMP.PAP
-        )
 
     def fixtures (self, scope) :
         if sos.environ.get ("GTW_FIXTURES") :

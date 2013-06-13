@@ -32,6 +32,7 @@
 #    28-Mar-2013 (CT) Factor `_test_limit` from `_test_get`
 #     3-May-2013 (CT) Add test for `META` query argument
 #     8-May-2013 (CT) Remove `.pid`, `.url` from `attribute_names`, unless CSV
+#    13-Jun-2013 (CT) Remove `PNS_Aliases`
 #    ««revision-date»»···
 #--
 
@@ -54,10 +55,6 @@ def run_server (db_url = "hps://", db_name = None) :
 class FFM_RST_Test_Command (GTW_RST_Test_Command) :
 
     ANS                     = FFM
-    PNS_Aliases             = dict \
-        ( Auth              = GTW.OMP.Auth
-        , PAP               = GTW.OMP.PAP
-        )
 
     def fixtures (self, scope) :
         from _FFM.__test__.fixtures import create
