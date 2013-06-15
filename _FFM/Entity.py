@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -30,20 +30,8 @@
 #    10-May-2012 (CT) Add `An_Entity`, `Id_Entity`, `Object`, `Link1`, `Link2`
 #    17-May-2012 (CT) Fix typo (`Common`, not `Command`)
 #    12-Sep-2012 (RS) Use `derive_pns_bases`
+#    15-Jun-2013 (CT) Changed `__init__` to define `FFM` as `MOM.Underived_PNS`
 #    ««revision-date»»···
 #--
 
-from   __future__  import absolute_import, division, print_function, unicode_literals
-
-from   _GTW                   import GTW
-from   _MOM.import_MOM        import *
-
-import _MOM.derive_pns_bases
-import _FFM
-from   _FFM                   import FFM
-
-MOM.derive_pns_bases (FFM, MOM)
-
-if __name__ != "__main__" :
-    FFM._Export ("*")
 ### __END__ FFM.Entity

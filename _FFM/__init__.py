@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -28,19 +28,19 @@
 # Revision Dates
 #     6-Mar-2012 (CT) Creation
 #     9-Oct-2012 (CT) Add `_desc_`
+#    15-Jun-2013 (CT) Use `MOM.Underived_PNS`
 #    ««revision-date»»···
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
 
-from _TFL.Package_Namespace import Package_Namespace
+from   _MOM                 import MOM
+import _MOM.Derived_PNS
 
 _desc_ = """
 Object model defining the common node model for Funkfeuer.
 """
 
-FFM = Package_Namespace ()
-
-del Package_Namespace
+FFM = MOM.Underived_PNS ()
 
 ### __END__ FFM.__init__
