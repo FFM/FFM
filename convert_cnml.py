@@ -217,8 +217,11 @@ class Convert (object) :
                 network = self.ffm.IP4_Network.instance \
                     (dict (address = str (net)), raw = True)
             netadr  = n.reserve (Adr (adr), self.owner)
-            self.ffm.Net_Interface_in_IP4_Network \
-                (interface, netadr, mask_len = net.mask)
+            try :
+               self.ffm.Net_Interface_in_IP4_Network \
+                   (interface, netadr, mask_len = net.mask)
+            except Exception as exc :
+                print >> sys.stderr, "Warning: broken IP triggers: %s" % exc
     # end def insert_ip_network
 
     def insert_wired_interface (self, device, element) :
