@@ -950,7 +950,7 @@ class Convert (object) :
                 d  = self.cons_dev [ip.id_devices]
                 d.mid_ip = ip4
                 if d.id_nodes not in nodes :
-                    nodes [d.id_nodes] = {}
+                    nodes [d.id_nodes] = d
                 else :
                     nodes [d.id_nodes].merge (d)
             if len (nodes) > 1 :
