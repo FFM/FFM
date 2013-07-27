@@ -173,7 +173,7 @@ installer::
      python-bs4 python-dateutil python-docutils python-flup python-jinja2 \
      python-psycopg2 python-dev apache2-mpm-worker python-tz \
      python-sqlalchemy python-werkzeug python-passlib python-openssl \
-     python-pyquery
+     python-pyquery swig
 
 Other packages can be installed using ``pip`` |---| note that you may want
 to install some of these into a virtual python environment (virtualenv),
@@ -211,9 +211,8 @@ like the following::
   ### create a virtual environment for Python
   $ mkdir bin
   $ mkdir PVE
-  $ python -m virtualenv PVE/std
+  $ python -m virtualenv --system-site-packages PVE/std
   $ (cd PVE ; ln -s std active)
-  $ (cd bin ; ln -s ../PVE/active/bin/python)
 
 Depending on the packages you have already installed system-wide, you
 may want to install some packages into the virtual environment if you
