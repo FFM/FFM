@@ -185,7 +185,7 @@ if __name__ == '__main__' :
     cmd.add_option \
         ( "-d", "--dump"
         , dest    = "dump"
-        , help    = "Destination file of pickle dump"
+        , help    = "Destination file of pickle dump, default: %default"
         , default = "Funkfeuer-spider-pickle.dump"
         )
     cmd.add_option \
@@ -196,29 +196,30 @@ if __name__ == '__main__' :
         , default = []
         )
     cmd.add_option \
-        ( "-n", "--limit-nodes"
-        , dest    = "limit_nodes"
-        , help    = "Limit spidering to given number of nodes"
+        ( "-n", "--limit-devices"
+        , dest    = "limit_devices"
+        , help    = "Limit spidering to given number of devices"
         , type    = "int"
         , default = 0
         )
     cmd.add_option \
         ( "-p", "--processes"
         , dest    = "processes"
-        , help    = "Use given number of processes"
+        , help    = "Use given number of processes, default: %default"
         , type    = "int"
         , default = 20
         )
     cmd.add_option \
         ( "-o", "--olsr-file"
         , dest    = "olsr_file"
-        , help    = "File or Backfire-URL containing OLSR information"
+        , help    = "File or Backfire-URL containing OLSR information, "
+                    "default: %default"
         , default = "olsr/txtinfo.txt"
         )
     cmd.add_option \
         ( "-t", "--timeout"
         , dest    = "timeout"
-        , help    = "Timout for subprocesses"
+        , help    = "Timout in seconds for subprocesses, default: %default"
         , type    = "int"
         , default = 180
         )
@@ -235,7 +236,7 @@ if __name__ == '__main__' :
     sp = Spider \
         ( opt.olsr_file
         , opt.processes
-        , opt.limit_nodes
+        , opt.limit_devices
         , opt.timeout
         , dict (x.split (':', 1) for x in opt.ip_port)
         , opt.debug
