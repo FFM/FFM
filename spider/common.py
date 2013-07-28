@@ -214,6 +214,7 @@ class WLAN_Config (Compare_Mixin) :
         , 'client'  : 'Client'
         , 'managed' : 'Client'
         , 'master'  : 'AP'
+        , 'sta'     : 'Client'
         }
 
     frq = \
@@ -259,6 +260,12 @@ class WLAN_Config (Compare_Mixin) :
                 self.mode = self.modes.get (self.mode.lower (), self.mode)
         self.channel  = getattr (self, 'channel', None) or kw.get ('channel')
         self.bssid    = getattr (self, 'bssid',   None) or kw.get ('bssid')
+        if len (self.bssid.split (':')) != 6 :
+            t = self.bssid.split ('-')
+            if len (t) == 6 :
+                self.bssid = ':'.join (t)
+            else :
+                self.bssid = None
         if not self.channel and 'frequency' in kw :
             self.channel = self.frq [kw ['frequency']]
     # end def set
