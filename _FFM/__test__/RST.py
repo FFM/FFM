@@ -33,6 +33,7 @@
 #     3-May-2013 (CT) Add test for `META` query argument
 #     8-May-2013 (CT) Remove `.pid`, `.url` from `attribute_names`, unless CSV
 #    13-Jun-2013 (CT) Remove `PNS_Aliases`
+#    29-Jul-2013 (CT) Add `test_put`
 #    ««revision-date»»···
 #--
 
@@ -47,6 +48,8 @@ import _GTW._OMP._Auth.import_Auth
 import _GTW._OMP._PAP.import_PAP
 
 import _GTW._RST._MOM.Client
+
+import json
 
 def run_server (db_url = "hps://", db_name = None) :
     return rst_harness.run_server ("_FFM.__test__.RST", db_url, db_name)
@@ -531,11 +534,237 @@ _test_local_query = """
 
 """
 
+_test_put = r"""
+    >>> server  = run_server (%(p1)s, %(n1)s)
+    >>> headers = { "Content-Type": "application/json" }
+
+    >>> r = show (R.get ("/v1/FFM-Node/2?raw"))
+    { 'json' :
+        { 'attributes_raw' :
+            { 'manager' :
+                { 'pid' : 1
+                , 'url' : '/v1/PAP-Person/1'
+                }
+            , 'name' : 'nogps'
+            , 'owner' :
+                { 'pid' : 1
+                , 'url' : '/v1/PAP-Person/1'
+                }
+            }
+        , 'cid' : 2
+        , 'pid' : 2
+        , 'rels' :
+            [ '/v1/FFM-Node/2/address_links'
+            , '/v1/FFM-Node/2/email_links'
+            , '/v1/FFM-Node/2/im_handle_links'
+            , '/v1/FFM-Node/2/nickname_links'
+            , '/v1/FFM-Node/2/phone_links'
+            , '/v1/FFM-Node/2/property_links'
+            , '/v1/FFM-Node/2/url_links'
+            ]
+        , 'type_name' : 'FFM.Node'
+        , 'url' : '/v1/FFM-Node/2'
+        }
+    , 'status' : 200
+    , 'url' : 'http://localhost:9999/v1/FFM-Node/2?raw'
+    }
+
+    >>> rj = req_json (r)
+    >>> cargo_c = json.dumps (
+    ...   dict
+    ...     ( attributes_raw = rj ["attributes_raw"]
+    ...     , cid            = rj ["cid"]
+    ...     )
+    ... )
+    >>> ru = requests.utils.urlparse (r.url)
+    >>> p  = "%%s://%%s%%s" %% (ru.scheme, ru.netloc, req_json (r) ["url"])
+    >>> s  = show (requests.put (p, data=cargo_c, headers=headers))
+    { 'json' :
+        { 'attributes_raw' :
+            { 'manager' :
+                { 'pid' : 1
+                , 'url' : '/v1/PAP-Person/1'
+                }
+            , 'name' : 'nogps'
+            , 'owner' :
+                { 'pid' : 1
+                , 'url' : '/v1/PAP-Person/1'
+                }
+            }
+        , 'cid' : 52
+        , 'pid' : 2
+        , 'type_name' : 'FFM.Node'
+        , 'url' : '/v1/FFM-Node/2'
+        }
+    , 'status' : 200
+    , 'url' : 'http://localhost:9999/v1/FFM-Node/2'
+    }
+
+    >>> r = show (R.get ("/v1/FFM-Node/2?raw&brief"))
+    { 'json' :
+        { 'attributes_raw' :
+            { 'manager' : 1
+            , 'name' : 'nogps'
+            , 'owner' : 1
+            }
+        , 'cid' : 52
+        , 'pid' : 2
+        , 'rels' :
+            [ '/v1/FFM-Node/2/address_links'
+            , '/v1/FFM-Node/2/email_links'
+            , '/v1/FFM-Node/2/im_handle_links'
+            , '/v1/FFM-Node/2/nickname_links'
+            , '/v1/FFM-Node/2/phone_links'
+            , '/v1/FFM-Node/2/property_links'
+            , '/v1/FFM-Node/2/url_links'
+            ]
+        , 'type_name' : 'FFM.Node'
+        , 'url' : '/v1/FFM-Node/2'
+        }
+    , 'status' : 200
+    , 'url' : 'http://localhost:9999/v1/FFM-Node/2?raw&brief'
+    }
+
+    >>> rj = req_json (r)
+    >>> cargo_c = json.dumps (
+    ...   dict
+    ...     ( attributes_raw = rj ["attributes_raw"]
+    ...     , cid            = rj ["cid"]
+    ...     )
+    ... )
+    >>> ru = requests.utils.urlparse (r.url)
+    >>> p  = "%%s://%%s%%s" %% (ru.scheme, ru.netloc, req_json (r) ["url"])
+    >>> s  = show (requests.put (p, data=cargo_c, headers=headers))
+    { 'json' :
+        { 'attributes_raw' :
+            { 'manager' :
+                { 'pid' : 1
+                , 'url' : '/v1/PAP-Person/1'
+                }
+            , 'name' : 'nogps'
+            , 'owner' :
+                { 'pid' : 1
+                , 'url' : '/v1/PAP-Person/1'
+                }
+            }
+        , 'cid' : 53
+        , 'pid' : 2
+        , 'type_name' : 'FFM.Node'
+        , 'url' : '/v1/FFM-Node/2'
+        }
+    , 'status' : 200
+    , 'url' : 'http://localhost:9999/v1/FFM-Node/2'
+    }
+
+    >>> snoopy_cargo = json.dumps (
+    ...   dict
+    ...     ( attributes_raw = dict
+    ...         ( last_name   = "Dog"
+    ...         , first_name  = "Snoopy"
+    ...         , middle_name = "the"
+    ...         , lifetime    = dict (start = "20001122")
+    ...         )
+    ...     )
+    ... )
+    >>> t = show (R.post ("/v1/PAP-Person", data=snoopy_cargo, headers=headers))
+    { 'json' :
+        { 'attributes_raw' :
+            { 'first_name' : 'Snoopy'
+            , 'last_name' : 'Dog'
+            , 'lifetime' :
+                { 'start' : '2000/11/22' }
+            , 'middle_name' : 'the'
+            , 'title' : ''
+            }
+        , 'cid' : 54
+        , 'pid' : 36
+        , 'type_name' : 'PAP.Person'
+        , 'url' : '/v1/PAP-Person/36'
+        }
+    , 'status' : 201
+    , 'url' : 'http://localhost:9999/v1/PAP-Person'
+    }
+
+    >>> sj = req_json (s)
+    >>> tj = req_json (t)
+    >>> cargo_c = json.dumps (
+    ...   dict
+    ...     ( attributes_raw = dict (sj ["attributes_raw"], manager = tj ["pid"])
+    ...     , cid            = sj ["cid"]
+    ...     )
+    ... )
+    >>> s3 = show (requests.put (p, data=cargo_c, headers=headers))
+    { 'json' :
+        { 'attributes_raw' :
+            { 'manager' :
+                { 'pid' : 36
+                , 'url' : '/v1/PAP-Person/36'
+                }
+            , 'name' : 'nogps'
+            , 'owner' :
+                { 'pid' : 1
+                , 'url' : '/v1/PAP-Person/1'
+                }
+            }
+        , 'cid' : 55
+        , 'pid' : 2
+        , 'type_name' : 'FFM.Node'
+        , 'url' : '/v1/FFM-Node/2'
+        }
+    , 'status' : 200
+    , 'url' : 'http://localhost:9999/v1/FFM-Node/2'
+    }
+
+    >>> cargo_c = json.dumps (
+    ...   dict
+    ...     ( attributes_raw = dict (sj ["attributes_raw"], manager = 1, owner = 36)
+    ...     , cid            = sj ["cid"]
+    ...     )
+    ... )
+    >>> s4 = show (requests.put (p, data=cargo_c, headers=headers))
+    { 'json' :
+        { 'error' : 'Cid mismatch: requested cid = 53, current cid = 55' }
+    , 'status' : 409
+    , 'url' : 'http://localhost:9999/v1/FFM-Node/2'
+    }
+
+    >>> sj3 = req_json (s3)
+    >>> cargo_c = json.dumps (
+    ...   dict
+    ...     ( attributes_raw = dict (name = "wrzlbrmft", manager = 1, owner = 36)
+    ...     , cid            = sj3 ["cid"]
+    ...     )
+    ... )
+    >>> s5 = show (requests.put (p, data=cargo_c, headers=headers))
+    { 'json' :
+        { 'attributes_raw' :
+            { 'manager' :
+                { 'pid' : 1
+                , 'url' : '/v1/PAP-Person/1'
+                }
+            , 'name' : 'wrzlbrmft'
+            , 'owner' :
+                { 'pid' : 36
+                , 'url' : '/v1/PAP-Person/36'
+                }
+            }
+        , 'cid' : 56
+        , 'pid' : 2
+        , 'type_name' : 'FFM.Node'
+        , 'url' : '/v1/FFM-Node/2'
+        }
+    , 'status' : 200
+    , 'url' : 'http://localhost:9999/v1/FFM-Node/2'
+    }
+
+"""
+
 __test__ = Scaffold.create_test_dict \
     ( dict
         ( test_get         = _test_get
         , test_limit       = _test_limit
         , test_local_query = _test_local_query
+        , test_put         = _test_put
         )
     )
 
