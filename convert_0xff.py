@@ -63,6 +63,7 @@ class Consolidated_Interface (object) :
 
     def __init__ (self, convert, device, ip, idx) :
         self.convert       = convert
+        self.debug         = convert.debug
         self.device        = device
         self.idxdev        = device
         self.ip            = ip.ip
@@ -76,11 +77,14 @@ class Consolidated_Interface (object) :
         self.names         = []
         self.spider_ip     = None
         self.verbose       = convert.verbose
+        assert self.device
     # end def __init__
 
     def create (self) :
         assert not self.merged
         dev   = self.device.net_device
+        if self.debug :
+            print "device: %s" % self.device
         ffm   = self.convert.ffm
         Adr   = ffm.IP4_Network.net_address.P_Type
         desc  = []
@@ -97,10 +101,14 @@ class Consolidated_Interface (object) :
                     (name = self.wlan_info.standard, raw = True)
                 mode = self.wlan_info.mode.lower ()
                 mode = self.wl_modes [mode]
+                bsid = self.wlan_info.bssid
+                if len (bsid.split (':')) != 6 :
+                    print "INFO: Ignoring bssid: %s" % bsid
+                    bsid = None
                 iface.set_raw \
                     ( mode     = mode
                     , essid    = self.wlan_info.ssid
-                    , bssid    = self.wlan_info.bssid
+                    , bssid    = bsid
                     , standard = std
                     )
                 chan = ffm.Wireless_Channel.instance \
@@ -136,6 +144,10 @@ class Consolidated_Interface (object) :
     def merge (self, other) :
         """ Merge other interface into this one """
         assert other.device == self.device
+        assert not other.merged
+        if self.debug :
+            print "Merge: %s\n    -> %s" % (other, self)
+            print "Merge: dev: %s" % self.device
         self.ips.update (other.ips)
         del other.device.interfaces [other.ip]
         self.merged_ifs.append (other)
@@ -150,6 +162,11 @@ class Consolidated_Interface (object) :
         return r
     # end def __getattr__
 
+    def __repr__ (self) :
+        return "%s (ip = %s)" % (self.__class__.__name__, self.ip)
+    # end def __repr__
+    __str__ = __repr__
+
 # end class Consolidated_Interface
 
 class Consolidated_Device (object) :
@@ -159,6 +176,7 @@ class Consolidated_Device (object) :
     """
     def __init__ (self, convert, redeemer_dev) :
         self.convert       = convert
+        self.debug         = convert.debug
         self.devid         = redeemer_dev.id
         self.redeemer_devs = {}
         self.interfaces    = {}
@@ -242,12 +260,20 @@ class Consolidated_Device (object) :
         """ Merge other device into this one """
         self.redeemer_devs.update (other.redeemer_devs)
         self.interfaces.update    (other.interfaces)
+        if self.debug :
+            print "Merge: %s\n    -> %s" % (other, self)
+        #assert not other.merged
+        if other.merged :
+            msg = "Merge: already merged to %s" % other.merged
+            print msg
+            raise ValueError (msg)
         for ifc in other.interfaces.itervalues () :
             ifc.device = self
         other.merged = self
         other.set_done ()
         self.merged_devs.append (other)
-        assert self.devid in self.redeemer_devs
+        assert self.devid  in self.redeemer_devs
+        assert other.devid in self.redeemer_devs
     # end def merge
 
     @property
@@ -268,13 +294,23 @@ class Consolidated_Device (object) :
         return r
     # end def __getattr__
 
+    def __repr__ (self) :
+        ndev = self.net_device
+        if ndev :
+            ndev = ndev.name
+        return "%s (devid=%s, net_device=%s, merged=%s)" \
+            % (self.__class__.__name__, self.devid, ndev, bool (self.merged))
+    # end def __repr__
+    __str__ = __repr__
+
 # end class Consolidated_Device
 
 class Convert (object) :
 
     def __init__ (self, cmd, scope, debug = False) :
-        self.debug   = debug
-        self.verbose = cmd.verbose
+        self.debug     = debug
+        self.verbose   = cmd.verbose
+        self.anonymize = cmd.anonymize
         if len (cmd.argv) > 0 :
             f  = open (cmd.argv [0])
         else :
@@ -416,8 +452,12 @@ class Convert (object) :
                 assert n.gps_lat_sec is None
                 assert n.gps_lon_min is None
                 assert n.gps_lon_sec is None
-                lat = "%f" % n.gps_lat_deg
-                lon = "%f" % n.gps_lon_deg
+                if self.anonymize :
+                    lat = "%2.2f" % n.gps_lat_deg
+                    lon = "%2.2f" % n.gps_lon_deg
+                else :
+                    lat = "%f" % n.gps_lat_deg
+                    lon = "%f" % n.gps_lon_deg
                 gps = dict (lat = lat, lon = lon)
             else :
                 assert n.gps_lat_deg == int (n.gps_lat_deg)
@@ -431,9 +471,16 @@ class Convert (object) :
                 if n.gps_lon_sec is not None :
                     lon = lon + " %f s" % n.gps_lon_sec
                 gps = dict (lat = lat, lon = lon)
+                if self.anonymize :
+                    lat = n.gps_lat_deg + n.gps_lat_min + (n.gps_lat_sec or 0)
+                    lon = n.gps_lon_deg + n.gps_lon_min + (n.gps_lon_sec or 0)
+                    gps = dict (lat = "%2.2f" % lat, lon = "%2.2f" % lon)
             id = self.person_dupes.get (n.id_members, n.id_members)
             owner = self.person_by_id.get (id)
-            if not isinstance (owner, self.pap.Person) :
+            if self.anonymize :
+                manager = owner
+                owner   = None
+            elif not isinstance (owner, self.pap.Person) :
                 assert len (owner.actor) == 1
                 manager = iter (owner.actor).next ()
             elif id in self.companies or id in self.associations :
@@ -706,6 +753,9 @@ class Convert (object) :
                 cls = self.pap.Association
             else :
                 pd = dict (first_name = m.firstname, last_name = m.lastname)
+            if self.anonymize :
+                cls = self.pap.Person
+                pd = dict (first_name = m.id, last_name = 'Funkfeuer')
             if self.verbose :
                 type = cls.__name__.lower ()
                 pyk.fprint ( "Creating %s: %s" % (type, repr (name)))
@@ -715,6 +765,8 @@ class Convert (object) :
             if m.id not in self.rev_person_dupes :
                 self.set_last_change (person, m.changed, m.created)
             self.person_by_id [m.id] = person
+            if self.anonymize :
+                continue
             self.try_insert_address (m, person)
             if m.email :
                 self.try_insert_email (person, m)
@@ -748,6 +800,8 @@ class Convert (object) :
                 for p in q (left = person).all () :
                     self.pap.Subject_has_Property (legal, p.right)
                 self.ffm.Person_acts_for_Legal_Entity (person, legal)
+        if self.anonymize :
+            return
         x = dict (self.company_actor)
         x.update (self.association_actor)
         for l_id, p_id in x.iteritems () :
@@ -951,7 +1005,16 @@ class Convert (object) :
                 d.mid_ip = ip4
                 if d.id_nodes not in nodes :
                     nodes [d.id_nodes] = d
-                else :
+                elif d != nodes [d.id_nodes] :
+                    if d.merged :
+                        if d.merged != nodes [d.id_nodes] :
+                            pyk.fprint \
+                                ( "ERR: %s already merged to %s "
+                                  "not merging to %s"
+                                % (d, d.merged, nodes [d.id_nodes])
+                                )
+                        continue
+                    assert not nodes [d.id_nodes].merged
                     nodes [d.id_nodes].merge (d)
             if len (nodes) > 1 :
                 pyk.fprint \
@@ -1003,8 +1066,14 @@ class Convert (object) :
                 sdevs = {}
                 sifs  = {}
                 dev1  = None
+                err   = False
                 for devid, ips in devs.iteritems () :
                     d = self.cons_dev [devid]
+                    if d.merged :
+                        pyk.fprint \
+                            ("ERR: %s already merged to %s" % (d, d.merged))
+                        err = True
+                        continue
                     if dev1 and d.id != dev1.id :
                         if self.verbose :
                             pyk.fprint \
@@ -1016,6 +1085,8 @@ class Convert (object) :
                                   , dev1.name
                                   )
                                 )
+                        assert dev1 != d
+                        assert not dev1.merged
                         dev1.merge (d)
                     else :
                         dev1 = d
@@ -1025,10 +1096,11 @@ class Convert (object) :
                             sifs  [self.spider_iface [ip]] = {}
                         sifs  [self.spider_iface [ip]] [ip] = True
 
-                assert len (sdevs) == 1
-                assert sdev in sdevs
-                assert len (sifs)  >= 1
-                assert dev1
+                if not err :
+                    assert len (sdevs) == 1
+                    assert sdev in sdevs
+                    assert len (sifs)  >= 1
+                    assert dev1
                 for sif, ips in sifs.iteritems () :
                     l = len (ips)
                     assert l >= 1
@@ -1066,33 +1138,10 @@ class Convert (object) :
         for k in sorted (self.olsr_nodes.iterkeys ()) :
             pyk.fprint (k)
         for node in self.contents ['nodes'] :
-            pyk.fprint ("Node: %s (%s)" % (node.name.encode ('latin1'), node.id))
+            nn = node.name.encode ('latin1')
+            pyk.fprint ("Node: %s (%s)" % (nn, node.id))
             for d in self.dev_by_node.get (node.id, []) :
                 pyk.fprint ("    Device: %s" % d.name)
-                ips = self.ip_by_dev.get (d.id, [])
-                ips.sort ()
-                for ip in ips :
-                    x = ''
-                    if IP4_Address (ip.ip) in self.olsr_nodes :
-                        x = ' USED'
-                    pyk.fprint ("        IP: %s/%s%s" % (ip.ip, ip.cidr, x))
-                l = len (ips)
-                if not l :
-                    pyk.fprint ("    No IPs!!")
-                for ip in ips :
-                    adr = IP4_Address (ip.ip)
-                    if adr in self.olsr_mid :
-                        ips1 = [x.ip for x in ips]
-                        ips2 = []
-                        ips2.extend (str (x) for x in self.olsr_mid [adr])
-                        ips2.append (ip.ip)
-                        ips2.sort ()
-                        if ips1 != ips2 :
-                            pyk.fprint ("        Ooops: %s/%s" % (ips1, ips2))
-                        break
-                else :
-                    if l > 1 :
-                        pyk.fprint ("        Not found in olsr_mid!")
     # end def debug_output
 
     def create (self) :
@@ -1112,7 +1161,7 @@ def _main (cmd) :
     scope = model.scope (cmd)
     if cmd.Break :
         TFL.Environment.py_shell ()
-    c = Convert (cmd, scope)
+    c = Convert (cmd, scope, debug = False)
     #c.dump ()
     c.create ()
     scope.commit ()
@@ -1131,6 +1180,7 @@ _Command = TFL.CAO.Cmd \
     , opts            =
         ( "verbose:B"
         , "create:B"
+        , "anonymize:B"
         , "olsr_file:S=olsr/txtinfo.txt?OLSR dump-file to convert"
         , "spider_dump:S=Funkfeuer.dump?Spider pickle dump"
         , "network:S,?Networks already reserved"
