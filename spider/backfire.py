@@ -53,15 +53,17 @@ class Interfaces (Page_Tree, Version_Mixin) :
                         iface.is_wlan = wlan == 'Yes'
                     if status == 'DOWN' :
                         continue
-                    if ':' in ip :
-                        i6 = Inet6 (ip, mask, bcast, iface = name)
-                        iface.append_inet6 (i6)
-                    else :
-                        i4 = Inet4 (ip, mask, bcast, iface = name)
-                        iface.append_inet4 (i4)
-                        if not unroutable (i4.ip) :
-                            self.if_by_name [name] = iface
-                            self.ips [i4] = True
+                    # append IP address to interface if there is one
+                    if ip is not None :
+                        if ':' in ip :
+                            i6 = Inet6 (ip, mask, bcast, iface = name)
+                            iface.append_inet6 (i6)
+                        else :
+                            i4 = Inet4 (ip, mask, bcast, iface = name)
+                            iface.append_inet4 (i4)
+                            if not unroutable (i4.ip) :
+                                self.if_by_name [name] = iface
+                                self.ips [i4] = True
         self.set_version (root)
         if not self.if_by_name :
             raise ValueError, "No interface config found"
