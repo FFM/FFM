@@ -260,7 +260,7 @@ class WLAN_Config (Compare_Mixin) :
                 self.mode = self.modes.get (self.mode.lower (), self.mode)
         self.channel  = getattr (self, 'channel', None) or kw.get ('channel')
         self.bssid    = getattr (self, 'bssid',   None) or kw.get ('bssid')
-        if len (self.bssid.split (':')) != 6 :
+        if self.bssid is not None and len (self.bssid.split (':')) != 6 :
             t = self.bssid.split ('-')
             if len (t) == 6 :
                 self.bssid = ':'.join (t)
