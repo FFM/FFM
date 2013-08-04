@@ -19,6 +19,7 @@
 
 import os
 import re
+from   csv                  import DictWriter
 from   rsclib.HTML_Parse    import tag, Page_Tree
 from   rsclib.stateparser   import Parser
 from   rsclib.autosuper     import autosuper
@@ -152,6 +153,17 @@ class Guess (Compare_Mixin) :
         self.type = self.status.__class__.__name__
     # end def __init__
 
+    def as_json (self) :
+        d = dict (type = self.type, version = self.version)
+        iface = d ['interfaces'] = []
+        for i in self.interfaces.itervalues () :
+            iface.append (i.as_dict) 
+        ips = d ['ips'] = []
+        for i in self.ips.iterkeys () :
+            ips.append (str (i))
+        return json.dumps (d)
+    # end def as_json
+
     def verbose_repr (self) :
         r = [str (self)]
         for v in self.interfaces.itervalues () :
@@ -227,6 +239,11 @@ def main () :
         , help    = "Read old pickle files, merge and preserve information"
         , action  = "append"
         , default = []
+        )
+    cmd.add_option \
+        ( "-V", "--version-statistics"
+        , dest    = "version_statistics"
+        , help    = "Output version information by spidered IP"
         )
     cmd.add_option \
         ( "-v", "--verbose"
@@ -308,8 +325,23 @@ def main () :
         f = open (opt.output_pickle, 'wb')
         pickle.dump (ipdict, f)
         f.close ()
+    key = lambda x : IP4_Address (x [0])
+    if opt.version_statistics :
+        fields = ['address', 'type', 'version']
+        f      = open (opt.version_statistics, 'w')
+        dw     = DictWriter (f, fields, delimiter = ';')
+        dw.writerow (dict ((k, k) for k in fields))
+        for ip, guess in sorted (ipdict.iteritems (), key = key) :
+            if isinstance (guess, Guess) :
+                dw.writerow \
+                    ( dict
+                        ( address = str (ip)
+                        , version = guess.version
+                        , type    = guess.type
+                        )
+                    )
+        f.close ()
     if opt.verbose :
-        key = lambda x : IP4_Address (x [0])
         for ip, guess in sorted (ipdict.iteritems (), key = key) :
             if opt.verbose > 1 :
                 print "%-15s" % ip
