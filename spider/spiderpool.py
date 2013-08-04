@@ -74,6 +74,7 @@ class Worker (Log, Timeout) :
                 g    = Guess (site = site, ip = self.ip, url = '', port = port)
                 self.log.debug ("%s: after  guess" % self.ip)
             except ValueError, err :
+                self.disable_alarm ()
                 self.log.error ("Error in IP %s:" % self.ip)
                 self.log_exception ()
                 self.result_dict [self.ip] = ('ValueError', err)
@@ -83,9 +84,11 @@ class Worker (Log, Timeout) :
                 self.result_dict [self.ip] = ('Timeout_Error', err)
                 return
             except Retries_Exceeded, err :
+                self.disable_alarm ()
                 self.result_dict [self.ip] = ('Retries_Exceeded', err)
                 return
             except Exception, err :
+                self.disable_alarm ()
                 self.log.error ("Error in IP %s:" % self.ip)
                 self.log_exception ()
                 self.result_dict [self.ip] = ('Exception', err)
