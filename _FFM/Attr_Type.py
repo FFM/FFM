@@ -35,6 +35,7 @@
 #    17-Dec-2012 (CT) Add `A_Wireless_Mode`
 #    17-Dec-2012 (RS) Fix unit dBW, use decadic logarithm for dB
 #     5-Jun-2013 (CT) Use `is_attr_type`, not home-grown code
+#     7-Aug-2013 (CT) Add `A_Polarization.C_Type`
 #    ««revision-date»»···
 #--
 
@@ -61,6 +62,7 @@ class A_Polarization (_A_Named_Value_) :
     example      = "vertical"
     typ          = "Antenna Polarization"
     P_Type       = int
+    C_Type       = A_Int
     Table        = \
         { "horizontal"     : horizontal
         , "vertical"       : vertical

@@ -50,11 +50,13 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 from   _MOM.import_MOM          import *
 from   _FFM                     import FFM
 
-from   _GTW._OMP._NET.Attr_Type import *
-
 from   _FFM.Attr_Type           import *
+
 import _FFM.Net_Interface
 import _FFM.Wireless_Standard
+
+from   _GTW._OMP._NET           import NET
+import _GTW._OMP._NET.Attr_Type
 
 _Ancestor_Essence = FFM.Net_Interface
 
@@ -86,7 +88,7 @@ class _Wireless_Interface_ (_Ancestor_Essence) :
 
         # end class essid
 
-        class bssid (A_MAC_Address) :
+        class bssid (NET.A_MAC_Address) :
             """Cell name."""
 
             kind               = Attr.Optional

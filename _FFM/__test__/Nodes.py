@@ -39,6 +39,7 @@
 #    17-Apr-2013 (CT) Add tests `owner` and `refuse_e_types`
 #    18-Apr-2013 (CT) Add test for `eligible_e_types`,
 #                     `selectable_e_types_unique_epk`
+#     7-Aug-2013 (CT) Adapt to major surgery of GTW.OMP.NET.Attr_Type
 #    ««revision-date»»···
 #--
 
@@ -95,12 +96,12 @@ _test_code = """
     >>> node3.last_changed
     datetime.datetime(2010, 5, 5, 23, 23, 23)
 
-    >>> net = FFM.IP4_Network (dict (address = '192.168.23.0/24'), owner = mgr, raw = True)
-    >>> a1  = net.reserve (Adr ('192.168.23.1/32',  raw = True))
-    >>> a2  = net.reserve (Adr ('192.168.23.2/32',  raw = True))
-    >>> a3  = net.reserve (Adr ('192.168.23.3/32',  raw = True))
-    >>> a4  = net.reserve (Adr ('192.168.23.4/32',  raw = True))
-    >>> ax  = net.reserve (Adr ('192.168.23.42/32', raw = True))
+    >>> net = FFM.IP4_Network ('192.168.23.0/24', owner = mgr, raw = True)
+    >>> a1  = net.reserve (Adr ('192.168.23.1/32'))
+    >>> a2  = net.reserve (Adr ('192.168.23.2/32'))
+    >>> a3  = net.reserve (Adr ('192.168.23.3/32'))
+    >>> a4  = net.reserve (Adr ('192.168.23.4/32'))
+    >>> ax  = net.reserve ('192.168.23.42/32')
     >>> devtype = FFM.Net_Device_Type.instance_or_new \\
     ...     (name = 'Generic', raw = True)
     >>> dev = FFM.Net_Device \\
@@ -122,10 +123,10 @@ _test_code = """
         right = 192.168.23.42
         right.net_address = 192.168.23.42
 
-    >>> net2 = FFM.IP4_Network (dict (address = '10.0.0.0/8'), owner = mgr, raw = True)
-    >>> a2_1 = net2.reserve (Adr ('10.139.187.0/27',  raw = True))
-    >>> a2_2 = net2.reserve (Adr ('10.139.187.2',     raw = True))
-    >>> a2_f = net2.reserve (Adr ('10.139.187.0/27',  raw = True))
+    >>> net2 = FFM.IP4_Network (address = '10.0.0.0/8', owner = mgr, raw = True)
+    >>> a2_1 = net2.reserve (Adr ('10.139.187.0/27'))
+    >>> a2_2 = net2.reserve (Adr ('10.139.187.2'))
+    >>> a2_f = net2.reserve (Adr ('10.139.187.0/27'))
     Traceback (most recent call last):
       ...
     Address_Already_Used: Address ("10.139.187.0/27", ) already in use by 'Schlatterbeck Ralf'
@@ -382,18 +383,6 @@ _test_refuse_e_types = """
             , ui_name = 'Manager/Sex'
             )
           , Record
-            ( attr = Boolean `electric`
-            , choices =
-                [ 'no'
-                , 'yes'
-                ]
-            , full_name = 'manager.electric'
-            , id = 'manager__electric'
-            , name = 'electric'
-            , sig_key = 1
-            , ui_name = 'Manager/Electric'
-            )
-          , Record
             ( attr = Int `last_cid`
             , full_name = 'manager.last_cid'
             , id = 'manager__last_cid'
@@ -511,15 +500,6 @@ _test_refuse_e_types = """
             , name = 'region'
             , sig_key = 3
             , ui_name = 'Address/Region'
-            )
-          , Record
-            ( attr = Boolean `electric`
-            , choices = <Recursion on list...>
-            , full_name = 'address.electric'
-            , id = 'address__electric'
-            , name = 'electric'
-            , sig_key = 1
-            , ui_name = 'Address/Electric'
             )
           , Record
             ( attr = Int `last_cid`
@@ -707,15 +687,6 @@ _test_refuse_e_types = """
       , name = 'show_in_map'
       , sig_key = 1
       , ui_name = 'Show in map'
-      )
-    , Record
-      ( attr = Boolean `electric`
-      , choices = <Recursion on list...>
-      , full_name = 'electric'
-      , id = 'electric'
-      , name = 'electric'
-      , sig_key = 1
-      , ui_name = 'Electric'
       )
     , Record
       ( attr = Int `last_cid`

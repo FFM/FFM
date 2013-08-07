@@ -42,11 +42,13 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 from   _MOM.import_MOM          import *
 from   _FFM                     import FFM
 
-from   _GTW._OMP._NET.Attr_Type import *
 from   _GTW._OMP._DNS.Attr_Type import A_DNS_Label
 
 import _FFM.Net_Device
 import _FFM._Belongs_to_Node_
+
+from   _GTW._OMP._NET           import NET
+import _GTW._OMP._NET.Attr_Type
 
 _Ancestor_Essence = FFM.Link1
 _Mixin = FFM._Belongs_to_Node_
@@ -71,7 +73,7 @@ class Net_Interface (_Mixin, _Ancestor_Essence) :
 
         # end class left
 
-        class mac_address (A_MAC_Address) :
+        class mac_address (NET.A_MAC_Address) :
             """MAC address of interface."""
 
             kind               = Attr.Primary_Optional

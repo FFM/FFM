@@ -29,6 +29,7 @@
 #     8-Jan-2013 (RS) Creation
 #     1-Feb-2013 (RS) Fix rounding error with python2.6
 #     5-Mar-2013 (CT) Adapt to signature change of `Net_Interface_in_IP_Network`
+#     7-Aug-2013 (CT) Adapt to major surgery of GTW.OMP.NET.Attr_Type
 #    ««revision-date»»···
 #--
 
@@ -47,11 +48,11 @@ def create (scope) :
     gps1 = dict (lat = "48 d 15 m", lon = "15 d 52 m 27.84 s")
     node2 = FFM.Node \
         (name = "node2", manager = mgr, position = gps1, raw = True)
-    net = FFM.IP4_Network (dict (address = '192.168.23.0/24'), raw = True)
-    a1  = net.reserve (Adr ('192.168.23.1/32',  raw = True))
-    a2  = net.reserve (Adr ('192.168.23.2/32',  raw = True))
-    a3  = net.reserve (Adr ('192.168.23.3/32',  raw = True))
-    a4  = net.reserve (Adr ('192.168.23.4/32',  raw = True))
+    net = FFM.IP4_Network ('192.168.23.0/24', raw = True)
+    a1  = net.reserve ('192.168.23.1/32')
+    a2  = net.reserve (Adr ('192.168.23.2/32'))
+    a3  = net.reserve ('192.168.23.3/32')
+    a4  = net.reserve (Adr ('192.168.23.4/32'))
     devtype = FFM.Net_Device_Type.instance_or_new \
         (name = 'Generic', raw = True)
     dev = FFM.Net_Device \
@@ -84,9 +85,8 @@ def net_fixtures (scope) :
     n3    = FFM.Node (name = "Node-net3", manager = rsc, owner = ff, raw = True)
     n4    = FFM.Node (name = "Node-net4", manager = rsc, raw = True)
     net   = FFM.IP4_Network \
-        (dict (address = '10.10.0.0/16'), owner = ff, raw = True)
-    nv6   = FFM.IP6_Network \
-        (dict (address = '2001:db8::/32'), owner = swing, raw = True)
+        (net_address = '10.10.0.0/16', owner = ff, raw = True)
+    nv6   = FFM.IP6_Network ('2001:db8::/32', owner = swing, raw = True)
     n1d1  = FFM.Net_Device \
         (left = dtype, node = n1, name = 'n1d1', raw = True)
     n1d2  = FFM.Net_Device \

@@ -36,6 +36,7 @@
 #    28-Mar-2013 (CT) Add `AQ.Attrs_Transitive...ui_name`, `.pool.pool.pool...`
 #    11-Apr-2013 (CT) Adapt to changes in `MOM.Attr.Querier`
 #    28-Apr-2013 (CT) Adapt to addition of `IP_Network.desc`
+#     7-Aug-2013 (CT) Adapt to major surgery of GTW.OMP.NET.Attr_Type
 #    ««revision-date»»···
 #--
 
@@ -66,7 +67,7 @@ _test_alloc = """
 
     >>> show_networks (scope) ### nothing allocated yet
 
-    >>> ff_pool  = FFM.IP4_Network (('10.0.0.0/8', ), owner = ff, raw = True)
+    >>> ff_pool  = FFM.IP4_Network ('10.0.0.0/8', owner = ff, raw = True)
     >>> show_networks (scope) ### 10.0.0.0/8
     10.0.0.0/8         Funkfeuer                : electric = F, children = F
 
@@ -124,7 +125,7 @@ _test_alloc = """
     10.0.0.32/27       Open Source Consulting   : electric = T, children = F
     10.0.0.16/28       Open Source Consulting   : electric = T, children = F
 
-    >>> ct_addr = osc_pool.reserve (Adr ('10.0.0.1/32', raw = True), owner = ct)
+    >>> ct_addr = osc_pool.reserve ('10.0.0.1/32', owner = ct)
     Traceback (most recent call last):
       ...
     Address_Already_Used: Address ("10.0.0.1", ) already in use by 'Schlatterbeck Ralf'
@@ -180,7 +181,7 @@ _test_alloc = """
     >>> show_network_count (scope)
     FFM.IP4_Network count: 45
 
-    >>> mg_addr = ct_pool.reserve (Adr ('10.0.0.1/32', raw = True), owner = mg)
+    >>> mg_addr = ct_pool.reserve ('10.0.0.1/32', owner = mg)
     >>> show_networks (scope, pool = rs_pool) ### 10.0.0.1/32
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = T
@@ -192,7 +193,7 @@ _test_alloc = """
     10.0.0.2/31        Tanzer Christian         : electric = T, children = F
     10.0.0.0           Tanzer Christian         : electric = T, children = F
 
-    >>> lt_addr = ct_pool.reserve (Adr ('10.0.0.2/32', raw = True), owner = lt)
+    >>> lt_addr = ct_pool.reserve ('10.0.0.2/32', owner = lt)
     >>> show_networks (scope, pool = rs_pool) ### 10.0.0.2/32
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = T
@@ -206,8 +207,8 @@ _test_alloc = """
     10.0.0.0           Tanzer Christian         : electric = T, children = F
     10.0.0.3           Tanzer Christian         : electric = T, children = F
 
-    >>> rs_addr = ct_pool.reserve (Adr ('10.0.0.0/32', raw = True), owner = rs)
-    >>> ct_addr = ct_pool.reserve (Adr ('10.0.0.3/32', raw = True), owner = ct)
+    >>> rs_addr = ct_pool.reserve ('10.0.0.0/32', owner = rs)
+    >>> ct_addr = ct_pool.reserve (Adr ('10.0.0.3/32'), owner = ct)
     >>> show_networks (scope, pool = rs_pool) ### 10.0.0.3/32
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = T
@@ -237,7 +238,7 @@ _test_alloc = """
     10.0.0.2/31        Tanzer Christian         : electric = T, children = T
     10.0.0.12/30       Glueck Martin            : electric = T, children = F
 
-    >>> ct_addr = ff_pool.reserve (Adr ('10.42.137.1/32', raw = True), owner = ct)
+    >>> ct_addr = ff_pool.reserve (Adr ('10.42.137.1/32'), owner = ct)
     >>> show_networks (scope) ### 10.42.137.1/32
     10.0.0.0/8         Funkfeuer                : electric = F, children = T
     10.0.0.0/16        Open Source Consulting   : electric = F, children = T
@@ -340,13 +341,13 @@ _test_alloc = """
 
     >>> ETM = FFM.IP4_Network
     >>> q   = ETM.query
-    >>> Net = ETM.net_address.P_Type
-    >>> n   = Net ('10.42.137.0/28', raw = True)
+    >>> n   = '10.42.137.0/28'
     >>> q (Q.net_address.IN (n)).count ()
     9
+
     >>> s = TFL.Sorted_By ("-net_address.mask_len")
     >>> q (Q.net_address.CONTAINS (n), sort_key = s).first ()
-    FFM.IP4_Network (("10.42.137.0/28", ))
+    FFM.IP4_Network ("10.42.137.0/28")
 
 """
 
@@ -361,11 +362,10 @@ _test_AQ = """
     <Attr.Type.Querier.E_Type for FFM.IP4_Network>
     >>> for aq in AQ.Attrs :
     ...     print (aq)
-    <net_address.AQ [Attr.Type.Querier Composite]>
+    <net_address.AQ [Attr.Type.Querier Ckd]>
     <desc.AQ [Attr.Type.Querier String]>
     <owner.AQ [Attr.Type.Querier Id_Entity]>
     <pool.AQ [Attr.Type.Querier Id_Entity]>
-    <electric.AQ [Attr.Type.Querier Boolean]>
     <last_cid.AQ [Attr.Type.Querier Ckd]>
     <pid.AQ [Attr.Type.Querier Ckd]>
     <type_name.AQ [Attr.Type.Querier String]>
@@ -375,30 +375,20 @@ _test_AQ = """
 
     >>> for aq in AQ.Attrs_Transitive :
     ...     print (aq, aq.E_Type.type_name if aq.E_Type else "-"*5)
-    <net_address.AQ [Attr.Type.Querier Composite]> NET.IP4_Network
-    <net_address.address.AQ [Attr.Type.Querier Ckd]> -----
-    <net_address.numeric_address.AQ [Attr.Type.Querier Ckd]> -----
-    <net_address.mask_len.AQ [Attr.Type.Querier Ckd]> -----
-    <net_address.upper_bound.AQ [Attr.Type.Querier Ckd]> -----
+    <net_address.AQ [Attr.Type.Querier Ckd]> -----
     <desc.AQ [Attr.Type.Querier String]> -----
     <owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
     <pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
-    <pool.net_address.AQ [Attr.Type.Querier Composite]> NET.IP4_Network
-    <pool.net_address.address.AQ [Attr.Type.Querier Ckd]> -----
-    <pool.net_address.numeric_address.AQ [Attr.Type.Querier Ckd]> -----
-    <pool.net_address.mask_len.AQ [Attr.Type.Querier Ckd]> -----
-    <pool.net_address.upper_bound.AQ [Attr.Type.Querier Ckd]> -----
+    <pool.net_address.AQ [Attr.Type.Querier Ckd]> -----
     <pool.desc.AQ [Attr.Type.Querier String]> -----
     <pool.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
     <pool.pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
-    <pool.electric.AQ [Attr.Type.Querier Boolean]> -----
     <pool.last_cid.AQ [Attr.Type.Querier Ckd]> -----
     <pool.pid.AQ [Attr.Type.Querier Ckd]> -----
     <pool.type_name.AQ [Attr.Type.Querier String]> -----
     <pool.is_free.AQ [Attr.Type.Querier Boolean]> -----
     <pool.cool_down.AQ [Attr.Type.Querier Ckd]> -----
     <pool.has_children.AQ [Attr.Type.Querier Boolean]> -----
-    <electric.AQ [Attr.Type.Querier Boolean]> -----
     <last_cid.AQ [Attr.Type.Querier Ckd]> -----
     <pid.AQ [Attr.Type.Querier Ckd]> -----
     <type_name.AQ [Attr.Type.Querier String]> -----
@@ -409,29 +399,19 @@ _test_AQ = """
     >>> for aq in AQ.Attrs_Transitive :
     ...     str (aq._ui_name_T)
     'Net address'
-    'Net address/Address'
-    'Net address/Numeric address'
-    'Net address/Mask len'
-    'Net address/Upper bound'
     'Desc'
     'Owner'
     'Pool'
     'Pool/Net address'
-    'Pool/Net address/Address'
-    'Pool/Net address/Numeric address'
-    'Pool/Net address/Mask len'
-    'Pool/Net address/Upper bound'
     'Pool/Desc'
     'Pool/Owner'
     'Pool/Pool'
-    'Pool/Electric'
     'Pool/Last cid'
     'Pool/Pid'
     'Pool/Type name'
     'Pool/Is free'
     'Pool/Cool down'
     'Pool/Has children'
-    'Electric'
     'Last cid'
     'Pid'
     'Type name'
@@ -444,24 +424,16 @@ _test_AQ = """
 
     >>> for aq in AQ.Atoms :
     ...     print (aq)
-    <net_address.address.AQ [Attr.Type.Querier Ckd]>
-    <net_address.numeric_address.AQ [Attr.Type.Querier Ckd]>
-    <net_address.mask_len.AQ [Attr.Type.Querier Ckd]>
-    <net_address.upper_bound.AQ [Attr.Type.Querier Ckd]>
+    <net_address.AQ [Attr.Type.Querier Ckd]>
     <desc.AQ [Attr.Type.Querier String]>
-    <pool.net_address.address.AQ [Attr.Type.Querier Ckd]>
-    <pool.net_address.numeric_address.AQ [Attr.Type.Querier Ckd]>
-    <pool.net_address.mask_len.AQ [Attr.Type.Querier Ckd]>
-    <pool.net_address.upper_bound.AQ [Attr.Type.Querier Ckd]>
+    <pool.net_address.AQ [Attr.Type.Querier Ckd]>
     <pool.desc.AQ [Attr.Type.Querier String]>
-    <pool.electric.AQ [Attr.Type.Querier Boolean]>
     <pool.last_cid.AQ [Attr.Type.Querier Ckd]>
     <pool.pid.AQ [Attr.Type.Querier Ckd]>
     <pool.type_name.AQ [Attr.Type.Querier String]>
     <pool.is_free.AQ [Attr.Type.Querier Boolean]>
     <pool.cool_down.AQ [Attr.Type.Querier Ckd]>
     <pool.has_children.AQ [Attr.Type.Querier Boolean]>
-    <electric.AQ [Attr.Type.Querier Boolean]>
     <last_cid.AQ [Attr.Type.Querier Ckd]>
     <pid.AQ [Attr.Type.Querier Ckd]>
     <type_name.AQ [Attr.Type.Querier String]>
@@ -471,25 +443,8 @@ _test_AQ = """
 
     >>> print (formatted (AQ.As_Json_Cargo))
     { 'filters' :
-        [ { 'attrs' :
-              [ { 'name' : 'address'
-                , 'sig_key' : 0
-                , 'ui_name' : 'Address'
-                }
-              , { 'name' : 'numeric_address'
-                , 'sig_key' : 0
-                , 'ui_name' : 'Numeric address'
-                }
-              , { 'name' : 'mask_len'
-                , 'sig_key' : 0
-                , 'ui_name' : 'Mask len'
-                }
-              , { 'name' : 'upper_bound'
-                , 'sig_key' : 0
-                , 'ui_name' : 'Upper bound'
-                }
-              ]
-          , 'name' : 'net_address'
+        [ { 'name' : 'net_address'
+          , 'sig_key' : 0
           , 'ui_name' : 'Net address'
           }
         , { 'name' : 'desc'
@@ -574,25 +529,8 @@ _test_AQ = """
           }
         , { 'Class' : 'Entity'
           , 'attrs' :
-              [ { 'attrs' :
-                    [ { 'name' : 'address'
-                      , 'sig_key' : 0
-                      , 'ui_name' : 'Address'
-                      }
-                    , { 'name' : 'numeric_address'
-                      , 'sig_key' : 0
-                      , 'ui_name' : 'Numeric address'
-                      }
-                    , { 'name' : 'mask_len'
-                      , 'sig_key' : 0
-                      , 'ui_name' : 'Mask len'
-                      }
-                    , { 'name' : 'upper_bound'
-                      , 'sig_key' : 0
-                      , 'ui_name' : 'Upper bound'
-                      }
-                    ]
-                , 'name' : 'net_address'
+              [ { 'name' : 'net_address'
+                , 'sig_key' : 0
                 , 'ui_name' : 'Net address'
                 }
               , { 'name' : 'desc'
@@ -680,10 +618,6 @@ _test_AQ = """
                 , 'sig_key' : 2
                 , 'ui_name' : 'Pool'
                 }
-              , { 'name' : 'electric'
-                , 'sig_key' : 1
-                , 'ui_name' : 'Electric'
-                }
               , { 'name' : 'last_cid'
                 , 'sig_key' : 0
                 , 'ui_name' : 'Last cid'
@@ -712,10 +646,6 @@ _test_AQ = """
           , 'name' : 'pool'
           , 'sig_key' : 2
           , 'ui_name' : 'Pool'
-          }
-          , { 'name' : 'electric'
-          , 'sig_key' : 1
-          , 'ui_name' : 'Electric'
           }
         , { 'name' : 'last_cid'
           , 'sig_key' : 0
@@ -829,44 +759,11 @@ _test_AQ = """
 
     >>> print (formatted (AQ.As_Template_Elem))
     [ Record
-      ( attr = IP4_Network `net_address`
-      , attrs =
-          [ Record
-            ( attr = IP4-network `address`
-            , full_name = 'net_address.address'
-            , id = 'net_address__address'
-            , name = 'address'
-            , sig_key = 0
-            , ui_name = 'Net address/Address'
-            )
-          , Record
-            ( attr = Int `numeric_address`
-            , full_name = 'net_address.numeric_address'
-            , id = 'net_address__numeric_address'
-            , name = 'numeric_address'
-            , sig_key = 0
-            , ui_name = 'Net address/Numeric address'
-            )
-          , Record
-            ( attr = Int `mask_len`
-            , full_name = 'net_address.mask_len'
-            , id = 'net_address__mask_len'
-            , name = 'mask_len'
-            , sig_key = 0
-            , ui_name = 'Net address/Mask len'
-            )
-          , Record
-            ( attr = Int `upper_bound`
-            , full_name = 'net_address.upper_bound'
-            , id = 'net_address__upper_bound'
-            , name = 'upper_bound'
-            , sig_key = 0
-            , ui_name = 'Net address/Upper bound'
-            )
-          ]
+      ( attr = IP4-network `net_address`
       , full_name = 'net_address'
       , id = 'net_address'
       , name = 'net_address'
+      , sig_key = 0
       , ui_name = 'Net address'
       )
     , Record
@@ -1012,44 +909,11 @@ _test_AQ = """
       , attr = Entity `pool`
       , attrs =
           [ Record
-            ( attr = IP4_Network `net_address`
-            , attrs =
-                [ Record
-                  ( attr = IP4-network `address`
-                  , full_name = 'pool.net_address.address'
-                  , id = 'pool__net_address__address'
-                  , name = 'address'
-                  , sig_key = 0
-                  , ui_name = 'Pool/Net address/Address'
-                  )
-                , Record
-                  ( attr = Int `numeric_address`
-                  , full_name = 'pool.net_address.numeric_address'
-                  , id = 'pool__net_address__numeric_address'
-                  , name = 'numeric_address'
-                  , sig_key = 0
-                  , ui_name = 'Pool/Net address/Numeric address'
-                  )
-                , Record
-                  ( attr = Int `mask_len`
-                  , full_name = 'pool.net_address.mask_len'
-                  , id = 'pool__net_address__mask_len'
-                  , name = 'mask_len'
-                  , sig_key = 0
-                  , ui_name = 'Pool/Net address/Mask len'
-                  )
-                , Record
-                  ( attr = Int `upper_bound`
-                  , full_name = 'pool.net_address.upper_bound'
-                  , id = 'pool__net_address__upper_bound'
-                  , name = 'upper_bound'
-                  , sig_key = 0
-                  , ui_name = 'Pool/Net address/Upper bound'
-                  )
-                ]
+            ( attr = IP4-network `net_address`
             , full_name = 'pool.net_address'
             , id = 'pool__net_address'
             , name = 'net_address'
+            , sig_key = 0
             , ui_name = 'Pool/Net address'
             )
           , Record
@@ -1202,18 +1066,6 @@ _test_AQ = """
             , ui_type_name = 'IP4_Network'
             )
           , Record
-            ( attr = Boolean `electric`
-            , choices =
-                [ 'no'
-                , 'yes'
-                ]
-            , full_name = 'pool.electric'
-            , id = 'pool__electric'
-            , name = 'electric'
-            , sig_key = 1
-            , ui_name = 'Pool/Electric'
-            )
-          , Record
             ( attr = Int `last_cid`
             , full_name = 'pool.last_cid'
             , id = 'pool__last_cid'
@@ -1277,15 +1129,6 @@ _test_AQ = """
       , type_name = 'FFM.IP4_Network'
       , ui_name = 'Pool'
       , ui_type_name = 'IP4_Network'
-      )
-    , Record
-      ( attr = Boolean `electric`
-      , choices = <Recursion on list...>
-      , full_name = 'electric'
-      , id = 'electric'
-      , name = 'electric'
-      , sig_key = 1
-      , ui_name = 'Electric'
       )
     , Record
       ( attr = Int `last_cid`
@@ -1372,25 +1215,6 @@ _test_AQ = """
       , value = None
       )
     , Record
-      ( AQ = <electric.AQ [Attr.Type.Querier Boolean]>
-      , attr = Boolean `electric`
-      , choices =
-          [ 'no'
-          , 'yes'
-          ]
-      , edit = None
-      , full_name = 'electric'
-      , id = 'electric___AC'
-      , name = 'electric___AC'
-      , op = Record
-          ( desc = 'Select entities where the attribute is equal to the specified value'
-          , label = 'auto-complete'
-          )
-      , sig_key = 1
-      , ui_name = 'Electric'
-      , value = None
-      )
-    , Record
       ( AQ = <last_cid.AQ [Attr.Type.Querier Ckd]>
       , attr = Int `last_cid`
       , edit = None
@@ -1439,36 +1263,36 @@ _test_AQ = """
 
     >>> print (formatted (QR.Filter_Atoms (QR.Filter (FFM.IP4_Network, "pool"))))
     ( Record
-      ( AQ = <net_address.address.AQ [Attr.Type.Querier Ckd]>
-      , attr = IP4-network `address`
+      ( AQ = <net_address.AQ [Attr.Type.Querier Ckd]>
+      , attr = IP4-network `net_address`
       , edit = None
-      , full_name = 'net_address.address'
-      , id = 'net_address__address___AC'
-      , name = 'net_address__address___AC'
+      , full_name = 'net_address'
+      , id = 'net_address___AC'
+      , name = 'net_address___AC'
       , op = Record
           ( desc = 'Select entities where the attribute is equal to the specified value'
           , label = 'auto-complete'
           )
       , sig_key = 0
-      , ui_name = 'Net address/Address'
+      , ui_name = 'Net address'
       , value = None
       )
     )
 
     >>> print (formatted (QR.Filter_Atoms (QR.Filter (FFM.Net_Interface_in_IP4_Network, "right"))))
     ( Record
-      ( AQ = <net_address.address.AQ [Attr.Type.Querier Ckd]>
-      , attr = IP4-network `address`
+      ( AQ = <net_address.AQ [Attr.Type.Querier Ckd]>
+      , attr = IP4-network `net_address`
       , edit = None
-      , full_name = 'net_address.address'
-      , id = 'net_address__address___AC'
-      , name = 'net_address__address___AC'
+      , full_name = 'net_address'
+      , id = 'net_address___AC'
+      , name = 'net_address___AC'
       , op = Record
           ( desc = 'Select entities where the attribute is equal to the specified value'
           , label = 'auto-complete'
           )
       , sig_key = 0
-      , ui_name = 'Net address/Address'
+      , ui_name = 'Net address'
       , value = None
       )
     )
@@ -1487,7 +1311,6 @@ _test_AQ = """
     Manager/Lifetime/Alive
     Manager/Salutation
     Manager/Sex
-    Manager/Electric
     Manager/Last cid
     Manager/Pid
     Manager/Type name
@@ -1502,7 +1325,6 @@ _test_AQ = """
     Address/Country
     Address/Description
     Address/Region
-    Address/Electric
     Address/Last cid
     Address/Pid
     Address/Type name
@@ -1512,7 +1334,6 @@ _test_AQ = """
     Position/Longitude
     Position/Height
     Show in map
-    Electric
     Last cid
     Pid
     Type name
@@ -1612,13 +1433,7 @@ def show_by_pid (ETM) :
 
 def show_networks (scope, * qargs, ** qkw) :
     ETM = scope.FFM.IP4_Network
-    sk = TFL.Sorted_By \
-        ( "electric", "-has_children"
-        , * tuple
-            ( ".".join (("net_address", c))
-            for c in ETM.net_address.P_Type.sort_key_address.criteria
-            )
-        )
+    sk = TFL.Sorted_By ("electric", "-has_children", "net_address")
     pool = qkw.pop ("pool", None)
     if pool is not None :
         qargs += (Q.net_address.IN (pool.net_address), )

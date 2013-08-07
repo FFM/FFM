@@ -43,7 +43,6 @@ from   _MOM.import_MOM          import *
 from   _FFM                     import FFM
 
 from   _FFM.Attr_Type           import *
-from   _GTW._OMP._NET.Attr_Type import *
 
 import _FFM.Net_Interface
 import _FFM.IP_Network
@@ -53,7 +52,7 @@ _Ancestor_Essence = FFM.Link2
 class Net_Interface_in_IP_Network (_Ancestor_Essence) :
     """Net interface in IP network"""
 
-    is_partial = True
+    is_partial  = True
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
