@@ -1746,7 +1746,7 @@ __test__ = Scaffold.create_test_dict \
         , test_select  = _test_select
         , test_tables  = _test_tables
         )
-    , ignore = "HPS"
+    , ignore = ("HPS", "my", "pg", "sq")
     )
 
 ### __END__ FFM.__test__.SAS_SQL

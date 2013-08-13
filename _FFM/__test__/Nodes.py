@@ -58,7 +58,7 @@ _test_code = """
 
     >>> FFM = scope.FFM
     >>> PAP = scope.PAP
-    >>> Adr = FFM.IP4_Network.net_address.P_Type
+    >>> Adr = str ### XXX FFM.IP4_Network.net_address.P_Type
 
     >>> mgr = PAP.Person \\
     ...     (first_name = 'Ralf', last_name = 'Schlatterbeck', raw = True)
@@ -123,13 +123,13 @@ _test_code = """
         right = 192.168.23.42
         right.net_address = 192.168.23.42
 
-    >>> net2 = FFM.IP4_Network (address = '10.0.0.0/8', owner = mgr, raw = True)
+    >>> net2 = FFM.IP4_Network (net_address = '10.0.0.0/8', owner = mgr, raw = True)
     >>> a2_1 = net2.reserve (Adr ('10.139.187.0/27'))
     >>> a2_2 = net2.reserve (Adr ('10.139.187.2'))
     >>> a2_f = net2.reserve (Adr ('10.139.187.0/27'))
     Traceback (most recent call last):
       ...
-    Address_Already_Used: Address ("10.139.187.0/27", ) already in use by 'Schlatterbeck Ralf'
+    Address_Already_Used: Address 10.139.187.0/27 already in use by 'Schlatterbeck Ralf'
 
     >>> FFM.Net_Device.query (Q.belongs_to_node == node3).count ()
     1
@@ -179,34 +179,34 @@ _test_auto_children = """
     >>> for T, l in children_trans_iter (scope.PAP.Subject_has_Property) :
     ...     rr = T.relevant_root.type_name if T.relevant_root else sorted (T.relevant_roots)
     ...     print ("%%-30s %%-5s %%s" %% ("%%s%%s" %% ("  " * l, T.type_name), T.is_partial, rr))
-    PAP.Subject_has_Property       True  ['PAP.Association_has_Address', 'PAP.Association_has_Email', 'PAP.Association_has_IM_Handle', 'PAP.Association_has_Nickname', 'PAP.Association_has_Phone', 'PAP.Association_has_Url', 'PAP.Company_has_Address', 'PAP.Company_has_Email', 'PAP.Company_has_IM_Handle', 'PAP.Company_has_Nickname', 'PAP.Company_has_Phone', 'PAP.Company_has_Url', 'PAP.Node_has_IM_Handle', 'PAP.Node_has_Nickname', 'PAP.Node_has_Url', 'PAP.Person_has_Address', 'PAP.Person_has_Email', 'PAP.Person_has_IM_Handle', 'PAP.Person_has_Nickname', 'PAP.Person_has_Phone', 'PAP.Person_has_Url']
-      PAP.Subject_has_IM_Handle    True  ['PAP.Association_has_IM_Handle', 'PAP.Company_has_IM_Handle', 'PAP.Node_has_IM_Handle', 'PAP.Person_has_IM_Handle']
-        PAP.Association_has_IM_Handle False PAP.Association_has_IM_Handle
-        PAP.Person_has_IM_Handle   False PAP.Person_has_IM_Handle
-        PAP.Node_has_IM_Handle     False PAP.Node_has_IM_Handle
-        PAP.Company_has_IM_Handle  False PAP.Company_has_IM_Handle
-      PAP.Subject_has_Nickname     True  ['PAP.Association_has_Nickname', 'PAP.Company_has_Nickname', 'PAP.Node_has_Nickname', 'PAP.Person_has_Nickname']
-        PAP.Association_has_Nickname False PAP.Association_has_Nickname
-        PAP.Person_has_Nickname    False PAP.Person_has_Nickname
-        PAP.Node_has_Nickname      False PAP.Node_has_Nickname
-        PAP.Company_has_Nickname   False PAP.Company_has_Nickname
-      PAP.Subject_has_Address      True  ['PAP.Association_has_Address', 'PAP.Company_has_Address', 'PAP.Person_has_Address']
-        PAP.Association_has_Address False PAP.Association_has_Address
-        PAP.Person_has_Address     False PAP.Person_has_Address
-        PAP.Company_has_Address    False PAP.Company_has_Address
-      PAP.Subject_has_Email        True  ['PAP.Association_has_Email', 'PAP.Company_has_Email', 'PAP.Person_has_Email']
-        PAP.Association_has_Email  False PAP.Association_has_Email
-        PAP.Person_has_Email       False PAP.Person_has_Email
-        PAP.Company_has_Email      False PAP.Company_has_Email
-      PAP.Subject_has_Phone        True  ['PAP.Association_has_Phone', 'PAP.Company_has_Phone', 'PAP.Person_has_Phone']
-        PAP.Association_has_Phone  False PAP.Association_has_Phone
-        PAP.Person_has_Phone       False PAP.Person_has_Phone
-        PAP.Company_has_Phone      False PAP.Company_has_Phone
-      PAP.Subject_has_Url          True  ['PAP.Association_has_Url', 'PAP.Company_has_Url', 'PAP.Node_has_Url', 'PAP.Person_has_Url']
-        PAP.Association_has_Url    False PAP.Association_has_Url
-        PAP.Person_has_Url         False PAP.Person_has_Url
-        PAP.Node_has_Url           False PAP.Node_has_Url
-        PAP.Company_has_Url        False PAP.Company_has_Url
+    PAP.Subject_has_Property       True  PAP.Subject_has_Property
+      PAP.Subject_has_IM_Handle    True  PAP.Subject_has_Property
+        PAP.Association_has_IM_Handle False PAP.Subject_has_Property
+        PAP.Person_has_IM_Handle   False PAP.Subject_has_Property
+        PAP.Node_has_IM_Handle     False PAP.Subject_has_Property
+        PAP.Company_has_IM_Handle  False PAP.Subject_has_Property
+      PAP.Subject_has_Nickname     True  PAP.Subject_has_Property
+        PAP.Association_has_Nickname False PAP.Subject_has_Property
+        PAP.Person_has_Nickname    False PAP.Subject_has_Property
+        PAP.Node_has_Nickname      False PAP.Subject_has_Property
+        PAP.Company_has_Nickname   False PAP.Subject_has_Property
+      PAP.Subject_has_Address      True  PAP.Subject_has_Property
+        PAP.Association_has_Address False PAP.Subject_has_Property
+        PAP.Person_has_Address     False PAP.Subject_has_Property
+        PAP.Company_has_Address    False PAP.Subject_has_Property
+      PAP.Subject_has_Email        True  PAP.Subject_has_Property
+        PAP.Association_has_Email  False PAP.Subject_has_Property
+        PAP.Person_has_Email       False PAP.Subject_has_Property
+        PAP.Company_has_Email      False PAP.Subject_has_Property
+      PAP.Subject_has_Phone        True  PAP.Subject_has_Property
+        PAP.Association_has_Phone  False PAP.Subject_has_Property
+        PAP.Person_has_Phone       False PAP.Subject_has_Property
+        PAP.Company_has_Phone      False PAP.Subject_has_Property
+      PAP.Subject_has_Url          True  PAP.Subject_has_Property
+        PAP.Association_has_Url    False PAP.Subject_has_Property
+        PAP.Person_has_Url         False PAP.Subject_has_Property
+        PAP.Node_has_Url           False PAP.Subject_has_Property
+        PAP.Company_has_Url        False PAP.Subject_has_Property
 
 """
 

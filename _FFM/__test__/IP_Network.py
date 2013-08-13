@@ -37,6 +37,7 @@
 #    11-Apr-2013 (CT) Adapt to changes in `MOM.Attr.Querier`
 #    28-Apr-2013 (CT) Adapt to addition of `IP_Network.desc`
 #     7-Aug-2013 (CT) Adapt to major surgery of GTW.OMP.NET.Attr_Type
+#    13-Aug-2013 (CT) Add `test_order`, adapt other tests to change in order
 #    ««revision-date»»···
 #--
 
@@ -85,14 +86,14 @@ _test_alloc = """
     10.0.0.0/13        Funkfeuer                : electric = T, children = T
     10.0.0.0/14        Funkfeuer                : electric = T, children = T
     10.0.0.0/15        Funkfeuer                : electric = T, children = T
-    10.128.0.0/9       Funkfeuer                : electric = T, children = F
-    10.64.0.0/10       Funkfeuer                : electric = T, children = F
-    10.32.0.0/11       Funkfeuer                : electric = T, children = F
-    10.16.0.0/12       Funkfeuer                : electric = T, children = F
-    10.8.0.0/13        Funkfeuer                : electric = T, children = F
-    10.4.0.0/14        Funkfeuer                : electric = T, children = F
-    10.2.0.0/15        Funkfeuer                : electric = T, children = F
     10.1.0.0/16        Funkfeuer                : electric = T, children = F
+    10.2.0.0/15        Funkfeuer                : electric = T, children = F
+    10.4.0.0/14        Funkfeuer                : electric = T, children = F
+    10.8.0.0/13        Funkfeuer                : electric = T, children = F
+    10.16.0.0/12       Funkfeuer                : electric = T, children = F
+    10.32.0.0/11       Funkfeuer                : electric = T, children = F
+    10.64.0.0/10       Funkfeuer                : electric = T, children = F
+    10.128.0.0/9       Funkfeuer                : electric = T, children = F
 
     >>> show_network_count (scope)
     FFM.IP4_Network count: 17
@@ -112,23 +113,23 @@ _test_alloc = """
     10.0.0.0/25        Open Source Consulting   : electric = T, children = T
     10.0.0.0/26        Open Source Consulting   : electric = T, children = T
     10.0.0.0/27        Open Source Consulting   : electric = T, children = T
-    10.0.128.0/17      Open Source Consulting   : electric = T, children = F
-    10.0.64.0/18       Open Source Consulting   : electric = T, children = F
-    10.0.32.0/19       Open Source Consulting   : electric = T, children = F
-    10.0.16.0/20       Open Source Consulting   : electric = T, children = F
-    10.0.8.0/21        Open Source Consulting   : electric = T, children = F
-    10.0.4.0/22        Open Source Consulting   : electric = T, children = F
-    10.0.2.0/23        Open Source Consulting   : electric = T, children = F
-    10.0.1.0/24        Open Source Consulting   : electric = T, children = F
-    10.0.0.128/25      Open Source Consulting   : electric = T, children = F
-    10.0.0.64/26       Open Source Consulting   : electric = T, children = F
-    10.0.0.32/27       Open Source Consulting   : electric = T, children = F
     10.0.0.16/28       Open Source Consulting   : electric = T, children = F
+    10.0.0.32/27       Open Source Consulting   : electric = T, children = F
+    10.0.0.64/26       Open Source Consulting   : electric = T, children = F
+    10.0.0.128/25      Open Source Consulting   : electric = T, children = F
+    10.0.1.0/24        Open Source Consulting   : electric = T, children = F
+    10.0.2.0/23        Open Source Consulting   : electric = T, children = F
+    10.0.4.0/22        Open Source Consulting   : electric = T, children = F
+    10.0.8.0/21        Open Source Consulting   : electric = T, children = F
+    10.0.16.0/20       Open Source Consulting   : electric = T, children = F
+    10.0.32.0/19       Open Source Consulting   : electric = T, children = F
+    10.0.64.0/18       Open Source Consulting   : electric = T, children = F
+    10.0.128.0/17      Open Source Consulting   : electric = T, children = F
 
     >>> ct_addr = osc_pool.reserve ('10.0.0.1/32', owner = ct)
     Traceback (most recent call last):
       ...
-    Address_Already_Used: Address ("10.0.0.1", ) already in use by 'Schlatterbeck Ralf'
+    Address_Already_Used: Address 10.0.0.1 already in use by 'Schlatterbeck Ralf'
 
     >>> show_networks (scope, pool = rs_pool) ### 10.0.0.0/28
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = F
@@ -141,13 +142,13 @@ _test_alloc = """
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = F
     10.0.0.0/29        Schlatterbeck Ralf       : electric = T, children = T
-    10.0.0.8/29        Schlatterbeck Ralf       : electric = T, children = F
     10.0.0.4/30        Schlatterbeck Ralf       : electric = T, children = F
+    10.0.0.8/29        Schlatterbeck Ralf       : electric = T, children = F
 
     >>> ak_pool = rs_pool.allocate (28, ak)
     Traceback (most recent call last):
       ...
-    No_Free_Address_Range: Address range [("10.0.0.0/28", )] of this IP4_Network doesn't contain a free subrange for mask length 28
+    No_Free_Address_Range: Address range [10.0.0.0/28] of this IP4_Network doesn't contain a free subrange for mask length 28
 
     >>> ak_pool = rs_pool.allocate (30, ak)
     >>> show_networks (scope, pool = rs_pool) ### 10.0.0.4/30
@@ -163,20 +164,20 @@ _test_alloc = """
     >>> mg_pool = rs_pool.allocate (29, mg)
     >>> show_networks (scope, pool = rs_pool) ### 10.0.0.8/29
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
-    10.0.0.8/29        Glueck Martin            : electric = F, children = F
     10.0.0.0/30        Tanzer Christian         : electric = F, children = F
     10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
+    10.0.0.8/29        Glueck Martin            : electric = F, children = F
     10.0.0.0/29        Schlatterbeck Ralf       : electric = T, children = T
 
     >>> xx_pool = rs_pool.allocate (30, mg)
     Traceback (most recent call last):
       ...
-    No_Free_Address_Range: Address range [("10.0.0.0/28", )] of this IP4_Network doesn't contain a free subrange for mask length 30
+    No_Free_Address_Range: Address range [10.0.0.0/28] of this IP4_Network doesn't contain a free subrange for mask length 30
 
     >>> yy_pool = mg_pool.allocate (29, mg)
     Traceback (most recent call last):
       ...
-    No_Free_Address_Range: Address range [("10.0.0.8/29", )] of this IP4_Network doesn't contain a free subrange for mask length 29
+    No_Free_Address_Range: Address range [10.0.0.8/29] of this IP4_Network doesn't contain a free subrange for mask length 29
 
     >>> show_network_count (scope)
     FFM.IP4_Network count: 45
@@ -185,22 +186,22 @@ _test_alloc = """
     >>> show_networks (scope, pool = rs_pool) ### 10.0.0.1/32
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = T
-    10.0.0.8/29        Glueck Martin            : electric = F, children = F
-    10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
     10.0.0.1           Glueck Martin            : electric = F, children = F
+    10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
+    10.0.0.8/29        Glueck Martin            : electric = F, children = F
     10.0.0.0/29        Schlatterbeck Ralf       : electric = T, children = T
     10.0.0.0/31        Tanzer Christian         : electric = T, children = T
-    10.0.0.2/31        Tanzer Christian         : electric = T, children = F
     10.0.0.0           Tanzer Christian         : electric = T, children = F
+    10.0.0.2/31        Tanzer Christian         : electric = T, children = F
 
     >>> lt_addr = ct_pool.reserve ('10.0.0.2/32', owner = lt)
     >>> show_networks (scope, pool = rs_pool) ### 10.0.0.2/32
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = T
-    10.0.0.8/29        Glueck Martin            : electric = F, children = F
-    10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
     10.0.0.1           Glueck Martin            : electric = F, children = F
     10.0.0.2           Tanzer Laurens           : electric = F, children = F
+    10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
+    10.0.0.8/29        Glueck Martin            : electric = F, children = F
     10.0.0.0/29        Schlatterbeck Ralf       : electric = T, children = T
     10.0.0.0/31        Tanzer Christian         : electric = T, children = T
     10.0.0.2/31        Tanzer Christian         : electric = T, children = T
@@ -212,12 +213,12 @@ _test_alloc = """
     >>> show_networks (scope, pool = rs_pool) ### 10.0.0.3/32
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = T
-    10.0.0.8/29        Glueck Martin            : electric = F, children = F
-    10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
     10.0.0.0           Schlatterbeck Ralf       : electric = F, children = F
     10.0.0.1           Glueck Martin            : electric = F, children = F
     10.0.0.2           Tanzer Laurens           : electric = F, children = F
     10.0.0.3           Tanzer Christian         : electric = F, children = F
+    10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
+    10.0.0.8/29        Glueck Martin            : electric = F, children = F
     10.0.0.0/29        Schlatterbeck Ralf       : electric = T, children = T
     10.0.0.0/31        Tanzer Christian         : electric = T, children = T
     10.0.0.2/31        Tanzer Christian         : electric = T, children = T
@@ -225,14 +226,14 @@ _test_alloc = """
     >>> mg_pool_2 = mg_pool.allocate (30, mg)
     >>> show_networks (scope, pool = rs_pool) ### 10.0.0.8/30
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
-    10.0.0.8/29        Glueck Martin            : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = T
-    10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
-    10.0.0.8/30        Glueck Martin            : electric = F, children = F
+    10.0.0.8/29        Glueck Martin            : electric = F, children = T
     10.0.0.0           Schlatterbeck Ralf       : electric = F, children = F
     10.0.0.1           Glueck Martin            : electric = F, children = F
     10.0.0.2           Tanzer Laurens           : electric = F, children = F
     10.0.0.3           Tanzer Christian         : electric = F, children = F
+    10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
+    10.0.0.8/30        Glueck Martin            : electric = F, children = F
     10.0.0.0/29        Schlatterbeck Ralf       : electric = T, children = T
     10.0.0.0/31        Tanzer Christian         : electric = T, children = T
     10.0.0.2/31        Tanzer Christian         : electric = T, children = T
@@ -243,98 +244,98 @@ _test_alloc = """
     10.0.0.0/8         Funkfeuer                : electric = F, children = T
     10.0.0.0/16        Open Source Consulting   : electric = F, children = T
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
-    10.0.0.8/29        Glueck Martin            : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = T
-    10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
-    10.0.0.8/30        Glueck Martin            : electric = F, children = F
+    10.0.0.8/29        Glueck Martin            : electric = F, children = T
     10.0.0.0           Schlatterbeck Ralf       : electric = F, children = F
     10.0.0.1           Glueck Martin            : electric = F, children = F
     10.0.0.2           Tanzer Laurens           : electric = F, children = F
     10.0.0.3           Tanzer Christian         : electric = F, children = F
+    10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
+    10.0.0.8/30        Glueck Martin            : electric = F, children = F
     10.42.137.1        Tanzer Christian         : electric = F, children = F
     10.0.0.0/9         Funkfeuer                : electric = T, children = T
     10.0.0.0/10        Funkfeuer                : electric = T, children = T
     10.0.0.0/11        Funkfeuer                : electric = T, children = T
-    10.32.0.0/11       Funkfeuer                : electric = T, children = T
     10.0.0.0/12        Funkfeuer                : electric = T, children = T
-    10.32.0.0/12       Funkfeuer                : electric = T, children = T
     10.0.0.0/13        Funkfeuer                : electric = T, children = T
-    10.40.0.0/13       Funkfeuer                : electric = T, children = T
     10.0.0.0/14        Funkfeuer                : electric = T, children = T
-    10.40.0.0/14       Funkfeuer                : electric = T, children = T
     10.0.0.0/15        Funkfeuer                : electric = T, children = T
-    10.42.0.0/15       Funkfeuer                : electric = T, children = T
-    10.42.0.0/16       Funkfeuer                : electric = T, children = T
     10.0.0.0/17        Open Source Consulting   : electric = T, children = T
-    10.42.128.0/17     Funkfeuer                : electric = T, children = T
     10.0.0.0/18        Open Source Consulting   : electric = T, children = T
-    10.42.128.0/18     Funkfeuer                : electric = T, children = T
     10.0.0.0/19        Open Source Consulting   : electric = T, children = T
-    10.42.128.0/19     Funkfeuer                : electric = T, children = T
     10.0.0.0/20        Open Source Consulting   : electric = T, children = T
-    10.42.128.0/20     Funkfeuer                : electric = T, children = T
     10.0.0.0/21        Open Source Consulting   : electric = T, children = T
-    10.42.136.0/21     Funkfeuer                : electric = T, children = T
     10.0.0.0/22        Open Source Consulting   : electric = T, children = T
-    10.42.136.0/22     Funkfeuer                : electric = T, children = T
     10.0.0.0/23        Open Source Consulting   : electric = T, children = T
-    10.42.136.0/23     Funkfeuer                : electric = T, children = T
     10.0.0.0/24        Open Source Consulting   : electric = T, children = T
-    10.42.137.0/24     Funkfeuer                : electric = T, children = T
     10.0.0.0/25        Open Source Consulting   : electric = T, children = T
-    10.42.137.0/25     Funkfeuer                : electric = T, children = T
     10.0.0.0/26        Open Source Consulting   : electric = T, children = T
-    10.42.137.0/26     Funkfeuer                : electric = T, children = T
     10.0.0.0/27        Open Source Consulting   : electric = T, children = T
-    10.42.137.0/27     Funkfeuer                : electric = T, children = T
-    10.42.137.0/28     Funkfeuer                : electric = T, children = T
     10.0.0.0/29        Schlatterbeck Ralf       : electric = T, children = T
-    10.42.137.0/29     Funkfeuer                : electric = T, children = T
-    10.42.137.0/30     Funkfeuer                : electric = T, children = T
     10.0.0.0/31        Tanzer Christian         : electric = T, children = T
     10.0.0.2/31        Tanzer Christian         : electric = T, children = T
+    10.32.0.0/11       Funkfeuer                : electric = T, children = T
+    10.32.0.0/12       Funkfeuer                : electric = T, children = T
+    10.40.0.0/13       Funkfeuer                : electric = T, children = T
+    10.40.0.0/14       Funkfeuer                : electric = T, children = T
+    10.42.0.0/15       Funkfeuer                : electric = T, children = T
+    10.42.0.0/16       Funkfeuer                : electric = T, children = T
+    10.42.128.0/17     Funkfeuer                : electric = T, children = T
+    10.42.128.0/18     Funkfeuer                : electric = T, children = T
+    10.42.128.0/19     Funkfeuer                : electric = T, children = T
+    10.42.128.0/20     Funkfeuer                : electric = T, children = T
+    10.42.136.0/21     Funkfeuer                : electric = T, children = T
+    10.42.136.0/22     Funkfeuer                : electric = T, children = T
+    10.42.136.0/23     Funkfeuer                : electric = T, children = T
+    10.42.137.0/24     Funkfeuer                : electric = T, children = T
+    10.42.137.0/25     Funkfeuer                : electric = T, children = T
+    10.42.137.0/26     Funkfeuer                : electric = T, children = T
+    10.42.137.0/27     Funkfeuer                : electric = T, children = T
+    10.42.137.0/28     Funkfeuer                : electric = T, children = T
+    10.42.137.0/29     Funkfeuer                : electric = T, children = T
+    10.42.137.0/30     Funkfeuer                : electric = T, children = T
     10.42.137.0/31     Funkfeuer                : electric = T, children = T
-    10.128.0.0/9       Funkfeuer                : electric = T, children = F
-    10.64.0.0/10       Funkfeuer                : electric = T, children = F
-    10.16.0.0/12       Funkfeuer                : electric = T, children = F
-    10.48.0.0/12       Funkfeuer                : electric = T, children = F
-    10.8.0.0/13        Funkfeuer                : electric = T, children = F
-    10.32.0.0/13       Funkfeuer                : electric = T, children = F
-    10.4.0.0/14        Funkfeuer                : electric = T, children = F
-    10.44.0.0/14       Funkfeuer                : electric = T, children = F
-    10.2.0.0/15        Funkfeuer                : electric = T, children = F
-    10.40.0.0/15       Funkfeuer                : electric = T, children = F
-    10.1.0.0/16        Funkfeuer                : electric = T, children = F
-    10.43.0.0/16       Funkfeuer                : electric = T, children = F
-    10.0.128.0/17      Open Source Consulting   : electric = T, children = F
-    10.42.0.0/17       Funkfeuer                : electric = T, children = F
-    10.0.64.0/18       Open Source Consulting   : electric = T, children = F
-    10.42.192.0/18     Funkfeuer                : electric = T, children = F
-    10.0.32.0/19       Open Source Consulting   : electric = T, children = F
-    10.42.160.0/19     Funkfeuer                : electric = T, children = F
-    10.0.16.0/20       Open Source Consulting   : electric = T, children = F
-    10.42.144.0/20     Funkfeuer                : electric = T, children = F
-    10.0.8.0/21        Open Source Consulting   : electric = T, children = F
-    10.42.128.0/21     Funkfeuer                : electric = T, children = F
-    10.0.4.0/22        Open Source Consulting   : electric = T, children = F
-    10.42.140.0/22     Funkfeuer                : electric = T, children = F
-    10.0.2.0/23        Open Source Consulting   : electric = T, children = F
-    10.42.138.0/23     Funkfeuer                : electric = T, children = F
-    10.0.1.0/24        Open Source Consulting   : electric = T, children = F
-    10.42.136.0/24     Funkfeuer                : electric = T, children = F
-    10.0.0.128/25      Open Source Consulting   : electric = T, children = F
-    10.42.137.128/25   Funkfeuer                : electric = T, children = F
-    10.0.0.64/26       Open Source Consulting   : electric = T, children = F
-    10.42.137.64/26    Funkfeuer                : electric = T, children = F
-    10.0.0.32/27       Open Source Consulting   : electric = T, children = F
-    10.42.137.32/27    Funkfeuer                : electric = T, children = F
-    10.0.0.16/28       Open Source Consulting   : electric = T, children = F
-    10.42.137.16/28    Funkfeuer                : electric = T, children = F
-    10.42.137.8/29     Funkfeuer                : electric = T, children = F
     10.0.0.12/30       Glueck Martin            : electric = T, children = F
-    10.42.137.4/30     Funkfeuer                : electric = T, children = F
-    10.42.137.2/31     Funkfeuer                : electric = T, children = F
+    10.0.0.16/28       Open Source Consulting   : electric = T, children = F
+    10.0.0.32/27       Open Source Consulting   : electric = T, children = F
+    10.0.0.64/26       Open Source Consulting   : electric = T, children = F
+    10.0.0.128/25      Open Source Consulting   : electric = T, children = F
+    10.0.1.0/24        Open Source Consulting   : electric = T, children = F
+    10.0.2.0/23        Open Source Consulting   : electric = T, children = F
+    10.0.4.0/22        Open Source Consulting   : electric = T, children = F
+    10.0.8.0/21        Open Source Consulting   : electric = T, children = F
+    10.0.16.0/20       Open Source Consulting   : electric = T, children = F
+    10.0.32.0/19       Open Source Consulting   : electric = T, children = F
+    10.0.64.0/18       Open Source Consulting   : electric = T, children = F
+    10.0.128.0/17      Open Source Consulting   : electric = T, children = F
+    10.1.0.0/16        Funkfeuer                : electric = T, children = F
+    10.2.0.0/15        Funkfeuer                : electric = T, children = F
+    10.4.0.0/14        Funkfeuer                : electric = T, children = F
+    10.8.0.0/13        Funkfeuer                : electric = T, children = F
+    10.16.0.0/12       Funkfeuer                : electric = T, children = F
+    10.32.0.0/13       Funkfeuer                : electric = T, children = F
+    10.40.0.0/15       Funkfeuer                : electric = T, children = F
+    10.42.0.0/17       Funkfeuer                : electric = T, children = F
+    10.42.128.0/21     Funkfeuer                : electric = T, children = F
+    10.42.136.0/24     Funkfeuer                : electric = T, children = F
     10.42.137.0        Funkfeuer                : electric = T, children = F
+    10.42.137.2/31     Funkfeuer                : electric = T, children = F
+    10.42.137.4/30     Funkfeuer                : electric = T, children = F
+    10.42.137.8/29     Funkfeuer                : electric = T, children = F
+    10.42.137.16/28    Funkfeuer                : electric = T, children = F
+    10.42.137.32/27    Funkfeuer                : electric = T, children = F
+    10.42.137.64/26    Funkfeuer                : electric = T, children = F
+    10.42.137.128/25   Funkfeuer                : electric = T, children = F
+    10.42.138.0/23     Funkfeuer                : electric = T, children = F
+    10.42.140.0/22     Funkfeuer                : electric = T, children = F
+    10.42.144.0/20     Funkfeuer                : electric = T, children = F
+    10.42.160.0/19     Funkfeuer                : electric = T, children = F
+    10.42.192.0/18     Funkfeuer                : electric = T, children = F
+    10.43.0.0/16       Funkfeuer                : electric = T, children = F
+    10.44.0.0/14       Funkfeuer                : electric = T, children = F
+    10.48.0.0/12       Funkfeuer                : electric = T, children = F
+    10.64.0.0/10       Funkfeuer                : electric = T, children = F
+    10.128.0.0/9       Funkfeuer                : electric = T, children = F
 
     >>> show_network_count (scope)
     FFM.IP4_Network count: 95
@@ -1373,6 +1374,48 @@ _test_net_fixtures = """
 
 """
 
+_test_order = """
+    >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
+    Creating new scope MOMT__...
+
+    >>> FFM = scope.FFM
+    >>> I4N = FFM.IP4_Network
+
+    >>> _   = I4N ("10.0.0.16/28")
+    >>> _   = I4N ("10.0.0.16/29")
+    >>> _   = I4N ("10.0.0.24/29")
+    >>> _   = I4N ("10.0.0.24/30")
+    >>> _   = I4N ("10.0.0.16/30")
+    >>> _   = I4N ("10.0.0.30/32")
+    >>> _   = I4N ("10.0.0.32/28")
+    >>> _   = I4N ("10.0.0.33/32")
+    >>> _   = I4N ("10.0.0.40/29")
+    >>> _   = I4N ("10.0.0.40/30")
+    >>> _   = I4N ("10.0.0.40/31")
+    >>> _   = I4N ("10.0.0.40/32")
+    >>> _   = I4N ("10.0.0.128/28")
+    >>> _   = I4N ("10.0.0.212/28")
+
+    >>> scope.commit ()
+
+    >>> show_networks (scope)
+    10.0.0.16/28                                : electric = F, children = F
+    10.0.0.16/29                                : electric = F, children = F
+    10.0.0.16/30                                : electric = F, children = F
+    10.0.0.24/29                                : electric = F, children = F
+    10.0.0.24/30                                : electric = F, children = F
+    10.0.0.30                                   : electric = F, children = F
+    10.0.0.32/28                                : electric = F, children = F
+    10.0.0.33                                   : electric = F, children = F
+    10.0.0.40/29                                : electric = F, children = F
+    10.0.0.40/30                                : electric = F, children = F
+    10.0.0.40/31                                : electric = F, children = F
+    10.0.0.40                                   : electric = F, children = F
+    10.0.0.128/28                               : electric = F, children = F
+    10.0.0.208/28                               : electric = F, children = F
+
+"""
+
 _test_std_fixtures = """
     >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
     Creating new scope MOMT__...
@@ -1454,6 +1497,7 @@ __test__ = Scaffold.create_test_dict \
       ( test_alloc         = _test_alloc
       , test_AQ            = _test_AQ
       , test_net_fixtures  = _test_net_fixtures
+      , test_order         = _test_order
       , test_std_fixtures  = _test_std_fixtures
       )
   )

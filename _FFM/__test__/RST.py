@@ -282,9 +282,7 @@ _test_limit = r"""
                   , 'mask_len' : 24
                   , 'right' :
                       { 'attributes' :
-                          { 'net_address' :
-                              { 'address' : '192.168.23.1' }
-                          }
+                          { 'net_address' : '192.168.23.1' }
                       , 'cid' : 29
                       , 'pid' : 20
                       , 'type_name' : 'FFM.IP4_Network'
@@ -409,9 +407,7 @@ _test_limit = r"""
                   , 'mask_len' : 24
                   , 'right' :
                       { 'attributes' :
-                          { 'net_address' :
-                              { 'address' : '192.168.23.1' }
-                          }
+                          { 'net_address' : '192.168.23.1' }
                       , 'cid' : 29
                       , 'creation' :
                           { 'date' : <datetime> }

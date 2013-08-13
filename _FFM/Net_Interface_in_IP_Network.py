@@ -34,6 +34,7 @@
 #     5-Mar-2013 (CT) Replace `ip_address` by `mask_len`
 #     5-Mar-2013 (CT) Add predicates `network_not_split` and `valid_network`
 #    15-May-2013 (CT) Rename `auto_cache_np` to `auto_rev_ref_np`
+#    13-Aug-2013 (CT) Set `Net_Interface_in_IP_Network.is_relevant` to `True`
 #    ««revision-date»»···
 #--
 
@@ -53,6 +54,7 @@ class Net_Interface_in_IP_Network (_Ancestor_Essence) :
     """Net interface in IP network"""
 
     is_partial  = True
+    is_relevant = True
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 

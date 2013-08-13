@@ -48,6 +48,7 @@
 #    28-Apr-2013 (CT) Add attribute `desc`
 #     8-May-2013 (CT) Set `pool.P_Type` to `FFM.IP_Network`
 #     7-Aug-2013 (CT) Adapt to major surgery of GTW.OMP.NET.Attr_Type
+#    13-Aug-2013 (CT) Adapt to major surgery of GTW.OMP.NET.Attr_Type some more
 #    ««revision-date»»···
 #--
 
@@ -169,11 +170,8 @@ class IP_Network (_Ancestor_Essence) :
     # end class _Predicates
 
     def allocate (self, mask_len, owner) :
-        pool   = self.find_closest_mask (mask_len)
-        ETM    = self.ETM
-        E_Type = self.E_Type
-        NA_ET  = E_Type.attr_prop ("net_address").P_Type
-        net_addr = NA_ET (pool.net_address.subnets (mask_len).next ())
+        pool     = self.find_closest_mask   (mask_len)
+        net_addr = pool.net_address.subnets (mask_len).next ()
         return self._reserve (pool, net_addr, owner)
     # end def allocate
 
@@ -241,13 +239,11 @@ class IP_Network (_Ancestor_Essence) :
 
     def split (self) :
         ETM         = self.ETM
-        E_Type      = self.E_Type
-        Net_Addr_ET = E_Type.attr_prop ("net_address").P_Type
         net_address = self.net_address
-        results     = []
-        for sn in net_address.subnets (net_address.mask_len + 1) :
-            sn_addr = Net_Addr_ET (sn)
-            results.append (ETM (sn_addr, owner = self.owner, electric = True))
+        results     = list \
+            (   ETM (sn, owner = self.owner, electric = True)
+            for sn in net_address.subnets (net_address.mask_len + 1)
+            )
         self.has_children = True
         return results
     # end def split
