@@ -20,16 +20,17 @@
 #
 #++
 # Name
-#    FFM.__test__.Nodes
+#    FFM.__test__.Antenna
 #
 # Purpose
-#    Test Node and associations
+#    Test Antenna and associations
 #
 # Revision Dates
 #     5-Dec-2012 (RS) Creation
 #     7-Dec-2012 (RS) Test predicate `band_exists` of `Antenna_Type`
 #    17-Dec-2012 (RS) Add tests for attributes of `belongs_to_node`
 #    26-Feb-2013 (CT) Disable tests `belongs_to_node`
+#    14-Aug-2013 (CT) Reenable tests for `belongs_to_node`
 #    ««revision-date»»···
 #--
 
@@ -99,24 +100,25 @@ _test_code = """
 
     >>> mgr = PAP.Person \\
     ...     (first_name = 'Ralf', last_name = 'Schlatterbeck', raw = True)
+    >>> owner = PAP.Person ("Tanzer", "Christian", raw = True)
     >>> node = FFM.Node \\
     ...     (name = "nogps", manager = mgr, position = None, raw = True)
+    >>> nod2 = FFM.Node \\
+    ...     (name = "node2", manager = mgr, owner = owner, raw = True)
     >>> devtype = FFM.Net_Device_Type.instance_or_new \\
     ...     (name = 'Generic', raw = True)
     >>> dev = FFM.Net_Device \\
     ...     (left = devtype, node = node, name = 'dev', raw = True)
+    >>> dev2 = FFM.Net_Device \\
+    ...     (left = devtype, node = nod2, name = 'dev2', raw = True)
     >>> wl  = FFM.Wireless_Interface (left = dev, name = 'wl', raw = True)
     >>> wia = FFM.Wireless_Interface_uses_Antenna (wl, b)
 
-
-"""
-
-### XXX put contents of `_btn_test` back into _test_code once
-### `belongs_to_node` is fixed
-_btn_test = """
-
     >>> b.__class__.belongs_to_node
     Entity `belongs_to_node`
+
+    >>> a.belongs_to_node is None
+    True
 
     >>> b.belongs_to_node
     FFM.Node (u'nogps')
@@ -130,12 +132,46 @@ _btn_test = """
     >>> FFM.Wireless_Interface.query (Q.belongs_to_node.owner == mgr).count ()
     1
 
+    >>> for x in scope.FFM.Net_Interface.query (Q.belongs_to_node.manager == mgr, sort_key = Q.pid) :
+    ...     x
+    FFM.Wireless_Interface (((u'generic', u'', u''), (u'nogps', ), u'dev'), u'', u'wl')
+
+    >>> for x in scope.FFM.Wireless_Interface_uses_Antenna.query (Q.belongs_to_node.manager == mgr, sort_key = Q.pid) :
+    ...     x
+    FFM.Wireless_Interface_uses_Antenna ((((u'generic', u'', u''), (u'nogps', ), u'dev'), u'', u'wl'), ((u'yagi2', u'', u''), u'6'))
+
+    >>> for x in scope.FFM.Net_Device.query (Q.belongs_to_node.manager == mgr, sort_key = Q.pid) :
+    ...     x
+    FFM.Net_Device ((u'generic', u'', u''), (u'nogps', ), u'dev')
+    FFM.Net_Device ((u'generic', u'', u''), (u'node2', ), u'dev2')
+
+    >>> for x in scope.FFM.Net_Device.query (Q.belongs_to_node.owner == owner, sort_key = Q.pid) :
+    ...     x
+    FFM.Net_Device ((u'generic', u'', u''), (u'node2', ), u'dev2')
+
+    >>> for x in scope.FFM.Antenna.query (Q.belongs_to_node.manager == mgr, sort_key = Q.pid) :
+    ...     x
+    FFM.Antenna ((u'yagi2', u'', u''), u'6')
+
+    >>> for x in scope.FFM.Node.query (Q.manager == mgr, sort_key = Q.pid) :
+    ...     x
+    FFM.Node (u'nogps')
+    FFM.Node (u'node2')
+
+    >>> for x in scope.FFM.Node.query (Q.owner == mgr, sort_key = Q.pid) :
+    ...     x
+    FFM.Node (u'nogps')
+
+    >>> for x in scope.FFM.Node.query (Q.owner == owner, sort_key = Q.pid) :
+    ...     x
+    FFM.Node (u'node2')
+
 """
 
 __test__ = Scaffold.create_test_dict \
   ( dict
-      ( main       = _test_code
+      ( main_test  = _test_code
       )
   )
 
-### __END__ FFM.__test__.Nodes
+### __END__ FFM.__test__.Antenna
