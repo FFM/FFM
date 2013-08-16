@@ -246,6 +246,11 @@ def main () :
         , help    = "Output version information by spidered IP"
         )
     cmd.add_option \
+        ( "-I", "--interface-info"
+        , dest    = "interface_info"
+        , help    = "Output interface information by spidered IP"
+        )
+    cmd.add_option \
         ( "-v", "--verbose"
         , dest    = "verbose"
         , action  = "count"
@@ -340,6 +345,35 @@ def main () :
                         , type    = guess.type
                         )
                     )
+        f.close ()
+    if opt.interface_info :
+        fields = \
+            [ 'address', 'interface', 'wlan'
+            , 'ssid', 'mode', 'channel', 'bssid'
+            , 'ip4', 'ip6'
+            ]
+        f      = open (opt.interface_info, 'w')
+        dw     = DictWriter (f, fields, delimiter = ';')
+        dw.writerow (dict ((k, k) for k in fields))
+        for ip, guess in sorted (ipdict.iteritems (), key = key) :
+            if isinstance (guess, Guess) :
+                for iface in guess.interfaces.itervalues () :
+                    wi = iface.wlan_info
+                    d  = dict \
+                        ( address   = str (ip)
+                        , interface = iface.name
+                        , wlan      = bool (wi)
+                        , ip4       = ' '.join (str (i.ip) for i in iface.inet4)
+                        , ip6       = ' '.join (str (i.ip) for i in iface.inet6)
+                        )
+                    if wi :
+                        d.update \
+                            ( channel = wi.channel
+                            , bssid   = wi.bssid
+                            , ssid    = wi.ssid
+                            , mode    = wi.mode
+                            )
+                    dw.writerow (d)
         f.close ()
     if opt.verbose :
         for ip, guess in sorted (ipdict.iteritems (), key = key) :
