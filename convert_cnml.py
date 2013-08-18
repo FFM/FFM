@@ -103,8 +103,7 @@ class Convert (object) :
         # Then there is one address from 178.26.0.0/30 from a range of
         # some german cable provider which we simply ignore.
         for n in ('10.0.0.0/8', '172.16.0.0/12', '178.18.8.0/22') :
-            n = self.ffm.IP4_Network \
-                (dict (address = n), owner = self.owner, raw = True)
+            n = self.ffm.IP4_Network (n, owner = self.owner)
             self.networks.append (n)
 
         self.et.walk (self.insert)
@@ -197,26 +196,23 @@ class Convert (object) :
         net = IP4_Address (ip, mask)
         adr = IP4_Address (ip)
         assert (adr in net)
-        netadr = self.ffm.IP4_Network.instance \
-            (dict (address = str (adr)), raw = True)
+        netadr = self.ffm.IP4_Network.instance (adr)
         if netadr and not netadr.is_free :
             ni = self.ffm.Net_Interface_in_IP4_Network.instance \
                 (interface, netadr, mask_len = net.mask)
             assert (ni)
         else :
-            Adr = self.ffm.IP4_Network.net_address.P_Type
-            n = [x for x in self.networks if net in x.net_address.address]
+            n = [x for x in self.networks if net in x.net_address]
             if len (n) < 1 :
                 print >> sys.stderr, 'Warning: ignoring address %s' % net
                 return
             assert len (n) == 1
             n = n [0]
             try :
-                network = n.reserve (Adr (net), self.owner)
+                network = n.reserve (net, self.owner)
             except FFM.Error.Address_Already_Used :
-                network = self.ffm.IP4_Network.instance \
-                    (dict (address = str (net)), raw = True)
-            netadr  = n.reserve (Adr (adr), self.owner)
+                network = self.ffm.IP4_Network.instance (net)
+            netadr  = n.reserve (adr, self.owner)
             try :
                self.ffm.Net_Interface_in_IP4_Network \
                    (interface, netadr, mask_len = net.mask)
