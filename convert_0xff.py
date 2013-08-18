@@ -86,7 +86,6 @@ class Consolidated_Interface (object) :
         if self.debug :
             print "device: %s" % self.device
         ffm   = self.convert.ffm
-        Adr   = ffm.IP4_Network.net_address.P_Type
         desc  = []
         if self.names :
             desc.append ('Spider Interfaces: %s' % ', '.join (self.names))
@@ -127,9 +126,8 @@ class Consolidated_Interface (object) :
             assert not ip.done
             ip.set_done ()
             net     = IP4_Address (ip.ip, ip.cidr)
-            network = ffm.IP4_Network.instance \
-                (dict (address = str (net)), raw = True)
-            netadr  = network.reserve (Adr (ip.ip, raw = True), manager)
+            network = ffm.IP4_Network.instance (net)
+            netadr  = network.reserve (ip.ip, manager)
             ffm.Net_Interface_in_IP4_Network \
                 (iface, netadr, mask_len = 32)
     # end def create
@@ -921,20 +919,18 @@ class Convert (object) :
     # end def create_ips_and_devices
 
     def reserve_net (self, nets, typ) :
-        Adr = typ.net_address.P_Type
         for net, comment in sorted (nets.iteritems (), key = ip_mask_key) :
             if self.verbose :
                 pyk.fprint (net, comment)
-            adr = Adr (str (net), raw = True)
             r = typ.query \
-                ( Q.net_address.CONTAINS (adr)
+                ( Q.net_address.CONTAINS (net)
                 , sort_key = TFL.Sorted_By ("-net_address.mask_len")
                 ).first ()
             if r :
-                network = r.reserve (adr, self.ff_subject)
+                network = r.reserve (net, self.ff_subject)
             else :
                 network = typ \
-                    ( dict (address = str (net))
+                    ( net
                     , owner = self.ff_subject
                     , raw   = True
                     )
@@ -1150,7 +1146,7 @@ class Convert (object) :
             self.debug_output       ()
         self.create_persons         ()
         self.reserve_net            (self.ip4nets, self.ffm.IP4_Network)
-        self.reserve_net            (self.ip6nets, self.ffm.IP6_Network)
+        #self.reserve_net            (self.ip6nets, self.ffm.IP6_Network)
         self.create_nodes           ()
         self.create_ips_and_devices ()
     # end def create
