@@ -1146,7 +1146,7 @@ class Convert (object) :
             self.debug_output       ()
         self.create_persons         ()
         self.reserve_net            (self.ip4nets, self.ffm.IP4_Network)
-        #self.reserve_net            (self.ip6nets, self.ffm.IP6_Network)
+        self.reserve_net            (self.ip6nets, self.ffm.IP6_Network)
         self.create_nodes           ()
         self.create_ips_and_devices ()
     # end def create
