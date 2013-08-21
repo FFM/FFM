@@ -66,17 +66,18 @@ _test_alloc = """
     >>> lt  = PAP.Person ("Tanzer", "Laurens", raw = True)
     >>> osc = PAP.Company ("Open Source Consulting", raw = True)
 
-    >>> show_networks (scope) ### nothing allocated yet
+    >>> ETM = scope.FFM.IP4_Network
+    >>> show_networks (scope, ETM) ### nothing allocated yet
 
     >>> ff_pool  = FFM.IP4_Network ('10.0.0.0/8', owner = ff, raw = True)
-    >>> show_networks (scope) ### 10.0.0.0/8
+    >>> show_networks (scope, ETM) ### 10.0.0.0/8
     10.0.0.0/8         Funkfeuer                : electric = F, children = F
 
-    >>> show_network_count (scope)
+    >>> show_network_count (scope, ETM)
     FFM.IP4_Network count: 1
 
     >>> osc_pool = ff_pool.allocate (16, osc)
-    >>> show_networks (scope) ### 10.0.0.0/16
+    >>> show_networks (scope, ETM) ### 10.0.0.0/16
     10.0.0.0/8         Funkfeuer                : electric = F, children = T
     10.0.0.0/16        Open Source Consulting   : electric = F, children = F
     10.0.0.0/9         Funkfeuer                : electric = T, children = T
@@ -95,11 +96,11 @@ _test_alloc = """
     10.64.0.0/10       Funkfeuer                : electric = T, children = F
     10.128.0.0/9       Funkfeuer                : electric = T, children = F
 
-    >>> show_network_count (scope)
+    >>> show_network_count (scope, ETM)
     FFM.IP4_Network count: 17
 
     >>> rs_pool = osc_pool.allocate (28, rs)
-    >>> show_networks (scope, pool = osc_pool) ### 10.0.0.0/28
+    >>> show_networks (scope, ETM, pool = osc_pool) ### 10.0.0.0/28
     10.0.0.0/16        Open Source Consulting   : electric = F, children = T
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = F
     10.0.0.0/17        Open Source Consulting   : electric = T, children = T
@@ -131,14 +132,14 @@ _test_alloc = """
       ...
     Address_Already_Used: Address 10.0.0.1 already in use by 'Schlatterbeck Ralf'
 
-    >>> show_networks (scope, pool = rs_pool) ### 10.0.0.0/28
+    >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.0/28
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = F
 
-    >>> show_network_count (scope)
+    >>> show_network_count (scope, ETM)
     FFM.IP4_Network count: 41
 
     >>> ct_pool = rs_pool.allocate (30, ct)
-    >>> show_networks (scope, pool = rs_pool) ### 10.0.0.0/30
+    >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.0/30
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = F
     10.0.0.0/29        Schlatterbeck Ralf       : electric = T, children = T
@@ -151,18 +152,18 @@ _test_alloc = """
     No_Free_Address_Range: Address range [10.0.0.0/28] of this IP4_Network doesn't contain a free subrange for mask length 28
 
     >>> ak_pool = rs_pool.allocate (30, ak)
-    >>> show_networks (scope, pool = rs_pool) ### 10.0.0.4/30
+    >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.4/30
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = F
     10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
     10.0.0.0/29        Schlatterbeck Ralf       : electric = T, children = T
     10.0.0.8/29        Schlatterbeck Ralf       : electric = T, children = F
 
-    >>> show_network_count (scope)
+    >>> show_network_count (scope, ETM)
     FFM.IP4_Network count: 45
 
     >>> mg_pool = rs_pool.allocate (29, mg)
-    >>> show_networks (scope, pool = rs_pool) ### 10.0.0.8/29
+    >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.8/29
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = F
     10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
@@ -179,11 +180,11 @@ _test_alloc = """
       ...
     No_Free_Address_Range: Address range [10.0.0.8/29] of this IP4_Network doesn't contain a free subrange for mask length 29
 
-    >>> show_network_count (scope)
+    >>> show_network_count (scope, ETM)
     FFM.IP4_Network count: 45
 
     >>> mg_addr = ct_pool.reserve ('10.0.0.1/32', owner = mg)
-    >>> show_networks (scope, pool = rs_pool) ### 10.0.0.1/32
+    >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.1/32
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = T
     10.0.0.1           Glueck Martin            : electric = F, children = F
@@ -195,7 +196,7 @@ _test_alloc = """
     10.0.0.2/31        Tanzer Christian         : electric = T, children = F
 
     >>> lt_addr = ct_pool.reserve ('10.0.0.2/32', owner = lt)
-    >>> show_networks (scope, pool = rs_pool) ### 10.0.0.2/32
+    >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.2/32
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = T
     10.0.0.1           Glueck Martin            : electric = F, children = F
@@ -210,7 +211,7 @@ _test_alloc = """
 
     >>> rs_addr = ct_pool.reserve ('10.0.0.0/32', owner = rs)
     >>> ct_addr = ct_pool.reserve (Adr ('10.0.0.3/32'), owner = ct)
-    >>> show_networks (scope, pool = rs_pool) ### 10.0.0.3/32
+    >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.3/32
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = T
     10.0.0.0           Schlatterbeck Ralf       : electric = F, children = F
@@ -224,7 +225,7 @@ _test_alloc = """
     10.0.0.2/31        Tanzer Christian         : electric = T, children = T
 
     >>> mg_pool_2 = mg_pool.allocate (30, mg)
-    >>> show_networks (scope, pool = rs_pool) ### 10.0.0.8/30
+    >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.8/30
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = T
     10.0.0.8/29        Glueck Martin            : electric = F, children = T
@@ -240,7 +241,7 @@ _test_alloc = """
     10.0.0.12/30       Glueck Martin            : electric = T, children = F
 
     >>> ct_addr = ff_pool.reserve (Adr ('10.42.137.1/32'), owner = ct)
-    >>> show_networks (scope) ### 10.42.137.1/32
+    >>> show_networks (scope, ETM) ### 10.42.137.1/32
     10.0.0.0/8         Funkfeuer                : electric = F, children = T
     10.0.0.0/16        Open Source Consulting   : electric = F, children = T
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
@@ -337,7 +338,7 @@ _test_alloc = """
     10.64.0.0/10       Funkfeuer                : electric = T, children = F
     10.128.0.0/9       Funkfeuer                : electric = T, children = F
 
-    >>> show_network_count (scope)
+    >>> show_network_count (scope, ETM)
     FFM.IP4_Network count: 95
 
     >>> ETM = FFM.IP4_Network
@@ -1374,12 +1375,15 @@ _test_net_fixtures = """
 
 """
 
-_test_order = """
+_test_order_4 = """
     >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
     Creating new scope MOMT__...
 
     >>> FFM = scope.FFM
     >>> I4N = FFM.IP4_Network
+
+    >>> PAP = scope.PAP
+    >>> ff  = PAP.Association ("Funkfeuer", short_name = "0xFF", raw = True)
 
     >>> _   = I4N ("10.0.0.16/28")
     >>> _   = I4N ("10.0.0.16/29")
@@ -1395,10 +1399,14 @@ _test_order = """
     >>> _   = I4N ("10.0.0.40/32")
     >>> _   = I4N ("10.0.0.128/28")
     >>> _   = I4N ("10.0.0.212/28")
+    >>> adr = I4N.net_address.P_Type ("10.0.0.0/32")
+    >>> _   = I4N (adr, owner = ff, raw = True)
 
     >>> scope.commit ()
 
-    >>> show_networks (scope)
+    >>> ETM = scope.FFM.IP4_Network
+    >>> show_networks (scope, ETM)
+    10.0.0.0           Funkfeuer                : electric = F, children = F
     10.0.0.16/28                                : electric = F, children = F
     10.0.0.16/29                                : electric = F, children = F
     10.0.0.16/30                                : electric = F, children = F
@@ -1413,6 +1421,55 @@ _test_order = """
     10.0.0.40                                   : electric = F, children = F
     10.0.0.128/28                               : electric = F, children = F
     10.0.0.208/28                               : electric = F, children = F
+
+"""
+
+_test_order_6 = """
+    >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
+    Creating new scope MOMT__...
+
+    >>> FFM = scope.FFM
+    >>> I6N = FFM.IP6_Network
+
+    >>> PAP = scope.PAP
+    >>> ff  = PAP.Association ("Funkfeuer", short_name = "0xFF", raw = True)
+
+    >>> _   = I6N ("2001:0db8::10/124")
+    >>> _   = I6N ("2001:0db8::10/125")
+    >>> _   = I6N ("2001:0db8::18/125")
+    >>> _   = I6N ("2001:0db8::18/126")
+    >>> _   = I6N ("2001:0db8::10/126")
+    >>> _   = I6N ("2001:0db8::1E/128")
+    >>> _   = I6N ("2001:0db8::20/124")
+    >>> _   = I6N ("2001:0db8::21/128")
+    >>> _   = I6N ("2001:0db8::28/125")
+    >>> _   = I6N ("2001:0db8::28/126")
+    >>> _   = I6N ("2001:0db8::28/127")
+    >>> _   = I6N ("2001:0db8::28/128")
+    >>> _   = I6N ("2001:0db8::80/124")
+    >>> _   = I6N ("2001:0db8::D4/124")
+    >>> adr = I6N.net_address.P_Type ("2001:0db8::0/128")
+    >>> _   = I6N (adr, owner = ff, raw = True)
+
+    >>> scope.commit ()
+
+    >>> ETM = scope.FFM.IP6_Network
+    >>> show_networks (scope, ETM)
+    2001:db8::         Funkfeuer                : electric = F, children = F
+    2001:db8::10/124                            : electric = F, children = F
+    2001:db8::10/125                            : electric = F, children = F
+    2001:db8::10/126                            : electric = F, children = F
+    2001:db8::18/125                            : electric = F, children = F
+    2001:db8::18/126                            : electric = F, children = F
+    2001:db8::1e                                : electric = F, children = F
+    2001:db8::20/124                            : electric = F, children = F
+    2001:db8::21                                : electric = F, children = F
+    2001:db8::28/125                            : electric = F, children = F
+    2001:db8::28/126                            : electric = F, children = F
+    2001:db8::28/127                            : electric = F, children = F
+    2001:db8::28                                : electric = F, children = F
+    2001:db8::80/124                            : electric = F, children = F
+    2001:db8::d0/124                            : electric = F, children = F
 
 """
 
@@ -1474,8 +1531,7 @@ def show_by_pid (ETM) :
         print ("%-3s : %-25s %s" % (x.pid, x.type_base_name, x.ui_display))
 # end def show_by_pid
 
-def show_networks (scope, * qargs, ** qkw) :
-    ETM = scope.FFM.IP4_Network
+def show_networks (scope, ETM, * qargs, ** qkw) :
     sk = TFL.Sorted_By ("electric", "-has_children", "net_address")
     pool = qkw.pop ("pool", None)
     if pool is not None :
@@ -1487,8 +1543,7 @@ def show_networks (scope, * qargs, ** qkw) :
             )
 # end def show_networks
 
-def show_network_count (scope) :
-    ETM = scope.FFM.IP4_Network
+def show_network_count (scope, ETM) :
     print ("%s count: %s" % (ETM.type_name, ETM.count))
 # end def show_network_count
 
@@ -1497,7 +1552,8 @@ __test__ = Scaffold.create_test_dict \
       ( test_alloc         = _test_alloc
       , test_AQ            = _test_AQ
       , test_net_fixtures  = _test_net_fixtures
-      , test_order         = _test_order
+      , test_order_4       = _test_order_4
+      , test_order_6       = _test_order_6
       , test_std_fixtures  = _test_std_fixtures
       )
   )
