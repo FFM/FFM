@@ -38,6 +38,7 @@
 #    28-Apr-2013 (CT) Adapt to addition of `IP_Network.desc`
 #     7-Aug-2013 (CT) Adapt to major surgery of GTW.OMP.NET.Attr_Type
 #    13-Aug-2013 (CT) Add `test_order`, adapt other tests to change in order
+#    22-Aug-2013 (CT) Add tests for I4N and I6N calls with wrong `raw` value
 #    ««revision-date»»···
 #--
 
@@ -1422,6 +1423,14 @@ _test_order_4 = """
     10.0.0.128/28                               : electric = F, children = F
     10.0.0.208/28                               : electric = F, children = F
 
+    >>> adr = I4N.net_address.P_Type ("192.168.0.23/27")
+    >>> I4N (adr, owner = ff)
+    FFM.IP4_Network ("192.168.0.0/27")
+
+    >>> adr = I4N.net_address.P_Type ("192.168.1.23/27")
+    >>> I4N (adr, owner = ff, raw = True)
+    FFM.IP4_Network ("192.168.1.0/27")
+
 """
 
 _test_order_6 = """
@@ -1470,6 +1479,14 @@ _test_order_6 = """
     2001:db8::28                                : electric = F, children = F
     2001:db8::80/124                            : electric = F, children = F
     2001:db8::d0/124                            : electric = F, children = F
+
+    >>> adr = I6N.net_address.P_Type ("2a02:59::/29")
+    >>> I6N  (adr, owner = ff, raw = True)
+    FFM.IP6_Network ("2a02:59::/29")
+
+    >>> adr = I6N.net_address.P_Type ("2a02:60::/29")
+    >>> I6N  (adr, owner = ff)
+    FFM.IP6_Network ("2a02:60::/29")
 
 """
 
