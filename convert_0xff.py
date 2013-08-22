@@ -926,14 +926,8 @@ class Convert (object) :
                 ( Q.net_address.CONTAINS (net)
                 , sort_key = TFL.Sorted_By ("-net_address.mask_len")
                 ).first ()
-            if r :
-                network = r.reserve (net, self.ff_subject)
-            else :
-                network = typ \
-                    ( net
-                    , owner = self.ff_subject
-                    , raw   = True
-                    )
+            reserver = r.reserve if r else typ
+            network  = reserver (net, owner = self.ff_subject)
             if isinstance (comment, type ('')) :
                 network.set_raw (desc = comment [:80])
     # end def reserve_net
