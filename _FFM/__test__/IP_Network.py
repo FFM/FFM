@@ -1426,12 +1426,16 @@ _test_order_4 = """
     >>> adr1 = I4N.net_address.P_Type ("192.168.0.112/27")
     >>> adr1
     192.168.0.96/27
+    >>> bool (adr1)
+    True
     >>> I4N (adr1, owner = ff)
     FFM.IP4_Network ("192.168.0.96/27")
 
     >>> adr2 = I4N.net_address.P_Type ("192.168.1.96/27")
     >>> adr2
     192.168.1.96/27
+    >>> bool (adr2)
+    True
     >>> I4N (adr2, owner = ff, raw = True)
     FFM.IP4_Network ("192.168.1.96/27")
 
@@ -1484,15 +1488,19 @@ _test_order_6 = """
     2001:db8::80/124                            : electric = F, children = F
     2001:db8::d0/124                            : electric = F, children = F
 
-    >>> adr1 = I6N.net_address.P_Type ("2a02:59::/29")
+    >>> adr1 = I6N.net_address.P_Type ("2a02:58::/29")
     >>> adr1
     2a02:58::/29
+    >>> bool (adr1)
+    True
     >>> I6N  (adr1, owner = ff, raw = True)
-    FFM.IP6_Network ("2a02:59::/29")
+    FFM.IP6_Network ("2a02:58::/29")
 
     >>> adr2 = I6N.net_address.P_Type ("2a02:60::/29")
     >>> adr2
     2a02:60::/29
+    >>> bool (adr2)
+    True
     >>> I6N  (adr2, owner = ff)
     FFM.IP6_Network ("2a02:60::/29")
 
