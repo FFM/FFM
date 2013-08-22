@@ -84,7 +84,7 @@ class Consolidated_Interface (object) :
         assert not self.merged
         dev   = self.device.net_device
         if self.debug :
-            print "device: %s" % self.device
+            print "device: %s ip: %s" % (self.device, self.ip)
         ffm   = self.convert.ffm
         desc  = []
         if self.names :
@@ -101,12 +101,12 @@ class Consolidated_Interface (object) :
                 mode = self.wlan_info.mode.lower ()
                 mode = self.wl_modes [mode]
                 bsid = self.wlan_info.bssid
-                if len (bsid.split (':')) != 6 :
+                if bsid is not None and len (bsid.split (':')) != 6 :
                     print "INFO: Ignoring bssid: %s" % bsid
                     bsid = None
                 iface.set_raw \
                     ( mode     = mode
-                    , essid    = self.wlan_info.ssid
+                    , essid    = self.wlan_info.ssid.replace (r'\x09', '\x09')
                     , bssid    = bsid
                     , standard = std
                     )
