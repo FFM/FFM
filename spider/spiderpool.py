@@ -57,6 +57,7 @@ class Worker (Log, Timeout) :
         self.ip_port     = ip_port
         if not debug :
             self.log.setLevel (INFO)
+        self.log.debug ("Started for IP: %s" % self.ip)
     # end def __init__
 
     def get_node_info (self) :
@@ -81,10 +82,12 @@ class Worker (Log, Timeout) :
                 return
             except Timeout_Error, err :
                 self.disable_alarm ()
+                self.log.debug ("Timeout")
                 self.result_dict [self.ip] = ('Timeout_Error', err)
                 return
             except Retries_Exceeded, err :
                 self.disable_alarm ()
+                self.log.debug ("Retries exceeded")
                 self.result_dict [self.ip] = ('Retries_Exceeded', err)
                 return
             except Exception, err :
