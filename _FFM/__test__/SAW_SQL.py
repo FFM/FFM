@@ -89,24 +89,27 @@ _test_q_able = """
 
     >>> show_q_able (apt, pred = ffm_pred) # doctest:+ELLIPSIS
     <SAW : FFM.Id_Entity [mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Object [mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Device_Type [mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Text `desc` (FFM.Antenna_Type | FFM.Net_Device_Type)>
       <SAW : Link_Ref_List `devices`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Link_Ref `manufacturer_link`>
       <SAW : Link_Ref_List `manufacturer_links`>
@@ -119,11 +122,12 @@ _test_q_able = """
     <SAW : FFM.Antenna_Type [ffm_antenna_type : mom_id_entity]>
       <SAW : Link_Ref_List `antennas`>
       <SAW : Link_Ref_List `bands`>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Text `desc` [ffm_antenna_type.desc]>
       <SAW : Link_Ref_List `devices`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
       <SAW : Float `gain` [ffm_antenna_type.gain]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Link_Ref `manufacturer_link`>
       <SAW : Link_Ref_List `manufacturer_links`>
@@ -135,25 +139,28 @@ _test_q_able = """
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Link [mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Left `left` (FFM.Antenna | FFM.Antenna_Band | FFM.Device_Type_made_by_Company | FFM.Firmware_Binary | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.Firmware_Version | FFM.Net_Device | FFM.Net_Interface | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_acts_for_Legal_Entity | FFM.Person_mentors_Person | FFM.Regulatory_Permission | FFM.Routing_Zone_OLSR | FFM.WPA_Credentials | FFM.Wireless_Channel | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Link1 [mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Left `left` (FFM.Antenna | FFM.Antenna_Band | FFM.Firmware_Binary | FFM.Firmware_Version | FFM.Net_Device | FFM.Net_Interface | FFM.Regulatory_Permission | FFM.Routing_Zone_OLSR | FFM.WPA_Credentials | FFM.Wireless_Channel)>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Device [mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Text `desc` (FFM.Antenna | FFM.Net_Device)>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Device_Type `left` (FFM.Antenna | FFM.Net_Device)>
       <SAW : String `name` (FFM.Antenna | FFM.Net_Device)>
@@ -164,12 +171,13 @@ _test_q_able = """
       <SAW : Entity `address` [ffm_node.address]>
       <SAW : Link_Ref_List `address_links`>
       <SAW : Role_Ref_Set `addresses`>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
       <SAW : Link_Ref_List `email_links`>
       <SAW : Role_Ref_Set `emails`>
       <SAW : Link_Ref_List `im_handle_links`>
       <SAW : Role_Ref_Set `im_handles`>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Date_Interval `lifetime` [ffm_node.lifetime__finish, ffm_node.lifetime__start]>
       <SAW : Boolean `lifetime.alive`>
@@ -191,12 +199,13 @@ _test_q_able = """
     <SAW : FFM.Antenna [ffm_antenna : mom_id_entity]>
       <SAW : Angle `azimuth` [ffm_antenna.azimuth, ffm_antenna.__raw_azimuth]>
       <SAW : Entity `belongs_to_node`>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Text `desc` [ffm_antenna.desc]>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
       <SAW : Int `elevation` [ffm_antenna.elevation]>
       <SAW : Float `gain` [ffm_antenna.gain]>
       <SAW : Role_Ref `interface`>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Antenna_Type `left` [ffm_antenna.left]>
       <SAW : String `name` [ffm_antenna.name, ffm_antenna.__raw_name]>
@@ -210,18 +219,20 @@ _test_q_able = """
       <SAW : Frequency_Interval `band` [ffm_antenna_band.band__lower, ffm_antenna_band.band____raw_lower, ffm_antenna_band.band__upper, ffm_antenna_band.band____raw_upper]>
       <SAW : Frequency `band.center`>
       <SAW : Frequency `band.length`>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Antenna_Type `left` [ffm_antenna_band.left]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Firmware_Type [ffm_firmware_type : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
       <SAW : Link_Ref `firmware_version`>
       <SAW : Link_Ref_List `firmware_versions`>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : String `name` [ffm_firmware_type.name]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
@@ -229,9 +240,10 @@ _test_q_able = """
       <SAW : Url `url` [ffm_firmware_type.url]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Firmware_Version [ffm_firmware_version : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
       <SAW : Link_Ref_List `firmware_binaries`>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Firmware_Type `left` [ffm_firmware_version.left]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
@@ -239,16 +251,18 @@ _test_q_able = """
       <SAW : String `version` [ffm_firmware_version.version]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Firmware_Bin [mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Firmware_Binary [ffm_firmware_binary : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
       <SAW : Link_Ref_List `firmware_bundle_links`>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Firmware_Version `left` [ffm_firmware_binary.left]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
@@ -256,9 +270,10 @@ _test_q_able = """
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Firmware_Bundle [ffm_firmware_bundle : mom_id_entity]>
       <SAW : Role_Ref_Set `binaries`>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
       <SAW : Link_Ref_List `firmware_binary_links`>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : String `name` [ffm_firmware_bundle.name]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
@@ -266,8 +281,9 @@ _test_q_able = """
       <SAW : String `version` [ffm_firmware_bundle.version]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM._MOM_Link_n_ [mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Left `left` (FFM.Device_Type_made_by_Company | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_acts_for_Legal_Entity | FFM.Person_mentors_Person | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
@@ -275,8 +291,9 @@ _test_q_able = """
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Link2 [mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Left `left` (FFM.Device_Type_made_by_Company | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_acts_for_Legal_Entity | FFM.Person_mentors_Person | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
@@ -284,8 +301,9 @@ _test_q_able = """
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Firmware_Binary_in_Firmware_Bundle [ffm_firmware_binary_in_firmware_bundle : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Firmware_Binary `left` [ffm_firmware_binary_in_firmware_bundle.left]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
@@ -294,11 +312,12 @@ _test_q_able = """
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.IP_Network [mom_id_entity]>
       <SAW : Date-Time `cool_down` (FFM.IP4_Network | FFM.IP6_Network)>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : String `desc` (FFM.IP4_Network | FFM.IP6_Network)>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
       <SAW : Boolean `has_children` (FFM.IP4_Network | FFM.IP6_Network)>
       <SAW : Boolean `is_free`>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : None `net_address` (FFM.IP4_Network | FFM.IP6_Network)>
       <SAW : Role_Ref `net_interface`>
@@ -320,11 +339,12 @@ _test_q_able = """
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.IP4_Network [ffm_ip4_network : mom_id_entity]>
       <SAW : Date-Time `cool_down` [ffm_ip4_network.cool_down]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : String `desc` [ffm_ip4_network.desc]>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
       <SAW : Boolean `has_children` [ffm_ip4_network.has_children]>
       <SAW : Boolean `is_free`>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : IP4-network `net_address` ...
       <SAW : Role_Ref `net_interface`>
@@ -346,11 +366,12 @@ _test_q_able = """
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.IP6_Network [ffm_ip6_network : mom_id_entity]>
       <SAW : Date-Time `cool_down` [ffm_ip6_network.cool_down]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : String `desc` [ffm_ip6_network.desc]>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
       <SAW : Boolean `has_children` [ffm_ip6_network.has_children]>
       <SAW : Boolean `is_free`>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : IP6-network `net_address` ...
       <SAW : Role_Ref `net_interface`>
@@ -371,10 +392,11 @@ _test_q_able = """
       <SAW : Link_Ref_List `wireless_interface_links`>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Net_Device_Type [ffm_net_device_type : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Text `desc` [ffm_net_device_type.desc]>
       <SAW : Link_Ref_List `devices`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Link_Ref `manufacturer_link`>
       <SAW : Link_Ref_List `manufacturer_links`>
@@ -388,9 +410,10 @@ _test_q_able = """
     <SAW : FFM.Net_Device [ffm_net_device : mom_id_entity]>
       <SAW : Link_Ref_List `_wireless_interface_s`>
       <SAW : Entity `belongs_to_node`>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Text `desc` [ffm_net_device.desc]>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Net_Device_Type `left` [ffm_net_device.left]>
       <SAW : String `name` [ffm_net_device.name, ffm_net_device.__raw_name]>
@@ -404,15 +427,16 @@ _test_q_able = """
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM._Belongs_to_Node_ [mom_id_entity]>
       <SAW : Entity `belongs_to_node`>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Net_Interface [ffm_net_interface : mom_id_entity]>
       <SAW : Entity `belongs_to_node`>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `credentials`>
       <SAW : Link_Ref `credentials_1`>
       <SAW : Text `desc` [ffm_net_interface.desc]>
@@ -423,6 +447,7 @@ _test_q_able = """
       <SAW : Role_Ref_Set `ip6_networks`>
       <SAW : Link_Ref_List `ip_network_links`>
       <SAW : Boolean `is_active` [ffm_net_interface.is_active]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Net_Device `left` [ffm_net_interface.left]>
       <SAW : Link_Ref_List `left_net_links`>
@@ -434,8 +459,9 @@ _test_q_able = """
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM._Net_Credentials_ [mom_id_entity]>
       <SAW : Entity `belongs_to_node`>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Net_Interface `left` (FFM.WPA_Credentials)>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
@@ -443,17 +469,19 @@ _test_q_able = """
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.WPA_Credentials [ffm_wpa_credentials : mom_id_entity]>
       <SAW : Entity `belongs_to_node`>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
       <SAW : Key `key` [ffm_wpa_credentials.key]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Net_Interface `left` [ffm_wpa_credentials.left]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Person_acts_for_Legal_Entity [ffm_person_acts_for_legal_entity : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Person `left` [ffm_person_acts_for_legal_entity.left]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
@@ -462,8 +490,9 @@ _test_q_able = """
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Regulatory_Domain [ffm_regulatory_domain : mom_id_entity]>
       <SAW : String `countrycode` [ffm_regulatory_domain.countrycode, ffm_regulatory_domain.__raw_countrycode]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : Link_Ref_List `regulatory_permissions`>
@@ -474,11 +503,12 @@ _test_q_able = """
       <SAW : Frequency `band.center`>
       <SAW : Frequency `band.length`>
       <SAW : Frequency `bandwidth` [ffm_regulatory_permission.bandwidth, ffm_regulatory_permission.__raw_bandwidth]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : TX Power `eirp` [ffm_regulatory_permission.eirp, ffm_regulatory_permission.__raw_eirp]>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
       <SAW : Float `gain` [ffm_regulatory_permission.gain]>
       <SAW : Boolean `indoor_only` [ffm_regulatory_permission.indoor_only]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Regulatory_Domain `left` [ffm_regulatory_permission.left]>
       <SAW : Boolean `need_DFS` [ffm_regulatory_permission.need_dfs]>
@@ -486,8 +516,9 @@ _test_q_able = """
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Zone [ffm_zone : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : String `name` [ffm_zone.name, ffm_zone.__raw_name]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
@@ -496,16 +527,18 @@ _test_q_able = """
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Routing_Zone [mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Zone `left` (FFM.Routing_Zone_OLSR)>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Routing_Zone_OLSR [ffm_routing_zone_olsr : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Zone `left` [ffm_routing_zone_olsr.left]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
@@ -513,7 +546,7 @@ _test_q_able = """
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Wired_Interface [ffm_wired_interface : ffm_net_interface : mom_id_entity]>
       <SAW : Entity `belongs_to_node`>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `credentials`>
       <SAW : Link_Ref `credentials_1`>
       <SAW : Text `desc` [ffm_net_interface.desc]>
@@ -524,6 +557,7 @@ _test_q_able = """
       <SAW : Role_Ref_Set `ip6_networks`>
       <SAW : Link_Ref_List `ip_network_links`>
       <SAW : Boolean `is_active` [ffm_net_interface.is_active]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Net_Device `left` [ffm_net_interface.left]>
       <SAW : Link_Ref_List `left_net_links`>
@@ -535,8 +569,9 @@ _test_q_able = """
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Wireless_Standard [ffm_wireless_standard : mom_id_entity]>
       <SAW : Frequency `bandwidth` [ffm_wireless_standard.bandwidth, ffm_wireless_standard.__raw_bandwidth]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : String `name` [ffm_wireless_standard.name, ffm_wireless_standard.__raw_name]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
@@ -544,11 +579,12 @@ _test_q_able = """
       <SAW : Link_Ref_List `wireless_channels`>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Wireless_Channel [ffm_wireless_channel : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
       <SAW : Frequency `frequency` [ffm_wireless_channel.frequency, ffm_wireless_channel.__raw_frequency]>
       <SAW : Link_Ref_List `interface_links`>
       <SAW : Role_Ref_Set `interfaces`>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Wireless_Standard `left` [ffm_wireless_channel.left]>
       <SAW : Int `number` [ffm_wireless_channel.number]>
@@ -558,7 +594,7 @@ _test_q_able = """
     <SAW : FFM._Wireless_Interface_ [ffm__wireless_interface_ : ffm_net_interface : mom_id_entity]>
       <SAW : Entity `belongs_to_node`>
       <SAW : MAC-address `bssid` [ffm__wireless_interface_.bssid]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `credentials`>
       <SAW : Link_Ref `credentials_1`>
       <SAW : Text `desc` [ffm_net_interface.desc]>
@@ -570,6 +606,7 @@ _test_q_able = """
       <SAW : Role_Ref_Set `ip6_networks`>
       <SAW : Link_Ref_List `ip_network_links`>
       <SAW : Boolean `is_active` [ffm_net_interface.is_active]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Net_Device `left` [ffm_net_interface.left]>
       <SAW : Link_Ref_List `left_net_links`>
@@ -589,7 +626,7 @@ _test_q_able = """
       <SAW : MAC-address `bssid` [ffm__wireless_interface_.bssid]>
       <SAW : Link_Ref_List `channel_links`>
       <SAW : Role_Ref_Set `channels`>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `credentials`>
       <SAW : Link_Ref `credentials_1`>
       <SAW : Text `desc` [ffm_net_interface.desc]>
@@ -601,6 +638,7 @@ _test_q_able = """
       <SAW : Role_Ref_Set `ip6_networks`>
       <SAW : Link_Ref_List `ip_network_links`>
       <SAW : Boolean `is_active` [ffm_net_interface.is_active]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Net_Device `left` [ffm_net_interface.left]>
       <SAW : Link_Ref_List `left_net_links`>
@@ -616,7 +654,7 @@ _test_q_able = """
     <SAW : FFM.Virtual_Wireless_Interface [ffm_virtual_wireless_interface : ffm__wireless_interface_ : ffm_net_interface : mom_id_entity]>
       <SAW : Entity `belongs_to_node`>
       <SAW : MAC-address `bssid` [ffm__wireless_interface_.bssid]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `credentials`>
       <SAW : Link_Ref `credentials_1`>
       <SAW : Text `desc` [ffm_net_interface.desc]>
@@ -629,6 +667,7 @@ _test_q_able = """
       <SAW : Role_Ref_Set `ip6_networks`>
       <SAW : Link_Ref_List `ip_network_links`>
       <SAW : Boolean `is_active` [ffm_net_interface.is_active]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Net_Device `left` [ffm_net_interface.left]>
       <SAW : Link_Ref_List `left_net_links`>
@@ -642,8 +681,9 @@ _test_q_able = """
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Device_Type_made_by_Company [ffm_device_type_made_by_company : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Device_Type `left` [ffm_device_type_made_by_company.left]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
@@ -651,8 +691,9 @@ _test_q_able = """
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Net_Interface_in_IP_Network [ffm_net_interface_in_ip_network : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Net_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
@@ -661,8 +702,9 @@ _test_q_able = """
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Net_Interface_in_IP4_Network [ffm_net_interface_in_ip_network : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Net_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
@@ -671,8 +713,9 @@ _test_q_able = """
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Net_Interface_in_IP6_Network [ffm_net_interface_in_ip_network : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Net_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
@@ -681,8 +724,9 @@ _test_q_able = """
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Net_Link [ffm_net_link : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Net_Interface `left` [ffm_net_link.left]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
@@ -690,8 +734,9 @@ _test_q_able = """
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Person_mentors_Person [ffm_person_mentors_person : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Person `left` [ffm_person_mentors_person.left]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
@@ -700,8 +745,9 @@ _test_q_able = """
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Wireless_Interface_uses_Antenna [ffm_wireless_interface_uses_antenna : mom_id_entity]>
       <SAW : Entity `belongs_to_node`>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Wireless_Interface `left` [ffm_wireless_interface_uses_antenna.left]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
@@ -711,8 +757,9 @@ _test_q_able = """
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Wireless_Interface_uses_Wireless_Channel [ffm_wireless_interface_uses_wireless_channel : mom_id_entity]>
       <SAW : Entity `belongs_to_node`>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Wireless_Interface `left` [ffm_wireless_interface_uses_wireless_channel.left]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
@@ -720,8 +767,9 @@ _test_q_able = """
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Wired_Interface_in_IP6_Network [ffm_wired_interface_in_ip6_network : ffm_net_interface_in_ip_network : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Wired_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
@@ -730,8 +778,9 @@ _test_q_able = """
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Wireless_Interface_in_IP6_Network [ffm_wireless_interface_in_ip6_network : ffm_net_interface_in_ip_network : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Wireless_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
@@ -740,8 +789,9 @@ _test_q_able = """
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Virtual_Wireless_Interface_in_IP6_Network [ffm_virtual_wireless_interface_in_ip6_network : ffm_net_interface_in_ip_network : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Virtual_Wireless_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
@@ -750,8 +800,9 @@ _test_q_able = """
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Wired_Interface_in_IP4_Network [ffm_wired_interface_in_ip4_network : ffm_net_interface_in_ip_network : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Wired_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
@@ -760,8 +811,9 @@ _test_q_able = """
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Wireless_Interface_in_IP4_Network [ffm_wireless_interface_in_ip4_network : ffm_net_interface_in_ip_network : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Wireless_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
@@ -770,8 +822,9 @@ _test_q_able = """
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Virtual_Wireless_Interface_in_IP4_Network [ffm_virtual_wireless_interface_in_ip4_network : ffm_net_interface_in_ip_network : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Virtual_Wireless_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
@@ -780,8 +833,9 @@ _test_q_able = """
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Wired_Interface_in_IP_Network [ffm_net_interface_in_ip_network : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Wired_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
@@ -790,8 +844,9 @@ _test_q_able = """
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Wireless_Interface_in_IP_Network [ffm_net_interface_in_ip_network : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Wireless_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
@@ -800,8 +855,9 @@ _test_q_able = """
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Virtual_Wireless_Interface_in_IP_Network [ffm_net_interface_in_ip_network : mom_id_entity]>
-      <SAW : Rev_Ref `creation_change_q`>
+      <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Virtual_Wireless_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
