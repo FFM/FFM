@@ -49,6 +49,7 @@
 #     4-May-2013 (CT) Add `auth_required` to `RST.MOM.Scope`
 #    20-May-2013 (CT) Import `_FFM.RST_Api_addons`
 #    13-Jun-2013 (CT) Remove `PNS_Aliases`
+#    23-Aug-2013 (CT) Add `-auth_required`, use it in `create_top`
 #    ««revision-date»»···
 #--
 
@@ -198,6 +199,10 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
     _defaults               = dict \
         ( copyright_start   = 2012
         )
+    _opts                   = \
+        ( "-auth_required:B=True?Is authorization required?"
+        ,
+        )
 
     @Once_Property
     def src_dir (self) :
@@ -226,12 +231,16 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
         import rst_top
         RST = GTW.RST
         TOP = RST.TOP
+        auth_r \
+            = TOP.MOM.Admin.E_Type._auth_required \
+            = TOP.MOM.Admin.Group._auth_required \
+            = cmd.auth_required
         result = rst_top.create (cmd, ** kw)
         result.add_entries \
             ( TOP.Dir
                 ( name            = "My-Funkfeuer"
                 , short_title     = "My Funkfeuer"
-                , auth_required   = True
+                , auth_required   = auth_r
                 , permission      = RST_addons.Login_has_Person
                 , entries         =
                     [ RST_addons.User_Node
@@ -268,19 +277,21 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
                 , pid             = "Admin"
                 , title           = _ ("Administration of FFM node database")
                 , head_line       = _ ("Administration of FFM node database")
-                , auth_required   = True
+                , auth_required   = auth_r
                 , entries         =
                     [ self.nav_admin_group
                         ( "FFM"
                         , _ ("Administration of node database")
                         , "FFM"
                         , permission = RST.In_Group ("FFM-admin")
+                            if auth_r else None
                         )
                     , self.nav_admin_group
                         ( "PAP"
                         , _ ("Administration of persons/addresses...")
                         , "GTW.OMP.PAP"
                         , permission = RST.In_Group ("FFM-admin")
+                            if auth_r else None
                         )
                     , self.nav_admin_group
                         ( _ ("Users")
@@ -292,7 +303,7 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
                 )
             , GTW.RST.MOM.Scope
                 ( name            = "api"
-                , auth_required   = True
+                , auth_required   = auth_r
                 , exclude_robots  = True
                 , json_indent     = 2
                 )
