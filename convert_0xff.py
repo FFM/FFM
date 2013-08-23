@@ -101,12 +101,15 @@ class Consolidated_Interface (object) :
                 mode = self.wlan_info.mode.lower ()
                 mode = self.wl_modes [mode]
                 bsid = self.wlan_info.bssid
+                ssid = self.wlan_info.ssid
                 if bsid is not None and len (bsid.split (':')) != 6 :
                     print "INFO: Ignoring bssid: %s" % bsid
                     bsid = None
+                if ssid is not None :
+                    ssid = ssid.replace (r'\x09', '\x09')
                 iface.set_raw \
                     ( mode     = mode
-                    , essid    = self.wlan_info.ssid.replace (r'\x09', '\x09')
+                    , essid    = ssid
                     , bssid    = bsid
                     , standard = std
                     )
