@@ -249,6 +249,7 @@ class Consolidated_Device (object) :
         assert not self.id_members
         for iface in self.interfaces.itervalues () :
             iface.create ()
+        self.convert.scope.commit ()
         return dev
     # end def create
 
@@ -441,7 +442,10 @@ class Convert (object) :
     # end def set_last_change
 
     def create_nodes (self) :
+        scope = self.scope
         for n in self.contents ['nodes'] :
+            if len (scope.uncommitted_changes) > 100 :
+                scope.commit ()
             gps = None
             if n.gps_lat_deg is None :
                 assert n.gps_lat_min is None
@@ -723,7 +727,10 @@ class Convert (object) :
     def create_persons (self) :
         # FIXME: Set role for person so that person can edit only their
         # personal data, see self.person_disable
+        scope = self.scope
         for m in sorted (self.contents ['members'], key = lambda x : x.id) :
+            if len (scope.uncommitted_changes) > 100 :
+                scope.commit ()
             self.member_by_id [m.id] = m
             if m.id == 309 and m.street.startswith ("'") :
                 m.street = m.street [1:]
