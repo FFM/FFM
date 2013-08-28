@@ -37,6 +37,7 @@
 #    25-Feb-2013 (CT) Add `belongs_to_node.query_preconditions`
 #    26-Feb-2013 (CT) Disable `belongs_to_node`
 #    17-Apr-2013 (CT) Use `Computed_Set_Mixin`, not `Computed_Mixin`
+#    14-Aug-2013 (CT) Re-enable `belongs_to_node`
 #    ««revision-date»»···
 #--
 
@@ -44,11 +45,6 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 
 from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
-
-### Import `Wireless_Interface` early to allow `Q.belongs_to_node` to use
-### `Q.interface`
-### (setup of query attributes is done sequentially in import order)
-import _FFM.Wireless_Interface
 
 import _FFM.Antenna_Type
 import _FFM.Device
@@ -86,19 +82,16 @@ class Antenna (_Ancestor_Essence) :
 
         # end class azimuth
 
-        ### XXX `Attr.Query` referring to other `Attr.Query`
-        ### and/or auto-cached role attributes don't work at the moment
-        if False :
-            class belongs_to_node (A_Id_Entity) :
-                """Node to which this antenna belongs."""
+        class belongs_to_node (A_Id_Entity) :
+            """Node to which this antenna belongs."""
 
-                kind                = Attr.Query
-                hidden              = True
-                P_Type              = FFM.Node
-                query               = Q.interface.belongs_to_node
-                query_preconditions = (Q.interface, )
+            kind                = Attr.Query
+            hidden              = True
+            P_Type              = FFM.Node
+            query               = Q.interface.belongs_to_node
+            query_preconditions = (Q.interface, )
 
-            # end class belongs_to_node
+        # end class belongs_to_node
 
         class elevation (A_Int) :
             """ Elevation angle of the beam from the horizontal plane

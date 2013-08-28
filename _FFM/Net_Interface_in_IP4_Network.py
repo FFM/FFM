@@ -39,7 +39,6 @@ from   _MOM.import_MOM          import *
 from   _FFM                     import FFM
 
 from   _FFM.Attr_Type           import *
-from   _GTW._OMP._NET.Attr_Type import *
 import _FFM.Net_Interface_in_IP_Network
 
 _Ancestor_Essence = FFM.Net_Interface_in_IP_Network

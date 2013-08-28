@@ -84,9 +84,8 @@ class Consolidated_Interface (object) :
         assert not self.merged
         dev   = self.device.net_device
         if self.debug :
-            print "device: %s" % self.device
+            print "device: %s ip: %s" % (self.device, self.ip)
         ffm   = self.convert.ffm
-        Adr   = ffm.IP4_Network.net_address.P_Type
         desc  = []
         if self.names :
             desc.append ('Spider Interfaces: %s' % ', '.join (self.names))
@@ -102,12 +101,15 @@ class Consolidated_Interface (object) :
                 mode = self.wlan_info.mode.lower ()
                 mode = self.wl_modes [mode]
                 bsid = self.wlan_info.bssid
-                if len (bsid.split (':')) != 6 :
+                ssid = self.wlan_info.ssid
+                if bsid is not None and len (bsid.split (':')) != 6 :
                     print "INFO: Ignoring bssid: %s" % bsid
                     bsid = None
+                if ssid is not None :
+                    ssid = ssid.replace (r'\x09', '\x09')
                 iface.set_raw \
                     ( mode     = mode
-                    , essid    = self.wlan_info.ssid
+                    , essid    = ssid
                     , bssid    = bsid
                     , standard = std
                     )
@@ -127,9 +129,8 @@ class Consolidated_Interface (object) :
             assert not ip.done
             ip.set_done ()
             net     = IP4_Address (ip.ip, ip.cidr)
-            network = ffm.IP4_Network.instance \
-                (dict (address = str (net)), raw = True)
-            netadr  = network.reserve (Adr (ip.ip, raw = True), manager)
+            network = ffm.IP4_Network.instance (net)
+            netadr  = network.reserve (ip.ip, manager)
             ffm.Net_Interface_in_IP4_Network \
                 (iface, netadr, mask_len = 32)
     # end def create
@@ -248,6 +249,7 @@ class Consolidated_Device (object) :
         assert not self.id_members
         for iface in self.interfaces.itervalues () :
             iface.create ()
+        self.convert.scope.commit ()
         return dev
     # end def create
 
@@ -440,7 +442,10 @@ class Convert (object) :
     # end def set_last_change
 
     def create_nodes (self) :
+        scope = self.scope
         for n in self.contents ['nodes'] :
+            if len (scope.uncommitted_changes) > 100 :
+                scope.commit ()
             gps = None
             if n.gps_lat_deg is None :
                 assert n.gps_lat_min is None
@@ -722,7 +727,10 @@ class Convert (object) :
     def create_persons (self) :
         # FIXME: Set role for person so that person can edit only their
         # personal data, see self.person_disable
+        scope = self.scope
         for m in sorted (self.contents ['members'], key = lambda x : x.id) :
+            if len (scope.uncommitted_changes) > 100 :
+                scope.commit ()
             self.member_by_id [m.id] = m
             if m.id == 309 and m.street.startswith ("'") :
                 m.street = m.street [1:]
@@ -921,23 +929,15 @@ class Convert (object) :
     # end def create_ips_and_devices
 
     def reserve_net (self, nets, typ) :
-        Adr = typ.net_address.P_Type
         for net, comment in sorted (nets.iteritems (), key = ip_mask_key) :
             if self.verbose :
                 pyk.fprint (net, comment)
-            adr = Adr (str (net), raw = True)
             r = typ.query \
-                ( Q.net_address.CONTAINS (adr)
+                ( Q.net_address.CONTAINS (net)
                 , sort_key = TFL.Sorted_By ("-net_address.mask_len")
                 ).first ()
-            if r :
-                network = r.reserve (adr, self.ff_subject)
-            else :
-                network = typ \
-                    ( dict (address = str (net))
-                    , owner = self.ff_subject
-                    , raw   = True
-                    )
+            reserver = r.reserve if r else typ
+            network  = reserver (net, owner = self.ff_subject)
             if isinstance (comment, type ('')) :
                 network.set_raw (desc = comment [:80])
     # end def reserve_net
@@ -984,53 +984,18 @@ class Convert (object) :
             for ip4 in v :
                 del x [ip4]
             self.olsr_mid [k] = x.keys ()
-        # compound devices from mid table
-        # We index nodes by mid-table entry (by the mid key-ip address)
-        # for each mid entry there can be several nodes (config bug)
-        for ip4, aliases in self.olsr_mid.iteritems () :
-            nodes = {}
-            ip    = self.ip_by_ip [ip4]
-            if ip.id_devices :
-                d = self.cons_dev [ip.id_devices]
-                d.mid_ip = ip4
-                nodes [d.id_nodes] = d
-            else :
-                pyk.fprint ("ERR:  key %s from mid has no device" % ip4)
-            for a in aliases :
-                ip = self.ip_by_ip [a]
-                if not ip.id_devices :
-                    pyk.fprint ("ERR:  %s from mid %s has no device" % (a, ip4))
-                    continue
-                d  = self.cons_dev [ip.id_devices]
-                d.mid_ip = ip4
-                if d.id_nodes not in nodes :
-                    nodes [d.id_nodes] = d
-                elif d != nodes [d.id_nodes] :
-                    if d.merged :
-                        if d.merged != nodes [d.id_nodes] :
-                            pyk.fprint \
-                                ( "ERR: %s already merged to %s "
-                                  "not merging to %s"
-                                % (d, d.merged, nodes [d.id_nodes])
-                                )
-                        continue
-                    assert not nodes [d.id_nodes].merged
-                    nodes [d.id_nodes].merge (d)
-            if len (nodes) > 1 :
-                pyk.fprint \
-                    ("WARN: mid %s expands to %s nodes" % (ip4, len (nodes)))
-        # consolidate devices further using information from spider data
+        # consolidate devices using information from spider data
         node_by_sdev = {}
-        for mainip, sdev in self.spider_devs.iteritems () :
+        for mainip, sdev in sorted (self.spider_devs.iteritems ()) :
             if sdev.done :
                 continue
             sdev.done = True
             seen_ip = {}
             nodeid  = None
-            for sif in sdev.interfaces.itervalues () :
+            for sif in sorted (sdev.interfaces.itervalues ()) :
                 assert not sif.done
                 sif.done = True
-                for in4 in sif.inet4 :
+                for in4 in sorted (sif.inet4) :
                     if unroutable (in4.ip) :
                         continue
                     seen_ip [in4.ip] = 1
@@ -1052,7 +1017,7 @@ class Convert (object) :
                         node_by_sdev [sdev] [d.id_nodes] [d.id] = {}
                     node_by_sdev [sdev] [d.id_nodes] [d.id] [in4.ip] = True
             assert mainip in seen_ip
-        for sdev, nodes in node_by_sdev.iteritems () :
+        for sdev, nodes in sorted (node_by_sdev.iteritems ()) :
             if len (nodes) > 1 :
                 pyk.fprint \
                     ( "WARN: spider device %s expands to %s nodes: %s"
@@ -1062,12 +1027,12 @@ class Convert (object) :
                         (self.node_by_id [n].name for n in nodes.iterkeys ())
                       )
                     )
-            for n, devs in nodes.iteritems () :
+            for n, devs in sorted (nodes.iteritems ()) :
                 sdevs = {}
                 sifs  = {}
                 dev1  = None
                 err   = False
-                for devid, ips in devs.iteritems () :
+                for devid, ips in sorted (devs.iteritems ()) :
                     d = self.cons_dev [devid]
                     if d.merged :
                         pyk.fprint \
@@ -1090,7 +1055,7 @@ class Convert (object) :
                         dev1.merge (d)
                     else :
                         dev1 = d
-                    for ip in ips.iterkeys () :
+                    for ip in sorted (ips.iterkeys ()) :
                         sdevs [self.spider_devs  [ip]] = True
                         if self.spider_iface [ip] not in sifs :
                             sifs  [self.spider_iface [ip]] = {}
@@ -1098,10 +1063,16 @@ class Convert (object) :
 
                 if not err :
                     assert len (sdevs) == 1
-                    assert sdev in sdevs
+                    if sdev not in sdevs :
+                        pyk.fprint ("ERR:  Merged interface differ:")
+                        pyk.fprint ("------------------------------")
+                        pyk.fprint (sdevs.keys () [0].verbose_repr ())
+                        pyk.fprint ("------------------------------")
+                        pyk.fprint (sdev.verbose_repr ())
+                        pyk.fprint ("------------------------------")
                     assert len (sifs)  >= 1
                     assert dev1
-                for sif, ips in sifs.iteritems () :
+                for sif, ips in sorted (sifs.iteritems ()) :
                     l = len (ips)
                     assert l >= 1
                     ifaces = {}
@@ -1109,7 +1080,7 @@ class Convert (object) :
                         ifaces [ip] = dev1.interfaces [ip]
                     assert len (ifaces) == len (ips)
                     if1 = ip1 = None
-                    for ip, ifc in ifaces.iteritems () :
+                    for ip, ifc in sorted (ifaces.iteritems ()) :
                         if if1 :
                             pyk.fprint \
                                 ( "Spider %-15s: "
@@ -1132,6 +1103,41 @@ class Convert (object) :
                                 if1.wlan_info = getattr (sif, 'wlan_info', None)
                             if1.names = sif.names
                             if1.spider_ip = sif.device.mainip
+        # compound devices from mid table
+        # We index nodes by mid-table entry (by the mid key-ip address)
+        # for each mid entry there can be several nodes (config bug)
+        for ip4, aliases in sorted (self.olsr_mid.iteritems ()) :
+            nodes = {}
+            ip    = self.ip_by_ip [ip4]
+            if ip.id_devices :
+                d = self.cons_dev [ip.id_devices]
+                d.mid_ip = ip4
+                nodes [d.id_nodes] = d
+            else :
+                pyk.fprint ("ERR:  key %s from mid has no device" % ip4)
+            for a in sorted (aliases) :
+                ip = self.ip_by_ip [a]
+                if not ip.id_devices :
+                    pyk.fprint ("ERR:  %s from mid %s has no device" % (a, ip4))
+                    continue
+                d  = self.cons_dev [ip.id_devices]
+                d.mid_ip = ip4
+                if d.id_nodes not in nodes :
+                    nodes [d.id_nodes] = d
+                elif d != nodes [d.id_nodes] :
+                    if d.merged :
+                        if d.merged != nodes [d.id_nodes] :
+                            pyk.fprint \
+                                ( "ERR: %s already merged to %s "
+                                  "not merging to %s"
+                                % (d, d.merged, nodes [d.id_nodes])
+                                )
+                        continue
+                    assert not nodes [d.id_nodes].merged
+                    nodes [d.id_nodes].merge (d)
+            if len (nodes) > 1 :
+                pyk.fprint \
+                    ("WARN: mid %s expands to %s nodes" % (ip4, len (nodes)))
     # end def build_device_structure
 
     def debug_output (self) :

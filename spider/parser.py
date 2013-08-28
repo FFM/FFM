@@ -197,9 +197,10 @@ class Guess (Compare_Mixin) :
         return r
     # end def __getattr__
 
-    def __str__ (self) :
+    def __repr__ (self) :
         return "%s Version: %s" % (self.type, self.version)
-    # end def __str__
+    # end def __repr__
+    __str__ = __repr__
 
 # end class Guess
 

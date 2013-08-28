@@ -28,6 +28,7 @@
 # Revision Dates
 #    22-May-2012 (RS) Creation
 #    27-Feb-2013 (CT) Add `pool`
+#     7-Aug-2013 (CT) Adapt to major surgery of GTW.OMP.NET.Attr_Type
 #    ««revision-date»»···
 #--
 
@@ -37,9 +38,11 @@ from   _MOM.import_MOM          import *
 from   _FFM                     import FFM
 
 from   _FFM.Attr_Type           import *
-from   _GTW._OMP._NET.Attr_Type import *
+from   _GTW._OMP._NET           import NET
+
 import _FFM.IP_Network
 
+import _GTW._OMP._NET.Attr_Type
 
 _Ancestor_Essence = FFM.IP_Network
 
@@ -52,7 +55,7 @@ class IP6_Network (_Ancestor_Essence) :
 
         ### Primary attributes
 
-        class net_address (A_IP6_Network) :
+        class net_address (NET.A_IP6_Network) :
             """IPv6 Network address."""
 
             kind               = Attr.Primary

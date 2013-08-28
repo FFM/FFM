@@ -30,6 +30,7 @@
 #    22-May-2012 (RS) Add `net_mask`
 #    13-Aug-2012 (RS) Remove `net_mask` (`IP4_Network` now has `mask_len`)
 #    27-Feb-2013 (CT) Add `pool`
+#     7-Aug-2013 (CT) Adapt to major surgery of GTW.OMP.NET.Attr_Type
 #    ««revision-date»»···
 #--
 
@@ -38,10 +39,12 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 from   _MOM.import_MOM          import *
 from   _FFM                     import FFM
 
+from   _GTW._OMP._NET           import NET
 from   _FFM.Attr_Type           import *
-from   _GTW._OMP._NET.Attr_Type import *
+
 import _FFM.IP_Network
 
+import _GTW._OMP._NET.Attr_Type
 
 _Ancestor_Essence = FFM.IP_Network
 
@@ -54,7 +57,7 @@ class IP4_Network (_Ancestor_Essence) :
 
         ### Primary attributes
 
-        class net_address (A_IP4_Network) :
+        class net_address (NET.A_IP4_Network) :
             """IPv4 Network address."""
 
             kind               = Attr.Primary

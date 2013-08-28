@@ -32,6 +32,8 @@
 #    26-Jan-2013 (CT) Define `belongs_to_node.query`, not `.query_fct`
 #    25-Feb-2013 (CT) Add `belongs_to_node.query_preconditions`
 #    26-Feb-2013 (CT) Disable `belongs_to_node`
+#    14-Aug-2013 (CT) Re-enable `belongs_to_node`
+#    14-Aug-2013 (CT) Add `is_partial = True`, derive from `MOM.Id_Entity`
 #    ««revision-date»»···
 #--
 
@@ -42,28 +44,27 @@ from   _FFM                     import FFM
 import _FFM.Entity
 import _FFM.Node
 
-_Ancestor_Essence = FFM.Entity
+_Ancestor_Essence = FFM.Id_Entity
 
 class _Belongs_to_Node_ (_Ancestor_Essence) :
     """Mixin for computed `belongs_to_node` attribute"""
+
+    is_partial = True
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
-        ### XXX `Attr.Query` referring to other `Attr.Query`
-        ### and/or auto-cached role attributes don't work at the moment
-        if False :
-            class belongs_to_node (A_Id_Entity) :
-                """Node this %(ui_type_name)s belongs to."""
+        class belongs_to_node (A_Id_Entity) :
+            """Node this %(ui_type_name)s belongs to."""
 
-                kind                = Attr.Query
-                hidden              = True
-                P_Type              = FFM.Node
-                query               = Q.left.belongs_to_node
-                query_preconditions = (Q.left, )
+            kind                = Attr.Query
+            hidden              = True
+            P_Type              = FFM.Node
+            query               = Q.left.belongs_to_node
+            query_preconditions = (Q.left, )
 
-            # end class belongs_to_node
+        # end class belongs_to_node
 
     # end class _Attributes
 

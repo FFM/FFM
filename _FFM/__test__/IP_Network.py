@@ -36,6 +36,9 @@
 #    28-Mar-2013 (CT) Add `AQ.Attrs_Transitive...ui_name`, `.pool.pool.pool...`
 #    11-Apr-2013 (CT) Adapt to changes in `MOM.Attr.Querier`
 #    28-Apr-2013 (CT) Adapt to addition of `IP_Network.desc`
+#     7-Aug-2013 (CT) Adapt to major surgery of GTW.OMP.NET.Attr_Type
+#    13-Aug-2013 (CT) Add `test_order`, adapt other tests to change in order
+#    22-Aug-2013 (CT) Add tests for I4N and I6N calls with wrong `raw` value
 #    ««revision-date»»···
 #--
 
@@ -64,17 +67,18 @@ _test_alloc = """
     >>> lt  = PAP.Person ("Tanzer", "Laurens", raw = True)
     >>> osc = PAP.Company ("Open Source Consulting", raw = True)
 
-    >>> show_networks (scope) ### nothing allocated yet
+    >>> ETM = scope.FFM.IP4_Network
+    >>> show_networks (scope, ETM) ### nothing allocated yet
 
-    >>> ff_pool  = FFM.IP4_Network (('10.0.0.0/8', ), owner = ff, raw = True)
-    >>> show_networks (scope) ### 10.0.0.0/8
+    >>> ff_pool  = FFM.IP4_Network ('10.0.0.0/8', owner = ff, raw = True)
+    >>> show_networks (scope, ETM) ### 10.0.0.0/8
     10.0.0.0/8         Funkfeuer                : electric = F, children = F
 
-    >>> show_network_count (scope)
+    >>> show_network_count (scope, ETM)
     FFM.IP4_Network count: 1
 
     >>> osc_pool = ff_pool.allocate (16, osc)
-    >>> show_networks (scope) ### 10.0.0.0/16
+    >>> show_networks (scope, ETM) ### 10.0.0.0/16
     10.0.0.0/8         Funkfeuer                : electric = F, children = T
     10.0.0.0/16        Open Source Consulting   : electric = F, children = F
     10.0.0.0/9         Funkfeuer                : electric = T, children = T
@@ -84,20 +88,20 @@ _test_alloc = """
     10.0.0.0/13        Funkfeuer                : electric = T, children = T
     10.0.0.0/14        Funkfeuer                : electric = T, children = T
     10.0.0.0/15        Funkfeuer                : electric = T, children = T
-    10.128.0.0/9       Funkfeuer                : electric = T, children = F
-    10.64.0.0/10       Funkfeuer                : electric = T, children = F
-    10.32.0.0/11       Funkfeuer                : electric = T, children = F
-    10.16.0.0/12       Funkfeuer                : electric = T, children = F
-    10.8.0.0/13        Funkfeuer                : electric = T, children = F
-    10.4.0.0/14        Funkfeuer                : electric = T, children = F
-    10.2.0.0/15        Funkfeuer                : electric = T, children = F
     10.1.0.0/16        Funkfeuer                : electric = T, children = F
+    10.2.0.0/15        Funkfeuer                : electric = T, children = F
+    10.4.0.0/14        Funkfeuer                : electric = T, children = F
+    10.8.0.0/13        Funkfeuer                : electric = T, children = F
+    10.16.0.0/12       Funkfeuer                : electric = T, children = F
+    10.32.0.0/11       Funkfeuer                : electric = T, children = F
+    10.64.0.0/10       Funkfeuer                : electric = T, children = F
+    10.128.0.0/9       Funkfeuer                : electric = T, children = F
 
-    >>> show_network_count (scope)
+    >>> show_network_count (scope, ETM)
     FFM.IP4_Network count: 17
 
     >>> rs_pool = osc_pool.allocate (28, rs)
-    >>> show_networks (scope, pool = osc_pool) ### 10.0.0.0/28
+    >>> show_networks (scope, ETM, pool = osc_pool) ### 10.0.0.0/28
     10.0.0.0/16        Open Source Consulting   : electric = F, children = T
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = F
     10.0.0.0/17        Open Source Consulting   : electric = T, children = T
@@ -111,242 +115,242 @@ _test_alloc = """
     10.0.0.0/25        Open Source Consulting   : electric = T, children = T
     10.0.0.0/26        Open Source Consulting   : electric = T, children = T
     10.0.0.0/27        Open Source Consulting   : electric = T, children = T
-    10.0.128.0/17      Open Source Consulting   : electric = T, children = F
-    10.0.64.0/18       Open Source Consulting   : electric = T, children = F
-    10.0.32.0/19       Open Source Consulting   : electric = T, children = F
-    10.0.16.0/20       Open Source Consulting   : electric = T, children = F
-    10.0.8.0/21        Open Source Consulting   : electric = T, children = F
-    10.0.4.0/22        Open Source Consulting   : electric = T, children = F
-    10.0.2.0/23        Open Source Consulting   : electric = T, children = F
-    10.0.1.0/24        Open Source Consulting   : electric = T, children = F
-    10.0.0.128/25      Open Source Consulting   : electric = T, children = F
-    10.0.0.64/26       Open Source Consulting   : electric = T, children = F
-    10.0.0.32/27       Open Source Consulting   : electric = T, children = F
     10.0.0.16/28       Open Source Consulting   : electric = T, children = F
+    10.0.0.32/27       Open Source Consulting   : electric = T, children = F
+    10.0.0.64/26       Open Source Consulting   : electric = T, children = F
+    10.0.0.128/25      Open Source Consulting   : electric = T, children = F
+    10.0.1.0/24        Open Source Consulting   : electric = T, children = F
+    10.0.2.0/23        Open Source Consulting   : electric = T, children = F
+    10.0.4.0/22        Open Source Consulting   : electric = T, children = F
+    10.0.8.0/21        Open Source Consulting   : electric = T, children = F
+    10.0.16.0/20       Open Source Consulting   : electric = T, children = F
+    10.0.32.0/19       Open Source Consulting   : electric = T, children = F
+    10.0.64.0/18       Open Source Consulting   : electric = T, children = F
+    10.0.128.0/17      Open Source Consulting   : electric = T, children = F
 
-    >>> ct_addr = osc_pool.reserve (Adr ('10.0.0.1/32', raw = True), owner = ct)
+    >>> ct_addr = osc_pool.reserve ('10.0.0.1/32', owner = ct)
     Traceback (most recent call last):
       ...
-    Address_Already_Used: Address ("10.0.0.1", ) already in use by 'Schlatterbeck Ralf'
+    Address_Already_Used: Address 10.0.0.1 already in use by 'Schlatterbeck Ralf'
 
-    >>> show_networks (scope, pool = rs_pool) ### 10.0.0.0/28
+    >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.0/28
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = F
 
-    >>> show_network_count (scope)
+    >>> show_network_count (scope, ETM)
     FFM.IP4_Network count: 41
 
     >>> ct_pool = rs_pool.allocate (30, ct)
-    >>> show_networks (scope, pool = rs_pool) ### 10.0.0.0/30
+    >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.0/30
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = F
     10.0.0.0/29        Schlatterbeck Ralf       : electric = T, children = T
-    10.0.0.8/29        Schlatterbeck Ralf       : electric = T, children = F
     10.0.0.4/30        Schlatterbeck Ralf       : electric = T, children = F
+    10.0.0.8/29        Schlatterbeck Ralf       : electric = T, children = F
 
     >>> ak_pool = rs_pool.allocate (28, ak)
     Traceback (most recent call last):
       ...
-    No_Free_Address_Range: Address range [("10.0.0.0/28", )] of this IP4_Network doesn't contain a free subrange for mask length 28
+    No_Free_Address_Range: Address range [10.0.0.0/28] of this IP4_Network doesn't contain a free subrange for mask length 28
 
     >>> ak_pool = rs_pool.allocate (30, ak)
-    >>> show_networks (scope, pool = rs_pool) ### 10.0.0.4/30
+    >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.4/30
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = F
     10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
     10.0.0.0/29        Schlatterbeck Ralf       : electric = T, children = T
     10.0.0.8/29        Schlatterbeck Ralf       : electric = T, children = F
 
-    >>> show_network_count (scope)
+    >>> show_network_count (scope, ETM)
     FFM.IP4_Network count: 45
 
     >>> mg_pool = rs_pool.allocate (29, mg)
-    >>> show_networks (scope, pool = rs_pool) ### 10.0.0.8/29
+    >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.8/29
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
-    10.0.0.8/29        Glueck Martin            : electric = F, children = F
     10.0.0.0/30        Tanzer Christian         : electric = F, children = F
     10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
+    10.0.0.8/29        Glueck Martin            : electric = F, children = F
     10.0.0.0/29        Schlatterbeck Ralf       : electric = T, children = T
 
     >>> xx_pool = rs_pool.allocate (30, mg)
     Traceback (most recent call last):
       ...
-    No_Free_Address_Range: Address range [("10.0.0.0/28", )] of this IP4_Network doesn't contain a free subrange for mask length 30
+    No_Free_Address_Range: Address range [10.0.0.0/28] of this IP4_Network doesn't contain a free subrange for mask length 30
 
     >>> yy_pool = mg_pool.allocate (29, mg)
     Traceback (most recent call last):
       ...
-    No_Free_Address_Range: Address range [("10.0.0.8/29", )] of this IP4_Network doesn't contain a free subrange for mask length 29
+    No_Free_Address_Range: Address range [10.0.0.8/29] of this IP4_Network doesn't contain a free subrange for mask length 29
 
-    >>> show_network_count (scope)
+    >>> show_network_count (scope, ETM)
     FFM.IP4_Network count: 45
 
-    >>> mg_addr = ct_pool.reserve (Adr ('10.0.0.1/32', raw = True), owner = mg)
-    >>> show_networks (scope, pool = rs_pool) ### 10.0.0.1/32
+    >>> mg_addr = ct_pool.reserve ('10.0.0.1/32', owner = mg)
+    >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.1/32
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = T
-    10.0.0.8/29        Glueck Martin            : electric = F, children = F
-    10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
     10.0.0.1           Glueck Martin            : electric = F, children = F
+    10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
+    10.0.0.8/29        Glueck Martin            : electric = F, children = F
     10.0.0.0/29        Schlatterbeck Ralf       : electric = T, children = T
     10.0.0.0/31        Tanzer Christian         : electric = T, children = T
-    10.0.0.2/31        Tanzer Christian         : electric = T, children = F
     10.0.0.0           Tanzer Christian         : electric = T, children = F
+    10.0.0.2/31        Tanzer Christian         : electric = T, children = F
 
-    >>> lt_addr = ct_pool.reserve (Adr ('10.0.0.2/32', raw = True), owner = lt)
-    >>> show_networks (scope, pool = rs_pool) ### 10.0.0.2/32
+    >>> lt_addr = ct_pool.reserve ('10.0.0.2/32', owner = lt)
+    >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.2/32
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = T
-    10.0.0.8/29        Glueck Martin            : electric = F, children = F
-    10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
     10.0.0.1           Glueck Martin            : electric = F, children = F
     10.0.0.2           Tanzer Laurens           : electric = F, children = F
+    10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
+    10.0.0.8/29        Glueck Martin            : electric = F, children = F
     10.0.0.0/29        Schlatterbeck Ralf       : electric = T, children = T
     10.0.0.0/31        Tanzer Christian         : electric = T, children = T
     10.0.0.2/31        Tanzer Christian         : electric = T, children = T
     10.0.0.0           Tanzer Christian         : electric = T, children = F
     10.0.0.3           Tanzer Christian         : electric = T, children = F
 
-    >>> rs_addr = ct_pool.reserve (Adr ('10.0.0.0/32', raw = True), owner = rs)
-    >>> ct_addr = ct_pool.reserve (Adr ('10.0.0.3/32', raw = True), owner = ct)
-    >>> show_networks (scope, pool = rs_pool) ### 10.0.0.3/32
+    >>> rs_addr = ct_pool.reserve ('10.0.0.0/32', owner = rs)
+    >>> ct_addr = ct_pool.reserve (Adr ('10.0.0.3/32'), owner = ct)
+    >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.3/32
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = T
-    10.0.0.8/29        Glueck Martin            : electric = F, children = F
-    10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
     10.0.0.0           Schlatterbeck Ralf       : electric = F, children = F
     10.0.0.1           Glueck Martin            : electric = F, children = F
     10.0.0.2           Tanzer Laurens           : electric = F, children = F
     10.0.0.3           Tanzer Christian         : electric = F, children = F
+    10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
+    10.0.0.8/29        Glueck Martin            : electric = F, children = F
     10.0.0.0/29        Schlatterbeck Ralf       : electric = T, children = T
     10.0.0.0/31        Tanzer Christian         : electric = T, children = T
     10.0.0.2/31        Tanzer Christian         : electric = T, children = T
 
     >>> mg_pool_2 = mg_pool.allocate (30, mg)
-    >>> show_networks (scope, pool = rs_pool) ### 10.0.0.8/30
+    >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.8/30
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
-    10.0.0.8/29        Glueck Martin            : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = T
-    10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
-    10.0.0.8/30        Glueck Martin            : electric = F, children = F
+    10.0.0.8/29        Glueck Martin            : electric = F, children = T
     10.0.0.0           Schlatterbeck Ralf       : electric = F, children = F
     10.0.0.1           Glueck Martin            : electric = F, children = F
     10.0.0.2           Tanzer Laurens           : electric = F, children = F
     10.0.0.3           Tanzer Christian         : electric = F, children = F
+    10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
+    10.0.0.8/30        Glueck Martin            : electric = F, children = F
     10.0.0.0/29        Schlatterbeck Ralf       : electric = T, children = T
     10.0.0.0/31        Tanzer Christian         : electric = T, children = T
     10.0.0.2/31        Tanzer Christian         : electric = T, children = T
     10.0.0.12/30       Glueck Martin            : electric = T, children = F
 
-    >>> ct_addr = ff_pool.reserve (Adr ('10.42.137.1/32', raw = True), owner = ct)
-    >>> show_networks (scope) ### 10.42.137.1/32
+    >>> ct_addr = ff_pool.reserve (Adr ('10.42.137.1/32'), owner = ct)
+    >>> show_networks (scope, ETM) ### 10.42.137.1/32
     10.0.0.0/8         Funkfeuer                : electric = F, children = T
     10.0.0.0/16        Open Source Consulting   : electric = F, children = T
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
-    10.0.0.8/29        Glueck Martin            : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = T
-    10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
-    10.0.0.8/30        Glueck Martin            : electric = F, children = F
+    10.0.0.8/29        Glueck Martin            : electric = F, children = T
     10.0.0.0           Schlatterbeck Ralf       : electric = F, children = F
     10.0.0.1           Glueck Martin            : electric = F, children = F
     10.0.0.2           Tanzer Laurens           : electric = F, children = F
     10.0.0.3           Tanzer Christian         : electric = F, children = F
+    10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
+    10.0.0.8/30        Glueck Martin            : electric = F, children = F
     10.42.137.1        Tanzer Christian         : electric = F, children = F
     10.0.0.0/9         Funkfeuer                : electric = T, children = T
     10.0.0.0/10        Funkfeuer                : electric = T, children = T
     10.0.0.0/11        Funkfeuer                : electric = T, children = T
-    10.32.0.0/11       Funkfeuer                : electric = T, children = T
     10.0.0.0/12        Funkfeuer                : electric = T, children = T
-    10.32.0.0/12       Funkfeuer                : electric = T, children = T
     10.0.0.0/13        Funkfeuer                : electric = T, children = T
-    10.40.0.0/13       Funkfeuer                : electric = T, children = T
     10.0.0.0/14        Funkfeuer                : electric = T, children = T
-    10.40.0.0/14       Funkfeuer                : electric = T, children = T
     10.0.0.0/15        Funkfeuer                : electric = T, children = T
-    10.42.0.0/15       Funkfeuer                : electric = T, children = T
-    10.42.0.0/16       Funkfeuer                : electric = T, children = T
     10.0.0.0/17        Open Source Consulting   : electric = T, children = T
-    10.42.128.0/17     Funkfeuer                : electric = T, children = T
     10.0.0.0/18        Open Source Consulting   : electric = T, children = T
-    10.42.128.0/18     Funkfeuer                : electric = T, children = T
     10.0.0.0/19        Open Source Consulting   : electric = T, children = T
-    10.42.128.0/19     Funkfeuer                : electric = T, children = T
     10.0.0.0/20        Open Source Consulting   : electric = T, children = T
-    10.42.128.0/20     Funkfeuer                : electric = T, children = T
     10.0.0.0/21        Open Source Consulting   : electric = T, children = T
-    10.42.136.0/21     Funkfeuer                : electric = T, children = T
     10.0.0.0/22        Open Source Consulting   : electric = T, children = T
-    10.42.136.0/22     Funkfeuer                : electric = T, children = T
     10.0.0.0/23        Open Source Consulting   : electric = T, children = T
-    10.42.136.0/23     Funkfeuer                : electric = T, children = T
     10.0.0.0/24        Open Source Consulting   : electric = T, children = T
-    10.42.137.0/24     Funkfeuer                : electric = T, children = T
     10.0.0.0/25        Open Source Consulting   : electric = T, children = T
-    10.42.137.0/25     Funkfeuer                : electric = T, children = T
     10.0.0.0/26        Open Source Consulting   : electric = T, children = T
-    10.42.137.0/26     Funkfeuer                : electric = T, children = T
     10.0.0.0/27        Open Source Consulting   : electric = T, children = T
-    10.42.137.0/27     Funkfeuer                : electric = T, children = T
-    10.42.137.0/28     Funkfeuer                : electric = T, children = T
     10.0.0.0/29        Schlatterbeck Ralf       : electric = T, children = T
-    10.42.137.0/29     Funkfeuer                : electric = T, children = T
-    10.42.137.0/30     Funkfeuer                : electric = T, children = T
     10.0.0.0/31        Tanzer Christian         : electric = T, children = T
     10.0.0.2/31        Tanzer Christian         : electric = T, children = T
+    10.32.0.0/11       Funkfeuer                : electric = T, children = T
+    10.32.0.0/12       Funkfeuer                : electric = T, children = T
+    10.40.0.0/13       Funkfeuer                : electric = T, children = T
+    10.40.0.0/14       Funkfeuer                : electric = T, children = T
+    10.42.0.0/15       Funkfeuer                : electric = T, children = T
+    10.42.0.0/16       Funkfeuer                : electric = T, children = T
+    10.42.128.0/17     Funkfeuer                : electric = T, children = T
+    10.42.128.0/18     Funkfeuer                : electric = T, children = T
+    10.42.128.0/19     Funkfeuer                : electric = T, children = T
+    10.42.128.0/20     Funkfeuer                : electric = T, children = T
+    10.42.136.0/21     Funkfeuer                : electric = T, children = T
+    10.42.136.0/22     Funkfeuer                : electric = T, children = T
+    10.42.136.0/23     Funkfeuer                : electric = T, children = T
+    10.42.137.0/24     Funkfeuer                : electric = T, children = T
+    10.42.137.0/25     Funkfeuer                : electric = T, children = T
+    10.42.137.0/26     Funkfeuer                : electric = T, children = T
+    10.42.137.0/27     Funkfeuer                : electric = T, children = T
+    10.42.137.0/28     Funkfeuer                : electric = T, children = T
+    10.42.137.0/29     Funkfeuer                : electric = T, children = T
+    10.42.137.0/30     Funkfeuer                : electric = T, children = T
     10.42.137.0/31     Funkfeuer                : electric = T, children = T
-    10.128.0.0/9       Funkfeuer                : electric = T, children = F
-    10.64.0.0/10       Funkfeuer                : electric = T, children = F
-    10.16.0.0/12       Funkfeuer                : electric = T, children = F
-    10.48.0.0/12       Funkfeuer                : electric = T, children = F
-    10.8.0.0/13        Funkfeuer                : electric = T, children = F
-    10.32.0.0/13       Funkfeuer                : electric = T, children = F
-    10.4.0.0/14        Funkfeuer                : electric = T, children = F
-    10.44.0.0/14       Funkfeuer                : electric = T, children = F
-    10.2.0.0/15        Funkfeuer                : electric = T, children = F
-    10.40.0.0/15       Funkfeuer                : electric = T, children = F
-    10.1.0.0/16        Funkfeuer                : electric = T, children = F
-    10.43.0.0/16       Funkfeuer                : electric = T, children = F
-    10.0.128.0/17      Open Source Consulting   : electric = T, children = F
-    10.42.0.0/17       Funkfeuer                : electric = T, children = F
-    10.0.64.0/18       Open Source Consulting   : electric = T, children = F
-    10.42.192.0/18     Funkfeuer                : electric = T, children = F
-    10.0.32.0/19       Open Source Consulting   : electric = T, children = F
-    10.42.160.0/19     Funkfeuer                : electric = T, children = F
-    10.0.16.0/20       Open Source Consulting   : electric = T, children = F
-    10.42.144.0/20     Funkfeuer                : electric = T, children = F
-    10.0.8.0/21        Open Source Consulting   : electric = T, children = F
-    10.42.128.0/21     Funkfeuer                : electric = T, children = F
-    10.0.4.0/22        Open Source Consulting   : electric = T, children = F
-    10.42.140.0/22     Funkfeuer                : electric = T, children = F
-    10.0.2.0/23        Open Source Consulting   : electric = T, children = F
-    10.42.138.0/23     Funkfeuer                : electric = T, children = F
-    10.0.1.0/24        Open Source Consulting   : electric = T, children = F
-    10.42.136.0/24     Funkfeuer                : electric = T, children = F
-    10.0.0.128/25      Open Source Consulting   : electric = T, children = F
-    10.42.137.128/25   Funkfeuer                : electric = T, children = F
-    10.0.0.64/26       Open Source Consulting   : electric = T, children = F
-    10.42.137.64/26    Funkfeuer                : electric = T, children = F
-    10.0.0.32/27       Open Source Consulting   : electric = T, children = F
-    10.42.137.32/27    Funkfeuer                : electric = T, children = F
-    10.0.0.16/28       Open Source Consulting   : electric = T, children = F
-    10.42.137.16/28    Funkfeuer                : electric = T, children = F
-    10.42.137.8/29     Funkfeuer                : electric = T, children = F
     10.0.0.12/30       Glueck Martin            : electric = T, children = F
-    10.42.137.4/30     Funkfeuer                : electric = T, children = F
-    10.42.137.2/31     Funkfeuer                : electric = T, children = F
+    10.0.0.16/28       Open Source Consulting   : electric = T, children = F
+    10.0.0.32/27       Open Source Consulting   : electric = T, children = F
+    10.0.0.64/26       Open Source Consulting   : electric = T, children = F
+    10.0.0.128/25      Open Source Consulting   : electric = T, children = F
+    10.0.1.0/24        Open Source Consulting   : electric = T, children = F
+    10.0.2.0/23        Open Source Consulting   : electric = T, children = F
+    10.0.4.0/22        Open Source Consulting   : electric = T, children = F
+    10.0.8.0/21        Open Source Consulting   : electric = T, children = F
+    10.0.16.0/20       Open Source Consulting   : electric = T, children = F
+    10.0.32.0/19       Open Source Consulting   : electric = T, children = F
+    10.0.64.0/18       Open Source Consulting   : electric = T, children = F
+    10.0.128.0/17      Open Source Consulting   : electric = T, children = F
+    10.1.0.0/16        Funkfeuer                : electric = T, children = F
+    10.2.0.0/15        Funkfeuer                : electric = T, children = F
+    10.4.0.0/14        Funkfeuer                : electric = T, children = F
+    10.8.0.0/13        Funkfeuer                : electric = T, children = F
+    10.16.0.0/12       Funkfeuer                : electric = T, children = F
+    10.32.0.0/13       Funkfeuer                : electric = T, children = F
+    10.40.0.0/15       Funkfeuer                : electric = T, children = F
+    10.42.0.0/17       Funkfeuer                : electric = T, children = F
+    10.42.128.0/21     Funkfeuer                : electric = T, children = F
+    10.42.136.0/24     Funkfeuer                : electric = T, children = F
     10.42.137.0        Funkfeuer                : electric = T, children = F
+    10.42.137.2/31     Funkfeuer                : electric = T, children = F
+    10.42.137.4/30     Funkfeuer                : electric = T, children = F
+    10.42.137.8/29     Funkfeuer                : electric = T, children = F
+    10.42.137.16/28    Funkfeuer                : electric = T, children = F
+    10.42.137.32/27    Funkfeuer                : electric = T, children = F
+    10.42.137.64/26    Funkfeuer                : electric = T, children = F
+    10.42.137.128/25   Funkfeuer                : electric = T, children = F
+    10.42.138.0/23     Funkfeuer                : electric = T, children = F
+    10.42.140.0/22     Funkfeuer                : electric = T, children = F
+    10.42.144.0/20     Funkfeuer                : electric = T, children = F
+    10.42.160.0/19     Funkfeuer                : electric = T, children = F
+    10.42.192.0/18     Funkfeuer                : electric = T, children = F
+    10.43.0.0/16       Funkfeuer                : electric = T, children = F
+    10.44.0.0/14       Funkfeuer                : electric = T, children = F
+    10.48.0.0/12       Funkfeuer                : electric = T, children = F
+    10.64.0.0/10       Funkfeuer                : electric = T, children = F
+    10.128.0.0/9       Funkfeuer                : electric = T, children = F
 
-    >>> show_network_count (scope)
+    >>> show_network_count (scope, ETM)
     FFM.IP4_Network count: 95
 
     >>> ETM = FFM.IP4_Network
     >>> q   = ETM.query
-    >>> Net = ETM.net_address.P_Type
-    >>> n   = Net ('10.42.137.0/28', raw = True)
+    >>> n   = '10.42.137.0/28'
     >>> q (Q.net_address.IN (n)).count ()
     9
+
     >>> s = TFL.Sorted_By ("-net_address.mask_len")
     >>> q (Q.net_address.CONTAINS (n), sort_key = s).first ()
-    FFM.IP4_Network (("10.42.137.0/28", ))
+    FFM.IP4_Network ("10.42.137.0/28")
 
 """
 
@@ -361,63 +365,89 @@ _test_AQ = """
     <Attr.Type.Querier.E_Type for FFM.IP4_Network>
     >>> for aq in AQ.Attrs :
     ...     print (aq)
-    <net_address.AQ [Attr.Type.Querier Composite]>
+    <net_address.AQ [Attr.Type.Querier Ckd]>
     <desc.AQ [Attr.Type.Querier String]>
     <owner.AQ [Attr.Type.Querier Id_Entity]>
     <pool.AQ [Attr.Type.Querier Id_Entity]>
+    <last_cid.AQ [Attr.Type.Querier Ckd]>
+    <pid.AQ [Attr.Type.Querier Ckd]>
+    <type_name.AQ [Attr.Type.Querier String]>
     <is_free.AQ [Attr.Type.Querier Boolean]>
+    <cool_down.AQ [Attr.Type.Querier Ckd]>
+    <has_children.AQ [Attr.Type.Querier Boolean]>
 
     >>> for aq in AQ.Attrs_Transitive :
     ...     print (aq, aq.E_Type.type_name if aq.E_Type else "-"*5)
-    <net_address.AQ [Attr.Type.Querier Composite]> NET.IP4_Network
-    <net_address.address.AQ [Attr.Type.Querier Ckd]> -----
+    <net_address.AQ [Attr.Type.Querier Ckd]> -----
     <desc.AQ [Attr.Type.Querier String]> -----
     <owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
     <pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
-    <pool.net_address.AQ [Attr.Type.Querier Composite]> NET.IP4_Network
-    <pool.net_address.address.AQ [Attr.Type.Querier Ckd]> -----
+    <pool.net_address.AQ [Attr.Type.Querier Ckd]> -----
     <pool.desc.AQ [Attr.Type.Querier String]> -----
     <pool.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
     <pool.pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
+    <pool.last_cid.AQ [Attr.Type.Querier Ckd]> -----
+    <pool.pid.AQ [Attr.Type.Querier Ckd]> -----
+    <pool.type_name.AQ [Attr.Type.Querier String]> -----
     <pool.is_free.AQ [Attr.Type.Querier Boolean]> -----
+    <pool.cool_down.AQ [Attr.Type.Querier Ckd]> -----
+    <pool.has_children.AQ [Attr.Type.Querier Boolean]> -----
+    <last_cid.AQ [Attr.Type.Querier Ckd]> -----
+    <pid.AQ [Attr.Type.Querier Ckd]> -----
+    <type_name.AQ [Attr.Type.Querier String]> -----
     <is_free.AQ [Attr.Type.Querier Boolean]> -----
+    <cool_down.AQ [Attr.Type.Querier Ckd]> -----
+    <has_children.AQ [Attr.Type.Querier Boolean]> -----
 
     >>> for aq in AQ.Attrs_Transitive :
     ...     str (aq._ui_name_T)
     'Net address'
-    'Net address/Address'
     'Desc'
     'Owner'
     'Pool'
     'Pool/Net address'
-    'Pool/Net address/Address'
     'Pool/Desc'
     'Pool/Owner'
     'Pool/Pool'
+    'Pool/Last cid'
+    'Pool/Pid'
+    'Pool/Type name'
     'Pool/Is free'
+    'Pool/Cool down'
+    'Pool/Has children'
+    'Last cid'
+    'Pid'
+    'Type name'
     'Is free'
+    'Cool down'
+    'Has children'
 
     >>> AQ.pool.pool.pool.owner
     <pool.pool.pool.owner.AQ [Attr.Type.Querier Id_Entity]>
 
     >>> for aq in AQ.Atoms :
     ...     print (aq)
-    <net_address.address.AQ [Attr.Type.Querier Ckd]>
+    <net_address.AQ [Attr.Type.Querier Ckd]>
     <desc.AQ [Attr.Type.Querier String]>
-    <pool.net_address.address.AQ [Attr.Type.Querier Ckd]>
+    <pool.net_address.AQ [Attr.Type.Querier Ckd]>
     <pool.desc.AQ [Attr.Type.Querier String]>
+    <pool.last_cid.AQ [Attr.Type.Querier Ckd]>
+    <pool.pid.AQ [Attr.Type.Querier Ckd]>
+    <pool.type_name.AQ [Attr.Type.Querier String]>
     <pool.is_free.AQ [Attr.Type.Querier Boolean]>
+    <pool.cool_down.AQ [Attr.Type.Querier Ckd]>
+    <pool.has_children.AQ [Attr.Type.Querier Boolean]>
+    <last_cid.AQ [Attr.Type.Querier Ckd]>
+    <pid.AQ [Attr.Type.Querier Ckd]>
+    <type_name.AQ [Attr.Type.Querier String]>
     <is_free.AQ [Attr.Type.Querier Boolean]>
+    <cool_down.AQ [Attr.Type.Querier Ckd]>
+    <has_children.AQ [Attr.Type.Querier Boolean]>
 
     >>> print (formatted (AQ.As_Json_Cargo))
     { 'filters' :
-        [ { 'attrs' :
-              [ { 'name' : 'address'
-                , 'sig_key' : 0
-                , 'ui_name' : 'Address'
-                }
-              ]
-          , 'name' : 'net_address'
+        [ { 'name' : 'net_address'
+          , 'sig_key' : 0
           , 'ui_name' : 'Net address'
           }
         , { 'name' : 'desc'
@@ -502,13 +532,8 @@ _test_AQ = """
           }
         , { 'Class' : 'Entity'
           , 'attrs' :
-              [ { 'attrs' :
-                    [ { 'name' : 'address'
-                      , 'sig_key' : 0
-                      , 'ui_name' : 'Address'
-                      }
-                    ]
-                , 'name' : 'net_address'
+              [ { 'name' : 'net_address'
+                , 'sig_key' : 0
                 , 'ui_name' : 'Net address'
                 }
               , { 'name' : 'desc'
@@ -596,18 +621,58 @@ _test_AQ = """
                 , 'sig_key' : 2
                 , 'ui_name' : 'Pool'
                 }
+              , { 'name' : 'last_cid'
+                , 'sig_key' : 0
+                , 'ui_name' : 'Last cid'
+                }
+              , { 'name' : 'pid'
+                , 'sig_key' : 0
+                , 'ui_name' : 'Pid'
+                }
+              , { 'name' : 'type_name'
+                , 'sig_key' : 3
+                , 'ui_name' : 'Type name'
+                }
               , { 'name' : 'is_free'
                 , 'sig_key' : 1
                 , 'ui_name' : 'Is free'
+                }
+              , { 'name' : 'cool_down'
+                , 'sig_key' : 0
+                , 'ui_name' : 'Cool down'
+                }
+              , { 'name' : 'has_children'
+                , 'sig_key' : 1
+                , 'ui_name' : 'Has children'
                 }
               ]
           , 'name' : 'pool'
           , 'sig_key' : 2
           , 'ui_name' : 'Pool'
           }
+        , { 'name' : 'last_cid'
+          , 'sig_key' : 0
+          , 'ui_name' : 'Last cid'
+          }
+        , { 'name' : 'pid'
+          , 'sig_key' : 0
+          , 'ui_name' : 'Pid'
+          }
+        , { 'name' : 'type_name'
+          , 'sig_key' : 3
+          , 'ui_name' : 'Type name'
+          }
         , { 'name' : 'is_free'
           , 'sig_key' : 1
           , 'ui_name' : 'Is free'
+          }
+        , { 'name' : 'cool_down'
+          , 'sig_key' : 0
+          , 'ui_name' : 'Cool down'
+          }
+        , { 'name' : 'has_children'
+          , 'sig_key' : 1
+          , 'ui_name' : 'Has children'
           }
         ]
     , 'name_sep' : '__'
@@ -697,20 +762,11 @@ _test_AQ = """
 
     >>> print (formatted (AQ.As_Template_Elem))
     [ Record
-      ( attr = IP4_Network `net_address`
-      , attrs =
-          [ Record
-            ( attr = IP4-network `address`
-            , full_name = 'net_address.address'
-            , id = 'net_address__address'
-            , name = 'address'
-            , sig_key = 0
-            , ui_name = 'Net address/Address'
-            )
-          ]
+      ( attr = IP4-network `net_address`
       , full_name = 'net_address'
       , id = 'net_address'
       , name = 'net_address'
+      , sig_key = 0
       , ui_name = 'Net address'
       )
     , Record
@@ -856,20 +912,11 @@ _test_AQ = """
       , attr = Entity `pool`
       , attrs =
           [ Record
-            ( attr = IP4_Network `net_address`
-            , attrs =
-                [ Record
-                  ( attr = IP4-network `address`
-                  , full_name = 'pool.net_address.address'
-                  , id = 'pool__net_address__address'
-                  , name = 'address'
-                  , sig_key = 0
-                  , ui_name = 'Pool/Net address/Address'
-                  )
-                ]
+            ( attr = IP4-network `net_address`
             , full_name = 'pool.net_address'
             , id = 'pool__net_address'
             , name = 'net_address'
+            , sig_key = 0
             , ui_name = 'Pool/Net address'
             )
           , Record
@@ -1022,6 +1069,30 @@ _test_AQ = """
             , ui_type_name = 'IP4_Network'
             )
           , Record
+            ( attr = Int `last_cid`
+            , full_name = 'pool.last_cid'
+            , id = 'pool__last_cid'
+            , name = 'last_cid'
+            , sig_key = 0
+            , ui_name = 'Pool/Last cid'
+            )
+          , Record
+            ( attr = Surrogate `pid`
+            , full_name = 'pool.pid'
+            , id = 'pool__pid'
+            , name = 'pid'
+            , sig_key = 0
+            , ui_name = 'Pool/Pid'
+            )
+          , Record
+            ( attr = String `type_name`
+            , full_name = 'pool.type_name'
+            , id = 'pool__type_name'
+            , name = 'type_name'
+            , sig_key = 3
+            , ui_name = 'Pool/Type name'
+            )
+          , Record
             ( attr = Boolean `is_free`
             , choices =
                 [ 'no'
@@ -1033,6 +1104,26 @@ _test_AQ = """
             , sig_key = 1
             , ui_name = 'Pool/Is free'
             )
+          , Record
+            ( attr = Date-Time `cool_down`
+            , full_name = 'pool.cool_down'
+            , id = 'pool__cool_down'
+            , name = 'cool_down'
+            , sig_key = 0
+            , ui_name = 'Pool/Cool down'
+            )
+          , Record
+            ( attr = Boolean `has_children`
+            , choices =
+                [ 'no'
+                , 'yes'
+                ]
+            , full_name = 'pool.has_children'
+            , id = 'pool__has_children'
+            , name = 'has_children'
+            , sig_key = 1
+            , ui_name = 'Pool/Has children'
+            )
           ]
       , full_name = 'pool'
       , id = 'pool'
@@ -1043,6 +1134,30 @@ _test_AQ = """
       , ui_type_name = 'IP4_Network'
       )
     , Record
+      ( attr = Int `last_cid`
+      , full_name = 'last_cid'
+      , id = 'last_cid'
+      , name = 'last_cid'
+      , sig_key = 0
+      , ui_name = 'Last cid'
+      )
+    , Record
+      ( attr = Surrogate `pid`
+      , full_name = 'pid'
+      , id = 'pid'
+      , name = 'pid'
+      , sig_key = 0
+      , ui_name = 'Pid'
+      )
+    , Record
+      ( attr = String `type_name`
+      , full_name = 'type_name'
+      , id = 'type_name'
+      , name = 'type_name'
+      , sig_key = 3
+      , ui_name = 'Type name'
+      )
+    , Record
       ( attr = Boolean `is_free`
       , choices = <Recursion on list...>
       , full_name = 'is_free'
@@ -1050,6 +1165,23 @@ _test_AQ = """
       , name = 'is_free'
       , sig_key = 1
       , ui_name = 'Is free'
+      )
+    , Record
+      ( attr = Date-Time `cool_down`
+      , full_name = 'cool_down'
+      , id = 'cool_down'
+      , name = 'cool_down'
+      , sig_key = 0
+      , ui_name = 'Cool down'
+      )
+    , Record
+      ( attr = Boolean `has_children`
+      , choices = <Recursion on list...>
+      , full_name = 'has_children'
+      , id = 'has_children'
+      , name = 'has_children'
+      , sig_key = 1
+      , ui_name = 'Has children'
       )
     ]
 
@@ -1085,40 +1217,85 @@ _test_AQ = """
       , ui_name = 'Lifetime/Finish'
       , value = None
       )
-    )
-
-    >>> print (formatted (QR.Filter_Atoms (QR.Filter (FFM.IP4_Network, "pool"))))
-    ( Record
-      ( AQ = <net_address.address.AQ [Attr.Type.Querier Ckd]>
-      , attr = IP4-network `address`
+    , Record
+      ( AQ = <last_cid.AQ [Attr.Type.Querier Ckd]>
+      , attr = Int `last_cid`
       , edit = None
-      , full_name = 'net_address.address'
-      , id = 'net_address__address___AC'
-      , name = 'net_address__address___AC'
+      , full_name = 'last_cid'
+      , id = 'last_cid___AC'
+      , name = 'last_cid___AC'
       , op = Record
           ( desc = 'Select entities where the attribute is equal to the specified value'
           , label = 'auto-complete'
           )
       , sig_key = 0
-      , ui_name = 'Net address/Address'
+      , ui_name = 'Last cid'
+      , value = None
+      )
+    , Record
+      ( AQ = <pid.AQ [Attr.Type.Querier Ckd]>
+      , attr = Surrogate `pid`
+      , edit = None
+      , full_name = 'pid'
+      , id = 'pid___AC'
+      , name = 'pid___AC'
+      , op = Record
+          ( desc = 'Select entities where the attribute is equal to the specified value'
+          , label = 'auto-complete'
+          )
+      , sig_key = 0
+      , ui_name = 'Pid'
+      , value = None
+      )
+    , Record
+      ( AQ = <type_name.AQ [Attr.Type.Querier String]>
+      , attr = String `type_name`
+      , edit = None
+      , full_name = 'type_name'
+      , id = 'type_name___AC'
+      , name = 'type_name___AC'
+      , op = Record
+          ( desc = 'Select entities where the attribute value starts with the specified value'
+          , label = 'auto-complete'
+          )
+      , sig_key = 3
+      , ui_name = 'Type name'
+      , value = None
+      )
+    )
+
+    >>> print (formatted (QR.Filter_Atoms (QR.Filter (FFM.IP4_Network, "pool"))))
+    ( Record
+      ( AQ = <net_address.AQ [Attr.Type.Querier Ckd]>
+      , attr = IP4-network `net_address`
+      , edit = None
+      , full_name = 'net_address'
+      , id = 'net_address___AC'
+      , name = 'net_address___AC'
+      , op = Record
+          ( desc = 'Select entities where the attribute is equal to the specified value'
+          , label = 'auto-complete'
+          )
+      , sig_key = 0
+      , ui_name = 'Net address'
       , value = None
       )
     )
 
     >>> print (formatted (QR.Filter_Atoms (QR.Filter (FFM.Net_Interface_in_IP4_Network, "right"))))
     ( Record
-      ( AQ = <net_address.address.AQ [Attr.Type.Querier Ckd]>
-      , attr = IP4-network `address`
+      ( AQ = <net_address.AQ [Attr.Type.Querier Ckd]>
+      , attr = IP4-network `net_address`
       , edit = None
-      , full_name = 'net_address.address'
-      , id = 'net_address__address___AC'
-      , name = 'net_address__address___AC'
+      , full_name = 'net_address'
+      , id = 'net_address___AC'
+      , name = 'net_address___AC'
       , op = Record
           ( desc = 'Select entities where the attribute is equal to the specified value'
           , label = 'auto-complete'
           )
       , sig_key = 0
-      , ui_name = 'Net address/Address'
+      , ui_name = 'Net address'
       , value = None
       )
     )
@@ -1137,6 +1314,9 @@ _test_AQ = """
     Manager/Lifetime/Alive
     Manager/Salutation
     Manager/Sex
+    Manager/Last cid
+    Manager/Pid
+    Manager/Type name
     Lifetime
     Lifetime/Start
     Lifetime/Finish
@@ -1148,12 +1328,18 @@ _test_AQ = """
     Address/Country
     Address/Description
     Address/Region
+    Address/Last cid
+    Address/Pid
+    Address/Type name
     Owner
     Position
     Position/Latitude
     Position/Longitude
     Position/Height
     Show in map
+    Last cid
+    Pid
+    Type name
 
 """
 
@@ -1187,6 +1373,136 @@ _test_net_fixtures = """
     52  : Net_Device                Generic, Node-net4, n4d3
     53  : Net_Device                Generic, Node-net4, n4d4
     54  : Net_Device                Generic, Node-net4, n4d5
+
+"""
+
+_test_order_4 = """
+    >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
+    Creating new scope MOMT__...
+
+    >>> FFM = scope.FFM
+    >>> I4N = FFM.IP4_Network
+
+    >>> PAP = scope.PAP
+    >>> ff  = PAP.Association ("Funkfeuer", short_name = "0xFF", raw = True)
+
+    >>> _   = I4N ("10.0.0.16/28")
+    >>> _   = I4N ("10.0.0.16/29")
+    >>> _   = I4N ("10.0.0.24/29")
+    >>> _   = I4N ("10.0.0.24/30")
+    >>> _   = I4N ("10.0.0.16/30")
+    >>> _   = I4N ("10.0.0.30/32")
+    >>> _   = I4N ("10.0.0.32/28")
+    >>> _   = I4N ("10.0.0.33/32")
+    >>> _   = I4N ("10.0.0.40/29")
+    >>> _   = I4N ("10.0.0.40/30")
+    >>> _   = I4N ("10.0.0.40/31")
+    >>> _   = I4N ("10.0.0.40/32")
+    >>> _   = I4N ("10.0.0.128/28")
+    >>> _   = I4N ("10.0.0.212/28")
+    >>> adr = I4N.net_address.P_Type ("10.0.0.0/32")
+    >>> _   = I4N (adr, owner = ff, raw = True)
+
+    >>> scope.commit ()
+
+    >>> ETM = scope.FFM.IP4_Network
+    >>> show_networks (scope, ETM)
+    10.0.0.0           Funkfeuer                : electric = F, children = F
+    10.0.0.16/28                                : electric = F, children = F
+    10.0.0.16/29                                : electric = F, children = F
+    10.0.0.16/30                                : electric = F, children = F
+    10.0.0.24/29                                : electric = F, children = F
+    10.0.0.24/30                                : electric = F, children = F
+    10.0.0.30                                   : electric = F, children = F
+    10.0.0.32/28                                : electric = F, children = F
+    10.0.0.33                                   : electric = F, children = F
+    10.0.0.40/29                                : electric = F, children = F
+    10.0.0.40/30                                : electric = F, children = F
+    10.0.0.40/31                                : electric = F, children = F
+    10.0.0.40                                   : electric = F, children = F
+    10.0.0.128/28                               : electric = F, children = F
+    10.0.0.208/28                               : electric = F, children = F
+
+    >>> adr1 = I4N.net_address.P_Type ("192.168.0.112/27")
+    >>> adr1
+    192.168.0.96/27
+    >>> bool (adr1)
+    True
+    >>> I4N (adr1, owner = ff)
+    FFM.IP4_Network ("192.168.0.96/27")
+
+    >>> adr2 = I4N.net_address.P_Type ("192.168.1.96/27")
+    >>> adr2
+    192.168.1.96/27
+    >>> bool (adr2)
+    True
+    >>> I4N (adr2, owner = ff, raw = True)
+    FFM.IP4_Network ("192.168.1.96/27")
+
+"""
+
+_test_order_6 = """
+    >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
+    Creating new scope MOMT__...
+
+    >>> FFM = scope.FFM
+    >>> I6N = FFM.IP6_Network
+
+    >>> PAP = scope.PAP
+    >>> ff  = PAP.Association ("Funkfeuer", short_name = "0xFF", raw = True)
+
+    >>> _   = I6N ("2001:0db8::10/124")
+    >>> _   = I6N ("2001:0db8::10/125")
+    >>> _   = I6N ("2001:0db8::18/125")
+    >>> _   = I6N ("2001:0db8::18/126")
+    >>> _   = I6N ("2001:0db8::10/126")
+    >>> _   = I6N ("2001:0db8::1E/128")
+    >>> _   = I6N ("2001:0db8::20/124")
+    >>> _   = I6N ("2001:0db8::21/128")
+    >>> _   = I6N ("2001:0db8::28/125")
+    >>> _   = I6N ("2001:0db8::28/126")
+    >>> _   = I6N ("2001:0db8::28/127")
+    >>> _   = I6N ("2001:0db8::28/128")
+    >>> _   = I6N ("2001:0db8::80/124")
+    >>> _   = I6N ("2001:0db8::D4/124")
+    >>> adr = I6N.net_address.P_Type ("2001:0db8::0/128")
+    >>> _   = I6N (adr, owner = ff, raw = True)
+
+    >>> scope.commit ()
+
+    >>> ETM = scope.FFM.IP6_Network
+    >>> show_networks (scope, ETM)
+    2001:db8::         Funkfeuer                : electric = F, children = F
+    2001:db8::10/124                            : electric = F, children = F
+    2001:db8::10/125                            : electric = F, children = F
+    2001:db8::10/126                            : electric = F, children = F
+    2001:db8::18/125                            : electric = F, children = F
+    2001:db8::18/126                            : electric = F, children = F
+    2001:db8::1e                                : electric = F, children = F
+    2001:db8::20/124                            : electric = F, children = F
+    2001:db8::21                                : electric = F, children = F
+    2001:db8::28/125                            : electric = F, children = F
+    2001:db8::28/126                            : electric = F, children = F
+    2001:db8::28/127                            : electric = F, children = F
+    2001:db8::28                                : electric = F, children = F
+    2001:db8::80/124                            : electric = F, children = F
+    2001:db8::d0/124                            : electric = F, children = F
+
+    >>> adr1 = I6N.net_address.P_Type ("2a02:58::/29")
+    >>> adr1
+    2a02:58::/29
+    >>> bool (adr1)
+    True
+    >>> I6N  (adr1, owner = ff, raw = True)
+    FFM.IP6_Network ("2a02:58::/29")
+
+    >>> adr2 = I6N.net_address.P_Type ("2a02:60::/29")
+    >>> adr2
+    2a02:60::/29
+    >>> bool (adr2)
+    True
+    >>> I6N  (adr2, owner = ff)
+    FFM.IP6_Network ("2a02:60::/29")
 
 """
 
@@ -1248,15 +1564,8 @@ def show_by_pid (ETM) :
         print ("%-3s : %-25s %s" % (x.pid, x.type_base_name, x.ui_display))
 # end def show_by_pid
 
-def show_networks (scope, * qargs, ** qkw) :
-    ETM = scope.FFM.IP4_Network
-    sk = TFL.Sorted_By \
-        ( "electric", "-has_children"
-        , * tuple
-            ( ".".join (("net_address", c))
-            for c in ETM.net_address.P_Type.sort_key_address.criteria
-            )
-        )
+def show_networks (scope, ETM, * qargs, ** qkw) :
+    sk = TFL.Sorted_By ("electric", "-has_children", "net_address")
     pool = qkw.pop ("pool", None)
     if pool is not None :
         qargs += (Q.net_address.IN (pool.net_address), )
@@ -1267,8 +1576,7 @@ def show_networks (scope, * qargs, ** qkw) :
             )
 # end def show_networks
 
-def show_network_count (scope) :
-    ETM = scope.FFM.IP4_Network
+def show_network_count (scope, ETM) :
     print ("%s count: %s" % (ETM.type_name, ETM.count))
 # end def show_network_count
 
@@ -1277,6 +1585,8 @@ __test__ = Scaffold.create_test_dict \
       ( test_alloc         = _test_alloc
       , test_AQ            = _test_AQ
       , test_net_fixtures  = _test_net_fixtures
+      , test_order_4       = _test_order_4
+      , test_order_6       = _test_order_6
       , test_std_fixtures  = _test_std_fixtures
       )
   )

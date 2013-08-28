@@ -47,6 +47,8 @@
 #     5-Mar-2013 (CT) Make `owner` argument of `reserve` optional
 #    28-Apr-2013 (CT) Add attribute `desc`
 #     8-May-2013 (CT) Set `pool.P_Type` to `FFM.IP_Network`
+#     7-Aug-2013 (CT) Adapt to major surgery of GTW.OMP.NET.Attr_Type
+#    13-Aug-2013 (CT) Adapt to major surgery of GTW.OMP.NET.Attr_Type some more
 #    ««revision-date»»···
 #--
 
@@ -54,11 +56,14 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 
 from   _MOM.import_MOM          import *
 from   _FFM                     import FFM
+from   _TFL.pyk                 import pyk
 
 import _FFM.Error
 
-from   _GTW._OMP._NET.Attr_Type import *
+from   _GTW._OMP._NET           import NET
 from   _GTW._OMP._PAP           import PAP, Subject
+
+import _GTW._OMP._NET.Attr_Type
 
 _Ancestor_Essence = FFM.Object
 
@@ -73,7 +78,7 @@ class IP_Network (_Ancestor_Essence) :
 
         ### Primary attributes
 
-        class net_address (_A_Composite_IP_Address_) :
+        class net_address (NET._A_IP_Address_) :
             """Network address."""
 
             kind               = Attr.Primary
@@ -96,7 +101,7 @@ class IP_Network (_Ancestor_Essence) :
             kind               = Attr.Query
             query              = \
                 ( (Q.has_children  == False)
-                &  (Q.cool_down     == None)
+                & (Q.cool_down     == None)
                 #& (Q.net_interface == None) ### XXX
                 )
 
@@ -165,11 +170,8 @@ class IP_Network (_Ancestor_Essence) :
     # end class _Predicates
 
     def allocate (self, mask_len, owner) :
-        pool   = self.find_closest_mask (mask_len)
-        ETM    = self.ETM
-        E_Type = self.E_Type
-        NA_ET  = E_Type.attr_prop ("net_address").P_Type
-        net_addr = NA_ET (pool.net_address.address.subnets (mask_len).next ())
+        pool     = self.find_closest_mask   (mask_len)
+        net_addr = pool.net_address.subnets (mask_len).next ()
         return self._reserve (pool, net_addr, owner)
     # end def allocate
 
@@ -215,6 +217,8 @@ class IP_Network (_Ancestor_Essence) :
     # end def find_closest_mask
 
     def reserve (self, net_addr, owner = None) :
+        if isinstance (net_addr, pyk.string_types) :
+            net_addr = self.E_Type.attr_prop ("net_address").P_Type (net_addr)
         if owner is None :
             owner = self.owner
         pool = self.find_closest_address (net_addr)
@@ -235,13 +239,11 @@ class IP_Network (_Ancestor_Essence) :
 
     def split (self) :
         ETM         = self.ETM
-        E_Type      = self.E_Type
-        Net_Addr_ET = E_Type.attr_prop ("net_address").P_Type
         net_address = self.net_address
-        results     = []
-        for sn in net_address.address.subnets (net_address.mask_len + 1) :
-            sn_addr = Net_Addr_ET (sn)
-            results.append (ETM (sn_addr, owner = self.owner, electric = True))
+        results     = list \
+            (   ETM (sn, owner = self.owner, electric = True)
+            for sn in net_address.subnets (net_address.mask_len + 1)
+            )
         self.has_children = True
         return results
     # end def split

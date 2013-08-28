@@ -30,6 +30,7 @@
 #     6-Dec-2012 (RS) Add `belongs_to_node`, add `max_links`
 #    15-May-2013 (CT) Replace `auto_cache` by `link_ref_attr_name`
 #    20-May-2013 (CT) Set `_Net_Credentials_.left.link_ref_suffix` to `None`
+#    13-Aug-2013 (CT) Add `key.typ`
 #    ««revision-date»»···
 #--
 
@@ -96,6 +97,7 @@ class WPA_Credentials (_Ancestor_Essence) :
 
             kind               = Attr.Required
             max_length         = 32
+            typ                = "Key"
 
             ### allow characters up to "\xFF"
             _cooked_re        = Regexp \
