@@ -140,6 +140,7 @@ class Convert (object) :
                 self.insert_device (node, n)
             else :
                 raise ValueError, "Unknown tag in node: %s" % n.tag
+        self.scope.commit ()
     # end insert_node
 
     def insert_device (self, node, element) :
