@@ -2678,9 +2678,22 @@ _test_tables = """
     FFM.Virtual_Wireless_Interface_in_IP4_Network (FFM.Net_Interface_in_IP_Network) FFM.Net_Interface_in_IP_Network <Table ffm_virtual_wireless_interface_in_ip4_network>
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'ffm_net_interface_in_ip_network.pid')
     <Table for Surrogate `pid`>
-        Column pid                       : Integer              ---------- primary
+        Column electric                  : Boolean              Internal Boolean electric
+        Column last_cid                  : Integer              Internal Int last_cid
+        Column pid                       : Integer              Internal__Just_Once Surrogate pid primary
+        Column type_name                 : Smallint             Internal__Type_Name String type_name
+        Column x_locked                  : Boolean              Internal Boolean x_locked
     <Table for Surrogate `cid`>
-        Column cid                       : Integer              ---------- primary
+        Column c_time                    : Datetime             Internal__Computed__Sync_Change Date-Time c_time
+        Column c_user                    : Integer              Internal__Computed__Sync_Change__Id_Entity_Reference Entity c_user Id_Entity()
+        Column cid                       : Integer              Internal__Computed__Sync_Change__Just_Once Surrogate cid primary
+        Column kind                      : Varchar(10)          Internal__Computed__Sync_Change String kind
+        Column parent_cid                : Integer              Internal__Computed__Sync_Change Int parent_cid
+        Column pid                       : Integer              Internal__Computed__Sync_Change Int pid
+        Column scm_change                : Blob                 Internal Blob scm_change
+        Column time                      : Datetime             Internal__Computed__Sync_Change Date-Time time
+        Column type_name                 : Smallint             Internal__Computed__Sync_Change String type_name
+        Column user                      : Integer              Internal__Computed__Sync_Change__Id_Entity_Reference Entity user Id_Entity()
     <Table for Surrogate `cert_id`>
         Column cert_id                   : Integer              ---------- primary
 
@@ -2694,7 +2707,7 @@ __test__ = Scaffold.create_test_dict \
         , test_select           = _test_select
         , test_tables           = _test_tables
         )
-    , ignore = ("HPS", "MYS", "POS", "SQL")
+    , ignore = ("HPS", )
     )
 
 ### __END__ FFM.__test__.SAW_SQL
