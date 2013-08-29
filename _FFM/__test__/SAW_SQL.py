@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    14-Aug-2013 (CT) Creation
+#    29-Aug-2013 (CT) Add `test_cidr_pg` and `test_cidr_sq`
 #    ««revision-date»»···
 #--
 
@@ -83,6 +84,90 @@ def _cleaned (f) :
 show_q_able  = _cleaned (show_q_able)
 show_selects = _cleaned (show_selects)
 show_tables  = _cleaned (show_tables)
+
+_test_cidr_pg = """
+    >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
+    Creating new scope MOMT__...
+
+    >>> FFM = scope.FFM
+
+    >>> print (FFM.IP6_Network.query (Q.net_address == "2001:db8::20"))
+    SQL: SELECT
+           ffm_ip6_network."desc" AS ffm_ip6_network_desc,
+           ffm_ip6_network.cool_down AS ffm_ip6_network_cool_down,
+           ffm_ip6_network.has_children AS ffm_ip6_network_has_children,
+           ffm_ip6_network.net_address AS ffm_ip6_network_net_address,
+           ffm_ip6_network.owner AS ffm_ip6_network_owner,
+           ffm_ip6_network.pid AS ffm_ip6_network_pid,
+           ffm_ip6_network.pool AS ffm_ip6_network_pool,
+           mom_id_entity.electric AS mom_id_entity_electric,
+           mom_id_entity.last_cid AS mom_id_entity_last_cid,
+           mom_id_entity.pid AS mom_id_entity_pid,
+           mom_id_entity.type_name AS mom_id_entity_type_name,
+           mom_id_entity.x_locked AS mom_id_entity_x_locked
+         FROM mom_id_entity
+           JOIN ffm_ip6_network ON mom_id_entity.pid = ffm_ip6_network.pid
+         WHERE ffm_ip6_network.net_address = :net_address_1
+
+    >>> print (formatted_table (FFM.IP6_Network._SAW.sa_table, nl, ""))
+    Column cool_down                 : Datetime             Internal Date-Time cool_down
+    Column desc                      : Varchar(80)          Optional String desc
+    Column has_children              : Boolean              Internal Boolean has_children
+    Column net_address               : _CIDR_Type_          Primary IP6-network net_address
+    Column owner                     : Integer              Optional__Id_Entity_Reference Entity owner Id_Entity()
+    Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
+    Column pool                      : Integer              Optional__Id_Entity_Reference Entity pool Id_Entity()
+
+"""
+
+_test_cidr_sq = """
+    >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
+    Creating new scope MOMT__...
+
+    >>> FFM = scope.FFM
+
+    Unfortunately, sqlalchemy doesn't show the specialized SQL in
+    `str (query)`. Therefore the `WHERE` clause of the following test is not
+    the one that is actually executed.
+
+    >>> print (FFM.IP6_Network.query (Q.net_address == "2001:db8::20"))
+    SQL: SELECT
+           ffm_ip6_network."desc" AS ffm_ip6_network_desc,
+           ffm_ip6_network.cool_down AS ffm_ip6_network_cool_down,
+           ffm_ip6_network.has_children AS ffm_ip6_network_has_children,
+           ffm_ip6_network.net_address AS ffm_ip6_network_net_address,
+           ffm_ip6_network.net_address__mask_len AS ffm_ip6_network_net_address__mask_len,
+           ffm_ip6_network.net_address__numeric__hi AS ffm_ip6_network_net_address__numeric__hi,
+           ffm_ip6_network.net_address__numeric__lo AS ffm_ip6_network_net_address__numeric__lo,
+           ffm_ip6_network.net_address__upper_bound__hi AS ffm_ip6_network_net_address__upper_bound__hi,
+           ffm_ip6_network.net_address__upper_bound__lo AS ffm_ip6_network_net_address__upper_bound__lo,
+           ffm_ip6_network.owner AS ffm_ip6_network_owner,
+           ffm_ip6_network.pid AS ffm_ip6_network_pid,
+           ffm_ip6_network.pool AS ffm_ip6_network_pool,
+           mom_id_entity.electric AS mom_id_entity_electric,
+           mom_id_entity.last_cid AS mom_id_entity_last_cid,
+           mom_id_entity.pid AS mom_id_entity_pid,
+           mom_id_entity.type_name AS mom_id_entity_type_name,
+           mom_id_entity.x_locked AS mom_id_entity_x_locked
+         FROM mom_id_entity
+           JOIN ffm_ip6_network ON mom_id_entity.pid = ffm_ip6_network.pid
+         WHERE ffm_ip6_network.net_address = :net_address_1
+
+    >>> print (formatted_table (FFM.IP6_Network._SAW.sa_table, nl, ""))
+    Column cool_down                 : Datetime             Internal Date-Time cool_down
+    Column desc                      : Varchar(80)          Optional String desc
+    Column has_children              : Boolean              Internal Boolean has_children
+    Column net_address               : Varchar              Primary IP6-network net_address
+    Column net_address__mask_len     : Smallint             ----------
+    Column net_address__numeric__hi  : Bigint               ----------
+    Column net_address__numeric__lo  : Bigint               ----------
+    Column net_address__upper_bound__hi : Bigint               ----------
+    Column net_address__upper_bound__lo : Bigint               ----------
+    Column owner                     : Integer              Optional__Id_Entity_Reference Entity owner Id_Entity()
+    Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
+    Column pool                      : Integer              Optional__Id_Entity_Reference Entity pool Id_Entity()
+
+"""
 
 _test_q_able = """
     >>> apt, url = Scaffold.app_type_and_url (%(p1)s, %(n1)s)
@@ -1024,6 +1109,7 @@ _test_q_result = """
          WHERE ffm_node.manager = :manager_1
 
 """
+
 _test_select = """
     >>> apt, url = Scaffold.app_type_and_url (%(p1)s, %(n1)s)
 
@@ -2708,6 +2794,24 @@ __test__ = Scaffold.create_test_dict \
         , test_tables           = _test_tables
         )
     , ignore = ("HPS", )
+    )
+
+__test__.update \
+    ( Scaffold.create_test_dict
+        ( dict
+            ( test_cidr_pg = _test_cidr_pg
+            )
+        , ignore = ("HPS", "MYS", "SQL", "sq")
+        )
+    )
+
+__test__.update \
+    ( Scaffold.create_test_dict
+        ( dict
+            ( test_cidr_sq = _test_cidr_sq
+            )
+        , ignore = ("HPS", "MYS", "POS", "pg")
+        )
     )
 
 ### __END__ FFM.__test__.SAW_SQL
