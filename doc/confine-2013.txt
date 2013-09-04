@@ -28,8 +28,8 @@ the problem encountered and lessons learned.
 
 Finally for supporting IP address reservation (and IP address objects in
 a relational database) and to address some requirements of the new
-common API we had to implement a `New Relational Database Backend`_
-which now supports new query mechanisms and database backend-specific
+common API we had to `Improve the relational database back-end`_
+which now supports new query mechanisms and database back-end-specific
 data types.
 
 Common API
@@ -45,13 +45,6 @@ basis for defining a common API.
 .. _`REpresentational State Transfer API`:
     http://en.wikipedia.org/wiki/Representational_state_transfer
 
-For managing IP addresses with properties like network mask and
-``contains`` relationship we had to extend the tapyr framework [tapyr]_ to
-support ip network operations. One of the backend databases (PostgreSQL)
-natively support IP address objects while other databasess don't. The
-framework can now use the native IP address type if supported by the
-database and emulate the behavior for the other backends.
-
 Dashboard
 ---------
 
@@ -62,14 +55,14 @@ used for rich single-page web applications.
 
 The Dashboard is built on top of the backbone.js library --- a
 single-page application MVC framework written in javascript --- and
-bootstrap --- a basic css library popularized by twitter. It thus demosntrates
+bootstrap --- a basic css library popularized by twitter. It thus demonstrates
 how the nodeDB can be integrated with state-of-the art web
 technologies.
 
 Several challenges in querying the nodeDB became apparent while
 developing the dashboard --- this helped to improve the use and test
 cases for the nodedb and triggered a change of the sql interfacing
-backend to allow certain queries.
+back-end to allow certain queries.
 
 The dashboard is in a functional prototype stage right now and is
 expected to be finished once the nodeDB is ready to be used and
@@ -84,7 +77,7 @@ mechanisms were implemented.
 Most browsers today support a method of secure --- if not very
 user-friendly --- generation of client certificates where the secret key
 stays with the browser. Since no python implementation for using this
-mechanism on the server-side (although it exists sice netscape times)
+mechanism on the server-side (although it exists since Netscape times)
 was available we wrote a library to support the server-side of using
 client certificates, the library pyspkac [pyspkac]_.
 
@@ -135,7 +128,7 @@ finished. It uses some of the same libraries for reading SQL dumps and
 contributed to our `Lessons learned from importers`_.
 
 To make the Redeemer data publicly available for research purposes an
-anonymisation option was added to not import the personal information
+anonymization option was added to not import the personal information
 during database import.
 
 In addition to the Vienna Redeemer database, an importer for a subset of
@@ -163,7 +156,7 @@ data (like invalid MAC Addresses) and problems with character encodings.
 
 The problems with character encodings were due to the long usage period
 of the data in question which had encountered changes of character set
-(from latin1 to unicode based encodings like utf-8). Some data was
+(from latin1 to Unicode based encodings like utf-8). Some data was
 double-encoded. This resulted in a module for the SQL dump reader in
 [rsclib]_ to sanitize the encoding problems.
 
@@ -216,10 +209,89 @@ We currently spider the network once a day and keep the data retrieved
 for statistics on network parameters. Some of the data will be made
 available via our `Statistics Server`_.
 
-New Relational Database Backend
--------------------------------
+Improve the relational database back-end
+----------------------------------------
 
-FIXME
+The [tapyr]_ framework uses `SQLAlchemy`_ to access relational
+databases.
+
+.. _`SQLAlchemy`: http://www.sqlalchemy.org/
+
+During the development of the common node database, we identified some
+weaknesses of Tapyr's SQLAlchemy wrapper. We implemented the improvements:
+
+* Use of database-specific data types for database columns.
+
+  Tapyr now supports the use of RDBM-specific data-types.
+
+  For managing IP addresses with properties like network mask and
+  ``contains`` relationship we had to extend the tapyr framework [tapyr]_ to
+  support IP network operations. One of the back-end databases (PostgreSQL)
+  native support IP address objects while other databases don't. The
+  framework can now use the native IP address type if supported by the
+  database and emulate the behavior for the other back-ends.
+
+  The back-ends for both PostgreSQL and SQLite support the same queries, with
+  PostgreSQL doing most of the work for tapyr, while
+  the SQLite back-end implements IP address comparison with complex SQL
+  expressions over the synthetic columns.
+
+* Transitive queries of attributes of joined tables.
+
+  Tapyr now supports the definition of query attributes that resolve to a SQL
+  join of multiple tables.
+
+  For the common node database, the most important use for transitive queries
+  is to find all objects of a certain type that belong to a specific
+  node.
+
+  For instance, to find all antennas belonging to some node a client of the
+  REST API can now use a get request like this::
+
+    https://guifi-nodedb.funkfeuer.at/api/FFM-Antenna?AQ=belongs_to_node,EQ,374
+
+  which returns all Antenna instances linked to Wireless_Interfaces connected
+  to Net_Devices connected to the Node specified.
+
+  Because ``FFM.Antenna`` is not directly connected to `FFM.Node`,
+  multiple joins are necessary to find the node in question, resulting
+  in a select statement looking like::
+
+    SELECT
+       ...
+    FROM mom_id_entity
+      JOIN ffm_antenna ON mom_id_entity.pid = ffm_antenna.pid
+      JOIN ffm_wireless_interface_uses_antenna
+        AS ffm_wireless_interface_uses_antenna_1
+        ON ffm_wireless_interface_uses_antenna_1."right" = ffm_antenna.pid
+      JOIN ffm_wireless_interface AS ffm_wireless_interface_1
+        ON ffm_wireless_interface_1.pid
+                = ffm_wireless_interface_uses_antenna_1."left"
+      JOIN ffm_net_interface AS ffm_net_interface_1
+        ON ffm_net_interface_1.pid = ffm_wireless_interface_1.pid
+      JOIN ffm_net_device AS ffm_net_device_1
+        ON ffm_net_device_1.pid = ffm_net_interface_1."left"
+    WHERE ffm_net_device_1.node = 374
+
+  To query Antenna instances belonging to a specific Person, the client would
+  send a get-request like (domain elided)::
+
+    /api/FFM-Antenna?AQ=belongs_to_node.owner,EQ,104
+
+* Polymorphic queries computed by the database itself.
+
+  Tapyr supports polymorphic attributes, i.e., attributes that refer to
+  objects of a polymorphic type.
+
+  By default, there is no database table for a partial type; a polymorphic
+  attribute referring to such a type is a foreign key to one of the set of
+  tables corresponding to the non-partial derived types.
+
+  Queries for polymorphic types are now completely resolved by the
+  relational database (previously, the results of several database queries
+  needed to be combined in Python which was quite inefficient if sorting and
+  limiting was involved).
+
 
 Bibliography
 ------------
@@ -248,17 +320,17 @@ Bibliography
 .. _`Crypto-PAn Cryptography-based  Prefix-preserving Anonymization`:
     http://www.cc.gatech.edu/computing/Telecomm/projects/cryptopan/
 
-.. [pycryptopan] `A python implementation of Crypto-PAn a ip
+.. [pycryptopan] `A python implementation of Crypto-PAn a IP
     anonymization algorithm`_
-.. _`A python implementation of Crypto-PAn a ip anonymization algorithm`:
+.. _`A python implementation of Crypto-PAn a IP anonymization algorithm`:
     https://pypi.python.org/pypi/pycryptopan
 
 .. [tapyr] `Tapyr Framework`_, 2012-13
 .. _`Tapyr Framework`: https://github.com/Tapyr/tapyr
 
-.. [pyspkac] `Support for netscape / html5 SPKAC client certificate
+.. [pyspkac] `Support for Netscape / HTML5 SPKAC client certificate
     request`_
-.. _`Support for netscape / html5 SPKAC client certificate request`:
+.. _`Support for Netscape / HTML5 SPKAC client certificate request`:
     https://pypi.python.org/pypi/pyspkac
 
 .. [FFM] `Common Node Database`_, 2012-13
