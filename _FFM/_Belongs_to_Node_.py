@@ -33,7 +33,9 @@
 #    25-Feb-2013 (CT) Add `belongs_to_node.query_preconditions`
 #    26-Feb-2013 (CT) Disable `belongs_to_node`
 #    14-Aug-2013 (CT) Re-enable `belongs_to_node`
-#    14-Aug-2013 (CT) Add `is_partial = True`, derive from `MOM.Id_Entity`
+#    14-Aug-2013 (CT) Add `is_partial = True`,
+#                     derive from `FFM.Id_Entity`, not `FFM.Entity`
+#     4-Sep-2013 (CT) Derive from `FFM.Link`, not `FFM.Id_Entity`
 #    ««revision-date»»···
 #--
 
@@ -44,7 +46,7 @@ from   _FFM                     import FFM
 import _FFM.Entity
 import _FFM.Node
 
-_Ancestor_Essence = FFM.Id_Entity
+_Ancestor_Essence = FFM.Link
 
 class _Belongs_to_Node_ (_Ancestor_Essence) :
     """Mixin for computed `belongs_to_node` attribute"""
