@@ -45,6 +45,25 @@ basis for defining a common API.
 .. _`REpresentational State Transfer API`:
     http://en.wikipedia.org/wiki/Representational_state_transfer
 
+Other API improvements implemented:
+
+- Support for polymorphic attributes [polymorphic attributes]_.
+
+- Support for accessing the cooked values of attributes via the REST API.
+
+- Support for accessing meta information about entities, i.e, date/time and
+  user of creation and last change.
+
+- Add response header with link to documentation of resource.
+
+- Support for accessing the links of an object via the REST API
+  [RELS]_.
+
+- Implemented a python module to ease access to the REST API
+  [REST Client]_.
+
+- Support for `authorization`_ with ``REST authentication tokens``.
+
 Dashboard
 ---------
 
@@ -325,7 +344,7 @@ Bibliography
 .. _`A python implementation of Crypto-PAn a IP anonymization algorithm`:
     https://pypi.python.org/pypi/pycryptopan
 
-.. [tapyr] `Tapyr Framework`_, 2012-13
+.. [tapyr] `Tapyr Framework`_, 2008-13
 .. _`Tapyr Framework`: https://github.com/Tapyr/tapyr
 
 .. [pyspkac] `Support for Netscape / HTML5 SPKAC client certificate
@@ -336,3 +355,16 @@ Bibliography
 .. [FFM] `Common Node Database`_, 2012-13
     (FIXME: Not yet referenced)
 .. _`Common Node Database`: https://github.com/FFM/FFM
+
+.. [polymorphic attributes] `Support for polymorphic attributes`_,
+    Christian Tanzer April 2013
+.. _`Support for polymorphic attributes`:
+    http://confine.funkfeuer.at/2013/04/support-for-polymorphic-attributes/
+
+.. [RELS] `RESTful API improvement`_,  Christian Tanzer May 2013
+.. _`RESTful API improvement`:
+    http://confine.funkfeuer.at/2013/05/restful-api-improvement/
+
+.. [REST Client] `REST Client`, 2013
+.. _`REST Client`:
+    https://github.com/Tapyr/tapyr/blob/master/_GTW/_RST/_MOM/Client.py
