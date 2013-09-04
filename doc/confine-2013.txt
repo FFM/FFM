@@ -75,13 +75,26 @@ The dashboard is in a functional prototype stage right now and is
 expected to be finished once the nodeDB is ready to be used and
 contains all authentication and security features needed.
 
-The dashboard can use browser client certificates for authentication.
-Most browsers today support a method of secure (albeit not very
-user-friendly) generation of client certificates where the secret key
+Authorization
+--------------
+
+In addition to password-based authentication, two new authentication
+mechanisms were implemented.
+
+Most browsers today support a method of secure --- if not very
+user-friendly --- generation of client certificates where the secret key
 stays with the browser. Since no python implementation for using this
 mechanism on the server-side (although it exists sice netscape times)
 was available we wrote a library to support the server-side of using
-client certificates, The library pyspkac [pyspkac]_.
+client certificates, the library pyspkac [pyspkac]_.
+
+For use by clients of the `Common API`_ the framework was extended to
+support ``REST authentication tokens``, aka ``RAT``. To get such a token, a
+client sends a post-request with username and password to the RAT resource
+and gets back an authentication token that can be used for a limited time to
+authenticate subsequent requests.
+
+The dashboard currently uses REST authentication tokens for authentication.
 
 Statistics Server
 -----------------
