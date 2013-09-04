@@ -8,7 +8,7 @@ locations, information about internet addresses, and --- in networks that
 use explicit link planning --- links among devices. All this information
 is maintained via a web or REST interface by the community members.
 
-During the last reporting period work on a `Common API`_ continued. 
+During the last reporting period work on a `Common API`_ continued.
 An application that already uses the prototype of this API, the
 `Dashboard`_ is intended to display all information a user needs and
 allow easy maintenance of node information. It integrates both static
@@ -37,6 +37,7 @@ Common API
 
 For accessing the common node database an Application programming
 interface (API) was improved compared to the last report.
+
 The API, which uses a `REpresentational State Transfer API`_ (REST API)
 has been extended to support IP address reservation and will serve as a
 basis for defining a common API.
@@ -59,14 +60,14 @@ as a general web-app for interactions of end-users with the nodeDB as
 well as a reference implementation, showcasing how the nodeDB can be
 used for rich single-page web applications.
 
-The Dashboard is built on top of the backbone.js library - a
-single-page application MVC framework written in javascript - and
-bootstrap - a basic css library popularized by twitter. It thus shows
+The Dashboard is built on top of the backbone.js library --- a
+single-page application MVC framework written in javascript --- and
+bootstrap --- a basic css library popularized by twitter. It thus demosntrates
 how the nodeDB can be integrated with state-of-the art web
 technologies.
 
 Several challenges in querying the nodeDB became apparent while
-developing the dashboard - this helped to improve the use and test
+developing the dashboard --- this helped to improve the use and test
 cases for the nodedb and triggered a change of the sql interfacing
 backend to allow certain queries.
 
@@ -107,16 +108,16 @@ For populating the node database, importers have been written to import
 data from other sources into the node database.
 
 To eventually switch over from the current Funkfeuer Vienna Node
-database "Redeemer" an import for redeemer has been written. It converts
+database "Redeemer", an import for redeemer has been written. It converts
 user data, node and device information as well as IP address
 assignments. Since the current Redeemer database doesn't contain enough
 information for the new database --- notably information about wireless
 interface configuration is missing and it is unclear which interfaces
 that have an IP address assigned belong to which device --- we also rely
-on OLSR data and data retrieved by a spider (See section `Spider`_) to
+on OLSR data and data retrieved by a spider (see section `Spider`_) to
 complement the data in the redeemer database.
 
-For data of Funkfeuer Graz an importer was started which has not been
+For data of Funkfeuer Graz, an importer was started which has not been
 finished. It uses some of the same libraries for reading SQL dumps and
 contributed to our `Lessons learned from importers`_.
 
@@ -124,27 +125,27 @@ To make the Redeemer data publicly available for research purposes an
 anonymisation option was added to not import the personal information
 during database import.
 
-In addition the the Vienna Redeemer database an importer for a subset of
+In addition to the Vienna Redeemer database, an importer for a subset of
 the Node data of guifi.net was written.
 
-Both, the anonymized data from Funkfeuer Vienna and a subset of
-guifi.net data were made available for research purposes [nodedb13]_
+Both the anonymized data from Funkfeuer Vienna and a subset of
+guifi.net data were made available for research purposes [nodedb13]_.
 
-To facilitate updates an account migration [account]_ feature was
+To facilitate updates, an account migration [account]_ feature was
 implemented that can port the database accounts to the new database when
 new data is imported.
 
 Lessons learned from importers
 ++++++++++++++++++++++++++++++
 
-For importing from another database we used the SQL dump of that
+For importing from another database, we used the SQL dump of that
 database. This resulted in a library, part of [rsclib]_, that can read
 SQL dumps (from both PostgreSQL and mySQL) and offer the data via a
 python API.
 
 When writing importers --- for both, CNML data from guifi.net [guifi1]_
-as well as SQL database dumps for Funkfeuer Vienna and Graz we
-encountered problems with the data offered. In particular non-sanitized
+as well as SQL database dumps for Funkfeuer Vienna and Graz --- we
+encountered problems with the data offered. In particular, non-sanitized
 data (like invalid MAC Addresses) and problems with character encodings.
 
 The problems with character encodings were due to the long usage period
@@ -165,14 +166,17 @@ when writing converters or importers boils down to:
 Spider
 ------
 
-Originally intended for augmenting the data used be the importer (see
-`Conversion and Import`_) a spider was written that extracts the
+Originally intended for augmenting the data used by the importer (see
+`Conversion and Import`_), a spider was written that extracts the
 following information from the web-interfaces of the nodes in the
 Funkfeuer network in Vienna:
 
 - Version and type of software used
+
 - WLAN configuration (if available)
+
 - Network interfaces and configuration information
+
 - IP Address information
 
 The spider can be used on any network that uses OLSR for routing ---
@@ -184,8 +188,11 @@ components. The spider can currently handle the following software on
 devices:
 
 - Freifunk Firmware
+
 - Backfire Vienna
+
 - OpenWRT Firmware
+
 - OLSR "Textinfo" Plugin output
 
 The type of firmware running on the device is auto-detected. When
@@ -194,7 +201,7 @@ network (which uses a different set of devices from Funkfeuer Vienna).
 
 We currently spider the network once a day and keep the data retrieved
 for statistics on network parameters. Some of the data will be made
-available via our `Statistics Server`_
+available via our `Statistics Server`_.
 
 New Relational Database Backend
 -------------------------------
@@ -244,4 +251,3 @@ Bibliography
 .. [FFM] `Common Node Database`_, 2012-13
     (FIXME: Not yet referenced)
 .. _`Common Node Database`: https://github.com/FFM/FFM
-
