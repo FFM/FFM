@@ -8,13 +8,15 @@ locations, information about internet addresses, and --- in networks that
 use explicit link planning --- links among devices. All this information
 is maintained via a web or REST interface by the community members.
 
-During the last reporting period work on a `Common API`_ continued.
+During the last reporting period work on a `Node Database`_ and the
+`Common API`_ continued.
 An application that already uses the prototype of this API, the
 `Dashboard`_ is intended to display all information a user needs and
 allow easy maintenance of node information. It integrates both static
 information (node and device data, IP allocation) and dynamic
 performance data. It will probably be integrated with our `Statistics
-Server`_.
+Server`_. For the web-interface as well as the `Dashboard`_, two new
+`Authorization`_ mechanisms were implemented.
 
 The `Statistics Server`_ and the `Spider`_ collect data from a running
 network. The data is interesting for researchers to get new insights
@@ -32,6 +34,21 @@ common API we had to `Improve the relational database back-end`_
 which now supports new query mechanisms and database back-end-specific
 data types.
 
+Node Database
+-------------
+
+During the last reporting period, the object model (see `Figure: object
+model`_) of the node database [FFM]_ was updated to reflect the
+necessary enhancements for IP address reservation and some other
+features. It can be seen from the model that IP addresses (both IP
+version 4 and 6 are supported) can be assigned to network interfaces. On
+top of this model, address reservation is implemented.
+
+.. _`Figure: object model`:
+.. figure:: nodedb.png
+
+    Object Model of Common Node Database
+
 Common API
 ----------
 
@@ -47,7 +64,7 @@ basis for defining a common API.
 
 Other API improvements implemented:
 
-- Support for polymorphic attributes [polymorphic attributes]_.
+- Support for polymorphic attributes [polymorphic-attributes]_.
 
 - Support for accessing the cooked values of attributes via the REST API.
 
@@ -60,7 +77,7 @@ Other API improvements implemented:
   [RELS]_.
 
 - Implemented a python module to ease access to the REST API
-  [REST Client]_.
+  [REST-Client]_.
 
 - Support for `authorization`_ with ``REST authentication tokens``.
 
@@ -114,7 +131,10 @@ Statistics Server
 We started to implement a statistics server, collecting statistics from
 the FunkFeuer network. The collected statistics (reachability, routing
 and topology of the mesh network) help researchers to better understand
-real-life mesh-networks.
+real-life mesh-networks. A graph of the current Funkfeuer topology can
+be seen in `Figure: Topology`_ [topo1]_. More topology visualisation is
+available in our blog [topo2]_ and software for an interactive version is
+available [topo-github]_.
 
 The implementation of the statistics server triggered a privacy and
 anonymization discussion in the FunkFeuer network that prompted us to
@@ -125,6 +145,10 @@ To integrate the Crypto-PAn algorithm in our software we created a
 python module: pycryptopan [pycryptopan]_. The module is published with
 the python package repository and available for python versions 2 and 3.
 
+.. _`Figure: Topology`:
+.. figure:: graphshot-300x252.png
+
+    Funkfeuer Topology
 
 Conversion and Import
 ---------------------
@@ -353,10 +377,9 @@ Bibliography
     https://pypi.python.org/pypi/pyspkac
 
 .. [FFM] `Common Node Database`_, 2012-13
-    (FIXME: Not yet referenced)
 .. _`Common Node Database`: https://github.com/FFM/FFM
 
-.. [polymorphic attributes] `Support for polymorphic attributes`_,
+.. [polymorphic-attributes] `Support for polymorphic attributes`_,
     Christian Tanzer April 2013
 .. _`Support for polymorphic attributes`:
     http://confine.funkfeuer.at/2013/04/support-for-polymorphic-attributes/
@@ -365,6 +388,17 @@ Bibliography
 .. _`RESTful API improvement`:
     http://confine.funkfeuer.at/2013/05/restful-api-improvement/
 
-.. [REST Client] `REST Client`, 2013
+.. [REST-Client] `REST Client`, 2013
 .. _`REST Client`:
     https://github.com/Tapyr/tapyr/blob/master/_GTW/_RST/_MOM/Client.py
+
+.. [topo1] `Blog: Visualizing OLSRD topography using d3`_ Blog post, 2013
+.. _`Blog: Visualizing OLSRD topography using d3`:
+   https://confine.funkfeuer.at/2013/07/visualizing-olsr-topology-using-d3/
+
+.. [topo2] `Hackathon`_ Blog post, 2013
+.. _`Hackathon`: https://confine.funkfeuer.at/2013/07/hackathon/
+
+.. [topo-github] `Visualizing OLSRD topography using d3`_ Software
+   distribution, 2013
+.. _`Visualizing OLSRD topography using d3`: https://github.com/FFM/d3topo
