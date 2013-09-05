@@ -154,7 +154,7 @@ System requirements
 .. _`pyasn1`:          http://pyasn1.sourceforge.net/
 .. _`Python Package Index`: http://pypi.python.org/pypi
 
-Package Installation for Debian Stable aka Squeeze
+Package Installation for Debian Stable aka Wheezy
 --------------------------------------------------
 
 The following is an example installation on Debian Wheezy. It contains

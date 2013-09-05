@@ -140,7 +140,7 @@ _test_alloc = """
     FFM.IP4_Network count: 41
 
     >>> ct_pool = rs_pool.allocate (30, ct)
-    >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.0/30
+    >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.0/30 ct
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = F
     10.0.0.0/29        Schlatterbeck Ralf       : electric = T, children = T
@@ -152,8 +152,23 @@ _test_alloc = """
       ...
     No_Free_Address_Range: Address range [10.0.0.0/28] of this IP4_Network doesn't contain a free subrange for mask length 28
 
+    >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.0/30 ct after alloc error
+    10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
+    10.0.0.0/30        Tanzer Christian         : electric = F, children = F
+    10.0.0.0/29        Schlatterbeck Ralf       : electric = T, children = T
+    10.0.0.4/30        Schlatterbeck Ralf       : electric = T, children = F
+    10.0.0.8/29        Schlatterbeck Ralf       : electric = T, children = F
+
+    >>> for a, m in ETM.query (Q.net_address.IN (rs_pool.net_address), sort_key = TFL.Sorted_By ("-net_address.mask_len", "net_address")).attrs ("net_address", "net_address.mask_len") :
+    ...     print (a, m)
+    10.0.0.0/30 30
+    10.0.0.4/30 30
+    10.0.0.0/29 29
+    10.0.0.8/29 29
+    10.0.0.0/28 28
+
     >>> ak_pool = rs_pool.allocate (30, ak)
-    >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.4/30
+    >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.4/30 ct+ak
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
     10.0.0.0/30        Tanzer Christian         : electric = F, children = F
     10.0.0.4/30        Kaplan Aaron             : electric = F, children = F
@@ -1559,6 +1574,52 @@ _test_std_fixtures = """
 
 """
 
+_test_debug = """
+    >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
+    Creating new scope MOMT__...
+
+    >>> FFM = scope.FFM
+    >>> PAP = scope.PAP
+    >>> I4N = FFM.IP4_Network
+    >>> Adr = I4N.net_address.P_Type
+
+    >>> _   = I4N ("10.0.0.16/28")
+    >>> _   = I4N ("10.0.0.16/29")
+    >>> _   = I4N ("10.0.0.24/29")
+    >>> _   = I4N ("10.0.0.24/30")
+    >>> _   = I4N ("10.0.0.16/30")
+    >>> _   = I4N ("10.0.0.30/32")
+    >>> _   = I4N ("10.0.0.32/28")
+    >>> _   = I4N ("10.0.0.33/32")
+    >>> _   = I4N ("10.0.0.40/29")
+    >>> _   = I4N ("10.0.0.40/30")
+    >>> _   = I4N ("10.0.0.40/31")
+    >>> _   = I4N ("10.0.0.40/32")
+    >>> _   = I4N ("10.0.0.128/28")
+    >>> _   = I4N ("10.0.0.212/28")
+
+    >>> mgr = PAP.Person (first_name = 'Ralf', last_name = 'Schlatterbeck', raw = True)
+    >>> node1 = FFM.Node (name = "nogps", manager = mgr, raw = True)
+    >>> net = FFM.IP4_Network ('192.168.23.0/24', raw = True)
+    >>> a1  = net.reserve ('192.168.23.1/32')
+    >>> a2  = net.reserve (Adr ('192.168.23.2/32'))
+    >>> a3  = net.reserve ('192.168.23.3/32')
+    >>> a4  = net.reserve (Adr ('192.168.23.4/32'))
+    >>> devtype = FFM.Net_Device_Type.instance_or_new (name = 'Generic', raw = True)
+    >>> dev = FFM.Net_Device (left = devtype, node = node1, name = 'dev', raw = True)
+    >>> wr  = FFM.Wired_Interface (left = dev, name = 'wr', raw = True)
+    >>> wl  = FFM.Wireless_Interface (left = dev, name = 'wl', raw = True)
+
+    >>> ir1 = FFM.Net_Interface_in_IP4_Network (wr, a1, mask_len = 24)
+    >>> il1 = FFM.Net_Interface_in_IP4_Network (wl, a2, mask_len = 32)
+    >>> ir2 = FFM.Net_Interface_in_IP4_Network (wr, a3, mask_len = 24)
+    >>> il2 = FFM.Net_Interface_in_IP4_Network (wl, a4, mask_len = 24)
+
+    >>> il1.right.ETM.query ( (Q.net_address.CONTAINS (il1.right.net_address)) & (Q.electric == False)).attr ("net_address.mask_len").all ()
+
+
+"""
+
 def show_by_pid (ETM) :
     for x in ETM.query ().order_by (Q.pid) :
         print ("%-3s : %-25s %s" % (x.pid, x.type_base_name, x.ui_display))
@@ -1590,5 +1651,11 @@ __test__ = Scaffold.create_test_dict \
       , test_std_fixtures  = _test_std_fixtures
       )
   )
+
+X__test__ = Scaffold.create_test_dict \
+    ( dict
+        ( test_debug     = _test_debug
+        )
+    )
 
 ### __END__ FFM.__test__.IP_Network

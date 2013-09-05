@@ -202,7 +202,7 @@ class IP_Network (_Ancestor_Essence) :
                 )
               )
             & (Q.net_address.IN        (self.net_address))
-            , sort_key = TFL.Sorted_By ("-net_address.mask_len")
+            , sort_key = TFL.Sorted_By ("-net_address.mask_len", "net_address")
             )
         for b in blocks :
             if b.net_interface is None :
