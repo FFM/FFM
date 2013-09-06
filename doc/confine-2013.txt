@@ -14,11 +14,11 @@ An application that already uses the prototype of this API, the
 `Dashboard`_ is intended to display all information a user needs and
 allow easy maintenance of node information. It integrates both static
 information (node and device data, IP allocation) and dynamic
-performance data. It will probably be integrated with our `Statistics
-Server`_. For the web-interface as well as the `Dashboard`_, two new
-`Authorization`_ mechanisms were implemented.
+performance data. It will probably be integrated with our `Monitoring
+and Statistics`_. For the web-interface as well as the `Dashboard`_, two
+new `Authorization`_ mechanisms were implemented.
 
-The `Statistics Server`_ and the `Spider`_ collect data from a running
+The Statistics Server and the `Spider`_ collect data from a running
 network. The data is interesting for researchers to get new insights
 into a running mesh network. In addition the `Spider`_ data is used when
 importing the old Funkfeuer redeemer database into the NodeDB.
@@ -45,7 +45,7 @@ version 4 and 6 are supported) can be assigned to network interfaces. On
 top of this model, address reservation is implemented.
 
 .. _`Figure: object model`:
-.. figure:: nodedb.png
+.. figure:: nodedb.svg
 
     Object Model of Common Node Database
 
@@ -125,8 +125,8 @@ authenticate subsequent requests.
 
 The dashboard currently uses REST authentication tokens for authentication.
 
-Statistics Server
------------------
+Monitoring and Statistics
+-------------------------
 
 We started to implement a statistics server, collecting statistics from
 the FunkFeuer network. The collected statistics (reachability, routing
@@ -149,6 +149,11 @@ the python package repository and available for python versions 2 and 3.
 .. figure:: graphshot-300x252.png
 
     Funkfeuer Topology
+
+The monitoring [monitoring] via smokeping is making nice progress. We
+are getting access to VMs on different community networks in order
+to create a looking-glass-like ping monitoring solution. Alarms work
+nicely in the most recent version of smokeping.
 
 Conversion and Import
 ---------------------
@@ -250,7 +255,7 @@ network (which uses a different set of devices from Funkfeuer Vienna).
 
 We currently spider the network once a day and keep the data retrieved
 for statistics on network parameters. Some of the data will be made
-available via our `Statistics Server`_.
+available via our Statistics Server, (see `Monitoring and Statistics`_).
 
 Improve the relational database back-end
 ----------------------------------------
@@ -402,3 +407,7 @@ Bibliography
 .. [topo-github] `Visualizing OLSRD topography using d3`_ Software
    distribution, 2013
 .. _`Visualizing OLSRD topography using d3`: https://github.com/FFM/d3topo
+
+.. [monitoring] `Confine Servers Monitoring`
+..  _`Confine Servers Monitoring`:
+    http://tunnel.confine.funkfeuer.at/cgi-bin/smokeping.cgi?target=CONFINE_servers
