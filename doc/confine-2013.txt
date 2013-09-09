@@ -45,7 +45,7 @@ version 4 and 6 are supported) can be assigned to network interfaces. On
 top of this model, address reservation is implemented.
 
 .. _`Figure: object model`:
-.. figure:: nodedb.svg
+.. figure:: nodedb.png
 
     Object Model of Common Node Database
 
@@ -381,8 +381,8 @@ Bibliography
 .. _`Support for Netscape / HTML5 SPKAC client certificate request`:
     https://pypi.python.org/pypi/pyspkac
 
-.. [FFM] `Common Node Database`_, 2012-13
-.. _`Common Node Database`: https://github.com/FFM/FFM
+.. [FFM] `Common Node Database, Software`_, 2012-13
+.. _`Common Node Database, Software`: https://github.com/FFM/FFM
 
 .. [polymorphic-attributes] `Support for polymorphic attributes`_,
     Christian Tanzer April 2013
@@ -393,7 +393,7 @@ Bibliography
 .. _`RESTful API improvement`:
     http://confine.funkfeuer.at/2013/05/restful-api-improvement/
 
-.. [REST-Client] `REST Client`, 2013
+.. [REST-Client] `REST Client`_, 2013
 .. _`REST Client`:
     https://github.com/Tapyr/tapyr/blob/master/_GTW/_RST/_MOM/Client.py
 
@@ -408,6 +408,6 @@ Bibliography
    distribution, 2013
 .. _`Visualizing OLSRD topography using d3`: https://github.com/FFM/d3topo
 
-.. [monitoring] `Confine Servers Monitoring`
+.. [monitoring] `Confine Servers Monitoring`_
 ..  _`Confine Servers Monitoring`:
     http://tunnel.confine.funkfeuer.at/cgi-bin/smokeping.cgi?target=CONFINE_servers
