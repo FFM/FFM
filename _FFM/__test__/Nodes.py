@@ -131,10 +131,43 @@ _test_code = """
       ...
     Address_Already_Used: Address 10.139.187.0/27 already in use by 'Schlatterbeck Ralf'
 
+    >>> at1 = FFM.Antenna_Type \\
+    ...     ( name         = "Yagi1"
+    ...     , desc         = "A Yagi"
+    ...     , gain         = 17.5
+    ...     , polarization = "vertical"
+    ...     , raw          = True
+    ...     )
+    >>> args = dict (left = at1, azimuth = "180", elevation = 0, raw = True)
+    >>> a = FFM.Antenna (name = "1", ** args)
+    >>> wia = FFM.Wireless_Interface_uses_Antenna (wl, a)
+
+    >>> FFM.Antenna.query (Q.belongs_to_node == node3).count ()
+    1
+
+    >>> FFM._Belongs_to_Node_.query (Q.belongs_to_node == node3).count ()
+    3
+
     >>> FFM.Net_Device.query (Q.belongs_to_node == node3).count ()
     1
+
+    >>> FFM.Net_Interface.query (Q.belongs_to_node == node3).count ()
+    2
+
+    >>> FFM.Wired_Interface.query (Q.belongs_to_node == node3).count ()
+    1
+
+    >>> FFM.Wireless_Interface.query (Q.belongs_to_node == node3).count ()
+    1
+
+    >>> FFM.Wireless_Interface_uses_Antenna.query (Q.belongs_to_node == node3).count ()
+    1
+
     >>> FFM.Net_Device.query (Q.belongs_to_node.manager == mgr).count ()
     1
+
+    >>> FFM.Net_Device.query (Q.belongs_to_node != node3).count ()
+    0
 
 """
 
