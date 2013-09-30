@@ -38,6 +38,7 @@
 #    26-Feb-2013 (CT) Disable `belongs_to_node`
 #    17-Apr-2013 (CT) Use `Computed_Set_Mixin`, not `Computed_Mixin`
 #    14-Aug-2013 (CT) Re-enable `belongs_to_node`
+#    30-Sep-2013 (CT) Mixin `_Belongs_to_Node_`
 #    ««revision-date»»···
 #--
 
@@ -50,13 +51,15 @@ import _FFM.Antenna_Type
 import _FFM.Device
 import _FFM.Node
 from   _FFM.Attr_Type         import A_Polarization
+import _FFM._Belongs_to_Node_
 
 _Ancestor_Essence = FFM.Device
+_Mixin            = FFM._Belongs_to_Node_
 
-class Antenna (_Ancestor_Essence) :
+class Antenna (_Mixin, _Ancestor_Essence) :
     """Model an antenna used by a FFM node."""
 
-    class _Attributes (_Ancestor_Essence._Attributes) :
+    class _Attributes (_Mixin._Attributes, _Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
@@ -82,12 +85,8 @@ class Antenna (_Ancestor_Essence) :
 
         # end class azimuth
 
-        class belongs_to_node (A_Id_Entity) :
-            """Node to which this antenna belongs."""
+        class belongs_to_node (_Mixin._Attributes.belongs_to_node) :
 
-            kind                = Attr.Query
-            hidden              = True
-            P_Type              = FFM.Node
             query               = Q.interface.belongs_to_node
             query_preconditions = (Q.interface, )
 

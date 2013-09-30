@@ -44,6 +44,8 @@
 #    17-Apr-2013 (CT) Use `Computed_Set_Mixin`, not `Computed_Mixin`
 #     3-May-2013 (CT) Add attribute `address`,
 #                     put `Node_has_Address` into `refuse_links`
+#    30-Sep-2013 (CT) Mixin `_Belongs_to_Node_`,
+#                     change `belongs_to_node` to query `Q.SELF`
 #    ««revision-date»»···
 #--
 
@@ -56,10 +58,12 @@ from   _GTW._OMP._PAP           import PAP, Person, Subject, Address
 from   _GTW._OMP._DNS.Attr_Type import A_DNS_Label
 
 import _FFM.Entity
+import _FFM._Belongs_to_Node_
 
 _Ancestor_Essence = PAP.Subject
+_Mixin            = FFM._Belongs_to_Node_
 
-class Node (FFM.Entity, _Ancestor_Essence) :
+class Node (_Mixin, FFM.Entity, _Ancestor_Essence) :
     """Model a node of FFM"""
 
     refuse_links = set \
@@ -71,7 +75,11 @@ class Node (FFM.Entity, _Ancestor_Essence) :
          , "GTW.OMP.PAP.Subject_has_Phone"
         ))
 
-    class _Attributes (_Ancestor_Essence._Attributes) :
+    class _Attributes \
+              ( _Mixin._Attributes
+              , FFM.Entity._Attributes
+              , _Ancestor_Essence._Attributes
+              ) :
 
         _Ancestor    = _Ancestor_Essence._Attributes
 
@@ -96,15 +104,10 @@ class Node (FFM.Entity, _Ancestor_Essence) :
 
         # end class address
 
-        class belongs_to_node (A_Id_Entity) :
+        class belongs_to_node (_Mixin._Attributes.belongs_to_node) :
             """Node to which this entity belongs."""
 
-            kind               = Attr.Computed
-            P_Type             = "FFM.Node"
-
-            def computed (self, obj) :
-                return obj
-            # end def computed
+            query              = Q.SELF
 
         # end class belongs_to_node
 

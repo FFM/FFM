@@ -34,6 +34,7 @@
 #    26-Jan-2013 (CT) Set `Net_Interface.is_relevant`
 #     7-May-2013 (RS) Add `desc`
 #     8-May-2013 (RS) Fix comment for desc
+#    30-Sep-2013 (CT) Mixin `_Belongs_to_Node__Left_`, not `_Belongs_to_Node_`
 #    ««revision-date»»···
 #--
 
@@ -51,7 +52,7 @@ from   _GTW._OMP._NET           import NET
 import _GTW._OMP._NET.Attr_Type
 
 _Ancestor_Essence = FFM.Link1
-_Mixin = FFM._Belongs_to_Node_
+_Mixin = FFM._Belongs_to_Node__Left_
 
 class Net_Interface (_Mixin, _Ancestor_Essence) :
     """Model a network interface of a FFM device"""

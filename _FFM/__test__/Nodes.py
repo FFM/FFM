@@ -40,6 +40,7 @@
 #    18-Apr-2013 (CT) Add test for `eligible_e_types`,
 #                     `selectable_e_types_unique_epk`
 #     7-Aug-2013 (CT) Adapt to major surgery of GTW.OMP.NET.Attr_Type
+#    30-Sep-2013 (CT) Adapt to uplift of `belongs_to_node`
 #    ««revision-date»»···
 #--
 
@@ -146,13 +147,16 @@ _test_code = """
     1
 
     >>> FFM._Belongs_to_Node_.query (Q.belongs_to_node == node3).count ()
-    3
+    6
 
     >>> FFM.Net_Device.query (Q.belongs_to_node == node3).count ()
     1
 
     >>> FFM.Net_Interface.query (Q.belongs_to_node == node3).count ()
     2
+
+    >>> FFM.Node.query (Q.belongs_to_node == node3).count ()
+    1
 
     >>> FFM.Wired_Interface.query (Q.belongs_to_node == node3).count ()
     1

@@ -36,6 +36,8 @@
 #    14-Aug-2013 (CT) Add `is_partial = True`,
 #                     derive from `FFM.Id_Entity`, not `FFM.Entity`
 #     4-Sep-2013 (CT) Derive from `FFM.Link`, not `FFM.Id_Entity`
+#    30-Sep-2013 (CT) Split into partial `_Belongs_to_Node_`, non-partial
+#                     `_Belongs_to_Node__Left_`
 #    ««revision-date»»···
 #--
 
@@ -44,9 +46,8 @@ from   __future__ import absolute_import, division, print_function, unicode_lite
 from   _MOM.import_MOM          import *
 from   _FFM                     import FFM
 import _FFM.Entity
-import _FFM.Node
 
-_Ancestor_Essence = FFM.Link
+_Ancestor_Essence = FFM.Id_Entity
 
 class _Belongs_to_Node_ (_Ancestor_Essence) :
     """Mixin for computed `belongs_to_node` attribute"""
@@ -62,9 +63,8 @@ class _Belongs_to_Node_ (_Ancestor_Essence) :
 
             kind                = Attr.Query
             hidden              = True
-            P_Type              = FFM.Node
-            query               = Q.left.belongs_to_node
-            query_preconditions = (Q.left, )
+            P_Type              = "FFM.Node"
+            is_partial          = True ### `query` is defined by descendents
 
         # end class belongs_to_node
 
@@ -72,6 +72,30 @@ class _Belongs_to_Node_ (_Ancestor_Essence) :
 
 # end class _Belongs_to_Node_
 
+_Ancestor_Essence = FFM.Link
+_Mixin            = _Belongs_to_Node_
+
+class _Belongs_to_Node__Left_ (_Mixin, _Ancestor_Essence) :
+    """Mixin for computed `belongs_to_node` attribute"""
+
+    is_partial = True
+
+    class _Attributes (_Mixin._Attributes, _Ancestor_Essence._Attributes) :
+
+        _Ancestor = _Ancestor_Essence._Attributes
+
+        class belongs_to_node (_Mixin._Attributes.belongs_to_node) :
+
+            query               = Q.left.belongs_to_node
+            query_preconditions = (Q.left, )
+            is_partial          = False
+
+        # end class belongs_to_node
+
+    # end class _Attributes
+
+# end class _Belongs_to_Node__Left_
+
 if __name__ != "__main__" :
-    FFM._Export ("_Belongs_to_Node_")
+    FFM._Export ("_Belongs_to_Node_", "_Belongs_to_Node__Left_")
 ### __END__ FFM._Belongs_to_Node_

@@ -28,6 +28,7 @@
 # Revision Dates
 #    14-Aug-2013 (CT) Creation
 #    29-Aug-2013 (CT) Add `test_cidr_pg` and `test_cidr_sq`
+#    30-Sep-2013 (CT) Adapt to uplift of `belongs_to_node`
 #    ««revision-date»»···
 #--
 
@@ -406,10 +407,30 @@ _test_q_able = """
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
+    <SAW : FFM._Belongs_to_Node_ [mom_id_entity]>
+      <SAW : Entity `belongs_to_node` (FFM.Antenna | FFM.Net_Device | FFM.Net_Interface | FFM.Node | FFM.WPA_Credentials | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
+      <SAW : Rev_Ref `creation`>
+      <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
+      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
+      <SAW : Surrogate `pid` [mom_id_entity.pid]>
+      <SAW : String `type_name` [mom_id_entity.type_name]>
+      <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
+    <SAW : FFM._Belongs_to_Node__Left_ [mom_id_entity]>
+      <SAW : Entity `belongs_to_node`>
+      <SAW : Rev_Ref `creation`>
+      <SAW : Boolean `electric` [mom_id_entity.electric]>
+      <SAW : Rev_Ref `last_change`>
+      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
+      <SAW : Left `left` (FFM.Net_Interface | FFM.WPA_Credentials | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
+      <SAW : Surrogate `pid` [mom_id_entity.pid]>
+      <SAW : String `type_name` [mom_id_entity.type_name]>
+      <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Node [ffm_node : mom_id_entity]>
       <SAW : Entity `address` [ffm_node.address]>
       <SAW : Link_Ref_List `address_links`>
       <SAW : Role_Ref_Set `addresses`>
+      <SAW : Entity `belongs_to_node`>
       <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
       <SAW : Link_Ref_List `email_links`>
@@ -663,16 +684,6 @@ _test_q_able = """
       <SAW : Link_Ref_List `virtual_wireless_interfaces`>
       <SAW : Link_Ref_List `wired_interfaces`>
       <SAW : Link_Ref_List `wireless_interfaces`>
-      <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
-    <SAW : FFM._Belongs_to_Node_ [mom_id_entity]>
-      <SAW : Entity `belongs_to_node`>
-      <SAW : Rev_Ref `creation`>
-      <SAW : Boolean `electric` [mom_id_entity.electric]>
-      <SAW : Rev_Ref `last_change`>
-      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : Left `left` (FFM.Net_Interface | FFM.WPA_Credentials | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
-      <SAW : Surrogate `pid` [mom_id_entity.pid]>
-      <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Net_Interface [ffm_net_interface : mom_id_entity]>
       <SAW : Entity `belongs_to_node`>
@@ -1192,6 +1203,33 @@ _test_q_result = """
     Parameters:
          node_1               : 42
 
+    >>> show_query (FFM.Node.query (Q.belongs_to_node == 42))
+    SQL: SELECT
+           ffm_node.__raw_name AS ffm_node___raw_name,
+           ffm_node.address AS ffm_node_address,
+           ffm_node.lifetime__finish AS ffm_node_lifetime__finish,
+           ffm_node.lifetime__start AS ffm_node_lifetime__start,
+           ffm_node.manager AS ffm_node_manager,
+           ffm_node.name AS ffm_node_name,
+           ffm_node.owner AS ffm_node_owner,
+           ffm_node.pid AS ffm_node_pid,
+           ffm_node.position____raw_lat AS ffm_node_position____raw_lat,
+           ffm_node.position____raw_lon AS ffm_node_position____raw_lon,
+           ffm_node.position__height AS ffm_node_position__height,
+           ffm_node.position__lat AS ffm_node_position__lat,
+           ffm_node.position__lon AS ffm_node_position__lon,
+           ffm_node.show_in_map AS ffm_node_show_in_map,
+           mom_id_entity.electric AS mom_id_entity_electric,
+           mom_id_entity.last_cid AS mom_id_entity_last_cid,
+           mom_id_entity.pid AS mom_id_entity_pid,
+           mom_id_entity.type_name AS mom_id_entity_type_name,
+           mom_id_entity.x_locked AS mom_id_entity_x_locked
+         FROM mom_id_entity
+           JOIN ffm_node ON mom_id_entity.pid = ffm_node.pid
+         WHERE ffm_node.pid = :pid_1
+    Parameters:
+         pid_1                : 42
+
     >>> show_query (FFM.Virtual_Wireless_Interface.query (Q.belongs_to_node == 42))
     SQL: SELECT
            ffm__wireless_interface_.__raw_txpower AS ffm__wireless_interface____raw_txpower,
@@ -1321,6 +1359,22 @@ _test_q_result = """
            ffm__wireless_interface_.pid AS ffm__wireless_interface__pid,
            ffm__wireless_interface_.standard AS ffm__wireless_interface__standard,
            ffm__wireless_interface_.txpower AS ffm__wireless_interface__txpower,
+           ffm_antenna."desc" AS ffm_antenna_desc,
+           ffm_antenna."left" AS ffm_antenna_left,
+           ffm_antenna.__raw_azimuth AS ffm_antenna___raw_azimuth,
+           ffm_antenna.__raw_name AS ffm_antenna___raw_name,
+           ffm_antenna.azimuth AS ffm_antenna_azimuth,
+           ffm_antenna.elevation AS ffm_antenna_elevation,
+           ffm_antenna.gain AS ffm_antenna_gain,
+           ffm_antenna.name AS ffm_antenna_name,
+           ffm_antenna.pid AS ffm_antenna_pid,
+           ffm_antenna.polarization AS ffm_antenna_polarization,
+           ffm_net_device."desc" AS ffm_net_device_desc,
+           ffm_net_device."left" AS ffm_net_device_left,
+           ffm_net_device.__raw_name AS ffm_net_device___raw_name,
+           ffm_net_device.name AS ffm_net_device_name,
+           ffm_net_device.node AS ffm_net_device_node,
+           ffm_net_device.pid AS ffm_net_device_pid,
            ffm_net_interface."desc" AS ffm_net_interface_desc,
            ffm_net_interface."left" AS ffm_net_interface_left,
            ffm_net_interface.__raw_name AS ffm_net_interface___raw_name,
@@ -1328,6 +1382,20 @@ _test_q_result = """
            ffm_net_interface.mac_address AS ffm_net_interface_mac_address,
            ffm_net_interface.name AS ffm_net_interface_name,
            ffm_net_interface.pid AS ffm_net_interface_pid,
+           ffm_node.__raw_name AS ffm_node___raw_name,
+           ffm_node.address AS ffm_node_address,
+           ffm_node.lifetime__finish AS ffm_node_lifetime__finish,
+           ffm_node.lifetime__start AS ffm_node_lifetime__start,
+           ffm_node.manager AS ffm_node_manager,
+           ffm_node.name AS ffm_node_name,
+           ffm_node.owner AS ffm_node_owner,
+           ffm_node.pid AS ffm_node_pid,
+           ffm_node.position____raw_lat AS ffm_node_position____raw_lat,
+           ffm_node.position____raw_lon AS ffm_node_position____raw_lon,
+           ffm_node.position__height AS ffm_node_position__height,
+           ffm_node.position__lat AS ffm_node_position__lat,
+           ffm_node.position__lon AS ffm_node_position__lon,
+           ffm_node.show_in_map AS ffm_node_show_in_map,
            ffm_virtual_wireless_interface.hardware AS ffm_virtual_wireless_interface_hardware,
            ffm_virtual_wireless_interface.pid AS ffm_virtual_wireless_interface_pid,
            ffm_wireless_interface_uses_antenna."left" AS ffm_wireless_interface_uses_antenna_left,
@@ -1346,12 +1414,19 @@ _test_q_result = """
            mom_id_entity.type_name AS mom_id_entity_type_name,
            mom_id_entity.x_locked AS mom_id_entity_x_locked
          FROM mom_id_entity
+           LEFT OUTER JOIN ffm_node ON mom_id_entity.pid = ffm_node.pid
+           LEFT OUTER JOIN ffm_antenna ON mom_id_entity.pid = ffm_antenna.pid
+           LEFT OUTER JOIN ffm_net_device ON mom_id_entity.pid = ffm_net_device.pid
            LEFT OUTER JOIN ffm_net_interface ON mom_id_entity.pid = ffm_net_interface.pid
            LEFT OUTER JOIN ffm__wireless_interface_ ON ffm_net_interface.pid = ffm__wireless_interface_.pid
            LEFT OUTER JOIN ffm_virtual_wireless_interface ON ffm__wireless_interface_.pid = ffm_virtual_wireless_interface.pid
            LEFT OUTER JOIN ffm_wpa_credentials ON mom_id_entity.pid = ffm_wpa_credentials.pid
            LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
            LEFT OUTER JOIN ffm_wireless_interface_uses_wireless_channel ON mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_antenna AS ffm_wireless_interface_uses_antenna__1 ON ffm_wireless_interface_uses_antenna__1."right" = ffm_antenna.pid
+           LEFT OUTER JOIN ffm_wireless_interface AS ffm_wireless_interface__1 ON ffm_wireless_interface__1.pid = ffm_wireless_interface_uses_antenna__1."left"
+           LEFT OUTER JOIN ffm_net_interface AS ffm_net_interface__1 ON ffm_net_interface__1.pid = ffm_wireless_interface__1.pid
+           LEFT OUTER JOIN ffm_net_device AS ffm_net_device__1 ON ffm_net_device__1.pid = ffm_net_interface__1."left"
            LEFT OUTER JOIN ffm_net_device AS ffm_net_device__2 ON ffm_net_device__2.pid = ffm_net_interface."left"
            LEFT OUTER JOIN ffm_net_interface AS ffm_net_interface__4 ON ffm_net_interface__4.pid = ffm_wpa_credentials."left"
            LEFT OUTER JOIN ffm_net_device AS ffm_net_device__7 ON ffm_net_device__7.pid = ffm_net_interface__4."left"
@@ -1361,21 +1436,30 @@ _test_q_result = """
            LEFT OUTER JOIN ffm_wireless_interface AS ffm_wireless_interface__3 ON ffm_wireless_interface__3.pid = ffm_wireless_interface_uses_wireless_channel."left"
            LEFT OUTER JOIN ffm_net_interface AS ffm_net_interface__3 ON ffm_net_interface__3.pid = ffm_wireless_interface__3.pid
            LEFT OUTER JOIN ffm_net_device AS ffm_net_device__6 ON ffm_net_device__6.pid = ffm_net_interface__3."left"
-         WHERE (mom_id_entity.pid = ffm_net_interface.pid
+         WHERE (mom_id_entity.pid = ffm_node.pid
+            OR mom_id_entity.pid = ffm_antenna.pid
+            OR mom_id_entity.pid = ffm_net_device.pid
+            OR mom_id_entity.pid = ffm_net_interface.pid
             OR mom_id_entity.pid = ffm__wireless_interface_.pid
             OR mom_id_entity.pid = ffm_virtual_wireless_interface.pid
             OR mom_id_entity.pid = ffm_wpa_credentials.pid
             OR mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
             OR mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid)
-            AND (ffm_net_device__2.node = :node_1
-            OR ffm_net_device__7.node = :node_2
-            OR ffm_net_device__5.node = :node_3
-            OR ffm_net_device__6.node = :node_4)
+            AND (ffm_node.pid = :pid_1
+            OR ffm_net_device__1.node = :node_1
+            OR ffm_net_device.node = :node_2
+            OR ffm_net_device__2.node = :node_3
+            OR ffm_net_device__7.node = :node_4
+            OR ffm_net_device__5.node = :node_5
+            OR ffm_net_device__6.node = :node_6)
     Parameters:
          node_1               : 42
          node_2               : 42
          node_3               : 42
          node_4               : 42
+         node_5               : 42
+         node_6               : 42
+         pid_1                : 42
 
     >>> show_query (FFM._Belongs_to_Node_.query (Q.belongs_to_node.pid == 42))
     SQL: SELECT
@@ -1386,6 +1470,22 @@ _test_q_result = """
            ffm__wireless_interface_.pid AS ffm__wireless_interface__pid,
            ffm__wireless_interface_.standard AS ffm__wireless_interface__standard,
            ffm__wireless_interface_.txpower AS ffm__wireless_interface__txpower,
+           ffm_antenna."desc" AS ffm_antenna_desc,
+           ffm_antenna."left" AS ffm_antenna_left,
+           ffm_antenna.__raw_azimuth AS ffm_antenna___raw_azimuth,
+           ffm_antenna.__raw_name AS ffm_antenna___raw_name,
+           ffm_antenna.azimuth AS ffm_antenna_azimuth,
+           ffm_antenna.elevation AS ffm_antenna_elevation,
+           ffm_antenna.gain AS ffm_antenna_gain,
+           ffm_antenna.name AS ffm_antenna_name,
+           ffm_antenna.pid AS ffm_antenna_pid,
+           ffm_antenna.polarization AS ffm_antenna_polarization,
+           ffm_net_device."desc" AS ffm_net_device_desc,
+           ffm_net_device."left" AS ffm_net_device_left,
+           ffm_net_device.__raw_name AS ffm_net_device___raw_name,
+           ffm_net_device.name AS ffm_net_device_name,
+           ffm_net_device.node AS ffm_net_device_node,
+           ffm_net_device.pid AS ffm_net_device_pid,
            ffm_net_interface."desc" AS ffm_net_interface_desc,
            ffm_net_interface."left" AS ffm_net_interface_left,
            ffm_net_interface.__raw_name AS ffm_net_interface___raw_name,
@@ -1393,6 +1493,20 @@ _test_q_result = """
            ffm_net_interface.mac_address AS ffm_net_interface_mac_address,
            ffm_net_interface.name AS ffm_net_interface_name,
            ffm_net_interface.pid AS ffm_net_interface_pid,
+           ffm_node.__raw_name AS ffm_node___raw_name,
+           ffm_node.address AS ffm_node_address,
+           ffm_node.lifetime__finish AS ffm_node_lifetime__finish,
+           ffm_node.lifetime__start AS ffm_node_lifetime__start,
+           ffm_node.manager AS ffm_node_manager,
+           ffm_node.name AS ffm_node_name,
+           ffm_node.owner AS ffm_node_owner,
+           ffm_node.pid AS ffm_node_pid,
+           ffm_node.position____raw_lat AS ffm_node_position____raw_lat,
+           ffm_node.position____raw_lon AS ffm_node_position____raw_lon,
+           ffm_node.position__height AS ffm_node_position__height,
+           ffm_node.position__lat AS ffm_node_position__lat,
+           ffm_node.position__lon AS ffm_node_position__lon,
+           ffm_node.show_in_map AS ffm_node_show_in_map,
            ffm_virtual_wireless_interface.hardware AS ffm_virtual_wireless_interface_hardware,
            ffm_virtual_wireless_interface.pid AS ffm_virtual_wireless_interface_pid,
            ffm_wireless_interface_uses_antenna."left" AS ffm_wireless_interface_uses_antenna_left,
@@ -1411,12 +1525,19 @@ _test_q_result = """
            mom_id_entity.type_name AS mom_id_entity_type_name,
            mom_id_entity.x_locked AS mom_id_entity_x_locked
          FROM mom_id_entity
+           LEFT OUTER JOIN ffm_node ON mom_id_entity.pid = ffm_node.pid
+           LEFT OUTER JOIN ffm_antenna ON mom_id_entity.pid = ffm_antenna.pid
+           LEFT OUTER JOIN ffm_net_device ON mom_id_entity.pid = ffm_net_device.pid
            LEFT OUTER JOIN ffm_net_interface ON mom_id_entity.pid = ffm_net_interface.pid
            LEFT OUTER JOIN ffm__wireless_interface_ ON ffm_net_interface.pid = ffm__wireless_interface_.pid
            LEFT OUTER JOIN ffm_virtual_wireless_interface ON ffm__wireless_interface_.pid = ffm_virtual_wireless_interface.pid
            LEFT OUTER JOIN ffm_wpa_credentials ON mom_id_entity.pid = ffm_wpa_credentials.pid
            LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
            LEFT OUTER JOIN ffm_wireless_interface_uses_wireless_channel ON mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_antenna AS ffm_wireless_interface_uses_antenna__1 ON ffm_wireless_interface_uses_antenna__1."right" = ffm_antenna.pid
+           LEFT OUTER JOIN ffm_wireless_interface AS ffm_wireless_interface__1 ON ffm_wireless_interface__1.pid = ffm_wireless_interface_uses_antenna__1."left"
+           LEFT OUTER JOIN ffm_net_interface AS ffm_net_interface__1 ON ffm_net_interface__1.pid = ffm_wireless_interface__1.pid
+           LEFT OUTER JOIN ffm_net_device AS ffm_net_device__1 ON ffm_net_device__1.pid = ffm_net_interface__1."left"
            LEFT OUTER JOIN ffm_net_device AS ffm_net_device__2 ON ffm_net_device__2.pid = ffm_net_interface."left"
            LEFT OUTER JOIN ffm_net_interface AS ffm_net_interface__4 ON ffm_net_interface__4.pid = ffm_wpa_credentials."left"
            LEFT OUTER JOIN ffm_net_device AS ffm_net_device__7 ON ffm_net_device__7.pid = ffm_net_interface__4."left"
@@ -1426,21 +1547,30 @@ _test_q_result = """
            LEFT OUTER JOIN ffm_wireless_interface AS ffm_wireless_interface__3 ON ffm_wireless_interface__3.pid = ffm_wireless_interface_uses_wireless_channel."left"
            LEFT OUTER JOIN ffm_net_interface AS ffm_net_interface__3 ON ffm_net_interface__3.pid = ffm_wireless_interface__3.pid
            LEFT OUTER JOIN ffm_net_device AS ffm_net_device__6 ON ffm_net_device__6.pid = ffm_net_interface__3."left"
-         WHERE (mom_id_entity.pid = ffm_net_interface.pid
+         WHERE (mom_id_entity.pid = ffm_node.pid
+            OR mom_id_entity.pid = ffm_antenna.pid
+            OR mom_id_entity.pid = ffm_net_device.pid
+            OR mom_id_entity.pid = ffm_net_interface.pid
             OR mom_id_entity.pid = ffm__wireless_interface_.pid
             OR mom_id_entity.pid = ffm_virtual_wireless_interface.pid
             OR mom_id_entity.pid = ffm_wpa_credentials.pid
             OR mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
             OR mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid)
-            AND (ffm_net_device__2.node = :node_1
-            OR ffm_net_device__7.node = :node_2
-            OR ffm_net_device__5.node = :node_3
-            OR ffm_net_device__6.node = :node_4)
+            AND (ffm_node.pid = :pid_1
+            OR ffm_net_device__1.node = :node_1
+            OR ffm_net_device.node = :node_2
+            OR ffm_net_device__2.node = :node_3
+            OR ffm_net_device__7.node = :node_4
+            OR ffm_net_device__5.node = :node_5
+            OR ffm_net_device__6.node = :node_6)
     Parameters:
          node_1               : 42
          node_2               : 42
          node_3               : 42
          node_4               : 42
+         node_5               : 42
+         node_6               : 42
+         pid_1                : 42
 
     >>> show_query (FFM.Antenna.query (Q.belongs_to_node.manager == 42))
     SQL: SELECT
@@ -1645,16 +1775,27 @@ _test_qx = """
     >>> qxb = QX.Mapper (qrb)
     >>> print (QX.display (qxb (qfb)))
     <FFM._Belongs_to_Node_ | QX.Kind_Partial for
-         <SAW : Left `left` (FFM.Net_Interface | FFM.WPA_Credentials | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>>
-        <FFM._Belongs_to_Node_ | QX.Kind_Query for
-             <SAW : Entity `belongs_to_node`>>
+         <SAW : Entity `belongs_to_node` (FFM.Antenna | FFM.Net_Device | FFM.Net_Interface | FFM.Node | FFM.WPA_Credentials | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>>
+      Bin:__eq__:
+        <FFM.Node | QX._Self_ for SELF>
+            <FFM.Node | QX.Kind_Query for
+                 <SAW : Entity `belongs_to_node`>>
+        42
       Bin:__eq__:
         <FFM.Net_Device | QX.Kind_EPK for
              <SAW : Entity `node` [ffm_net_device__1.node]>>
             <FFM.Net_Device | QX.Kind_Query for
                  <SAW : Entity `belongs_to_node`>>
-                <FFM.Net_Interface | QX.Kind_EPK for
-                     <SAW : Net_Device `left` [ffm_net_interface.left]>>
+                <FFM.Wireless_Interface | QX.Kind_Query for
+                     <SAW : Entity `belongs_to_node`>>
+                    <FFM.Antenna | QX.Kind_Query for
+                         <SAW : Entity `belongs_to_node`>>
+        42
+      Bin:__eq__:
+        <FFM.Net_Device | QX.Kind_EPK for
+             <SAW : Entity `node` [ffm_net_device.node]>>
+            <FFM.Net_Device | QX.Kind_Query for
+                 <SAW : Entity `belongs_to_node`>>
         42
       Bin:__eq__:
         <FFM.Net_Device | QX.Kind_EPK for
@@ -1663,18 +1804,16 @@ _test_qx = """
                  <SAW : Entity `belongs_to_node`>>
                 <FFM.Net_Interface | QX.Kind_Query for
                      <SAW : Entity `belongs_to_node`>>
-                    <FFM.WPA_Credentials | QX.Kind_EPK for
-                         <SAW : Net_Interface `left` [ffm_wpa_credentials.left]>>
         42
       Bin:__eq__:
         <FFM.Net_Device | QX.Kind_EPK for
              <SAW : Entity `node` [ffm_net_device__3.node]>>
             <FFM.Net_Device | QX.Kind_Query for
                  <SAW : Entity `belongs_to_node`>>
-                <FFM.Wireless_Interface | QX.Kind_Query for
+                <FFM.Net_Interface | QX.Kind_Query for
                      <SAW : Entity `belongs_to_node`>>
-                    <FFM.Wireless_Interface_uses_Antenna | QX.Kind_EPK for
-                         <SAW : Wireless_Interface `left` [ffm_wireless_interface_uses_antenna.left]>>
+                    <FFM.WPA_Credentials | QX.Kind_Query for
+                         <SAW : Entity `belongs_to_node`>>
         42
       Bin:__eq__:
         <FFM.Net_Device | QX.Kind_EPK for
@@ -1683,8 +1822,18 @@ _test_qx = """
                  <SAW : Entity `belongs_to_node`>>
                 <FFM.Wireless_Interface | QX.Kind_Query for
                      <SAW : Entity `belongs_to_node`>>
-                    <FFM.Wireless_Interface_uses_Wireless_Channel | QX.Kind_EPK for
-                         <SAW : Wireless_Interface `left` [ffm_wireless_interface_uses_wireless_channel.left]>>
+                    <FFM.Wireless_Interface_uses_Antenna | QX.Kind_Query for
+                         <SAW : Entity `belongs_to_node`>>
+        42
+      Bin:__eq__:
+        <FFM.Net_Device | QX.Kind_EPK for
+             <SAW : Entity `node` [ffm_net_device__5.node]>>
+            <FFM.Net_Device | QX.Kind_Query for
+                 <SAW : Entity `belongs_to_node`>>
+                <FFM.Wireless_Interface | QX.Kind_Query for
+                     <SAW : Entity `belongs_to_node`>>
+                    <FFM.Wireless_Interface_uses_Wireless_Channel | QX.Kind_Query for
+                         <SAW : Entity `belongs_to_node`>>
         42
 
     >>> qfb = (Q.belongs_to_node.pid == 42)
@@ -1692,16 +1841,27 @@ _test_qx = """
     >>> qxb = QX.Mapper (qrb)
     >>> print (QX.display (qxb (qfb)))
     <FFM._Belongs_to_Node_ | QX.Kind_Partial for
-         <SAW : Left `left` (FFM.Net_Interface | FFM.WPA_Credentials | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>>
-        <FFM._Belongs_to_Node_ | QX.Kind_Query for
-             <SAW : Entity `belongs_to_node`>>
+         <SAW : Entity `belongs_to_node` (FFM.Antenna | FFM.Net_Device | FFM.Net_Interface | FFM.Node | FFM.WPA_Credentials | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>>
+      Bin:__eq__:
+        <FFM.Node | QX._Self_ for SELF>
+            <FFM.Node | QX.Kind_Query for
+                 <SAW : Entity `belongs_to_node`>>
+        42
       Bin:__eq__:
         <FFM.Net_Device | QX.Kind_EPK for
              <SAW : Entity `node` [ffm_net_device__1.node]>>
             <FFM.Net_Device | QX.Kind_Query for
                  <SAW : Entity `belongs_to_node`>>
-                <FFM.Net_Interface | QX.Kind_EPK for
-                     <SAW : Net_Device `left` [ffm_net_interface.left]>>
+                <FFM.Wireless_Interface | QX.Kind_Query for
+                     <SAW : Entity `belongs_to_node`>>
+                    <FFM.Antenna | QX.Kind_Query for
+                         <SAW : Entity `belongs_to_node`>>
+        42
+      Bin:__eq__:
+        <FFM.Net_Device | QX.Kind_EPK for
+             <SAW : Entity `node` [ffm_net_device.node]>>
+            <FFM.Net_Device | QX.Kind_Query for
+                 <SAW : Entity `belongs_to_node`>>
         42
       Bin:__eq__:
         <FFM.Net_Device | QX.Kind_EPK for
@@ -1710,18 +1870,16 @@ _test_qx = """
                  <SAW : Entity `belongs_to_node`>>
                 <FFM.Net_Interface | QX.Kind_Query for
                      <SAW : Entity `belongs_to_node`>>
-                    <FFM.WPA_Credentials | QX.Kind_EPK for
-                         <SAW : Net_Interface `left` [ffm_wpa_credentials.left]>>
         42
       Bin:__eq__:
         <FFM.Net_Device | QX.Kind_EPK for
              <SAW : Entity `node` [ffm_net_device__3.node]>>
             <FFM.Net_Device | QX.Kind_Query for
                  <SAW : Entity `belongs_to_node`>>
-                <FFM.Wireless_Interface | QX.Kind_Query for
+                <FFM.Net_Interface | QX.Kind_Query for
                      <SAW : Entity `belongs_to_node`>>
-                    <FFM.Wireless_Interface_uses_Antenna | QX.Kind_EPK for
-                         <SAW : Wireless_Interface `left` [ffm_wireless_interface_uses_antenna.left]>>
+                    <FFM.WPA_Credentials | QX.Kind_Query for
+                         <SAW : Entity `belongs_to_node`>>
         42
       Bin:__eq__:
         <FFM.Net_Device | QX.Kind_EPK for
@@ -1730,9 +1888,29 @@ _test_qx = """
                  <SAW : Entity `belongs_to_node`>>
                 <FFM.Wireless_Interface | QX.Kind_Query for
                      <SAW : Entity `belongs_to_node`>>
-                    <FFM.Wireless_Interface_uses_Wireless_Channel | QX.Kind_EPK for
-                         <SAW : Wireless_Interface `left` [ffm_wireless_interface_uses_wireless_channel.left]>>
+                    <FFM.Wireless_Interface_uses_Antenna | QX.Kind_Query for
+                         <SAW : Entity `belongs_to_node`>>
         42
+      Bin:__eq__:
+        <FFM.Net_Device | QX.Kind_EPK for
+             <SAW : Entity `node` [ffm_net_device__5.node]>>
+            <FFM.Net_Device | QX.Kind_Query for
+                 <SAW : Entity `belongs_to_node`>>
+                <FFM.Wireless_Interface | QX.Kind_Query for
+                     <SAW : Entity `belongs_to_node`>>
+                    <FFM.Wireless_Interface_uses_Wireless_Channel | QX.Kind_Query for
+                         <SAW : Entity `belongs_to_node`>>
+        42
+
+    >>> qfb = (Q.belongs_to_node == 42)
+    >>> qrn = FFM.Node.query ()
+    >>> qxn = QX.Mapper (qrn)
+    >>> print (QX.display (qxn (qfb)))
+    Bin:__eq__:
+      <FFM.Node | QX._Self_ for SELF>
+          <FFM.Node | QX.Kind_Query for
+               <SAW : Entity `belongs_to_node`>>
+      42
 
 """
 
@@ -1833,6 +2011,20 @@ _test_select = """
                ffm_net_link."left" AS ffm_net_link_left,
                ffm_net_link."right" AS ffm_net_link_right,
                ffm_net_link.pid AS ffm_net_link_pid,
+               ffm_node.__raw_name AS ffm_node___raw_name,
+               ffm_node.address AS ffm_node_address,
+               ffm_node.lifetime__finish AS ffm_node_lifetime__finish,
+               ffm_node.lifetime__start AS ffm_node_lifetime__start,
+               ffm_node.manager AS ffm_node_manager,
+               ffm_node.name AS ffm_node_name,
+               ffm_node.owner AS ffm_node_owner,
+               ffm_node.pid AS ffm_node_pid,
+               ffm_node.position____raw_lat AS ffm_node_position____raw_lat,
+               ffm_node.position____raw_lon AS ffm_node_position____raw_lon,
+               ffm_node.position__height AS ffm_node_position__height,
+               ffm_node.position__lat AS ffm_node_position__lat,
+               ffm_node.position__lon AS ffm_node_position__lon,
+               ffm_node.show_in_map AS ffm_node_show_in_map,
                ffm_person_acts_for_legal_entity."left" AS ffm_person_acts_for_legal_entity_left,
                ffm_person_acts_for_legal_entity."right" AS ffm_person_acts_for_legal_entity_right,
                ffm_person_acts_for_legal_entity.pid AS ffm_person_acts_for_legal_entity_pid,
@@ -1889,6 +2081,7 @@ _test_select = """
                mom_id_entity.x_locked AS mom_id_entity_x_locked
         FROM mom_id_entity
            LEFT OUTER JOIN ffm_antenna_type ON mom_id_entity.pid = ffm_antenna_type.pid
+           LEFT OUTER JOIN ffm_node ON mom_id_entity.pid = ffm_node.pid
            LEFT OUTER JOIN ffm_antenna ON mom_id_entity.pid = ffm_antenna.pid
            LEFT OUTER JOIN ffm_antenna_band ON mom_id_entity.pid = ffm_antenna_band.pid
            LEFT OUTER JOIN ffm_firmware_type ON mom_id_entity.pid = ffm_firmware_type.pid
@@ -1918,6 +2111,7 @@ _test_select = """
            LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
            LEFT OUTER JOIN ffm_wireless_interface_uses_wireless_channel ON mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
         WHERE mom_id_entity.pid = ffm_antenna_type.pid
+            OR mom_id_entity.pid = ffm_node.pid
             OR mom_id_entity.pid = ffm_antenna.pid
             OR mom_id_entity.pid = ffm_antenna_band.pid
             OR mom_id_entity.pid = ffm_firmware_type.pid
@@ -2330,6 +2524,132 @@ _test_select = """
            LEFT OUTER JOIN ffm_net_device ON mom_id_entity.pid = ffm_net_device.pid
         WHERE mom_id_entity.pid = ffm_antenna.pid
             OR mom_id_entity.pid = ffm_net_device.pid
+    FFM._Belongs_to_Node_
+        SELECT ffm__wireless_interface_.__raw_txpower AS ffm__wireless_interface____raw_txpower,
+               ffm__wireless_interface_.bssid AS ffm__wireless_interface__bssid,
+               ffm__wireless_interface_.essid AS ffm__wireless_interface__essid,
+               ffm__wireless_interface_.mode AS ffm__wireless_interface__mode,
+               ffm__wireless_interface_.pid AS ffm__wireless_interface__pid,
+               ffm__wireless_interface_.standard AS ffm__wireless_interface__standard,
+               ffm__wireless_interface_.txpower AS ffm__wireless_interface__txpower,
+               ffm_antenna."desc" AS ffm_antenna_desc,
+               ffm_antenna."left" AS ffm_antenna_left,
+               ffm_antenna.__raw_azimuth AS ffm_antenna___raw_azimuth,
+               ffm_antenna.__raw_name AS ffm_antenna___raw_name,
+               ffm_antenna.azimuth AS ffm_antenna_azimuth,
+               ffm_antenna.elevation AS ffm_antenna_elevation,
+               ffm_antenna.gain AS ffm_antenna_gain,
+               ffm_antenna.name AS ffm_antenna_name,
+               ffm_antenna.pid AS ffm_antenna_pid,
+               ffm_antenna.polarization AS ffm_antenna_polarization,
+               ffm_net_device."desc" AS ffm_net_device_desc,
+               ffm_net_device."left" AS ffm_net_device_left,
+               ffm_net_device.__raw_name AS ffm_net_device___raw_name,
+               ffm_net_device.name AS ffm_net_device_name,
+               ffm_net_device.node AS ffm_net_device_node,
+               ffm_net_device.pid AS ffm_net_device_pid,
+               ffm_net_interface."desc" AS ffm_net_interface_desc,
+               ffm_net_interface."left" AS ffm_net_interface_left,
+               ffm_net_interface.__raw_name AS ffm_net_interface___raw_name,
+               ffm_net_interface.is_active AS ffm_net_interface_is_active,
+               ffm_net_interface.mac_address AS ffm_net_interface_mac_address,
+               ffm_net_interface.name AS ffm_net_interface_name,
+               ffm_net_interface.pid AS ffm_net_interface_pid,
+               ffm_node.__raw_name AS ffm_node___raw_name,
+               ffm_node.address AS ffm_node_address,
+               ffm_node.lifetime__finish AS ffm_node_lifetime__finish,
+               ffm_node.lifetime__start AS ffm_node_lifetime__start,
+               ffm_node.manager AS ffm_node_manager,
+               ffm_node.name AS ffm_node_name,
+               ffm_node.owner AS ffm_node_owner,
+               ffm_node.pid AS ffm_node_pid,
+               ffm_node.position____raw_lat AS ffm_node_position____raw_lat,
+               ffm_node.position____raw_lon AS ffm_node_position____raw_lon,
+               ffm_node.position__height AS ffm_node_position__height,
+               ffm_node.position__lat AS ffm_node_position__lat,
+               ffm_node.position__lon AS ffm_node_position__lon,
+               ffm_node.show_in_map AS ffm_node_show_in_map,
+               ffm_virtual_wireless_interface.hardware AS ffm_virtual_wireless_interface_hardware,
+               ffm_virtual_wireless_interface.pid AS ffm_virtual_wireless_interface_pid,
+               ffm_wireless_interface_uses_antenna."left" AS ffm_wireless_interface_uses_antenna_left,
+               ffm_wireless_interface_uses_antenna."right" AS ffm_wireless_interface_uses_antenna_right,
+               ffm_wireless_interface_uses_antenna.pid AS ffm_wireless_interface_uses_antenna_pid,
+               ffm_wireless_interface_uses_antenna.relative_height AS ffm_wireless_interface_uses_antenna_relative_height,
+               ffm_wireless_interface_uses_wireless_channel."left" AS ffm_wireless_interface_uses_wireless_channel_left,
+               ffm_wireless_interface_uses_wireless_channel."right" AS ffm_wireless_interface_uses_wireless_channel_right,
+               ffm_wireless_interface_uses_wireless_channel.pid AS ffm_wireless_interface_uses_wireless_channel_pid,
+               ffm_wpa_credentials."left" AS ffm_wpa_credentials_left,
+               ffm_wpa_credentials.key AS ffm_wpa_credentials_key,
+               ffm_wpa_credentials.pid AS ffm_wpa_credentials_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           LEFT OUTER JOIN ffm_node ON mom_id_entity.pid = ffm_node.pid
+           LEFT OUTER JOIN ffm_antenna ON mom_id_entity.pid = ffm_antenna.pid
+           LEFT OUTER JOIN ffm_net_device ON mom_id_entity.pid = ffm_net_device.pid
+           LEFT OUTER JOIN ffm_net_interface ON mom_id_entity.pid = ffm_net_interface.pid
+           LEFT OUTER JOIN ffm__wireless_interface_ ON ffm_net_interface.pid = ffm__wireless_interface_.pid
+           LEFT OUTER JOIN ffm_virtual_wireless_interface ON ffm__wireless_interface_.pid = ffm_virtual_wireless_interface.pid
+           LEFT OUTER JOIN ffm_wpa_credentials ON mom_id_entity.pid = ffm_wpa_credentials.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_wireless_channel ON mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+        WHERE mom_id_entity.pid = ffm_node.pid
+            OR mom_id_entity.pid = ffm_antenna.pid
+            OR mom_id_entity.pid = ffm_net_device.pid
+            OR mom_id_entity.pid = ffm_net_interface.pid
+            OR mom_id_entity.pid = ffm__wireless_interface_.pid
+            OR mom_id_entity.pid = ffm_virtual_wireless_interface.pid
+            OR mom_id_entity.pid = ffm_wpa_credentials.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+    FFM._Belongs_to_Node__Left_
+        SELECT ffm__wireless_interface_.__raw_txpower AS ffm__wireless_interface____raw_txpower,
+               ffm__wireless_interface_.bssid AS ffm__wireless_interface__bssid,
+               ffm__wireless_interface_.essid AS ffm__wireless_interface__essid,
+               ffm__wireless_interface_.mode AS ffm__wireless_interface__mode,
+               ffm__wireless_interface_.pid AS ffm__wireless_interface__pid,
+               ffm__wireless_interface_.standard AS ffm__wireless_interface__standard,
+               ffm__wireless_interface_.txpower AS ffm__wireless_interface__txpower,
+               ffm_net_interface."desc" AS ffm_net_interface_desc,
+               ffm_net_interface."left" AS ffm_net_interface_left,
+               ffm_net_interface.__raw_name AS ffm_net_interface___raw_name,
+               ffm_net_interface.is_active AS ffm_net_interface_is_active,
+               ffm_net_interface.mac_address AS ffm_net_interface_mac_address,
+               ffm_net_interface.name AS ffm_net_interface_name,
+               ffm_net_interface.pid AS ffm_net_interface_pid,
+               ffm_virtual_wireless_interface.hardware AS ffm_virtual_wireless_interface_hardware,
+               ffm_virtual_wireless_interface.pid AS ffm_virtual_wireless_interface_pid,
+               ffm_wireless_interface_uses_antenna."left" AS ffm_wireless_interface_uses_antenna_left,
+               ffm_wireless_interface_uses_antenna."right" AS ffm_wireless_interface_uses_antenna_right,
+               ffm_wireless_interface_uses_antenna.pid AS ffm_wireless_interface_uses_antenna_pid,
+               ffm_wireless_interface_uses_antenna.relative_height AS ffm_wireless_interface_uses_antenna_relative_height,
+               ffm_wireless_interface_uses_wireless_channel."left" AS ffm_wireless_interface_uses_wireless_channel_left,
+               ffm_wireless_interface_uses_wireless_channel."right" AS ffm_wireless_interface_uses_wireless_channel_right,
+               ffm_wireless_interface_uses_wireless_channel.pid AS ffm_wireless_interface_uses_wireless_channel_pid,
+               ffm_wpa_credentials."left" AS ffm_wpa_credentials_left,
+               ffm_wpa_credentials.key AS ffm_wpa_credentials_key,
+               ffm_wpa_credentials.pid AS ffm_wpa_credentials_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           LEFT OUTER JOIN ffm_net_interface ON mom_id_entity.pid = ffm_net_interface.pid
+           LEFT OUTER JOIN ffm__wireless_interface_ ON ffm_net_interface.pid = ffm__wireless_interface_.pid
+           LEFT OUTER JOIN ffm_virtual_wireless_interface ON ffm__wireless_interface_.pid = ffm_virtual_wireless_interface.pid
+           LEFT OUTER JOIN ffm_wpa_credentials ON mom_id_entity.pid = ffm_wpa_credentials.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_wireless_channel ON mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+        WHERE mom_id_entity.pid = ffm_net_interface.pid
+            OR mom_id_entity.pid = ffm__wireless_interface_.pid
+            OR mom_id_entity.pid = ffm_virtual_wireless_interface.pid
+            OR mom_id_entity.pid = ffm_wpa_credentials.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
     FFM.Node
         SELECT ffm_node.__raw_name AS ffm_node___raw_name,
                ffm_node.address AS ffm_node_address,
@@ -2637,51 +2957,6 @@ _test_select = """
                mom_id_entity.x_locked AS mom_id_entity_x_locked
         FROM mom_id_entity
            JOIN ffm_net_device ON mom_id_entity.pid = ffm_net_device.pid
-    FFM._Belongs_to_Node_
-        SELECT ffm__wireless_interface_.__raw_txpower AS ffm__wireless_interface____raw_txpower,
-               ffm__wireless_interface_.bssid AS ffm__wireless_interface__bssid,
-               ffm__wireless_interface_.essid AS ffm__wireless_interface__essid,
-               ffm__wireless_interface_.mode AS ffm__wireless_interface__mode,
-               ffm__wireless_interface_.pid AS ffm__wireless_interface__pid,
-               ffm__wireless_interface_.standard AS ffm__wireless_interface__standard,
-               ffm__wireless_interface_.txpower AS ffm__wireless_interface__txpower,
-               ffm_net_interface."desc" AS ffm_net_interface_desc,
-               ffm_net_interface."left" AS ffm_net_interface_left,
-               ffm_net_interface.__raw_name AS ffm_net_interface___raw_name,
-               ffm_net_interface.is_active AS ffm_net_interface_is_active,
-               ffm_net_interface.mac_address AS ffm_net_interface_mac_address,
-               ffm_net_interface.name AS ffm_net_interface_name,
-               ffm_net_interface.pid AS ffm_net_interface_pid,
-               ffm_virtual_wireless_interface.hardware AS ffm_virtual_wireless_interface_hardware,
-               ffm_virtual_wireless_interface.pid AS ffm_virtual_wireless_interface_pid,
-               ffm_wireless_interface_uses_antenna."left" AS ffm_wireless_interface_uses_antenna_left,
-               ffm_wireless_interface_uses_antenna."right" AS ffm_wireless_interface_uses_antenna_right,
-               ffm_wireless_interface_uses_antenna.pid AS ffm_wireless_interface_uses_antenna_pid,
-               ffm_wireless_interface_uses_antenna.relative_height AS ffm_wireless_interface_uses_antenna_relative_height,
-               ffm_wireless_interface_uses_wireless_channel."left" AS ffm_wireless_interface_uses_wireless_channel_left,
-               ffm_wireless_interface_uses_wireless_channel."right" AS ffm_wireless_interface_uses_wireless_channel_right,
-               ffm_wireless_interface_uses_wireless_channel.pid AS ffm_wireless_interface_uses_wireless_channel_pid,
-               ffm_wpa_credentials."left" AS ffm_wpa_credentials_left,
-               ffm_wpa_credentials.key AS ffm_wpa_credentials_key,
-               ffm_wpa_credentials.pid AS ffm_wpa_credentials_pid,
-               mom_id_entity.electric AS mom_id_entity_electric,
-               mom_id_entity.last_cid AS mom_id_entity_last_cid,
-               mom_id_entity.pid AS mom_id_entity_pid,
-               mom_id_entity.type_name AS mom_id_entity_type_name,
-               mom_id_entity.x_locked AS mom_id_entity_x_locked
-        FROM mom_id_entity
-           LEFT OUTER JOIN ffm_net_interface ON mom_id_entity.pid = ffm_net_interface.pid
-           LEFT OUTER JOIN ffm__wireless_interface_ ON ffm_net_interface.pid = ffm__wireless_interface_.pid
-           LEFT OUTER JOIN ffm_virtual_wireless_interface ON ffm__wireless_interface_.pid = ffm_virtual_wireless_interface.pid
-           LEFT OUTER JOIN ffm_wpa_credentials ON mom_id_entity.pid = ffm_wpa_credentials.pid
-           LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
-           LEFT OUTER JOIN ffm_wireless_interface_uses_wireless_channel ON mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
-        WHERE mom_id_entity.pid = ffm_net_interface.pid
-            OR mom_id_entity.pid = ffm__wireless_interface_.pid
-            OR mom_id_entity.pid = ffm_virtual_wireless_interface.pid
-            OR mom_id_entity.pid = ffm_wpa_credentials.pid
-            OR mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
-            OR mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
     FFM.Net_Interface
         SELECT ffm__wireless_interface_.__raw_txpower AS ffm__wireless_interface____raw_txpower,
                ffm__wireless_interface_.bssid AS ffm__wireless_interface__bssid,
@@ -3121,7 +3396,6 @@ _test_select = """
            JOIN ffm_net_interface_in_ip_network ON mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
            JOIN ffm_virtual_wireless_interface_in_ip4_network ON ffm_net_interface_in_ip_network.pid = ffm_virtual_wireless_interface_in_ip4_network.pid
 
-
 """
 
 _test_tables = """
@@ -3183,6 +3457,7 @@ _test_tables = """
     FFM.Wireless_Standard                    : ffm_wireless_standard
     FFM.Zone                                 : ffm_zone
     FFM._Belongs_to_Node_                    : None
+    FFM._Belongs_to_Node__Left_              : None
     FFM._MOM_Link_n_                         : None
     FFM._Net_Credentials_                    : None
     FFM._Wireless_Interface_                 : ffm__wireless_interface_
@@ -3421,10 +3696,16 @@ _test_debug = """
 
     >>> from _MOM._DBW._SAW       import QX
 
-    >>> qfr = (Q.RAW.band.lower > '28 MHz')
-    >>> qrr = FFM.Regulatory_Permission.query ()
-    >>> qxr = QX.Mapper (qrr)
-    >>> print (QX.display (qxr (qfr)))
+    >>> qfb = (Q.belongs_to_node == 42)
+    >>> qrn = FFM.Node.query ()
+    >>> qxn = QX.Mapper (qrn)
+    >>> print (QX.display (qxn (qfb)))
+    Bin:__eq__:
+      <FFM.Node | QX._Self_ for SELF>
+          <FFM.Node | QX.Kind_Query for SELF>
+      42
+
+    >>> show_query (FFM.Node.query (Q.belongs_to_node == 42))
 
 """
 
