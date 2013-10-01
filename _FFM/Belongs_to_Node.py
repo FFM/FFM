@@ -52,7 +52,7 @@ import _FFM.Entity
 _Ancestor_Essence = FFM.Id_Entity
 
 class Belongs_to_Node (_Ancestor_Essence) :
-    """Mixin for computed `belongs_to_node` attribute"""
+    """Mixin for the query attribute `belongs_to_node`"""
 
     is_partial = True
 
@@ -77,7 +77,9 @@ _Ancestor_Essence = FFM.Link
 _Mixin            = Belongs_to_Node
 
 class Belongs_to_Node_Left (_Mixin, _Ancestor_Essence) :
-    """Mixin for computed `belongs_to_node` attribute"""
+    """Mixin for the query attribute `belongs_to_node`, delegated to
+       `left.belongs_to_node`.
+    """
 
     is_partial = True
 
