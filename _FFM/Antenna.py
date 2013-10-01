@@ -38,7 +38,7 @@
 #    26-Feb-2013 (CT) Disable `belongs_to_node`
 #    17-Apr-2013 (CT) Use `Computed_Set_Mixin`, not `Computed_Mixin`
 #    14-Aug-2013 (CT) Re-enable `belongs_to_node`
-#    30-Sep-2013 (CT) Mixin `_Belongs_to_Node_`
+#    30-Sep-2013 (CT) Mixin `Belongs_to_Node`
 #    ««revision-date»»···
 #--
 
@@ -51,10 +51,10 @@ import _FFM.Antenna_Type
 import _FFM.Device
 import _FFM.Node
 from   _FFM.Attr_Type         import A_Polarization
-import _FFM._Belongs_to_Node_
+import _FFM.Belongs_to_Node
 
 _Ancestor_Essence = FFM.Device
-_Mixin            = FFM._Belongs_to_Node_
+_Mixin            = FFM.Belongs_to_Node
 
 class Antenna (_Mixin, _Ancestor_Essence) :
     """Model an antenna used by a FFM node."""

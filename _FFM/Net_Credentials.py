@@ -31,7 +31,7 @@
 #    15-May-2013 (CT) Replace `auto_cache` by `link_ref_attr_name`
 #    20-May-2013 (CT) Set `_Net_Credentials_.left.link_ref_suffix` to `None`
 #    13-Aug-2013 (CT) Add `key.typ`
-#    30-Sep-2013 (CT) Mixin `_Belongs_to_Node__Left_`, not `_Belongs_to_Node_`
+#    30-Sep-2013 (CT) Mixin `Belongs_to_Node_Left`, not `Belongs_to_Node`
 #    ««revision-date»»···
 #--
 
@@ -43,12 +43,12 @@ from   _FFM                   import FFM
 
 import _FFM.Entity
 import _FFM.Net_Interface
-import _FFM._Belongs_to_Node_
+import _FFM.Belongs_to_Node
 
 from   _TFL.Regexp            import Regexp, re
 
 _Ancestor_Essence = FFM.Link1
-_Mixin = FFM._Belongs_to_Node__Left_
+_Mixin = FFM.Belongs_to_Node_Left
 
 class _Net_Credentials_ (_Mixin, _Ancestor_Essence) :
     """Model credentials used by a Net_Interface, e.g., `802.1x`

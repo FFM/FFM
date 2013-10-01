@@ -1356,6 +1356,148 @@ _test_AQ = """
     Pid
     Type name
 
+    >>> for aq in FFM.Net_Interface.E_Type.AQ.Attrs_Transitive :
+    ...     print (aq._ui_name_T)
+    Device
+    Device/Net device type
+    Device/Net device type/Name
+    Device/Net device type/Model no
+    Device/Net device type/Revision
+    Device/Net device type/Desc
+    Device/Net device type/Last cid
+    Device/Net device type/Pid
+    Device/Net device type/Type name
+    Device/Node
+    Device/Node/Name
+    Device/Node/Manager
+    Device/Node/Manager/Last name
+    Device/Node/Manager/First name
+    Device/Node/Manager/Middle name
+    Device/Node/Manager/Academic title
+    Device/Node/Manager/Lifetime
+    Device/Node/Manager/Lifetime/Start
+    Device/Node/Manager/Lifetime/Finish
+    Device/Node/Manager/Lifetime/Alive
+    Device/Node/Manager/Salutation
+    Device/Node/Manager/Sex
+    Device/Node/Manager/Last cid
+    Device/Node/Manager/Pid
+    Device/Node/Manager/Type name
+    Device/Node/Lifetime
+    Device/Node/Lifetime/Start
+    Device/Node/Lifetime/Finish
+    Device/Node/Lifetime/Alive
+    Device/Node/Address
+    Device/Node/Address/Street
+    Device/Node/Address/Zip code
+    Device/Node/Address/City
+    Device/Node/Address/Country
+    Device/Node/Address/Description
+    Device/Node/Address/Region
+    Device/Node/Address/Last cid
+    Device/Node/Address/Pid
+    Device/Node/Address/Type name
+    Device/Node/Owner
+    Device/Node/Position
+    Device/Node/Position/Latitude
+    Device/Node/Position/Longitude
+    Device/Node/Position/Height
+    Device/Node/Show in map
+    Device/Node/Last cid
+    Device/Node/Pid
+    Device/Node/Type name
+    Device/Name
+    Device/Desc
+    Device/Last cid
+    Device/Pid
+    Device/Type name
+    Device/Belongs to node
+    Device/Belongs to node/Name
+    Device/Belongs to node/Manager
+    Device/Belongs to node/Manager/Last name
+    Device/Belongs to node/Manager/First name
+    Device/Belongs to node/Manager/Middle name
+    Device/Belongs to node/Manager/Academic title
+    Device/Belongs to node/Manager/Lifetime
+    Device/Belongs to node/Manager/Lifetime/Start
+    Device/Belongs to node/Manager/Lifetime/Finish
+    Device/Belongs to node/Manager/Lifetime/Alive
+    Device/Belongs to node/Manager/Salutation
+    Device/Belongs to node/Manager/Sex
+    Device/Belongs to node/Manager/Last cid
+    Device/Belongs to node/Manager/Pid
+    Device/Belongs to node/Manager/Type name
+    Device/Belongs to node/Lifetime
+    Device/Belongs to node/Lifetime/Start
+    Device/Belongs to node/Lifetime/Finish
+    Device/Belongs to node/Lifetime/Alive
+    Device/Belongs to node/Address
+    Device/Belongs to node/Address/Street
+    Device/Belongs to node/Address/Zip code
+    Device/Belongs to node/Address/City
+    Device/Belongs to node/Address/Country
+    Device/Belongs to node/Address/Description
+    Device/Belongs to node/Address/Region
+    Device/Belongs to node/Address/Last cid
+    Device/Belongs to node/Address/Pid
+    Device/Belongs to node/Address/Type name
+    Device/Belongs to node/Owner
+    Device/Belongs to node/Position
+    Device/Belongs to node/Position/Latitude
+    Device/Belongs to node/Position/Longitude
+    Device/Belongs to node/Position/Height
+    Device/Belongs to node/Show in map
+    Device/Belongs to node/Last cid
+    Device/Belongs to node/Pid
+    Device/Belongs to node/Type name
+    Mac address
+    Name
+    Is active
+    Desc
+    Last cid
+    Pid
+    Type name
+    Belongs to node
+    Belongs to node/Name
+    Belongs to node/Manager
+    Belongs to node/Manager/Last name
+    Belongs to node/Manager/First name
+    Belongs to node/Manager/Middle name
+    Belongs to node/Manager/Academic title
+    Belongs to node/Manager/Lifetime
+    Belongs to node/Manager/Lifetime/Start
+    Belongs to node/Manager/Lifetime/Finish
+    Belongs to node/Manager/Lifetime/Alive
+    Belongs to node/Manager/Salutation
+    Belongs to node/Manager/Sex
+    Belongs to node/Manager/Last cid
+    Belongs to node/Manager/Pid
+    Belongs to node/Manager/Type name
+    Belongs to node/Lifetime
+    Belongs to node/Lifetime/Start
+    Belongs to node/Lifetime/Finish
+    Belongs to node/Lifetime/Alive
+    Belongs to node/Address
+    Belongs to node/Address/Street
+    Belongs to node/Address/Zip code
+    Belongs to node/Address/City
+    Belongs to node/Address/Country
+    Belongs to node/Address/Description
+    Belongs to node/Address/Region
+    Belongs to node/Address/Last cid
+    Belongs to node/Address/Pid
+    Belongs to node/Address/Type name
+    Belongs to node/Owner
+    Belongs to node/Position
+    Belongs to node/Position/Latitude
+    Belongs to node/Position/Longitude
+    Belongs to node/Position/Height
+    Belongs to node/Show in map
+    Belongs to node/Last cid
+    Belongs to node/Pid
+    Belongs to node/Type name
+
+
 """
 
 _test_net_fixtures = """

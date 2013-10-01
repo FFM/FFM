@@ -32,7 +32,7 @@
 #    14-Dec-2012 (CT) Change `belongs_to_node.kind` to `Attr.Query`
 #    17-Dec-2012 (CT) Set `belongs_to_node.hidden` to `True`
 #    26-Jan-2013 (CT) Define `belongs_to_node.query`, not `.query_fct`
-#    30-Sep-2013 (CT) Mixin `_Belongs_to_Node_`
+#    30-Sep-2013 (CT) Mixin `Belongs_to_Node`
 #    ««revision-date»»···
 #--
 
@@ -43,10 +43,10 @@ from   _FFM                   import FFM
 import _FFM.Device
 import _FFM.Net_Device_Type
 import _FFM.Node
-import _FFM._Belongs_to_Node_
+import _FFM.Belongs_to_Node
 
 _Ancestor_Essence = FFM.Device
-_Mixin            = FFM._Belongs_to_Node_
+_Mixin            = FFM.Belongs_to_Node
 
 class Net_Device (_Mixin, _Ancestor_Essence) :
     """Model a network device of FFM."""

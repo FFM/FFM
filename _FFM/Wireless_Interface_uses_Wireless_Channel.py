@@ -29,7 +29,7 @@
 #    20-Aug-2012 (RS) Creation
 #     6-Dec-2012 (RS) Add `belongs_to_node`
 #    15-May-2013 (CT) Rename `auto_cache` to `auto_rev_ref`
-#    30-Sep-2013 (CT) Mixin `_Belongs_to_Node__Left_`, not `_Belongs_to_Node_`
+#    30-Sep-2013 (CT) Mixin `Belongs_to_Node_Left`, not `Belongs_to_Node`
 #    ««revision-date»»···
 #--
 
@@ -41,10 +41,10 @@ from   _FFM                   import FFM
 from   _FFM.Attr_Type         import *
 import _FFM.Wireless_Channel
 import _FFM.Wireless_Interface
-import _FFM._Belongs_to_Node_
+import _FFM.Belongs_to_Node
 
 _Ancestor_Essence = FFM.Link2
-_Mixin = FFM._Belongs_to_Node__Left_
+_Mixin = FFM.Belongs_to_Node_Left
 
 class Wireless_Interface_uses_Wireless_Channel (_Mixin, _Ancestor_Essence) :
     """Wireless channel used by a wireless interface"""

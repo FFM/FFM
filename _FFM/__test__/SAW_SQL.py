@@ -407,7 +407,7 @@ _test_q_able = """
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
-    <SAW : FFM._Belongs_to_Node_ [mom_id_entity]>
+    <SAW : FFM.Belongs_to_Node [mom_id_entity]>
       <SAW : Entity `belongs_to_node` (FFM.Antenna | FFM.Net_Device | FFM.Net_Interface | FFM.Node | FFM.WPA_Credentials | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
       <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
@@ -416,7 +416,7 @@ _test_q_able = """
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
-    <SAW : FFM._Belongs_to_Node__Left_ [mom_id_entity]>
+    <SAW : FFM.Belongs_to_Node_Left [mom_id_entity]>
       <SAW : Entity `belongs_to_node`>
       <SAW : Rev_Ref `creation`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
@@ -1350,7 +1350,7 @@ _test_q_result = """
     Parameters:
          node_1               : 42
 
-    >>> show_query (FFM._Belongs_to_Node_.query (Q.belongs_to_node == 42))
+    >>> show_query (FFM.Belongs_to_Node.query (Q.belongs_to_node == 42))
     SQL: SELECT
            ffm__wireless_interface_.__raw_txpower AS ffm__wireless_interface____raw_txpower,
            ffm__wireless_interface_.bssid AS ffm__wireless_interface__bssid,
@@ -1461,7 +1461,7 @@ _test_q_result = """
          node_6               : 42
          pid_1                : 42
 
-    >>> show_query (FFM._Belongs_to_Node_.query (Q.belongs_to_node.pid == 42))
+    >>> show_query (FFM.Belongs_to_Node.query (Q.belongs_to_node.pid == 42))
     SQL: SELECT
            ffm__wireless_interface_.__raw_txpower AS ffm__wireless_interface____raw_txpower,
            ffm__wireless_interface_.bssid AS ffm__wireless_interface__bssid,
@@ -1771,10 +1771,10 @@ _test_qx = """
       28 MHz
 
     >>> qfb = (Q.belongs_to_node == 42)
-    >>> qrb = FFM._Belongs_to_Node_.query ()
+    >>> qrb = FFM.Belongs_to_Node.query ()
     >>> qxb = QX.Mapper (qrb)
     >>> print (QX.display (qxb (qfb)))
-    <FFM._Belongs_to_Node_ | QX.Kind_Partial for
+    <FFM.Belongs_to_Node | QX.Kind_Partial for
          <SAW : Entity `belongs_to_node` (FFM.Antenna | FFM.Net_Device | FFM.Net_Interface | FFM.Node | FFM.WPA_Credentials | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>>
       Bin:__eq__:
         <FFM.Node | QX._Self_ for SELF>
@@ -1837,10 +1837,10 @@ _test_qx = """
         42
 
     >>> qfb = (Q.belongs_to_node.pid == 42)
-    >>> qrb = FFM._Belongs_to_Node_.query ()
+    >>> qrb = FFM.Belongs_to_Node.query ()
     >>> qxb = QX.Mapper (qrb)
     >>> print (QX.display (qxb (qfb)))
-    <FFM._Belongs_to_Node_ | QX.Kind_Partial for
+    <FFM.Belongs_to_Node | QX.Kind_Partial for
          <SAW : Entity `belongs_to_node` (FFM.Antenna | FFM.Net_Device | FFM.Net_Interface | FFM.Node | FFM.WPA_Credentials | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>>
       Bin:__eq__:
         <FFM.Node | QX._Self_ for SELF>
@@ -2524,7 +2524,7 @@ _test_select = """
            LEFT OUTER JOIN ffm_net_device ON mom_id_entity.pid = ffm_net_device.pid
         WHERE mom_id_entity.pid = ffm_antenna.pid
             OR mom_id_entity.pid = ffm_net_device.pid
-    FFM._Belongs_to_Node_
+    FFM.Belongs_to_Node
         SELECT ffm__wireless_interface_.__raw_txpower AS ffm__wireless_interface____raw_txpower,
                ffm__wireless_interface_.bssid AS ffm__wireless_interface__bssid,
                ffm__wireless_interface_.essid AS ffm__wireless_interface__essid,
@@ -2605,7 +2605,7 @@ _test_select = """
             OR mom_id_entity.pid = ffm_wpa_credentials.pid
             OR mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
             OR mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
-    FFM._Belongs_to_Node__Left_
+    FFM.Belongs_to_Node_Left
         SELECT ffm__wireless_interface_.__raw_txpower AS ffm__wireless_interface____raw_txpower,
                ffm__wireless_interface_.bssid AS ffm__wireless_interface__bssid,
                ffm__wireless_interface_.essid AS ffm__wireless_interface__essid,
@@ -3407,6 +3407,8 @@ _test_tables = """
     FFM.Antenna                              : ffm_antenna
     FFM.Antenna_Band                         : ffm_antenna_band
     FFM.Antenna_Type                         : ffm_antenna_type
+    FFM.Belongs_to_Node                      : None
+    FFM.Belongs_to_Node_Left                 : None
     FFM.Device                               : None
     FFM.Device_Type                          : None
     FFM.Device_Type_made_by_Company          : ffm_device_type_made_by_company
@@ -3456,8 +3458,6 @@ _test_tables = """
     FFM.Wireless_Interface_uses_Wireless_Channel : ffm_wireless_interface_uses_wireless_channel
     FFM.Wireless_Standard                    : ffm_wireless_standard
     FFM.Zone                                 : ffm_zone
-    FFM._Belongs_to_Node_                    : None
-    FFM._Belongs_to_Node__Left_              : None
     FFM._MOM_Link_n_                         : None
     FFM._Net_Credentials_                    : None
     FFM._Wireless_Interface_                 : ffm__wireless_interface_

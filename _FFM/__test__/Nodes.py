@@ -146,7 +146,7 @@ _test_code = """
     >>> FFM.Antenna.query (Q.belongs_to_node == node3).count ()
     1
 
-    >>> FFM._Belongs_to_Node_.query (Q.belongs_to_node == node3).count ()
+    >>> FFM.Belongs_to_Node.query (Q.belongs_to_node == node3).count ()
     6
 
     >>> FFM.Net_Device.query (Q.belongs_to_node == node3).count ()

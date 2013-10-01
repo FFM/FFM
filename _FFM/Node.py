@@ -44,8 +44,9 @@
 #    17-Apr-2013 (CT) Use `Computed_Set_Mixin`, not `Computed_Mixin`
 #     3-May-2013 (CT) Add attribute `address`,
 #                     put `Node_has_Address` into `refuse_links`
-#    30-Sep-2013 (CT) Mixin `_Belongs_to_Node_`,
+#    30-Sep-2013 (CT) Mixin `Belongs_to_Node`,
 #                     change `belongs_to_node` to query `Q.SELF`
+#     1-Oct-2013 (CT) Set `belongs_to_node.hidden` to `True`
 #    ««revision-date»»···
 #--
 
@@ -58,10 +59,10 @@ from   _GTW._OMP._PAP           import PAP, Person, Subject, Address
 from   _GTW._OMP._DNS.Attr_Type import A_DNS_Label
 
 import _FFM.Entity
-import _FFM._Belongs_to_Node_
+import _FFM.Belongs_to_Node
 
 _Ancestor_Essence = PAP.Subject
-_Mixin            = FFM._Belongs_to_Node_
+_Mixin            = FFM.Belongs_to_Node
 
 class Node (_Mixin, FFM.Entity, _Ancestor_Essence) :
     """Model a node of FFM"""
@@ -105,9 +106,14 @@ class Node (_Mixin, FFM.Entity, _Ancestor_Essence) :
         # end class address
 
         class belongs_to_node (_Mixin._Attributes.belongs_to_node) :
-            """Node to which this entity belongs."""
+            """Node to which this node belongs.
+
+               Just an alias to the node itself to be compatible with all
+               other entities belonging to nodes.
+            """
 
             query              = Q.SELF
+            hidden             = True
 
         # end class belongs_to_node
 
