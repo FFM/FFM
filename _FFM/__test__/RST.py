@@ -34,6 +34,7 @@
 #     8-May-2013 (CT) Remove `.pid`, `.url` from `attribute_names`, unless CSV
 #    13-Jun-2013 (CT) Remove `PNS_Aliases`
 #    29-Jul-2013 (CT) Add `test_put`
+#     4-Oct-2013 (CT) Add tests for query arguments `fields` and `add_fields`
 #    ««revision-date»»···
 #--
 
@@ -431,6 +432,144 @@ _test_limit = r"""
         }
     , 'status' : 200
     , 'url' : 'http://localhost:9999/v1/FFM-Net_Interface_in_IP4_Network?verbose&closure&order_by=pid&limit=1&META'
+    }
+
+    >>> r = show (R.get ("/v1/FFM-Wired_Interface/29?verbose&order_by=pid&limit=1"), cleaner = date_cleaner)
+    { 'json' :
+        { 'attributes' :
+            { 'left' :
+                { 'pid' : 28
+                , 'url' : '/v1/FFM-Net_Device/28'
+                }
+            , 'mac_address' : ''
+            , 'name' : 'wr'
+            }
+        , 'cid' : 44
+        , 'pid' : 29
+        , 'rels' :
+            [ '/v1/FFM-Wired_Interface/29/credentials'
+            , '/v1/FFM-Wired_Interface/29/ip4_network_links'
+            , '/v1/FFM-Wired_Interface/29/ip6_network_links'
+            , '/v1/FFM-Wired_Interface/29/ip_network_links'
+            , '/v1/FFM-Wired_Interface/29/left_net_links'
+            , '/v1/FFM-Wired_Interface/29/right_net_links'
+            ]
+        , 'type_name' : 'FFM.Wired_Interface'
+        , 'url' : '/v1/FFM-Wired_Interface/29'
+        }
+    , 'status' : 200
+    , 'url' : 'http://localhost:9999/v1/FFM-Wired_Interface/29?verbose&order_by=pid&limit=1'
+    }
+
+    >>> r = show (R.get ("/v1/FFM-Wired_Interface/29?verbose&fields=name&order_by=pid&limit=1"), cleaner = date_cleaner)
+    { 'json' :
+        { 'attributes' :
+            { 'name' : 'wr' }
+        , 'cid' : 44
+        , 'pid' : 29
+        , 'rels' :
+            [ '/v1/FFM-Wired_Interface/29/credentials'
+            , '/v1/FFM-Wired_Interface/29/ip4_network_links'
+            , '/v1/FFM-Wired_Interface/29/ip6_network_links'
+            , '/v1/FFM-Wired_Interface/29/ip_network_links'
+            , '/v1/FFM-Wired_Interface/29/left_net_links'
+            , '/v1/FFM-Wired_Interface/29/right_net_links'
+            ]
+        , 'type_name' : 'FFM.Wired_Interface'
+        , 'url' : '/v1/FFM-Wired_Interface/29'
+        }
+    , 'status' : 200
+    , 'url' : 'http://localhost:9999/v1/FFM-Wired_Interface/29?verbose&fields=name&order_by=pid&limit=1'
+    }
+
+    >>> r = show (R.get ("/v1/FFM-Wired_Interface/29?verbose&fields=left,name&order_by=pid&limit=1"), cleaner = date_cleaner)
+    { 'json' :
+        { 'attributes' :
+            { 'left' :
+                { 'pid' : 28
+                , 'url' : '/v1/FFM-Net_Device/28'
+                }
+            , 'name' : 'wr'
+            }
+        , 'cid' : 44
+        , 'pid' : 29
+        , 'rels' :
+            [ '/v1/FFM-Wired_Interface/29/credentials'
+            , '/v1/FFM-Wired_Interface/29/ip4_network_links'
+            , '/v1/FFM-Wired_Interface/29/ip6_network_links'
+            , '/v1/FFM-Wired_Interface/29/ip_network_links'
+            , '/v1/FFM-Wired_Interface/29/left_net_links'
+            , '/v1/FFM-Wired_Interface/29/right_net_links'
+            ]
+        , 'type_name' : 'FFM.Wired_Interface'
+        , 'url' : '/v1/FFM-Wired_Interface/29'
+        }
+    , 'status' : 200
+    , 'url' : 'http://localhost:9999/v1/FFM-Wired_Interface/29?verbose&fields=left,name&order_by=pid&limit=1'
+    }
+
+    >>> r = show (R.get ("/v1/FFM-Wired_Interface/29?verbose&add_fields=belongs_to_node&order_by=pid&limit=1"), cleaner = date_cleaner)
+    { 'json' :
+        { 'attributes' :
+            { 'belongs_to_node' :
+                { 'pid' : 3
+                , 'url' : '/v1/FFM-Node/3'
+                }
+            , 'left' :
+                { 'pid' : 28
+                , 'url' : '/v1/FFM-Net_Device/28'
+                }
+            , 'mac_address' : ''
+            , 'name' : 'wr'
+            }
+        , 'cid' : 44
+        , 'pid' : 29
+        , 'rels' :
+            [ '/v1/FFM-Wired_Interface/29/credentials'
+            , '/v1/FFM-Wired_Interface/29/ip4_network_links'
+            , '/v1/FFM-Wired_Interface/29/ip6_network_links'
+            , '/v1/FFM-Wired_Interface/29/ip_network_links'
+            , '/v1/FFM-Wired_Interface/29/left_net_links'
+            , '/v1/FFM-Wired_Interface/29/right_net_links'
+            ]
+        , 'type_name' : 'FFM.Wired_Interface'
+        , 'url' : '/v1/FFM-Wired_Interface/29'
+        }
+    , 'status' : 200
+    , 'url' : 'http://localhost:9999/v1/FFM-Wired_Interface/29?verbose&add_fields=belongs_to_node&order_by=pid&limit=1'
+    }
+
+    >>> r = show (R.get ("/v1/FFM-Wired_Interface?verbose&add_fields=belongs_to_node&order_by=pid&limit=1"), cleaner = date_cleaner)
+    { 'json' :
+        { 'attribute_names' :
+            [ 'left'
+            , 'mac_address'
+            , 'name'
+            , 'is_active'
+            , 'desc'
+            ]
+        , 'entries' :
+            [ { 'attributes' :
+                  { 'belongs_to_node' :
+                      { 'pid' : 3
+                      , 'url' : '/v1/FFM-Node/3'
+                      }
+                  , 'left' :
+                      { 'pid' : 28
+                      , 'url' : '/v1/FFM-Net_Device/28'
+                      }
+                  , 'mac_address' : ''
+                  , 'name' : 'wr'
+                  }
+              , 'cid' : 44
+              , 'pid' : 29
+              , 'type_name' : 'FFM.Wired_Interface'
+              , 'url' : '/v1/FFM-Wired_Interface/29'
+              }
+            ]
+        }
+    , 'status' : 200
+    , 'url' : 'http://localhost:9999/v1/FFM-Wired_Interface?verbose&add_fields=belongs_to_node&order_by=pid&limit=1'
     }
 
 """
