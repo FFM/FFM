@@ -30,12 +30,13 @@
 ##    27-Mar-2012 (CT) Creation
 ##    29-Mar-2012 (CT) Add `web_links`
 ##     4-May-2012 (CT) Rename `login_page` to `login_url`
+##     6-Oct-2013 (CT) Add `with context` to import of `form.jnj`
 ##    ««revision-date»»···
 ##--
 #}
 
 {%- import "STD::html/navigation.jnj" as NT with context %}
-{%- import "STD::html/form.jnj" as Form %}
+{%- import "STD::html/form.jnj" as Form with context %}
 
 {%- macro main (page) -%}
   {%- set main_caller = kwargs.pop ("caller", None) -%}
