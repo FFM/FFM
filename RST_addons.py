@@ -41,6 +41,10 @@
 #    30-Apr-2013 (CT) Add `Node_Manager_Error`, `_pre_commit_node_check`
 #    30-Apr-2013 (CT) Remove `prefilled` from `User_Node.form_parameters` for
 #                     `manager`
+#     7-Oct-2013 (CT) Simplify `Is_Owner_or_Manager.predicate`
+#                     * `belongs_to_node` works now
+#                     * remove redefinitions of `query_filters_restricted`
+#     7-Oct-2013 (CT) Add `User_Antenna`
 #    ««revision-date»»···
 #--
 
@@ -122,21 +126,15 @@ class Is_Owner_or_Manager (GTW.RST._Permission_) :
 
     def predicate (self, user, page, * args, ** kw) :
         if user :
-            try :
-                qf = page.query_filters_restricted ()
-            except AttributeError :
-                pass
-            else :
-                if qf is not None :
-                    obj  = getattr (page, "obj", None)
-                    if obj is not None :
-                        ### `qf (obj)` is necessary because `belongs_to_node`
-                        ### doesn't work as it should
-                        node = getattr (obj, "belongs_to_node", None)
-                        return \
-                            (   qf (obj)
-                            or (qf (node) if node is not None else False)
-                            )
+            obj = getattr (page, "obj", None)
+            if obj is not None :
+                try :
+                    qf = page.query_filters_restricted ()
+                except AttributeError :
+                    pass
+                else :
+                    if qf is not None :
+                        return qf (obj)
     # end def predicate
 
 # end class Is_Owner_or_Manager
@@ -205,11 +203,7 @@ class User_Entity (_Ancestor) :
         pns, etm = ETM.split (".")
         PNS      = app_type.PNS_Map [pns]
         Nav      = getattr (getattr (PNS, "Nav", None), "Admin", None)
-        xkw      = dict \
-            ( getattr (Nav, etm, {})
-            , ETM = ETM
-            , ** kw
-            )
+        xkw      = dict (getattr (Nav, etm, {}), ETM = ETM, ** kw)
         self.__super.__init__ (** xkw)
     # end def __init__
 
@@ -266,48 +260,35 @@ class User_Node (User_Entity) :
         return result
     # end def form_parameters
 
-    def query_filters_restricted (self) :
-        person = self.user_restriction
-        if person is not None :
-            return (Q.owner == person) | (Q.manager == person)
-    # end def query_filters_restricted
-
 # end class User_Node
 
 class User_Node_Dependent (User_Entity) :
     """Temporary until query attributes with chained Q expressions work"""
 
     ET_depends            = "FFM.Node" ### E_Type we depend on
-    cr_attr               = "left"     ### name of attribute referring to
-                                       ### E_Type instance we depend on
 
     @Once_Property
     @getattr_safe
     def change_query_filters (self) :
-        ETd  = getattr (self.top.ET_Map [self.ET_depends], self.et_map_name)
-        result = \
-            ( self.__super.change_query_filters [0]
-            | ETd.change_query_filters          [0]
-            ,
-            )
-        return result
+        result = self.__super.change_query_filters [0]
+        ETd    = getattr \
+            (self.top.ET_Map [self.ET_depends], self.et_map_name, None)
+        if ETd is not None :
+            result = result | ETd.change_query_filters [0]
+        return (result, )
     # end def change_query_filters
-
-    def query_filters_restricted (self) :
-        person = self.user_restriction
-        if person is not None :
-            ETd  = getattr \
-                (self.top.ET_Map [self.ET_depends], self.et_map_name)
-            pids = [x.pid for x in ETd.objects]
-            qa   = getattr (Q, self.cr_attr)
-            return qa.IN (pids)
-    # end def query_filters_restricted
 
 # end class User_Node_Dependent
 
+class User_Antenna (User_Node_Dependent) :
+
+    ET_depends            = "FFM.Wireless_Interface_uses_Antenna"
+    _ETM                  = "FFM.Antenna"
+
+# end class User_Antenna
+
 class User_Net_Device (User_Node_Dependent) :
 
-    cr_attr               = "node"
     _ETM                  = "FFM.Net_Device"
 
     @property

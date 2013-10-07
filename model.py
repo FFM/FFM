@@ -50,6 +50,7 @@
 #    20-May-2013 (CT) Import `_FFM.RST_Api_addons`
 #    13-Jun-2013 (CT) Remove `PNS_Aliases`
 #    23-Aug-2013 (CT) Add `-auth_required`, use it in `create_top`
+#     7-Oct-2013 (CT) Add `RST_addons.User_Antenna`
 #    ««revision-date»»···
 #--
 
@@ -257,7 +258,11 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
                     , RST_addons.User_Wireless_Interface
                         ( name            = "wireless-interface"
                         , short_title     = _T ("Wireless IF")
-                         )
+                        )
+                    , RST_addons.User_Antenna
+                        ( name            = "antenna"
+                        , short_title     = _T ("Antenna")
+                        )
                     ]
                 )
             , TOP.Page_ReST
