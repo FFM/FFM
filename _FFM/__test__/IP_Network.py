@@ -39,6 +39,7 @@
 #     7-Aug-2013 (CT) Adapt to major surgery of GTW.OMP.NET.Attr_Type
 #    13-Aug-2013 (CT) Add `test_order`, adapt other tests to change in order
 #    22-Aug-2013 (CT) Add tests for I4N and I6N calls with wrong `raw` value
+#     7-Oct-2013 (CT) Add tests for `belongs_to_node`
 #    ««revision-date»»···
 #--
 
@@ -1531,6 +1532,38 @@ _test_net_fixtures = """
     53  : Net_Device                Generic, Node-net4, n4d4
     54  : Net_Device                Generic, Node-net4, n4d5
 
+    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.belongs_to_node.name == "nogps"))
+    2   : Node                      nogps
+
+    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.belongs_to_node.name == "node2"))
+    3   : Node                      node2
+    28  : Net_Device                Generic, node2, dev
+    29  : Wired_Interface           Generic, node2, dev, wr
+    30  : Wireless_Interface        Generic, node2, dev, wl
+
+    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.RAW.belongs_to_node.name == "Node-net1"))
+    38  : Node                      Node-net1
+    44  : Net_Device                Generic, Node-net1, n1d1
+    45  : Net_Device                Generic, Node-net1, n1d2
+
+    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.RAW.belongs_to_node.name == "Node-net2"))
+    39  : Node                      Node-net2
+    46  : Net_Device                Generic, Node-net2, n2d1
+    47  : Net_Device                Generic, Node-net2, n2d2
+    48  : Net_Device                Generic, Node-net2, n2d3
+
+    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.RAW.belongs_to_node.name == "Node-net3"))
+    40  : Node                      Node-net3
+    49  : Net_Device                Generic, Node-net3, n3d1
+
+    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.belongs_to_node.name == "node-net4"))
+    41  : Node                      Node-net4
+    50  : Net_Device                Generic, Node-net4, n4d1
+    51  : Net_Device                Generic, Node-net4, n4d2
+    52  : Net_Device                Generic, Node-net4, n4d3
+    53  : Net_Device                Generic, Node-net4, n4d4
+    54  : Net_Device                Generic, Node-net4, n4d5
+
 """
 
 _test_order_4 = """
@@ -1714,6 +1747,15 @@ _test_std_fixtures = """
     25  : IP4_Network               192.168.23.4
     26  : IP4_Network               192.168.23.5
 
+    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.belongs_to_node.name == "nogps"))
+    2   : Node                      nogps
+
+    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.belongs_to_node.name == "node2"))
+    3   : Node                      node2
+    28  : Net_Device                Generic, node2, dev
+    29  : Wired_Interface           Generic, node2, dev, wr
+    30  : Wireless_Interface        Generic, node2, dev, wl
+
 """
 
 _test_debug = """
@@ -1763,8 +1805,7 @@ _test_debug = """
 """
 
 def show_by_pid (ETM) :
-    for x in ETM.query ().order_by (Q.pid) :
-        print ("%-3s : %-25s %s" % (x.pid, x.type_base_name, x.ui_display))
+    show_query_by_pid (ETM.query ())
 # end def show_by_pid
 
 def show_networks (scope, ETM, * qargs, ** qkw) :
@@ -1782,6 +1823,11 @@ def show_networks (scope, ETM, * qargs, ** qkw) :
 def show_network_count (scope, ETM) :
     print ("%s count: %s" % (ETM.type_name, ETM.count))
 # end def show_network_count
+
+def show_query_by_pid (q) :
+    for x in q.order_by (Q.pid) :
+        print ("%-3s : %-25s %s" % (x.pid, x.type_base_name, x.ui_display))
+# end def show_query_by_pid
 
 __test__ = Scaffold.create_test_dict \
   ( dict
