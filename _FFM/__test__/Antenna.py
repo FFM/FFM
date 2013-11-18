@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-15 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
@@ -31,7 +31,7 @@
 #    17-Dec-2012 (RS) Add tests for attributes of `belongs_to_node`
 #    26-Feb-2013 (CT) Disable tests `belongs_to_node`
 #    14-Aug-2013 (CT) Reenable tests for `belongs_to_node`
-#    ««revision-date»»···
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__ import absolute_import, division, print_function, unicode_literals

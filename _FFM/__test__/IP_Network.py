@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-15 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
@@ -40,7 +40,7 @@
 #    13-Aug-2013 (CT) Add `test_order`, adapt other tests to change in order
 #    22-Aug-2013 (CT) Add tests for I4N and I6N calls with wrong `raw` value
 #     7-Oct-2013 (CT) Add tests for `belongs_to_node`
-#    ««revision-date»»···
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals

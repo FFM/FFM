@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-15 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
@@ -47,7 +47,7 @@
 #    30-Sep-2013 (CT) Mixin `Belongs_to_Node`,
 #                     change `belongs_to_node` to query `Q.SELF`
 #     1-Oct-2013 (CT) Set `belongs_to_node.hidden` to `True`
-#    ««revision-date»»···
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals

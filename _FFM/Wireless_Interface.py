@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-15 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
@@ -42,7 +42,7 @@
 #    27-Feb-2013 (CT) Add `Init_Only_Mixin` and `ui_allow_new` to `hardware`
 #    24-Apr-2013 (CT) Move `left.auto_cache` to non-partial classes
 #    15-May-2013 (CT) Remove `auto_cache`
-#    ««revision-date»»···
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals

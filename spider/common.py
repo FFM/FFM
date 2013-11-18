@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf-8 -*-
 # #*** <License> ************************************************************#
 # This module is part of the program FFM.
 #

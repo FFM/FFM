@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf-8 -*-
 # #*** <License> ************************************************************#
 # This module is part of the program FFM.
 #
@@ -85,8 +85,8 @@ class Backfire_WLAN_Config (Page_Tree) :
     def parse (self) :
         wlo = \
             ( 'Wireless Overview'
-            , 'Drahtlosübersicht'.decode ('latin1')
-            , 'WLAN Übersicht'.decode ('latin1')
+            , 'DrahtlosÃ¼bersicht'.decode ('latin1')
+            , 'WLAN Ãœbersicht'.decode ('latin1')
             )
         root = self.tree.getroot ()
         self.wlans = []

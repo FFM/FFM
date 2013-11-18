@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-15 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
@@ -32,7 +32,7 @@
 #    10-May-2012 (RS) fix typo, make frequency and gain necessary
 #     5-Dec-2012 (RS) Add `polarization`
 #     7-Dec-2012 (RS) Remove `frequency`, add predicate `band_exists`
-#    ««revision-date»»···
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals

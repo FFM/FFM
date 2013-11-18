@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-15 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2012-2013 Dr. Ralf Schlatterbeck All rights reserved
 # Reichergasse 131, A--3411 Weidling, Austria. rsc@runtux.com
 # #*** <License> ************************************************************#
@@ -30,7 +30,7 @@
 #    21-Sep-2012 (RS) set `is_partial`
 #     5-Mar-2013 (CT) Remove redefinition of `ip_address` (gone from parent)
 #    15-May-2013 (CT) Rename `auto_cache` to `auto_rev_ref`
-#    ««revision-date»»···
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals

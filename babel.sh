@@ -28,7 +28,7 @@
 # Revision Dates
 #    27-Mar-2012 (CT) Creation
 #    11-May-2012 (CT) Factor `compile` to python library's babel.sh
-#    ««revision-date»»···
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 cmd=${1:?"Specify a command: extract | language | compile"}; shift

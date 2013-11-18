@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-15 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
@@ -31,7 +31,7 @@
 #    17-May-2012 (CT) Fix typo (`Common`, not `Command`)
 #    12-Sep-2012 (RS) Use `derive_pns_bases`
 #    15-Jun-2013 (CT) Changed `__init__` to define `FFM` as `MOM.Underived_PNS`
-#    ««revision-date»»···
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 ### __END__ FFM.Entity

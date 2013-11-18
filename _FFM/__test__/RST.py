@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-15 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
@@ -35,7 +35,7 @@
 #    13-Jun-2013 (CT) Remove `PNS_Aliases`
 #    29-Jul-2013 (CT) Add `test_put`
 #     4-Oct-2013 (CT) Add tests for query arguments `fields` and `add_fields`
-#    ««revision-date»»···
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__ import absolute_import, division, print_function, unicode_literals
@@ -77,7 +77,7 @@ class FFM_RST_Test_Command (GTW_RST_Test_Command) :
 
 Scaffold   = FFM_RST_Test_Command ()
 
-### «text» ### The doctest follows::
+### Â«textÂ» ### The doctest follows::
 
 _test_get = r"""
     >>> server = run_server (%(p1)s, %(n1)s)

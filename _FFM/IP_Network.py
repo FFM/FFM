@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-15 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2012-2013 Dr. Ralf Schlatterbeck All rights reserved
 # Reichergasse 131, A--3411 Weidling, Austria. rsc@runtux.com
 # #*** <License> ************************************************************#
@@ -49,7 +49,7 @@
 #     8-May-2013 (CT) Set `pool.P_Type` to `FFM.IP_Network`
 #     7-Aug-2013 (CT) Adapt to major surgery of GTW.OMP.NET.Attr_Type
 #    13-Aug-2013 (CT) Adapt to major surgery of GTW.OMP.NET.Attr_Type some more
-#    ««revision-date»»···
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals

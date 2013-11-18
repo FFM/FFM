@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-15 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
@@ -51,7 +51,7 @@
 #    13-Jun-2013 (CT) Remove `PNS_Aliases`
 #    23-Aug-2013 (CT) Add `-auth_required`, use it in `create_top`
 #     7-Oct-2013 (CT) Add `RST_addons.User_Antenna`
-#    ««revision-date»»···
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
@@ -130,30 +130,30 @@ Frei
 ----
 
 FunkFeuer ist ein freies, experimentelles Netzwerk in Wien, Graz, der
-Weststeiermark, in Teilen des Weinviertels (NÖ) und in Bad Ischl. Es wird
+Weststeiermark, in Teilen des Weinviertels (NÃ–) und in Bad Ischl. Es wird
 aufgebaut und betrieben von computerbegeisterten Menschen. Das Projekt verfolgt
 keine kommerziellen Interessen.
 
 Offen
 -----
 
-FunkFeuer ist offen für jeden und jede, der/die Interesse hat und bereit ist
+FunkFeuer ist offen fÃ¼r jeden und jede, der/die Interesse hat und bereit ist
 mitzuarbeiten. Es soll dabei ein nicht reguliertes Netzwerk entstehen, welches
 das Potential hat, den digitalen Graben zwischen den sozialen Schichten zu
-überbrücken und so Infrastruktur und Wissen zur Verfügung zu stellen. Teilnahme
+Ã¼berbrÃ¼cken und so Infrastruktur und Wissen zur VerfÃ¼gung zu stellen. Teilnahme
 Zur Teilnahme an FunkFeuer braucht man einen WLAN Router (gibt's ab 60 Euro)
 oder einen PC, das OLSR Programm, eine IP Adresse von FunkFeuer, etwas Geduld
 und Motivation. Auf unserer Karte ist eingezeichnet, wo man FunkFeuer schon
-überall (ungefähr) empfangen kann (bitte beachte, dass manchmal Häuser oder
-ähnliches im Weg sind, dann geht's nur über Umwege).
+Ã¼berall (ungefÃ¤hr) empfangen kann (bitte beachte, dass manchmal HÃ¤user oder
+Ã¤hnliches im Weg sind, dann geht's nur Ã¼ber Umwege).
 
 *Wir bauen uns unser Netzwerk selber!*
 
 WIE?
 ++++
 
-Eine Einführung gibts als `PDF-Datei`_ (Danke Andreas!)
-Die `ersten Schritte`_ werden im `wiki`_ erläutert.
+Eine EinfÃ¼hrung gibts als `PDF-Datei`_ (Danke Andreas!)
+Die `ersten Schritte`_ werden im `wiki`_ erlÃ¤utert.
 
 .. _`PDF-Datei`:
     http://funkfeuer.at/fileadmin/Dokumente/vortraege/FunkFeuer_Intro.pdf
@@ -174,18 +174,18 @@ WARUM?
 
 
 Armin Medosch hat die Theorie der freien Netze sehr gut analyisiert und sogar
-ein `Buch`_ darüber geschrieben.
+ein `Buch`_ darÃ¼ber geschrieben.
 
 .. _`Buch`: http://www.heise.de/tp/r4/buch/buch_11.html
 
 Cooles Projekt, wie kann ich helfen?
 ++++++++++++++++++++++++++++++++++++
 
-Vielseitig! wir sind ein kleines Team und können **jede** Unterstützung
+Vielseitig! wir sind ein kleines Team und kÃ¶nnen **jede** UnterstÃ¼tzung
 gebrauchen.
 
 Tritt einfach mit uns in Kontakt. Es gibt verschiedene Arbeitsgruppen. Die
-meiste Kommunikation verläuft über die `Mailinglisten`_.
+meiste Kommunikation verlÃ¤uft Ã¼ber die `Mailinglisten`_.
 
 .. _`Mailinglisten`: http://funkfeuer.at/Mailinglisten.61.0.html
 """
