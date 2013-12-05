@@ -98,25 +98,31 @@ System requirements
 
   * `BeautifulSoup`_
 
-  * `python-dateutil`_
-
   * `docutils`_
 
   * `flup`_
 
   * `jinja2`_
 
+  * `m2crypto`_
+
+  * `passlib`_
+
   * `plumbum`_
 
   * `psycopg2`_ or the `mysql package`_ needed by `sqlalchemy`_
 
+  * `py-bcrypt`_
+
+  * `pyOpenSSL`_
+
+  * `pyasn1`_
+
   * `pyquery`_
 
+  * `python-dateutil`_
+
   * `pytz`_
-
-  * `passlib`_
-
-  * `py-bcrypt`_
 
   * `rcssmin`_, `rjsmin`_ (for minimization of CSS and Javascript files)
 
@@ -126,33 +132,30 @@ System requirements
 
   * `werkzeug`_
 
-  * `pyOpenSSL`_
-
-  * `pyasn1`_
-
   Most packages are available via the `Python Package Index`_
 
 .. _`Babel`:           http://babel.edgewall.org/
 .. _`BeautifulSoup`:   http://www.crummy.com/software/BeautifulSoup/
-.. _`python-dateutil`: http://labix.org/python-dateutil
+.. _`Python Package Index`: http://pypi.python.org/pypi
 .. _`docutils`:        http://docutils.sourceforge.net/
 .. _`flup`:            http://trac.saddi.com/flup
 .. _`jinja2`:          http://jinja.pocoo.org/
+.. _`m2crypto`:        http://pypi.python.org/pypi/M2Crypto
+.. _`mysql package`:   http://mysql-python.sourceforge.net/
+.. _`passlib`:         http://code.google.com/p/passlib/
 .. _`plumbum`:         http://plumbum.readthedocs.org/en/latest/index.html
 .. _`psycopg2`:        http://packages.python.org/psycopg2/
-.. _`mysql package`:   http://mysql-python.sourceforge.net/
-.. _`pyquery`:         http://github.com/gawel/pyquery/
-.. _`pytz`:            http://pytz.sourceforge.net/
-.. _`passlib`:         http://code.google.com/p/passlib/
 .. _`py-bcrypt`:       http://code.google.com/p/py-bcrypt/
+.. _`pyOpenSSL`:       https://launchpad.net/pyopenssl
+.. _`pyasn1`:          http://pyasn1.sourceforge.net/
+.. _`pyquery`:         http://github.com/gawel/pyquery/
+.. _`python-dateutil`: http://labix.org/python-dateutil
+.. _`pytz`:            http://pytz.sourceforge.net/
 .. _`rcssmin`:         http://opensource.perlig.de/rcssmin/
 .. _`rjsmin`:          http://opensource.perlig.de/rjsmin/
 .. _`rsclib`:          http://rsclib.sourceforge.net/
 .. _`sqlalchemy`:      http://www.sqlalchemy.org/
 .. _`werkzeug`:        http://werkzeug.pocoo.org/
-.. _`pyOpenSSL`:       https://launchpad.net/pyopenssl
-.. _`pyasn1`:          http://pyasn1.sourceforge.net/
-.. _`Python Package Index`: http://pypi.python.org/pypi
 
 Package Installation for Debian Stable aka Wheezy
 --------------------------------------------------
@@ -168,19 +171,20 @@ Some of the needed Packages are either not in Debian or are too old to
 be useful. The following packages can be installed via the Debian
 installer::
 
- apt-get install git libapache2-mod-fcgid postgresql python-pip \
-     python-virtualenv python-distribute build-essential python-babel \
-     python-bs4 python-dateutil python-docutils python-flup python-jinja2 \
-     python-psycopg2 python-dev apache2-mpm-worker python-tz \
-     python-sqlalchemy python-werkzeug python-passlib python-openssl \
-     python-pyquery swig
+ apt-get install \
+     apache2-mpm-worker build-essential git libapache2-mod-fcgid \
+     postgresql python-pip python-babel python-bs4 python-dateutil \
+     python-dev python-distribute python-docutils python-flup \
+     python-jinja2 python-m2crypto python-openssl python-passlib \
+     python-psycopg2 python-pyasn1 python-pyquery python-sqlalchemy \
+     python-tz python-virtualenv python-werkzeug swig
 
 Other packages can be installed using ``pip`` |---| note that you may want
 to install some of these into a virtual python environment (virtualenv),
 see later in sectioni `How to install`_ |---| depending on your
 estimate how often you want to change external packages::
 
- pip install plumbum py-bcrypt rcssmin rjsmin rsclib pyasn1 pyspkac
+ pip install plumbum py-bcrypt rcssmin rjsmin rsclib pyspkac
 
 Create user and database user permitted to create databases::
 
@@ -222,7 +226,7 @@ anticipate that these will change::
   ### if one of these packages is already installed in the system
   ### Python, you'll need to say `pip install --upgrade`, not `pip install`
   $ source PVE/active/bin/activate
-  $ pip install Babel plumbum pytz werkzeug
+  $ pip install plumbum pytz py-bcrypt rcssmin rjsmin rsclib pyspkac
 
 Then we continue with the setup of an active and a passive branch of the
 web application. With this you can upgrade the passive application while
