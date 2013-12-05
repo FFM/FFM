@@ -110,7 +110,7 @@ System requirements
 
   * `plumbum`_
 
-  * `psycopg2`_ or the `mysql package`_ needed by `sqlalchemy`_
+  * `psycopg2`_
 
   * `py-bcrypt`_
 
@@ -141,7 +141,6 @@ System requirements
 .. _`flup`:            http://trac.saddi.com/flup
 .. _`jinja2`:          http://jinja.pocoo.org/
 .. _`m2crypto`:        http://pypi.python.org/pypi/M2Crypto
-.. _`mysql package`:   http://mysql-python.sourceforge.net/
 .. _`passlib`:         http://code.google.com/p/passlib/
 .. _`plumbum`:         http://plumbum.readthedocs.org/en/latest/index.html
 .. _`psycopg2`:        http://packages.python.org/psycopg2/
