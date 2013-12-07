@@ -114,9 +114,11 @@ class WLAN_Config_Freifunk (WLAN_Config, Parser) :
     re_ssid   = re.compile (r'%sE?SSID:\s*"([^"]+)"%s' % (r_ifname, r_nick))
     r_mode    = r'Mode:\s*(.*)'
     r_frq     = r'Frequency:\s*([0-9.]+)\s*GHz'
-    re_mode   = re.compile (r'%s\s+(?:rssi|RSSI).*Channel:\s+(\d+)' % r_mode)
+    r_rssi    = r'(?:rssi|RSSI).*(-[0-9]+)\s+dBm.*noise.*(-[0-9]+)\s+dBm.*'
+    r_sign    = r'ignal.*(-[0-9]+)\s+d.*oise.*(-[0-9]+)\s+d'
+    re_mode   = re.compile (r'%s\s+%sChannel:\s+(\d+)' % (r_mode, r_rssi))
     re_mode2  = re.compile \
-        (r'%s\s+%s\s+Cell:\s*([0-9a-fA-F:]+)' % (r_mode, r_frq))
+        (r'%s\s+%s\s+Cell:\s*([0-9a-fA-F:]+).*%s' % (r_mode, r_frq, r_sign))
     re_bssid  = re.compile (r'BSSID:\s+%(pt_mac)s' % globals ())
     re_ssid_e = re.compile \
         (r'\s+'.join ((re_ssid.pattern, re_mode.pattern, re_bssid.pattern)))
@@ -136,6 +138,8 @@ class WLAN_Config_Freifunk (WLAN_Config, Parser) :
         self.mode    = None
         self.channel = None
         self.bssid   = None
+        self.signal  = None
+        self.noise   = None
         self.__super.__init__ (** kw)
     # end def __init__
 
@@ -144,7 +148,12 @@ class WLAN_Config_Freifunk (WLAN_Config, Parser) :
     # end def p_bssid
 
     def p_mode (self, state, new_state, match) :
-        self.set (mode = match.group (1).strip (), channel = match.group (2))
+        self.set \
+            ( mode    = match.group (1).strip ()
+            , signal  = match.group (2)
+            , noise   = match.group (3)
+            , channel = match.group (4)
+            )
     # end def p_mode
 
     def p_ssid (self, state, new_state, match) :
@@ -152,8 +161,10 @@ class WLAN_Config_Freifunk (WLAN_Config, Parser) :
         if len (match.groups ()) > 2 :
             self.set \
                 ( mode    = match.group (3)
-                , channel = match.group (4)
-                , bssid   = match.group (5)
+                , signal  = match.group (4)
+                , noise   = match.group (5)
+                , channel = match.group (6)
+                , bssid   = match.group (7)
                 )
     # end def p_ssid
 
@@ -164,6 +175,8 @@ class WLAN_Config_Freifunk (WLAN_Config, Parser) :
             , mode      = match.group (3)
             , frequency = match.group (4)
             , bssid     = match.group (5)
+            , signal    = match.group (6)
+            , noise     = match.group (7)
             )
     # end def p_ssid2
 

@@ -17,6 +17,7 @@
 # along with this module. If not, see <http://www.gnu.org/licenses/>.
 # #*** </License> ***********************************************************#
 
+import re
 from   rsclib.HTML_Parse  import tag, Page_Tree
 from   rsclib.autosuper   import autosuper
 from   spider.common      import Interface, Inet4, Inet6, unroutable
@@ -30,6 +31,13 @@ class Interfaces (Page_Tree, Version_Mixin) :
     wlan_info    = None
     timeout      = 10
     html_charset = 'utf-8' # force utf-8 encoding
+
+    yesno = dict \
+        ( yes  = True
+        , no   = False
+        , ja   = True
+        , nein = False
+        )
 
     def parse (self) :
         root = self.tree.getroot ()
@@ -50,7 +58,7 @@ class Interfaces (Page_Tree, Version_Mixin) :
                         iface = self.if_by_name [name]
                     else :
                         iface = Interface (n, name, mtu)
-                        iface.is_wlan = wlan == 'Yes'
+                        iface.is_wlan = self.yesno.get (wlan, False)
                     if status == 'DOWN' :
                         continue
                     # append IP address to interface if there is one
@@ -82,11 +90,14 @@ class Backfire_WLAN_Config (Page_Tree) :
     timeout      = 10
     html_charset = 'utf-8' # force utf-8 encoding
 
+    title_re     = re.compile \
+        (r'.*ignal.*(?:(-[0-9]+)|(?:N/A))\s+d.*oise.*(-[0-9]+)\s+d')
+
     def parse (self) :
         wlo = \
             ( 'Wireless Overview'
-            , 'Drahtlosübersicht'.decode ('latin1')
-            , 'WLAN Übersicht'.decode ('latin1')
+            , 'Drahtlosübersicht'.decode ('utf-8')
+            , 'WLAN Übersicht'.decode ('utf-8')
             )
         root = self.tree.getroot ()
         self.wlans = []
@@ -108,6 +119,18 @@ class Backfire_WLAN_Config (Page_Tree) :
                     k = td.get ('id')
                     if k :
                         k = k.split ('-') [-1]
+                        # special handling of signal picture which has
+                        # the necessary info in a title attribute :-(
+                        if k == 'signal' and not td.text :
+                            if td [0].tag == tag ('img') :
+                                title = td [0].get ('title') 
+                                m = self.title_re.search (title)
+                                if m :
+                                    d.set \
+                                        ( signal = m.group (1)
+                                        , noise  = m.group (2)
+                                        )
+                                    continue
                     else :
                         k = 'name'
                     v = td.text

@@ -52,6 +52,16 @@ class Version_Mixin (autosuper) :
             p = root [-1][-1]
             if p.tag == tag ('p') and p.get ('class') == 'luci' :
                 lv = self.luci_version = self.tree.get_text (p)
+        # New 2014-Beta (sic) backfire has changed the version info :-(
+        if lv is None :
+            footer = None
+            for a in root.findall (".//%s" % tag ("a")) :
+                if a.get ('href') == 'http://luci.subsignal.org/' :
+                    break
+            if a is not None :
+                if a.text.startswith ("Powered by LuCI") :
+                    self.luci_version = lv = a.text
+                    self.bf_version   = a.tail.strip ()
         if (lv and lv.startswith ('Powered by LuCI')) :
             lv = lv.split ('(', 1) [-1].split (')', 1) [0]
             self.luci_version = lv

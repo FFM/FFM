@@ -235,7 +235,8 @@ class WLAN_Config (Compare_Mixin) :
         }
 
     def __init__ (self, ** kw) :
-        self.name = self.ssid = self.mode = self.channel = self.bssid = None
+        self.name   = self.ssid = self.mode = self.channel = self.bssid = None
+        self.signal = self.noise = None
         self.set (** kw)
         self.__super.__init__ (** kw)
     # end def __init__
@@ -247,27 +248,47 @@ class WLAN_Config (Compare_Mixin) :
         return '802.11a'
     # end def standard
 
+    # Fixers called by `set` if the name is encountered:
+
+    def fix_bssid (self, key, bssid) :
+        if len (bssid.split (':')) == 6 :
+            self.bssid = bssid
+        else :
+            t = bssid.split ('-')
+            if len (t) == 6 :
+                self.bssid = ':'.join (t)
+            else :
+                self.bssid = None
+    # end def fix_bssid
+
+    def fix_frequency (self, key, frq) :
+        if not self.channel :
+            self.channel = self.frq [frq]
+    # end def fix_frequency
+
+    def fix_mode (self, key, mode) :
+        self.mode = self.modes.get (mode.lower (), mode)
+    # end def fix_mode
+
+    def fix_signal (self, key, s) :
+        if not s :
+            return
+        setattr (self, key, int (s))
+    # end def fix_signal
+    fix_noise = fix_signal
+
     def set (self, ** kw) :
         """ Set attributes, don't overwrite existing ones.
             Note that name isn't guaranteed to be set for old spider
             runs.
         """
-        self.name     = getattr (self, 'name', None) or kw.get ('name')
-        self.ssid     = getattr (self, 'ssid', None) or kw.get ('ssid')
-        if not hasattr (self, 'mode') or not self.mode :
-            self.mode     = kw.get ('mode')
-            if self.mode :
-                self.mode = self.modes.get (self.mode.lower (), self.mode)
-        self.channel  = getattr (self, 'channel', None) or kw.get ('channel')
-        self.bssid    = getattr (self, 'bssid',   None) or kw.get ('bssid')
-        if self.bssid is not None and len (self.bssid.split (':')) != 6 :
-            t = self.bssid.split ('-')
-            if len (t) == 6 :
-                self.bssid = ':'.join (t)
-            else :
-                self.bssid = None
-        if not self.channel and 'frequency' in kw :
-            self.channel = self.frq [kw ['frequency']]
+        for k, v in kw.iteritems () :
+            if getattr (self, k, None) is None :
+                fixer = getattr (self, "fix_%s" % k, None)
+                if fixer :
+                    fixer (k, v)
+                else :
+                    setattr (self, k, v)
     # end def set
 
     def __eq__ (self, other) :
@@ -288,6 +309,9 @@ class WLAN_Config (Compare_Mixin) :
         z = []
         for k in 'ssid', 'mode', 'channel', 'bssid' :
             z.append ("%s=%%(%s)s" % (k, k))
+        for k in 'signal', 'noise' :
+            if getattr (self, k, None) :
+                z.append ("%s=%%(%s)s" % (k, k))
         x.append ('\n        , '.join (z))
         x.append ('\n        )')
         return ''.join (x) % self.__dict__
