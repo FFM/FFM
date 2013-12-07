@@ -696,7 +696,7 @@ class Convert (object) :
     def try_insert_address (self, m, person) :
         street  = ' '.join (x for x in (m.street, m.housenumber) if x)
         if street or m.town or m.zip :
-            country = 'Austria'.decode ('latin1')
+            country = 'Austria'.decode ('utf-8')
             if not m.town :
                 pyk.fprint \
                     ( 'INFO: no city (setting to "Wien"): %s/%s'
@@ -714,7 +714,7 @@ class Convert (object) :
                     pyk.fprint ("INFO: no zip: %s/%s" % (m.id, person.pid))
             elif m.zip.startswith ('I-') :
                 m ['zip'] = m.zip [2:]
-                country = 'Italy'.decode ('latin1')
+                country = 'Italy'.decode ('utf-8')
             address = self.pap.Address.instance_or_new \
                 ( street     = street
                 , zip        = m.zip
@@ -1144,7 +1144,7 @@ class Convert (object) :
         for k in sorted (self.olsr_nodes.iterkeys ()) :
             pyk.fprint (k)
         for node in self.contents ['nodes'] :
-            nn = node.name.encode ('latin1')
+            nn = node.name.encode ('utf-8')
             pyk.fprint ("Node: %s (%s)" % (nn, node.id))
             for d in self.dev_by_node.get (node.id, []) :
                 pyk.fprint ("    Device: %s" % d.name)
