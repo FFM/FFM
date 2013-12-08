@@ -318,4 +318,12 @@ class WLAN_Config (Compare_Mixin) :
     # end def __str__
     __repr__ = __str__
 
+    def __getattr__ (self, name) :
+        # Zombie lifting for earlier versions
+        if name == 'signal' or name == 'noise' :
+            setattr (self, name, None)
+            return None
+        raise AttributeError, name
+    # end def __getattr__
+
 # end class WLAN_Config
