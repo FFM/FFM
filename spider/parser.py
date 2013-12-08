@@ -362,7 +362,8 @@ def main () :
             if isinstance (guess, Guess) :
                 dw.writerow \
                     ( dict
-                        ( timestamp = guess.time.strftime ("%Y-%m-%d.%H:%M:%S")
+                        ( timestamp = guess.time.strftime
+                            ("%Y-%m-%d %H:%M:%S+0")
                         , address   = str (ip)
                         , version   = guess.version
                         , type      = guess.type
@@ -389,7 +390,8 @@ def main () :
                     if iface.link :
                         mc = iface.link.mac
                     d  = dict \
-                        ( timestamp = guess.time.strftime ("%Y-%m-%d.%H:%M:%S")
+                        ( timestamp = guess.time.strftime
+                            ("%Y-%m-%d %H:%M:%S+0")
                         , address   = str (ip)
                         , interface = iface.name
                         , mac       = mc
