@@ -20,6 +20,7 @@
 import os
 import re
 from   csv                  import DictWriter
+from   gzip                 import GzipFile
 from   rsclib.HTML_Parse    import tag, Page_Tree
 from   rsclib.stateparser   import Parser
 from   rsclib.autosuper     import autosuper
@@ -266,8 +267,13 @@ def main () :
         if opt.debug :
             print "Processing pickle dump %s" % fn
         keys = dict.fromkeys (ipdict.iterkeys ())
-        f    = open (fn, 'r')
-        obj  = pickle.load (f)
+        if fn == '-' :
+            f = sys.stdin
+        elif fn.endswith ('.gz') :
+            f = GzipFile (fn, 'r')
+        else :
+            f = open (fn, 'r')
+        obj   = pickle.load (f)
         for k, v in obj.iteritems () :
             # Fixup of object
             if isinstance (v, Guess) and not hasattr (v, 'rqinfo') :
