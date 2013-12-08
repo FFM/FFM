@@ -19,8 +19,10 @@
 
 import os
 import re
+from   stat                 import ST_MTIME
 from   csv                  import DictWriter
 from   gzip                 import GzipFile
+from   datetime             import datetime
 from   rsclib.HTML_Parse    import tag, Page_Tree
 from   rsclib.stateparser   import Parser
 from   rsclib.autosuper     import autosuper
@@ -152,6 +154,7 @@ class Guess (Compare_Mixin) :
         except KeyError :
             pass
         self.type = self.status.__class__.__name__
+        self.time = datetime.utcnow ()
     # end def __init__
 
     def as_json (self) :
@@ -267,20 +270,26 @@ def main () :
         if opt.debug :
             print "Processing pickle dump %s" % fn
         keys = dict.fromkeys (ipdict.iterkeys ())
+        mt   = None
         if fn == '-' :
             f = sys.stdin
-        elif fn.endswith ('.gz') :
-            f = GzipFile (fn, 'r')
         else :
-            f = open (fn, 'r')
-        obj   = pickle.load (f)
+            mt = datetime.utcfromtimestamp (os.stat (fn) [ST_MTIME])
+            if fn.endswith ('.gz') :
+                f = GzipFile (fn, 'r')
+            else :
+                f = open (fn, 'r')
+        obj = pickle.load (f)
         for k, v in obj.iteritems () :
             # Fixup of object
-            if isinstance (v, Guess) and not hasattr (v, 'rqinfo') :
-                v.rqinfo                = {}
-                v.rqinfo ['ips']        = v.status.ips
-                v.rqinfo ['interfaces'] = v.status.if_by_name
-                v.status                = None
+            if isinstance (v, Guess) :
+                if not hasattr (v, 'rqinfo') :
+                    v.rqinfo                = {}
+                    v.rqinfo ['ips']        = v.status.ips
+                    v.rqinfo ['interfaces'] = v.status.if_by_name
+                    v.status                = None
+                if mt and not hasattr (v, 'time') :
+                    v.time = mt
             if k in ipdict :
                 keys [k] = True
                 ov       = ipdict [k]
@@ -342,7 +351,7 @@ def main () :
         f.close ()
     key = lambda x : IP4_Address (x [0])
     if opt.version_statistics :
-        fields = ['address', 'type', 'version']
+        fields = ['timestamp', 'address', 'type', 'version']
         if opt.version_statistics == '-' :
             f  = sys.stdout
         else :
@@ -353,15 +362,16 @@ def main () :
             if isinstance (guess, Guess) :
                 dw.writerow \
                     ( dict
-                        ( address = str (ip)
-                        , version = guess.version
-                        , type    = guess.type
+                        ( timestamp = guess.time.strftime ("%Y-%m-%d.%H:%M:%S")
+                        , address   = str (ip)
+                        , version   = guess.version
+                        , type      = guess.type
                         )
                     )
         f.close ()
     if opt.interface_info :
         fields = \
-            [ 'address', 'interface', 'mac', 'wlan'
+            [ 'timestamp', 'address', 'interface', 'mac', 'wlan'
             , 'ssid', 'mode', 'channel', 'bssid'
             , 'ip4', 'ip6', 'signal', 'noise'
             ]
@@ -379,7 +389,8 @@ def main () :
                     if iface.link :
                         mc = iface.link.mac
                     d  = dict \
-                        ( address   = str (ip)
+                        ( timestamp = guess.time.strftime ("%Y-%m-%d.%H:%M:%S")
+                        , address   = str (ip)
                         , interface = iface.name
                         , mac       = mc
                         , wlan      = bool (wi)
