@@ -361,7 +361,7 @@ def main () :
         f.close ()
     if opt.interface_info :
         fields = \
-            [ 'address', 'interface', 'wlan'
+            [ 'address', 'interface', 'mac', 'wlan'
             , 'ssid', 'mode', 'channel', 'bssid'
             , 'ip4', 'ip6', 'signal', 'noise'
             ]
@@ -375,9 +375,13 @@ def main () :
             if isinstance (guess, Guess) :
                 for iface in guess.interfaces.itervalues () :
                     wi = iface.wlan_info
+                    mc = None
+                    if iface.link :
+                        mc = iface.link.mac
                     d  = dict \
                         ( address   = str (ip)
                         , interface = iface.name
+                        , mac       = mc
                         , wlan      = bool (wi)
                         , ip4       = ' '.join (str (i.ip) for i in iface.inet4)
                         , ip6       = ' '.join (str (i.ip) for i in iface.inet6)
