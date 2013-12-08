@@ -334,7 +334,10 @@ def main () :
     key = lambda x : IP4_Address (x [0])
     if opt.version_statistics :
         fields = ['address', 'type', 'version']
-        f      = open (opt.version_statistics, 'w')
+        if opt.version_statistics == '-' :
+            f  = sys.stdout
+        else :
+            f  = open (opt.version_statistics, 'w')
         dw     = DictWriter (f, fields, delimiter = ';')
         dw.writerow (dict ((k, k) for k in fields))
         for ip, guess in sorted (ipdict.iteritems (), key = key) :
@@ -351,9 +354,12 @@ def main () :
         fields = \
             [ 'address', 'interface', 'wlan'
             , 'ssid', 'mode', 'channel', 'bssid'
-            , 'ip4', 'ip6'
+            , 'ip4', 'ip6', 'signal', 'noise'
             ]
-        f      = open (opt.interface_info, 'w')
+        if opt.interface_info == '-' :
+            f  = sys.stdout
+        else :
+            f  = open (opt.interface_info, 'w')
         dw     = DictWriter (f, fields, delimiter = ';')
         dw.writerow (dict ((k, k) for k in fields))
         for ip, guess in sorted (ipdict.iteritems (), key = key) :
@@ -373,6 +379,8 @@ def main () :
                             , bssid   = wi.bssid
                             , ssid    = wi.ssid
                             , mode    = wi.mode
+                            , signal  = wi.signal
+                            , noise   = wi.noise
                             )
                     dw.writerow (d)
         f.close ()
@@ -384,7 +392,7 @@ def main () :
                 if isinstance (guess, Guess) :
                     print guess.verbose_repr ()
                 else :
-                    print guess
+                    print "Exception:", guess
             else :
                 print "%-15s: %s" % (ip, guess)
 # end def main
