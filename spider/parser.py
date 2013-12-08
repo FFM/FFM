@@ -334,7 +334,10 @@ def main () :
         print ff.verbose_repr ()
         ipdict [str (ip)] = ff
     if opt.output_pickle :
-        f = open (opt.output_pickle, 'wb')
+        if opt.output_pickle.endswith ('.gz') :
+            f = GzipFile (opt.output_pickle, 'wb', 9)
+        else :
+            f = open (opt.output_pickle, 'wb')
         pickle.dump (ipdict, f)
         f.close ()
     key = lambda x : IP4_Address (x [0])
