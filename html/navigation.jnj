@@ -31,6 +31,8 @@
 ##    29-Mar-2012 (CT) Add `web_links`
 ##     4-May-2012 (CT) Rename `login_page` to `login_url`
 ##     6-Oct-2013 (CT) Add `with context` to import of `form.jnj`
+##     9-Dec-2013 (CT) Use `request.allow_login`, not `login_url` to guard
+##                     `login_section`
 ##    ««revision-date»»···
 ##--
 #}
@@ -53,7 +55,7 @@
     {{ NT.language_section (page, request) -}}
 
     {%- if not fatal_exception %}
-      {%- if page.login_url or request.user.authenticated %}
+      {%- if request.allow_login or request.user.authenticated %}
         {{- NT.login_section (page, request) -}}
       {%- endif -%}
     {% endif -%}
