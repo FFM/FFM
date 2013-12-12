@@ -170,7 +170,7 @@ Some of the needed Packages are either not in Debian or are too old to
 be useful. The following packages can be installed via the Debian
 installer::
 
- apt-get install \
+ $ apt-get install \
      apache2-mpm-worker build-essential git libapache2-mod-fcgid \
      postgresql python-pip python-babel python-bs4 python-dateutil \
      python-dev python-distribute python-docutils python-flup \
@@ -183,12 +183,12 @@ to install some of these into a virtual python environment (virtualenv),
 see later in sectioni `How to install`_ |---| depending on your
 estimate how often you want to change external packages::
 
- pip install plumbum py-bcrypt rcssmin rjsmin rsclib pyspkac
+ $ pip install plumbum py-bcrypt rcssmin rjsmin rsclib pyspkac
 
 Create user and database user permitted to create databases::
 
- adduser ffm
- createuser -d ffm -P
+ $ adduser ffm
+ $ createuser -d ffm -P
 
 How to install
 --------------
@@ -262,7 +262,7 @@ system should something go wrong during the upgrade::
   $ export PYTHONPATH=/home/ffm/active/lib
 
   ### Create a fcgi script for Apache
-  $ python active/www/app/deploy.py fcgi_script > fcgi/app_server.fcgi
+  $ python active/www/app/deploy.py fcgi_script -script_path fcgi/app_server.fcgi
 
 Then we configure an Apache virtual host, for instance::
 
@@ -358,20 +358,20 @@ To configure Apache to always use https, use something like::
 
 For Debian the apache configuration should be placed into
 ``/etc/apache2/sites-available/``, e.g., into the file
-``nodedb2.example.com`` and enabled. You probably will have to disable
+``nodedb2.example.com``, and enabled. You probably will have to disable
 the default site installed. We used the following commands |---| we
 also enable some needed modules::
 
-  a2ensite nodedb2.example.com
-  a2dissite default
-  a2enmod mod_expires
-  a2enmod fcgid
-  /etc/init.d/apache2 restart
+  $ a2ensite nodedb2.example.com
+  $ a2dissite default
+  $ a2enmod mod_expires
+  $ a2enmod fcgid
+  $ /etc/init.d/apache2 restart
 
 For https sites, you'll also need the modules::
 
-  a2enmod rewrite
-  a2enmod ssl
+  $ a2enmod rewrite
+  $ a2enmod ssl
 
 Finally we create a database and populate it with data::
 
@@ -396,13 +396,14 @@ exchanging the symbolic links to the active and passive configuration::
     $ python passive/www/app/deploy.py babel compile
 
     ### Migrate database from active to passive
-    $ python passive/www/app/deploy.py migrate -A -P
+    $ python passive/www/app/deploy.py migrate -Active -Passive -verbose
 
     ### Setup app cache
     $ python passive/www/app/deploy.py setup_cache
 
   ### Switch active and passive branches
   $ python passive/www/app/deploy.py switch
+  $ sudo /etc/init.d/apache2 restart
 
 Contact
 -------
