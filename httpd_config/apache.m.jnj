@@ -1,0 +1,57 @@
+{#- jinja template: apache.m.jnj -#}
+{#
+## Copyright (C) 2013 Mag. Christian Tanzer All rights reserved
+## Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+## #*** <License> ************************************************************#
+## This template is part of the web page ffm.funkfeuer.at.
+##
+## This template is licensed under the terms of either the
+## MIT License or the GNU Affero General Public License (AGPL) Version 3.
+## http://www.c-tanzer.at/license/mit_or_agpl.html
+## #*** </License> ***********************************************************#
+##
+##++
+## Name
+##    apache.m.jnj
+##
+## Purpose
+##    Jinja macros for creating apache config files
+##
+## Revision Dates
+##    18-Dec-2013 (CT) Creation
+##    ««revision-date»»···
+##--
+#}
+
+{%- import "STD::httpd_config/apache.m.jnj" as A with context %}
+
+{%- macro ffm_host_80_redirect
+        ( server_name, admin
+        , addr_port = "*:80"
+        , aliases   = ()
+        )
+-%}
+  {%- set _fool_jinja = kwargs.pop ("fool_jinja", None) -%}
+  {% call A.gtw_host_80_redirect
+      ( server_name, admin
+      , addr_port = addr_port
+      , aliases   = aliases
+      , ** kwargs
+      )
+  -%}
+    {# This redefinition is not necessary but it demonstrates how to override
+    ## a macro defined by STD::httpd_config/apache.m.jnj
+    ##
+    ## Here you could do additional stuff
+    -#}
+  {% endcall %} {# A.gtw_host_80_redirec #}
+{%- endmacro -%} {#- ffm_host_80_redirect -#}
+
+{%- macro ffm_host_ssl_cc () -%}
+  {% call A.gtw_host_ssl_cc (** kwargs) -%}
+    {# Configure custom log format to include ssl information -#}
+    CustomLog ${APACHE_LOG_DIR}/ssl.log "%t %h %{SSL_PROTOCOL}x %{SSL_CLIENT_S_DN_O}x %{SSL_CLIENT_VERIFY}x %{SSL_CLIENT_M_SERIAL}x %{SSL_CLIENT_S_DN_CN}x \"%r\" %s %b"
+  {% endcall %} {# gtw_host_ssl_cc #}
+{%- endmacro -%} {#- ffm_host_ssl_cc -#}
+
+{#- __END__ jinja template: apache.m.jnj -#}
