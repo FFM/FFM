@@ -19,6 +19,7 @@
 ##
 ## Revision Dates
 ##    18-Dec-2013 (CT) Creation
+##    20-Dec-2013 (CT) Split `addr_port` into `address` and `port`
 ##    ««revision-date»»···
 ##--
 #}
@@ -27,15 +28,17 @@
 
 {%- macro ffm_host_80_redirect
         ( server_name, admin
-        , addr_port = "*:80"
+        , address   = "*"
+        , port      = "80"
         , aliases   = ()
         )
 -%}
   {%- set _fool_jinja = kwargs.pop ("fool_jinja", None) -%}
   {% call A.gtw_host_80_redirect
       ( server_name, admin
-      , addr_port = addr_port
+      , address     = address
       , aliases   = aliases
+      , port        = port
       , ** kwargs
       )
   -%}
