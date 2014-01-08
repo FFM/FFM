@@ -1,6 +1,6 @@
 {#- jinja template: apache.m.jnj -#}
 {#
-## Copyright (C) 2013 Mag. Christian Tanzer All rights reserved
+## Copyright (C) 2013-2014 Mag. Christian Tanzer All rights reserved
 ## Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 ## #*** <License> ************************************************************#
 ## This template is part of the web page ffm.funkfeuer.at.
@@ -20,11 +20,17 @@
 ## Revision Dates
 ##    18-Dec-2013 (CT) Creation
 ##    20-Dec-2013 (CT) Split `addr_port` into `address` and `port`
+##     8-Jan-2014 (CT) Add aliases for `gtw_host` macros
 ##    ««revision-date»»···
 ##--
 #}
 
 {%- import "STD::httpd_config/apache.m.jnj" as A with context %}
+
+{%- set gtw_host             = A.gtw_host -%}
+{%- set gtw_host_80_redirect = A.gtw_host_80_redirect -%}
+{%- set gtw_host_ssl         = A.gtw_host_ssl -%}
+{%- set gtw_host_ssl_cc      = A.gtw_host_ssl_cc -%}
 
 {%- macro ffm_host_80_redirect
         ( server_name, admin
@@ -47,7 +53,7 @@
     ##
     ## Here you could do additional stuff
     -#}
-  {% endcall %} {# A.gtw_host_80_redirec #}
+  {% endcall %} {# A.gtw_host_80_redirect #}
 {%- endmacro -%} {#- ffm_host_80_redirect -#}
 
 {%- macro ffm_host_ssl_cc () -%}
