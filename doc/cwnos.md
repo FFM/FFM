@@ -67,7 +67,7 @@ XXX FIXME XXX
 Architecture description
 =========================================
 
-<… insert graphic cwnos-architecture-overview.pdf …>
+![CWNOS Architecture](./cwnos-architecture-overview.png)
 
 
 == Registries ==
