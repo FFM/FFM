@@ -96,14 +96,15 @@ The mail offers an API interface to the dashboard(s):
 ### Map
 
 The map is the primary tool by which users can :
-  * search for nodes / devices
-  * show link planning information (fresnell zone, ...)
-  * register nodes
-  * move nodes
-  * delete nodes
-  * show a node's links
-  * visualize statistics (bandwidth, default route, packet loss, ...)
-  * visualize minimum spanning trees and chosen path to the next default gateway
+
+* search for nodes / devices
+* show link planning information (fresnell zone, ...)
+* register nodes
+* move nodes
+* delete nodes
+* show a node's links
+* visualize statistics (bandwidth, default route, packet loss, ...)
+* visualize minimum spanning trees and chosen path to the next default gateway
 
 In order to fullfill it's tasks, the map needs to query data from the registries, the link planning tool and the statistics module. 
   
@@ -218,8 +219,8 @@ Another approach: we hand out a standard firmware which only knows how to connec
 
 The common node DB must have the following use-cases in mind: it should be easy to access the necessary information so that a periodic job can:
 
-  * fetch routing topology graph, give it a timestamp and store it for analysis
-  * generate network topology graphs
+* fetch routing topology graph, give it a timestamp and store it for analysis
+* generate network topology graphs
 
 ### Map
 
@@ -236,17 +237,17 @@ the owner and/or tech-c of a node/device should be able to log into a dashboard 
 In addition, each task should be able to have some configurable reminders ("alarms").
 It should be possible to:
 
-  * send out reminders to users, about missing info (panorama view uploads, missing tel# ,...)
-  * send out reminders to users to update outdated information, 
-  * send reminders to users that this is the data that we have about them and if it is still current
-  * IP reclaim mails: these IPs have not been in use for X months. Send out a reminder to users that these IPs will be reclaimed automatically if not in use until some day
-  * inform users which still have devices with outdated firmware versions about updates if no auto update 
-  * get a list of nodes where automatic updates are allowed
-  * send out reminders of security updates
-  * present security vulnerabilities which were discovered somehow by some means and present security advice and reminders
-  * "newsboard": present updates for the status of the whole network or for the section of the network which is 
-  * a node owner can select via nodeDB which dashboard he wants to use. The node owner then gets a token code which needs to be entered in the other dashboard, which in turn gets permissions to read data from the nodeDB.
-  * the dashboard should compare the current state of data of a node and its' data as stored in the nodeDB. If there are dif
+* send out reminders to users, about missing info (panorama view uploads, missing tel# ,...)
+* send out reminders to users to update outdated information, 
+* send reminders to users that this is the data that we have about them and if it is still current
+* IP reclaim mails: these IPs have not been in use for X months. Send out a reminder to users that these IPs will be reclaimed automatically if not in use until some day
+* inform users which still have devices with outdated firmware versions about updates if no auto update 
+* get a list of nodes where automatic updates are allowed
+* send out reminders of security updates
+* present security vulnerabilities which were discovered somehow by some means and present security advice and reminders
+* "newsboard": present updates for the status of the whole network or for the section of the network which is 
+* a node owner can select via nodeDB which dashboard he wants to use. The node owner then gets a token code which needs to be entered in the other dashboard, which in turn gets permissions to read data from the nodeDB.
+* the dashboard should compare the current state of data of a node and its' data as stored in the nodeDB. If there are dif
   
   
   XXXXXXX 
