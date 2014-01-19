@@ -1,76 +1,58 @@
-Title: Architecture and use-cases of the community wireless netowork operating system (CWNOS)
+# Architecture and use-cases of the community wireless netowork operating system (CWNOS)
+*Authors: L. Aaron Kaplan <aaron@lo-res.org>, Christian Pointner <equinox@chaos-at-home.org>*
 
-Authors: L. Aaron Kaplan <aaron@lo-res.org>, Christian Pointner <equinox@chaos-at-home.org>
-
- 
-
-
-Status of this Memo
-=========================================
+## Status of this Memo
 
 DRAFT!
 
-TODOs:
-1) complete the document
-2) describe other documents
-3) make RFCish, use XML/RFC tools
+## TODOs:
+
+1. complete the document
+2. describe other documents
+3. make RFCish, use XML/RFC tools
+
+## Copyright Notice
 
 
-Copyright Notice
-=========================================
-
-
-Abstract
-=========================================
+## Abstract
 
 This document describes use-cases of the common nodeDB and its interactions with other components such as the map, linkplanning tools, monitoring tools, dashboard(s), an experiment management DB, firmware generator(s), etc.
 
-Table of Contents
-=========================================
+## Table of Contents
 
-XXX generate XXX
+TODO: Generate
 
-
-
-1.  Introduction
-=========================================
+## 1.  Introduction
 
 Over the course of ten+ years of community wireless network development and research, different wireless community networks have come up with different node databases (nodeDB). These are essential for managing a network. In the most simplest case, these node databases are simply a list of assigned IP addresses or address ranges and nothing else.
 In the most elaborate cases, these nodeDBs offer all kinds of features such as link planning.
 
 The aim of this document is to describe a rather complete set of features which a nodeDB may implement. 
 
+## 2. Definitions
 
-
-
-2. Definitions
-=========================================
-
-
-Node
+### Node
   By node we denote a physical location where one or multiple devices are grouped together and are directly interconnected on layer 2.
   A node is not to be confused with a device. 
   
-NodeDB
+### NodeDB
   Strictly speaking, the nodeDB is the set of different registries (IP address, nodes and device registry and person registry). There are other components (as mentioned in the introduction) which interplay with the nodeDB. For example the map, the dashboard, etc. These components usually query the nodeDB via a REST interface.
   
-Device
+### Device
   By device we mean an individual piece of  (router) hardware which is an independent participant in the mesh network.
   
-Dashboard
+### Dashboard
   By dashboard we denote the main user interface through which a user of the community wireless network can see "his" community wireless network. It also gives the user a comparison actual data of the network (statistics, reachability etc) with the stored data in the nodeDB
 
-Community Wireless Network (CWN)
+### Community Wireless Network (CWN)
 XXX FIXME XXX
 
-
-Architecture description
-=========================================
+## Architecture description
 
 ![CWNOS Architecture](./cwnos-architecture-overview.png)
 
 
-== Registries ==
+### Registries
 
 There are a few objects which need to be stored in a central registry in order to avoid inconsitencies and in order to keep it simple.
 These registries do not have a user interface (maybe an admin interface) but they offer their services to *authenticated* clients via a RESTful API.
@@ -79,12 +61,12 @@ The registries are also reachable via a whois service (limited access to some IP
 
 In the drawing (XXX refXXX) there is only one registry drawn. Most other modules can have multiple instances. 
 
-=== Node registry ===
+### Node Registry
 
 The node registry stores nodes as well as devices and the device's IP addresses.
 
 
-=== Person registry ===
+### Person Registry
 
 The person registry stores the information about community wireless network users: username, email address(es), authentication information, telephone numbers, the postal address, etc.
 A person might have an avatar picture
@@ -92,93 +74,17 @@ A person might have an avatar picture
 XXX FIXME: document communication-marketplace/forum/agora. I have skills $foo, searching for skills $bla XXX
 
 
-=== Archive ===
+### Archive
+
 The archive's role is to keep historical records of the person registry and the node registry.
 
 
-== Dashboard ==
+### Dashboard
 
-This is the main user interface as seen from the user. A user of the community wireless network uses the dashboard for most interactions with the community network. 
-The following use cases should be possible:
+This is the main user interface for the CWNOS. A reference implementation
+is the [CWNOS dashboard](http://github.com/FFM/dashboard).
 
- * a new user gets created
-     (possible for anybody)
- * CWN admin/mentor verifies an unverified user -> user is now part of CWN
-     (user may be verified automatically if CWN allows this)
-     (verification of account is indepented of account activation (email probes) which should always be used)
- * admin/mentor upgrades normal user to admin/mentor
- * user with admin/mentor privileges switches to admin/mentor role
-     (when admin/mentor role is selected dashboard shows more information - ie. all nodes not only those owned by the user)
- * admin/mentor switches to user role
-     (only nodes and resources owned by the user will be shown)
- * user creates a new node via the map (embedded or standalone)
-     (should be possible before user gets verified)
- * user creates devices for the node (manually or by wizard)
-    @wizard: uses link planning tool to propose amount and type of hardware
-     (should be possible before user gets verified)
- * user creates interfaces for devices (manually or by wizard)
-    @wizard: for given hardware select use cases (mesh node, access point, backbone, ...) -> interfaces, firmware
-     (should be possible before user gets verified)
- * user selects firmware to be used for the device (freifunk, backfire-vienna, airos, custom, ...)
-    @wizard: based on use case (see above) propose firmware ('custom' is always an alternative)
-     (should be possible before user gets verified)
- * assign IP addresses for the devices (manually or by wizard)
-    @wizard: based on use case (see above) propose IP addresses (expert view: different ip range, NAT, dhcp, ...) 
-     (only to verfied users)
-     (unverified users may get an IP inside a test range)
- * user triggers the firmware/configuration generator and downloads a custom firmware/configuration for the selected device(s)
- * user prints node construction proposal containing detailed instruction how to flash/configure/connect devices
-     (printed instructions should be usable on rooftops!)
- * if address of offline node reaches GW -> redirect to landing page which marks node and (all) devices as online
-     (new nodes are always marked offline)
-     (landing page may use password to verify the update - if the user forgot her/his password the online state
-      is limited to xx hours/minutes - permanent online only with password!)
-     (user may select a subset of devices of the node as online)
-     (if ip is inside test range the node goes automatically offline after xx hours/minutes and may only have
-      limited internet service)
- * user marks nodes/devices online/offline(down for maintenance)
- * user checks dashboard for mismatch of planned (nodedb) and actual (statistics) values
-     (dashboard asks user whether to update router config -> config-update or autoupdate/reflash subsytem
-      or to update the nodedb information)
- * user checks statistics and link planning for recommendations/improvements
- * users(neighbours) use dashboard to vote new channel
-     (using a doodle-like poll)
- * user creates a collobartive TODO/Task list for group of users
- * user (de)registers device for autoupdate service
- * user (de)registers monitoring for links (i.e. backbone link between 2 devices)
- * a user can configure how he/she wants to be reached via the mailer
- * user sets privacy - i.e. hide contact addresses, phone number, real name, postal address...
-     (user is always reachable using the mailer service)
- * the user gets reminders of the dasboard when:
-   - a device or link is not online for a given amount of time
-   - a device's firmware version is outdated
-   - a device has known security vulnerabilities and needs patching
-   - a user's device is assigned IP addresses which were not in use for a long time and therefore need to be reclaimed
-   - a user should verify his data and update outdated data
-   - a important link between 2 devices (backbone) goes down
- * user contacts owner/tech of neigbours/other nodes, i.e.: ask questions, invitation to drink beer, ...
-     (using mailer)
- * user renames a node/device
- * user moves nodes to a new location
- * user moves a device to a new/different node
- * user changes owner/tech for node/device -> push ownership/tech-c
-     (new owner/tech must confirm)
- * user requests change of tech for node/device of other user -> pull tech-c
-     (owner must confirm)
- * user requests change of owner for node/device of other user -> pull ownership
-     (old owner must confirm)
- * user deletes a node/device
- * user deletes the user account
-     (ask what about existing nodes?)
-
-XXX ADD STUFF FROM THE COMMUNITY XXX
- * change config -> warning may disrupt network service - revert?
- * what about breakage after update/config change???? revert? -> firmware!
- * config update: how handle ip changes, especially how to swap address between devices
-XXX
-
-
-== Mailer ==
+### Mailer
 
 The mailer's purpose is to inform users.
 
@@ -187,7 +93,7 @@ The mail offers an API interface to the dashboard(s):
   contact_user(user_id, priority, message)
 
 
-== Map ==
+### Map
 
 The map is the primary tool by which users can :
   * search for nodes / devices
@@ -207,132 +113,123 @@ BETTER ALTERNATIVE: users should be able to say which info can be shown on the d
 
 The map should be integratable into the dashboard but also run as a stand-alone (web based) application.
 
-  
-== Link Planning ==
+ 
+### Link Planning 
 
+### Statistics
 
-== Statistics ==
+### Autoupdate & Installer
 
-== Autoupdate & Installer ==
+### Firmware Generator
 
-== Firmware Generator ==
+### Server Configuration Generator
 
-== Server Configuration Generator ==
+## Use Cases
 
+### 0. Permission system
 
+### I. Registry
 
+#### 3. Register new user
 
+* Assign user to (geographic) network
+* Change user
+* Unregister/delete user
+* Register/Change/Delete super*-admin
+* Assign/Change/Delete mentor
+* Change permissions user
 
+#### 4. Register new node
 
-Use cases
-=========================================
+* Assign node to (geographic) network
+* Change node, change node's location
+* Unregister/delete node
+* Change admin-c (ownership)
+* Change tech-c
+* Upload/Change/Delete panorama views
 
-0. Permission system
-=================
+#### 5. Register device
 
-I. Registry
-=========
+* Change device, change device's node, change devices' location
+* Assign device to (routing) network
+* Unregister/delete device
+* Change admin-c (ownership)
+* Change tech-c
+* Change device into a gateway
+* Change state of device (new, planned, under construction, online, maintenance mode)
 
-3. Register new user
-Assign user to (geographic) network
-Change user
-Unregister/delete user
-Register/Change/Delete super*-admin
-Assign/Change/Delete mentor
-Change permissions user
+#### 6. Register network
 
-4. Register new node
-Assign node to (geographic) network
-Change node, change node's location
-Unregister/delete node
-Change admin-c (ownership)
-Change tech-c
-Upload/Change/Delete panorama views
+* Assign DNS suffix to network
+* Change network
+* Move nodes to network
+* Hand over network to new admin/super*-admin
+* Delete network
 
-5. Register device
-Change device, change device's node, change devices' location
-Assign device to (routing) network
-Unregister/delete device
-Change admin-c (ownership)
-Change tech-c
-Change device into a gateway
-Change state of device (new, planned, under construction, online, maintenance mode)
+#### 7. Add/change/delete ressources and basic data
 
-
-6. Register network
-Assign DNS suffix to network
-Change network
-Move nodes to network
-Hand over network to new admin/super*-admin
-Delete network
-
-7. Add/change/delete ressources and basic data
 (IPs, permission types, netblocks, voip#, DNS suffixes, link types (fiber, copper, wireless), ...)
 Basic data: Antenna types, Device Types, Suppliers, Wireless channels, Wireless mode, 
 Import / Export basic data. For example a new device type is being worked on in one network and the specs are added to a nodeDB. Then the other nodeDBs are informed that this device type is supported and they get the basic data for it (number of interfaces, name, model, amount of RAM, etc)
 
-8. Register IP addresses / address block
-Unregister IP addresses
-Assign authoritative DNS server to address block
+#### 8. Register IP addresses / address block
 
-9. Reclaim IP addresses
-Teardown period...
+* Unregister IP addresses
+* Assign authoritative DNS server to address block
 
-10. Renumbering of IPs
+#### 9. Reclaim IP addresses
 
-11. Register link
+* Teardown period...
+
+#### 10. Renumbering of IPs
+
+#### 11. Register link
 PPA agreement mails to link partners, do you want to have a link to each other? please confirm ("link/neighbor request")
 Keep history of link: did it work? When was it planned? When established? Did it change link partners? ...
 Say "this is an important link for me, please inform me (the link partner or the super-admin), if it is down".  -> register in monitoring system for warnings
 
 
-
-
-
-Link planning
-=========================================
+### Link planning
 
 Get recommendations, which other link partners might see your own node (click on panorama views of related nodes)
 
 Search for potential link partners: get side view of fresnell zone.
 
 
-Provisioning
-=========================================
-1. CPE provisionin
-Choose device from list of devices and manufacturers (show picture!)
-Press "generate firmware"
-Get informed when firmware is finished
+### Provisioning
+
+#### 1. CPE provisionin
+
+* Choose device from list of devices and manufacturers (show picture!)
+* Press "generate firmware"
+* Get informed when firmware is finished
 
 Another approach: we hand out a standard firmware which only knows how to connect to other mesh nodes. Upon connecting, it will post it's mac address to the server. The server knows which device this is because the mac address was already registered and sends the client the complete configuration. The device reboots, connects back to the server and the server marks the device as online and correctly configured.
 
 
-2. Server config provisioning
+#### 2. Server config provisioning
 
-a. generate smokeping configuration files
-b. generate nagios/monitoring system configuration files
-c. generate DNS zone files
-d. generate network map (see cronjob admin tasks)
+* generate smokeping configuration files
+* generate nagios/monitoring system configuration files
+* generate DNS zone files
+* generate network map (see cronjob admin tasks)
 
-
-cronjob admin tasks
-=========================================
+### cronjob admin tasks
 
 The common node DB must have the following use-cases in mind: it should be easy to access the necessary information so that a periodic job can:
 
   * fetch routing topology graph, give it a timestamp and store it for analysis
   * generate network topology graphs
 
-Map
-=========================================
+### Map
+
 The map is the primary graphic user interface for registering and administering nodes.
 
 
-Node admin's dashboard
-=========================================
+### Node admin's dashboard
 The dashboard is the personal view of the community mesh network as seen through the eyes of a node owner/device owner (and/or tech-c). 
 
-NOTE: the dashboard is *not* part of the common node DB. It is specified separately in XXXX FIXME XXX. The dashboard can run in a distributed fashion with individual parts of the network covered by different dashboards.
+NOTE: the dashboard is *not* part of the common node DB. It is specified separately in . The dashboard can run in a distributed fashion with individual parts of the network covered by different dashboards.
 
 The common node DB must have the following use-cases in mind (and provide the necessary data for those via ReSTful interfaces): 
 the owner and/or tech-c of a node/device should be able to log into a dashboard and see all the tasks which need to be done for his/her node and/or devices.
@@ -358,17 +255,11 @@ It should be possible to:
 
 
 
-Acknowledgments
-=========================================
+## Acknowledgments
 This document would not have been possible without the contribution of numerous people: 
  Michael Bauer for wisdom, Mitar's relentless stream of opinions and ideas, Amir Sagie for discussing with Aaron many times how nodeDBs should be structured, 
  ...
 
 
-References
-=========================================
-
-
-
-
+## References
 
