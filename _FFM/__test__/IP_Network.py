@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2013 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2013-2014 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.__test__.
@@ -1328,7 +1328,6 @@ _test_AQ = """
     Manager/Lifetime/Start
     Manager/Lifetime/Finish
     Manager/Lifetime/Alive
-    Manager/Salutation
     Manager/Sex
     Manager/Last cid
     Manager/Pid
@@ -1379,7 +1378,6 @@ _test_AQ = """
     Device/Node/Manager/Lifetime/Start
     Device/Node/Manager/Lifetime/Finish
     Device/Node/Manager/Lifetime/Alive
-    Device/Node/Manager/Salutation
     Device/Node/Manager/Sex
     Device/Node/Manager/Last cid
     Device/Node/Manager/Pid
@@ -1423,7 +1421,6 @@ _test_AQ = """
     Device/Belongs to node/Manager/Lifetime/Start
     Device/Belongs to node/Manager/Lifetime/Finish
     Device/Belongs to node/Manager/Lifetime/Alive
-    Device/Belongs to node/Manager/Salutation
     Device/Belongs to node/Manager/Sex
     Device/Belongs to node/Manager/Last cid
     Device/Belongs to node/Manager/Pid
@@ -1469,7 +1466,6 @@ _test_AQ = """
     Belongs to node/Manager/Lifetime/Start
     Belongs to node/Manager/Lifetime/Finish
     Belongs to node/Manager/Lifetime/Alive
-    Belongs to node/Manager/Salutation
     Belongs to node/Manager/Sex
     Belongs to node/Manager/Last cid
     Belongs to node/Manager/Pid

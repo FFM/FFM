@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2014 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.__test__.
@@ -392,14 +392,6 @@ _test_refuse_e_types = """
             , id = 'manager__lifetime'
             , name = 'lifetime'
             , ui_name = 'Manager/Lifetime'
-            )
-          , Record
-            ( attr = String `salutation`
-            , full_name = 'manager.salutation'
-            , id = 'manager__salutation'
-            , name = 'salutation'
-            , sig_key = 3
-            , ui_name = 'Manager/Salutation'
             )
           , Record
             ( attr = Sex `sex`
