@@ -139,7 +139,7 @@ _test_code = """
     ...     , polarization = "vertical"
     ...     , raw          = True
     ...     )
-    >>> args = dict (left = at1, azimuth = "180", elevation = 0, raw = True)
+    >>> args = dict (left = at1, azimuth = "180", elevation_angle = 0, raw = True)
     >>> a = FFM.Antenna (name = "1", ** args)
     >>> wia = FFM.Wireless_Interface_uses_Antenna (wl, a)
 

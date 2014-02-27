@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2013 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2013-2014 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.__test__.
@@ -462,7 +462,7 @@ _test_q_able = """
       <SAW : Rev_Ref `creation`>
       <SAW : Text `desc` [ffm_antenna.desc]>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
-      <SAW : Int `elevation` [ffm_antenna.elevation]>
+      <SAW : Int `elevation_angle` [ffm_antenna.elevation_angle]>
       <SAW : Float `gain` [ffm_antenna.gain]>
       <SAW : Role_Ref `interface`>
       <SAW : Rev_Ref `last_change`>
@@ -1132,7 +1132,7 @@ _test_q_result = """
            ffm_antenna.__raw_azimuth AS ffm_antenna___raw_azimuth,
            ffm_antenna.__raw_name AS ffm_antenna___raw_name,
            ffm_antenna.azimuth AS ffm_antenna_azimuth,
-           ffm_antenna.elevation AS ffm_antenna_elevation,
+           ffm_antenna.elevation_angle AS ffm_antenna_elevation_angle,
            ffm_antenna.gain AS ffm_antenna_gain,
            ffm_antenna.name AS ffm_antenna_name,
            ffm_antenna.pid AS ffm_antenna_pid,
@@ -1364,7 +1364,7 @@ _test_q_result = """
            ffm_antenna.__raw_azimuth AS ffm_antenna___raw_azimuth,
            ffm_antenna.__raw_name AS ffm_antenna___raw_name,
            ffm_antenna.azimuth AS ffm_antenna_azimuth,
-           ffm_antenna.elevation AS ffm_antenna_elevation,
+           ffm_antenna.elevation_angle AS ffm_antenna_elevation_angle,
            ffm_antenna.gain AS ffm_antenna_gain,
            ffm_antenna.name AS ffm_antenna_name,
            ffm_antenna.pid AS ffm_antenna_pid,
@@ -1475,7 +1475,7 @@ _test_q_result = """
            ffm_antenna.__raw_azimuth AS ffm_antenna___raw_azimuth,
            ffm_antenna.__raw_name AS ffm_antenna___raw_name,
            ffm_antenna.azimuth AS ffm_antenna_azimuth,
-           ffm_antenna.elevation AS ffm_antenna_elevation,
+           ffm_antenna.elevation_angle AS ffm_antenna_elevation_angle,
            ffm_antenna.gain AS ffm_antenna_gain,
            ffm_antenna.name AS ffm_antenna_name,
            ffm_antenna.pid AS ffm_antenna_pid,
@@ -1579,7 +1579,7 @@ _test_q_result = """
            ffm_antenna.__raw_azimuth AS ffm_antenna___raw_azimuth,
            ffm_antenna.__raw_name AS ffm_antenna___raw_name,
            ffm_antenna.azimuth AS ffm_antenna_azimuth,
-           ffm_antenna.elevation AS ffm_antenna_elevation,
+           ffm_antenna.elevation_angle AS ffm_antenna_elevation_angle,
            ffm_antenna.gain AS ffm_antenna_gain,
            ffm_antenna.name AS ffm_antenna_name,
            ffm_antenna.pid AS ffm_antenna_pid,
@@ -1931,7 +1931,7 @@ _test_select = """
                ffm_antenna.__raw_azimuth AS ffm_antenna___raw_azimuth,
                ffm_antenna.__raw_name AS ffm_antenna___raw_name,
                ffm_antenna.azimuth AS ffm_antenna_azimuth,
-               ffm_antenna.elevation AS ffm_antenna_elevation,
+               ffm_antenna.elevation_angle AS ffm_antenna_elevation_angle,
                ffm_antenna.gain AS ffm_antenna_gain,
                ffm_antenna.name AS ffm_antenna_name,
                ffm_antenna.pid AS ffm_antenna_pid,
@@ -2274,7 +2274,7 @@ _test_select = """
                ffm_antenna.__raw_azimuth AS ffm_antenna___raw_azimuth,
                ffm_antenna.__raw_name AS ffm_antenna___raw_name,
                ffm_antenna.azimuth AS ffm_antenna_azimuth,
-               ffm_antenna.elevation AS ffm_antenna_elevation,
+               ffm_antenna.elevation_angle AS ffm_antenna_elevation_angle,
                ffm_antenna.gain AS ffm_antenna_gain,
                ffm_antenna.name AS ffm_antenna_name,
                ffm_antenna.pid AS ffm_antenna_pid,
@@ -2413,7 +2413,7 @@ _test_select = """
                ffm_antenna.__raw_azimuth AS ffm_antenna___raw_azimuth,
                ffm_antenna.__raw_name AS ffm_antenna___raw_name,
                ffm_antenna.azimuth AS ffm_antenna_azimuth,
-               ffm_antenna.elevation AS ffm_antenna_elevation,
+               ffm_antenna.elevation_angle AS ffm_antenna_elevation_angle,
                ffm_antenna.gain AS ffm_antenna_gain,
                ffm_antenna.name AS ffm_antenna_name,
                ffm_antenna.pid AS ffm_antenna_pid,
@@ -2503,7 +2503,7 @@ _test_select = """
                ffm_antenna.__raw_azimuth AS ffm_antenna___raw_azimuth,
                ffm_antenna.__raw_name AS ffm_antenna___raw_name,
                ffm_antenna.azimuth AS ffm_antenna_azimuth,
-               ffm_antenna.elevation AS ffm_antenna_elevation,
+               ffm_antenna.elevation_angle AS ffm_antenna_elevation_angle,
                ffm_antenna.gain AS ffm_antenna_gain,
                ffm_antenna.name AS ffm_antenna_name,
                ffm_antenna.pid AS ffm_antenna_pid,
@@ -2537,7 +2537,7 @@ _test_select = """
                ffm_antenna.__raw_azimuth AS ffm_antenna___raw_azimuth,
                ffm_antenna.__raw_name AS ffm_antenna___raw_name,
                ffm_antenna.azimuth AS ffm_antenna_azimuth,
-               ffm_antenna.elevation AS ffm_antenna_elevation,
+               ffm_antenna.elevation_angle AS ffm_antenna_elevation_angle,
                ffm_antenna.gain AS ffm_antenna_gain,
                ffm_antenna.name AS ffm_antenna_name,
                ffm_antenna.pid AS ffm_antenna_pid,
@@ -2678,7 +2678,7 @@ _test_select = """
                ffm_antenna.__raw_azimuth AS ffm_antenna___raw_azimuth,
                ffm_antenna.__raw_name AS ffm_antenna___raw_name,
                ffm_antenna.azimuth AS ffm_antenna_azimuth,
-               ffm_antenna.elevation AS ffm_antenna_elevation,
+               ffm_antenna.elevation_angle AS ffm_antenna_elevation_angle,
                ffm_antenna.gain AS ffm_antenna_gain,
                ffm_antenna.name AS ffm_antenna_name,
                ffm_antenna.pid AS ffm_antenna_pid,
@@ -3494,7 +3494,7 @@ _test_tables = """
         Column __raw_name                : Varchar(40)          Primary_Optional__Raw_Value String name
         Column azimuth                   : Float                Required__Raw_Value Angle azimuth
         Column desc                      : Text                 Optional Text desc
-        Column elevation                 : Smallint             Optional__Sticky Int elevation
+        Column elevation_angle           : Smallint             Optional__Sticky Int elevation_angle
         Column gain                      : Float                Optional__Computed_Set Float gain
         Column left                      : Integer              Link_Role__Init_Only Antenna_Type left Id_Entity()
         Column name                      : Varchar(40)          Primary_Optional__Raw_Value String name

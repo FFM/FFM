@@ -338,12 +338,12 @@ class Convert (object) :
         if angle :
             elev = str (90 - (int (angle) % 360))
         ant  = self.ffm.Antenna.instance_or_new \
-            ( left        = antt
-            , name        = '.'.join ((id, element.get ('device_id')))
-            , azimuth     = element.get ('antenna_azimuth') or '0'
-            #, orientation = element.get ('antenna_angle') FIXME: polarisation?
-            , elevation   = elev
-            , raw         = True
+            ( left            = antt
+            , name            = '.'.join ((id, element.get ('device_id')))
+            , azimuth         = element.get ('antenna_azimuth') or '0'
+            # orientation     = element.get ('antenna_angle') FIXME: polarisation?
+            , elevation_angle = elev
+            , raw             = True
             )
         # FIXME: First check if there are multiple (wireless)
         # interfaces. If yes, we want one wireless interface with

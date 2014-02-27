@@ -78,7 +78,7 @@ _test_code = """
         bands = None
         number_of_bands = 0 << len (bands)
 
-    >>> args = dict (left = at1, azimuth = "180", elevation = 0, raw = True)
+    >>> args = dict (left = at1, azimuth = "180", elevation_angle = 0, raw = True)
     >>> a = FFM.Antenna (name = "1", ** args)
     >>> (a.gain, a.polarization)
     (17.5, 1)
@@ -88,7 +88,7 @@ _test_code = """
     >>> a = FFM.Antenna (name = "3", polarization = "horizontal", ** args)
     >>> (a.gain, a.polarization)
     (17.5, 0)
-    >>> args = dict (left = at2, azimuth = "90", elevation = 0, raw = True)
+    >>> args = dict (left = at2, azimuth = "90", elevation_angle = 0, raw = True)
     >>> b = FFM.Antenna (name = "4", ** args)
     >>> (b.gain, b.polarization)
     (11.5, 0)

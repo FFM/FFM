@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2014 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -39,6 +39,7 @@
 #    17-Apr-2013 (CT) Use `Computed_Set_Mixin`, not `Computed_Mixin`
 #    14-Aug-2013 (CT) Re-enable `belongs_to_node`
 #    30-Sep-2013 (CT) Mixin `Belongs_to_Node`
+#    27-Feb-2014 (CT) Rename `elevation` to `elevation_angle`
 #    ««revision-date»»···
 #--
 
@@ -92,7 +93,7 @@ class Antenna (_Mixin, _Ancestor_Essence) :
 
         # end class belongs_to_node
 
-        class elevation (A_Int) :
+        class elevation_angle (A_Int) :
             """ Elevation angle of the beam from the horizontal plane
                 (in degrees).
             """
@@ -104,7 +105,7 @@ class Antenna (_Mixin, _Ancestor_Essence) :
             max_value          = 90
             min_value          = -90
 
-        # end class elevation
+        # end class elevation_angle
 
         class gain (A_Float) :
             """Describes how well the antenna converts input power into radio
