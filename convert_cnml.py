@@ -140,6 +140,9 @@ class Convert (object) :
                 self.insert_device (node, n)
             else :
                 raise ValueError, "Unknown tag in node: %s" % n.tag
+        PAP = self.scope.PAP
+        url = PAP.Url ('https://guifi.net/node/%s/' % element.get ('id'))
+        PAP.Node_has_Url (node, url)
         self.scope.commit ()
     # end insert_node
 
