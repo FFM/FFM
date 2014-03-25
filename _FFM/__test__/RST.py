@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2013 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2013-2014 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.__test__.
@@ -807,7 +807,7 @@ _test_put = r"""
             { 'first_name' : 'Snoopy'
             , 'last_name' : 'Dog'
             , 'lifetime' :
-                { 'start' : '2000/11/22' }
+                { 'start' : '2000-11-22' }
             , 'middle_name' : 'the'
             , 'title' : ''
             }

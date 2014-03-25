@@ -75,7 +75,7 @@ _test_code = """
     Traceback (most recent call last):
       ...
     Invariants: Condition `band_exists` : There must be at least one frequency band for the antenna. (number_of_bands >= 1)
-        bands = None
+        bands = ()
         number_of_bands = 0 << len (bands)
 
     >>> args = dict (left = at1, azimuth = "180", elevation_angle = 0, raw = True)

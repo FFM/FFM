@@ -411,30 +411,6 @@ _test_refuse_e_types = """
             , sig_key = 0
             , ui_name = 'Manager/Sex'
             )
-          , Record
-            ( attr = Int `last_cid`
-            , full_name = 'manager.last_cid'
-            , id = 'manager__last_cid'
-            , name = 'last_cid'
-            , sig_key = 0
-            , ui_name = 'Manager/Last cid'
-            )
-          , Record
-            ( attr = Surrogate `pid`
-            , full_name = 'manager.pid'
-            , id = 'manager__pid'
-            , name = 'pid'
-            , sig_key = 0
-            , ui_name = 'Manager/Pid'
-            )
-          , Record
-            ( attr = String `type_name`
-            , full_name = 'manager.type_name'
-            , id = 'manager__type_name'
-            , name = 'type_name'
-            , sig_key = 3
-            , ui_name = 'Manager/Type name'
-            )
           ]
       , full_name = 'manager'
       , id = 'manager'
@@ -529,30 +505,6 @@ _test_refuse_e_types = """
             , name = 'region'
             , sig_key = 3
             , ui_name = 'Address/Region'
-            )
-          , Record
-            ( attr = Int `last_cid`
-            , full_name = 'address.last_cid'
-            , id = 'address__last_cid'
-            , name = 'last_cid'
-            , sig_key = 0
-            , ui_name = 'Address/Last cid'
-            )
-          , Record
-            ( attr = Surrogate `pid`
-            , full_name = 'address.pid'
-            , id = 'address__pid'
-            , name = 'pid'
-            , sig_key = 0
-            , ui_name = 'Address/Pid'
-            )
-          , Record
-            ( attr = String `type_name`
-            , full_name = 'address.type_name'
-            , id = 'address__type_name'
-            , name = 'type_name'
-            , sig_key = 3
-            , ui_name = 'Address/Type name'
             )
           ]
       , full_name = 'address'
@@ -718,6 +670,396 @@ _test_refuse_e_types = """
       , ui_name = 'Show in map'
       )
     , Record
+      ( Class = 'Entity'
+      , attr = Rev_Ref `creation`
+      , attrs =
+          [ Record
+            ( attr = Date-Time `c_time`
+            , full_name = 'creation.c_time'
+            , id = 'creation__c_time'
+            , name = 'c_time'
+            , sig_key = 0
+            , ui_name = 'Creation/C time'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `c_user`
+            , children_np =
+                [ Record
+                  ( Class = 'Entity'
+                  , attr = Entity `c_user`
+                  , attrs =
+                      [ Record
+                        ( attr = Email `name`
+                        , full_name = 'c_user.name'
+                        , id = 'c_user__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'C user[Account]/Name'
+                        )
+                      ]
+                  , full_name = 'c_user'
+                  , id = 'c_user'
+                  , name = 'c_user'
+                  , sig_key = 2
+                  , type_name = 'Auth.Account'
+                  , ui_name = 'C user[Account]'
+                  , ui_type_name = 'Account'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `c_user`
+                  , attrs =
+                      [ Record
+                        ( attr = String `last_name`
+                        , full_name = 'c_user.last_name'
+                        , id = 'c_user__last_name'
+                        , name = 'last_name'
+                        , sig_key = 3
+                        , ui_name = 'C user[Person]/Last name'
+                        )
+                      , Record
+                        ( attr = String `first_name`
+                        , full_name = 'c_user.first_name'
+                        , id = 'c_user__first_name'
+                        , name = 'first_name'
+                        , sig_key = 3
+                        , ui_name = 'C user[Person]/First name'
+                        )
+                      , Record
+                        ( attr = String `middle_name`
+                        , full_name = 'c_user.middle_name'
+                        , id = 'c_user__middle_name'
+                        , name = 'middle_name'
+                        , sig_key = 3
+                        , ui_name = 'C user[Person]/Middle name'
+                        )
+                      , Record
+                        ( attr = String `title`
+                        , full_name = 'c_user.title'
+                        , id = 'c_user__title'
+                        , name = 'title'
+                        , sig_key = 3
+                        , ui_name = 'C user[Person]/Academic title'
+                        )
+                      ]
+                  , full_name = 'c_user'
+                  , id = 'c_user'
+                  , name = 'c_user'
+                  , sig_key = 2
+                  , type_name = 'PAP.Person'
+                  , ui_name = 'C user[Person]'
+                  , ui_type_name = 'Person'
+                  )
+                ]
+            , full_name = 'creation.c_user'
+            , id = 'creation__c_user'
+            , name = 'c_user'
+            , sig_key = 2
+            , type_name = 'MOM.Id_Entity'
+            , ui_name = 'Creation/C user'
+            , ui_type_name = 'Id_Entity'
+            )
+          , Record
+            ( attr = String `kind`
+            , full_name = 'creation.kind'
+            , id = 'creation__kind'
+            , name = 'kind'
+            , sig_key = 3
+            , ui_name = 'Creation/Kind'
+            )
+          , Record
+            ( attr = Date-Time `time`
+            , full_name = 'creation.time'
+            , id = 'creation__time'
+            , name = 'time'
+            , sig_key = 0
+            , ui_name = 'Creation/Time'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `user`
+            , children_np =
+                [ Record
+                  ( Class = 'Entity'
+                  , attr = Entity `user`
+                  , attrs =
+                      [ Record
+                        ( attr = Email `name`
+                        , full_name = 'user.name'
+                        , id = 'user__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'User[Account]/Name'
+                        )
+                      ]
+                  , full_name = 'user'
+                  , id = 'user'
+                  , name = 'user'
+                  , sig_key = 2
+                  , type_name = 'Auth.Account'
+                  , ui_name = 'User[Account]'
+                  , ui_type_name = 'Account'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `user`
+                  , attrs =
+                      [ Record
+                        ( attr = String `last_name`
+                        , full_name = 'user.last_name'
+                        , id = 'user__last_name'
+                        , name = 'last_name'
+                        , sig_key = 3
+                        , ui_name = 'User[Person]/Last name'
+                        )
+                      , Record
+                        ( attr = String `first_name`
+                        , full_name = 'user.first_name'
+                        , id = 'user__first_name'
+                        , name = 'first_name'
+                        , sig_key = 3
+                        , ui_name = 'User[Person]/First name'
+                        )
+                      , Record
+                        ( attr = String `middle_name`
+                        , full_name = 'user.middle_name'
+                        , id = 'user__middle_name'
+                        , name = 'middle_name'
+                        , sig_key = 3
+                        , ui_name = 'User[Person]/Middle name'
+                        )
+                      , Record
+                        ( attr = String `title`
+                        , full_name = 'user.title'
+                        , id = 'user__title'
+                        , name = 'title'
+                        , sig_key = 3
+                        , ui_name = 'User[Person]/Academic title'
+                        )
+                      ]
+                  , full_name = 'user'
+                  , id = 'user'
+                  , name = 'user'
+                  , sig_key = 2
+                  , type_name = 'PAP.Person'
+                  , ui_name = 'User[Person]'
+                  , ui_type_name = 'Person'
+                  )
+                ]
+            , full_name = 'creation.user'
+            , id = 'creation__user'
+            , name = 'user'
+            , sig_key = 2
+            , type_name = 'MOM.Id_Entity'
+            , ui_name = 'Creation/User'
+            , ui_type_name = 'Id_Entity'
+            )
+          ]
+      , full_name = 'creation'
+      , id = 'creation'
+      , name = 'creation'
+      , sig_key = 2
+      , type_name = 'MOM.MD_Change'
+      , ui_name = 'Creation'
+      , ui_type_name = 'MD_Change'
+      )
+    , Record
+      ( Class = 'Entity'
+      , attr = Rev_Ref `last_change`
+      , attrs =
+          [ Record
+            ( attr = Date-Time `c_time`
+            , full_name = 'last_change.c_time'
+            , id = 'last_change__c_time'
+            , name = 'c_time'
+            , sig_key = 0
+            , ui_name = 'Last change/C time'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `c_user`
+            , children_np =
+                [ Record
+                  ( Class = 'Entity'
+                  , attr = Entity `c_user`
+                  , attrs =
+                      [ Record
+                        ( attr = Email `name`
+                        , full_name = 'c_user.name'
+                        , id = 'c_user__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'C user[Account]/Name'
+                        )
+                      ]
+                  , full_name = 'c_user'
+                  , id = 'c_user'
+                  , name = 'c_user'
+                  , sig_key = 2
+                  , type_name = 'Auth.Account'
+                  , ui_name = 'C user[Account]'
+                  , ui_type_name = 'Account'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `c_user`
+                  , attrs =
+                      [ Record
+                        ( attr = String `last_name`
+                        , full_name = 'c_user.last_name'
+                        , id = 'c_user__last_name'
+                        , name = 'last_name'
+                        , sig_key = 3
+                        , ui_name = 'C user[Person]/Last name'
+                        )
+                      , Record
+                        ( attr = String `first_name`
+                        , full_name = 'c_user.first_name'
+                        , id = 'c_user__first_name'
+                        , name = 'first_name'
+                        , sig_key = 3
+                        , ui_name = 'C user[Person]/First name'
+                        )
+                      , Record
+                        ( attr = String `middle_name`
+                        , full_name = 'c_user.middle_name'
+                        , id = 'c_user__middle_name'
+                        , name = 'middle_name'
+                        , sig_key = 3
+                        , ui_name = 'C user[Person]/Middle name'
+                        )
+                      , Record
+                        ( attr = String `title`
+                        , full_name = 'c_user.title'
+                        , id = 'c_user__title'
+                        , name = 'title'
+                        , sig_key = 3
+                        , ui_name = 'C user[Person]/Academic title'
+                        )
+                      ]
+                  , full_name = 'c_user'
+                  , id = 'c_user'
+                  , name = 'c_user'
+                  , sig_key = 2
+                  , type_name = 'PAP.Person'
+                  , ui_name = 'C user[Person]'
+                  , ui_type_name = 'Person'
+                  )
+                ]
+            , full_name = 'last_change.c_user'
+            , id = 'last_change__c_user'
+            , name = 'c_user'
+            , sig_key = 2
+            , type_name = 'MOM.Id_Entity'
+            , ui_name = 'Last change/C user'
+            , ui_type_name = 'Id_Entity'
+            )
+          , Record
+            ( attr = String `kind`
+            , full_name = 'last_change.kind'
+            , id = 'last_change__kind'
+            , name = 'kind'
+            , sig_key = 3
+            , ui_name = 'Last change/Kind'
+            )
+          , Record
+            ( attr = Date-Time `time`
+            , full_name = 'last_change.time'
+            , id = 'last_change__time'
+            , name = 'time'
+            , sig_key = 0
+            , ui_name = 'Last change/Time'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `user`
+            , children_np =
+                [ Record
+                  ( Class = 'Entity'
+                  , attr = Entity `user`
+                  , attrs =
+                      [ Record
+                        ( attr = Email `name`
+                        , full_name = 'user.name'
+                        , id = 'user__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'User[Account]/Name'
+                        )
+                      ]
+                  , full_name = 'user'
+                  , id = 'user'
+                  , name = 'user'
+                  , sig_key = 2
+                  , type_name = 'Auth.Account'
+                  , ui_name = 'User[Account]'
+                  , ui_type_name = 'Account'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `user`
+                  , attrs =
+                      [ Record
+                        ( attr = String `last_name`
+                        , full_name = 'user.last_name'
+                        , id = 'user__last_name'
+                        , name = 'last_name'
+                        , sig_key = 3
+                        , ui_name = 'User[Person]/Last name'
+                        )
+                      , Record
+                        ( attr = String `first_name`
+                        , full_name = 'user.first_name'
+                        , id = 'user__first_name'
+                        , name = 'first_name'
+                        , sig_key = 3
+                        , ui_name = 'User[Person]/First name'
+                        )
+                      , Record
+                        ( attr = String `middle_name`
+                        , full_name = 'user.middle_name'
+                        , id = 'user__middle_name'
+                        , name = 'middle_name'
+                        , sig_key = 3
+                        , ui_name = 'User[Person]/Middle name'
+                        )
+                      , Record
+                        ( attr = String `title`
+                        , full_name = 'user.title'
+                        , id = 'user__title'
+                        , name = 'title'
+                        , sig_key = 3
+                        , ui_name = 'User[Person]/Academic title'
+                        )
+                      ]
+                  , full_name = 'user'
+                  , id = 'user'
+                  , name = 'user'
+                  , sig_key = 2
+                  , type_name = 'PAP.Person'
+                  , ui_name = 'User[Person]'
+                  , ui_type_name = 'Person'
+                  )
+                ]
+            , full_name = 'last_change.user'
+            , id = 'last_change__user'
+            , name = 'user'
+            , sig_key = 2
+            , type_name = 'MOM.Id_Entity'
+            , ui_name = 'Last change/User'
+            , ui_type_name = 'Id_Entity'
+            )
+          ]
+      , full_name = 'last_change'
+      , id = 'last_change'
+      , name = 'last_change'
+      , sig_key = 2
+      , type_name = 'MOM.MD_Change'
+      , ui_name = 'Last change'
+      , ui_type_name = 'MD_Change'
+      )
+    , Record
       ( attr = Int `last_cid`
       , full_name = 'last_cid'
       , id = 'last_cid'
@@ -740,6 +1082,250 @@ _test_refuse_e_types = """
       , name = 'type_name'
       , sig_key = 3
       , ui_name = 'Type name'
+      )
+    , Record
+      ( Class = 'Entity'
+      , attr = Role_Ref_Set `addresses`
+      , attrs =
+          [ Record
+            ( attr = String `street`
+            , full_name = 'addresses.street'
+            , id = 'addresses__street'
+            , name = 'street'
+            , sig_key = 3
+            , ui_name = 'Addresses/Street'
+            )
+          , Record
+            ( attr = String `zip`
+            , full_name = 'addresses.zip'
+            , id = 'addresses__zip'
+            , name = 'zip'
+            , sig_key = 3
+            , ui_name = 'Addresses/Zip code'
+            )
+          , Record
+            ( attr = String `city`
+            , full_name = 'addresses.city'
+            , id = 'addresses__city'
+            , name = 'city'
+            , sig_key = 3
+            , ui_name = 'Addresses/City'
+            )
+          , Record
+            ( attr = String `country`
+            , full_name = 'addresses.country'
+            , id = 'addresses__country'
+            , name = 'country'
+            , sig_key = 3
+            , ui_name = 'Addresses/Country'
+            )
+          , Record
+            ( attr = String `desc`
+            , full_name = 'addresses.desc'
+            , id = 'addresses__desc'
+            , name = 'desc'
+            , sig_key = 3
+            , ui_name = 'Addresses/Description'
+            )
+          , Record
+            ( attr = String `region`
+            , full_name = 'addresses.region'
+            , id = 'addresses__region'
+            , name = 'region'
+            , sig_key = 3
+            , ui_name = 'Addresses/Region'
+            )
+          ]
+      , full_name = 'addresses'
+      , id = 'addresses'
+      , name = 'addresses'
+      , sig_key = 2
+      , type_name = 'PAP.Address'
+      , ui_name = 'Addresses'
+      , ui_type_name = 'Address'
+      )
+    , Record
+      ( Class = 'Entity'
+      , attr = Role_Ref_Set `emails`
+      , attrs =
+          [ Record
+            ( attr = Email `address`
+            , full_name = 'emails.address'
+            , id = 'emails__address'
+            , name = 'address'
+            , sig_key = 3
+            , ui_name = 'Emails/Address'
+            )
+          , Record
+            ( attr = String `desc`
+            , full_name = 'emails.desc'
+            , id = 'emails__desc'
+            , name = 'desc'
+            , sig_key = 3
+            , ui_name = 'Emails/Description'
+            )
+          ]
+      , full_name = 'emails'
+      , id = 'emails'
+      , name = 'emails'
+      , sig_key = 2
+      , type_name = 'PAP.Email'
+      , ui_name = 'Emails'
+      , ui_type_name = 'Email'
+      )
+    , Record
+      ( Class = 'Entity'
+      , attr = Role_Ref_Set `phones`
+      , attrs =
+          [ Record
+            ( attr = Numeric_String `number`
+            , full_name = 'phones.number'
+            , id = 'phones__number'
+            , name = 'number'
+            , sig_key = 3
+            , ui_name = 'Phones/Number'
+            )
+          , Record
+            ( attr = Numeric_String `area_code`
+            , full_name = 'phones.area_code'
+            , id = 'phones__area_code'
+            , name = 'area_code'
+            , sig_key = 3
+            , ui_name = 'Phones/Area code'
+            )
+          , Record
+            ( attr = Numeric_String `country_code`
+            , full_name = 'phones.country_code'
+            , id = 'phones__country_code'
+            , name = 'country_code'
+            , sig_key = 3
+            , ui_name = 'Phones/Country code'
+            )
+          , Record
+            ( attr = String `desc`
+            , full_name = 'phones.desc'
+            , id = 'phones__desc'
+            , name = 'desc'
+            , sig_key = 3
+            , ui_name = 'Phones/Description'
+            )
+          ]
+      , full_name = 'phones'
+      , id = 'phones'
+      , name = 'phones'
+      , sig_key = 2
+      , type_name = 'PAP.Phone'
+      , ui_name = 'Phones'
+      , ui_type_name = 'Phone'
+      )
+    , Record
+      ( Class = 'Entity'
+      , attr = Role_Ref_Set `urls`
+      , attrs =
+          [ Record
+            ( attr = Url `value`
+            , full_name = 'urls.value'
+            , id = 'urls__value'
+            , name = 'value'
+            , sig_key = 3
+            , ui_name = 'Urls/Value'
+            )
+          , Record
+            ( attr = String `desc`
+            , full_name = 'urls.desc'
+            , id = 'urls__desc'
+            , name = 'desc'
+            , sig_key = 3
+            , ui_name = 'Urls/Description'
+            )
+          ]
+      , full_name = 'urls'
+      , id = 'urls'
+      , name = 'urls'
+      , sig_key = 2
+      , type_name = 'PAP.Url'
+      , ui_name = 'Urls'
+      , ui_type_name = 'Url'
+      )
+    , Record
+      ( Class = 'Entity'
+      , attr = Role_Ref_Set `nicknames`
+      , attrs =
+          [ Record
+            ( attr = String `name`
+            , full_name = 'nicknames.name'
+            , id = 'nicknames__name'
+            , name = 'name'
+            , sig_key = 3
+            , ui_name = 'Nicknames/Name'
+            )
+          , Record
+            ( attr = String `desc`
+            , full_name = 'nicknames.desc'
+            , id = 'nicknames__desc'
+            , name = 'desc'
+            , sig_key = 3
+            , ui_name = 'Nicknames/Description'
+            )
+          ]
+      , full_name = 'nicknames'
+      , id = 'nicknames'
+      , name = 'nicknames'
+      , sig_key = 2
+      , type_name = 'PAP.Nickname'
+      , ui_name = 'Nicknames'
+      , ui_type_name = 'Nickname'
+      )
+    , Record
+      ( Class = 'Entity'
+      , attr = Role_Ref_Set `im_handles`
+      , attrs =
+          [ Record
+            ( attr = im_protocol `protocol`
+            , choices =
+                [
+                  ( 'ICQ'
+                  , 'ICQ [First internet-wide instant messaging service]'
+                  )
+                ,
+                  ( 'IRC'
+                  , 'IRC [Internet relay chat]'
+                  )
+                ,
+                  ( 'XMPP'
+                  , 'XMPP [Extensible messaging and presence protocol; used by Jabber and Google Talk]'
+                  )
+                ]
+            , full_name = 'im_handles.protocol'
+            , id = 'im_handles__protocol'
+            , name = 'protocol'
+            , sig_key = 0
+            , ui_name = 'Im handles/Protocol'
+            )
+          , Record
+            ( attr = String `address`
+            , full_name = 'im_handles.address'
+            , id = 'im_handles__address'
+            , name = 'address'
+            , sig_key = 3
+            , ui_name = 'Im handles/Address'
+            )
+          , Record
+            ( attr = String `desc`
+            , full_name = 'im_handles.desc'
+            , id = 'im_handles__desc'
+            , name = 'desc'
+            , sig_key = 3
+            , ui_name = 'Im handles/Description'
+            )
+          ]
+      , full_name = 'im_handles'
+      , id = 'im_handles'
+      , name = 'im_handles'
+      , sig_key = 2
+      , type_name = 'PAP.IM_Handle'
+      , ui_name = 'Im handles'
+      , ui_type_name = 'IM_Handle'
       )
     ]
 
