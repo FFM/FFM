@@ -448,6 +448,7 @@ _test_limit = r"""
         , 'pid' : 29
         , 'rels' :
             [ '/v1/FFM-Wired_Interface/29/credentials'
+            , '/v1/FFM-Wired_Interface/29/documents'
             , '/v1/FFM-Wired_Interface/29/ip4_network_links'
             , '/v1/FFM-Wired_Interface/29/ip6_network_links'
             , '/v1/FFM-Wired_Interface/29/ip_network_links'
@@ -469,6 +470,7 @@ _test_limit = r"""
         , 'pid' : 29
         , 'rels' :
             [ '/v1/FFM-Wired_Interface/29/credentials'
+            , '/v1/FFM-Wired_Interface/29/documents'
             , '/v1/FFM-Wired_Interface/29/ip4_network_links'
             , '/v1/FFM-Wired_Interface/29/ip6_network_links'
             , '/v1/FFM-Wired_Interface/29/ip_network_links'
@@ -495,6 +497,7 @@ _test_limit = r"""
         , 'pid' : 29
         , 'rels' :
             [ '/v1/FFM-Wired_Interface/29/credentials'
+            , '/v1/FFM-Wired_Interface/29/documents'
             , '/v1/FFM-Wired_Interface/29/ip4_network_links'
             , '/v1/FFM-Wired_Interface/29/ip6_network_links'
             , '/v1/FFM-Wired_Interface/29/ip_network_links'
@@ -526,6 +529,7 @@ _test_limit = r"""
         , 'pid' : 29
         , 'rels' :
             [ '/v1/FFM-Wired_Interface/29/credentials'
+            , '/v1/FFM-Wired_Interface/29/documents'
             , '/v1/FFM-Wired_Interface/29/ip4_network_links'
             , '/v1/FFM-Wired_Interface/29/ip6_network_links'
             , '/v1/FFM-Wired_Interface/29/ip_network_links'
@@ -690,6 +694,7 @@ _test_put = r"""
         , 'pid' : 2
         , 'rels' :
             [ '/v1/FFM-Node/2/address_links'
+            , '/v1/FFM-Node/2/documents'
             , '/v1/FFM-Node/2/email_links'
             , '/v1/FFM-Node/2/im_handle_links'
             , '/v1/FFM-Node/2/nickname_links'
@@ -746,6 +751,7 @@ _test_put = r"""
         , 'pid' : 2
         , 'rels' :
             [ '/v1/FFM-Node/2/address_links'
+            , '/v1/FFM-Node/2/documents'
             , '/v1/FFM-Node/2/email_links'
             , '/v1/FFM-Node/2/im_handle_links'
             , '/v1/FFM-Node/2/nickname_links'

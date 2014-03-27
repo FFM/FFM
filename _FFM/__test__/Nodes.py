@@ -1085,6 +1085,43 @@ _test_refuse_e_types = """
       )
     , Record
       ( Class = 'Entity'
+      , attr = Link_Ref_List `documents`
+      , attrs =
+          [ Record
+            ( attr = Url `url`
+            , full_name = 'documents.url'
+            , id = 'documents__url'
+            , name = 'url'
+            , sig_key = 3
+            , ui_name = 'Documents/Url'
+            )
+          , Record
+            ( attr = String `type`
+            , full_name = 'documents.type'
+            , id = 'documents__type'
+            , name = 'type'
+            , sig_key = 3
+            , ui_name = 'Documents/Type'
+            )
+          , Record
+            ( attr = String `desc`
+            , full_name = 'documents.desc'
+            , id = 'documents__desc'
+            , name = 'desc'
+            , sig_key = 3
+            , ui_name = 'Documents/Description'
+            )
+          ]
+      , full_name = 'documents'
+      , id = 'documents'
+      , name = 'documents'
+      , sig_key = 2
+      , type_name = 'MOM.Document'
+      , ui_name = 'Documents'
+      , ui_type_name = 'Document'
+      )
+    , Record
+      ( Class = 'Entity'
       , attr = Role_Ref_Set `addresses`
       , attrs =
           [ Record

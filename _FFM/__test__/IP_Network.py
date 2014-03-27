@@ -394,6 +394,7 @@ _test_AQ = """
     <cool_down.AQ [Attr.Type.Querier Ckd]>
     <has_children.AQ [Attr.Type.Querier Boolean]>
     <net_interface.AQ [Attr.Type.Querier Rev_Ref]>
+    <documents.AQ [Attr.Type.Querier Rev_Ref]>
     <wired_interface.AQ [Attr.Type.Querier Rev_Ref]>
     <wireless_interface.AQ [Attr.Type.Querier Rev_Ref]>
     <virtual_wireless_interface.AQ [Attr.Type.Querier Rev_Ref]>
@@ -430,6 +431,10 @@ _test_AQ = """
     <cool_down.AQ [Attr.Type.Querier Ckd]> -----
     <has_children.AQ [Attr.Type.Querier Boolean]> -----
     <net_interface.AQ [Attr.Type.Querier Rev_Ref]> FFM.Net_Interface
+    <documents.AQ [Attr.Type.Querier Rev_Ref]> MOM.Document
+    <documents.url.AQ [Attr.Type.Querier String]> -----
+    <documents.type.AQ [Attr.Type.Querier String]> -----
+    <documents.desc.AQ [Attr.Type.Querier String]> -----
     <wired_interface.AQ [Attr.Type.Querier Rev_Ref]> FFM.Wired_Interface
     <wired_interface.left.AQ [Attr.Type.Querier Id_Entity]> FFM.Net_Device
     <wired_interface.left.left.AQ [Attr.Type.Querier Id_Entity]> FFM.Net_Device_Type
@@ -884,6 +889,10 @@ _test_AQ = """
     'Cool down'
     'Has children'
     'Net interface'
+    'Documents'
+    'Documents/Url'
+    'Documents/Type'
+    'Documents/Description'
     'Wired interface'
     'Wired interface/Net device'
     'Wired interface/Net device/Net device type'
@@ -1330,6 +1339,9 @@ _test_AQ = """
     <is_free.AQ [Attr.Type.Querier Boolean]>
     <cool_down.AQ [Attr.Type.Querier Ckd]>
     <has_children.AQ [Attr.Type.Querier Boolean]>
+    <documents.url.AQ [Attr.Type.Querier String]>
+    <documents.type.AQ [Attr.Type.Querier String]>
+    <documents.desc.AQ [Attr.Type.Querier String]>
     <wired_interface.left.left.name.AQ [Attr.Type.Querier String]>
     <wired_interface.left.left.model_no.AQ [Attr.Type.Querier String]>
     <wired_interface.left.left.revision.AQ [Attr.Type.Querier String]>
@@ -2093,6 +2105,25 @@ _test_AQ = """
           , 'name' : 'net_interface'
           , 'sig_key' : 2
           , 'ui_name' : 'Net interface'
+          }
+        , { 'Class' : 'Entity'
+          , 'attrs' :
+              [ { 'name' : 'url'
+                , 'sig_key' : 3
+                , 'ui_name' : 'Url'
+                }
+              , { 'name' : 'type'
+                , 'sig_key' : 3
+                , 'ui_name' : 'Type'
+                }
+              , { 'name' : 'desc'
+                , 'sig_key' : 3
+                , 'ui_name' : 'Description'
+                }
+              ]
+          , 'name' : 'documents'
+          , 'sig_key' : 2
+          , 'ui_name' : 'Documents'
           }
         , { 'Class' : 'Entity'
           , 'attrs' :
@@ -5574,6 +5605,43 @@ _test_AQ = """
       , type_name = 'FFM.Net_Interface'
       , ui_name = 'Net interface'
       , ui_type_name = 'Net_Interface'
+      )
+    , Record
+      ( Class = 'Entity'
+      , attr = Link_Ref_List `documents`
+      , attrs =
+          [ Record
+            ( attr = Url `url`
+            , full_name = 'documents.url'
+            , id = 'documents__url'
+            , name = 'url'
+            , sig_key = 3
+            , ui_name = 'Documents/Url'
+            )
+          , Record
+            ( attr = String `type`
+            , full_name = 'documents.type'
+            , id = 'documents__type'
+            , name = 'type'
+            , sig_key = 3
+            , ui_name = 'Documents/Type'
+            )
+          , Record
+            ( attr = String `desc`
+            , full_name = 'documents.desc'
+            , id = 'documents__desc'
+            , name = 'desc'
+            , sig_key = 3
+            , ui_name = 'Documents/Description'
+            )
+          ]
+      , full_name = 'documents'
+      , id = 'documents'
+      , name = 'documents'
+      , sig_key = 2
+      , type_name = 'MOM.Document'
+      , ui_name = 'Documents'
+      , ui_type_name = 'Document'
       )
     , Record
       ( Class = 'Entity'
@@ -10662,6 +10730,10 @@ _test_AQ = """
     Last cid
     Pid
     Type name
+    Documents
+    Documents/Url
+    Documents/Type
+    Documents/Description
     Addresses
     Addresses/Street
     Addresses/Zip code
@@ -10864,6 +10936,10 @@ _test_AQ = """
     Ip6 networks/Is free
     Ip6 networks/Cool down
     Ip6 networks/Has children
+    Documents
+    Documents/Url
+    Documents/Type
+    Documents/Description
 
 """
 
