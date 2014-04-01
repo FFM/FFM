@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2014 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the program FFM.
@@ -51,6 +51,7 @@
 #    13-Jun-2013 (CT) Remove `PNS_Aliases`
 #    23-Aug-2013 (CT) Add `-auth_required`, use it in `create_top`
 #     7-Oct-2013 (CT) Add `RST_addons.User_Antenna`
+#     1-Apr-2014 (CT) Add resource for `GTW.RST.MOM.Doc.App_Type`
 #    ««revision-date»»···
 #--
 
@@ -221,7 +222,8 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
         return GTW.RST.Root \
             ( language          = "en"
             , entries           =
-                [ GTW.RST.MOM.Scope (name = "v1")
+                [ GTW.RST.MOM.Scope        (name = "v1")
+                , GTW.RST.MOM.Doc.App_Type (name = "v1-doc")
                 ]
             , ** kw
             )
@@ -311,6 +313,10 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
                 , auth_required   = auth_r
                 , exclude_robots  = True
                 , json_indent     = 2
+                )
+            , GTW.RST.MOM.Doc.App_Type
+                ( name            = "api-doc"
+                , hidden          = True
                 )
             , TOP.Auth
                 ( name            = _ ("Auth")
