@@ -10734,21 +10734,6 @@ _test_AQ = """
     Documents/Url
     Documents/Type
     Documents/Description
-    Addresses
-    Addresses/Street
-    Addresses/Zip code
-    Addresses/City
-    Addresses/Country
-    Addresses/Description
-    Addresses/Region
-    Emails
-    Emails/Address
-    Emails/Description
-    Phones
-    Phones/Number
-    Phones/Area code
-    Phones/Country code
-    Phones/Description
     Urls
     Urls/Value
     Urls/Description

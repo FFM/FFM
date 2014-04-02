@@ -437,14 +437,10 @@ _test_q_able = """
       <SAW : Boolean `x_locked` [mom_id_entity.x_locked]>
     <SAW : FFM.Node [ffm_node : mom_id_entity]>
       <SAW : Entity `address` [ffm_node.address]>
-      <SAW : Link_Ref_List `address_links`>
-      <SAW : Role_Ref_Set `addresses`>
       <SAW : Entity `belongs_to_node`>
       <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `documents`>
       <SAW : Boolean `electric` [mom_id_entity.electric]>
-      <SAW : Link_Ref_List `email_links`>
-      <SAW : Role_Ref_Set `emails`>
       <SAW : Link_Ref_List `im_handle_links`>
       <SAW : Role_Ref_Set `im_handles`>
       <SAW : Rev_Ref `last_change`>
@@ -456,8 +452,6 @@ _test_q_able = """
       <SAW : Link_Ref_List `nickname_links`>
       <SAW : Role_Ref_Set `nicknames`>
       <SAW : Entity `owner` [ffm_node.owner]>
-      <SAW : Link_Ref_List `phone_links`>
-      <SAW : Role_Ref_Set `phones`>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : Position `position` [ffm_node.position__height, ffm_node.position__lat, ffm_node.position____raw_lat, ffm_node.position__lon, ffm_node.position____raw_lon]>
       <SAW : Link_Ref_List `property_links`>

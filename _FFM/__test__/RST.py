@@ -447,11 +447,9 @@ _test_limit = r"""
         , 'cid' : 44
         , 'pid' : 29
         , 'rels' :
-            [ '/v1/FFM-Wired_Interface/29/credentials'
-            , '/v1/FFM-Wired_Interface/29/documents'
+            [ '/v1/FFM-Wired_Interface/29/documents'
             , '/v1/FFM-Wired_Interface/29/ip4_network_links'
             , '/v1/FFM-Wired_Interface/29/ip6_network_links'
-            , '/v1/FFM-Wired_Interface/29/ip_network_links'
             , '/v1/FFM-Wired_Interface/29/left_net_links'
             , '/v1/FFM-Wired_Interface/29/right_net_links'
             ]
@@ -469,11 +467,9 @@ _test_limit = r"""
         , 'cid' : 44
         , 'pid' : 29
         , 'rels' :
-            [ '/v1/FFM-Wired_Interface/29/credentials'
-            , '/v1/FFM-Wired_Interface/29/documents'
+            [ '/v1/FFM-Wired_Interface/29/documents'
             , '/v1/FFM-Wired_Interface/29/ip4_network_links'
             , '/v1/FFM-Wired_Interface/29/ip6_network_links'
-            , '/v1/FFM-Wired_Interface/29/ip_network_links'
             , '/v1/FFM-Wired_Interface/29/left_net_links'
             , '/v1/FFM-Wired_Interface/29/right_net_links'
             ]
@@ -496,11 +492,9 @@ _test_limit = r"""
         , 'cid' : 44
         , 'pid' : 29
         , 'rels' :
-            [ '/v1/FFM-Wired_Interface/29/credentials'
-            , '/v1/FFM-Wired_Interface/29/documents'
+            [ '/v1/FFM-Wired_Interface/29/documents'
             , '/v1/FFM-Wired_Interface/29/ip4_network_links'
             , '/v1/FFM-Wired_Interface/29/ip6_network_links'
-            , '/v1/FFM-Wired_Interface/29/ip_network_links'
             , '/v1/FFM-Wired_Interface/29/left_net_links'
             , '/v1/FFM-Wired_Interface/29/right_net_links'
             ]
@@ -528,11 +522,9 @@ _test_limit = r"""
         , 'cid' : 44
         , 'pid' : 29
         , 'rels' :
-            [ '/v1/FFM-Wired_Interface/29/credentials'
-            , '/v1/FFM-Wired_Interface/29/documents'
+            [ '/v1/FFM-Wired_Interface/29/documents'
             , '/v1/FFM-Wired_Interface/29/ip4_network_links'
             , '/v1/FFM-Wired_Interface/29/ip6_network_links'
-            , '/v1/FFM-Wired_Interface/29/ip_network_links'
             , '/v1/FFM-Wired_Interface/29/left_net_links'
             , '/v1/FFM-Wired_Interface/29/right_net_links'
             ]
@@ -693,13 +685,9 @@ _test_put = r"""
         , 'cid' : 2
         , 'pid' : 2
         , 'rels' :
-            [ '/v1/FFM-Node/2/address_links'
-            , '/v1/FFM-Node/2/documents'
-            , '/v1/FFM-Node/2/email_links'
+            [ '/v1/FFM-Node/2/documents'
             , '/v1/FFM-Node/2/im_handle_links'
             , '/v1/FFM-Node/2/nickname_links'
-            , '/v1/FFM-Node/2/phone_links'
-            , '/v1/FFM-Node/2/property_links'
             , '/v1/FFM-Node/2/url_links'
             ]
         , 'type_name' : 'FFM.Node'
@@ -750,13 +738,9 @@ _test_put = r"""
         , 'cid' : 52
         , 'pid' : 2
         , 'rels' :
-            [ '/v1/FFM-Node/2/address_links'
-            , '/v1/FFM-Node/2/documents'
-            , '/v1/FFM-Node/2/email_links'
+            [ '/v1/FFM-Node/2/documents'
             , '/v1/FFM-Node/2/im_handle_links'
             , '/v1/FFM-Node/2/nickname_links'
-            , '/v1/FFM-Node/2/phone_links'
-            , '/v1/FFM-Node/2/property_links'
             , '/v1/FFM-Node/2/url_links'
             ]
         , 'type_name' : 'FFM.Node'
