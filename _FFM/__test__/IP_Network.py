@@ -384,7 +384,6 @@ _test_AQ = """
     <net_address.AQ [Attr.Type.Querier Ckd]>
     <desc.AQ [Attr.Type.Querier String]>
     <owner.AQ [Attr.Type.Querier Id_Entity]>
-    <pool.AQ [Attr.Type.Querier Id_Entity]>
     <creation.AQ [Attr.Type.Querier Rev_Ref]>
     <last_change.AQ [Attr.Type.Querier Rev_Ref]>
     <last_cid.AQ [Attr.Type.Querier Ckd]>
@@ -393,6 +392,7 @@ _test_AQ = """
     <is_free.AQ [Attr.Type.Querier Boolean]>
     <cool_down.AQ [Attr.Type.Querier Ckd]>
     <has_children.AQ [Attr.Type.Querier Boolean]>
+    <parent.AQ [Attr.Type.Querier Id_Entity]>
     <net_interface.AQ [Attr.Type.Querier Rev_Ref]>
     <documents.AQ [Attr.Type.Querier Rev_Ref]>
     <wired_interface.AQ [Attr.Type.Querier Rev_Ref]>
@@ -404,14 +404,6 @@ _test_AQ = """
     <net_address.AQ [Attr.Type.Querier Ckd]> -----
     <desc.AQ [Attr.Type.Querier String]> -----
     <owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
-    <pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
-    <pool.net_address.AQ [Attr.Type.Querier Ckd]> -----
-    <pool.desc.AQ [Attr.Type.Querier String]> -----
-    <pool.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
-    <pool.pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
-    <pool.is_free.AQ [Attr.Type.Querier Boolean]> -----
-    <pool.cool_down.AQ [Attr.Type.Querier Ckd]> -----
-    <pool.has_children.AQ [Attr.Type.Querier Boolean]> -----
     <creation.AQ [Attr.Type.Querier Rev_Ref]> MOM.MD_Change
     <creation.c_time.AQ [Attr.Type.Querier Ckd]> -----
     <creation.c_user.AQ [Attr.Type.Querier Id_Entity]> MOM.Id_Entity
@@ -430,6 +422,14 @@ _test_AQ = """
     <is_free.AQ [Attr.Type.Querier Boolean]> -----
     <cool_down.AQ [Attr.Type.Querier Ckd]> -----
     <has_children.AQ [Attr.Type.Querier Boolean]> -----
+    <parent.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
+    <parent.net_address.AQ [Attr.Type.Querier Ckd]> -----
+    <parent.desc.AQ [Attr.Type.Querier String]> -----
+    <parent.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <parent.is_free.AQ [Attr.Type.Querier Boolean]> -----
+    <parent.cool_down.AQ [Attr.Type.Querier Ckd]> -----
+    <parent.has_children.AQ [Attr.Type.Querier Boolean]> -----
+    <parent.parent.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
     <net_interface.AQ [Attr.Type.Querier Rev_Ref]> FFM.Net_Interface
     <documents.AQ [Attr.Type.Querier Rev_Ref]> MOM.Document
     <documents.url.AQ [Attr.Type.Querier String]> -----
@@ -862,14 +862,6 @@ _test_AQ = """
     'Net address'
     'Desc'
     'Owner'
-    'Pool'
-    'Pool/Net address'
-    'Pool/Desc'
-    'Pool/Owner'
-    'Pool/Pool'
-    'Pool/Is free'
-    'Pool/Cool down'
-    'Pool/Has children'
     'Creation'
     'Creation/C time'
     'Creation/C user'
@@ -888,6 +880,14 @@ _test_AQ = """
     'Is free'
     'Cool down'
     'Has children'
+    'Parent'
+    'Parent/Net address'
+    'Parent/Desc'
+    'Parent/Owner'
+    'Parent/Is free'
+    'Parent/Cool down'
+    'Parent/Has children'
+    'Parent/Parent'
     'Net interface'
     'Documents'
     'Documents/Url'
@@ -1315,18 +1315,13 @@ _test_AQ = """
     'Virtual wireless interface/Standard/Bandwidth'
     'Virtual wireless interface/TX power'
 
-    >>> AQ.pool.pool.pool.owner
-    <pool.pool.pool.owner.AQ [Attr.Type.Querier Id_Entity]>
+    >>> AQ.parent.parent.parent.owner
+    <parent.parent.parent.owner.AQ [Attr.Type.Querier Id_Entity]>
 
     >>> for aq in AQ.Atoms :
     ...     print (aq)
     <net_address.AQ [Attr.Type.Querier Ckd]>
     <desc.AQ [Attr.Type.Querier String]>
-    <pool.net_address.AQ [Attr.Type.Querier Ckd]>
-    <pool.desc.AQ [Attr.Type.Querier String]>
-    <pool.is_free.AQ [Attr.Type.Querier Boolean]>
-    <pool.cool_down.AQ [Attr.Type.Querier Ckd]>
-    <pool.has_children.AQ [Attr.Type.Querier Boolean]>
     <creation.c_time.AQ [Attr.Type.Querier Ckd]>
     <creation.kind.AQ [Attr.Type.Querier String]>
     <creation.time.AQ [Attr.Type.Querier Ckd]>
@@ -1339,6 +1334,11 @@ _test_AQ = """
     <is_free.AQ [Attr.Type.Querier Boolean]>
     <cool_down.AQ [Attr.Type.Querier Ckd]>
     <has_children.AQ [Attr.Type.Querier Boolean]>
+    <parent.net_address.AQ [Attr.Type.Querier Ckd]>
+    <parent.desc.AQ [Attr.Type.Querier String]>
+    <parent.is_free.AQ [Attr.Type.Querier Boolean]>
+    <parent.cool_down.AQ [Attr.Type.Querier Ckd]>
+    <parent.has_children.AQ [Attr.Type.Querier Boolean]>
     <documents.url.AQ [Attr.Type.Querier String]>
     <documents.type.AQ [Attr.Type.Querier String]>
     <documents.desc.AQ [Attr.Type.Querier String]>
@@ -1753,114 +1753,6 @@ _test_AQ = """
           }
         , { 'Class' : 'Entity'
           , 'attrs' :
-              [ { 'name' : 'net_address'
-                , 'sig_key' : 0
-                , 'ui_name' : 'Net address'
-                }
-              , { 'name' : 'desc'
-                , 'sig_key' : 3
-                , 'ui_name' : 'Desc'
-                }
-              , { 'Class' : 'Entity'
-                , 'children_np' :
-                    [ { 'Class' : 'Entity'
-                      , 'attrs' :
-                          [ { 'name' : 'name'
-                            , 'sig_key' : 3
-                            , 'ui_name' : 'Name'
-                            }
-                          ]
-                      , 'name' : 'owner'
-                      , 'sig_key' : 2
-                      , 'type_name' : 'FFM.Node'
-                      , 'ui_name' : 'Owner'
-                      , 'ui_type_name' : 'Node'
-                      }
-                    , { 'Class' : 'Entity'
-                      , 'attrs' :
-                          [ { 'name' : 'name'
-                            , 'sig_key' : 3
-                            , 'ui_name' : 'Name'
-                            }
-                          ]
-                      , 'name' : 'owner'
-                      , 'sig_key' : 2
-                      , 'type_name' : 'PAP.Association'
-                      , 'ui_name' : 'Owner'
-                      , 'ui_type_name' : 'Association'
-                      }
-                    , { 'Class' : 'Entity'
-                      , 'attrs' :
-                          [ { 'name' : 'name'
-                            , 'sig_key' : 3
-                            , 'ui_name' : 'Name'
-                            }
-                          , { 'name' : 'registered_in'
-                            , 'sig_key' : 3
-                            , 'ui_name' : 'Registered in'
-                            }
-                          ]
-                      , 'name' : 'owner'
-                      , 'sig_key' : 2
-                      , 'type_name' : 'PAP.Company'
-                      , 'ui_name' : 'Owner'
-                      , 'ui_type_name' : 'Company'
-                      }
-                    , { 'Class' : 'Entity'
-                      , 'attrs' :
-                          [ { 'name' : 'last_name'
-                            , 'sig_key' : 3
-                            , 'ui_name' : 'Last name'
-                            }
-                          , { 'name' : 'first_name'
-                            , 'sig_key' : 3
-                            , 'ui_name' : 'First name'
-                            }
-                          , { 'name' : 'middle_name'
-                            , 'sig_key' : 3
-                            , 'ui_name' : 'Middle name'
-                            }
-                          , { 'name' : 'title'
-                            , 'sig_key' : 3
-                            , 'ui_name' : 'Academic title'
-                            }
-                          ]
-                      , 'name' : 'owner'
-                      , 'sig_key' : 2
-                      , 'type_name' : 'PAP.Person'
-                      , 'ui_name' : 'Owner'
-                      , 'ui_type_name' : 'Person'
-                      }
-                    ]
-                , 'default_child' : 'PAP.Person'
-                , 'name' : 'owner'
-                , 'sig_key' : 2
-                , 'ui_name' : 'Owner'
-                }
-              , { 'Class' : 'Entity'
-                , 'name' : 'pool'
-                , 'sig_key' : 2
-                , 'ui_name' : 'Pool'
-                }
-              , { 'name' : 'is_free'
-                , 'sig_key' : 1
-                , 'ui_name' : 'Is free'
-                }
-              , { 'name' : 'cool_down'
-                , 'sig_key' : 0
-                , 'ui_name' : 'Cool down'
-                }
-              , { 'name' : 'has_children'
-                , 'sig_key' : 1
-                , 'ui_name' : 'Has children'
-                }
-              ]
-          , 'name' : 'pool'
-          , 'sig_key' : 2
-          , 'ui_name' : 'Pool'
-          }
-        , { 'Class' : 'Entity'
-          , 'attrs' :
               [ { 'name' : 'c_time'
                 , 'sig_key' : 0
                 , 'ui_name' : 'C time'
@@ -2100,6 +1992,114 @@ _test_AQ = """
         , { 'name' : 'has_children'
           , 'sig_key' : 1
           , 'ui_name' : 'Has children'
+          }
+        , { 'Class' : 'Entity'
+          , 'attrs' :
+              [ { 'name' : 'net_address'
+                , 'sig_key' : 0
+                , 'ui_name' : 'Net address'
+                }
+              , { 'name' : 'desc'
+                , 'sig_key' : 3
+                , 'ui_name' : 'Desc'
+                }
+              , { 'Class' : 'Entity'
+                , 'children_np' :
+                    [ { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          ]
+                      , 'name' : 'owner'
+                      , 'sig_key' : 2
+                      , 'type_name' : 'FFM.Node'
+                      , 'ui_name' : 'Owner'
+                      , 'ui_type_name' : 'Node'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          ]
+                      , 'name' : 'owner'
+                      , 'sig_key' : 2
+                      , 'type_name' : 'PAP.Association'
+                      , 'ui_name' : 'Owner'
+                      , 'ui_type_name' : 'Association'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          , { 'name' : 'registered_in'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Registered in'
+                            }
+                          ]
+                      , 'name' : 'owner'
+                      , 'sig_key' : 2
+                      , 'type_name' : 'PAP.Company'
+                      , 'ui_name' : 'Owner'
+                      , 'ui_type_name' : 'Company'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'last_name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Last name'
+                            }
+                          , { 'name' : 'first_name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'First name'
+                            }
+                          , { 'name' : 'middle_name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Middle name'
+                            }
+                          , { 'name' : 'title'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Academic title'
+                            }
+                          ]
+                      , 'name' : 'owner'
+                      , 'sig_key' : 2
+                      , 'type_name' : 'PAP.Person'
+                      , 'ui_name' : 'Owner'
+                      , 'ui_type_name' : 'Person'
+                      }
+                    ]
+                , 'default_child' : 'PAP.Person'
+                , 'name' : 'owner'
+                , 'sig_key' : 2
+                , 'ui_name' : 'Owner'
+                }
+              , { 'name' : 'is_free'
+                , 'sig_key' : 1
+                , 'ui_name' : 'Is free'
+                }
+              , { 'name' : 'cool_down'
+                , 'sig_key' : 0
+                , 'ui_name' : 'Cool down'
+                }
+              , { 'name' : 'has_children'
+                , 'sig_key' : 1
+                , 'ui_name' : 'Has children'
+                }
+              , { 'Class' : 'Entity'
+                , 'name' : 'parent'
+                , 'sig_key' : 2
+                , 'ui_name' : 'Parent'
+                }
+              ]
+          , 'name' : 'parent'
+          , 'sig_key' : 2
+          , 'ui_name' : 'Parent'
           }
         , { 'Class' : 'Entity'
           , 'name' : 'net_interface'
@@ -4955,208 +4955,6 @@ _test_AQ = """
       )
     , Record
       ( Class = 'Entity'
-      , attr = Entity `pool`
-      , attrs =
-          [ Record
-            ( attr = IP4-network `net_address`
-            , full_name = 'pool.net_address'
-            , id = 'pool__net_address'
-            , name = 'net_address'
-            , sig_key = 0
-            , ui_name = 'Pool/Net address'
-            )
-          , Record
-            ( attr = String `desc`
-            , full_name = 'pool.desc'
-            , id = 'pool__desc'
-            , name = 'desc'
-            , sig_key = 3
-            , ui_name = 'Pool/Desc'
-            )
-          , Record
-            ( Class = 'Entity'
-            , attr = Entity `owner`
-            , children_np =
-                [ Record
-                  ( Class = 'Entity'
-                  , attr = Entity `owner`
-                  , attrs =
-                      [ Record
-                        ( attr = String `name`
-                        , full_name = 'owner.name'
-                        , id = 'owner__name'
-                        , name = 'name'
-                        , sig_key = 3
-                        , ui_name = 'Owner[Node]/Name'
-                        )
-                      ]
-                  , full_name = 'owner'
-                  , id = 'owner'
-                  , name = 'owner'
-                  , sig_key = 2
-                  , type_name = 'FFM.Node'
-                  , ui_name = 'Owner[Node]'
-                  , ui_type_name = 'Node'
-                  )
-                , Record
-                  ( Class = 'Entity'
-                  , attr = Entity `owner`
-                  , attrs =
-                      [ Record
-                        ( attr = String `name`
-                        , full_name = 'owner.name'
-                        , id = 'owner__name'
-                        , name = 'name'
-                        , sig_key = 3
-                        , ui_name = 'Owner[Association]/Name'
-                        )
-                      ]
-                  , full_name = 'owner'
-                  , id = 'owner'
-                  , name = 'owner'
-                  , sig_key = 2
-                  , type_name = 'PAP.Association'
-                  , ui_name = 'Owner[Association]'
-                  , ui_type_name = 'Association'
-                  )
-                , Record
-                  ( Class = 'Entity'
-                  , attr = Entity `owner`
-                  , attrs =
-                      [ Record
-                        ( attr = String `name`
-                        , full_name = 'owner.name'
-                        , id = 'owner__name'
-                        , name = 'name'
-                        , sig_key = 3
-                        , ui_name = 'Owner[Company]/Name'
-                        )
-                      , Record
-                        ( attr = String `registered_in`
-                        , full_name = 'owner.registered_in'
-                        , id = 'owner__registered_in'
-                        , name = 'registered_in'
-                        , sig_key = 3
-                        , ui_name = 'Owner[Company]/Registered in'
-                        )
-                      ]
-                  , full_name = 'owner'
-                  , id = 'owner'
-                  , name = 'owner'
-                  , sig_key = 2
-                  , type_name = 'PAP.Company'
-                  , ui_name = 'Owner[Company]'
-                  , ui_type_name = 'Company'
-                  )
-                , Record
-                  ( Class = 'Entity'
-                  , attr = Entity `owner`
-                  , attrs =
-                      [ Record
-                        ( attr = String `last_name`
-                        , full_name = 'owner.last_name'
-                        , id = 'owner__last_name'
-                        , name = 'last_name'
-                        , sig_key = 3
-                        , ui_name = 'Owner[Person]/Last name'
-                        )
-                      , Record
-                        ( attr = String `first_name`
-                        , full_name = 'owner.first_name'
-                        , id = 'owner__first_name'
-                        , name = 'first_name'
-                        , sig_key = 3
-                        , ui_name = 'Owner[Person]/First name'
-                        )
-                      , Record
-                        ( attr = String `middle_name`
-                        , full_name = 'owner.middle_name'
-                        , id = 'owner__middle_name'
-                        , name = 'middle_name'
-                        , sig_key = 3
-                        , ui_name = 'Owner[Person]/Middle name'
-                        )
-                      , Record
-                        ( attr = String `title`
-                        , full_name = 'owner.title'
-                        , id = 'owner__title'
-                        , name = 'title'
-                        , sig_key = 3
-                        , ui_name = 'Owner[Person]/Academic title'
-                        )
-                      ]
-                  , full_name = 'owner'
-                  , id = 'owner'
-                  , name = 'owner'
-                  , sig_key = 2
-                  , type_name = 'PAP.Person'
-                  , ui_name = 'Owner[Person]'
-                  , ui_type_name = 'Person'
-                  )
-                ]
-            , default_child = 'PAP.Person'
-            , full_name = 'pool.owner'
-            , id = 'pool__owner'
-            , name = 'owner'
-            , sig_key = 2
-            , type_name = 'PAP.Subject'
-            , ui_name = 'Pool/Owner'
-            , ui_type_name = 'Subject'
-            )
-          , Record
-            ( Class = 'Entity'
-            , attr = Entity `pool`
-            , full_name = 'pool.pool'
-            , id = 'pool__pool'
-            , name = 'pool'
-            , sig_key = 2
-            , type_name = 'FFM.IP4_Network'
-            , ui_name = 'Pool/Pool'
-            , ui_type_name = 'IP4_Network'
-            )
-          , Record
-            ( attr = Boolean `is_free`
-            , choices =
-                [ 'no'
-                , 'yes'
-                ]
-            , full_name = 'pool.is_free'
-            , id = 'pool__is_free'
-            , name = 'is_free'
-            , sig_key = 1
-            , ui_name = 'Pool/Is free'
-            )
-          , Record
-            ( attr = Date-Time `cool_down`
-            , full_name = 'pool.cool_down'
-            , id = 'pool__cool_down'
-            , name = 'cool_down'
-            , sig_key = 0
-            , ui_name = 'Pool/Cool down'
-            )
-          , Record
-            ( attr = Boolean `has_children`
-            , choices =
-                [ 'no'
-                , 'yes'
-                ]
-            , full_name = 'pool.has_children'
-            , id = 'pool__has_children'
-            , name = 'has_children'
-            , sig_key = 1
-            , ui_name = 'Pool/Has children'
-            )
-          ]
-      , full_name = 'pool'
-      , id = 'pool'
-      , name = 'pool'
-      , sig_key = 2
-      , type_name = 'FFM.IP4_Network'
-      , ui_name = 'Pool'
-      , ui_type_name = 'IP4_Network'
-      )
-    , Record
-      ( Class = 'Entity'
       , attr = Rev_Ref `creation`
       , attrs =
           [ Record
@@ -5571,7 +5369,10 @@ _test_AQ = """
       )
     , Record
       ( attr = Boolean `is_free`
-      , choices = <Recursion on list...>
+      , choices =
+          [ 'no'
+          , 'yes'
+          ]
       , full_name = 'is_free'
       , id = 'is_free'
       , name = 'is_free'
@@ -5588,12 +5389,211 @@ _test_AQ = """
       )
     , Record
       ( attr = Boolean `has_children`
-      , choices = <Recursion on list...>
+      , choices =
+          [ 'no'
+          , 'yes'
+          ]
       , full_name = 'has_children'
       , id = 'has_children'
       , name = 'has_children'
       , sig_key = 1
       , ui_name = 'Has children'
+      )
+    , Record
+      ( Class = 'Entity'
+      , attr = Entity `parent`
+      , attrs =
+          [ Record
+            ( attr = IP4-network `net_address`
+            , full_name = 'parent.net_address'
+            , id = 'parent__net_address'
+            , name = 'net_address'
+            , sig_key = 0
+            , ui_name = 'Parent/Net address'
+            )
+          , Record
+            ( attr = String `desc`
+            , full_name = 'parent.desc'
+            , id = 'parent__desc'
+            , name = 'desc'
+            , sig_key = 3
+            , ui_name = 'Parent/Desc'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `owner`
+            , children_np =
+                [ Record
+                  ( Class = 'Entity'
+                  , attr = Entity `owner`
+                  , attrs =
+                      [ Record
+                        ( attr = String `name`
+                        , full_name = 'owner.name'
+                        , id = 'owner__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Node]/Name'
+                        )
+                      ]
+                  , full_name = 'owner'
+                  , id = 'owner'
+                  , name = 'owner'
+                  , sig_key = 2
+                  , type_name = 'FFM.Node'
+                  , ui_name = 'Owner[Node]'
+                  , ui_type_name = 'Node'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `owner`
+                  , attrs =
+                      [ Record
+                        ( attr = String `name`
+                        , full_name = 'owner.name'
+                        , id = 'owner__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Association]/Name'
+                        )
+                      ]
+                  , full_name = 'owner'
+                  , id = 'owner'
+                  , name = 'owner'
+                  , sig_key = 2
+                  , type_name = 'PAP.Association'
+                  , ui_name = 'Owner[Association]'
+                  , ui_type_name = 'Association'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `owner`
+                  , attrs =
+                      [ Record
+                        ( attr = String `name`
+                        , full_name = 'owner.name'
+                        , id = 'owner__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Company]/Name'
+                        )
+                      , Record
+                        ( attr = String `registered_in`
+                        , full_name = 'owner.registered_in'
+                        , id = 'owner__registered_in'
+                        , name = 'registered_in'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Company]/Registered in'
+                        )
+                      ]
+                  , full_name = 'owner'
+                  , id = 'owner'
+                  , name = 'owner'
+                  , sig_key = 2
+                  , type_name = 'PAP.Company'
+                  , ui_name = 'Owner[Company]'
+                  , ui_type_name = 'Company'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `owner`
+                  , attrs =
+                      [ Record
+                        ( attr = String `last_name`
+                        , full_name = 'owner.last_name'
+                        , id = 'owner__last_name'
+                        , name = 'last_name'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Person]/Last name'
+                        )
+                      , Record
+                        ( attr = String `first_name`
+                        , full_name = 'owner.first_name'
+                        , id = 'owner__first_name'
+                        , name = 'first_name'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Person]/First name'
+                        )
+                      , Record
+                        ( attr = String `middle_name`
+                        , full_name = 'owner.middle_name'
+                        , id = 'owner__middle_name'
+                        , name = 'middle_name'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Person]/Middle name'
+                        )
+                      , Record
+                        ( attr = String `title`
+                        , full_name = 'owner.title'
+                        , id = 'owner__title'
+                        , name = 'title'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Person]/Academic title'
+                        )
+                      ]
+                  , full_name = 'owner'
+                  , id = 'owner'
+                  , name = 'owner'
+                  , sig_key = 2
+                  , type_name = 'PAP.Person'
+                  , ui_name = 'Owner[Person]'
+                  , ui_type_name = 'Person'
+                  )
+                ]
+            , default_child = 'PAP.Person'
+            , full_name = 'parent.owner'
+            , id = 'parent__owner'
+            , name = 'owner'
+            , sig_key = 2
+            , type_name = 'PAP.Subject'
+            , ui_name = 'Parent/Owner'
+            , ui_type_name = 'Subject'
+            )
+          , Record
+            ( attr = Boolean `is_free`
+            , choices = <Recursion on list...>
+            , full_name = 'parent.is_free'
+            , id = 'parent__is_free'
+            , name = 'is_free'
+            , sig_key = 1
+            , ui_name = 'Parent/Is free'
+            )
+          , Record
+            ( attr = Date-Time `cool_down`
+            , full_name = 'parent.cool_down'
+            , id = 'parent__cool_down'
+            , name = 'cool_down'
+            , sig_key = 0
+            , ui_name = 'Parent/Cool down'
+            )
+          , Record
+            ( attr = Boolean `has_children`
+            , choices = <Recursion on list...>
+            , full_name = 'parent.has_children'
+            , id = 'parent__has_children'
+            , name = 'has_children'
+            , sig_key = 1
+            , ui_name = 'Parent/Has children'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `parent`
+            , full_name = 'parent.parent'
+            , id = 'parent__parent'
+            , name = 'parent'
+            , sig_key = 2
+            , type_name = 'FFM.IP4_Network'
+            , ui_name = 'Parent/Parent'
+            , ui_type_name = 'IP4_Network'
+            )
+          ]
+      , full_name = 'parent'
+      , id = 'parent'
+      , name = 'parent'
+      , sig_key = 2
+      , type_name = 'FFM.IP4_Network'
+      , ui_name = 'Parent'
+      , ui_type_name = 'IP4_Network'
       )
     , Record
       ( Class = 'Entity'
@@ -10649,7 +10649,7 @@ _test_AQ = """
       )
     )
 
-    >>> print (formatted (QR.Filter_Atoms (QR.Filter (FFM.IP4_Network, "pool"))))
+    >>> print (formatted (QR.Filter_Atoms (QR.Filter (FFM.IP4_Network, "parent"))))
     ( Record
       ( AQ = <net_address.AQ [Attr.Type.Querier Ckd]>
       , attr = IP4-network `net_address`
@@ -10895,32 +10895,32 @@ _test_AQ = """
     Ip4 networks/Net address
     Ip4 networks/Desc
     Ip4 networks/Owner
-    Ip4 networks/Pool
-    Ip4 networks/Pool/Net address
-    Ip4 networks/Pool/Desc
-    Ip4 networks/Pool/Owner
-    Ip4 networks/Pool/Pool
-    Ip4 networks/Pool/Is free
-    Ip4 networks/Pool/Cool down
-    Ip4 networks/Pool/Has children
     Ip4 networks/Is free
     Ip4 networks/Cool down
     Ip4 networks/Has children
+    Ip4 networks/Parent
+    Ip4 networks/Parent/Net address
+    Ip4 networks/Parent/Desc
+    Ip4 networks/Parent/Owner
+    Ip4 networks/Parent/Is free
+    Ip4 networks/Parent/Cool down
+    Ip4 networks/Parent/Has children
+    Ip4 networks/Parent/Parent
     Ip6 networks
     Ip6 networks/Net address
     Ip6 networks/Desc
     Ip6 networks/Owner
-    Ip6 networks/Pool
-    Ip6 networks/Pool/Net address
-    Ip6 networks/Pool/Desc
-    Ip6 networks/Pool/Owner
-    Ip6 networks/Pool/Pool
-    Ip6 networks/Pool/Is free
-    Ip6 networks/Pool/Cool down
-    Ip6 networks/Pool/Has children
     Ip6 networks/Is free
     Ip6 networks/Cool down
     Ip6 networks/Has children
+    Ip6 networks/Parent
+    Ip6 networks/Parent/Net address
+    Ip6 networks/Parent/Desc
+    Ip6 networks/Parent/Owner
+    Ip6 networks/Parent/Is free
+    Ip6 networks/Parent/Cool down
+    Ip6 networks/Parent/Has children
+    Ip6 networks/Parent/Parent
     Documents
     Documents/Url
     Documents/Type
@@ -11240,7 +11240,7 @@ def show_networks (scope, ETM, * qargs, ** qkw) :
     pool = qkw.pop ("pool", None)
     if pool is not None :
         qargs += (Q.net_address.IN (pool.net_address), )
-    for nw in ETM.query (* qargs, sort_key = sk, ** qkw) :
+    for nw in ETM.query (* qargs, sort_key = sk, ** qkw).distinct () :
         print \
             ( "%-18s %-25s: electric = %1.1s, children = %1.1s"
             % (nw.FO.net_address, nw.FO.owner, nw.electric, nw.has_children)

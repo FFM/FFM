@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2012-2013 Dr. Ralf Schlatterbeck All rights reserved
+# Copyright (C) 2012-2014 Dr. Ralf Schlatterbeck All rights reserved
 # Reichergasse 131, A--3411 Weidling, Austria. rsc@runtux.com
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -29,6 +29,9 @@
 #    22-May-2012 (RS) Creation
 #    27-Feb-2013 (CT) Add `pool`
 #     7-Aug-2013 (CT) Adapt to major surgery of GTW.OMP.NET.Attr_Type
+#     2-Apr-2014 (CT) Fix bases of `net_address`
+#     2-Apr-2014 (CT) Add `pool.rev_ref_attr_name`
+#     3-Apr-2014 (CT) Change `pool` to `parent`
 #    ««revision-date»»···
 #--
 
@@ -55,20 +58,20 @@ class IP6_Network (_Ancestor_Essence) :
 
         ### Primary attributes
 
-        class net_address (NET.A_IP6_Network) :
+        class net_address (NET.A_IP6_Network, _Ancestor.net_address) :
             """IPv6 Network address."""
-
-            kind               = Attr.Primary
 
         # end class net_address
 
         ### Non-primary attributes
 
-        class pool (_Ancestor.pool) :
+        class parent (_Ancestor.parent) :
+            """Parent of the `%(type_name)s`."""
 
             P_Type             = "FFM.IP6_Network"
+            rev_ref_attr_name  = "subnets"
 
-        # end class pool
+        # end class parent
 
     # end class _Attributes
 

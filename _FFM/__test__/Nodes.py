@@ -103,6 +103,9 @@ _test_code = """
     >>> a3  = net.reserve (Adr ('192.168.23.3/32'))
     >>> a4  = net.reserve (Adr ('192.168.23.4/32'))
     >>> ax  = net.reserve ('192.168.23.42/32')
+    >>> ax
+    FFM.IP4_Network ("192.168.23.42")
+
     >>> devtype = FFM.Net_Device_Type.instance_or_new \\
     ...     (name = 'Generic', raw = True)
     >>> dev = FFM.Net_Device \\
@@ -114,7 +117,7 @@ _test_code = """
     >>> ir2 = FFM.Net_Interface_in_IP4_Network (wr, a3, mask_len = 24)
     >>> il2 = FFM.Net_Interface_in_IP4_Network (wl, a4, mask_len = 24)
 
-    >>> irx = FFM.Net_Interface_in_IP4_Network (wr, ax, mask_len = 28)
+    >>> irx = FFM.Net_Interface_in_IP4_Network (wr, ax, mask_len = 28) # doctest:+ELLIPSIS
     Traceback (most recent call last):
       ...
     Invariants: Condition `valid_mask_len` : The `mask_len` must match the one of `right` or of any
@@ -122,7 +125,7 @@ _test_code = """
         mask_len = 28
         possible_mask_lens = [24, 32] << sorted ( right.ETM.query ( (Q.net_address.CONTAINS (right.net_address))& (Q.electric == False)).attr ("net_address.mask_len"))
         right = 192.168.23.42
-        right.net_address = 192.168.23.42
+        right.net_address = ...
 
     >>> net2 = FFM.IP4_Network (net_address = '10.0.0.0/8', owner = mgr, raw = True)
     >>> a2_1 = net2.reserve (Adr ('10.139.187.0/27'))
