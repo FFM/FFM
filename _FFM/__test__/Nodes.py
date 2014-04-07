@@ -117,13 +117,13 @@ _test_code = """
     >>> ir2 = FFM.Net_Interface_in_IP4_Network (wr, a3, mask_len = 24)
     >>> il2 = FFM.Net_Interface_in_IP4_Network (wl, a4, mask_len = 24)
 
-    >>> irx = FFM.Net_Interface_in_IP4_Network (wr, ax, mask_len = 28) # doctest:+ELLIPSIS
+    >>> irx = FFM.Net_Interface_in_IP4_Network (wr, ax, mask_len = 22) # doctest:+ELLIPSIS
     Traceback (most recent call last):
       ...
     Invariants: Condition `valid_mask_len` : The `mask_len` must match the one of `right` or of any
     network containing `right`. (mask_len in possible_mask_lens)
-        mask_len = 28
-        possible_mask_lens = [24, 32] << sorted ( right.ETM.query ( (Q.net_address.CONTAINS (right.net_address))& (Q.electric == False)).attr ("net_address.mask_len"))
+        mask_len = 22
+        possible_mask_lens = [24, 25, 26, 27, 28, 29, 30, 31, 32] << sorted ( right.ETM.query ( (Q.net_address.CONTAINS (right.net_address))).attr ("net_address.mask_len"))
         right = 192.168.23.42
         right.net_address = ...
 
