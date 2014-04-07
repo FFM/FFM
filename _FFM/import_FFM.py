@@ -1,5 +1,5 @@
-# -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
+# -*- coding: utf-8 -*-
+# Copyright (C) 2012-2014 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -44,7 +44,8 @@
 #    26-Feb-2013 (CT) Remove `Wired_Link` and `Wireless_Link`
 #     4-Mar-2013 (CT) Add `GTW.OMP.PAP.Association`
 #    28-Apr-2013 (CT) Add `Person_acts_for_Legal_Entity`
-#    ««revision-date»»···
+#    27-Mar-2014 (CT) Add `MOM.Document`
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
@@ -93,5 +94,7 @@ import _FFM.Node_has_Address
 import _FFM.Person_mentors_Person
 import _FFM.Wireless_Interface_uses_Antenna
 import _FFM.Wireless_Interface_uses_Wireless_Channel
+
+import _MOM.Document
 
 ### __END__ FFM.import_FFM

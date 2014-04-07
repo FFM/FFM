@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-15 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
@@ -33,7 +33,7 @@
 #     4-Dec-2012 (CT) Remove `http:` (--> protocol-relative)
 #     4-May-2013 (CT) Re-add `http:` for external URLs
 #     4-May-2013 (CT) Add `RAT`
-#    ««revision-date»»···
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals

@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-15 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
@@ -34,7 +34,8 @@
 #    26-Jan-2013 (CT) Set `Net_Interface.is_relevant`
 #     7-May-2013 (RS) Add `desc`
 #     8-May-2013 (RS) Fix comment for desc
-#    ««revision-date»»···
+#    30-Sep-2013 (CT) Mixin `Belongs_to_Node_Left`, not `Belongs_to_Node`
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
@@ -45,13 +46,13 @@ from   _FFM                     import FFM
 from   _GTW._OMP._DNS.Attr_Type import A_DNS_Label
 
 import _FFM.Net_Device
-import _FFM._Belongs_to_Node_
+import _FFM.Belongs_to_Node
 
 from   _GTW._OMP._NET           import NET
 import _GTW._OMP._NET.Attr_Type
 
 _Ancestor_Essence = FFM.Link1
-_Mixin = FFM._Belongs_to_Node_
+_Mixin = FFM.Belongs_to_Node_Left
 
 class Net_Interface (_Mixin, _Ancestor_Essence) :
     """Model a network interface of a FFM device"""

@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-15 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2012 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
@@ -28,7 +28,7 @@
 # Revision Dates
 #    20-Aug-2012 (RS) Creation
 #    17-Dec-2012 (CT) Change `name.completer.treshold` to `0` (was `2`)
-#    ««revision-date»»···
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals

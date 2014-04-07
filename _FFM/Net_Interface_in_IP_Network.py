@@ -1,5 +1,5 @@
-# -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012-2013 Dr. Ralf Schlatterbeck All rights reserved
+# -*- coding: utf-8 -*-
+# Copyright (C) 2012-2014 Dr. Ralf Schlatterbeck All rights reserved
 # Reichergasse 131, A--3411 Weidling, Austria. rsc@runtux.com
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -35,7 +35,8 @@
 #     5-Mar-2013 (CT) Add predicates `network_not_split` and `valid_network`
 #    15-May-2013 (CT) Rename `auto_cache_np` to `auto_rev_ref_np`
 #    13-Aug-2013 (CT) Set `Net_Interface_in_IP_Network.is_relevant` to `True`
-#    ««revision-date»»···
+#     7-Apr-2014 (CT) Remove `~ electric` from `valid_mask_len` query
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
@@ -120,7 +121,6 @@ class Net_Interface_in_IP_Network (_Ancestor_Essence) :
                     """sorted """
                       """( right.ETM.query """
                             """( (Q.net_address.CONTAINS (right.net_address))"""
-                            """& (Q.electric == False)"""
                             """).attr ("net_address.mask_len")"""
                       """)"""
                 )
@@ -136,7 +136,7 @@ class Net_Interface_in_IP_Network (_Ancestor_Essence) :
             kind               = Pred.Object
             assertion          = \
                 "right.owner is not None and not right.electric"
-            attributes         = ("left", "right.owner", "right.has_children")
+            attributes         = ("left", "right.owner", "right.electric")
 
         # end class valid_network
 

@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-15 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
@@ -44,7 +44,10 @@
 #    17-Apr-2013 (CT) Use `Computed_Set_Mixin`, not `Computed_Mixin`
 #     3-May-2013 (CT) Add attribute `address`,
 #                     put `Node_has_Address` into `refuse_links`
-#    ««revision-date»»···
+#    30-Sep-2013 (CT) Mixin `Belongs_to_Node`,
+#                     change `belongs_to_node` to query `Q.SELF`
+#     1-Oct-2013 (CT) Set `belongs_to_node.hidden` to `True`
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
@@ -56,10 +59,12 @@ from   _GTW._OMP._PAP           import PAP, Person, Subject, Address
 from   _GTW._OMP._DNS.Attr_Type import A_DNS_Label
 
 import _FFM.Entity
+import _FFM.Belongs_to_Node
 
 _Ancestor_Essence = PAP.Subject
+_Mixin            = FFM.Belongs_to_Node
 
-class Node (FFM.Entity, _Ancestor_Essence) :
+class Node (_Mixin, FFM.Entity, _Ancestor_Essence) :
     """Model a node of FFM"""
 
     refuse_links = set \
@@ -71,7 +76,11 @@ class Node (FFM.Entity, _Ancestor_Essence) :
          , "GTW.OMP.PAP.Subject_has_Phone"
         ))
 
-    class _Attributes (_Ancestor_Essence._Attributes) :
+    class _Attributes \
+              ( _Mixin._Attributes
+              , FFM.Entity._Attributes
+              , _Ancestor_Essence._Attributes
+              ) :
 
         _Ancestor    = _Ancestor_Essence._Attributes
 
@@ -96,15 +105,15 @@ class Node (FFM.Entity, _Ancestor_Essence) :
 
         # end class address
 
-        class belongs_to_node (A_Id_Entity) :
-            """Node to which this entity belongs."""
+        class belongs_to_node (_Mixin._Attributes.belongs_to_node) :
+            """Node to which this node belongs.
 
-            kind               = Attr.Computed
-            P_Type             = "FFM.Node"
+               Just an alias to the node itself to be compatible with all
+               other entities belonging to nodes.
+            """
 
-            def computed (self, obj) :
-                return obj
-            # end def computed
+            query              = Q.SELF
+            hidden             = True
 
         # end class belongs_to_node
 

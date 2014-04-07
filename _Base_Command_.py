@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-15 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
@@ -27,7 +27,8 @@
 #
 # Revision Dates
 #     3-Jun-2012 (CT) Creation
-#    ««revision-date»»···
+#    17-Dec-2013 (CT) Add `httpd_config` to `Config_Dirs._defaults`
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
@@ -41,7 +42,7 @@ class _Base_Command_ (TFL.Command.Root_Command) :
 
     class Config_Dirs (TFL.Command.Root_Command.Config_Dirs) :
 
-        _defaults  = ("~/", "../..")
+        _defaults = ("~/", "$app_dir/../..", "~/httpd_config", "$app_dir/httpd_config")
 
     # end class Config_Dirs
 

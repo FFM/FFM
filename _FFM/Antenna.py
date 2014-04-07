@@ -1,5 +1,5 @@
-# -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
+# -*- coding: utf-8 -*-
+# Copyright (C) 2012-2014 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -38,7 +38,9 @@
 #    26-Feb-2013 (CT) Disable `belongs_to_node`
 #    17-Apr-2013 (CT) Use `Computed_Set_Mixin`, not `Computed_Mixin`
 #    14-Aug-2013 (CT) Re-enable `belongs_to_node`
-#    ««revision-date»»···
+#    30-Sep-2013 (CT) Mixin `Belongs_to_Node`
+#    27-Feb-2014 (CT) Rename `elevation` to `elevation_angle`
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
@@ -50,13 +52,15 @@ import _FFM.Antenna_Type
 import _FFM.Device
 import _FFM.Node
 from   _FFM.Attr_Type         import A_Polarization
+import _FFM.Belongs_to_Node
 
 _Ancestor_Essence = FFM.Device
+_Mixin            = FFM.Belongs_to_Node
 
-class Antenna (_Ancestor_Essence) :
+class Antenna (_Mixin, _Ancestor_Essence) :
     """Model an antenna used by a FFM node."""
 
-    class _Attributes (_Ancestor_Essence._Attributes) :
+    class _Attributes (_Mixin._Attributes, _Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
@@ -82,18 +86,14 @@ class Antenna (_Ancestor_Essence) :
 
         # end class azimuth
 
-        class belongs_to_node (A_Id_Entity) :
-            """Node to which this antenna belongs."""
+        class belongs_to_node (_Mixin._Attributes.belongs_to_node) :
 
-            kind                = Attr.Query
-            hidden              = True
-            P_Type              = FFM.Node
             query               = Q.interface.belongs_to_node
             query_preconditions = (Q.interface, )
 
         # end class belongs_to_node
 
-        class elevation (A_Int) :
+        class elevation_angle (A_Int) :
             """ Elevation angle of the beam from the horizontal plane
                 (in degrees).
             """
@@ -105,7 +105,7 @@ class Antenna (_Ancestor_Essence) :
             max_value          = 90
             min_value          = -90
 
-        # end class elevation
+        # end class elevation_angle
 
         class gain (A_Float) :
             """Describes how well the antenna converts input power into radio

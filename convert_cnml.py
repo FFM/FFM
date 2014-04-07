@@ -140,6 +140,10 @@ class Convert (object) :
                 self.insert_device (node, n)
             else :
                 raise ValueError, "Unknown tag in node: %s" % n.tag
+        MOM = self.scope.MOM
+        url = 'https://guifi.net/node/%s/' % element.get ('id')
+        dsc = 'Link to guifi.net node database'
+        MOM.Document (node, url = url, type = 'NodeDB', desc = dsc)
         self.scope.commit ()
     # end insert_node
 
@@ -338,12 +342,12 @@ class Convert (object) :
         if angle :
             elev = str (90 - (int (angle) % 360))
         ant  = self.ffm.Antenna.instance_or_new \
-            ( left        = antt
-            , name        = '.'.join ((id, element.get ('device_id')))
-            , azimuth     = element.get ('antenna_azimuth') or '0'
-            #, orientation = element.get ('antenna_angle') FIXME: polarisation?
-            , elevation   = elev
-            , raw         = True
+            ( left            = antt
+            , name            = '.'.join ((id, element.get ('device_id')))
+            , azimuth         = element.get ('antenna_azimuth') or '0'
+            # orientation     = element.get ('antenna_angle') FIXME: polarisation?
+            , elevation_angle = elev
+            , raw             = True
             )
         # FIXME: First check if there are multiple (wireless)
         # interfaces. If yes, we want one wireless interface with

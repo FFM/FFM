@@ -1,5 +1,5 @@
-# -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012-2013 Dr. Ralf Schlatterbeck All rights reserved
+# -*- coding: utf-8 -*-
+# Copyright (C) 2012-2014 Dr. Ralf Schlatterbeck All rights reserved
 # Reichergasse 131, A--3411 Weidling, Austria. rsc@runtux.com
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -49,7 +49,11 @@
 #     8-May-2013 (CT) Set `pool.P_Type` to `FFM.IP_Network`
 #     7-Aug-2013 (CT) Adapt to major surgery of GTW.OMP.NET.Attr_Type
 #    13-Aug-2013 (CT) Adapt to major surgery of GTW.OMP.NET.Attr_Type some more
-#    ««revision-date»»···
+#     2-Apr-2014 (CT) Fix base class of `net_address`
+#     2-Apr-2014 (CT) Change `pool.kind` to internal; pass `pool` in `split`
+#     3-Apr-2014 (CT) Change `pool` to `parent`;
+#                     change `has_children` to `Attr.Query`
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
@@ -78,7 +82,7 @@ class IP_Network (_Ancestor_Essence) :
 
         ### Primary attributes
 
-        class net_address (NET._A_IP_Address_) :
+        class net_address (NET._A_CIDR_) :
             """Network address."""
 
             kind               = Attr.Primary
@@ -88,7 +92,7 @@ class IP_Network (_Ancestor_Essence) :
         ### Non-primary attributes
 
         class desc (A_String) :
-            """Description of and remarks about the IP_Network/Pool"""
+            """Description of and remarks about the IP_Network"""
 
             kind               = Attr.Optional
             max_length         = 80
@@ -99,11 +103,8 @@ class IP_Network (_Ancestor_Essence) :
             """Indicates whether this `%(type_name)s` can be assigned"""
 
             kind               = Attr.Query
-            query              = \
-                ( (Q.has_children  == False)
-                & (Q.cool_down     == None)
-                #& (Q.net_interface == None) ### XXX
-                )
+            query              = Q.NOT \
+                (Q.has_children | Q.cool_down | Q.net_interface_links)
 
         # end class is_free
 
@@ -119,9 +120,13 @@ class IP_Network (_Ancestor_Essence) :
         class has_children (A_Boolean) :
             """Indicates whether this `%(type_name)s` is split into parts."""
 
-            ### XXX should be Attr.Query if it only worked
-            kind               = Attr.Internal
-            default            = False
+            kind               = Attr.Query
+            ### `~ ~ Q.subnets` converts to Boolean in a Python- and
+            ### SQL-compatible way
+            ### without boolification, using `has_children` as order-by
+            ### criterion fails spectacularly because `SAW.QX` then expands
+            ### the epk of IP_Network and SQL sucks at comparing NULLS
+            query              = ~ ~ Q.subnets
 
         # end class has_children
 
@@ -133,13 +138,12 @@ class IP_Network (_Ancestor_Essence) :
 
         # end class owner
 
-        class pool (A_Id_Entity) :
-            """Pool the `%(type_name)s` belongs to."""
+        class parent (A_Id_Entity) :
+            """Parent of the `%(type_name)s`."""
 
-            kind               = Attr.Optional
-            P_Type             = "FFM.IP_Network"
+            kind               = Attr.Internal
 
-        # end class pool
+        # end class parent
 
     # end class _Attributes
 
@@ -147,14 +151,21 @@ class IP_Network (_Ancestor_Essence) :
 
         _Ancestor = _Ancestor_Essence._Predicates
 
-        class net_address_in_pool (Pred.Condition) :
-            """The `net_address` must be contained in the `pool`."""
+        class net_address_in_parent (Pred.Condition) :
+            """The `net_address` must be contained in the `parent`."""
 
             kind               = Pred.Object
-            assertion          = "net_address in pool.net_address"
-            attributes         = ("net_address", "pool.net_address")
+            assertion          = " and ".join \
+                ( ( "net_address in parent.net_address"
+                  , "net_address.mask_len == parent.net_address.mask_len + 1"
+                  )
+                )
+            attributes         = \
+                ( "net_address", "net_address.mask_len"
+                , "parent.net_address", "parent.net_address.mask_len"
+                )
 
-        # end class net_address_in_pool
+        # end class net_address_in_parent
 
         class owner_or_cool_down (Pred.Condition) :
             """At most one of `owner` and `cool_down` can be defined at one
@@ -177,11 +188,14 @@ class IP_Network (_Ancestor_Essence) :
 
     def find_closest_address (self, net_addr) :
         if net_addr in self.net_address :
-            result = self.ETM.query \
+            blocks = self.ETM.query \
                 ( Q.net_address.CONTAINS (net_addr)
                 , sort_key = TFL.Sorted_By ("-net_address.mask_len")
-                ).first ()
-            return result
+                )
+            try :
+                return TFL.first (blocks)
+            except IndexError :
+                pass
         msg = \
             ( "Address %s not in the address range [%s] of this %s"
             % (net_addr, self.net_address, self.ui_name)
@@ -192,28 +206,25 @@ class IP_Network (_Ancestor_Essence) :
 
     def find_closest_mask (self, mask_len) :
         blocks = self.ETM.query \
-            ( ### XXX factor `is_free` once query attributes work properly
-              (Q.has_children             == False)
-            & (Q.cool_down                == None)
-            & (Q.owner                    == self.owner)
-            & ( (Q.net_address.mask_len   <  mask_len)
-              | ( (Q.net_address.mask_len == mask_len)
-                & (Q.electric             == True)
-                )
+            ( Q.is_free
+            , Q.owner == self.owner
+            , Q.net_address.IN (self.net_address)
+            , (  Q.net_address.mask_len <  mask_len)
+            | ( (Q.net_address.mask_len == mask_len)
+              &  Q.electric
               )
-            & (Q.net_address.IN        (self.net_address))
-            , sort_key = TFL.Sorted_By ("-net_address.mask_len")
+            , sort_key = TFL.Sorted_By ("-net_address.mask_len", "net_address")
             )
-        for b in blocks :
-            if b.net_interface is None :
-                return b
-        msg = \
-            ( "Address range [%s] of this %s doesn't contain a "
-              "free subrange for mask length %s"
-            % (self.net_address, self.ui_name, mask_len)
-            )
-        raise FFM.Error.No_Free_Address_Range \
-            (self.net_address, mask_len, msg)
+        try :
+            return TFL.first (blocks)
+        except IndexError :
+            msg = \
+                ( "Address range [%s] of this %s doesn't contain a "
+                  "free subrange for mask length %s"
+                % (self.net_address, self.ui_name, mask_len)
+                )
+            raise FFM.Error.No_Free_Address_Range \
+                (self.net_address, mask_len, msg)
     # end def find_closest_mask
 
     def reserve (self, net_addr, owner = None) :
@@ -222,11 +233,9 @@ class IP_Network (_Ancestor_Essence) :
         if owner is None :
             owner = self.owner
         pool = self.find_closest_address (net_addr)
-        if not \
-               (   pool.is_free
+        if not (   pool.is_free
                and pool.owner is self.owner
-               and pool.net_interface is None ### XXX remove once query
-                                              ###   attributes work properly
+               and not pool.net_interface
                ) :
             msg = \
                 ( "Address %s already in use by '%s'"
@@ -237,21 +246,20 @@ class IP_Network (_Ancestor_Essence) :
         return self._reserve (pool, net_addr, owner)
     # end def reserve
 
-    def split (self) :
+    def split (self, pool) :
         ETM         = self.ETM
         net_address = self.net_address
         results     = list \
-            (   ETM (sn, owner = self.owner, electric = True)
+            (   ETM (sn, owner = self.owner, parent = self, electric = True)
             for sn in net_address.subnets (net_address.mask_len + 1)
             )
-        self.has_children = True
         return results
     # end def split
 
     def _reserve (self, pool, net_addr, owner) :
         result = pool
         while result.net_address != net_addr :
-            p1, p2 = result.split ()
+            p1, p2 = result.split (pool)
             if net_addr in p1.net_address :
                 result, other = p1, p2
             else :

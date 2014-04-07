@@ -1,5 +1,5 @@
-# -*- coding: iso-8859-15 -*-
-# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
+# -*- coding: utf-8 -*-
+# Copyright (C) 2012-2014 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.__test__.
@@ -31,7 +31,8 @@
 #    17-Dec-2012 (RS) Add tests for attributes of `belongs_to_node`
 #    26-Feb-2013 (CT) Disable tests `belongs_to_node`
 #    14-Aug-2013 (CT) Reenable tests for `belongs_to_node`
-#    ««revision-date»»···
+#    27-Jan-2014 (CT) Add tests for `polarization` vs. `raw_query_attrs`
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__ import absolute_import, division, print_function, unicode_literals
@@ -74,10 +75,10 @@ _test_code = """
     Traceback (most recent call last):
       ...
     Invariants: Condition `band_exists` : There must be at least one frequency band for the antenna. (number_of_bands >= 1)
-        bands = None
+        bands = ()
         number_of_bands = 0 << len (bands)
 
-    >>> args = dict (left = at1, azimuth = "180", elevation = 0, raw = True)
+    >>> args = dict (left = at1, azimuth = "180", elevation_angle = 0, raw = True)
     >>> a = FFM.Antenna (name = "1", ** args)
     >>> (a.gain, a.polarization)
     (17.5, 1)
@@ -87,7 +88,7 @@ _test_code = """
     >>> a = FFM.Antenna (name = "3", polarization = "horizontal", ** args)
     >>> (a.gain, a.polarization)
     (17.5, 0)
-    >>> args = dict (left = at2, azimuth = "90", elevation = 0, raw = True)
+    >>> args = dict (left = at2, azimuth = "90", elevation_angle = 0, raw = True)
     >>> b = FFM.Antenna (name = "4", ** args)
     >>> (b.gain, b.polarization)
     (11.5, 0)
@@ -97,6 +98,14 @@ _test_code = """
     >>> b = FFM.Antenna (name = "6", gain = 22, ** args)
     >>> (b.gain, b.polarization)
     (22.0, 0)
+
+    >>> akw = dict (polarization = "horizontal")
+    >>> FFM.Antenna.query_s (* FFM.Antenna.raw_query_attrs (akw, akw)).all ()
+    [FFM.Antenna ((u'yagi1', u'', u''), u'3'), FFM.Antenna ((u'yagi2', u'', u''), u'4'), FFM.Antenna ((u'yagi2', u'', u''), u'6')]
+
+    >>> akw = dict (polarization = "vertical")
+    >>> FFM.Antenna.query_s (* FFM.Antenna.raw_query_attrs (akw, akw)).all ()
+    [FFM.Antenna ((u'yagi1', u'', u''), u'1'), FFM.Antenna ((u'yagi1', u'', u''), u'2')]
 
     >>> mgr = PAP.Person \\
     ...     (first_name = 'Ralf', last_name = 'Schlatterbeck', raw = True)

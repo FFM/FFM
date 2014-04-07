@@ -27,6 +27,7 @@ from olsr.parser       import get_olsr_container
 from spider.parser     import Guess, site_template
 from itertools         import islice
 from logging           import INFO
+from gzip              import GzipFile
 
 def get_node_info \
     (result_dict, ip, timeout = 180, ip_port = {}, debug = False) :
@@ -249,7 +250,10 @@ if __name__ == '__main__' :
         )
     try :
         sp.process ()
-        f = open (opt.dump, "wb")
+        if opt.dump.endswith ('.gz') :
+            f = GzipFile (opt.dump, "wb", 9)
+        else :
+            f = open (opt.dump, "wb")
         pickle.dump (sp.result_dict, f)
         f.close ()
         if opt.verbose :

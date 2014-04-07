@@ -1,5 +1,5 @@
-# -*- coding: iso-8859-15 -*-
-# Copyright (C) 2013 Mag. Christian Tanzer All rights reserved
+# -*- coding: utf-8 -*-
+# Copyright (C) 2013-2014 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.__test__.
@@ -34,7 +34,8 @@
 #     8-May-2013 (CT) Remove `.pid`, `.url` from `attribute_names`, unless CSV
 #    13-Jun-2013 (CT) Remove `PNS_Aliases`
 #    29-Jul-2013 (CT) Add `test_put`
-#    ««revision-date»»···
+#     4-Oct-2013 (CT) Add tests for query arguments `fields` and `add_fields`
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__ import absolute_import, division, print_function, unicode_literals
@@ -76,7 +77,7 @@ class FFM_RST_Test_Command (GTW_RST_Test_Command) :
 
 Scaffold   = FFM_RST_Test_Command ()
 
-### «text» ### The doctest follows::
+### Â«textÂ» ### The doctest follows::
 
 _test_get = r"""
     >>> server = run_server (%(p1)s, %(n1)s)
@@ -218,7 +219,7 @@ _test_limit = r"""
                                           , 'name' : 'generic'
                                           , 'revision' : ''
                                           }
-                                      , 'cid' : 42
+                                      , 'cid' : 31
                                       , 'pid' : 27
                                       , 'type_name' : 'FFM.Net_Device_Type'
                                       , 'url' : '/v1/FFM-Net_Device_Type/27'
@@ -233,7 +234,7 @@ _test_limit = r"""
                                                   , 'street' : 'beispiel 23'
                                                   , 'zip' : '1010'
                                                   }
-                                              , 'cid' : 50
+                                              , 'cid' : 39
                                               , 'pid' : 35
                                               , 'type_name' : 'PAP.Address'
                                               , 'url' : '/v1/PAP-Address/35'
@@ -260,13 +261,13 @@ _test_limit = r"""
                                               , 'lon' : 15.8744
                                               }
                                           }
-                                      , 'cid' : 51
+                                      , 'cid' : 40
                                       , 'pid' : 3
                                       , 'type_name' : 'FFM.Node'
                                       , 'url' : '/v1/FFM-Node/3'
                                       }
                                   }
-                              , 'cid' : 43
+                              , 'cid' : 32
                               , 'pid' : 28
                               , 'type_name' : 'FFM.Net_Device'
                               , 'url' : '/v1/FFM-Net_Device/28'
@@ -274,7 +275,7 @@ _test_limit = r"""
                           , 'mac_address' : ''
                           , 'name' : 'wr'
                           }
-                      , 'cid' : 44
+                      , 'cid' : 33
                       , 'pid' : 29
                       , 'type_name' : 'FFM.Wired_Interface'
                       , 'url' : '/v1/FFM-Wired_Interface/29'
@@ -283,13 +284,13 @@ _test_limit = r"""
                   , 'right' :
                       { 'attributes' :
                           { 'net_address' : '192.168.23.1' }
-                      , 'cid' : 29
+                      , 'cid' : 21
                       , 'pid' : 20
                       , 'type_name' : 'FFM.IP4_Network'
                       , 'url' : '/v1/FFM-IP4_Network/20'
                       }
                   }
-              , 'cid' : 46
+              , 'cid' : 35
               , 'pid' : 31
               , 'type_name' : 'FFM.Wired_Interface_in_IP4_Network'
               , 'url' : '/v1/FFM-Net_Interface_in_IP4_Network/31'
@@ -319,7 +320,7 @@ _test_limit = r"""
                                           , 'name' : 'generic'
                                           , 'revision' : ''
                                           }
-                                      , 'cid' : 42
+                                      , 'cid' : 31
                                       , 'creation' :
                                           { 'date' : <datetime> }
                                       , 'last_change' :
@@ -338,7 +339,7 @@ _test_limit = r"""
                                                   , 'street' : 'beispiel 23'
                                                   , 'zip' : '1010'
                                                   }
-                                              , 'cid' : 50
+                                              , 'cid' : 39
                                               , 'creation' :
                                                   { 'date' : <datetime> }
                                               , 'last_change' :
@@ -373,7 +374,7 @@ _test_limit = r"""
                                               , 'lon' : 15.8744
                                               }
                                           }
-                                      , 'cid' : 51
+                                      , 'cid' : 40
                                       , 'creation' :
                                           { 'date' : <datetime> }
                                       , 'last_change' :
@@ -383,7 +384,7 @@ _test_limit = r"""
                                       , 'url' : '/v1/FFM-Node/3'
                                       }
                                   }
-                              , 'cid' : 43
+                              , 'cid' : 32
                               , 'creation' :
                                   { 'date' : <datetime> }
                               , 'last_change' :
@@ -395,7 +396,7 @@ _test_limit = r"""
                           , 'mac_address' : ''
                           , 'name' : 'wr'
                           }
-                      , 'cid' : 44
+                      , 'cid' : 33
                       , 'creation' :
                           { 'date' : <datetime> }
                       , 'last_change' :
@@ -408,7 +409,7 @@ _test_limit = r"""
                   , 'right' :
                       { 'attributes' :
                           { 'net_address' : '192.168.23.1' }
-                      , 'cid' : 29
+                      , 'cid' : 21
                       , 'creation' :
                           { 'date' : <datetime> }
                       , 'last_change' :
@@ -418,7 +419,7 @@ _test_limit = r"""
                       , 'url' : '/v1/FFM-IP4_Network/20'
                       }
                   }
-              , 'cid' : 46
+              , 'cid' : 35
               , 'creation' :
                   { 'date' : <datetime> }
               , 'last_change' :
@@ -431,6 +432,140 @@ _test_limit = r"""
         }
     , 'status' : 200
     , 'url' : 'http://localhost:9999/v1/FFM-Net_Interface_in_IP4_Network?verbose&closure&order_by=pid&limit=1&META'
+    }
+
+    >>> r = show (R.get ("/v1/FFM-Wired_Interface/29?verbose&order_by=pid&limit=1"), cleaner = date_cleaner)
+    { 'json' :
+        { 'attributes' :
+            { 'left' :
+                { 'pid' : 28
+                , 'url' : '/v1/FFM-Net_Device/28'
+                }
+            , 'mac_address' : ''
+            , 'name' : 'wr'
+            }
+        , 'cid' : 33
+        , 'pid' : 29
+        , 'rels' :
+            [ '/v1/FFM-Wired_Interface/29/documents'
+            , '/v1/FFM-Wired_Interface/29/ip4_network_links'
+            , '/v1/FFM-Wired_Interface/29/ip6_network_links'
+            , '/v1/FFM-Wired_Interface/29/left_net_links'
+            , '/v1/FFM-Wired_Interface/29/right_net_links'
+            ]
+        , 'type_name' : 'FFM.Wired_Interface'
+        , 'url' : '/v1/FFM-Wired_Interface/29'
+        }
+    , 'status' : 200
+    , 'url' : 'http://localhost:9999/v1/FFM-Wired_Interface/29?verbose&order_by=pid&limit=1'
+    }
+
+    >>> r = show (R.get ("/v1/FFM-Wired_Interface/29?verbose&fields=name&order_by=pid&limit=1"), cleaner = date_cleaner)
+    { 'json' :
+        { 'attributes' :
+            { 'name' : 'wr' }
+        , 'cid' : 33
+        , 'pid' : 29
+        , 'rels' :
+            [ '/v1/FFM-Wired_Interface/29/documents'
+            , '/v1/FFM-Wired_Interface/29/ip4_network_links'
+            , '/v1/FFM-Wired_Interface/29/ip6_network_links'
+            , '/v1/FFM-Wired_Interface/29/left_net_links'
+            , '/v1/FFM-Wired_Interface/29/right_net_links'
+            ]
+        , 'type_name' : 'FFM.Wired_Interface'
+        , 'url' : '/v1/FFM-Wired_Interface/29'
+        }
+    , 'status' : 200
+    , 'url' : 'http://localhost:9999/v1/FFM-Wired_Interface/29?verbose&fields=name&order_by=pid&limit=1'
+    }
+
+    >>> r = show (R.get ("/v1/FFM-Wired_Interface/29?verbose&fields=left,name&order_by=pid&limit=1"), cleaner = date_cleaner)
+    { 'json' :
+        { 'attributes' :
+            { 'left' :
+                { 'pid' : 28
+                , 'url' : '/v1/FFM-Net_Device/28'
+                }
+            , 'name' : 'wr'
+            }
+        , 'cid' : 33
+        , 'pid' : 29
+        , 'rels' :
+            [ '/v1/FFM-Wired_Interface/29/documents'
+            , '/v1/FFM-Wired_Interface/29/ip4_network_links'
+            , '/v1/FFM-Wired_Interface/29/ip6_network_links'
+            , '/v1/FFM-Wired_Interface/29/left_net_links'
+            , '/v1/FFM-Wired_Interface/29/right_net_links'
+            ]
+        , 'type_name' : 'FFM.Wired_Interface'
+        , 'url' : '/v1/FFM-Wired_Interface/29'
+        }
+    , 'status' : 200
+    , 'url' : 'http://localhost:9999/v1/FFM-Wired_Interface/29?verbose&fields=left,name&order_by=pid&limit=1'
+    }
+
+    >>> r = show (R.get ("/v1/FFM-Wired_Interface/29?verbose&add_fields=belongs_to_node&order_by=pid&limit=1"), cleaner = date_cleaner)
+    { 'json' :
+        { 'attributes' :
+            { 'belongs_to_node' :
+                { 'pid' : 3
+                , 'url' : '/v1/FFM-Node/3'
+                }
+            , 'left' :
+                { 'pid' : 28
+                , 'url' : '/v1/FFM-Net_Device/28'
+                }
+            , 'mac_address' : ''
+            , 'name' : 'wr'
+            }
+        , 'cid' : 33
+        , 'pid' : 29
+        , 'rels' :
+            [ '/v1/FFM-Wired_Interface/29/documents'
+            , '/v1/FFM-Wired_Interface/29/ip4_network_links'
+            , '/v1/FFM-Wired_Interface/29/ip6_network_links'
+            , '/v1/FFM-Wired_Interface/29/left_net_links'
+            , '/v1/FFM-Wired_Interface/29/right_net_links'
+            ]
+        , 'type_name' : 'FFM.Wired_Interface'
+        , 'url' : '/v1/FFM-Wired_Interface/29'
+        }
+    , 'status' : 200
+    , 'url' : 'http://localhost:9999/v1/FFM-Wired_Interface/29?verbose&add_fields=belongs_to_node&order_by=pid&limit=1'
+    }
+
+    >>> r = show (R.get ("/v1/FFM-Wired_Interface?verbose&add_fields=belongs_to_node&order_by=pid&limit=1"), cleaner = date_cleaner)
+    { 'json' :
+        { 'attribute_names' :
+            [ 'left'
+            , 'mac_address'
+            , 'name'
+            , 'is_active'
+            , 'desc'
+            ]
+        , 'entries' :
+            [ { 'attributes' :
+                  { 'belongs_to_node' :
+                      { 'pid' : 3
+                      , 'url' : '/v1/FFM-Node/3'
+                      }
+                  , 'left' :
+                      { 'pid' : 28
+                      , 'url' : '/v1/FFM-Net_Device/28'
+                      }
+                  , 'mac_address' : ''
+                  , 'name' : 'wr'
+                  }
+              , 'cid' : 33
+              , 'pid' : 29
+              , 'type_name' : 'FFM.Wired_Interface'
+              , 'url' : '/v1/FFM-Wired_Interface/29'
+              }
+            ]
+        }
+    , 'status' : 200
+    , 'url' : 'http://localhost:9999/v1/FFM-Wired_Interface?verbose&add_fields=belongs_to_node&order_by=pid&limit=1'
     }
 
 """
@@ -550,12 +685,9 @@ _test_put = r"""
         , 'cid' : 2
         , 'pid' : 2
         , 'rels' :
-            [ '/v1/FFM-Node/2/address_links'
-            , '/v1/FFM-Node/2/email_links'
+            [ '/v1/FFM-Node/2/documents'
             , '/v1/FFM-Node/2/im_handle_links'
             , '/v1/FFM-Node/2/nickname_links'
-            , '/v1/FFM-Node/2/phone_links'
-            , '/v1/FFM-Node/2/property_links'
             , '/v1/FFM-Node/2/url_links'
             ]
         , 'type_name' : 'FFM.Node'
@@ -587,7 +719,7 @@ _test_put = r"""
                 , 'url' : '/v1/PAP-Person/1'
                 }
             }
-        , 'cid' : 52
+        , 'cid' : 41
         , 'pid' : 2
         , 'type_name' : 'FFM.Node'
         , 'url' : '/v1/FFM-Node/2'
@@ -603,15 +735,12 @@ _test_put = r"""
             , 'name' : 'nogps'
             , 'owner' : 1
             }
-        , 'cid' : 52
+        , 'cid' : 41
         , 'pid' : 2
         , 'rels' :
-            [ '/v1/FFM-Node/2/address_links'
-            , '/v1/FFM-Node/2/email_links'
+            [ '/v1/FFM-Node/2/documents'
             , '/v1/FFM-Node/2/im_handle_links'
             , '/v1/FFM-Node/2/nickname_links'
-            , '/v1/FFM-Node/2/phone_links'
-            , '/v1/FFM-Node/2/property_links'
             , '/v1/FFM-Node/2/url_links'
             ]
         , 'type_name' : 'FFM.Node'
@@ -643,7 +772,7 @@ _test_put = r"""
                 , 'url' : '/v1/PAP-Person/1'
                 }
             }
-        , 'cid' : 53
+        , 'cid' : 42
         , 'pid' : 2
         , 'type_name' : 'FFM.Node'
         , 'url' : '/v1/FFM-Node/2'
@@ -668,11 +797,11 @@ _test_put = r"""
             { 'first_name' : 'Snoopy'
             , 'last_name' : 'Dog'
             , 'lifetime' :
-                { 'start' : '2000/11/22' }
+                { 'start' : '2000-11-22' }
             , 'middle_name' : 'the'
             , 'title' : ''
             }
-        , 'cid' : 54
+        , 'cid' : 43
         , 'pid' : 36
         , 'type_name' : 'PAP.Person'
         , 'url' : '/v1/PAP-Person/36'
@@ -702,7 +831,7 @@ _test_put = r"""
                 , 'url' : '/v1/PAP-Person/1'
                 }
             }
-        , 'cid' : 55
+        , 'cid' : 44
         , 'pid' : 2
         , 'type_name' : 'FFM.Node'
         , 'url' : '/v1/FFM-Node/2'
@@ -719,7 +848,7 @@ _test_put = r"""
     ... )
     >>> s4 = show (requests.put (p, data=cargo_c, headers=headers))
     { 'json' :
-        { 'error' : 'Cid mismatch: requested cid = 53, current cid = 55' }
+        { 'error' : 'Cid mismatch: requested cid = 42, current cid = 44' }
     , 'status' : 409
     , 'url' : 'http://localhost:9999/v1/FFM-Node/2'
     }
@@ -744,7 +873,7 @@ _test_put = r"""
                 , 'url' : '/v1/PAP-Person/36'
                 }
             }
-        , 'cid' : 56
+        , 'cid' : 45
         , 'pid' : 2
         , 'type_name' : 'FFM.Node'
         , 'url' : '/v1/FFM-Node/2'

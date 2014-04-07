@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-15 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
@@ -32,7 +32,8 @@
 #    14-Dec-2012 (CT) Change `belongs_to_node.kind` to `Attr.Query`
 #    17-Dec-2012 (CT) Set `belongs_to_node.hidden` to `True`
 #    26-Jan-2013 (CT) Define `belongs_to_node.query`, not `.query_fct`
-#    ««revision-date»»···
+#    30-Sep-2013 (CT) Mixin `Belongs_to_Node`
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
@@ -42,13 +43,15 @@ from   _FFM                   import FFM
 import _FFM.Device
 import _FFM.Net_Device_Type
 import _FFM.Node
+import _FFM.Belongs_to_Node
 
 _Ancestor_Essence = FFM.Device
+_Mixin            = FFM.Belongs_to_Node
 
-class Net_Device (_Ancestor_Essence) :
+class Net_Device (_Mixin, _Ancestor_Essence) :
     """Model a network device of FFM."""
 
-    class _Attributes (_Ancestor_Essence._Attributes) :
+    class _Attributes (_Mixin._Attributes, _Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
@@ -67,13 +70,8 @@ class Net_Device (_Ancestor_Essence) :
 
         # end class node
 
-        class belongs_to_node (A_Id_Entity) :
-            """Node to which this entity belongs."""
+        class belongs_to_node (_Mixin._Attributes.belongs_to_node) :
 
-            kind               = Attr.Query
-            auto_up_depends    = ("node", )
-            hidden             = True
-            P_Type             = FFM.Node
             query              = Q.node
 
         # end class belongs_to_node

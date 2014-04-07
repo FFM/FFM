@@ -98,25 +98,31 @@ System requirements
 
   * `BeautifulSoup`_
 
-  * `python-dateutil`_
-
   * `docutils`_
 
   * `flup`_
 
   * `jinja2`_
 
-  * `plumbum`_
-
-  * `psycopg2`_ or the `mysql package`_ needed by `sqlalchemy`_
-
-  * `pyquery`_
-
-  * `pytz`_
+  * `m2crypto`_
 
   * `passlib`_
 
+  * `plumbum`_
+
+  * `psycopg2`_
+
   * `py-bcrypt`_
+
+  * `pyOpenSSL`_
+
+  * `pyasn1`_
+
+  * `pyquery`_
+
+  * `python-dateutil`_
+
+  * `pytz`_
 
   * `rcssmin`_, `rjsmin`_ (for minimization of CSS and Javascript files)
 
@@ -126,35 +132,31 @@ System requirements
 
   * `werkzeug`_
 
-  * `pyOpenSSL`_
-
-  * `pyasn1`_
-
   Most packages are available via the `Python Package Index`_
 
 .. _`Babel`:           http://babel.edgewall.org/
 .. _`BeautifulSoup`:   http://www.crummy.com/software/BeautifulSoup/
-.. _`python-dateutil`: http://labix.org/python-dateutil
+.. _`Python Package Index`: http://pypi.python.org/pypi
 .. _`docutils`:        http://docutils.sourceforge.net/
 .. _`flup`:            http://trac.saddi.com/flup
 .. _`jinja2`:          http://jinja.pocoo.org/
+.. _`m2crypto`:        http://pypi.python.org/pypi/M2Crypto
+.. _`passlib`:         http://code.google.com/p/passlib/
 .. _`plumbum`:         http://plumbum.readthedocs.org/en/latest/index.html
 .. _`psycopg2`:        http://packages.python.org/psycopg2/
-.. _`mysql package`:   http://mysql-python.sourceforge.net/
-.. _`pyquery`:         http://github.com/gawel/pyquery/
-.. _`pytz`:            http://pytz.sourceforge.net/
-.. _`passlib`:         http://code.google.com/p/passlib/
 .. _`py-bcrypt`:       http://code.google.com/p/py-bcrypt/
+.. _`pyOpenSSL`:       https://launchpad.net/pyopenssl
+.. _`pyasn1`:          http://pyasn1.sourceforge.net/
+.. _`pyquery`:         http://github.com/gawel/pyquery/
+.. _`python-dateutil`: http://labix.org/python-dateutil
+.. _`pytz`:            http://pytz.sourceforge.net/
 .. _`rcssmin`:         http://opensource.perlig.de/rcssmin/
 .. _`rjsmin`:          http://opensource.perlig.de/rjsmin/
 .. _`rsclib`:          http://rsclib.sourceforge.net/
 .. _`sqlalchemy`:      http://www.sqlalchemy.org/
 .. _`werkzeug`:        http://werkzeug.pocoo.org/
-.. _`pyOpenSSL`:       https://launchpad.net/pyopenssl
-.. _`pyasn1`:          http://pyasn1.sourceforge.net/
-.. _`Python Package Index`: http://pypi.python.org/pypi
 
-Package Installation for Debian Stable aka Squeeze
+Package Installation for Debian Stable aka Wheezy
 --------------------------------------------------
 
 The following is an example installation on Debian Wheezy. It contains
@@ -168,24 +170,25 @@ Some of the needed Packages are either not in Debian or are too old to
 be useful. The following packages can be installed via the Debian
 installer::
 
- apt-get install git libapache2-mod-fcgid postgresql python-pip \
-     python-virtualenv python-distribute build-essential python-babel \
-     python-bs4 python-dateutil python-docutils python-flup python-jinja2 \
-     python-psycopg2 python-dev apache2-mpm-worker python-tz \
-     python-sqlalchemy python-werkzeug python-passlib python-openssl \
-     python-pyquery swig
+ $ apt-get install \
+     apache2-mpm-worker build-essential git libapache2-mod-fcgid \
+     postgresql python-pip python-babel python-bs4 python-dateutil \
+     python-dev python-distribute python-docutils python-flup \
+     python-jinja2 python-m2crypto python-openssl python-passlib \
+     python-psycopg2 python-pyasn1 python-pyquery python-sqlalchemy \
+     python-tz python-virtualenv python-werkzeug swig
 
 Other packages can be installed using ``pip`` |---| note that you may want
 to install some of these into a virtual python environment (virtualenv),
 see later in sectioni `How to install`_ |---| depending on your
 estimate how often you want to change external packages::
 
- pip install plumbum py-bcrypt rcssmin rjsmin rsclib pyasn1 pyspkac
+ $ pip install plumbum py-bcrypt rcssmin rjsmin rsclib pyspkac
 
 Create user and database user permitted to create databases::
 
- adduser ffm
- createuser -d ffm -P
+ $ adduser ffm
+ $ createuser -d ffm -P
 
 How to install
 --------------
@@ -222,7 +225,7 @@ anticipate that these will change::
   ### if one of these packages is already installed in the system
   ### Python, you'll need to say `pip install --upgrade`, not `pip install`
   $ source PVE/active/bin/activate
-  $ pip install Babel plumbum pytz werkzeug
+  $ pip install plumbum pytz py-bcrypt rcssmin rjsmin rsclib pyspkac
 
 Then we continue with the setup of an active and a passive branch of the
 web application. With this you can upgrade the passive application while
@@ -258,117 +261,44 @@ system should something go wrong during the upgrade::
   ### Define PYTHONPATH
   $ export PYTHONPATH=/home/ffm/active/lib
 
-  ### Create a fcgi script for Apache
-  $ python active/www/app/deploy.py fcgi_script > fcgi/app_server.fcgi
+With a small config-file, the deploy-app can automatically create an
+Apache configuration file and a fcgi script. You can find sample
+config-files in active/www/app/httpd_config/. For instance,
+active/www/app/httpd_config/ffm_gg32_com__443.config contains::
 
-Then we configure an Apache virtual host, for instance::
+        config_path     = "~/fcgi/ffm_gg32_com__443.config"
+        host_macro      = "gtw_host_ssl"
+        port            = "443"
+        script_path     = "~/fcgi/ffm_gg32_com__443.fcgi"
+        server_admin    = "christian.tanzer@gmail.com"
+        server_name     = "ffm.gg32.com"
+        ssl_key_name    = "srvr1-gg32-com-2048"
 
-    <VirtualHost *:80>
-      ServerName   xxx.funkfeuer.at
-      DocumentRoot /home/ffm/active/www
+Create a config::
 
-      AddDefaultCharset utf-8
+  ### Create a fcgi script and config for Apache
+  $ python active/www/app/deploy.py create_config \
+      -HTTP_Config <your-config> -input_encoding=utf-8
 
-      Alias /media/GTW/ /home/ffm/active/lib/_GTW/media/
-      Alias /media/     /home/ffm/active/www/media/
+You can use the created Apache configuration as is, or modify it
+manually or by modifiying the template.
 
-      <Directory /home/ffm/active/lib/_GTW/media>
-        Order deny,allow
-        Allow from all
-        ExpiresActive On
-        ExpiresDefault "access plus 1 day"
-        <FilesMatch "\.(gif|jpeg|jpg|png)$">
-          ExpiresDefault "access plus 1 year"
-        </FilesMatch>
-        <FilesMatch "\.(css|js)$">
-          ExpiresDefault "access plus 1 day"
-        </FilesMatch>
-      </Directory>
-
-      <Directory /home/ffm/active/www/media>
-        Order deny,allow
-        Allow from all
-        ExpiresActive On
-        ExpiresDefault "access plus 1 day"
-        <FilesMatch "\.(gif|jpeg|jpg|png)$">
-          ExpiresDefault "access plus 1 year"
-        </FilesMatch>
-        <FilesMatch "\.(css|js)$">
-          ExpiresDefault "access plus 1 day"
-        </FilesMatch>
-        FileETag None
-      </Directory>
-
-      <Directory /home/ffm/active/www/media/v>
-        ExpiresActive On
-        <FilesMatch "\.(css|js)$">
-          ExpiresDefault "access plus 1 year"
-        </FilesMatch>
-      </Directory>
-
-      <Directory /home/ffm/active/www/media/pdf>
-        FileETag all
-      </Directory>
-
-      <Directory /home/ffm/active/www/app>
-        Order deny,allow
-        Deny from all
-      </Directory>
-
-      AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript
-
-      AddHandler fcgid-script .fcgi
-      Options +ExecCGI
-
-      ScriptAliasMatch .* /home/ffm/fcgi/app_server.fcgi
-
-      UseCanonicalName On
-      <Directory /home/ffm/www>
-        DirectoryIndex index.html
-        Order allow,deny
-        Allow from all
-      </Directory>
-    </VirtualHost>
-
-To configure Apache to always use https, use something like::
-
-    <VirtualHost *:80>
-      ServerName   xxx.funkfeuer.at
-      RewriteEngine On
-      RewriteRule ^/(.*)$ https://xxx.funkfeuer.at/$1 [L,R]
-      RewriteRule ^$ https://xxx.funkfeuer.at [L,R]
-    </VirtualHost>
-
-    <VirtualHost *:443>
-      ServerName   xxx.funkfeuer.at
-      DocumentRoot /home/ffm/active/www
-
-      SSLEngine on
-      SSLCertificateFile    /etc/ssl/certs/xxx.pem
-      SSLCertificateKeyFile /etc/ssl/private/xxx.key
-      SSLCipherSuite HIGH
-      SSLProtocol all -SSLv2
-
-      AddDefaultCharset utf-8
-      ### as above for the http case
-    </VirtualHost>
-
-For Debian the apache configuration should be placed into
+For Debian, the apache configuration should be placed into
 ``/etc/apache2/sites-available/``, e.g., into the file
-``nodedb2.example.com`` and enabled. You probably will have to disable
+``nodedb2.example.com``, and enabled. You probably will have to disable
 the default site installed. We used the following commands |---| we
 also enable some needed modules::
 
-  a2ensite nodedb2.example.com
-  a2dissite default
-  a2enmod mod_expires
-  a2enmod fcgid
-  /etc/init.d/apache2 restart
+  $ a2ensite nodedb2.example.com
+  $ a2dissite default
+  $ a2enmod mod_expires
+  $ a2enmod fcgid
+  $ /etc/init.d/apache2 restart
 
 For https sites, you'll also need the modules::
 
-  a2enmod rewrite
-  a2enmod ssl
+  $ a2enmod rewrite
+  $ a2enmod ssl
 
 Finally we create a database and populate it with data::
 
@@ -393,13 +323,14 @@ exchanging the symbolic links to the active and passive configuration::
     $ python passive/www/app/deploy.py babel compile
 
     ### Migrate database from active to passive
-    $ python passive/www/app/deploy.py migrate -A -P
+    $ python passive/www/app/deploy.py migrate -Active -Passive -verbose
 
     ### Setup app cache
     $ python passive/www/app/deploy.py setup_cache
 
   ### Switch active and passive branches
   $ python passive/www/app/deploy.py switch
+  $ sudo /etc/init.d/apache2 restart
 
 Contact
 -------

@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-15 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
@@ -20,7 +20,7 @@
 #
 #++
 # Name
-#    FFM._Belongs_to_Node_
+#    FFM.Belongs_to_Node
 #
 # Purpose
 #    Mixin for computed `belongs_to_node` attribute
@@ -36,7 +36,11 @@
 #    14-Aug-2013 (CT) Add `is_partial = True`,
 #                     derive from `FFM.Id_Entity`, not `FFM.Entity`
 #     4-Sep-2013 (CT) Derive from `FFM.Link`, not `FFM.Id_Entity`
-#    ««revision-date»»···
+#    30-Sep-2013 (CT) Split into partial `Belongs_to_Node`, non-partial
+#                     `Belongs_to_Node_Left`
+#     1-Oct-2013 (CT) Rename from `_Belongs_to_Node_` to `Belongs_to_Node`
+#     1-Oct-2013 (CT) Remove `belongs_to_node.hidden = True`
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__ import absolute_import, division, print_function, unicode_literals
@@ -44,12 +48,11 @@ from   __future__ import absolute_import, division, print_function, unicode_lite
 from   _MOM.import_MOM          import *
 from   _FFM                     import FFM
 import _FFM.Entity
-import _FFM.Node
 
-_Ancestor_Essence = FFM.Link
+_Ancestor_Essence = FFM.Id_Entity
 
-class _Belongs_to_Node_ (_Ancestor_Essence) :
-    """Mixin for computed `belongs_to_node` attribute"""
+class Belongs_to_Node (_Ancestor_Essence) :
+    """Mixin for the query attribute `belongs_to_node`"""
 
     is_partial = True
 
@@ -61,17 +64,41 @@ class _Belongs_to_Node_ (_Ancestor_Essence) :
             """Node this %(ui_type_name)s belongs to."""
 
             kind                = Attr.Query
-            hidden              = True
-            P_Type              = FFM.Node
-            query               = Q.left.belongs_to_node
-            query_preconditions = (Q.left, )
+            P_Type              = "FFM.Node"
+            is_partial          = True ### `query` is defined by descendents
 
         # end class belongs_to_node
 
     # end class _Attributes
 
-# end class _Belongs_to_Node_
+# end class Belongs_to_Node
+
+_Ancestor_Essence = FFM.Link
+_Mixin            = Belongs_to_Node
+
+class Belongs_to_Node_Left (_Mixin, _Ancestor_Essence) :
+    """Mixin for the query attribute `belongs_to_node`, delegated to
+       `left.belongs_to_node`.
+    """
+
+    is_partial = True
+
+    class _Attributes (_Mixin._Attributes, _Ancestor_Essence._Attributes) :
+
+        _Ancestor = _Ancestor_Essence._Attributes
+
+        class belongs_to_node (_Mixin._Attributes.belongs_to_node) :
+
+            query               = Q.left.belongs_to_node
+            query_preconditions = (Q.left, )
+            is_partial          = False
+
+        # end class belongs_to_node
+
+    # end class _Attributes
+
+# end class Belongs_to_Node_Left
 
 if __name__ != "__main__" :
-    FFM._Export ("_Belongs_to_Node_")
-### __END__ FFM._Belongs_to_Node_
+    FFM._Export ("*")
+### __END__ FFM.Belongs_to_Node

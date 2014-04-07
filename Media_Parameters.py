@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2011-2012 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # ****************************************************************************
@@ -28,7 +28,7 @@
 # Revision Dates
 #    26-Mar-2012 (CT) Creation
 #    29-Jul-2012 (CT) Rename from Media_Defaults to Media_Parameters
-#    ««revision-date»»···
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from _JNJ.Media_Defaults import Media_Defaults as Media_Parameters

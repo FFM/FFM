@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: utf-8 -*-
 # #*** <License> ************************************************************#
 # This module is part of the program FFM.
 #
@@ -19,7 +19,10 @@
 
 import os
 import re
+from   stat                 import ST_MTIME
 from   csv                  import DictWriter
+from   gzip                 import GzipFile
+from   datetime             import datetime
 from   rsclib.HTML_Parse    import tag, Page_Tree
 from   rsclib.stateparser   import Parser
 from   rsclib.autosuper     import autosuper
@@ -151,6 +154,7 @@ class Guess (Compare_Mixin) :
         except KeyError :
             pass
         self.type = self.status.__class__.__name__
+        self.time = datetime.utcnow ()
     # end def __init__
 
     def as_json (self) :
@@ -266,15 +270,26 @@ def main () :
         if opt.debug :
             print "Processing pickle dump %s" % fn
         keys = dict.fromkeys (ipdict.iterkeys ())
-        f    = open (fn, 'r')
-        obj  = pickle.load (f)
+        mt   = None
+        if fn == '-' :
+            f = sys.stdin
+        else :
+            mt = datetime.utcfromtimestamp (os.stat (fn) [ST_MTIME])
+            if fn.endswith ('.gz') :
+                f = GzipFile (fn, 'r')
+            else :
+                f = open (fn, 'r')
+        obj = pickle.load (f)
         for k, v in obj.iteritems () :
             # Fixup of object
-            if isinstance (v, Guess) and not hasattr (v, 'rqinfo') :
-                v.rqinfo                = {}
-                v.rqinfo ['ips']        = v.status.ips
-                v.rqinfo ['interfaces'] = v.status.if_by_name
-                v.status                = None
+            if isinstance (v, Guess) :
+                if not hasattr (v, 'rqinfo') :
+                    v.rqinfo                = {}
+                    v.rqinfo ['ips']        = v.status.ips
+                    v.rqinfo ['interfaces'] = v.status.if_by_name
+                    v.status                = None
+                if mt and not hasattr (v, 'time') :
+                    v.time = mt
             if k in ipdict :
                 keys [k] = True
                 ov       = ipdict [k]
@@ -328,41 +343,58 @@ def main () :
         print ff.verbose_repr ()
         ipdict [str (ip)] = ff
     if opt.output_pickle :
-        f = open (opt.output_pickle, 'wb')
+        if opt.output_pickle.endswith ('.gz') :
+            f = GzipFile (opt.output_pickle, 'wb', 9)
+        else :
+            f = open (opt.output_pickle, 'wb')
         pickle.dump (ipdict, f)
         f.close ()
     key = lambda x : IP4_Address (x [0])
     if opt.version_statistics :
-        fields = ['address', 'type', 'version']
-        f      = open (opt.version_statistics, 'w')
+        fields = ['timestamp', 'address', 'type', 'version']
+        if opt.version_statistics == '-' :
+            f  = sys.stdout
+        else :
+            f  = open (opt.version_statistics, 'w')
         dw     = DictWriter (f, fields, delimiter = ';')
         dw.writerow (dict ((k, k) for k in fields))
         for ip, guess in sorted (ipdict.iteritems (), key = key) :
             if isinstance (guess, Guess) :
                 dw.writerow \
                     ( dict
-                        ( address = str (ip)
-                        , version = guess.version
-                        , type    = guess.type
+                        ( timestamp = guess.time.strftime
+                            ("%Y-%m-%d %H:%M:%S+0")
+                        , address   = str (ip)
+                        , version   = guess.version
+                        , type      = guess.type
                         )
                     )
         f.close ()
     if opt.interface_info :
         fields = \
-            [ 'address', 'interface', 'wlan'
+            [ 'timestamp', 'address', 'interface', 'mac', 'wlan'
             , 'ssid', 'mode', 'channel', 'bssid'
-            , 'ip4', 'ip6'
+            , 'ip4', 'ip6', 'signal', 'noise'
             ]
-        f      = open (opt.interface_info, 'w')
+        if opt.interface_info == '-' :
+            f  = sys.stdout
+        else :
+            f  = open (opt.interface_info, 'w')
         dw     = DictWriter (f, fields, delimiter = ';')
         dw.writerow (dict ((k, k) for k in fields))
         for ip, guess in sorted (ipdict.iteritems (), key = key) :
             if isinstance (guess, Guess) :
                 for iface in guess.interfaces.itervalues () :
                     wi = iface.wlan_info
+                    mc = None
+                    if iface.link :
+                        mc = iface.link.mac
                     d  = dict \
-                        ( address   = str (ip)
+                        ( timestamp = guess.time.strftime
+                            ("%Y-%m-%d %H:%M:%S+0")
+                        , address   = str (ip)
                         , interface = iface.name
+                        , mac       = mc
                         , wlan      = bool (wi)
                         , ip4       = ' '.join (str (i.ip) for i in iface.inet4)
                         , ip6       = ' '.join (str (i.ip) for i in iface.inet6)
@@ -373,6 +405,8 @@ def main () :
                             , bssid   = wi.bssid
                             , ssid    = wi.ssid
                             , mode    = wi.mode
+                            , signal  = wi.signal
+                            , noise   = wi.noise
                             )
                     dw.writerow (d)
         f.close ()
@@ -384,7 +418,7 @@ def main () :
                 if isinstance (guess, Guess) :
                     print guess.verbose_repr ()
                 else :
-                    print guess
+                    print "Exception:", guess
             else :
                 print "%-15s: %s" % (ip, guess)
 # end def main

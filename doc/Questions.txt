@@ -87,7 +87,7 @@ there are no other implementations of CNML we're aware of.
 - Antenna parameters:
 
   * CNML has ``antenna_angle`` which seems to be the german term
-    Öffnungswinkel, correct english term? Maybe we should aim to get
+    Ã–ffnungswinkel, correct english term? Maybe we should aim to get
     radiation diagrams for all antennae, we want to model this with
     radio mobile. Todo: Use this parameter from CNML
 
@@ -148,7 +148,7 @@ To-Do
   further discussion.
 
   Clemens said: "Ich hab im Antennentemplate im neuen Wiki z.B. folgende
-  mögliche Werte: H, V, H/V (änderbar), H+V (dualpol), LCP, RCP
+  mÃ¶gliche Werte: H, V, H/V (Ã¤nderbar), H+V (dualpol), LCP, RCP
   (Left/Right Circular Polarisation)".
   So we probably want to add some more polarisation values
 
