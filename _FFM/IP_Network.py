@@ -74,6 +74,56 @@ _Ancestor_Essence = FFM.Object
 class IP_Network (_Ancestor_Essence) :
     """IP Network of FFM"""
 
+    implementation_notes = \
+    """
+        Strategy of IP-Address reservation
+        -----------------------------------
+
+        Method ``allocate`` does *not* specify which ``IP_Network`` to
+        get, it just returns the next free one. The method ``reserve``
+        gets a specific ``IP_Network`` and succeeds if it is free. Both
+        methods are called on a ``IP_Network`` which serves as a pool to
+        allocate from.  On success, an allocation returns a new
+        ``IP_Network`` object with the owner set to the person reserving
+        the network.
+
+        A network which is explicitly allocated (either by creating a
+        new ``IP_Network`` from scratch or reserving one as outlined
+        above) is a new pool from which new addresses can be allocated
+        by calling its ``allocate`` or ``reserve`` method. Of course an
+        ``IP_Network`` with the highest netmask (/32 for IPv4 or /128
+        for IPv6) can not be used to allocate further addresses from.
+        Trying to reserve/allocate from a pool will not find an
+        ``IP_Network`` from a sub-pool.
+
+        An ``IP_Network`` can be assigned to a ``Net_Interface`` by
+        linking it. When linked it is said to be *in use*.
+
+        After an allocated ``IP_Network`` has been in use for some time,
+        it may not be immediately re-allocated. To prevent re-allocation
+        for some time, a ``cool_down`` attribute holds the time when the
+        object can be reused.
+
+        Thus `IP_Network`` objects are free to be allocated if they
+        don't have an allocated subnet, are not assigned to a
+        `Net_Interface``, and have an empty ``cool_down`` attribute.
+        This is ensured by the ``is_free`` property.
+
+        While allocating, ``IP_Network`` objects are split in two and
+        create two successors with a netmask higher by one, each. These
+        ``IP_Network`` objects are ``electric`` (as opposed to
+        explicitly allocated objects). The two split objects have a
+        ``parent`` pointer that holds the parent they were split from.
+
+        The allocation strategy will not allocate explicitly reserved
+        subnets of the given ``IP_Network`` nor subnets of an explicitly
+        reserved subnet. Explicitly reserved subnets are not
+        ``electric`` and can thus be distinguished from implicit
+        reservations during reservation/allocation. The pool of a
+        reserved/allocated ``IP_Network`` is the next enclosing
+        ``IP_Network`` which is not ``electric``.
+    """
+
     is_partial = True
 
     class _Attributes (_Ancestor_Essence._Attributes) :
@@ -181,6 +231,8 @@ class IP_Network (_Ancestor_Essence) :
     # end class _Predicates
 
     def allocate (self, mask_len, owner) :
+        # FIXME: Don't allocate if self is electric
+        #        We need this when checking permissions on pools
         pool     = self.find_closest_mask   (mask_len)
         net_addr = pool.net_address.subnets (mask_len).next ()
         return self._reserve (pool, net_addr, owner)
@@ -228,6 +280,8 @@ class IP_Network (_Ancestor_Essence) :
     # end def find_closest_mask
 
     def reserve (self, net_addr, owner = None) :
+        # FIXME: Don't reserve if self is electric
+        #        We need this when checking permissions on pools
         if isinstance (net_addr, pyk.string_types) :
             net_addr = self.E_Type.attr_prop ("net_address").P_Type (net_addr)
         if owner is None :
