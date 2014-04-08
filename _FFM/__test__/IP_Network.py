@@ -40,6 +40,7 @@
 #    13-Aug-2013 (CT) Add `test_order`, adapt other tests to change in order
 #    22-Aug-2013 (CT) Add tests for I4N and I6N calls with wrong `raw` value
 #     7-Oct-2013 (CT) Add tests for `belongs_to_node`
+#     8-Apr-2014 (RS) Test failing allocation in sub-pool
 #    ««revision-date»»···
 #--
 
@@ -367,6 +368,15 @@ _test_alloc = """
     >>> s = TFL.Sorted_By ("-net_address.mask_len")
     >>> q (Q.net_address.CONTAINS (n), sort_key = s).first ()
     FFM.IP4_Network ("10.42.137.0/28")
+
+    >>> ETM = FFM.IP4_Network
+    >>> xpool  = FFM.IP4_Network ('192.168.0.0/16', owner = ff, raw = True)
+    >>> mgpool = xpool.allocate (17, mg)
+    >>> ctpool = xpool.allocate (17, ct)
+    >>> rspool = xpool.allocate (32, rs)
+    Traceback (most recent call last):
+      ...
+    No_Free_Address_Range: Address range [192.168.0.0/16] of this IP4_Network doesn't contain a free subrange for mask length 32
 
 """
 
