@@ -1,0 +1,344 @@
+Pure versus Bootstrap
+==========================
+
+Grids
+-------------------------------------------------------------------------------
+
+Pure
++++++++++
+
+Uses class `pure-g` or `pure-g-r` to declare a grid that contains
+grid-units declared by `pure-u-<n>-<d>` where `<n>` and `<d>`
+define a fraction `n/d`.
+
+For instance::
+
+  <div class="pure-g">
+    <div class="pure-u-1-3">...</div>
+    <div class="pure-u-2-3">...</div>
+  </div>
+
+Pure supports two grids: 5ths-based and 24ths-based.
+
+`pure-g` declares a regular, i.e., non-responsive, grid. `pure-g-r`
+declares a responsive grid that changes grid-units to `width: 100%` on
+narrow screens (width < 768px).
+
+The css for some purecss.io pages, e.g.,
+http://purecss.io/layouts/blog/, contains extra classes like
+`pure-u-med-2-3` with additional media-queries. For instance::
+
+    <div class="pure-u-med-2-3">...</div>
+
+The keywords and breakpoints regarding `min-width` are:
+
+    =============== ==================
+    pure-u-sm-*      35.5 em [ 568 px]
+    pure-u-med-*     48.0 em [ 768 px]
+    pure-u-lrg-*     58.0 em [ 928 px]
+    pure-u-xl-*      75.0 em [1200 px]
+    =============== ==================
+
+pure-grid-units.css (downloaded from
+http://purecss.io/combo/1.11.5?/css/main-grid.css) contains those
+additional rules.
+
+Bootstrap2
+++++++++++++
+
+Uses class `row` or `row-fluid` to declare a grid that contains
+columns declared by `span<c>` where `c` specifies the number of
+columns to be spanned (out of 12 available columns).
+
+For instance::
+
+  <div class="row">
+    <div class="span4">...</div>
+    <div class="span8">...</div>
+  </div>
+
+`row` declares a fixed grid with a width of 940px; `row-fluid`
+declares a grid that adapts to the viewport. Rows can be nested
+inside columns; the semantics of nesting is completely different for
+`row` (fixed size columns add up) and `row-fluid` (nested columns
+occupy percentage `c/12` of containing column).
+
+Bootstrap3
+++++++++++++
+
+Uses class `container` or `container-fluid` to wrap `rows` that
+contain columns declared by `col-<wc>-<c>` where `<wc>` is one of
+`xs`, `sm`, `md`, or `lg` and `c` specifies the number of columns to
+be spanned (out of 12 available columns).
+
+`col-xs-<c>` columns stay horizontal on all devices, whereas
+`col-sm-<c>` columns change to `width: 100%` for devices narrower than
+768px. For `col-md-<c>` and `col-lg-<c>` the breakpoints are 970px and
+1170px, respectively.
+
+For instance::
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-4">...</div>
+      <div class="col-md-8">...</div>
+    </div>
+  </div>
+
+`container` declares a fixed grid with the fixed width depending on
+the type of `col` used inside; `container-fluid` declares a fluid grid
+that fills the full width available. Rows can be nested
+inside columns; nested columns are width-ed relative to the containing
+column.
+
+Buttons
+-------------------------------------------------------------------------------
+
+Pure
++++++++++
+
+`Pure buttons`_ use the class `pure-button` on `<a>` or `<button>`
+elements.
+
+Additonal classes:
+
+    =====================  ====================================================
+    pure-button-active     Style a button so that it appears "pressed"
+    pure-button-disabled   Mark a button as disabled
+    pure-button-primary    Indicate that a button represents a primary action
+    =====================  ====================================================
+
+For instance::
+
+  <a class="pure-button" href="#">A Pure Button</a>
+  <button class="pure-button pure-button-disabled">A Disabled Button</button>
+  <a class="pure-button pure-button-active" href="#">An Active Button</a>
+  <button class="pure-button pure-button-primary">A Primary Button</button>
+
+To add an icon to a button, add a `<i>` element to the button::
+
+  <button class="pure-button">
+    <i class="fa fa-cog fa-2x"></i>
+    Settings
+  </button>
+
+
+Bootstrap2
+++++++++++++
+
+`Bootstrap2 buttons`_ use the class `btn`on a `<a>` or `<button>`
+element. An additional class specifies the semantics:
+
+    =====================  ====================================================
+    btn-danger             Indicates a dangerous or potentially negative action
+    btn-info               Contextual button for informational alert messages
+    btn-link               Deemphasize a button by making it look like a link
+    btn-primary            Identifies the primary action in a set of buttons
+    btn-success            Indicates a successful or positive action
+    btn-warning            Indicates caution should be taken with this action
+    =====================  ====================================================
+
+Additonal classes:
+
+    =====================  ====================================================
+    btn-block              Block level button spanning the parent's width
+    btn-large              Large button
+    btn-small              Small button
+    btn-mini               Extra small button
+    disabled               Mark a <a>-button as disabled
+    =====================  ====================================================
+
+To add an icon to a button, add a `<i>` element to the button::
+
+  <button class="btn">
+    <i class="icon-align-left"></i>
+  </button>
+
+Bootstrap3
+++++++++++++
+
+`Bootstrap3 buttons`_ use the class `btn`on a `<a>` or `<button>`
+element. An additional class specifies the semantics:
+
+    =====================  ====================================================
+    btn-danger             Indicates a dangerous or potentially negative action
+    btn-default            Standard button
+    btn-info               Contextual button for informational alert messages
+    btn-link               Deemphasize a button by making it look like a link
+    btn-primary            Identifies the primary action in a set of buttons
+    btn-success            Indicates a successful or positive action
+    btn-warning            Indicates caution should be taken with this action
+    =====================  ====================================================
+
+`btn-default` is needed!
+
+Additonal classes:
+
+    =====================  ====================================================
+    active                 Style a button so that it appears "pressed"
+    btn-block              Block level button spanning the parent's width
+    btn-lg                 Large button
+    btn-sm                 Small button
+    btn-xs                 Extra small button
+    disabled               Mark a <a>-button as disabled
+    =====================  ====================================================
+
+To add an icon to a button, add a `<i>` element to the button::
+
+  <button class="btn btn-default">
+    <i class="fa fa-cog fa-2x"></i>
+    Settings
+  </button>
+
+Forms
+-------------------------------------------------------------------------------
+
+Pure
++++++++++
+
+`Pure forms`_ use the class `pure-form`, optionally augmented by
+`pure-form-aligned` or `pure-form-stacked`:
+
+    ======================   ==================================================
+    Class                    Description
+    ======================   ==================================================
+    pure-form                A compact inline form
+    + pure-form-aligned      Labels are right-aligned next to the inputs
+    + pure-form-stacked      Inputs are stacked below the labels
+    ======================   ==================================================
+
+In a `pure-form-aligned`, each `label/input` pair must be enclosed by
+a block-element with class `pure-control-group`.
+
+A stacked form can contain a `pure-g` grid with `label/input`
+contained in `pure-u-*` units.
+
+A `pure-form` can group inputs by using `fieldset` with a class of
+`pure-group`.
+
+Input elements can be fluidly sized by using a `pure-input-*` class
+(analogous to `pure-u-*`). Checkbox and radio inputs are marked with
+the classes `pure-checkbox` and `pure-radio`, respectively.
+
+For instance::
+
+  <form class="pure-form">
+    <input type="email" placeholder="Email">
+    <input type="password" placeholder="Password">
+    <button type="submit" class="pure-button pure-button-primary">
+      Sign in
+    </button>
+  </form>
+
+  <form class="pure-form pure-form-stacked">
+    <label for="email">Email</label>
+    <input id="email" type="email" placeholder="Email">
+    <label for="password">Password</label>
+    <input id="password" type="password" placeholder="Password">
+    <button type="submit" class="pure-button pure-button-primary">
+      Sign in
+    </button>
+  </form>
+
+  <form class="pure-form pure-form-aligned">
+    <div class="pure-control-group">
+      <label for="name">Username</label>
+      <input id="name" type="text" placeholder="Username">
+    </div>
+    <div class="pure-controls">
+      <label for="cb" class="pure-checkbox">
+        <input id="cb" type="checkbox"> I've read the terms and conditions
+      </label>
+      <button type="submit" class="pure-button pure-button-primary">
+        Submit
+      </button>
+    </div>
+  </form>
+
+Bootstrap2
+++++++++++++
+
+`Bootstrap2 forms`_ don't have a special class, unless augmented by
+`form-horizontal` of `form-inline`.
+
+In a `form-horizontal`, each `label/input` pair must be enclosed by
+a block-element with class `form-group`. Any associated controls like
+buttons must be wrapped in a block-element  with class `controls` for
+proper alignment.
+
+Labels should be marked with a class `control-label`.
+
+The labels for checkbox and radio inputs must have the classes
+`checkbox` and `radio`, respectively.
+
+Bootstrap3
+++++++++++++
+
+`Bootstrap3 forms`_ don't have a special class, unless augmented by
+`form-horizontal` of `form-inline`.
+
+In a `form-horizontal`, each `label/input` pair must be enclosed by
+a block-element with class `form-group`.
+
+Inputs, selects, and textareas are 100% wide by default in Bootstrap.
+They must be marked with a class `form-control`.
+
+Labels should be marked with a class `control-label`.
+
+Checkbox and radio inputs must be wrapped by block-elements with
+the classes `checkbox` and `radio`, respectively.
+
+By wrapping a `form-control` in a block-element with class
+`input-group`, you can add text or buttons on either side of the
+input (maximum one per side).
+
+For instance::
+
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+      <div class="col-sm-10">
+        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+      <div class="col-sm-10">
+        <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-default">Sign in</button>
+      </div>
+    </div>
+  </form>
+
+Tables
+-------------------------------------------------------------------------------
+
+Pure
++++++++++
+
+`Pure tables`_ use the class `pure-table`, optionally augmented by
+`pure-table-bordered`, `pure-table-horizontal`, or `pure-table-striped`.
+
+
+Bootstrap (2+3)
+++++++++++++++++
+
+`Bootstrap2 tables`_ and `Bootstrap3 tables`_ use the class `table`
+optionally augmented by `table-bordered` or `table-striped`.
+
+.. _`Pure`: http://purecss.io/
+.. _`Pure buttons`: http://purecss.io/buttons/
+.. _`Pure forms`: http://purecss.io/forms/
+.. _`Pure tables`: http://purecss.io/tables/
+.. _`Bootstrap2`: http://getbootstrap.com/2.3.2
+.. _`Bootstrap3`: http://getbootstrap.com/css
+.. _`Bootstrap2 buttons`: http://getbootstrap.com/2.3.2/base-css.html#buttons
+.. _`Bootstrap3 buttons`: http://getbootstrap.com/css/#buttons
+.. _`Bootstrap2 forms`: http://getbootstrap.com/2.3.2/base-css.html#forms
+.. _`Bootstrap3 forms`: http://getbootstrap.com/css/#forms
+.. _`Bootstrap2 tables`: http://getbootstrap.com/2.3.2/base-css.html#tables
+.. _`Bootstrap3 tables`: http://getbootstrap.com/css/#tables
