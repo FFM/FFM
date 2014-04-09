@@ -1,0 +1,105 @@
+{#- jinja template: dashboard.jnj -#}
+{#
+## Copyright (C) 2014 Mag. Christian Tanzer All rights reserved
+## Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+## #*** <License> ************************************************************
+## This template is free software: you can redistribute it and/or modify
+## it under the terms of the GNU Affero General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This template is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+## GNU Affero General Public License for more details.
+##
+## You should have received a copy of the GNU Affero General Public License
+## along with this template. If not, see <http://www.gnu.org/licenses/>.
+## #*** </License> ***********************************************************#
+##
+##++
+## Name
+##    dashboard
+##
+## Purpose
+##    Template for dashboard for Funkfeuer node database
+##
+## Revision Dates
+##     9-Apr-2014 (CT) Creation
+##    ««revision-date»»···
+##--
+#}
+
+{%- import (html_version or "html/5.jnj") as X -%}
+{%- import "html/media_fragments.jnj" as MF with context %}
+
+{%- call X.html (lang = page.language|default ("en")) -%}
+  {%- call X.head () -%}
+    {%- block head_elements -%}
+      <meta charset="{{ page.encoding|default ("utf-8") }}" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="Funkfeuer dashboard">
+      {%- if page.exclude_robots %}
+        <meta name="robots" content="NOINDEX, NOFOLLOW">
+      {% endif -%}
+      {% block head_base_element %}{% endblock head_base_element %}
+        {% block title %}
+          <title>{{ page.h_title|default ("Funkfeuer dashboard") }}</title>
+        {% endblock title -%}
+      {%- block styles %}
+        {%- if template.css_href %}
+          {{ X.link_stylesheet (template.css_href) }}
+        {%- else %}
+          {{ MF.inline_CSS (template.CSS) }}
+        {% endif -%}
+        {{ MF.link_css (template) }}
+      {%- endblock styles %}
+        {%- block scripts %}
+          {{ MF.scripts (template) }}
+        {%- endblock scripts -%}
+      {%- block meta_elements -%}
+        <!-- copyright "{{ page.copyright.year }} {{ page.copyright.holder }}"-->
+        <meta name="generator" content="GTW, JNJ, Jinja2" />
+      {%- endblock meta_elements -%}
+      {{ page.add_headers|safe }}
+    {%- endblock head_elements %}
+  {%- endcall %} {# X.head #}
+  {%- call X.body () -%}
+    {%- block body -%}
+      {%- block nav_block -%}
+        {% call X.nav (class="header pure-menu pure-menu-fixed pure-menu-horizontal pure-menu-open") -%}
+          {%- block navigate -%}
+            <a href="/" class="pure-menu-heading">Funkfeuer Dashboard</a>
+            <ul>
+              <li class="pure-menu-selected"><a href="#">Home</a></li>
+              <li><a href="#">Über</a></li>
+              <li><a href="#">Kontakt</a></li>
+            </ul>
+            TBD: login-form
+          {%- endblock -%}
+        {%- endcall %} {# X.nav #}
+      {%- endblock nav_block -%}
+      <div class="main pure-g">
+        <div id="messages"></div>
+        <div id="app">
+          <i class="fa fa-spinner fa-spin fa-5x"></i> Loading ···
+        </div>
+      </div>
+      {% call X.footer () -%}
+        {%- block body_footer %}
+          <p>
+            &copy; {{ page.copyright.year }}
+            <a href="{{ page.copyright.url }}">
+              {{- page.copyright.holder|default ("Funkfeuer.at") -}}
+            </a>
+          </p>
+        {% endblock body_footer -%}
+      {%- endcall -%} {# X.footer #}
+    {%- endblock body -%}
+    {%- block body_tail_scripts -%}
+      {{ MF.js_on_ready (template) }}
+    {%- endblock body_tail_scripts -%}
+  {%- endcall %} {# X.body #}
+{%- endcall -%} {#- X.html -#}
+
+{#- __END__ jinja template: dashboard.jnj -#}

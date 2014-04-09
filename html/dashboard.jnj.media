@@ -1,0 +1,99 @@
+# -*- coding: utf-8 -*-
+# Copyright (C) 2014 Mag. Christian Tanzer All rights reserved
+# Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+# #*** <License> ************************************************************
+# This module is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This module is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this module. If not, see <http://www.gnu.org/licenses/>.
+# #*** </License> ***********************************************************#
+#
+#++
+# Name
+#    html/dashboard.jnj
+#
+# Purpose
+#    Media fragment for template html/dashboard.jnj
+#
+# Revision Dates
+#     9-Apr-2014 (CT) Creation
+#    ««revision-date»»···
+#--
+
+Include     ("html/reset.media")
+Include     ("html/base.media")
+
+Style_File  ("/media/GTW/css/font-awesome.css")
+Style_File  ("/media/GTW/css/pure.css")
+
+style_sheet = Style_Sheet \
+    ( Rule
+        ( "footer", ".main"
+        , clear                = "both"
+        , margin               = TRBL0 (b = Em (0), default = Em (1))
+        )
+    , Rule
+        ( "footer"
+        , border_top           = "1px solid #EEEEEE"
+        , children             =
+            ( Rule
+                ( "p"
+                , margin               = 0
+                , padding_top          = Em (1)
+                )
+            )
+        )
+    , Rule
+        ( ".main"
+        , margin_top           = Em (3.0)
+        )
+    , Rule
+        ( "nav.header.pure-menu-open.pure-menu-horizontal"
+        , background_color     = "#1B1B1B"
+        , border_color         = "#252525"
+        , border_width         = TRBL0 (b = Px (2))
+        , color                = "#FFFFFF"
+        , children             =
+            [ Rule
+                ( ".pure-menu-heading"
+                , color        = "#999999"
+                , font_size    = Em (1.25)
+                , text_shadow  = "0 -1px 0 rgba(0, 0, 0, 0.25)"
+                )
+            , Rule
+                ( ".pure-menu-selected a"
+                , color        = "#FFFFFF"
+                )
+            , Rule
+                ( "a"
+                , color        = "#999999"
+                , children     =
+                    [ Rule_Pseudo
+                        ( "hover", "active"
+                        , background_color = "inherit"
+                        , color            = "#FFFFFF"
+                        )
+                    ]
+                )
+            , Rule ### needed because pure.css has a rule for this selector
+                ( "li"
+                , background_color     = "#1B1B1B"
+                )
+            ]
+        )
+    )
+
+Include     ("html/print.media")
+
+Script      (GTW.Script._.Modernizr)
+Script      (GTW.Script._.jQuery)
+
+### __END__ html/dashboard.jnj

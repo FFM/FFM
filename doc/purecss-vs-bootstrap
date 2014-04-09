@@ -314,6 +314,34 @@ For instance::
     </div>
   </form>
 
+Menus
+-------------------------------------------------------------------------------
+
+Pure
++++++++++
+
+`Pure menus`_ use the class `pure-menu`, optionally augmented by
+`pure-menu-fixed`, `pure-menu-horizontal`, and `pure-menu-open`.
+
+You can mark the active list element by adding the `pure-menu-selected`
+class to the list element.
+
+To add headings to your menu, place some content outside the <ul>
+element and wrap it in an <a> element with the `pure-menu-heading` class
+name.
+
+For instance,
+
+  <div class="pure-menu pure-menu-open pure-menu-horizontal">
+    <a href="#" class="pure-menu-heading">Site Title</a>
+    <ul>
+      <li class="pure-menu-selected"><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Kontakt</a></li>
+    </ul>
+  </div>
+
+
 Tables
 -------------------------------------------------------------------------------
 
@@ -333,6 +361,7 @@ optionally augmented by `table-bordered` or `table-striped`.
 .. _`Pure`: http://purecss.io/
 .. _`Pure buttons`: http://purecss.io/buttons/
 .. _`Pure forms`: http://purecss.io/forms/
+.. _`Pure menus`: http://purecss.io/menus/
 .. _`Pure tables`: http://purecss.io/tables/
 .. _`Bootstrap2`: http://getbootstrap.com/2.3.2
 .. _`Bootstrap3`: http://getbootstrap.com/css

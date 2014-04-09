@@ -240,7 +240,21 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
             = cmd.auth_required
         result = rst_top.create (cmd, ** kw)
         result.add_entries \
-            ( TOP.Dir
+            ( TOP.Dir_V
+                ( name            = "Dashboard"
+                , short_title     = "Dashboard"
+                , title           = "Funkfeuer Dashboard"
+                , dir_template    = "html/dashboard.jnj"
+                , auth_required   = auth_r
+                , permission      = RST_addons.Login_has_Person
+                )
+            , TOP.Page_ReST
+                ( name            = "Funkfeuer"
+                , short_title     = "Funkfeuer?"
+                , title           = "Was ist Funkfeuer?"
+                , src_contents    = landing_page
+                )
+            , TOP.Dir
                 ( name            = "My-Funkfeuer"
                 , short_title     = "My Funkfeuer"
                 , auth_required   = auth_r
@@ -266,12 +280,6 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
                         , short_title     = _T ("Antenna")
                         )
                     ]
-                )
-            , TOP.Page_ReST
-                ( name            = "Funkfeuer"
-                , short_title     = "Funkfeuer?"
-                , title           = "Was ist Funkfeuer?"
-                , src_contents    = landing_page
                 )
             , TOP.MOM.Doc.App_Type
                 ( name            = "Doc"
