@@ -20,6 +20,8 @@ import re
 
 from   urlparse           import urlparse
 from   urllib             import urlopen
+from   gzip               import GzipFile
+from   StringIO           import StringIO
 from   rsclib.HTML_Parse  import Page_Tree, tag
 from   rsclib.autosuper   import autosuper
 from   rsclib.stateparser import Parser
@@ -160,10 +162,16 @@ def get_olsr_container (file_or_url) :
             olsr = Backfire_OLSR_Parser (site = file_or_url)
         else :
             f = urlopen (file_or_url)
+            if file_or_url.endswith ('.gz') :
+                c = f.read ()
+                f = GzipFile (None, 'r', 9, StringIO (c))
             olsr = OLSR_Parser (verbose = 0)
             olsr.parse (f)
     else :
-        f = open (file_or_url)
+        if file_or_url.endswith ('.gz') :
+            f = GzipFile (file_or_url, 'r')
+        else :
+            f = open (file_or_url, 'r')
         olsr = OLSR_Parser (verbose = 0)
         olsr.parse (f)
     return olsr
