@@ -137,6 +137,7 @@ class Spider (Log) :
         self.__super.__init__ (**kw)
         olsr = get_olsr_container (olsr_file)
         self.olsr_nodes = {}
+        assert len (olsr.topo.forward)
         for t in olsr.topo.forward.iterkeys () :
             self.olsr_nodes [t] = True
         for t in olsr.topo.reverse.iterkeys () :
