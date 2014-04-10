@@ -32,6 +32,7 @@
 
 {%- import (html_version or "html/5.jnj") as X -%}
 {%- import "html/media_fragments.jnj" as MF with context %}
+{%- import "html/dashboard.m.jnj" as DM with context %}
 
 {%- call X.html (lang = page.language|default ("en")) -%}
   {%- call X.head () -%}
@@ -84,11 +85,19 @@
           {%- endcall %} {# X.nav #}
         {%- endblock nav_block -%}
       {% endcall %} {# X.header #}
-      <div class="main pure-g-r">
-        <div id="messages" class="pure-u-1"></div>
-        <div id="app" class="pure-u-1">
-          <i class="fa fa-refresh fa-spin fa-2x"></i>
-          Loading···
+      <div class="main">
+        <div id="messages"></div>
+        <div id="app" class="app pure-g-r">
+          <section id="node-overview" class="pure-u-14-24">
+            {{ DM.node_overview (page) }}
+          </section>
+          <section id="statistics" class="pure-u-10-24">
+            <h2>Graphs / Statistiken</h2>
+            <p><img src="https://marvin.funkfeuer.at/smokeping/freenet/rei6/nanom5wan_last_10800.png"></p>
+            <p><img src="https://marvin.funkfeuer.at/smokeping/freenet/rei6/nanom5wan_last_86400.png" /></p>
+            <p><img src="https://marvin.funkfeuer.at/smokeping/freenet/rei6/nanom5wan_last_604800.png" /></p>
+            <p><img src="https://marvin.funkfeuer.at/smokeping/freenet/rei6/nanom5wan_last_31536000.png" /></p>
+          </section>
         </div>
       </div>
       {% call X.footer () -%}

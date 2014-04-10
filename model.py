@@ -240,13 +240,8 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
             = cmd.auth_required
         result = rst_top.create (cmd, ** kw)
         result.add_entries \
-            ( TOP.Dir_V
-                ( name            = "Dashboard"
-                , short_title     = "Dashboard"
-                , title           = "Funkfeuer Dashboard"
-                , dir_template    = "html/dashboard.jnj"
-                , auth_required   = auth_r
-                , permission      = RST_addons.Login_has_Person
+            ( RST_addons.Dashboard
+                ( auth_required   = auth_r
                 )
             , TOP.Page_ReST
                 ( name            = "Funkfeuer"

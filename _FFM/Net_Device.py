@@ -33,6 +33,7 @@
 #    17-Dec-2012 (CT) Set `belongs_to_node.hidden` to `True`
 #    26-Jan-2013 (CT) Define `belongs_to_node.query`, not `.query_fct`
 #    30-Sep-2013 (CT) Mixin `Belongs_to_Node`
+#    10-Apr-2014 (CT) Set `node.rev_ref_attr_name` to `net_devices`
 #    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
 #    14-Apr-2014 (CT) Add `my_net_device`
 #    ««revision-date»»···
@@ -75,6 +76,7 @@ class Net_Device (_Mixin_1, _Mixin_2, _Ancestor_Essence) :
 
             kind               = Attr.Primary
             P_Type             = FFM.Node
+            rev_ref_attr_name  = "net_devices"
 
         # end class node
 

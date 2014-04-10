@@ -45,6 +45,7 @@
 #                     * `belongs_to_node` works now
 #                     * remove redefinitions of `query_filters_restricted`
 #     7-Oct-2013 (CT) Add `User_Antenna`
+#    10-Apr-2014 (CT) Add `Dashboard`
 #    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
 #    ««revision-date»»···
 #--
@@ -340,5 +341,48 @@ class User_Wireless_Interface_uses_Wireless_Channel (User_Node_Dependent) :
     _ETM                  = "FFM.Wireless_Interface_uses_Wireless_Channel"
 
 # end class User_Wireless_Interface_uses_Wireless_Channel
+
+_Ancestor = GTW.RST.TOP.Dir_V
+
+class Dashboard (_Ancestor) :
+    """Funkfeuer dashboard"""
+
+    dir_template_name     = "html/dashboard.jnj"
+
+    def __init__ (self, ** kw) :
+        dkw = dict \
+            ( name            = "dashboard"
+            , short_title     = "Dashboard"
+            , title           = "Funkfeuer Dashboard"
+            , auth_required   = True
+            , permission      = Login_has_Person
+            )
+        xkw = dict (dkw, ** kw)
+        self.__super.__init__ (** xkw)
+    # end def __init__
+
+    @Once_Property
+    @getattr_safe
+    def device_admin (self) :
+        return self._get_admin ("FFM.Net_Device")
+    # end def device_admin
+
+    @Once_Property
+    @getattr_safe
+    def node_admin (self) :
+        return self._get_admin ("FFM.Node")
+    # end def node_admin
+
+    @property
+    @getattr_safe
+    def nodes (self) :
+        return self.node_admin.objects
+    # end def nodes
+
+    def _get_admin (self, tn) :
+        return self.top.ET_Map [tn].admin_noom
+    # end def _get_admin
+
+# end class Dashboard
 
 ### __END__ RST_addons

@@ -83,6 +83,90 @@ style_sheet = Style_Sheet \
             ]
         )
     , Rule
+        ( "#app form"
+        , font_size            = Em (0.875)
+        , children             =
+            [ Rule_Class
+                ( "pure-form"
+                , children     =
+                    [ Rule
+                        ( "input", "select", "textarea"
+                        , line_height          = Em (1.143)
+                        , children             =
+                            [ Rule_Class
+                                ( "invalid"
+                                , border_color = P.color_status_bad
+                                , border_width = Px (2)
+                                )
+                            , Rule_Pseudo
+                                ( "invalid"
+                                , border_color = P.color_status_bad
+                                )
+                            , Rule_Pseudo
+                                ( """invalid[value=""]"""
+                                , border_color = P.color_status_missing
+                                )
+                            ]
+                        )
+                    ]
+                )
+            ]
+        )
+    , Rule
+        ( "#app table"
+        , font_size            = Em (0.875)
+        , children             =
+            [ Rule
+                ( "td"
+                , children     =
+                    [ Rule_Class
+                        ( "action"
+                        , font_size    = Em (0.8)
+                        , children     =
+                            [ Rule
+                                ( ".fa"
+                                , color        = "#0078E7"
+                                )
+                            ]
+                        )
+                    , Rule_Class
+                        ( "number"
+                        , text_align   = "right"
+                        )
+                    ]
+                )
+            , Rule
+                ( "th"
+                , font_weight          = "normal"
+                )
+            , Rule
+                ( "thead"
+                , background_color     = "inherit"
+                , border_bottom        = "1px solid #cbcbcb"
+                )
+            , Rule
+                ( "tbody tr"
+                , children     =
+                    [ Rule_Pseudo
+                        ( "hover"
+                        , background_color = "#f2f2f2"
+                        )
+                    ]
+                )
+            ]
+        )
+    , Rule
+        ( ".badge"
+        , border_radius        = Px (9)
+        , display              = "inline-block"
+        , font_size            = Em (0.75)
+        , font_weight          = "bold"
+        , line_height          = Em (1.20)
+        , padding              = TRBL (Px (2), Px (9))
+        , vertical_align       = "baseline"
+        , white_space          = "nowrap"
+        )
+    , Rule
         ( ".main"
         , margin_bottom        = Em (1.0)
         )
@@ -121,6 +205,18 @@ style_sheet = Style_Sheet \
                 , background_color = "#1B1B1B"
                 )
             ]
+        )
+    , Rule
+        ( ".status-failure"
+        , background_color     = P.color_status_bad
+        )
+    , Rule
+        ( ".status-success"
+        , background_color     = P.color_status_good
+        )
+    , Rule
+        ( ".status-warning"
+        , background_color     = P.color_status_missing
         )
     )
 

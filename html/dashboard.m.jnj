@@ -1,0 +1,215 @@
+{#- jinja template: dashboard.m.jnj -#}
+{#
+## Copyright (C) 2014 Mag. Christian Tanzer All rights reserved
+## Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+## #*** <License> ************************************************************
+## This module is free software: you can redistribute it and/or modify
+## it under the terms of the GNU Affero General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This module is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+## GNU Affero General Public License for more details.
+##
+## You should have received a copy of the GNU Affero General Public License
+## along with this module. If not, see <http://www.gnu.org/licenses/>.
+## #*** </License> ***********************************************************#
+##
+##++
+## Name
+##    dashboard
+##
+## Purpose
+##    Template macros for Funkfeuer dashboard
+##
+## Revision Dates
+##    10-Apr-2014 (CT) Creation
+##    ««revision-date»»···
+##--
+#}
+
+{%- macro device_interfaces (page, device) -%}
+  {%- set net_interfaces = GTW.sorted (device.net_interfaces, key = GTW.Getter.pid) %}
+  <h2>{{ GTW._T ("Interfaces of device %s") % (device.name, ) }}</h2>
+  <table id="interface-list" class="interface-list pure-table pure-table-bordered">
+    <thead>
+      <tr>
+        <th>{{ GTW._T ("Name")         }}</th>
+        <th>{{ GTW._T ("IP addresses") }}</th>
+        <th>{{ GTW._T ("Type")         }}</th>
+        <th>{{ GTW._T ("Created")      }}</th>
+        <th>{{ GTW._T ("Action")       }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%- for ni in net_interfaces %}
+        {%- set name = ni.FO.name %}
+        <tr id="interface-{{ ni.pid }}">
+          <td class="name">
+            {{ name }}
+          </td>
+          <td class="ip-addresses">
+            <span class="badge status-success">TBD</span>
+          </td>
+          <td class="type">
+            <span class="badge status-failure">TBD</span>
+          </td>
+          <td class="created">
+            {{ ("%s" % (ni.FO.creation_date, )).split (" ") [0] }}
+          </td>
+          <td class="action">
+            <a class="pure-button" href="#devices"
+              title="{{ GTW._T ("Show ??? of interface %s") % (name, ) }}"
+            >
+              <i class="fa fa-eye"></i>
+            </a>
+            <a class="pure-button" href="#edit"
+              title="{{ GTW._T ("Edit interface %s") % (name, ) }}"
+            >
+              <i class="fa fa-pencil"></i>
+            </a>
+          </td>
+        </tr>
+      {% endfor -%}
+    </tbody>
+  </table>
+  <section id="interface-details">
+    {{ edit_interface (page, net_interfaces [0]) }}
+  </section>
+{%- endmacro -%} {#- device_interfaces -#}
+
+{%- macro edit_interface (page, interface) -%}
+  <h2>{{ GTW._T ("Interface %s") % (interface.name, ) }}</h2>
+  <form class="pure-form pure-form-aligned" method="post" action="TBD">
+    <div class="pure-control-group"
+         title="{{ GTW._T ("Mac address of the interface") }}"
+    >
+      <label for="mac_address">MAC address</label>
+      <input id="mac_address" type="text"
+             value="{{ interface.raw_attr ("mac_address")}}"
+      >
+    </div>
+    <div class="pure-control-group"
+         title="{{ GTW._T ("DNS label of the interface") }}"
+    >
+      <label for="name">Name</label>
+      <input id="name" type="text" value="{{ interface.raw_attr ("name")}}">
+    </div>
+    <div class="pure-controls">
+      <label for="is_active" class="pure-checkbox">
+        <input id="is_active" type="checkbox"
+             value="{{ "1" if interface.is_active else "" }}"
+        >
+        {{ GTW._T ("Indicates if this interface is active.") }}
+      </label>
+    </div>
+    <div class="pure-control-group"
+         title="{{ GTW._T ("Description of the interface") }}"
+    >
+      <label for="desc">Description</label>
+      <input id="desc" type="text"
+             value="{{ interface.raw_attr ("desc")}}"
+      >
+    </div>
+    <div class="pure-controls">
+      <button type="submit" class="pure-button pure-button-primary">
+        {{ GTW._T ("Save") }}
+      </button>
+    </div>
+  </form>
+{%- endmacro -%} {#- edit_interface -#}
+
+{%- macro node_devices (page, node) -%}
+  {%- set net_devices = GTW.sorted (node.net_devices, key = GTW.Getter.pid) %}
+  <h2>{{ GTW._T ("Devices of node %s") % (node.name, ) }}</h2>
+  <table id="device-list" class="device-list pure-table pure-table-bordered">
+    <thead>
+      <tr>
+        <th>{{ GTW._T ("Name")         }}</th>
+        <th>{{ GTW._T ("# Interfaces") }}</th>
+        <th>{{ GTW._T ("Created")   }}</th>
+        <th>{{ GTW._T ("Action")    }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%- for nd in net_devices %}
+        {%- set name = nd.FO.name %}
+        <tr id="device-{{ nd.pid }}">
+          <td class="name">
+            {{ name }}
+          </td>
+          <td class="number interfaces">
+            {{ GTW.len (nd.net_interfaces) }}
+          </td>
+          <td class="created">
+            {{ ("%s" % (nd.FO.creation_date, )).split (" ") [0] }}
+          </td>
+          <td class="action">
+            <a class="pure-button" href="#devices"
+              title="{{ GTW._T ("Show interfaces of device %s") % (name, ) }}"
+            >
+              <i class="fa fa-eye"></i>
+            </a>
+            <a class="pure-button" href="#edit"
+              title="{{ GTW._T ("Edit device %s") % (name, ) }}"
+            >
+              <i class="fa fa-pencil"></i>
+            </a>
+          </td>
+        </tr>
+      {% endfor -%}
+    </tbody>
+  </table>
+  <section id="device-details">
+    {{ device_interfaces (page, net_devices [0]) }}
+  </section>
+{%- endmacro -%} {#- node_devices -#}
+
+{%- macro node_overview (page) -%}
+  <h2>{{ GTW._T ("Nodes managed/owned by %s") % (page.user.FO.person, ) }}</h2>
+  <table id="node-list" class="node-list pure-table pure-table-bordered">
+    <thead>
+      <tr>
+        <th>{{ GTW._T ("Name")      }}</th>
+        <th>{{ GTW._T ("# Devices") }}</th>
+        <th>{{ GTW._T ("Created")   }}</th>
+        <th>{{ GTW._T ("Action")    }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%- for node in page.nodes %}
+        {%- set name = node.FO.name %}
+        <tr id="node-{{ node.pid }}">
+          <td class="name">
+            {{ name }}
+          </td>
+          <td class="number devices">
+            {{ GTW.len (node.net_devices) }}
+          </td>
+          <td class="created">
+            {{ ("%s" % (node.FO.creation_date, )).split (" ") [0] }}
+          </td>
+          <td class="action">
+            <a class="pure-button" href="#devices"
+              title="{{ GTW._T ("Show devices of node %s") % (name, ) }}"
+            >
+              <i class="fa fa-eye"></i>
+            </a>
+            <a class="pure-button" href="#edit"
+              title="{{ GTW._T ("Edit node %s") % (name, ) }}"
+            >
+              <i class="fa fa-pencil"></i>
+            </a>
+          </td>
+        </tr>
+      {% endfor -%}
+    </tbody>
+  </table>
+  <section id="node-details">
+    {{ node_devices (page, page.nodes [0]) }}
+  </section>
+{%- endmacro -%} {#- node_overview -#}
+
+{#- __END__ jinja template: dashboard.m.jnj -#}
