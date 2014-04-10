@@ -64,25 +64,31 @@
       {{ page.add_headers|safe }}
     {%- endblock head_elements %}
   {%- endcall %} {# X.head #}
-  {%- call X.body () -%}
+  <body>
     {%- block body -%}
-      {%- block nav_block -%}
-        {% call X.nav (class="header pure-menu pure-menu-fixed pure-menu-horizontal pure-menu-open") -%}
-          {%- block navigate -%}
-            <a href="/" class="pure-menu-heading">Funkfeuer Dashboard</a>
-            <ul>
-              <li class="pure-menu-selected"><a href="#">Home</a></li>
-              <li><a href="#">Über</a></li>
-              <li><a href="#">Kontakt</a></li>
-            </ul>
-            TBD: login-form
-          {%- endblock -%}
-        {%- endcall %} {# X.nav #}
-      {%- endblock nav_block -%}
-      <div class="main pure-g">
-        <div id="messages"></div>
-        <div id="app">
-          <i class="fa fa-spinner fa-spin fa-5x"></i> Loading ···
+      {% call X.header () -%}
+        {%- block nav_block -%}
+          {% call X.nav (class="pure-menu pure-menu-fixed pure-menu-horizontal pure-menu-inverse pure-menu-open") -%}
+            {#- TBD: button+CSS+JS for hiding menu+form on narrow screens -#}
+            {%- block navigate -%}
+              <a href="/" class="pure-menu-heading">Funkfeuer Dashboard</a>
+              <ul>
+                <li class="pure-menu-selected"><a href="#">Home</a></li>
+                <li><a href="#">Über</a></li>
+                <li><a href="#">Kontakt</a></li>
+              </ul>
+              <a class="logout pure-button" href="{{ page.href_logout }}">
+                Logout
+              </a>
+            {%- endblock -%}
+          {%- endcall %} {# X.nav #}
+        {%- endblock nav_block -%}
+      {% endcall %} {# X.header #}
+      <div class="main pure-g-r">
+        <div id="messages" class="pure-u-1"></div>
+        <div id="app" class="pure-u-1">
+          <i class="fa fa-refresh fa-spin fa-2x"></i>
+          Loading···
         </div>
       </div>
       {% call X.footer () -%}
@@ -99,7 +105,7 @@
     {%- block body_tail_scripts -%}
       {{ MF.js_on_ready (template) }}
     {%- endblock body_tail_scripts -%}
-  {%- endcall %} {# X.body #}
+  </body>
 {%- endcall -%} {#- X.html -#}
 
 {#- __END__ jinja template: dashboard.jnj -#}

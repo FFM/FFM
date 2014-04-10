@@ -28,9 +28,6 @@
 #    ««revision-date»»···
 #--
 
-Include     ("html/reset.media")
-Include     ("html/base.media")
-
 Style_File  ("/media/GTW/css/font-awesome.css")
 Style_File  ("/media/GTW/css/pure.css")
 
@@ -38,44 +35,80 @@ style_sheet = Style_Sheet \
     ( Rule
         ( "footer", ".main"
         , clear                = "both"
-        , margin               = TRBL0 (b = Em (0), default = Em (1))
+        , margin               = TRBL (0, Em (2.0))
         )
     , Rule
         ( "footer"
         , border_top           = "1px solid #EEEEEE"
+        , font_size            = Em (0.8)
+        , opacity              = 0.75
         , children             =
             ( Rule
                 ( "p"
                 , margin               = 0
-                , padding_top          = Em (1)
+                , padding_top          = Em (0.5)
                 )
             )
         )
     , Rule
-        ( ".main"
-        , margin_top           = Em (3.0)
+        ( "header"
+        , height               = Em (2.0)
+        , children             =
+            [ Rule
+                ( ".pure-menu"
+                , children         =
+                    [ Rule
+                        ( ".pure-menu-heading"
+                        , font_size        = Em  (1.15)
+                        , line_height      = Rem (1.725)
+                        , padding_left     = Rem (2.0)
+                        , text_transform   = "none"
+                        )
+                    , Rule
+                        ( "li a"
+                        , font_size        = Em (0.875)
+                        , padding          = TRBL (Em (0.3), Em (0.8))
+                        )
+                    ]
+                )
+            , Rule
+                ( ".logout"
+                , border_radius    = Px (3)
+                , display          = "inline-block"
+                , float            = "right"
+                , font_size        = Em (0.7)
+                , margin           = TRBL0 (t = Em (0.5), r = Em (2.0))
+                , vertical_align   = "middle"
+                )
+            ]
         )
     , Rule
-        ( "nav.header.pure-menu-open.pure-menu-horizontal"
+        ( ".main"
+        , margin_bottom        = Em (1.0)
+        )
+    , Rule
+        ( ".pure-menu-inverse.pure-menu-open.pure-menu-horizontal"
         , background_color     = "#1B1B1B"
         , border_color         = "#252525"
-        , border_width         = TRBL0 (b = Px (2))
         , color                = "#FFFFFF"
         , children             =
             [ Rule
+                ( ".logout"
+                , color            = "#333333"
+                )
+            , Rule
                 ( ".pure-menu-heading"
-                , color        = "#999999"
-                , font_size    = Em (1.25)
-                , text_shadow  = "0 -1px 0 rgba(0, 0, 0, 0.25)"
+                , color            = "#999999"
+                , text_shadow      = "0 -1px 0 rgba(0, 0, 0, 0.25)"
                 )
             , Rule
                 ( ".pure-menu-selected a"
-                , color        = "#FFFFFF"
+                , color            = "#FFFFFF"
                 )
             , Rule
                 ( "a"
-                , color        = "#999999"
-                , children     =
+                , color            = "#999999"
+                , children         =
                     [ Rule_Pseudo
                         ( "hover", "active"
                         , background_color = "inherit"
@@ -85,7 +118,7 @@ style_sheet = Style_Sheet \
                 )
             , Rule ### needed because pure.css has a rule for this selector
                 ( "li"
-                , background_color     = "#1B1B1B"
+                , background_color = "#1B1B1B"
                 )
             ]
         )
