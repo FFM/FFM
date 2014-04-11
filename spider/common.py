@@ -243,6 +243,8 @@ class WLAN_Config (Compare_Mixin) :
 
     @property
     def standard (self) :
+        if self.channel is None :
+            return None
         if int (self.channel) <= 14 :
             return '802.11g'
         return '802.11a'
