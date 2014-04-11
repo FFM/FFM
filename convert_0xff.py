@@ -84,7 +84,7 @@ class Consolidated_Interface (object) :
         assert not self.merged
         dev   = self.device.net_device
         if self.debug :
-            print "device: %s ip: %s" % (self.device, self.ip)
+            pyk.fprint ("device: %s ip: %s" % (self.device, self.ip))
         ffm   = self.convert.ffm
         desc  = []
         if self.names :
@@ -96,14 +96,18 @@ class Consolidated_Interface (object) :
             iface   = self.net_interface = ffm.Wireless_Interface \
                 (left = dev, name = self.ifname, desc = desc, raw = True)
             if self.wlan_info :
-                std  = ffm.Wireless_Standard.instance \
-                    (name = self.wlan_info.standard, raw = True)
-                mode = self.wlan_info.mode.lower ()
-                mode = self.wl_modes [mode]
+                std = None
+                if self.wlan_info.standard is not None :
+                    std  = ffm.Wireless_Standard.instance \
+                        (name = self.wlan_info.standard, raw = True)
+                mode = None
+                if self.wlan_info.mode :
+                    mode = self.wlan_info.mode.lower ()
+                    mode = self.wl_modes [mode]
                 bsid = self.wlan_info.bssid
                 ssid = self.wlan_info.ssid
                 if bsid is not None and len (bsid.split (':')) != 6 :
-                    print "INFO: Ignoring bssid: %s" % bsid
+                    pyk.fprint ("INFO: Ignoring bssid: %s" % bsid)
                     bsid = None
                 if ssid is not None :
                     ssid = ssid.replace (r'\x09', '\x09')
@@ -113,9 +117,10 @@ class Consolidated_Interface (object) :
                     , bssid    = bsid
                     , standard = std
                     )
-                chan = ffm.Wireless_Channel.instance \
-                    (std, self.wlan_info.channel, raw = True)
-                ffm.Wireless_Interface_uses_Wireless_Channel (iface, chan)
+                if self.wlan_info.channel is not None :
+                    chan = ffm.Wireless_Channel.instance \
+                        (std, self.wlan_info.channel, raw = True)
+                    ffm.Wireless_Interface_uses_Wireless_Channel (iface, chan)
         else :
             iface   = self.net_interface = ffm.Wired_Interface \
                 (left = dev, name = self.ifname, desc = desc, raw = True)
@@ -147,8 +152,8 @@ class Consolidated_Interface (object) :
         assert other.device == self.device
         assert not other.merged
         if self.debug :
-            print "Merge: %s\n    -> %s" % (other, self)
-            print "Merge: dev: %s" % self.device
+            pyk.fprint ("Merge: %s\n    -> %s" % (other, self))
+            pyk.fprint ("Merge: dev: %s" % self.device)
         self.ips.update (other.ips)
         del other.device.interfaces [other.ip]
         self.merged_ifs.append (other)
@@ -263,11 +268,11 @@ class Consolidated_Device (object) :
         self.redeemer_devs.update (other.redeemer_devs)
         self.interfaces.update    (other.interfaces)
         if self.debug :
-            print "Merge: %s\n    -> %s" % (other, self)
+            pyk.fprint ("Merge: %s\n    -> %s" % (other, self))
         #assert not other.merged
         if other.merged :
             msg = "Merge: already merged to %s" % other.merged
-            print msg
+            pyk.fprint (msg)
             raise ValueError (msg)
         for ifc in other.interfaces.itervalues () :
             ifc.device = self
@@ -444,9 +449,15 @@ class Convert (object) :
     def create_nodes (self) :
         scope = self.scope
         for n in self.contents ['nodes'] :
+            if n.id < 0 :
+                pyk.fprint ("WARN: Ignoring Node %s/%s" % (n.name, n.id))
+                continue
+            pyk.fprint ("Processing Node: %s" % n.name)
             if len (scope.uncommitted_changes) > 100 :
                 scope.commit ()
             gps = None
+            #print "LAT:", n.gps_lat_deg, n.gps_lat_min, n.gps_lat_sec
+            #print "LON:", n.gps_lon_deg, n.gps_lon_min, n.gps_lon_sec
             if n.gps_lat_deg is None :
                 assert n.gps_lat_min is None
                 assert n.gps_lat_sec is None
@@ -457,6 +468,16 @@ class Convert (object) :
                 assert n.gps_lat_sec is None
                 assert n.gps_lon_min is None
                 assert n.gps_lon_sec is None
+                if self.anonymize :
+                    lat = "%2.2f" % n.gps_lat_deg
+                    lon = "%2.2f" % n.gps_lon_deg
+                else :
+                    lat = "%f" % n.gps_lat_deg
+                    lon = "%f" % n.gps_lon_deg
+                gps = dict (lat = lat, lon = lon)
+            elif n.gps_lat_min == 0 and n.gps_lat_sec == 0 :
+                assert not n.gps_lon_min
+                assert not n.gps_lon_sec
                 if self.anonymize :
                     lat = "%2.2f" % n.gps_lat_deg
                     lon = "%2.2f" % n.gps_lon_deg
@@ -488,25 +509,26 @@ class Convert (object) :
             elif not isinstance (owner, self.pap.Person) :
                 assert len (owner.actor) == 1
                 manager = iter (owner.actor).next ()
-            elif id in self.companies or id in self.associations :
-                manager = owner
-                assert len (manager.acts_for) == 1
-                owner   = iter (manager.acts_for).next ()
             elif n.id_tech_c and n.id_tech_c != n.id_members :
-                manager = self.person_by_id.get (n.id_tech_c)
+
+                tid = self.person_dupes.get (n.id_tech_c, n.id_tech_c)
+                manager = self.person_by_id.get (tid)
                 assert (manager)
+                if not isinstance (manager, self.pap.Person) :
+                    assert len (manager.actor) == 1
+                    manager = iter (manager.actor).next ()
                 pyk.fprint ("INFO: Tech contact found: %s" % n.id_tech_c)
             else :
                 manager = owner
-                owner   = None
             # node with missing manager has devices, use 0xff admin as owner
-            if not manager and n.id in self.dev_by_node :
-                manager = self.person_by_id.get (1)
+            if not owner and n.id in self.dev_by_node :
+                owner = self.person_by_id.get (1)
+                manager = iter (owner.actor).next ()
                 pyk.fprint \
                     ( "WARN: Node %s: member %s not found, using 1"
                     % (n.id, n.id_members)
                     )
-            if manager :
+            if owner :
                 node = self.ffm.Node \
                     ( name        = n.name
                     , position    = gps
@@ -680,7 +702,10 @@ class Convert (object) :
         self.pap.Subject_has_Url (person, url)
     # end def try_insert_url
 
-    def try_insert_im (self, m, person) :
+    def try_insert_im (self, person, m) :
+        if m.instant_messenger_nick.endswith ('@aon.at') :
+            self.try_insert_email (person, m, attr = 'instant_messenger_nick')
+            return
         pyk.fprint \
             ("INFO: Instant messenger nickname: %s" % m.instant_messenger_nick)
         im = self.pap.IM_Handle (address = m.instant_messenger_nick)
@@ -715,6 +740,11 @@ class Convert (object) :
             elif m.zip.startswith ('I-') :
                 m ['zip'] = m.zip [2:]
                 country = 'Italy'.decode ('utf-8')
+            if not street and not m.zip and m.town == 'Wien' :
+                return
+            if not street :
+                pyk.fprint ("INFO: no street: %s/%s" % (m.id, person.pid))
+                return
             address = self.pap.Address.instance_or_new \
                 ( street     = street
                 , zip        = m.zip
@@ -728,8 +758,23 @@ class Convert (object) :
         # FIXME: Set role for person so that person can edit only their
         # personal data, see self.person_disable
         scope = self.scope
+        # ignore person dupes that have meanwhile been removed
+        known_ids = {}
+        for m in self.contents ['members'] :
+            known_ids [m.id] = True
+        for d_id, m_id in self.person_dupes.items () :
+            if m_id not in known_ids or d_id not in known_ids :
+                del self.person_dupes [d_id]
+                del self.rev_person_dupes [m_id]
+        for id, act in self.company_actor.items () :
+            if id not in known_ids or act not in known_ids :
+                del self.company_actor [id]
+        for id, act in self.association_actor.items () :
+            if id not in known_ids or act not in known_ids :
+                del self.association_actor [id]
+
         for m in sorted (self.contents ['members'], key = lambda x : x.id) :
-            if len (scope.uncommitted_changes) > 100 :
+            if len (scope.uncommitted_changes) > 10 :
                 scope.commit ()
             self.member_by_id [m.id] = m
             if m.id == 309 and m.street.startswith ("'") :
@@ -765,8 +810,8 @@ class Convert (object) :
                 cls = self.pap.Person
                 pd = dict (first_name = m.id, last_name = 'Funkfeuer')
             if self.verbose :
-                type = cls.__name__.lower ()
-                pyk.fprint ( "Creating %s: %s" % (type, repr (name)))
+                typ = cls.__name__.lower ()
+                pyk.fprint ( "Creating %s: %s" % (typ, repr (name)))
             person = cls (raw = True, ** pd)
             if m.id == 1 :
                 self.ff_subject = person
@@ -783,7 +828,7 @@ class Convert (object) :
                 pyk.fprint \
                     ("INFO: Using email %s in fax field as email" % m.fax)
             if m.instant_messenger_nick :
-                self.try_insert_im (m, person)
+                self.try_insert_im (person, m)
             for a, c in self.phone_types.iteritems () :
                 x = getattr (m, a)
                 self.try_insert_phone (person, m, x, c)
@@ -800,8 +845,8 @@ class Convert (object) :
                 if m.id in self.associations :
                     cls = self.pap.Association
                 name = ' '.join ((m.firstname, m.lastname))
-                type = cls.__name__.lower ()
-                pyk.fprint ( "Creating %s: %s" % (type, repr (name)))
+                typ  = cls.__name__.lower ()
+                pyk.fprint ( "Creating %s: %s" % (typ, repr (name)))
                 legal = cls (name = name, raw = True)
                 # copy property links over
                 q = self.pap.Subject_has_Property.query
@@ -816,10 +861,6 @@ class Convert (object) :
             person = self.person_by_id [p_id]
             legal  = self.person_by_id [l_id]
             self.ffm.Person_acts_for_Legal_Entity (person, legal)
-        for mentor_id, person_id in self.mentor.iteritems () :
-            mentor = self.person_by_id [mentor_id]
-            person = self.person_by_id [person_id]
-            self.ffm.Person_mentors_Person (mentor, person)
         # Retrieve info from dupe account
         for dupe, id in self.person_dupes.iteritems () :
             # older version of db or dupe removed:
@@ -827,6 +868,10 @@ class Convert (object) :
                 continue
             d = self.member_by_id [dupe]
             m = self.member_by_id [id]
+            pyk.fprint \
+                ( "Handling dupe: %s->%s %s %s" \
+                % (dupe, id, d.firstname, d.lastname)
+                )
             person = self.person_by_id [id]
             changed = max \
                 (d for d in (m.changed, d.changed, m.created, d.created) if d)
@@ -840,17 +885,40 @@ class Convert (object) :
             if  (   d.mentor_id is not None
                 and d.mentor_id != d.id
                 and d.mentor_id != id
+                and d.mentor_id != 305
                 ) :
+                pyk.fprint ("WARN mentor: %s->%s %s" % (d.id, id, d.mentor_id))
                 assert (False)
+            if d.mentor_id is not None and d.mentor_id != d.id :
+                if m.id not in self.mentor :
+                    self.mentor [m.id] = d.mentor_id
             if d.nickname :
                 nick = self.pap.Nickname (d.nickname, raw = True)
                 self.pap.Subject_has_Nickname (person, nick)
             if d.homepage :
                 self.try_insert_url (d, person)
             if d.instant_messenger_nick :
-                self.try_insert_im (d, person)
+                self.try_insert_im (person, d)
             if dupe in self.merge_adr :
                 self.try_insert_address (d, person)
+        for mentor_id, person_id in self.mentor.iteritems () :
+            # can happen if a duplicate inserted this:
+            if mentor_id == person_id :
+                continue
+            mentor = self.person_by_id [mentor_id]
+            person = self.person_by_id [person_id]
+            actors = (self.company_actor, self.association_actor)
+            for a in actors :
+                if mentor_id in a :
+                    mentor = self.person_by_id [a [mentor_id]]
+                    break
+            if  (  person_id in self.company_actor
+                or person_id in self.association_actor
+                ) :
+                self.ffm.Person_acts_for_Legal_Entity.instance_or_new \
+                    (mentor, person)
+            else :
+                self.ffm.Person_mentors_Person (mentor, person)
     # end def create_persons
 
     def check_spider_dev (self, sdev, in4, ips, nodeid) :
