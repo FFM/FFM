@@ -26,9 +26,43 @@
 ##
 ## Revision Dates
 ##    10-Apr-2014 (CT) Creation
+##    13-Apr-2014 (CT) Factor `entity_actions`
 ##    ««revision-date»»···
 ##--
 #}
+
+{%- macro entity_actions
+        (entity, name, type = None, detail_kind = None) -%}
+  {%- set caller = kwargs.pop ("caller",   None) -%}
+  {%- if not type %}
+    {%- set type = GTW._T (entity.type_base_name.lower ()) %}
+  {% endif -%}
+  {%- set detail_msg =
+          GTW._T ("Show %s of %s %s") % (detail_kind or "details", type, name)
+  %}
+  {%- set edit_msg   = GTW._T ("Edit %s")   % (name, ) %}
+  {%- set delete_msg = GTW._T ("Delete %s") % (name, ) %}
+  <td class="action">
+    <a class="pure-button" href="#devices"
+      title="{{ detail_msg }}"
+    >
+      <i class="fa fa-eye"></i>
+    </a>
+    <a class="pure-button" href="#edit"
+      title="{{ edit_msg }}"
+    >
+      <i class="fa fa-pencil"></i>
+    </a>
+    <a class="pure-button" href="#delete"
+      title="{{ delete_msg }}"
+    >
+      <i class="fa fa-trash-o"></i>
+    </a>
+    {%- if caller %}
+      {{- caller () -}}
+    {%- endif -%}
+  </td>
+{%- endmacro -%} {#- entity_actions -#}
 
 {%- macro device_interfaces (page, device) -%}
   {%- set net_interfaces = GTW.sorted (device.net_interfaces, key = GTW.Getter.pid) %}
@@ -59,18 +93,7 @@
           <td class="created">
             {{ ("%s" % (ni.FO.creation_date, )).split (" ") [0] }}
           </td>
-          <td class="action">
-            <a class="pure-button" href="#devices"
-              title="{{ GTW._T ("Show ??? of interface %s") % (name, ) }}"
-            >
-              <i class="fa fa-eye"></i>
-            </a>
-            <a class="pure-button" href="#edit"
-              title="{{ GTW._T ("Edit interface %s") % (name, ) }}"
-            >
-              <i class="fa fa-pencil"></i>
-            </a>
-          </td>
+          {{ entity_actions (ni, name, detail_kind = "???") }}
         </tr>
       {% endfor -%}
     </tbody>
@@ -128,7 +151,8 @@
     <thead>
       <tr>
         <th>{{ GTW._T ("Name")         }}</th>
-        <th>{{ GTW._T ("# Interfaces") }}</th>
+        <th title = "Number of interfaces">{{ GTW._T ("#") }}</th>
+        <th>{{ GTW._T ("Type")         }}</th>
         <th>{{ GTW._T ("Created")   }}</th>
         <th>{{ GTW._T ("Action")    }}</th>
       </tr>
@@ -143,21 +167,19 @@
           <td class="number interfaces">
             {{ GTW.len (nd.net_interfaces) }}
           </td>
+          <td class="type">
+            <span class="badge status-failure">TBD</span>
+          </td>
           <td class="created">
             {{ ("%s" % (nd.FO.creation_date, )).split (" ") [0] }}
           </td>
-          <td class="action">
-            <a class="pure-button" href="#devices"
-              title="{{ GTW._T ("Show interfaces of device %s") % (name, ) }}"
+          {% call entity_actions (nd, name, detail_kind = GTW._T ("interfaces")) -%}
+            <a class="pure-button" href="#firmware"
+              title="{{ GTW._T ("Generate foirmware for device %s") % (name, ) }}"
             >
-              <i class="fa fa-eye"></i>
+              <i class="fa fa-magic"></i>
             </a>
-            <a class="pure-button" href="#edit"
-              title="{{ GTW._T ("Edit device %s") % (name, ) }}"
-            >
-              <i class="fa fa-pencil"></i>
-            </a>
-          </td>
+          {% endcall %} {# entity_actions (nd, name, detail_kind = GTW._T ("interfaces") #}
         </tr>
       {% endfor -%}
     </tbody>
@@ -173,7 +195,7 @@
     <thead>
       <tr>
         <th>{{ GTW._T ("Name")      }}</th>
-        <th>{{ GTW._T ("# Devices") }}</th>
+        <th title = "Number of devices">{{ GTW._T ("#") }}</th>
         <th>{{ GTW._T ("Created")   }}</th>
         <th>{{ GTW._T ("Action")    }}</th>
       </tr>
@@ -191,18 +213,7 @@
           <td class="created">
             {{ ("%s" % (node.FO.creation_date, )).split (" ") [0] }}
           </td>
-          <td class="action">
-            <a class="pure-button" href="#devices"
-              title="{{ GTW._T ("Show devices of node %s") % (name, ) }}"
-            >
-              <i class="fa fa-eye"></i>
-            </a>
-            <a class="pure-button" href="#edit"
-              title="{{ GTW._T ("Edit node %s") % (name, ) }}"
-            >
-              <i class="fa fa-pencil"></i>
-            </a>
-          </td>
+          {{ entity_actions (node, name, detail_kind = GTW._T ("devices")) }}
         </tr>
       {% endfor -%}
     </tbody>

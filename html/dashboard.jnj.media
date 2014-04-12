@@ -33,6 +33,10 @@ Style_File  ("/media/GTW/css/pure.css")
 
 style_sheet = Style_Sheet \
     ( Rule
+        ( "*", "*:before", "*:after"
+        , Box (sizing = "border-box")
+        )
+    , Rule
         ( "footer", ".main"
         , clear                = "both"
         , margin               = TRBL (0, Em (2.0))
@@ -42,6 +46,7 @@ style_sheet = Style_Sheet \
         , border_top           = "1px solid #EEEEEE"
         , font_size            = Em (0.8)
         , opacity              = 0.75
+        , padding_top          = Em (1.0)
         , children             =
             ( Rule
                 ( "p"
@@ -60,7 +65,7 @@ style_sheet = Style_Sheet \
                     [ Rule
                         ( ".pure-menu-heading"
                         , font_size        = Em  (1.15)
-                        , line_height      = Rem (1.725)
+                        , line_height      = Rem (1.875)
                         , padding_left     = Rem (2.0)
                         , text_transform   = "none"
                         )
@@ -167,8 +172,21 @@ style_sheet = Style_Sheet \
         , white_space          = "nowrap"
         )
     , Rule
+        ( ".hidden"
+        , display              = "none"
+        , visibility           = "hidden"
+        )
+    , Rule
         ( ".main"
         , margin_bottom        = Em (1.0)
+        )
+    , Rule
+        ( ".pull-left"
+        , float                = "left"
+        )
+    , Rule
+        ( ".pull-right"
+        , float                = "right"
         )
     , Rule
         ( ".pure-menu-inverse.pure-menu-open.pure-menu-horizontal"
@@ -205,6 +223,10 @@ style_sheet = Style_Sheet \
                 , background_color = "#1B1B1B"
                 )
             ]
+        )
+    , Rule
+        ( ".small"
+        , font_size            = Em (0.8)
         )
     , Rule
         ( ".status-failure"
