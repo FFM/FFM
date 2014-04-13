@@ -505,7 +505,6 @@ class Convert (object) :
             owner = self.person_by_id.get (id)
             if self.anonymize :
                 manager = owner
-                owner   = None
             elif not isinstance (owner, self.pap.Person) :
                 assert len (owner.actor) == 1
                 manager = iter (owner.actor).next ()
