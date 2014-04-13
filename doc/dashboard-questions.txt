@@ -3,7 +3,11 @@ Questions about dashboard structure and behavior
 
 - Login/logout
 
-  * Separate landing page, dashboard only visible when logged in?
+  * Separate landing page
+
+  * Login page : rename `New password` to `I forgot my password`
+
+  * Dashboard itself only visible when logged in
 
   * CSRF protection for login
 
@@ -25,47 +29,51 @@ Questions about dashboard structure and behavior
   * Dashboard starts with overview of nodes controlled, i.e., owned or
     managed, by the person who is logged in
 
-    Three possible actions:
+    + No error message when no nodes/device/... exist
 
-    + Create a new node (very important for a new user): Mihis design
-      doesn't have a button for that
+    + New `node/device...` button
 
-      - Is the form to create a new node meant to be open below the
-        node list?
+    Per default, all instances controlled by the user are shown, i.e.,
+    all nodes, all devices, all interfaces, all antennas, all
+    ip-addresses
 
-      - If so, where does it go when the user decides to take one of
-        the other actions?
+    * In this view, device needs a node-column, interface needs a
+      device and a node column, ...
+
+    Per level, five possible actions (`node` is used a concrete
+    example below):
+
+    + Create a new node (<span class="pull-right"> in <h2>)
 
     + Edit an existing node
 
-    + Display list of devices for a specific node
+      - Switch view to form, i.e.hide all tables temporarily
+
+      - Submit and cancel button
+
+    + Restrict display to list of sub-ordinate instances for a
+      specific instance, e.g., devices, interfaces, ... for  a
+      specific node
+
+    + Delete a node
+
+    + Show graphs/statistics
 
     + If one of those actions is taken by the user,
       `div.node-details` changes content:
 
-      - Should the node table stay visible?
+      - Except for `delete` and `graphs`, new content appears, scroll
+        to `#new-id`
 
-      - If so, should the active node be visually marked?
-
-      - If the new content is a form (create, edit), should the action
-        buttons disabled?
-
-        * If not, clicking another action button during interaction
-          with the form can easily result in loss of data
+    For some types, additional actions are necessary, e.g., for device
+    a `generate firmware` action
 
   * When the device table is shown:
-
-    + Does the node table stay visible?
 
     + What happens when the user chooses to display details for one
       device?
 
-      - Is the interface table appended to the page?
-
-      - Are outer parts visible or hidden?
-
-      - If outer parts are visible, the number of possible actions
-        increases drastically
+      - Same as with node
 
     + Recurse for showing details about a specific interface...
 
@@ -76,22 +84,34 @@ Questions about dashboard structure and behavior
 
 - Navigation
 
-  * Mihis design:
+  * Single line:
 
-    + 4 links at top: dashboard, home, about, contact
+    + `FF Dashboard`: home of dashboard
 
-    + what is the meaning of the `dashboard` link?
+    + Menu at left
 
-    + what is the meaning of the `home` link?
+      + [User Docs] : once added
 
-  * Put `about` and `contact` into `footer`?
+      + Devel
+
+        + API
+
+        + Docs
+
+      + Admin : only if authorized
+
+      + About
+
+        - contains contact
+
+    + Right hand side:
+
+      + My settings: edit personal and account information
+
+      + Logout
 
   * Page for `impressum` is legally necessary, the copyright in the
     footer should link to that.
-
-    + Could save link to `contact`
-
-    + Or `contact` could be a mailto: link
 
   * Breadcrumbs for position in dashboard ?
 
