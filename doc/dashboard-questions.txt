@@ -82,33 +82,47 @@ Questions about dashboard structure and behavior
 
     + Some kind of breadcrumbs, too
 
+- Javascript callbacks for navigation links:
+
+  * #About
+
+  * #delete
+
+  * #edit
+
+  * #filter
+
+  * #firmware
+
+  * #Settings
+
 - Navigation
 
   * Single line:
 
-    + `FF Dashboard`: home of dashboard
+    x `FF Dashboard`: home of dashboard
 
-    + Menu at left
+    x Menu at left
 
       + [User Docs] : once added
 
-      + Devel
+      x Devel
 
-        + API
+        x API
 
-        + Docs
+        x Docs
 
-      + Admin : only if authorized
+      x Admin : only if authorized
 
-      + About
+      x About
 
         - contains contact
 
-    + Right hand side:
+    x Right hand side:
 
-      + My settings: edit personal and account information
+      x My settings: edit personal and account information
 
-      + Logout
+      x Logout
 
   * Page for `impressum` is legally necessary, the copyright in the
     footer should link to that.

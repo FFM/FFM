@@ -52,6 +52,7 @@
 #    23-Aug-2013 (CT) Add `-auth_required`, use it in `create_top`
 #     7-Oct-2013 (CT) Add `RST_addons.User_Antenna`
 #     1-Apr-2014 (CT) Add resource for `GTW.RST.MOM.Doc.App_Type`
+#    14-Apr-2014 (CT) Add `pid="RESTful"` to resource `/api`
 #    ««revision-date»»···
 #--
 
@@ -316,6 +317,7 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
                 , auth_required   = auth_r
                 , exclude_robots  = True
                 , json_indent     = 2
+                , pid             = "RESTful"
                 )
             , GTW.RST.MOM.Doc.App_Type
                 ( name            = "api-doc"

@@ -28,6 +28,8 @@
 #    ««revision-date»»···
 #--
 
+from   __future__ import division
+
 Style_File  ("/media/GTW/css/font-awesome.css")
 Style_File  ("/media/GTW/css/pure.css")
 
@@ -57,16 +59,35 @@ style_sheet = Style_Sheet \
         )
     , Rule
         ( "header"
-        , height               = Em (2.0)
+        , height               = Rem (2.75)
+        , line_height          = Rem (1.875)
         , children             =
             [ Rule
-                ( ".pure-menu"
+                ( "> .pure-menu"
+                , padding          = TRBL (Rem (0.25), Rem (2.0), Rem (0.15))
                 , children         =
                     [ Rule
-                        ( ".pure-menu-heading"
+                        ( ".pure-menu-auto-open > a:first-child:after"
+                        , content          = "'\\25BE'" ### "▾"
+                        , padding_left     = Em (0.5)
+                        )
+                    , Rule
+                        ( ".pure-menu-auto-open:hover > ul"
+                        , left             = Em (0)
+                        , top              = Em (1.5)
+                        , visibility       = "visible"
+                        , children         =
+                            [ Rule
+                                ( "> li:first-child:before"
+                                , padding_top  = Em (1.5)
+                                )
+                            ]
+                        )
+                    , Rule
+                        ( ".dashboard"
                         , font_size        = Em  (1.15)
-                        , line_height      = Rem (1.875)
-                        , padding_left     = Rem (2.0)
+                        , padding_left     = 0
+                        , padding_top      = Rem (0.1)
                         , text_transform   = "none"
                         )
                     , Rule
@@ -74,16 +95,35 @@ style_sheet = Style_Sheet \
                         , font_size        = Em (0.875)
                         , padding          = TRBL (Em (0.3), Em (0.8))
                         )
+                    , Rule
+                        ( ".nav-menu-person"
+                        , float            = "right"
+                        , font_size        = Em (0.8)
+                        , children         =
+                            [ Rule
+                                ( "a"
+                                , border_radius    = Px (3)
+                                , display          = "inline-block"
+                                , vertical_align   = "middle"
+                                )
+                            , Rule
+                                ( ".logout"
+                                , padding          = TRBL (Rem (1/4), Rem (5/4))
+                                )
+                            , Rule
+                                ( ".settings"
+                                , padding          = TRBL (Rem (0), Rem (3/4))
+                                , margin_right     = Em (1.0)
+                                , children         =
+                                    [ Rule
+                                        ( ".fa"
+                                        , font_size        = Rem (1.75)
+                                        )
+                                    ]
+                                )
+                            ]
+                        )
                     ]
-                )
-            , Rule
-                ( ".logout"
-                , border_radius    = Px (3)
-                , display          = "inline-block"
-                , float            = "right"
-                , font_size        = Em (0.7)
-                , margin           = TRBL0 (t = Em (0.5), r = Em (2.0))
-                , vertical_align   = "middle"
                 )
             ]
         )
@@ -126,11 +166,26 @@ style_sheet = Style_Sheet \
                 , children     =
                     [ Rule_Class
                         ( "action"
-                        , font_size    = Em (0.8)
+                        , font_size        = Em (1.125)
+                        , padding_bottom   = Px (4)
+                        , padding_top      = Px (4)
                         , children     =
                             [ Rule
+                                ( "a"
+                                , border_radius    = Em (0.25)
+                                , padding          = Em (0.25)
+                                , children         =
+                                    [ Rule
+                                        ( "+ a"
+                                        , margin_left  = Em (0.25)
+                                        )
+                                    ]
+                                )
+                            , Rule
                                 ( ".fa"
                                 , color        = "#0078E7"
+                                , height       = Em (1.0)
+                                , width        = Em (1.0)
                                 )
                             ]
                         )
@@ -215,6 +270,16 @@ style_sheet = Style_Sheet \
                         ( "hover", "active"
                         , background_color = "inherit"
                         , color            = "#FFFFFF"
+                        )
+                    , Rule_Class
+                        ( "settings"
+                        , children         =
+                            [ Rule_Pseudo
+                                ( "hover", "active"
+                                , background_color = "#E6E6E6"
+                                , color            = "#999999"
+                                )
+                            ]
                         )
                     ]
                 )

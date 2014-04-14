@@ -27,37 +27,40 @@
 ## Revision Dates
 ##    10-Apr-2014 (CT) Creation
 ##    13-Apr-2014 (CT) Factor `entity_actions`
+##    14-Apr-2014 (CT) Factor `action_button`, `nav_menu_links`,
+##                     `nav_menu_person`, `th_number_of`
 ##    ««revision-date»»···
 ##--
 #}
 
-{%- macro entity_actions
-        (entity, name, type = None, detail_kind = None) -%}
-  {%- set caller = kwargs.pop ("caller",   None) -%}
-  {%- if not type %}
-    {%- set type = GTW._T (entity.type_base_name.lower ()) %}
+{%- macro action_button (href, title, icon_name, a_cls = "pure-button", i_add_cls = None) -%}
+  {%- set i_cls = "fa fa-%s" % (icon_name, ) %}
+  {%- if i_add_cls %}
+    {%- set i_cls = "%s %s" % (i_cls, i_add_cls) %}
   {% endif -%}
-  {%- set detail_msg =
-          GTW._T ("Show %s of %s %s") % (detail_kind or "details", type, name)
-  %}
-  {%- set edit_msg   = GTW._T ("Edit %s")   % (name, ) %}
-  {%- set delete_msg = GTW._T ("Delete %s") % (name, ) %}
+  <a class="{{ a_cls}}" href="{{ href }}" title="{{ title }}">{# -#}
+    <i class="{{ i_cls }}"></i>{# -#}
+  </a>
+{%- endmacro -%} {#- action_button -#}
+
+{%- macro entity_actions (entity, name, show_graphs = False) -%}
+  {%- set caller = kwargs.pop ("caller", None) -%}
+  {%- set type = entity.ui_name_T %}
+  {%- set edit_msg   = GTW._T ("Edit %s %s")   % (type, name) %}
+  {%- set delete_msg = GTW._T ("Delete %s %s") % (type, name) %}
+  {%- set filter_msg = GTW._T
+        ("Restrict details below to objects belonging to %s %s") % (type, name)
+  -%}
   <td class="action">
-    <a class="pure-button" href="#devices"
-      title="{{ detail_msg }}"
-    >
-      <i class="fa fa-eye"></i>
-    </a>
-    <a class="pure-button" href="#edit"
-      title="{{ edit_msg }}"
-    >
-      <i class="fa fa-pencil"></i>
-    </a>
-    <a class="pure-button" href="#delete"
-      title="{{ delete_msg }}"
-    >
-      <i class="fa fa-trash-o"></i>
-    </a>
+    {{ action_button ("#filter", filter_msg, "eye")     -}}
+    {{ action_button ("#edit",   edit_msg,   "pencil")  -}}
+    {{ action_button ("#delete", delete_msg, "trash-o") -}}
+    {%- if show_graphs %}
+      {%- set graph_msg = GTW._T
+            ("Show graphs and statistics about %s %s" % (type, name))
+      -%}
+      {{ action_button ("#graphs", graph_msg, "bar-chart-o") -}}
+    {% endif -%}
     {%- if caller %}
       {{- caller () -}}
     {%- endif -%}
@@ -93,7 +96,7 @@
           <td class="created">
             {{ ("%s" % (ni.FO.creation_date, )).split (" ") [0] }}
           </td>
-          {{ entity_actions (ni, name, detail_kind = "???") }}
+          {{ entity_actions (ni, name, show_graphs = True) }}
         </tr>
       {% endfor -%}
     </tbody>
@@ -151,7 +154,7 @@
     <thead>
       <tr>
         <th>{{ GTW._T ("Name")         }}</th>
-        <th title = "Number of interfaces">{{ GTW._T ("#") }}</th>
+        {{ th_number_of (page.scope.FFM.Net_Device, page.scope.FFM.Net_Interface) }}
         <th>{{ GTW._T ("Type")         }}</th>
         <th>{{ GTW._T ("Created")   }}</th>
         <th>{{ GTW._T ("Action")    }}</th>
@@ -173,13 +176,15 @@
           <td class="created">
             {{ ("%s" % (nd.FO.creation_date, )).split (" ") [0] }}
           </td>
-          {% call entity_actions (nd, name, detail_kind = GTW._T ("interfaces")) -%}
-            <a class="pure-button" href="#firmware"
-              title="{{ GTW._T ("Generate foirmware for device %s") % (name, ) }}"
-            >
-              <i class="fa fa-magic"></i>
-            </a>
-          {% endcall %} {# entity_actions (nd, name, detail_kind = GTW._T ("interfaces") #}
+          {% call entity_actions (nd, name) -%}
+            {{- action_button
+                ( "#firmware"
+                , GTW._T ("Generate firmware for %s %s")
+                  % (nd.ui_name_T, name, )
+                , "magic"
+                )
+            -}}
+          {%- endcall %} {# entity_actions (nd, name) #}
         </tr>
       {% endfor -%}
     </tbody>
@@ -195,7 +200,7 @@
     <thead>
       <tr>
         <th>{{ GTW._T ("Name")      }}</th>
-        <th title = "Number of devices">{{ GTW._T ("#") }}</th>
+        {{ th_number_of (page.scope.FFM.Node, page.scope.FFM.Net_Device) }}
         <th>{{ GTW._T ("Created")   }}</th>
         <th>{{ GTW._T ("Action")    }}</th>
       </tr>
@@ -213,7 +218,7 @@
           <td class="created">
             {{ ("%s" % (node.FO.creation_date, )).split (" ") [0] }}
           </td>
-          {{ entity_actions (node, name, detail_kind = GTW._T ("devices")) }}
+          {{ entity_actions (node, name, show_graphs = True) }}
         </tr>
       {% endfor -%}
     </tbody>
@@ -222,5 +227,60 @@
     {{ node_devices (page, page.nodes [0]) }}
   </section>
 {%- endmacro -%} {#- node_overview -#}
+
+{%- macro nav_menu_links (page) -%}
+  {%- set caller = kwargs.pop ("caller", None) -%}
+  {%- set admin  = page.SC.Admin %}
+  {%- set et_doc = page.SC.ET_Doc %}
+  {%- set rf_api = page.SC.RESTful %}
+  {%- if et_doc or rf_api %}
+    <li class="pure-menu-auto-open">
+      <a>{{ GTW._T ("Development") }}</a>
+      <ul>
+        {%- if et_doc %}
+          <li>
+            <a href="{{ et_doc.abs_href }}">
+              {{ GTW._T ("Documentation") }}
+            </a>
+          </li>
+        {% endif -%}
+        {%- if rf_api %}
+          <li>
+            <a href="{{ rf_api.abs_href }}">
+              {{ GTW._T ("RESTful API") }}
+            </a>
+          </li>
+        {% endif -%}
+      </ul>
+    </li>
+  {% endif -%}
+  <li><a href="#About">{{ GTW._T ("About") }}</a></li>
+  {%- if admin and page.allow (admin, page.request.user) %}
+    <li><a href="{{ admin.abs_href }}">{{ GTW._T ("Admin") }}</a></li>
+  {% endif -%}
+  {%- if caller %}
+    {{- caller () -}}
+  {%- endif -%}
+{%- endmacro -%} {#- nav_menu_links -#}
+
+{%- macro nav_menu_person (page) -%}
+  {%- set caller = kwargs.pop ("caller", None) -%}
+  {%- if caller %}
+    {{- caller () -}}
+  {%- endif -%}
+  {{ action_button
+      ("#Settings", GTW._T ("Personal settings"), "cog", "settings")
+  -}}
+  <a class="logout pure-button" href="{{ page.href_logout }}">
+    Logout
+  </a>
+{%- endmacro -%} {#- nav_menu_person -#}
+
+{%- macro th_number_of (left, right) -%}
+  {%- set title = GTW._T
+        ("Number of %s belonging to %s") % (right.ui_name_T, left.ui_name_T)
+  -%}
+  <th title = "{{ title }}">#</th>
+{%- endmacro -%} {#- th_number_of -#}
 
 {#- __END__ jinja template: dashboard.m.jnj -#}

@@ -26,6 +26,7 @@
 ##
 ## Revision Dates
 ##     9-Apr-2014 (CT) Creation
+##    14-Apr-2014 (CT) Factor `nav_menu_links`, `nav_menu_person`
 ##    ««revision-date»»···
 ##--
 #}
@@ -72,15 +73,19 @@
           {% call X.nav (class="pure-menu pure-menu-fixed pure-menu-horizontal pure-menu-inverse pure-menu-open") -%}
             {#- TBD: button+CSS+JS for hiding menu+form on narrow screens -#}
             {%- block navigate -%}
-              <a href="/" class="pure-menu-heading">Funkfeuer Dashboard</a>
-              <ul>
-                <li class="pure-menu-selected"><a href="#">Home</a></li>
-                <li><a href="#">Über</a></li>
-                <li><a href="#">Kontakt</a></li>
-              </ul>
-              <a class="logout pure-button" href="{{ page.href_logout }}">
-                Logout
+              <a href="/dashboard" class="dashboard pure-menu-heading">
+                FF Dashboard
               </a>
+              <ul>
+                {%- block nav_menu_links -%}
+                  {{ DM.nav_menu_links (page) }}
+                {%- endblock nav_menu_links -%}
+              </ul>
+              <span class="nav-menu-person">
+                {%- block nav_menu_person -%}
+                  {{ DM.nav_menu_person (page) }}
+                {%- endblock nav_menu_person -%}
+              </span>
             {%- endblock -%}
           {%- endcall %} {# X.nav #}
         {%- endblock nav_block -%}
