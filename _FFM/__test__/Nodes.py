@@ -41,6 +41,7 @@
 #                     `selectable_e_types_unique_epk`
 #     7-Aug-2013 (CT) Adapt to major surgery of GTW.OMP.NET.Attr_Type
 #    30-Sep-2013 (CT) Adapt to uplift of `belongs_to_node`
+#    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
 #    ««revision-date»»···
 #--
 
@@ -146,34 +147,34 @@ _test_code = """
     >>> a = FFM.Antenna (name = "1", ** args)
     >>> wia = FFM.Wireless_Interface_uses_Antenna (wl, a)
 
-    >>> FFM.Antenna.query (Q.belongs_to_node == node3).count ()
+    >>> FFM.Antenna.query (Q.my_node == node3).count ()
     1
 
-    >>> FFM.Belongs_to_Node.query (Q.belongs_to_node == node3).count ()
+    >>> FFM.Belongs_to_Node.query (Q.my_node == node3).count ()
     6
 
-    >>> FFM.Net_Device.query (Q.belongs_to_node == node3).count ()
+    >>> FFM.Net_Device.query (Q.my_node == node3).count ()
     1
 
-    >>> FFM.Net_Interface.query (Q.belongs_to_node == node3).count ()
+    >>> FFM.Net_Interface.query (Q.my_node == node3).count ()
     2
 
-    >>> FFM.Node.query (Q.belongs_to_node == node3).count ()
+    >>> FFM.Node.query (Q.my_node == node3).count ()
     1
 
-    >>> FFM.Wired_Interface.query (Q.belongs_to_node == node3).count ()
+    >>> FFM.Wired_Interface.query (Q.my_node == node3).count ()
     1
 
-    >>> FFM.Wireless_Interface.query (Q.belongs_to_node == node3).count ()
+    >>> FFM.Wireless_Interface.query (Q.my_node == node3).count ()
     1
 
-    >>> FFM.Wireless_Interface_uses_Antenna.query (Q.belongs_to_node == node3).count ()
+    >>> FFM.Wireless_Interface_uses_Antenna.query (Q.my_node == node3).count ()
     1
 
-    >>> FFM.Net_Device.query (Q.belongs_to_node.manager == mgr).count ()
+    >>> FFM.Net_Device.query (Q.my_node.manager == mgr).count ()
     1
 
-    >>> FFM.Net_Device.query (Q.belongs_to_node != node3).count ()
+    >>> FFM.Net_Device.query (Q.my_node != node3).count ()
     0
 
 """

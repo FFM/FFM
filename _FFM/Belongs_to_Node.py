@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2014 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -23,7 +23,7 @@
 #    FFM.Belongs_to_Node
 #
 # Purpose
-#    Mixin for computed `belongs_to_node` attribute
+#    Mixin for computed `my_node` attribute
 #
 # Revision Dates
 #     6-Dec-2012 (CT) Creation
@@ -40,6 +40,7 @@
 #                     `Belongs_to_Node_Left`
 #     1-Oct-2013 (CT) Rename from `_Belongs_to_Node_` to `Belongs_to_Node`
 #     1-Oct-2013 (CT) Remove `belongs_to_node.hidden = True`
+#    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
 #    ««revision-date»»···
 #--
 
@@ -52,7 +53,7 @@ import _FFM.Entity
 _Ancestor_Essence = FFM.Id_Entity
 
 class Belongs_to_Node (_Ancestor_Essence) :
-    """Mixin for the query attribute `belongs_to_node`"""
+    """Mixin for the query attribute `my_node`"""
 
     is_partial = True
 
@@ -60,14 +61,14 @@ class Belongs_to_Node (_Ancestor_Essence) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
-        class belongs_to_node (A_Id_Entity) :
+        class my_node (A_Id_Entity) :
             """Node this %(ui_type_name)s belongs to."""
 
             kind                = Attr.Query
             P_Type              = "FFM.Node"
             is_partial          = True ### `query` is defined by descendents
 
-        # end class belongs_to_node
+        # end class my_node
 
     # end class _Attributes
 
@@ -77,8 +78,8 @@ _Ancestor_Essence = FFM.Link
 _Mixin            = Belongs_to_Node
 
 class Belongs_to_Node_Left (_Mixin, _Ancestor_Essence) :
-    """Mixin for the query attribute `belongs_to_node`, delegated to
-       `left.belongs_to_node`.
+    """Mixin for the query attribute `my_node`, delegated to
+       `left.my_node`.
     """
 
     is_partial = True
@@ -87,13 +88,13 @@ class Belongs_to_Node_Left (_Mixin, _Ancestor_Essence) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
-        class belongs_to_node (_Mixin._Attributes.belongs_to_node) :
+        class my_node (_Mixin._Attributes.my_node) :
 
-            query               = Q.left.belongs_to_node
+            query               = Q.left.my_node
             query_preconditions = (Q.left, )
             is_partial          = False
 
-        # end class belongs_to_node
+        # end class my_node
 
     # end class _Attributes
 

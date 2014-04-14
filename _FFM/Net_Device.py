@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2014 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -33,6 +33,8 @@
 #    17-Dec-2012 (CT) Set `belongs_to_node.hidden` to `True`
 #    26-Jan-2013 (CT) Define `belongs_to_node.query`, not `.query_fct`
 #    30-Sep-2013 (CT) Mixin `Belongs_to_Node`
+#    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
+#    14-Apr-2014 (CT) Add `my_net_device`
 #    ««revision-date»»···
 #--
 
@@ -44,14 +46,20 @@ import _FFM.Device
 import _FFM.Net_Device_Type
 import _FFM.Node
 import _FFM.Belongs_to_Node
+import _FFM.Belongs_to_Net_Device
 
 _Ancestor_Essence = FFM.Device
-_Mixin            = FFM.Belongs_to_Node
+_Mixin_1            = FFM.Belongs_to_Node
+_Mixin_2            = FFM.Belongs_to_Net_Device
 
-class Net_Device (_Mixin, _Ancestor_Essence) :
+class Net_Device (_Mixin_1, _Mixin_2, _Ancestor_Essence) :
     """Model a network device of FFM."""
 
-    class _Attributes (_Mixin._Attributes, _Ancestor_Essence._Attributes) :
+    class _Attributes \
+              ( _Mixin_1._Attributes
+              , _Mixin_2._Attributes
+              , _Ancestor_Essence._Attributes
+              ) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
@@ -70,11 +78,23 @@ class Net_Device (_Mixin, _Ancestor_Essence) :
 
         # end class node
 
-        class belongs_to_node (_Mixin._Attributes.belongs_to_node) :
+        class my_net_device (_Mixin_2._Attributes.my_net_device) :
+            """Net_Device to which this net_device belongs.
+
+               Just an alias to the net_device itself to be compatible with all
+               other entities belonging to net_devices.
+            """
+
+            query              = Q.SELF
+            hidden             = True
+
+        # end class my_net_device
+
+        class my_node (_Mixin_1._Attributes.my_node) :
 
             query              = Q.node
 
-        # end class belongs_to_node
+        # end class my_node
 
     # end class _Attributes
 

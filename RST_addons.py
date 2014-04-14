@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2014 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -45,6 +45,7 @@
 #                     * `belongs_to_node` works now
 #                     * remove redefinitions of `query_filters_restricted`
 #     7-Oct-2013 (CT) Add `User_Antenna`
+#    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
 #    ««revision-date»»···
 #--
 
@@ -232,8 +233,8 @@ class User_Entity (_Ancestor) :
         person = self.user_restriction
         if person is not None :
             return \
-                ( (Q.belongs_to_node.owner   == person)
-                | (Q.belongs_to_node.manager == person)
+                ( (Q.my_node.owner   == person)
+                | (Q.my_node.manager == person)
                 )
     # end def query_filters_restricted
 

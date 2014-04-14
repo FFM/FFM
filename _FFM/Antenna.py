@@ -40,6 +40,8 @@
 #    14-Aug-2013 (CT) Re-enable `belongs_to_node`
 #    30-Sep-2013 (CT) Mixin `Belongs_to_Node`
 #    27-Feb-2014 (CT) Rename `elevation` to `elevation_angle`
+#    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
+#    14-Apr-2014 (CT) Add `my_net_device`
 #    ««revision-date»»···
 #--
 
@@ -53,14 +55,20 @@ import _FFM.Device
 import _FFM.Node
 from   _FFM.Attr_Type         import A_Polarization
 import _FFM.Belongs_to_Node
+import _FFM.Belongs_to_Net_Device
 
 _Ancestor_Essence = FFM.Device
-_Mixin            = FFM.Belongs_to_Node
+_Mixin_1            = FFM.Belongs_to_Node
+_Mixin_2            = FFM.Belongs_to_Net_Device
 
-class Antenna (_Mixin, _Ancestor_Essence) :
+class Antenna (_Mixin_1, _Mixin_2, _Ancestor_Essence) :
     """Model an antenna used by a FFM node."""
 
-    class _Attributes (_Mixin._Attributes, _Ancestor_Essence._Attributes) :
+    class _Attributes \
+              ( _Mixin_1._Attributes
+              , _Mixin_2._Attributes
+              , _Ancestor_Essence._Attributes
+              ) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
@@ -85,13 +93,6 @@ class Antenna (_Mixin, _Ancestor_Essence) :
               """
 
         # end class azimuth
-
-        class belongs_to_node (_Mixin._Attributes.belongs_to_node) :
-
-            query               = Q.interface.belongs_to_node
-            query_preconditions = (Q.interface, )
-
-        # end class belongs_to_node
 
         class elevation_angle (A_Int) :
             """ Elevation angle of the beam from the horizontal plane
@@ -122,6 +123,20 @@ class Antenna (_Mixin, _Ancestor_Essence) :
             # end def computed
 
         # end class gain
+
+        class my_net_device (_Mixin_2._Attributes.my_net_device) :
+
+            query               = Q.interface.my_net_device
+            query_preconditions = (Q.interface, )
+
+        # end class my_net_device
+
+        class my_node (_Mixin_1._Attributes.my_node) :
+
+            query               = Q.interface.my_node
+            query_preconditions = (Q.interface, )
+
+        # end class my_node
 
         class polarization (A_Polarization) :
             """Antenna polarization. Per default,

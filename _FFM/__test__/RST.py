@@ -35,6 +35,7 @@
 #    13-Jun-2013 (CT) Remove `PNS_Aliases`
 #    29-Jul-2013 (CT) Add `test_put`
 #     4-Oct-2013 (CT) Add tests for query arguments `fields` and `add_fields`
+#    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
 #    ««revision-date»»···
 #--
 
@@ -505,18 +506,18 @@ _test_limit = r"""
     , 'url' : 'http://localhost:9999/v1/FFM-Wired_Interface/29?verbose&fields=left,name&order_by=pid&limit=1'
     }
 
-    >>> r = show (R.get ("/v1/FFM-Wired_Interface/29?verbose&add_fields=belongs_to_node&order_by=pid&limit=1"), cleaner = date_cleaner)
+    >>> r = show (R.get ("/v1/FFM-Wired_Interface/29?verbose&add_fields=my_node&order_by=pid&limit=1"), cleaner = date_cleaner)
     { 'json' :
         { 'attributes' :
-            { 'belongs_to_node' :
-                { 'pid' : 3
-                , 'url' : '/v1/FFM-Node/3'
-                }
-            , 'left' :
+            { 'left' :
                 { 'pid' : 28
                 , 'url' : '/v1/FFM-Net_Device/28'
                 }
             , 'mac_address' : ''
+            , 'my_node' :
+                { 'pid' : 3
+                , 'url' : '/v1/FFM-Node/3'
+                }
             , 'name' : 'wr'
             }
         , 'cid' : 33
@@ -532,10 +533,10 @@ _test_limit = r"""
         , 'url' : '/v1/FFM-Wired_Interface/29'
         }
     , 'status' : 200
-    , 'url' : 'http://localhost:9999/v1/FFM-Wired_Interface/29?verbose&add_fields=belongs_to_node&order_by=pid&limit=1'
+    , 'url' : 'http://localhost:9999/v1/FFM-Wired_Interface/29?verbose&add_fields=my_node&order_by=pid&limit=1'
     }
 
-    >>> r = show (R.get ("/v1/FFM-Wired_Interface?verbose&add_fields=belongs_to_node&order_by=pid&limit=1"), cleaner = date_cleaner)
+    >>> r = show (R.get ("/v1/FFM-Wired_Interface?verbose&add_fields=my_node&order_by=pid&limit=1"), cleaner = date_cleaner)
     { 'json' :
         { 'attribute_names' :
             [ 'left'
@@ -546,15 +547,15 @@ _test_limit = r"""
             ]
         , 'entries' :
             [ { 'attributes' :
-                  { 'belongs_to_node' :
-                      { 'pid' : 3
-                      , 'url' : '/v1/FFM-Node/3'
-                      }
-                  , 'left' :
+                  { 'left' :
                       { 'pid' : 28
                       , 'url' : '/v1/FFM-Net_Device/28'
                       }
                   , 'mac_address' : ''
+                  , 'my_node' :
+                      { 'pid' : 3
+                      , 'url' : '/v1/FFM-Node/3'
+                      }
                   , 'name' : 'wr'
                   }
               , 'cid' : 33
@@ -565,7 +566,7 @@ _test_limit = r"""
             ]
         }
     , 'status' : 200
-    , 'url' : 'http://localhost:9999/v1/FFM-Wired_Interface?verbose&add_fields=belongs_to_node&order_by=pid&limit=1'
+    , 'url' : 'http://localhost:9999/v1/FFM-Wired_Interface?verbose&add_fields=my_node&order_by=pid&limit=1'
     }
 
 """

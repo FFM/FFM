@@ -41,6 +41,7 @@
 #    22-Aug-2013 (CT) Add tests for I4N and I6N calls with wrong `raw` value
 #     7-Oct-2013 (CT) Add tests for `belongs_to_node`
 #     8-Apr-2014 (RS) Test failing allocation in sub-pool
+#    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
 #    ««revision-date»»···
 #--
 
@@ -483,68 +484,134 @@ _test_AQ = """
     <wired_interface.left.node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
     <wired_interface.left.name.AQ [Attr.Type.Querier String]> -----
     <wired_interface.left.desc.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.left.belongs_to_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
-    <wired_interface.left.belongs_to_node.name.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.left.belongs_to_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
-    <wired_interface.left.belongs_to_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
-    <wired_interface.left.belongs_to_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
-    <wired_interface.left.belongs_to_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.left.belongs_to_node.manager.title.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.left.belongs_to_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <wired_interface.left.belongs_to_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <wired_interface.left.belongs_to_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <wired_interface.left.belongs_to_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
-    <wired_interface.left.belongs_to_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
-    <wired_interface.left.belongs_to_node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <wired_interface.left.belongs_to_node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <wired_interface.left.belongs_to_node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <wired_interface.left.belongs_to_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
-    <wired_interface.left.belongs_to_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
-    <wired_interface.left.belongs_to_node.address.street.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.left.belongs_to_node.address.zip.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.left.belongs_to_node.address.city.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.left.belongs_to_node.address.country.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.left.belongs_to_node.address.desc.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.left.belongs_to_node.address.region.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.left.belongs_to_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
-    <wired_interface.left.belongs_to_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
-    <wired_interface.left.belongs_to_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
-    <wired_interface.left.belongs_to_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
-    <wired_interface.left.belongs_to_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
-    <wired_interface.left.belongs_to_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
+    <wired_interface.left.my_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
+    <wired_interface.left.my_node.name.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.left.my_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
+    <wired_interface.left.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
+    <wired_interface.left.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
+    <wired_interface.left.my_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.left.my_node.manager.title.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.left.my_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <wired_interface.left.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <wired_interface.left.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <wired_interface.left.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <wired_interface.left.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
+    <wired_interface.left.my_node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <wired_interface.left.my_node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <wired_interface.left.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <wired_interface.left.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <wired_interface.left.my_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
+    <wired_interface.left.my_node.address.street.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.left.my_node.address.zip.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.left.my_node.address.city.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.left.my_node.address.country.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.left.my_node.address.desc.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.left.my_node.address.region.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.left.my_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <wired_interface.left.my_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
+    <wired_interface.left.my_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
+    <wired_interface.left.my_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
+    <wired_interface.left.my_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
+    <wired_interface.left.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
     <wired_interface.mac_address.AQ [Attr.Type.Querier String]> -----
     <wired_interface.name.AQ [Attr.Type.Querier String]> -----
     <wired_interface.is_active.AQ [Attr.Type.Querier Boolean]> -----
     <wired_interface.desc.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.belongs_to_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
-    <wired_interface.belongs_to_node.name.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.belongs_to_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
-    <wired_interface.belongs_to_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
-    <wired_interface.belongs_to_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
-    <wired_interface.belongs_to_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.belongs_to_node.manager.title.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.belongs_to_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <wired_interface.belongs_to_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <wired_interface.belongs_to_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <wired_interface.belongs_to_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
-    <wired_interface.belongs_to_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
-    <wired_interface.belongs_to_node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <wired_interface.belongs_to_node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <wired_interface.belongs_to_node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <wired_interface.belongs_to_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
-    <wired_interface.belongs_to_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
-    <wired_interface.belongs_to_node.address.street.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.belongs_to_node.address.zip.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.belongs_to_node.address.city.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.belongs_to_node.address.country.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.belongs_to_node.address.desc.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.belongs_to_node.address.region.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.belongs_to_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
-    <wired_interface.belongs_to_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
-    <wired_interface.belongs_to_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
-    <wired_interface.belongs_to_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
-    <wired_interface.belongs_to_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
-    <wired_interface.belongs_to_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
+    <wired_interface.my_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
+    <wired_interface.my_node.name.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
+    <wired_interface.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
+    <wired_interface.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
+    <wired_interface.my_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_node.manager.title.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <wired_interface.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <wired_interface.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <wired_interface.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <wired_interface.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
+    <wired_interface.my_node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <wired_interface.my_node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <wired_interface.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <wired_interface.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <wired_interface.my_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
+    <wired_interface.my_node.address.street.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_node.address.zip.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_node.address.city.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_node.address.country.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_node.address.desc.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_node.address.region.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <wired_interface.my_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
+    <wired_interface.my_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
+    <wired_interface.my_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
+    <wired_interface.my_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
+    <wired_interface.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
+    <wired_interface.my_net_device.AQ [Attr.Type.Querier Id_Entity]> FFM.Net_Device
+    <wired_interface.my_net_device.left.AQ [Attr.Type.Querier Id_Entity]> FFM.Net_Device_Type
+    <wired_interface.my_net_device.left.name.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.left.model_no.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.left.revision.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.left.desc.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
+    <wired_interface.my_net_device.node.name.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
+    <wired_interface.my_net_device.node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
+    <wired_interface.my_net_device.node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
+    <wired_interface.my_net_device.node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.node.manager.title.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <wired_interface.my_net_device.node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <wired_interface.my_net_device.node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <wired_interface.my_net_device.node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <wired_interface.my_net_device.node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
+    <wired_interface.my_net_device.node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <wired_interface.my_net_device.node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <wired_interface.my_net_device.node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <wired_interface.my_net_device.node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <wired_interface.my_net_device.node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
+    <wired_interface.my_net_device.node.address.street.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.node.address.zip.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.node.address.city.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.node.address.country.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.node.address.desc.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.node.address.region.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <wired_interface.my_net_device.node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
+    <wired_interface.my_net_device.node.position.lat.AQ [Attr.Type.Querier Raw]> -----
+    <wired_interface.my_net_device.node.position.lon.AQ [Attr.Type.Querier Raw]> -----
+    <wired_interface.my_net_device.node.position.height.AQ [Attr.Type.Querier Ckd]> -----
+    <wired_interface.my_net_device.node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
+    <wired_interface.my_net_device.name.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.desc.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.my_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
+    <wired_interface.my_net_device.my_node.name.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.my_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
+    <wired_interface.my_net_device.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
+    <wired_interface.my_net_device.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
+    <wired_interface.my_net_device.my_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.my_node.manager.title.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.my_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <wired_interface.my_net_device.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <wired_interface.my_net_device.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <wired_interface.my_net_device.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <wired_interface.my_net_device.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
+    <wired_interface.my_net_device.my_node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <wired_interface.my_net_device.my_node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <wired_interface.my_net_device.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <wired_interface.my_net_device.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <wired_interface.my_net_device.my_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
+    <wired_interface.my_net_device.my_node.address.street.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.my_node.address.zip.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.my_node.address.city.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.my_node.address.country.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.my_node.address.desc.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.my_node.address.region.AQ [Attr.Type.Querier String]> -----
+    <wired_interface.my_net_device.my_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <wired_interface.my_net_device.my_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
+    <wired_interface.my_net_device.my_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
+    <wired_interface.my_net_device.my_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
+    <wired_interface.my_net_device.my_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
+    <wired_interface.my_net_device.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
     <wireless_interface.AQ [Attr.Type.Querier Rev_Ref]> FFM.Wireless_Interface
     <wireless_interface.left.AQ [Attr.Type.Querier Id_Entity]> FFM.Net_Device
     <wireless_interface.left.left.AQ [Attr.Type.Querier Id_Entity]> FFM.Net_Device_Type
@@ -583,35 +650,35 @@ _test_AQ = """
     <wireless_interface.left.node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
     <wireless_interface.left.name.AQ [Attr.Type.Querier String]> -----
     <wireless_interface.left.desc.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.left.belongs_to_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
-    <wireless_interface.left.belongs_to_node.name.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.left.belongs_to_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
-    <wireless_interface.left.belongs_to_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
-    <wireless_interface.left.belongs_to_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
-    <wireless_interface.left.belongs_to_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.left.belongs_to_node.manager.title.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.left.belongs_to_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <wireless_interface.left.belongs_to_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <wireless_interface.left.belongs_to_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <wireless_interface.left.belongs_to_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
-    <wireless_interface.left.belongs_to_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
-    <wireless_interface.left.belongs_to_node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <wireless_interface.left.belongs_to_node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <wireless_interface.left.belongs_to_node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <wireless_interface.left.belongs_to_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
-    <wireless_interface.left.belongs_to_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
-    <wireless_interface.left.belongs_to_node.address.street.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.left.belongs_to_node.address.zip.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.left.belongs_to_node.address.city.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.left.belongs_to_node.address.country.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.left.belongs_to_node.address.desc.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.left.belongs_to_node.address.region.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.left.belongs_to_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
-    <wireless_interface.left.belongs_to_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
-    <wireless_interface.left.belongs_to_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
-    <wireless_interface.left.belongs_to_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
-    <wireless_interface.left.belongs_to_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
-    <wireless_interface.left.belongs_to_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
+    <wireless_interface.left.my_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
+    <wireless_interface.left.my_node.name.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.left.my_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
+    <wireless_interface.left.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
+    <wireless_interface.left.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
+    <wireless_interface.left.my_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.left.my_node.manager.title.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.left.my_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <wireless_interface.left.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <wireless_interface.left.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <wireless_interface.left.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <wireless_interface.left.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
+    <wireless_interface.left.my_node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <wireless_interface.left.my_node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <wireless_interface.left.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <wireless_interface.left.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <wireless_interface.left.my_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
+    <wireless_interface.left.my_node.address.street.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.left.my_node.address.zip.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.left.my_node.address.city.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.left.my_node.address.country.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.left.my_node.address.desc.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.left.my_node.address.region.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.left.my_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <wireless_interface.left.my_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
+    <wireless_interface.left.my_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
+    <wireless_interface.left.my_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
+    <wireless_interface.left.my_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
+    <wireless_interface.left.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
     <wireless_interface.mac_address.AQ [Attr.Type.Querier String]> -----
     <wireless_interface.name.AQ [Attr.Type.Querier String]> -----
     <wireless_interface.is_active.AQ [Attr.Type.Querier Boolean]> -----
@@ -623,35 +690,101 @@ _test_AQ = """
     <wireless_interface.standard.name.AQ [Attr.Type.Querier String]> -----
     <wireless_interface.standard.bandwidth.AQ [Attr.Type.Querier Raw]> -----
     <wireless_interface.txpower.AQ [Attr.Type.Querier Raw]> -----
-    <wireless_interface.belongs_to_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
-    <wireless_interface.belongs_to_node.name.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.belongs_to_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
-    <wireless_interface.belongs_to_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
-    <wireless_interface.belongs_to_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
-    <wireless_interface.belongs_to_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.belongs_to_node.manager.title.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.belongs_to_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <wireless_interface.belongs_to_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <wireless_interface.belongs_to_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <wireless_interface.belongs_to_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
-    <wireless_interface.belongs_to_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
-    <wireless_interface.belongs_to_node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <wireless_interface.belongs_to_node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <wireless_interface.belongs_to_node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <wireless_interface.belongs_to_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
-    <wireless_interface.belongs_to_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
-    <wireless_interface.belongs_to_node.address.street.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.belongs_to_node.address.zip.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.belongs_to_node.address.city.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.belongs_to_node.address.country.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.belongs_to_node.address.desc.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.belongs_to_node.address.region.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.belongs_to_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
-    <wireless_interface.belongs_to_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
-    <wireless_interface.belongs_to_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
-    <wireless_interface.belongs_to_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
-    <wireless_interface.belongs_to_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
-    <wireless_interface.belongs_to_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
+    <wireless_interface.my_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
+    <wireless_interface.my_node.name.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
+    <wireless_interface.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
+    <wireless_interface.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
+    <wireless_interface.my_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_node.manager.title.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <wireless_interface.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <wireless_interface.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <wireless_interface.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <wireless_interface.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
+    <wireless_interface.my_node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <wireless_interface.my_node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <wireless_interface.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <wireless_interface.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <wireless_interface.my_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
+    <wireless_interface.my_node.address.street.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_node.address.zip.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_node.address.city.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_node.address.country.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_node.address.desc.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_node.address.region.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <wireless_interface.my_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
+    <wireless_interface.my_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
+    <wireless_interface.my_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
+    <wireless_interface.my_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
+    <wireless_interface.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
+    <wireless_interface.my_net_device.AQ [Attr.Type.Querier Id_Entity]> FFM.Net_Device
+    <wireless_interface.my_net_device.left.AQ [Attr.Type.Querier Id_Entity]> FFM.Net_Device_Type
+    <wireless_interface.my_net_device.left.name.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.left.model_no.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.left.revision.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.left.desc.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
+    <wireless_interface.my_net_device.node.name.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
+    <wireless_interface.my_net_device.node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
+    <wireless_interface.my_net_device.node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
+    <wireless_interface.my_net_device.node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.node.manager.title.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <wireless_interface.my_net_device.node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <wireless_interface.my_net_device.node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <wireless_interface.my_net_device.node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <wireless_interface.my_net_device.node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
+    <wireless_interface.my_net_device.node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <wireless_interface.my_net_device.node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <wireless_interface.my_net_device.node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <wireless_interface.my_net_device.node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <wireless_interface.my_net_device.node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
+    <wireless_interface.my_net_device.node.address.street.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.node.address.zip.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.node.address.city.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.node.address.country.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.node.address.desc.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.node.address.region.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <wireless_interface.my_net_device.node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
+    <wireless_interface.my_net_device.node.position.lat.AQ [Attr.Type.Querier Raw]> -----
+    <wireless_interface.my_net_device.node.position.lon.AQ [Attr.Type.Querier Raw]> -----
+    <wireless_interface.my_net_device.node.position.height.AQ [Attr.Type.Querier Ckd]> -----
+    <wireless_interface.my_net_device.node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
+    <wireless_interface.my_net_device.name.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.desc.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.my_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
+    <wireless_interface.my_net_device.my_node.name.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.my_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
+    <wireless_interface.my_net_device.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
+    <wireless_interface.my_net_device.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
+    <wireless_interface.my_net_device.my_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.my_node.manager.title.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.my_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <wireless_interface.my_net_device.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <wireless_interface.my_net_device.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <wireless_interface.my_net_device.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <wireless_interface.my_net_device.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
+    <wireless_interface.my_net_device.my_node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <wireless_interface.my_net_device.my_node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <wireless_interface.my_net_device.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <wireless_interface.my_net_device.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <wireless_interface.my_net_device.my_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
+    <wireless_interface.my_net_device.my_node.address.street.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.my_node.address.zip.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.my_node.address.city.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.my_node.address.country.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.my_node.address.desc.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.my_node.address.region.AQ [Attr.Type.Querier String]> -----
+    <wireless_interface.my_net_device.my_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <wireless_interface.my_net_device.my_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
+    <wireless_interface.my_net_device.my_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
+    <wireless_interface.my_net_device.my_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
+    <wireless_interface.my_net_device.my_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
+    <wireless_interface.my_net_device.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
     <virtual_wireless_interface.AQ [Attr.Type.Querier Rev_Ref]> FFM.Virtual_Wireless_Interface
     <virtual_wireless_interface.left.AQ [Attr.Type.Querier Id_Entity]> FFM.Net_Device
     <virtual_wireless_interface.left.left.AQ [Attr.Type.Querier Id_Entity]> FFM.Net_Device_Type
@@ -690,35 +823,35 @@ _test_AQ = """
     <virtual_wireless_interface.left.node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
     <virtual_wireless_interface.left.name.AQ [Attr.Type.Querier String]> -----
     <virtual_wireless_interface.left.desc.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.left.belongs_to_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
-    <virtual_wireless_interface.left.belongs_to_node.name.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.left.belongs_to_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
-    <virtual_wireless_interface.left.belongs_to_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
-    <virtual_wireless_interface.left.belongs_to_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
-    <virtual_wireless_interface.left.belongs_to_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.left.belongs_to_node.manager.title.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.left.belongs_to_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <virtual_wireless_interface.left.belongs_to_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <virtual_wireless_interface.left.belongs_to_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <virtual_wireless_interface.left.belongs_to_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
-    <virtual_wireless_interface.left.belongs_to_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
-    <virtual_wireless_interface.left.belongs_to_node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <virtual_wireless_interface.left.belongs_to_node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <virtual_wireless_interface.left.belongs_to_node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <virtual_wireless_interface.left.belongs_to_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
-    <virtual_wireless_interface.left.belongs_to_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
-    <virtual_wireless_interface.left.belongs_to_node.address.street.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.left.belongs_to_node.address.zip.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.left.belongs_to_node.address.city.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.left.belongs_to_node.address.country.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.left.belongs_to_node.address.desc.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.left.belongs_to_node.address.region.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.left.belongs_to_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
-    <virtual_wireless_interface.left.belongs_to_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
-    <virtual_wireless_interface.left.belongs_to_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
-    <virtual_wireless_interface.left.belongs_to_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
-    <virtual_wireless_interface.left.belongs_to_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
-    <virtual_wireless_interface.left.belongs_to_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.left.my_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
+    <virtual_wireless_interface.left.my_node.name.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.left.my_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
+    <virtual_wireless_interface.left.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
+    <virtual_wireless_interface.left.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
+    <virtual_wireless_interface.left.my_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.left.my_node.manager.title.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.left.my_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <virtual_wireless_interface.left.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.left.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.left.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.left.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
+    <virtual_wireless_interface.left.my_node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <virtual_wireless_interface.left.my_node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.left.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.left.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.left.my_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
+    <virtual_wireless_interface.left.my_node.address.street.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.left.my_node.address.zip.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.left.my_node.address.city.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.left.my_node.address.country.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.left.my_node.address.desc.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.left.my_node.address.region.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.left.my_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <virtual_wireless_interface.left.my_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
+    <virtual_wireless_interface.left.my_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
+    <virtual_wireless_interface.left.my_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
+    <virtual_wireless_interface.left.my_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
+    <virtual_wireless_interface.left.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
     <virtual_wireless_interface.hardware.AQ [Attr.Type.Querier Id_Entity]> FFM.Wireless_Interface
     <virtual_wireless_interface.hardware.left.AQ [Attr.Type.Querier Id_Entity]> FFM.Net_Device
     <virtual_wireless_interface.hardware.left.left.AQ [Attr.Type.Querier Id_Entity]> FFM.Net_Device_Type
@@ -757,35 +890,35 @@ _test_AQ = """
     <virtual_wireless_interface.hardware.left.node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
     <virtual_wireless_interface.hardware.left.name.AQ [Attr.Type.Querier String]> -----
     <virtual_wireless_interface.hardware.left.desc.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
-    <virtual_wireless_interface.hardware.left.belongs_to_node.name.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
-    <virtual_wireless_interface.hardware.left.belongs_to_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.manager.title.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <virtual_wireless_interface.hardware.left.belongs_to_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <virtual_wireless_interface.hardware.left.belongs_to_node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
-    <virtual_wireless_interface.hardware.left.belongs_to_node.address.street.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.address.zip.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.address.city.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.address.country.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.address.desc.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.address.region.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
-    <virtual_wireless_interface.hardware.left.belongs_to_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
-    <virtual_wireless_interface.hardware.left.belongs_to_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
-    <virtual_wireless_interface.hardware.left.belongs_to_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.hardware.left.my_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
+    <virtual_wireless_interface.hardware.left.my_node.name.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.left.my_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
+    <virtual_wireless_interface.hardware.left.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
+    <virtual_wireless_interface.hardware.left.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
+    <virtual_wireless_interface.hardware.left.my_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.left.my_node.manager.title.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.left.my_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <virtual_wireless_interface.hardware.left.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.hardware.left.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.hardware.left.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.hardware.left.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
+    <virtual_wireless_interface.hardware.left.my_node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <virtual_wireless_interface.hardware.left.my_node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.hardware.left.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.hardware.left.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.hardware.left.my_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
+    <virtual_wireless_interface.hardware.left.my_node.address.street.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.left.my_node.address.zip.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.left.my_node.address.city.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.left.my_node.address.country.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.left.my_node.address.desc.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.left.my_node.address.region.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.left.my_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <virtual_wireless_interface.hardware.left.my_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
+    <virtual_wireless_interface.hardware.left.my_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
+    <virtual_wireless_interface.hardware.left.my_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
+    <virtual_wireless_interface.hardware.left.my_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
+    <virtual_wireless_interface.hardware.left.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
     <virtual_wireless_interface.hardware.mac_address.AQ [Attr.Type.Querier String]> -----
     <virtual_wireless_interface.hardware.name.AQ [Attr.Type.Querier String]> -----
     <virtual_wireless_interface.hardware.is_active.AQ [Attr.Type.Querier Boolean]> -----
@@ -797,35 +930,101 @@ _test_AQ = """
     <virtual_wireless_interface.hardware.standard.name.AQ [Attr.Type.Querier String]> -----
     <virtual_wireless_interface.hardware.standard.bandwidth.AQ [Attr.Type.Querier Raw]> -----
     <virtual_wireless_interface.hardware.txpower.AQ [Attr.Type.Querier Raw]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
-    <virtual_wireless_interface.hardware.belongs_to_node.name.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
-    <virtual_wireless_interface.hardware.belongs_to_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.manager.title.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <virtual_wireless_interface.hardware.belongs_to_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <virtual_wireless_interface.hardware.belongs_to_node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
-    <virtual_wireless_interface.hardware.belongs_to_node.address.street.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.address.zip.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.address.city.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.address.country.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.address.desc.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.address.region.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
-    <virtual_wireless_interface.hardware.belongs_to_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
-    <virtual_wireless_interface.hardware.belongs_to_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
-    <virtual_wireless_interface.hardware.belongs_to_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.hardware.my_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
+    <virtual_wireless_interface.hardware.my_node.name.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
+    <virtual_wireless_interface.hardware.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
+    <virtual_wireless_interface.hardware.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
+    <virtual_wireless_interface.hardware.my_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_node.manager.title.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <virtual_wireless_interface.hardware.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.hardware.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.hardware.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.hardware.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
+    <virtual_wireless_interface.hardware.my_node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <virtual_wireless_interface.hardware.my_node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.hardware.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.hardware.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.hardware.my_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
+    <virtual_wireless_interface.hardware.my_node.address.street.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_node.address.zip.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_node.address.city.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_node.address.country.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_node.address.desc.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_node.address.region.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <virtual_wireless_interface.hardware.my_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
+    <virtual_wireless_interface.hardware.my_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
+    <virtual_wireless_interface.hardware.my_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
+    <virtual_wireless_interface.hardware.my_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
+    <virtual_wireless_interface.hardware.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.hardware.my_net_device.AQ [Attr.Type.Querier Id_Entity]> FFM.Net_Device
+    <virtual_wireless_interface.hardware.my_net_device.left.AQ [Attr.Type.Querier Id_Entity]> FFM.Net_Device_Type
+    <virtual_wireless_interface.hardware.my_net_device.left.name.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.left.model_no.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.left.revision.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.left.desc.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
+    <virtual_wireless_interface.hardware.my_net_device.node.name.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
+    <virtual_wireless_interface.hardware.my_net_device.node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.manager.title.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <virtual_wireless_interface.hardware.my_net_device.node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <virtual_wireless_interface.hardware.my_net_device.node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
+    <virtual_wireless_interface.hardware.my_net_device.node.address.street.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.address.zip.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.address.city.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.address.country.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.address.desc.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.address.region.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <virtual_wireless_interface.hardware.my_net_device.node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
+    <virtual_wireless_interface.hardware.my_net_device.node.position.lat.AQ [Attr.Type.Querier Raw]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.position.lon.AQ [Attr.Type.Querier Raw]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.position.height.AQ [Attr.Type.Querier Ckd]> -----
+    <virtual_wireless_interface.hardware.my_net_device.node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.hardware.my_net_device.name.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.desc.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
+    <virtual_wireless_interface.hardware.my_net_device.my_node.name.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
+    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.title.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <virtual_wireless_interface.hardware.my_net_device.my_node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
+    <virtual_wireless_interface.hardware.my_net_device.my_node.address.street.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.address.zip.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.address.city.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.address.country.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.address.desc.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.address.region.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <virtual_wireless_interface.hardware.my_net_device.my_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
+    <virtual_wireless_interface.hardware.my_net_device.my_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
+    <virtual_wireless_interface.hardware.my_net_device.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
     <virtual_wireless_interface.mac_address.AQ [Attr.Type.Querier String]> -----
     <virtual_wireless_interface.name.AQ [Attr.Type.Querier String]> -----
     <virtual_wireless_interface.is_active.AQ [Attr.Type.Querier Boolean]> -----
@@ -833,35 +1032,101 @@ _test_AQ = """
     <virtual_wireless_interface.mode.AQ [Attr.Type.Querier Ckd]> -----
     <virtual_wireless_interface.essid.AQ [Attr.Type.Querier String]> -----
     <virtual_wireless_interface.bssid.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.belongs_to_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
-    <virtual_wireless_interface.belongs_to_node.name.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.belongs_to_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
-    <virtual_wireless_interface.belongs_to_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
-    <virtual_wireless_interface.belongs_to_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
-    <virtual_wireless_interface.belongs_to_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.belongs_to_node.manager.title.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.belongs_to_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <virtual_wireless_interface.belongs_to_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <virtual_wireless_interface.belongs_to_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <virtual_wireless_interface.belongs_to_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
-    <virtual_wireless_interface.belongs_to_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
-    <virtual_wireless_interface.belongs_to_node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <virtual_wireless_interface.belongs_to_node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <virtual_wireless_interface.belongs_to_node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <virtual_wireless_interface.belongs_to_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
-    <virtual_wireless_interface.belongs_to_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
-    <virtual_wireless_interface.belongs_to_node.address.street.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.belongs_to_node.address.zip.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.belongs_to_node.address.city.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.belongs_to_node.address.country.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.belongs_to_node.address.desc.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.belongs_to_node.address.region.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.belongs_to_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
-    <virtual_wireless_interface.belongs_to_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
-    <virtual_wireless_interface.belongs_to_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
-    <virtual_wireless_interface.belongs_to_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
-    <virtual_wireless_interface.belongs_to_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
-    <virtual_wireless_interface.belongs_to_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.my_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
+    <virtual_wireless_interface.my_node.name.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
+    <virtual_wireless_interface.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
+    <virtual_wireless_interface.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
+    <virtual_wireless_interface.my_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_node.manager.title.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <virtual_wireless_interface.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
+    <virtual_wireless_interface.my_node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <virtual_wireless_interface.my_node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.my_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
+    <virtual_wireless_interface.my_node.address.street.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_node.address.zip.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_node.address.city.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_node.address.country.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_node.address.desc.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_node.address.region.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <virtual_wireless_interface.my_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
+    <virtual_wireless_interface.my_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
+    <virtual_wireless_interface.my_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
+    <virtual_wireless_interface.my_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
+    <virtual_wireless_interface.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.my_net_device.AQ [Attr.Type.Querier Id_Entity]> FFM.Net_Device
+    <virtual_wireless_interface.my_net_device.left.AQ [Attr.Type.Querier Id_Entity]> FFM.Net_Device_Type
+    <virtual_wireless_interface.my_net_device.left.name.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.left.model_no.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.left.revision.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.left.desc.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
+    <virtual_wireless_interface.my_net_device.node.name.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
+    <virtual_wireless_interface.my_net_device.node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
+    <virtual_wireless_interface.my_net_device.node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
+    <virtual_wireless_interface.my_net_device.node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.node.manager.title.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <virtual_wireless_interface.my_net_device.node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.my_net_device.node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.my_net_device.node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.my_net_device.node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
+    <virtual_wireless_interface.my_net_device.node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <virtual_wireless_interface.my_net_device.node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.my_net_device.node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.my_net_device.node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.my_net_device.node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
+    <virtual_wireless_interface.my_net_device.node.address.street.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.node.address.zip.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.node.address.city.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.node.address.country.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.node.address.desc.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.node.address.region.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <virtual_wireless_interface.my_net_device.node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
+    <virtual_wireless_interface.my_net_device.node.position.lat.AQ [Attr.Type.Querier Raw]> -----
+    <virtual_wireless_interface.my_net_device.node.position.lon.AQ [Attr.Type.Querier Raw]> -----
+    <virtual_wireless_interface.my_net_device.node.position.height.AQ [Attr.Type.Querier Ckd]> -----
+    <virtual_wireless_interface.my_net_device.node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.my_net_device.name.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.desc.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.my_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
+    <virtual_wireless_interface.my_net_device.my_node.name.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.my_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
+    <virtual_wireless_interface.my_net_device.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
+    <virtual_wireless_interface.my_net_device.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
+    <virtual_wireless_interface.my_net_device.my_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.my_node.manager.title.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.my_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <virtual_wireless_interface.my_net_device.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.my_net_device.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.my_net_device.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.my_net_device.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
+    <virtual_wireless_interface.my_net_device.my_node.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <virtual_wireless_interface.my_net_device.my_node.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.my_net_device.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <virtual_wireless_interface.my_net_device.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <virtual_wireless_interface.my_net_device.my_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
+    <virtual_wireless_interface.my_net_device.my_node.address.street.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.my_node.address.zip.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.my_node.address.city.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.my_node.address.country.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.my_node.address.desc.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.my_node.address.region.AQ [Attr.Type.Querier String]> -----
+    <virtual_wireless_interface.my_net_device.my_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <virtual_wireless_interface.my_net_device.my_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
+    <virtual_wireless_interface.my_net_device.my_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
+    <virtual_wireless_interface.my_net_device.my_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
+    <virtual_wireless_interface.my_net_device.my_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
+    <virtual_wireless_interface.my_net_device.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
     <virtual_wireless_interface.standard.AQ [Attr.Type.Querier Id_Entity]> FFM.Wireless_Standard
     <virtual_wireless_interface.standard.name.AQ [Attr.Type.Querier String]> -----
     <virtual_wireless_interface.standard.bandwidth.AQ [Attr.Type.Querier Raw]> -----
@@ -941,68 +1206,134 @@ _test_AQ = """
     'Wired interface/Net device/Node/Show in map'
     'Wired interface/Net device/Name'
     'Wired interface/Net device/Desc'
-    'Wired interface/Net device/Belongs to node'
-    'Wired interface/Net device/Belongs to node/Name'
-    'Wired interface/Net device/Belongs to node/Manager'
-    'Wired interface/Net device/Belongs to node/Manager/Last name'
-    'Wired interface/Net device/Belongs to node/Manager/First name'
-    'Wired interface/Net device/Belongs to node/Manager/Middle name'
-    'Wired interface/Net device/Belongs to node/Manager/Academic title'
-    'Wired interface/Net device/Belongs to node/Manager/Lifetime'
-    'Wired interface/Net device/Belongs to node/Manager/Lifetime/Start'
-    'Wired interface/Net device/Belongs to node/Manager/Lifetime/Finish'
-    'Wired interface/Net device/Belongs to node/Manager/Lifetime/Alive'
-    'Wired interface/Net device/Belongs to node/Manager/Sex'
-    'Wired interface/Net device/Belongs to node/Lifetime'
-    'Wired interface/Net device/Belongs to node/Lifetime/Start'
-    'Wired interface/Net device/Belongs to node/Lifetime/Finish'
-    'Wired interface/Net device/Belongs to node/Lifetime/Alive'
-    'Wired interface/Net device/Belongs to node/Address'
-    'Wired interface/Net device/Belongs to node/Address/Street'
-    'Wired interface/Net device/Belongs to node/Address/Zip code'
-    'Wired interface/Net device/Belongs to node/Address/City'
-    'Wired interface/Net device/Belongs to node/Address/Country'
-    'Wired interface/Net device/Belongs to node/Address/Description'
-    'Wired interface/Net device/Belongs to node/Address/Region'
-    'Wired interface/Net device/Belongs to node/Owner'
-    'Wired interface/Net device/Belongs to node/Position'
-    'Wired interface/Net device/Belongs to node/Position/Latitude'
-    'Wired interface/Net device/Belongs to node/Position/Longitude'
-    'Wired interface/Net device/Belongs to node/Position/Height'
-    'Wired interface/Net device/Belongs to node/Show in map'
+    'Wired interface/Net device/My node'
+    'Wired interface/Net device/My node/Name'
+    'Wired interface/Net device/My node/Manager'
+    'Wired interface/Net device/My node/Manager/Last name'
+    'Wired interface/Net device/My node/Manager/First name'
+    'Wired interface/Net device/My node/Manager/Middle name'
+    'Wired interface/Net device/My node/Manager/Academic title'
+    'Wired interface/Net device/My node/Manager/Lifetime'
+    'Wired interface/Net device/My node/Manager/Lifetime/Start'
+    'Wired interface/Net device/My node/Manager/Lifetime/Finish'
+    'Wired interface/Net device/My node/Manager/Lifetime/Alive'
+    'Wired interface/Net device/My node/Manager/Sex'
+    'Wired interface/Net device/My node/Lifetime'
+    'Wired interface/Net device/My node/Lifetime/Start'
+    'Wired interface/Net device/My node/Lifetime/Finish'
+    'Wired interface/Net device/My node/Lifetime/Alive'
+    'Wired interface/Net device/My node/Address'
+    'Wired interface/Net device/My node/Address/Street'
+    'Wired interface/Net device/My node/Address/Zip code'
+    'Wired interface/Net device/My node/Address/City'
+    'Wired interface/Net device/My node/Address/Country'
+    'Wired interface/Net device/My node/Address/Description'
+    'Wired interface/Net device/My node/Address/Region'
+    'Wired interface/Net device/My node/Owner'
+    'Wired interface/Net device/My node/Position'
+    'Wired interface/Net device/My node/Position/Latitude'
+    'Wired interface/Net device/My node/Position/Longitude'
+    'Wired interface/Net device/My node/Position/Height'
+    'Wired interface/Net device/My node/Show in map'
     'Wired interface/Mac address'
     'Wired interface/Name'
     'Wired interface/Is active'
     'Wired interface/Desc'
-    'Wired interface/Belongs to node'
-    'Wired interface/Belongs to node/Name'
-    'Wired interface/Belongs to node/Manager'
-    'Wired interface/Belongs to node/Manager/Last name'
-    'Wired interface/Belongs to node/Manager/First name'
-    'Wired interface/Belongs to node/Manager/Middle name'
-    'Wired interface/Belongs to node/Manager/Academic title'
-    'Wired interface/Belongs to node/Manager/Lifetime'
-    'Wired interface/Belongs to node/Manager/Lifetime/Start'
-    'Wired interface/Belongs to node/Manager/Lifetime/Finish'
-    'Wired interface/Belongs to node/Manager/Lifetime/Alive'
-    'Wired interface/Belongs to node/Manager/Sex'
-    'Wired interface/Belongs to node/Lifetime'
-    'Wired interface/Belongs to node/Lifetime/Start'
-    'Wired interface/Belongs to node/Lifetime/Finish'
-    'Wired interface/Belongs to node/Lifetime/Alive'
-    'Wired interface/Belongs to node/Address'
-    'Wired interface/Belongs to node/Address/Street'
-    'Wired interface/Belongs to node/Address/Zip code'
-    'Wired interface/Belongs to node/Address/City'
-    'Wired interface/Belongs to node/Address/Country'
-    'Wired interface/Belongs to node/Address/Description'
-    'Wired interface/Belongs to node/Address/Region'
-    'Wired interface/Belongs to node/Owner'
-    'Wired interface/Belongs to node/Position'
-    'Wired interface/Belongs to node/Position/Latitude'
-    'Wired interface/Belongs to node/Position/Longitude'
-    'Wired interface/Belongs to node/Position/Height'
-    'Wired interface/Belongs to node/Show in map'
+    'Wired interface/My node'
+    'Wired interface/My node/Name'
+    'Wired interface/My node/Manager'
+    'Wired interface/My node/Manager/Last name'
+    'Wired interface/My node/Manager/First name'
+    'Wired interface/My node/Manager/Middle name'
+    'Wired interface/My node/Manager/Academic title'
+    'Wired interface/My node/Manager/Lifetime'
+    'Wired interface/My node/Manager/Lifetime/Start'
+    'Wired interface/My node/Manager/Lifetime/Finish'
+    'Wired interface/My node/Manager/Lifetime/Alive'
+    'Wired interface/My node/Manager/Sex'
+    'Wired interface/My node/Lifetime'
+    'Wired interface/My node/Lifetime/Start'
+    'Wired interface/My node/Lifetime/Finish'
+    'Wired interface/My node/Lifetime/Alive'
+    'Wired interface/My node/Address'
+    'Wired interface/My node/Address/Street'
+    'Wired interface/My node/Address/Zip code'
+    'Wired interface/My node/Address/City'
+    'Wired interface/My node/Address/Country'
+    'Wired interface/My node/Address/Description'
+    'Wired interface/My node/Address/Region'
+    'Wired interface/My node/Owner'
+    'Wired interface/My node/Position'
+    'Wired interface/My node/Position/Latitude'
+    'Wired interface/My node/Position/Longitude'
+    'Wired interface/My node/Position/Height'
+    'Wired interface/My node/Show in map'
+    'Wired interface/My net device'
+    'Wired interface/My net device/Net device type'
+    'Wired interface/My net device/Net device type/Name'
+    'Wired interface/My net device/Net device type/Model no'
+    'Wired interface/My net device/Net device type/Revision'
+    'Wired interface/My net device/Net device type/Desc'
+    'Wired interface/My net device/Node'
+    'Wired interface/My net device/Node/Name'
+    'Wired interface/My net device/Node/Manager'
+    'Wired interface/My net device/Node/Manager/Last name'
+    'Wired interface/My net device/Node/Manager/First name'
+    'Wired interface/My net device/Node/Manager/Middle name'
+    'Wired interface/My net device/Node/Manager/Academic title'
+    'Wired interface/My net device/Node/Manager/Lifetime'
+    'Wired interface/My net device/Node/Manager/Lifetime/Start'
+    'Wired interface/My net device/Node/Manager/Lifetime/Finish'
+    'Wired interface/My net device/Node/Manager/Lifetime/Alive'
+    'Wired interface/My net device/Node/Manager/Sex'
+    'Wired interface/My net device/Node/Lifetime'
+    'Wired interface/My net device/Node/Lifetime/Start'
+    'Wired interface/My net device/Node/Lifetime/Finish'
+    'Wired interface/My net device/Node/Lifetime/Alive'
+    'Wired interface/My net device/Node/Address'
+    'Wired interface/My net device/Node/Address/Street'
+    'Wired interface/My net device/Node/Address/Zip code'
+    'Wired interface/My net device/Node/Address/City'
+    'Wired interface/My net device/Node/Address/Country'
+    'Wired interface/My net device/Node/Address/Description'
+    'Wired interface/My net device/Node/Address/Region'
+    'Wired interface/My net device/Node/Owner'
+    'Wired interface/My net device/Node/Position'
+    'Wired interface/My net device/Node/Position/Latitude'
+    'Wired interface/My net device/Node/Position/Longitude'
+    'Wired interface/My net device/Node/Position/Height'
+    'Wired interface/My net device/Node/Show in map'
+    'Wired interface/My net device/Name'
+    'Wired interface/My net device/Desc'
+    'Wired interface/My net device/My node'
+    'Wired interface/My net device/My node/Name'
+    'Wired interface/My net device/My node/Manager'
+    'Wired interface/My net device/My node/Manager/Last name'
+    'Wired interface/My net device/My node/Manager/First name'
+    'Wired interface/My net device/My node/Manager/Middle name'
+    'Wired interface/My net device/My node/Manager/Academic title'
+    'Wired interface/My net device/My node/Manager/Lifetime'
+    'Wired interface/My net device/My node/Manager/Lifetime/Start'
+    'Wired interface/My net device/My node/Manager/Lifetime/Finish'
+    'Wired interface/My net device/My node/Manager/Lifetime/Alive'
+    'Wired interface/My net device/My node/Manager/Sex'
+    'Wired interface/My net device/My node/Lifetime'
+    'Wired interface/My net device/My node/Lifetime/Start'
+    'Wired interface/My net device/My node/Lifetime/Finish'
+    'Wired interface/My net device/My node/Lifetime/Alive'
+    'Wired interface/My net device/My node/Address'
+    'Wired interface/My net device/My node/Address/Street'
+    'Wired interface/My net device/My node/Address/Zip code'
+    'Wired interface/My net device/My node/Address/City'
+    'Wired interface/My net device/My node/Address/Country'
+    'Wired interface/My net device/My node/Address/Description'
+    'Wired interface/My net device/My node/Address/Region'
+    'Wired interface/My net device/My node/Owner'
+    'Wired interface/My net device/My node/Position'
+    'Wired interface/My net device/My node/Position/Latitude'
+    'Wired interface/My net device/My node/Position/Longitude'
+    'Wired interface/My net device/My node/Position/Height'
+    'Wired interface/My net device/My node/Show in map'
     'Wireless interface'
     'Wireless interface/Net device'
     'Wireless interface/Net device/Net device type'
@@ -1041,35 +1372,35 @@ _test_AQ = """
     'Wireless interface/Net device/Node/Show in map'
     'Wireless interface/Net device/Name'
     'Wireless interface/Net device/Desc'
-    'Wireless interface/Net device/Belongs to node'
-    'Wireless interface/Net device/Belongs to node/Name'
-    'Wireless interface/Net device/Belongs to node/Manager'
-    'Wireless interface/Net device/Belongs to node/Manager/Last name'
-    'Wireless interface/Net device/Belongs to node/Manager/First name'
-    'Wireless interface/Net device/Belongs to node/Manager/Middle name'
-    'Wireless interface/Net device/Belongs to node/Manager/Academic title'
-    'Wireless interface/Net device/Belongs to node/Manager/Lifetime'
-    'Wireless interface/Net device/Belongs to node/Manager/Lifetime/Start'
-    'Wireless interface/Net device/Belongs to node/Manager/Lifetime/Finish'
-    'Wireless interface/Net device/Belongs to node/Manager/Lifetime/Alive'
-    'Wireless interface/Net device/Belongs to node/Manager/Sex'
-    'Wireless interface/Net device/Belongs to node/Lifetime'
-    'Wireless interface/Net device/Belongs to node/Lifetime/Start'
-    'Wireless interface/Net device/Belongs to node/Lifetime/Finish'
-    'Wireless interface/Net device/Belongs to node/Lifetime/Alive'
-    'Wireless interface/Net device/Belongs to node/Address'
-    'Wireless interface/Net device/Belongs to node/Address/Street'
-    'Wireless interface/Net device/Belongs to node/Address/Zip code'
-    'Wireless interface/Net device/Belongs to node/Address/City'
-    'Wireless interface/Net device/Belongs to node/Address/Country'
-    'Wireless interface/Net device/Belongs to node/Address/Description'
-    'Wireless interface/Net device/Belongs to node/Address/Region'
-    'Wireless interface/Net device/Belongs to node/Owner'
-    'Wireless interface/Net device/Belongs to node/Position'
-    'Wireless interface/Net device/Belongs to node/Position/Latitude'
-    'Wireless interface/Net device/Belongs to node/Position/Longitude'
-    'Wireless interface/Net device/Belongs to node/Position/Height'
-    'Wireless interface/Net device/Belongs to node/Show in map'
+    'Wireless interface/Net device/My node'
+    'Wireless interface/Net device/My node/Name'
+    'Wireless interface/Net device/My node/Manager'
+    'Wireless interface/Net device/My node/Manager/Last name'
+    'Wireless interface/Net device/My node/Manager/First name'
+    'Wireless interface/Net device/My node/Manager/Middle name'
+    'Wireless interface/Net device/My node/Manager/Academic title'
+    'Wireless interface/Net device/My node/Manager/Lifetime'
+    'Wireless interface/Net device/My node/Manager/Lifetime/Start'
+    'Wireless interface/Net device/My node/Manager/Lifetime/Finish'
+    'Wireless interface/Net device/My node/Manager/Lifetime/Alive'
+    'Wireless interface/Net device/My node/Manager/Sex'
+    'Wireless interface/Net device/My node/Lifetime'
+    'Wireless interface/Net device/My node/Lifetime/Start'
+    'Wireless interface/Net device/My node/Lifetime/Finish'
+    'Wireless interface/Net device/My node/Lifetime/Alive'
+    'Wireless interface/Net device/My node/Address'
+    'Wireless interface/Net device/My node/Address/Street'
+    'Wireless interface/Net device/My node/Address/Zip code'
+    'Wireless interface/Net device/My node/Address/City'
+    'Wireless interface/Net device/My node/Address/Country'
+    'Wireless interface/Net device/My node/Address/Description'
+    'Wireless interface/Net device/My node/Address/Region'
+    'Wireless interface/Net device/My node/Owner'
+    'Wireless interface/Net device/My node/Position'
+    'Wireless interface/Net device/My node/Position/Latitude'
+    'Wireless interface/Net device/My node/Position/Longitude'
+    'Wireless interface/Net device/My node/Position/Height'
+    'Wireless interface/Net device/My node/Show in map'
     'Wireless interface/Mac address'
     'Wireless interface/Name'
     'Wireless interface/Is active'
@@ -1081,35 +1412,101 @@ _test_AQ = """
     'Wireless interface/Standard/Name'
     'Wireless interface/Standard/Bandwidth'
     'Wireless interface/TX power'
-    'Wireless interface/Belongs to node'
-    'Wireless interface/Belongs to node/Name'
-    'Wireless interface/Belongs to node/Manager'
-    'Wireless interface/Belongs to node/Manager/Last name'
-    'Wireless interface/Belongs to node/Manager/First name'
-    'Wireless interface/Belongs to node/Manager/Middle name'
-    'Wireless interface/Belongs to node/Manager/Academic title'
-    'Wireless interface/Belongs to node/Manager/Lifetime'
-    'Wireless interface/Belongs to node/Manager/Lifetime/Start'
-    'Wireless interface/Belongs to node/Manager/Lifetime/Finish'
-    'Wireless interface/Belongs to node/Manager/Lifetime/Alive'
-    'Wireless interface/Belongs to node/Manager/Sex'
-    'Wireless interface/Belongs to node/Lifetime'
-    'Wireless interface/Belongs to node/Lifetime/Start'
-    'Wireless interface/Belongs to node/Lifetime/Finish'
-    'Wireless interface/Belongs to node/Lifetime/Alive'
-    'Wireless interface/Belongs to node/Address'
-    'Wireless interface/Belongs to node/Address/Street'
-    'Wireless interface/Belongs to node/Address/Zip code'
-    'Wireless interface/Belongs to node/Address/City'
-    'Wireless interface/Belongs to node/Address/Country'
-    'Wireless interface/Belongs to node/Address/Description'
-    'Wireless interface/Belongs to node/Address/Region'
-    'Wireless interface/Belongs to node/Owner'
-    'Wireless interface/Belongs to node/Position'
-    'Wireless interface/Belongs to node/Position/Latitude'
-    'Wireless interface/Belongs to node/Position/Longitude'
-    'Wireless interface/Belongs to node/Position/Height'
-    'Wireless interface/Belongs to node/Show in map'
+    'Wireless interface/My node'
+    'Wireless interface/My node/Name'
+    'Wireless interface/My node/Manager'
+    'Wireless interface/My node/Manager/Last name'
+    'Wireless interface/My node/Manager/First name'
+    'Wireless interface/My node/Manager/Middle name'
+    'Wireless interface/My node/Manager/Academic title'
+    'Wireless interface/My node/Manager/Lifetime'
+    'Wireless interface/My node/Manager/Lifetime/Start'
+    'Wireless interface/My node/Manager/Lifetime/Finish'
+    'Wireless interface/My node/Manager/Lifetime/Alive'
+    'Wireless interface/My node/Manager/Sex'
+    'Wireless interface/My node/Lifetime'
+    'Wireless interface/My node/Lifetime/Start'
+    'Wireless interface/My node/Lifetime/Finish'
+    'Wireless interface/My node/Lifetime/Alive'
+    'Wireless interface/My node/Address'
+    'Wireless interface/My node/Address/Street'
+    'Wireless interface/My node/Address/Zip code'
+    'Wireless interface/My node/Address/City'
+    'Wireless interface/My node/Address/Country'
+    'Wireless interface/My node/Address/Description'
+    'Wireless interface/My node/Address/Region'
+    'Wireless interface/My node/Owner'
+    'Wireless interface/My node/Position'
+    'Wireless interface/My node/Position/Latitude'
+    'Wireless interface/My node/Position/Longitude'
+    'Wireless interface/My node/Position/Height'
+    'Wireless interface/My node/Show in map'
+    'Wireless interface/My net device'
+    'Wireless interface/My net device/Net device type'
+    'Wireless interface/My net device/Net device type/Name'
+    'Wireless interface/My net device/Net device type/Model no'
+    'Wireless interface/My net device/Net device type/Revision'
+    'Wireless interface/My net device/Net device type/Desc'
+    'Wireless interface/My net device/Node'
+    'Wireless interface/My net device/Node/Name'
+    'Wireless interface/My net device/Node/Manager'
+    'Wireless interface/My net device/Node/Manager/Last name'
+    'Wireless interface/My net device/Node/Manager/First name'
+    'Wireless interface/My net device/Node/Manager/Middle name'
+    'Wireless interface/My net device/Node/Manager/Academic title'
+    'Wireless interface/My net device/Node/Manager/Lifetime'
+    'Wireless interface/My net device/Node/Manager/Lifetime/Start'
+    'Wireless interface/My net device/Node/Manager/Lifetime/Finish'
+    'Wireless interface/My net device/Node/Manager/Lifetime/Alive'
+    'Wireless interface/My net device/Node/Manager/Sex'
+    'Wireless interface/My net device/Node/Lifetime'
+    'Wireless interface/My net device/Node/Lifetime/Start'
+    'Wireless interface/My net device/Node/Lifetime/Finish'
+    'Wireless interface/My net device/Node/Lifetime/Alive'
+    'Wireless interface/My net device/Node/Address'
+    'Wireless interface/My net device/Node/Address/Street'
+    'Wireless interface/My net device/Node/Address/Zip code'
+    'Wireless interface/My net device/Node/Address/City'
+    'Wireless interface/My net device/Node/Address/Country'
+    'Wireless interface/My net device/Node/Address/Description'
+    'Wireless interface/My net device/Node/Address/Region'
+    'Wireless interface/My net device/Node/Owner'
+    'Wireless interface/My net device/Node/Position'
+    'Wireless interface/My net device/Node/Position/Latitude'
+    'Wireless interface/My net device/Node/Position/Longitude'
+    'Wireless interface/My net device/Node/Position/Height'
+    'Wireless interface/My net device/Node/Show in map'
+    'Wireless interface/My net device/Name'
+    'Wireless interface/My net device/Desc'
+    'Wireless interface/My net device/My node'
+    'Wireless interface/My net device/My node/Name'
+    'Wireless interface/My net device/My node/Manager'
+    'Wireless interface/My net device/My node/Manager/Last name'
+    'Wireless interface/My net device/My node/Manager/First name'
+    'Wireless interface/My net device/My node/Manager/Middle name'
+    'Wireless interface/My net device/My node/Manager/Academic title'
+    'Wireless interface/My net device/My node/Manager/Lifetime'
+    'Wireless interface/My net device/My node/Manager/Lifetime/Start'
+    'Wireless interface/My net device/My node/Manager/Lifetime/Finish'
+    'Wireless interface/My net device/My node/Manager/Lifetime/Alive'
+    'Wireless interface/My net device/My node/Manager/Sex'
+    'Wireless interface/My net device/My node/Lifetime'
+    'Wireless interface/My net device/My node/Lifetime/Start'
+    'Wireless interface/My net device/My node/Lifetime/Finish'
+    'Wireless interface/My net device/My node/Lifetime/Alive'
+    'Wireless interface/My net device/My node/Address'
+    'Wireless interface/My net device/My node/Address/Street'
+    'Wireless interface/My net device/My node/Address/Zip code'
+    'Wireless interface/My net device/My node/Address/City'
+    'Wireless interface/My net device/My node/Address/Country'
+    'Wireless interface/My net device/My node/Address/Description'
+    'Wireless interface/My net device/My node/Address/Region'
+    'Wireless interface/My net device/My node/Owner'
+    'Wireless interface/My net device/My node/Position'
+    'Wireless interface/My net device/My node/Position/Latitude'
+    'Wireless interface/My net device/My node/Position/Longitude'
+    'Wireless interface/My net device/My node/Position/Height'
+    'Wireless interface/My net device/My node/Show in map'
     'Virtual wireless interface'
     'Virtual wireless interface/Net device'
     'Virtual wireless interface/Net device/Net device type'
@@ -1148,35 +1545,35 @@ _test_AQ = """
     'Virtual wireless interface/Net device/Node/Show in map'
     'Virtual wireless interface/Net device/Name'
     'Virtual wireless interface/Net device/Desc'
-    'Virtual wireless interface/Net device/Belongs to node'
-    'Virtual wireless interface/Net device/Belongs to node/Name'
-    'Virtual wireless interface/Net device/Belongs to node/Manager'
-    'Virtual wireless interface/Net device/Belongs to node/Manager/Last name'
-    'Virtual wireless interface/Net device/Belongs to node/Manager/First name'
-    'Virtual wireless interface/Net device/Belongs to node/Manager/Middle name'
-    'Virtual wireless interface/Net device/Belongs to node/Manager/Academic title'
-    'Virtual wireless interface/Net device/Belongs to node/Manager/Lifetime'
-    'Virtual wireless interface/Net device/Belongs to node/Manager/Lifetime/Start'
-    'Virtual wireless interface/Net device/Belongs to node/Manager/Lifetime/Finish'
-    'Virtual wireless interface/Net device/Belongs to node/Manager/Lifetime/Alive'
-    'Virtual wireless interface/Net device/Belongs to node/Manager/Sex'
-    'Virtual wireless interface/Net device/Belongs to node/Lifetime'
-    'Virtual wireless interface/Net device/Belongs to node/Lifetime/Start'
-    'Virtual wireless interface/Net device/Belongs to node/Lifetime/Finish'
-    'Virtual wireless interface/Net device/Belongs to node/Lifetime/Alive'
-    'Virtual wireless interface/Net device/Belongs to node/Address'
-    'Virtual wireless interface/Net device/Belongs to node/Address/Street'
-    'Virtual wireless interface/Net device/Belongs to node/Address/Zip code'
-    'Virtual wireless interface/Net device/Belongs to node/Address/City'
-    'Virtual wireless interface/Net device/Belongs to node/Address/Country'
-    'Virtual wireless interface/Net device/Belongs to node/Address/Description'
-    'Virtual wireless interface/Net device/Belongs to node/Address/Region'
-    'Virtual wireless interface/Net device/Belongs to node/Owner'
-    'Virtual wireless interface/Net device/Belongs to node/Position'
-    'Virtual wireless interface/Net device/Belongs to node/Position/Latitude'
-    'Virtual wireless interface/Net device/Belongs to node/Position/Longitude'
-    'Virtual wireless interface/Net device/Belongs to node/Position/Height'
-    'Virtual wireless interface/Net device/Belongs to node/Show in map'
+    'Virtual wireless interface/Net device/My node'
+    'Virtual wireless interface/Net device/My node/Name'
+    'Virtual wireless interface/Net device/My node/Manager'
+    'Virtual wireless interface/Net device/My node/Manager/Last name'
+    'Virtual wireless interface/Net device/My node/Manager/First name'
+    'Virtual wireless interface/Net device/My node/Manager/Middle name'
+    'Virtual wireless interface/Net device/My node/Manager/Academic title'
+    'Virtual wireless interface/Net device/My node/Manager/Lifetime'
+    'Virtual wireless interface/Net device/My node/Manager/Lifetime/Start'
+    'Virtual wireless interface/Net device/My node/Manager/Lifetime/Finish'
+    'Virtual wireless interface/Net device/My node/Manager/Lifetime/Alive'
+    'Virtual wireless interface/Net device/My node/Manager/Sex'
+    'Virtual wireless interface/Net device/My node/Lifetime'
+    'Virtual wireless interface/Net device/My node/Lifetime/Start'
+    'Virtual wireless interface/Net device/My node/Lifetime/Finish'
+    'Virtual wireless interface/Net device/My node/Lifetime/Alive'
+    'Virtual wireless interface/Net device/My node/Address'
+    'Virtual wireless interface/Net device/My node/Address/Street'
+    'Virtual wireless interface/Net device/My node/Address/Zip code'
+    'Virtual wireless interface/Net device/My node/Address/City'
+    'Virtual wireless interface/Net device/My node/Address/Country'
+    'Virtual wireless interface/Net device/My node/Address/Description'
+    'Virtual wireless interface/Net device/My node/Address/Region'
+    'Virtual wireless interface/Net device/My node/Owner'
+    'Virtual wireless interface/Net device/My node/Position'
+    'Virtual wireless interface/Net device/My node/Position/Latitude'
+    'Virtual wireless interface/Net device/My node/Position/Longitude'
+    'Virtual wireless interface/Net device/My node/Position/Height'
+    'Virtual wireless interface/Net device/My node/Show in map'
     'Virtual wireless interface/Hardware'
     'Virtual wireless interface/Hardware/Net device'
     'Virtual wireless interface/Hardware/Net device/Net device type'
@@ -1215,35 +1612,35 @@ _test_AQ = """
     'Virtual wireless interface/Hardware/Net device/Node/Show in map'
     'Virtual wireless interface/Hardware/Net device/Name'
     'Virtual wireless interface/Hardware/Net device/Desc'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Name'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Manager'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Manager/Last name'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Manager/First name'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Manager/Middle name'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Manager/Academic title'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Manager/Lifetime'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Manager/Lifetime/Start'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Manager/Lifetime/Finish'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Manager/Lifetime/Alive'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Manager/Sex'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Lifetime'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Lifetime/Start'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Lifetime/Finish'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Lifetime/Alive'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Address'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Address/Street'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Address/Zip code'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Address/City'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Address/Country'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Address/Description'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Address/Region'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Owner'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Position'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Position/Latitude'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Position/Longitude'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Position/Height'
-    'Virtual wireless interface/Hardware/Net device/Belongs to node/Show in map'
+    'Virtual wireless interface/Hardware/Net device/My node'
+    'Virtual wireless interface/Hardware/Net device/My node/Name'
+    'Virtual wireless interface/Hardware/Net device/My node/Manager'
+    'Virtual wireless interface/Hardware/Net device/My node/Manager/Last name'
+    'Virtual wireless interface/Hardware/Net device/My node/Manager/First name'
+    'Virtual wireless interface/Hardware/Net device/My node/Manager/Middle name'
+    'Virtual wireless interface/Hardware/Net device/My node/Manager/Academic title'
+    'Virtual wireless interface/Hardware/Net device/My node/Manager/Lifetime'
+    'Virtual wireless interface/Hardware/Net device/My node/Manager/Lifetime/Start'
+    'Virtual wireless interface/Hardware/Net device/My node/Manager/Lifetime/Finish'
+    'Virtual wireless interface/Hardware/Net device/My node/Manager/Lifetime/Alive'
+    'Virtual wireless interface/Hardware/Net device/My node/Manager/Sex'
+    'Virtual wireless interface/Hardware/Net device/My node/Lifetime'
+    'Virtual wireless interface/Hardware/Net device/My node/Lifetime/Start'
+    'Virtual wireless interface/Hardware/Net device/My node/Lifetime/Finish'
+    'Virtual wireless interface/Hardware/Net device/My node/Lifetime/Alive'
+    'Virtual wireless interface/Hardware/Net device/My node/Address'
+    'Virtual wireless interface/Hardware/Net device/My node/Address/Street'
+    'Virtual wireless interface/Hardware/Net device/My node/Address/Zip code'
+    'Virtual wireless interface/Hardware/Net device/My node/Address/City'
+    'Virtual wireless interface/Hardware/Net device/My node/Address/Country'
+    'Virtual wireless interface/Hardware/Net device/My node/Address/Description'
+    'Virtual wireless interface/Hardware/Net device/My node/Address/Region'
+    'Virtual wireless interface/Hardware/Net device/My node/Owner'
+    'Virtual wireless interface/Hardware/Net device/My node/Position'
+    'Virtual wireless interface/Hardware/Net device/My node/Position/Latitude'
+    'Virtual wireless interface/Hardware/Net device/My node/Position/Longitude'
+    'Virtual wireless interface/Hardware/Net device/My node/Position/Height'
+    'Virtual wireless interface/Hardware/Net device/My node/Show in map'
     'Virtual wireless interface/Hardware/Mac address'
     'Virtual wireless interface/Hardware/Name'
     'Virtual wireless interface/Hardware/Is active'
@@ -1255,35 +1652,101 @@ _test_AQ = """
     'Virtual wireless interface/Hardware/Standard/Name'
     'Virtual wireless interface/Hardware/Standard/Bandwidth'
     'Virtual wireless interface/Hardware/TX power'
-    'Virtual wireless interface/Hardware/Belongs to node'
-    'Virtual wireless interface/Hardware/Belongs to node/Name'
-    'Virtual wireless interface/Hardware/Belongs to node/Manager'
-    'Virtual wireless interface/Hardware/Belongs to node/Manager/Last name'
-    'Virtual wireless interface/Hardware/Belongs to node/Manager/First name'
-    'Virtual wireless interface/Hardware/Belongs to node/Manager/Middle name'
-    'Virtual wireless interface/Hardware/Belongs to node/Manager/Academic title'
-    'Virtual wireless interface/Hardware/Belongs to node/Manager/Lifetime'
-    'Virtual wireless interface/Hardware/Belongs to node/Manager/Lifetime/Start'
-    'Virtual wireless interface/Hardware/Belongs to node/Manager/Lifetime/Finish'
-    'Virtual wireless interface/Hardware/Belongs to node/Manager/Lifetime/Alive'
-    'Virtual wireless interface/Hardware/Belongs to node/Manager/Sex'
-    'Virtual wireless interface/Hardware/Belongs to node/Lifetime'
-    'Virtual wireless interface/Hardware/Belongs to node/Lifetime/Start'
-    'Virtual wireless interface/Hardware/Belongs to node/Lifetime/Finish'
-    'Virtual wireless interface/Hardware/Belongs to node/Lifetime/Alive'
-    'Virtual wireless interface/Hardware/Belongs to node/Address'
-    'Virtual wireless interface/Hardware/Belongs to node/Address/Street'
-    'Virtual wireless interface/Hardware/Belongs to node/Address/Zip code'
-    'Virtual wireless interface/Hardware/Belongs to node/Address/City'
-    'Virtual wireless interface/Hardware/Belongs to node/Address/Country'
-    'Virtual wireless interface/Hardware/Belongs to node/Address/Description'
-    'Virtual wireless interface/Hardware/Belongs to node/Address/Region'
-    'Virtual wireless interface/Hardware/Belongs to node/Owner'
-    'Virtual wireless interface/Hardware/Belongs to node/Position'
-    'Virtual wireless interface/Hardware/Belongs to node/Position/Latitude'
-    'Virtual wireless interface/Hardware/Belongs to node/Position/Longitude'
-    'Virtual wireless interface/Hardware/Belongs to node/Position/Height'
-    'Virtual wireless interface/Hardware/Belongs to node/Show in map'
+    'Virtual wireless interface/Hardware/My node'
+    'Virtual wireless interface/Hardware/My node/Name'
+    'Virtual wireless interface/Hardware/My node/Manager'
+    'Virtual wireless interface/Hardware/My node/Manager/Last name'
+    'Virtual wireless interface/Hardware/My node/Manager/First name'
+    'Virtual wireless interface/Hardware/My node/Manager/Middle name'
+    'Virtual wireless interface/Hardware/My node/Manager/Academic title'
+    'Virtual wireless interface/Hardware/My node/Manager/Lifetime'
+    'Virtual wireless interface/Hardware/My node/Manager/Lifetime/Start'
+    'Virtual wireless interface/Hardware/My node/Manager/Lifetime/Finish'
+    'Virtual wireless interface/Hardware/My node/Manager/Lifetime/Alive'
+    'Virtual wireless interface/Hardware/My node/Manager/Sex'
+    'Virtual wireless interface/Hardware/My node/Lifetime'
+    'Virtual wireless interface/Hardware/My node/Lifetime/Start'
+    'Virtual wireless interface/Hardware/My node/Lifetime/Finish'
+    'Virtual wireless interface/Hardware/My node/Lifetime/Alive'
+    'Virtual wireless interface/Hardware/My node/Address'
+    'Virtual wireless interface/Hardware/My node/Address/Street'
+    'Virtual wireless interface/Hardware/My node/Address/Zip code'
+    'Virtual wireless interface/Hardware/My node/Address/City'
+    'Virtual wireless interface/Hardware/My node/Address/Country'
+    'Virtual wireless interface/Hardware/My node/Address/Description'
+    'Virtual wireless interface/Hardware/My node/Address/Region'
+    'Virtual wireless interface/Hardware/My node/Owner'
+    'Virtual wireless interface/Hardware/My node/Position'
+    'Virtual wireless interface/Hardware/My node/Position/Latitude'
+    'Virtual wireless interface/Hardware/My node/Position/Longitude'
+    'Virtual wireless interface/Hardware/My node/Position/Height'
+    'Virtual wireless interface/Hardware/My node/Show in map'
+    'Virtual wireless interface/Hardware/My net device'
+    'Virtual wireless interface/Hardware/My net device/Net device type'
+    'Virtual wireless interface/Hardware/My net device/Net device type/Name'
+    'Virtual wireless interface/Hardware/My net device/Net device type/Model no'
+    'Virtual wireless interface/Hardware/My net device/Net device type/Revision'
+    'Virtual wireless interface/Hardware/My net device/Net device type/Desc'
+    'Virtual wireless interface/Hardware/My net device/Node'
+    'Virtual wireless interface/Hardware/My net device/Node/Name'
+    'Virtual wireless interface/Hardware/My net device/Node/Manager'
+    'Virtual wireless interface/Hardware/My net device/Node/Manager/Last name'
+    'Virtual wireless interface/Hardware/My net device/Node/Manager/First name'
+    'Virtual wireless interface/Hardware/My net device/Node/Manager/Middle name'
+    'Virtual wireless interface/Hardware/My net device/Node/Manager/Academic title'
+    'Virtual wireless interface/Hardware/My net device/Node/Manager/Lifetime'
+    'Virtual wireless interface/Hardware/My net device/Node/Manager/Lifetime/Start'
+    'Virtual wireless interface/Hardware/My net device/Node/Manager/Lifetime/Finish'
+    'Virtual wireless interface/Hardware/My net device/Node/Manager/Lifetime/Alive'
+    'Virtual wireless interface/Hardware/My net device/Node/Manager/Sex'
+    'Virtual wireless interface/Hardware/My net device/Node/Lifetime'
+    'Virtual wireless interface/Hardware/My net device/Node/Lifetime/Start'
+    'Virtual wireless interface/Hardware/My net device/Node/Lifetime/Finish'
+    'Virtual wireless interface/Hardware/My net device/Node/Lifetime/Alive'
+    'Virtual wireless interface/Hardware/My net device/Node/Address'
+    'Virtual wireless interface/Hardware/My net device/Node/Address/Street'
+    'Virtual wireless interface/Hardware/My net device/Node/Address/Zip code'
+    'Virtual wireless interface/Hardware/My net device/Node/Address/City'
+    'Virtual wireless interface/Hardware/My net device/Node/Address/Country'
+    'Virtual wireless interface/Hardware/My net device/Node/Address/Description'
+    'Virtual wireless interface/Hardware/My net device/Node/Address/Region'
+    'Virtual wireless interface/Hardware/My net device/Node/Owner'
+    'Virtual wireless interface/Hardware/My net device/Node/Position'
+    'Virtual wireless interface/Hardware/My net device/Node/Position/Latitude'
+    'Virtual wireless interface/Hardware/My net device/Node/Position/Longitude'
+    'Virtual wireless interface/Hardware/My net device/Node/Position/Height'
+    'Virtual wireless interface/Hardware/My net device/Node/Show in map'
+    'Virtual wireless interface/Hardware/My net device/Name'
+    'Virtual wireless interface/Hardware/My net device/Desc'
+    'Virtual wireless interface/Hardware/My net device/My node'
+    'Virtual wireless interface/Hardware/My net device/My node/Name'
+    'Virtual wireless interface/Hardware/My net device/My node/Manager'
+    'Virtual wireless interface/Hardware/My net device/My node/Manager/Last name'
+    'Virtual wireless interface/Hardware/My net device/My node/Manager/First name'
+    'Virtual wireless interface/Hardware/My net device/My node/Manager/Middle name'
+    'Virtual wireless interface/Hardware/My net device/My node/Manager/Academic title'
+    'Virtual wireless interface/Hardware/My net device/My node/Manager/Lifetime'
+    'Virtual wireless interface/Hardware/My net device/My node/Manager/Lifetime/Start'
+    'Virtual wireless interface/Hardware/My net device/My node/Manager/Lifetime/Finish'
+    'Virtual wireless interface/Hardware/My net device/My node/Manager/Lifetime/Alive'
+    'Virtual wireless interface/Hardware/My net device/My node/Manager/Sex'
+    'Virtual wireless interface/Hardware/My net device/My node/Lifetime'
+    'Virtual wireless interface/Hardware/My net device/My node/Lifetime/Start'
+    'Virtual wireless interface/Hardware/My net device/My node/Lifetime/Finish'
+    'Virtual wireless interface/Hardware/My net device/My node/Lifetime/Alive'
+    'Virtual wireless interface/Hardware/My net device/My node/Address'
+    'Virtual wireless interface/Hardware/My net device/My node/Address/Street'
+    'Virtual wireless interface/Hardware/My net device/My node/Address/Zip code'
+    'Virtual wireless interface/Hardware/My net device/My node/Address/City'
+    'Virtual wireless interface/Hardware/My net device/My node/Address/Country'
+    'Virtual wireless interface/Hardware/My net device/My node/Address/Description'
+    'Virtual wireless interface/Hardware/My net device/My node/Address/Region'
+    'Virtual wireless interface/Hardware/My net device/My node/Owner'
+    'Virtual wireless interface/Hardware/My net device/My node/Position'
+    'Virtual wireless interface/Hardware/My net device/My node/Position/Latitude'
+    'Virtual wireless interface/Hardware/My net device/My node/Position/Longitude'
+    'Virtual wireless interface/Hardware/My net device/My node/Position/Height'
+    'Virtual wireless interface/Hardware/My net device/My node/Show in map'
     'Virtual wireless interface/Mac address'
     'Virtual wireless interface/Name'
     'Virtual wireless interface/Is active'
@@ -1291,35 +1754,101 @@ _test_AQ = """
     'Virtual wireless interface/Mode'
     'Virtual wireless interface/ESSID'
     'Virtual wireless interface/BSSID'
-    'Virtual wireless interface/Belongs to node'
-    'Virtual wireless interface/Belongs to node/Name'
-    'Virtual wireless interface/Belongs to node/Manager'
-    'Virtual wireless interface/Belongs to node/Manager/Last name'
-    'Virtual wireless interface/Belongs to node/Manager/First name'
-    'Virtual wireless interface/Belongs to node/Manager/Middle name'
-    'Virtual wireless interface/Belongs to node/Manager/Academic title'
-    'Virtual wireless interface/Belongs to node/Manager/Lifetime'
-    'Virtual wireless interface/Belongs to node/Manager/Lifetime/Start'
-    'Virtual wireless interface/Belongs to node/Manager/Lifetime/Finish'
-    'Virtual wireless interface/Belongs to node/Manager/Lifetime/Alive'
-    'Virtual wireless interface/Belongs to node/Manager/Sex'
-    'Virtual wireless interface/Belongs to node/Lifetime'
-    'Virtual wireless interface/Belongs to node/Lifetime/Start'
-    'Virtual wireless interface/Belongs to node/Lifetime/Finish'
-    'Virtual wireless interface/Belongs to node/Lifetime/Alive'
-    'Virtual wireless interface/Belongs to node/Address'
-    'Virtual wireless interface/Belongs to node/Address/Street'
-    'Virtual wireless interface/Belongs to node/Address/Zip code'
-    'Virtual wireless interface/Belongs to node/Address/City'
-    'Virtual wireless interface/Belongs to node/Address/Country'
-    'Virtual wireless interface/Belongs to node/Address/Description'
-    'Virtual wireless interface/Belongs to node/Address/Region'
-    'Virtual wireless interface/Belongs to node/Owner'
-    'Virtual wireless interface/Belongs to node/Position'
-    'Virtual wireless interface/Belongs to node/Position/Latitude'
-    'Virtual wireless interface/Belongs to node/Position/Longitude'
-    'Virtual wireless interface/Belongs to node/Position/Height'
-    'Virtual wireless interface/Belongs to node/Show in map'
+    'Virtual wireless interface/My node'
+    'Virtual wireless interface/My node/Name'
+    'Virtual wireless interface/My node/Manager'
+    'Virtual wireless interface/My node/Manager/Last name'
+    'Virtual wireless interface/My node/Manager/First name'
+    'Virtual wireless interface/My node/Manager/Middle name'
+    'Virtual wireless interface/My node/Manager/Academic title'
+    'Virtual wireless interface/My node/Manager/Lifetime'
+    'Virtual wireless interface/My node/Manager/Lifetime/Start'
+    'Virtual wireless interface/My node/Manager/Lifetime/Finish'
+    'Virtual wireless interface/My node/Manager/Lifetime/Alive'
+    'Virtual wireless interface/My node/Manager/Sex'
+    'Virtual wireless interface/My node/Lifetime'
+    'Virtual wireless interface/My node/Lifetime/Start'
+    'Virtual wireless interface/My node/Lifetime/Finish'
+    'Virtual wireless interface/My node/Lifetime/Alive'
+    'Virtual wireless interface/My node/Address'
+    'Virtual wireless interface/My node/Address/Street'
+    'Virtual wireless interface/My node/Address/Zip code'
+    'Virtual wireless interface/My node/Address/City'
+    'Virtual wireless interface/My node/Address/Country'
+    'Virtual wireless interface/My node/Address/Description'
+    'Virtual wireless interface/My node/Address/Region'
+    'Virtual wireless interface/My node/Owner'
+    'Virtual wireless interface/My node/Position'
+    'Virtual wireless interface/My node/Position/Latitude'
+    'Virtual wireless interface/My node/Position/Longitude'
+    'Virtual wireless interface/My node/Position/Height'
+    'Virtual wireless interface/My node/Show in map'
+    'Virtual wireless interface/My net device'
+    'Virtual wireless interface/My net device/Net device type'
+    'Virtual wireless interface/My net device/Net device type/Name'
+    'Virtual wireless interface/My net device/Net device type/Model no'
+    'Virtual wireless interface/My net device/Net device type/Revision'
+    'Virtual wireless interface/My net device/Net device type/Desc'
+    'Virtual wireless interface/My net device/Node'
+    'Virtual wireless interface/My net device/Node/Name'
+    'Virtual wireless interface/My net device/Node/Manager'
+    'Virtual wireless interface/My net device/Node/Manager/Last name'
+    'Virtual wireless interface/My net device/Node/Manager/First name'
+    'Virtual wireless interface/My net device/Node/Manager/Middle name'
+    'Virtual wireless interface/My net device/Node/Manager/Academic title'
+    'Virtual wireless interface/My net device/Node/Manager/Lifetime'
+    'Virtual wireless interface/My net device/Node/Manager/Lifetime/Start'
+    'Virtual wireless interface/My net device/Node/Manager/Lifetime/Finish'
+    'Virtual wireless interface/My net device/Node/Manager/Lifetime/Alive'
+    'Virtual wireless interface/My net device/Node/Manager/Sex'
+    'Virtual wireless interface/My net device/Node/Lifetime'
+    'Virtual wireless interface/My net device/Node/Lifetime/Start'
+    'Virtual wireless interface/My net device/Node/Lifetime/Finish'
+    'Virtual wireless interface/My net device/Node/Lifetime/Alive'
+    'Virtual wireless interface/My net device/Node/Address'
+    'Virtual wireless interface/My net device/Node/Address/Street'
+    'Virtual wireless interface/My net device/Node/Address/Zip code'
+    'Virtual wireless interface/My net device/Node/Address/City'
+    'Virtual wireless interface/My net device/Node/Address/Country'
+    'Virtual wireless interface/My net device/Node/Address/Description'
+    'Virtual wireless interface/My net device/Node/Address/Region'
+    'Virtual wireless interface/My net device/Node/Owner'
+    'Virtual wireless interface/My net device/Node/Position'
+    'Virtual wireless interface/My net device/Node/Position/Latitude'
+    'Virtual wireless interface/My net device/Node/Position/Longitude'
+    'Virtual wireless interface/My net device/Node/Position/Height'
+    'Virtual wireless interface/My net device/Node/Show in map'
+    'Virtual wireless interface/My net device/Name'
+    'Virtual wireless interface/My net device/Desc'
+    'Virtual wireless interface/My net device/My node'
+    'Virtual wireless interface/My net device/My node/Name'
+    'Virtual wireless interface/My net device/My node/Manager'
+    'Virtual wireless interface/My net device/My node/Manager/Last name'
+    'Virtual wireless interface/My net device/My node/Manager/First name'
+    'Virtual wireless interface/My net device/My node/Manager/Middle name'
+    'Virtual wireless interface/My net device/My node/Manager/Academic title'
+    'Virtual wireless interface/My net device/My node/Manager/Lifetime'
+    'Virtual wireless interface/My net device/My node/Manager/Lifetime/Start'
+    'Virtual wireless interface/My net device/My node/Manager/Lifetime/Finish'
+    'Virtual wireless interface/My net device/My node/Manager/Lifetime/Alive'
+    'Virtual wireless interface/My net device/My node/Manager/Sex'
+    'Virtual wireless interface/My net device/My node/Lifetime'
+    'Virtual wireless interface/My net device/My node/Lifetime/Start'
+    'Virtual wireless interface/My net device/My node/Lifetime/Finish'
+    'Virtual wireless interface/My net device/My node/Lifetime/Alive'
+    'Virtual wireless interface/My net device/My node/Address'
+    'Virtual wireless interface/My net device/My node/Address/Street'
+    'Virtual wireless interface/My net device/My node/Address/Zip code'
+    'Virtual wireless interface/My net device/My node/Address/City'
+    'Virtual wireless interface/My net device/My node/Address/Country'
+    'Virtual wireless interface/My net device/My node/Address/Description'
+    'Virtual wireless interface/My net device/My node/Address/Region'
+    'Virtual wireless interface/My net device/My node/Owner'
+    'Virtual wireless interface/My net device/My node/Position'
+    'Virtual wireless interface/My net device/My node/Position/Latitude'
+    'Virtual wireless interface/My net device/My node/Position/Longitude'
+    'Virtual wireless interface/My net device/My node/Position/Height'
+    'Virtual wireless interface/My net device/My node/Show in map'
     'Virtual wireless interface/Standard'
     'Virtual wireless interface/Standard/Name'
     'Virtual wireless interface/Standard/Bandwidth'
@@ -1380,54 +1909,104 @@ _test_AQ = """
     <wired_interface.left.node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <wired_interface.left.name.AQ [Attr.Type.Querier String]>
     <wired_interface.left.desc.AQ [Attr.Type.Querier String]>
-    <wired_interface.left.belongs_to_node.name.AQ [Attr.Type.Querier String]>
-    <wired_interface.left.belongs_to_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
-    <wired_interface.left.belongs_to_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
-    <wired_interface.left.belongs_to_node.manager.middle_name.AQ [Attr.Type.Querier String]>
-    <wired_interface.left.belongs_to_node.manager.title.AQ [Attr.Type.Querier String]>
-    <wired_interface.left.belongs_to_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <wired_interface.left.belongs_to_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <wired_interface.left.belongs_to_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
-    <wired_interface.left.belongs_to_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
-    <wired_interface.left.belongs_to_node.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <wired_interface.left.belongs_to_node.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <wired_interface.left.belongs_to_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
-    <wired_interface.left.belongs_to_node.address.street.AQ [Attr.Type.Querier String]>
-    <wired_interface.left.belongs_to_node.address.zip.AQ [Attr.Type.Querier String]>
-    <wired_interface.left.belongs_to_node.address.city.AQ [Attr.Type.Querier String]>
-    <wired_interface.left.belongs_to_node.address.country.AQ [Attr.Type.Querier String]>
-    <wired_interface.left.belongs_to_node.address.desc.AQ [Attr.Type.Querier String]>
-    <wired_interface.left.belongs_to_node.address.region.AQ [Attr.Type.Querier String]>
-    <wired_interface.left.belongs_to_node.position.lat.AQ [Attr.Type.Querier Raw]>
-    <wired_interface.left.belongs_to_node.position.lon.AQ [Attr.Type.Querier Raw]>
-    <wired_interface.left.belongs_to_node.position.height.AQ [Attr.Type.Querier Ckd]>
-    <wired_interface.left.belongs_to_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
+    <wired_interface.left.my_node.name.AQ [Attr.Type.Querier String]>
+    <wired_interface.left.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
+    <wired_interface.left.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
+    <wired_interface.left.my_node.manager.middle_name.AQ [Attr.Type.Querier String]>
+    <wired_interface.left.my_node.manager.title.AQ [Attr.Type.Querier String]>
+    <wired_interface.left.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <wired_interface.left.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <wired_interface.left.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <wired_interface.left.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
+    <wired_interface.left.my_node.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <wired_interface.left.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <wired_interface.left.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <wired_interface.left.my_node.address.street.AQ [Attr.Type.Querier String]>
+    <wired_interface.left.my_node.address.zip.AQ [Attr.Type.Querier String]>
+    <wired_interface.left.my_node.address.city.AQ [Attr.Type.Querier String]>
+    <wired_interface.left.my_node.address.country.AQ [Attr.Type.Querier String]>
+    <wired_interface.left.my_node.address.desc.AQ [Attr.Type.Querier String]>
+    <wired_interface.left.my_node.address.region.AQ [Attr.Type.Querier String]>
+    <wired_interface.left.my_node.position.lat.AQ [Attr.Type.Querier Raw]>
+    <wired_interface.left.my_node.position.lon.AQ [Attr.Type.Querier Raw]>
+    <wired_interface.left.my_node.position.height.AQ [Attr.Type.Querier Ckd]>
+    <wired_interface.left.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <wired_interface.mac_address.AQ [Attr.Type.Querier String]>
     <wired_interface.name.AQ [Attr.Type.Querier String]>
     <wired_interface.is_active.AQ [Attr.Type.Querier Boolean]>
     <wired_interface.desc.AQ [Attr.Type.Querier String]>
-    <wired_interface.belongs_to_node.name.AQ [Attr.Type.Querier String]>
-    <wired_interface.belongs_to_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
-    <wired_interface.belongs_to_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
-    <wired_interface.belongs_to_node.manager.middle_name.AQ [Attr.Type.Querier String]>
-    <wired_interface.belongs_to_node.manager.title.AQ [Attr.Type.Querier String]>
-    <wired_interface.belongs_to_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <wired_interface.belongs_to_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <wired_interface.belongs_to_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
-    <wired_interface.belongs_to_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
-    <wired_interface.belongs_to_node.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <wired_interface.belongs_to_node.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <wired_interface.belongs_to_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
-    <wired_interface.belongs_to_node.address.street.AQ [Attr.Type.Querier String]>
-    <wired_interface.belongs_to_node.address.zip.AQ [Attr.Type.Querier String]>
-    <wired_interface.belongs_to_node.address.city.AQ [Attr.Type.Querier String]>
-    <wired_interface.belongs_to_node.address.country.AQ [Attr.Type.Querier String]>
-    <wired_interface.belongs_to_node.address.desc.AQ [Attr.Type.Querier String]>
-    <wired_interface.belongs_to_node.address.region.AQ [Attr.Type.Querier String]>
-    <wired_interface.belongs_to_node.position.lat.AQ [Attr.Type.Querier Raw]>
-    <wired_interface.belongs_to_node.position.lon.AQ [Attr.Type.Querier Raw]>
-    <wired_interface.belongs_to_node.position.height.AQ [Attr.Type.Querier Ckd]>
-    <wired_interface.belongs_to_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
+    <wired_interface.my_node.name.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
+    <wired_interface.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
+    <wired_interface.my_node.manager.middle_name.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_node.manager.title.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <wired_interface.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <wired_interface.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <wired_interface.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
+    <wired_interface.my_node.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <wired_interface.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <wired_interface.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <wired_interface.my_node.address.street.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_node.address.zip.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_node.address.city.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_node.address.country.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_node.address.desc.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_node.address.region.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_node.position.lat.AQ [Attr.Type.Querier Raw]>
+    <wired_interface.my_node.position.lon.AQ [Attr.Type.Querier Raw]>
+    <wired_interface.my_node.position.height.AQ [Attr.Type.Querier Ckd]>
+    <wired_interface.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
+    <wired_interface.my_net_device.left.name.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.left.model_no.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.left.revision.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.left.desc.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.node.name.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
+    <wired_interface.my_net_device.node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
+    <wired_interface.my_net_device.node.manager.middle_name.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.node.manager.title.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <wired_interface.my_net_device.node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <wired_interface.my_net_device.node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <wired_interface.my_net_device.node.manager.sex.AQ [Attr.Type.Querier Ckd]>
+    <wired_interface.my_net_device.node.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <wired_interface.my_net_device.node.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <wired_interface.my_net_device.node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <wired_interface.my_net_device.node.address.street.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.node.address.zip.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.node.address.city.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.node.address.country.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.node.address.desc.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.node.address.region.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.node.position.lat.AQ [Attr.Type.Querier Raw]>
+    <wired_interface.my_net_device.node.position.lon.AQ [Attr.Type.Querier Raw]>
+    <wired_interface.my_net_device.node.position.height.AQ [Attr.Type.Querier Ckd]>
+    <wired_interface.my_net_device.node.show_in_map.AQ [Attr.Type.Querier Boolean]>
+    <wired_interface.my_net_device.name.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.desc.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.my_node.name.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
+    <wired_interface.my_net_device.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
+    <wired_interface.my_net_device.my_node.manager.middle_name.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.my_node.manager.title.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <wired_interface.my_net_device.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <wired_interface.my_net_device.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <wired_interface.my_net_device.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
+    <wired_interface.my_net_device.my_node.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <wired_interface.my_net_device.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <wired_interface.my_net_device.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <wired_interface.my_net_device.my_node.address.street.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.my_node.address.zip.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.my_node.address.city.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.my_node.address.country.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.my_node.address.desc.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.my_node.address.region.AQ [Attr.Type.Querier String]>
+    <wired_interface.my_net_device.my_node.position.lat.AQ [Attr.Type.Querier Raw]>
+    <wired_interface.my_net_device.my_node.position.lon.AQ [Attr.Type.Querier Raw]>
+    <wired_interface.my_net_device.my_node.position.height.AQ [Attr.Type.Querier Ckd]>
+    <wired_interface.my_net_device.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <wireless_interface.left.left.name.AQ [Attr.Type.Querier String]>
     <wireless_interface.left.left.model_no.AQ [Attr.Type.Querier String]>
     <wireless_interface.left.left.revision.AQ [Attr.Type.Querier String]>
@@ -1456,28 +2035,28 @@ _test_AQ = """
     <wireless_interface.left.node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <wireless_interface.left.name.AQ [Attr.Type.Querier String]>
     <wireless_interface.left.desc.AQ [Attr.Type.Querier String]>
-    <wireless_interface.left.belongs_to_node.name.AQ [Attr.Type.Querier String]>
-    <wireless_interface.left.belongs_to_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
-    <wireless_interface.left.belongs_to_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
-    <wireless_interface.left.belongs_to_node.manager.middle_name.AQ [Attr.Type.Querier String]>
-    <wireless_interface.left.belongs_to_node.manager.title.AQ [Attr.Type.Querier String]>
-    <wireless_interface.left.belongs_to_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <wireless_interface.left.belongs_to_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <wireless_interface.left.belongs_to_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
-    <wireless_interface.left.belongs_to_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
-    <wireless_interface.left.belongs_to_node.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <wireless_interface.left.belongs_to_node.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <wireless_interface.left.belongs_to_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
-    <wireless_interface.left.belongs_to_node.address.street.AQ [Attr.Type.Querier String]>
-    <wireless_interface.left.belongs_to_node.address.zip.AQ [Attr.Type.Querier String]>
-    <wireless_interface.left.belongs_to_node.address.city.AQ [Attr.Type.Querier String]>
-    <wireless_interface.left.belongs_to_node.address.country.AQ [Attr.Type.Querier String]>
-    <wireless_interface.left.belongs_to_node.address.desc.AQ [Attr.Type.Querier String]>
-    <wireless_interface.left.belongs_to_node.address.region.AQ [Attr.Type.Querier String]>
-    <wireless_interface.left.belongs_to_node.position.lat.AQ [Attr.Type.Querier Raw]>
-    <wireless_interface.left.belongs_to_node.position.lon.AQ [Attr.Type.Querier Raw]>
-    <wireless_interface.left.belongs_to_node.position.height.AQ [Attr.Type.Querier Ckd]>
-    <wireless_interface.left.belongs_to_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
+    <wireless_interface.left.my_node.name.AQ [Attr.Type.Querier String]>
+    <wireless_interface.left.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
+    <wireless_interface.left.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
+    <wireless_interface.left.my_node.manager.middle_name.AQ [Attr.Type.Querier String]>
+    <wireless_interface.left.my_node.manager.title.AQ [Attr.Type.Querier String]>
+    <wireless_interface.left.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <wireless_interface.left.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <wireless_interface.left.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <wireless_interface.left.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
+    <wireless_interface.left.my_node.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <wireless_interface.left.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <wireless_interface.left.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <wireless_interface.left.my_node.address.street.AQ [Attr.Type.Querier String]>
+    <wireless_interface.left.my_node.address.zip.AQ [Attr.Type.Querier String]>
+    <wireless_interface.left.my_node.address.city.AQ [Attr.Type.Querier String]>
+    <wireless_interface.left.my_node.address.country.AQ [Attr.Type.Querier String]>
+    <wireless_interface.left.my_node.address.desc.AQ [Attr.Type.Querier String]>
+    <wireless_interface.left.my_node.address.region.AQ [Attr.Type.Querier String]>
+    <wireless_interface.left.my_node.position.lat.AQ [Attr.Type.Querier Raw]>
+    <wireless_interface.left.my_node.position.lon.AQ [Attr.Type.Querier Raw]>
+    <wireless_interface.left.my_node.position.height.AQ [Attr.Type.Querier Ckd]>
+    <wireless_interface.left.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <wireless_interface.mac_address.AQ [Attr.Type.Querier String]>
     <wireless_interface.name.AQ [Attr.Type.Querier String]>
     <wireless_interface.is_active.AQ [Attr.Type.Querier Boolean]>
@@ -1488,28 +2067,78 @@ _test_AQ = """
     <wireless_interface.standard.name.AQ [Attr.Type.Querier String]>
     <wireless_interface.standard.bandwidth.AQ [Attr.Type.Querier Raw]>
     <wireless_interface.txpower.AQ [Attr.Type.Querier Raw]>
-    <wireless_interface.belongs_to_node.name.AQ [Attr.Type.Querier String]>
-    <wireless_interface.belongs_to_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
-    <wireless_interface.belongs_to_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
-    <wireless_interface.belongs_to_node.manager.middle_name.AQ [Attr.Type.Querier String]>
-    <wireless_interface.belongs_to_node.manager.title.AQ [Attr.Type.Querier String]>
-    <wireless_interface.belongs_to_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <wireless_interface.belongs_to_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <wireless_interface.belongs_to_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
-    <wireless_interface.belongs_to_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
-    <wireless_interface.belongs_to_node.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <wireless_interface.belongs_to_node.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <wireless_interface.belongs_to_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
-    <wireless_interface.belongs_to_node.address.street.AQ [Attr.Type.Querier String]>
-    <wireless_interface.belongs_to_node.address.zip.AQ [Attr.Type.Querier String]>
-    <wireless_interface.belongs_to_node.address.city.AQ [Attr.Type.Querier String]>
-    <wireless_interface.belongs_to_node.address.country.AQ [Attr.Type.Querier String]>
-    <wireless_interface.belongs_to_node.address.desc.AQ [Attr.Type.Querier String]>
-    <wireless_interface.belongs_to_node.address.region.AQ [Attr.Type.Querier String]>
-    <wireless_interface.belongs_to_node.position.lat.AQ [Attr.Type.Querier Raw]>
-    <wireless_interface.belongs_to_node.position.lon.AQ [Attr.Type.Querier Raw]>
-    <wireless_interface.belongs_to_node.position.height.AQ [Attr.Type.Querier Ckd]>
-    <wireless_interface.belongs_to_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
+    <wireless_interface.my_node.name.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
+    <wireless_interface.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
+    <wireless_interface.my_node.manager.middle_name.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_node.manager.title.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <wireless_interface.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <wireless_interface.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <wireless_interface.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
+    <wireless_interface.my_node.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <wireless_interface.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <wireless_interface.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <wireless_interface.my_node.address.street.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_node.address.zip.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_node.address.city.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_node.address.country.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_node.address.desc.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_node.address.region.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_node.position.lat.AQ [Attr.Type.Querier Raw]>
+    <wireless_interface.my_node.position.lon.AQ [Attr.Type.Querier Raw]>
+    <wireless_interface.my_node.position.height.AQ [Attr.Type.Querier Ckd]>
+    <wireless_interface.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
+    <wireless_interface.my_net_device.left.name.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.left.model_no.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.left.revision.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.left.desc.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.node.name.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
+    <wireless_interface.my_net_device.node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
+    <wireless_interface.my_net_device.node.manager.middle_name.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.node.manager.title.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <wireless_interface.my_net_device.node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <wireless_interface.my_net_device.node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <wireless_interface.my_net_device.node.manager.sex.AQ [Attr.Type.Querier Ckd]>
+    <wireless_interface.my_net_device.node.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <wireless_interface.my_net_device.node.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <wireless_interface.my_net_device.node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <wireless_interface.my_net_device.node.address.street.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.node.address.zip.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.node.address.city.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.node.address.country.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.node.address.desc.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.node.address.region.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.node.position.lat.AQ [Attr.Type.Querier Raw]>
+    <wireless_interface.my_net_device.node.position.lon.AQ [Attr.Type.Querier Raw]>
+    <wireless_interface.my_net_device.node.position.height.AQ [Attr.Type.Querier Ckd]>
+    <wireless_interface.my_net_device.node.show_in_map.AQ [Attr.Type.Querier Boolean]>
+    <wireless_interface.my_net_device.name.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.desc.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.my_node.name.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
+    <wireless_interface.my_net_device.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
+    <wireless_interface.my_net_device.my_node.manager.middle_name.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.my_node.manager.title.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <wireless_interface.my_net_device.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <wireless_interface.my_net_device.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <wireless_interface.my_net_device.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
+    <wireless_interface.my_net_device.my_node.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <wireless_interface.my_net_device.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <wireless_interface.my_net_device.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <wireless_interface.my_net_device.my_node.address.street.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.my_node.address.zip.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.my_node.address.city.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.my_node.address.country.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.my_node.address.desc.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.my_node.address.region.AQ [Attr.Type.Querier String]>
+    <wireless_interface.my_net_device.my_node.position.lat.AQ [Attr.Type.Querier Raw]>
+    <wireless_interface.my_net_device.my_node.position.lon.AQ [Attr.Type.Querier Raw]>
+    <wireless_interface.my_net_device.my_node.position.height.AQ [Attr.Type.Querier Ckd]>
+    <wireless_interface.my_net_device.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <virtual_wireless_interface.left.left.name.AQ [Attr.Type.Querier String]>
     <virtual_wireless_interface.left.left.model_no.AQ [Attr.Type.Querier String]>
     <virtual_wireless_interface.left.left.revision.AQ [Attr.Type.Querier String]>
@@ -1538,28 +2167,28 @@ _test_AQ = """
     <virtual_wireless_interface.left.node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <virtual_wireless_interface.left.name.AQ [Attr.Type.Querier String]>
     <virtual_wireless_interface.left.desc.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.left.belongs_to_node.name.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.left.belongs_to_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
-    <virtual_wireless_interface.left.belongs_to_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
-    <virtual_wireless_interface.left.belongs_to_node.manager.middle_name.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.left.belongs_to_node.manager.title.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.left.belongs_to_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <virtual_wireless_interface.left.belongs_to_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <virtual_wireless_interface.left.belongs_to_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
-    <virtual_wireless_interface.left.belongs_to_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
-    <virtual_wireless_interface.left.belongs_to_node.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <virtual_wireless_interface.left.belongs_to_node.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <virtual_wireless_interface.left.belongs_to_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
-    <virtual_wireless_interface.left.belongs_to_node.address.street.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.left.belongs_to_node.address.zip.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.left.belongs_to_node.address.city.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.left.belongs_to_node.address.country.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.left.belongs_to_node.address.desc.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.left.belongs_to_node.address.region.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.left.belongs_to_node.position.lat.AQ [Attr.Type.Querier Raw]>
-    <virtual_wireless_interface.left.belongs_to_node.position.lon.AQ [Attr.Type.Querier Raw]>
-    <virtual_wireless_interface.left.belongs_to_node.position.height.AQ [Attr.Type.Querier Ckd]>
-    <virtual_wireless_interface.left.belongs_to_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.left.my_node.name.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.left.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
+    <virtual_wireless_interface.left.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
+    <virtual_wireless_interface.left.my_node.manager.middle_name.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.left.my_node.manager.title.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.left.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.left.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.left.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.left.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
+    <virtual_wireless_interface.left.my_node.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.left.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.left.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.left.my_node.address.street.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.left.my_node.address.zip.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.left.my_node.address.city.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.left.my_node.address.country.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.left.my_node.address.desc.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.left.my_node.address.region.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.left.my_node.position.lat.AQ [Attr.Type.Querier Raw]>
+    <virtual_wireless_interface.left.my_node.position.lon.AQ [Attr.Type.Querier Raw]>
+    <virtual_wireless_interface.left.my_node.position.height.AQ [Attr.Type.Querier Ckd]>
+    <virtual_wireless_interface.left.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <virtual_wireless_interface.hardware.left.left.name.AQ [Attr.Type.Querier String]>
     <virtual_wireless_interface.hardware.left.left.model_no.AQ [Attr.Type.Querier String]>
     <virtual_wireless_interface.hardware.left.left.revision.AQ [Attr.Type.Querier String]>
@@ -1588,28 +2217,28 @@ _test_AQ = """
     <virtual_wireless_interface.hardware.left.node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <virtual_wireless_interface.hardware.left.name.AQ [Attr.Type.Querier String]>
     <virtual_wireless_interface.hardware.left.desc.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.name.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.manager.middle_name.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.manager.title.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.address.street.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.address.zip.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.address.city.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.address.country.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.address.desc.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.address.region.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.position.lat.AQ [Attr.Type.Querier Raw]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.position.lon.AQ [Attr.Type.Querier Raw]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.position.height.AQ [Attr.Type.Querier Ckd]>
-    <virtual_wireless_interface.hardware.left.belongs_to_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.hardware.left.my_node.name.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.left.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
+    <virtual_wireless_interface.hardware.left.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
+    <virtual_wireless_interface.hardware.left.my_node.manager.middle_name.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.left.my_node.manager.title.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.left.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.hardware.left.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.hardware.left.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.hardware.left.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
+    <virtual_wireless_interface.hardware.left.my_node.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.hardware.left.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.hardware.left.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.hardware.left.my_node.address.street.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.left.my_node.address.zip.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.left.my_node.address.city.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.left.my_node.address.country.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.left.my_node.address.desc.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.left.my_node.address.region.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.left.my_node.position.lat.AQ [Attr.Type.Querier Raw]>
+    <virtual_wireless_interface.hardware.left.my_node.position.lon.AQ [Attr.Type.Querier Raw]>
+    <virtual_wireless_interface.hardware.left.my_node.position.height.AQ [Attr.Type.Querier Ckd]>
+    <virtual_wireless_interface.hardware.left.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <virtual_wireless_interface.hardware.mac_address.AQ [Attr.Type.Querier String]>
     <virtual_wireless_interface.hardware.name.AQ [Attr.Type.Querier String]>
     <virtual_wireless_interface.hardware.is_active.AQ [Attr.Type.Querier Boolean]>
@@ -1620,28 +2249,78 @@ _test_AQ = """
     <virtual_wireless_interface.hardware.standard.name.AQ [Attr.Type.Querier String]>
     <virtual_wireless_interface.hardware.standard.bandwidth.AQ [Attr.Type.Querier Raw]>
     <virtual_wireless_interface.hardware.txpower.AQ [Attr.Type.Querier Raw]>
-    <virtual_wireless_interface.hardware.belongs_to_node.name.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.belongs_to_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
-    <virtual_wireless_interface.hardware.belongs_to_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
-    <virtual_wireless_interface.hardware.belongs_to_node.manager.middle_name.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.belongs_to_node.manager.title.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.belongs_to_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <virtual_wireless_interface.hardware.belongs_to_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <virtual_wireless_interface.hardware.belongs_to_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
-    <virtual_wireless_interface.hardware.belongs_to_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
-    <virtual_wireless_interface.hardware.belongs_to_node.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <virtual_wireless_interface.hardware.belongs_to_node.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <virtual_wireless_interface.hardware.belongs_to_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
-    <virtual_wireless_interface.hardware.belongs_to_node.address.street.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.belongs_to_node.address.zip.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.belongs_to_node.address.city.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.belongs_to_node.address.country.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.belongs_to_node.address.desc.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.belongs_to_node.address.region.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.belongs_to_node.position.lat.AQ [Attr.Type.Querier Raw]>
-    <virtual_wireless_interface.hardware.belongs_to_node.position.lon.AQ [Attr.Type.Querier Raw]>
-    <virtual_wireless_interface.hardware.belongs_to_node.position.height.AQ [Attr.Type.Querier Ckd]>
-    <virtual_wireless_interface.hardware.belongs_to_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.hardware.my_node.name.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
+    <virtual_wireless_interface.hardware.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
+    <virtual_wireless_interface.hardware.my_node.manager.middle_name.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_node.manager.title.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.hardware.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.hardware.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.hardware.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
+    <virtual_wireless_interface.hardware.my_node.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.hardware.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.hardware.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.hardware.my_node.address.street.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_node.address.zip.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_node.address.city.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_node.address.country.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_node.address.desc.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_node.address.region.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_node.position.lat.AQ [Attr.Type.Querier Raw]>
+    <virtual_wireless_interface.hardware.my_node.position.lon.AQ [Attr.Type.Querier Raw]>
+    <virtual_wireless_interface.hardware.my_node.position.height.AQ [Attr.Type.Querier Ckd]>
+    <virtual_wireless_interface.hardware.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.hardware.my_net_device.left.name.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.left.model_no.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.left.revision.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.left.desc.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.node.name.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
+    <virtual_wireless_interface.hardware.my_net_device.node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
+    <virtual_wireless_interface.hardware.my_net_device.node.manager.middle_name.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.node.manager.title.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.hardware.my_net_device.node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.hardware.my_net_device.node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.hardware.my_net_device.node.manager.sex.AQ [Attr.Type.Querier Ckd]>
+    <virtual_wireless_interface.hardware.my_net_device.node.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.hardware.my_net_device.node.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.hardware.my_net_device.node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.hardware.my_net_device.node.address.street.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.node.address.zip.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.node.address.city.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.node.address.country.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.node.address.desc.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.node.address.region.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.node.position.lat.AQ [Attr.Type.Querier Raw]>
+    <virtual_wireless_interface.hardware.my_net_device.node.position.lon.AQ [Attr.Type.Querier Raw]>
+    <virtual_wireless_interface.hardware.my_net_device.node.position.height.AQ [Attr.Type.Querier Ckd]>
+    <virtual_wireless_interface.hardware.my_net_device.node.show_in_map.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.hardware.my_net_device.name.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.desc.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.name.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.middle_name.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.title.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.address.street.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.address.zip.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.address.city.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.address.country.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.address.desc.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.address.region.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.position.lat.AQ [Attr.Type.Querier Raw]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.position.lon.AQ [Attr.Type.Querier Raw]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.position.height.AQ [Attr.Type.Querier Ckd]>
+    <virtual_wireless_interface.hardware.my_net_device.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <virtual_wireless_interface.mac_address.AQ [Attr.Type.Querier String]>
     <virtual_wireless_interface.name.AQ [Attr.Type.Querier String]>
     <virtual_wireless_interface.is_active.AQ [Attr.Type.Querier Boolean]>
@@ -1649,28 +2328,78 @@ _test_AQ = """
     <virtual_wireless_interface.mode.AQ [Attr.Type.Querier Ckd]>
     <virtual_wireless_interface.essid.AQ [Attr.Type.Querier String]>
     <virtual_wireless_interface.bssid.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.belongs_to_node.name.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.belongs_to_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
-    <virtual_wireless_interface.belongs_to_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
-    <virtual_wireless_interface.belongs_to_node.manager.middle_name.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.belongs_to_node.manager.title.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.belongs_to_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <virtual_wireless_interface.belongs_to_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <virtual_wireless_interface.belongs_to_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
-    <virtual_wireless_interface.belongs_to_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
-    <virtual_wireless_interface.belongs_to_node.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <virtual_wireless_interface.belongs_to_node.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <virtual_wireless_interface.belongs_to_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
-    <virtual_wireless_interface.belongs_to_node.address.street.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.belongs_to_node.address.zip.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.belongs_to_node.address.city.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.belongs_to_node.address.country.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.belongs_to_node.address.desc.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.belongs_to_node.address.region.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.belongs_to_node.position.lat.AQ [Attr.Type.Querier Raw]>
-    <virtual_wireless_interface.belongs_to_node.position.lon.AQ [Attr.Type.Querier Raw]>
-    <virtual_wireless_interface.belongs_to_node.position.height.AQ [Attr.Type.Querier Ckd]>
-    <virtual_wireless_interface.belongs_to_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.my_node.name.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
+    <virtual_wireless_interface.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
+    <virtual_wireless_interface.my_node.manager.middle_name.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_node.manager.title.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
+    <virtual_wireless_interface.my_node.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.my_node.address.street.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_node.address.zip.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_node.address.city.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_node.address.country.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_node.address.desc.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_node.address.region.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_node.position.lat.AQ [Attr.Type.Querier Raw]>
+    <virtual_wireless_interface.my_node.position.lon.AQ [Attr.Type.Querier Raw]>
+    <virtual_wireless_interface.my_node.position.height.AQ [Attr.Type.Querier Ckd]>
+    <virtual_wireless_interface.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.my_net_device.left.name.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.left.model_no.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.left.revision.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.left.desc.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.node.name.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
+    <virtual_wireless_interface.my_net_device.node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
+    <virtual_wireless_interface.my_net_device.node.manager.middle_name.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.node.manager.title.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.my_net_device.node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.my_net_device.node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.my_net_device.node.manager.sex.AQ [Attr.Type.Querier Ckd]>
+    <virtual_wireless_interface.my_net_device.node.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.my_net_device.node.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.my_net_device.node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.my_net_device.node.address.street.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.node.address.zip.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.node.address.city.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.node.address.country.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.node.address.desc.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.node.address.region.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.node.position.lat.AQ [Attr.Type.Querier Raw]>
+    <virtual_wireless_interface.my_net_device.node.position.lon.AQ [Attr.Type.Querier Raw]>
+    <virtual_wireless_interface.my_net_device.node.position.height.AQ [Attr.Type.Querier Ckd]>
+    <virtual_wireless_interface.my_net_device.node.show_in_map.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.my_net_device.name.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.desc.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.my_node.name.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
+    <virtual_wireless_interface.my_net_device.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
+    <virtual_wireless_interface.my_net_device.my_node.manager.middle_name.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.my_node.manager.title.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.my_net_device.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.my_net_device.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.my_net_device.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
+    <virtual_wireless_interface.my_net_device.my_node.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.my_net_device.my_node.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <virtual_wireless_interface.my_net_device.my_node.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <virtual_wireless_interface.my_net_device.my_node.address.street.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.my_node.address.zip.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.my_node.address.city.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.my_node.address.country.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.my_node.address.desc.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.my_node.address.region.AQ [Attr.Type.Querier String]>
+    <virtual_wireless_interface.my_net_device.my_node.position.lat.AQ [Attr.Type.Querier Raw]>
+    <virtual_wireless_interface.my_net_device.my_node.position.lon.AQ [Attr.Type.Querier Raw]>
+    <virtual_wireless_interface.my_net_device.my_node.position.height.AQ [Attr.Type.Querier Ckd]>
+    <virtual_wireless_interface.my_net_device.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <virtual_wireless_interface.standard.name.AQ [Attr.Type.Querier String]>
     <virtual_wireless_interface.standard.bandwidth.AQ [Attr.Type.Querier Raw]>
     <virtual_wireless_interface.txpower.AQ [Attr.Type.Querier Raw]>
@@ -2540,9 +3269,9 @@ _test_AQ = """
                             , 'ui_name' : 'Show in map'
                             }
                           ]
-                      , 'name' : 'belongs_to_node'
+                      , 'name' : 'my_node'
                       , 'sig_key' : 2
-                      , 'ui_name' : 'Belongs to node'
+                      , 'ui_name' : 'My node'
                       }
                     ]
                 , 'name' : 'left'
@@ -2748,9 +3477,421 @@ _test_AQ = """
                       , 'ui_name' : 'Show in map'
                       }
                     ]
-                , 'name' : 'belongs_to_node'
+                , 'name' : 'my_node'
                 , 'sig_key' : 2
-                , 'ui_name' : 'Belongs to node'
+                , 'ui_name' : 'My node'
+                }
+              , { 'Class' : 'Entity'
+                , 'attrs' :
+                    [ { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          , { 'name' : 'model_no'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Model no'
+                            }
+                          , { 'name' : 'revision'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Revision'
+                            }
+                          , { 'name' : 'desc'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Desc'
+                            }
+                          ]
+                      , 'name' : 'left'
+                      , 'sig_key' : 2
+                      , 'ui_name' : 'Net device type'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'last_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Last name'
+                                  }
+                                , { 'name' : 'first_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'First name'
+                                  }
+                                , { 'name' : 'middle_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Middle name'
+                                  }
+                                , { 'name' : 'title'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Academic title'
+                                  }
+                                , { 'attrs' :
+                                      [ { 'name' : 'start'
+                                        , 'sig_key' : 0
+                                        , 'ui_name' : 'Start'
+                                        }
+                                      , { 'name' : 'finish'
+                                        , 'sig_key' : 0
+                                        , 'ui_name' : 'Finish'
+                                        }
+                                      , { 'name' : 'alive'
+                                        , 'sig_key' : 1
+                                        , 'ui_name' : 'Alive'
+                                        }
+                                      ]
+                                  , 'name' : 'lifetime'
+                                  , 'ui_name' : 'Lifetime'
+                                  }
+                                , { 'name' : 'sex'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Sex'
+                                  }
+                                ]
+                            , 'name' : 'manager'
+                            , 'sig_key' : 2
+                            , 'ui_name' : 'Manager'
+                            }
+                          , { 'attrs' :
+                                [ { 'name' : 'start'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Start'
+                                  }
+                                , { 'name' : 'finish'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Finish'
+                                  }
+                                , { 'name' : 'alive'
+                                  , 'sig_key' : 1
+                                  , 'ui_name' : 'Alive'
+                                  }
+                                ]
+                            , 'name' : 'lifetime'
+                            , 'ui_name' : 'Lifetime'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'street'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Street'
+                                  }
+                                , { 'name' : 'zip'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Zip code'
+                                  }
+                                , { 'name' : 'city'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'City'
+                                  }
+                                , { 'name' : 'country'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Country'
+                                  }
+                                , { 'name' : 'desc'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Description'
+                                  }
+                                , { 'name' : 'region'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Region'
+                                  }
+                                ]
+                            , 'name' : 'address'
+                            , 'sig_key' : 2
+                            , 'ui_name' : 'Address'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'children_np' :
+                                [ { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Name'
+                                        }
+                                      ]
+                                  , 'name' : 'owner'
+                                  , 'sig_key' : 2
+                                  , 'type_name' : 'PAP.Association'
+                                  , 'ui_name' : 'Owner'
+                                  , 'ui_type_name' : 'Association'
+                                  }
+                                , { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Name'
+                                        }
+                                      , { 'name' : 'registered_in'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Registered in'
+                                        }
+                                      ]
+                                  , 'name' : 'owner'
+                                  , 'sig_key' : 2
+                                  , 'type_name' : 'PAP.Company'
+                                  , 'ui_name' : 'Owner'
+                                  , 'ui_type_name' : 'Company'
+                                  }
+                                , { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'last_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Last name'
+                                        }
+                                      , { 'name' : 'first_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'First name'
+                                        }
+                                      , { 'name' : 'middle_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Middle name'
+                                        }
+                                      , { 'name' : 'title'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Academic title'
+                                        }
+                                      ]
+                                  , 'name' : 'owner'
+                                  , 'sig_key' : 2
+                                  , 'type_name' : 'PAP.Person'
+                                  , 'ui_name' : 'Owner'
+                                  , 'ui_type_name' : 'Person'
+                                  }
+                                ]
+                            , 'default_child' : 'PAP.Person'
+                            , 'name' : 'owner'
+                            , 'sig_key' : 2
+                            , 'ui_name' : 'Owner'
+                            }
+                          , { 'attrs' :
+                                [ { 'name' : 'lat'
+                                  , 'sig_key' : 4
+                                  , 'ui_name' : 'Latitude'
+                                  }
+                                , { 'name' : 'lon'
+                                  , 'sig_key' : 4
+                                  , 'ui_name' : 'Longitude'
+                                  }
+                                , { 'name' : 'height'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Height'
+                                  }
+                                ]
+                            , 'name' : 'position'
+                            , 'ui_name' : 'Position'
+                            }
+                          , { 'name' : 'show_in_map'
+                            , 'sig_key' : 1
+                            , 'ui_name' : 'Show in map'
+                            }
+                          ]
+                      , 'name' : 'node'
+                      , 'sig_key' : 2
+                      , 'ui_name' : 'Node'
+                      }
+                    , { 'name' : 'name'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Name'
+                      }
+                    , { 'name' : 'desc'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Desc'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'last_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Last name'
+                                  }
+                                , { 'name' : 'first_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'First name'
+                                  }
+                                , { 'name' : 'middle_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Middle name'
+                                  }
+                                , { 'name' : 'title'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Academic title'
+                                  }
+                                , { 'attrs' :
+                                      [ { 'name' : 'start'
+                                        , 'sig_key' : 0
+                                        , 'ui_name' : 'Start'
+                                        }
+                                      , { 'name' : 'finish'
+                                        , 'sig_key' : 0
+                                        , 'ui_name' : 'Finish'
+                                        }
+                                      , { 'name' : 'alive'
+                                        , 'sig_key' : 1
+                                        , 'ui_name' : 'Alive'
+                                        }
+                                      ]
+                                  , 'name' : 'lifetime'
+                                  , 'ui_name' : 'Lifetime'
+                                  }
+                                , { 'name' : 'sex'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Sex'
+                                  }
+                                ]
+                            , 'name' : 'manager'
+                            , 'sig_key' : 2
+                            , 'ui_name' : 'Manager'
+                            }
+                          , { 'attrs' :
+                                [ { 'name' : 'start'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Start'
+                                  }
+                                , { 'name' : 'finish'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Finish'
+                                  }
+                                , { 'name' : 'alive'
+                                  , 'sig_key' : 1
+                                  , 'ui_name' : 'Alive'
+                                  }
+                                ]
+                            , 'name' : 'lifetime'
+                            , 'ui_name' : 'Lifetime'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'street'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Street'
+                                  }
+                                , { 'name' : 'zip'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Zip code'
+                                  }
+                                , { 'name' : 'city'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'City'
+                                  }
+                                , { 'name' : 'country'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Country'
+                                  }
+                                , { 'name' : 'desc'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Description'
+                                  }
+                                , { 'name' : 'region'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Region'
+                                  }
+                                ]
+                            , 'name' : 'address'
+                            , 'sig_key' : 2
+                            , 'ui_name' : 'Address'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'children_np' :
+                                [ { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Name'
+                                        }
+                                      ]
+                                  , 'name' : 'owner'
+                                  , 'sig_key' : 2
+                                  , 'type_name' : 'PAP.Association'
+                                  , 'ui_name' : 'Owner'
+                                  , 'ui_type_name' : 'Association'
+                                  }
+                                , { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Name'
+                                        }
+                                      , { 'name' : 'registered_in'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Registered in'
+                                        }
+                                      ]
+                                  , 'name' : 'owner'
+                                  , 'sig_key' : 2
+                                  , 'type_name' : 'PAP.Company'
+                                  , 'ui_name' : 'Owner'
+                                  , 'ui_type_name' : 'Company'
+                                  }
+                                , { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'last_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Last name'
+                                        }
+                                      , { 'name' : 'first_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'First name'
+                                        }
+                                      , { 'name' : 'middle_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Middle name'
+                                        }
+                                      , { 'name' : 'title'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Academic title'
+                                        }
+                                      ]
+                                  , 'name' : 'owner'
+                                  , 'sig_key' : 2
+                                  , 'type_name' : 'PAP.Person'
+                                  , 'ui_name' : 'Owner'
+                                  , 'ui_type_name' : 'Person'
+                                  }
+                                ]
+                            , 'default_child' : 'PAP.Person'
+                            , 'name' : 'owner'
+                            , 'sig_key' : 2
+                            , 'ui_name' : 'Owner'
+                            }
+                          , { 'attrs' :
+                                [ { 'name' : 'lat'
+                                  , 'sig_key' : 4
+                                  , 'ui_name' : 'Latitude'
+                                  }
+                                , { 'name' : 'lon'
+                                  , 'sig_key' : 4
+                                  , 'ui_name' : 'Longitude'
+                                  }
+                                , { 'name' : 'height'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Height'
+                                  }
+                                ]
+                            , 'name' : 'position'
+                            , 'ui_name' : 'Position'
+                            }
+                          , { 'name' : 'show_in_map'
+                            , 'sig_key' : 1
+                            , 'ui_name' : 'Show in map'
+                            }
+                          ]
+                      , 'name' : 'my_node'
+                      , 'sig_key' : 2
+                      , 'ui_name' : 'My node'
+                      }
+                    ]
+                , 'name' : 'my_net_device'
+                , 'sig_key' : 2
+                , 'ui_name' : 'My net device'
                 }
               ]
           , 'name' : 'wired_interface'
@@ -3162,9 +4303,9 @@ _test_AQ = """
                             , 'ui_name' : 'Show in map'
                             }
                           ]
-                      , 'name' : 'belongs_to_node'
+                      , 'name' : 'my_node'
                       , 'sig_key' : 2
-                      , 'ui_name' : 'Belongs to node'
+                      , 'ui_name' : 'My node'
                       }
                     ]
                 , 'name' : 'left'
@@ -3401,9 +4542,421 @@ _test_AQ = """
                       , 'ui_name' : 'Show in map'
                       }
                     ]
-                , 'name' : 'belongs_to_node'
+                , 'name' : 'my_node'
                 , 'sig_key' : 2
-                , 'ui_name' : 'Belongs to node'
+                , 'ui_name' : 'My node'
+                }
+              , { 'Class' : 'Entity'
+                , 'attrs' :
+                    [ { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          , { 'name' : 'model_no'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Model no'
+                            }
+                          , { 'name' : 'revision'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Revision'
+                            }
+                          , { 'name' : 'desc'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Desc'
+                            }
+                          ]
+                      , 'name' : 'left'
+                      , 'sig_key' : 2
+                      , 'ui_name' : 'Net device type'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'last_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Last name'
+                                  }
+                                , { 'name' : 'first_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'First name'
+                                  }
+                                , { 'name' : 'middle_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Middle name'
+                                  }
+                                , { 'name' : 'title'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Academic title'
+                                  }
+                                , { 'attrs' :
+                                      [ { 'name' : 'start'
+                                        , 'sig_key' : 0
+                                        , 'ui_name' : 'Start'
+                                        }
+                                      , { 'name' : 'finish'
+                                        , 'sig_key' : 0
+                                        , 'ui_name' : 'Finish'
+                                        }
+                                      , { 'name' : 'alive'
+                                        , 'sig_key' : 1
+                                        , 'ui_name' : 'Alive'
+                                        }
+                                      ]
+                                  , 'name' : 'lifetime'
+                                  , 'ui_name' : 'Lifetime'
+                                  }
+                                , { 'name' : 'sex'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Sex'
+                                  }
+                                ]
+                            , 'name' : 'manager'
+                            , 'sig_key' : 2
+                            , 'ui_name' : 'Manager'
+                            }
+                          , { 'attrs' :
+                                [ { 'name' : 'start'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Start'
+                                  }
+                                , { 'name' : 'finish'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Finish'
+                                  }
+                                , { 'name' : 'alive'
+                                  , 'sig_key' : 1
+                                  , 'ui_name' : 'Alive'
+                                  }
+                                ]
+                            , 'name' : 'lifetime'
+                            , 'ui_name' : 'Lifetime'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'street'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Street'
+                                  }
+                                , { 'name' : 'zip'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Zip code'
+                                  }
+                                , { 'name' : 'city'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'City'
+                                  }
+                                , { 'name' : 'country'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Country'
+                                  }
+                                , { 'name' : 'desc'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Description'
+                                  }
+                                , { 'name' : 'region'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Region'
+                                  }
+                                ]
+                            , 'name' : 'address'
+                            , 'sig_key' : 2
+                            , 'ui_name' : 'Address'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'children_np' :
+                                [ { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Name'
+                                        }
+                                      ]
+                                  , 'name' : 'owner'
+                                  , 'sig_key' : 2
+                                  , 'type_name' : 'PAP.Association'
+                                  , 'ui_name' : 'Owner'
+                                  , 'ui_type_name' : 'Association'
+                                  }
+                                , { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Name'
+                                        }
+                                      , { 'name' : 'registered_in'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Registered in'
+                                        }
+                                      ]
+                                  , 'name' : 'owner'
+                                  , 'sig_key' : 2
+                                  , 'type_name' : 'PAP.Company'
+                                  , 'ui_name' : 'Owner'
+                                  , 'ui_type_name' : 'Company'
+                                  }
+                                , { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'last_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Last name'
+                                        }
+                                      , { 'name' : 'first_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'First name'
+                                        }
+                                      , { 'name' : 'middle_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Middle name'
+                                        }
+                                      , { 'name' : 'title'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Academic title'
+                                        }
+                                      ]
+                                  , 'name' : 'owner'
+                                  , 'sig_key' : 2
+                                  , 'type_name' : 'PAP.Person'
+                                  , 'ui_name' : 'Owner'
+                                  , 'ui_type_name' : 'Person'
+                                  }
+                                ]
+                            , 'default_child' : 'PAP.Person'
+                            , 'name' : 'owner'
+                            , 'sig_key' : 2
+                            , 'ui_name' : 'Owner'
+                            }
+                          , { 'attrs' :
+                                [ { 'name' : 'lat'
+                                  , 'sig_key' : 4
+                                  , 'ui_name' : 'Latitude'
+                                  }
+                                , { 'name' : 'lon'
+                                  , 'sig_key' : 4
+                                  , 'ui_name' : 'Longitude'
+                                  }
+                                , { 'name' : 'height'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Height'
+                                  }
+                                ]
+                            , 'name' : 'position'
+                            , 'ui_name' : 'Position'
+                            }
+                          , { 'name' : 'show_in_map'
+                            , 'sig_key' : 1
+                            , 'ui_name' : 'Show in map'
+                            }
+                          ]
+                      , 'name' : 'node'
+                      , 'sig_key' : 2
+                      , 'ui_name' : 'Node'
+                      }
+                    , { 'name' : 'name'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Name'
+                      }
+                    , { 'name' : 'desc'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Desc'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'last_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Last name'
+                                  }
+                                , { 'name' : 'first_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'First name'
+                                  }
+                                , { 'name' : 'middle_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Middle name'
+                                  }
+                                , { 'name' : 'title'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Academic title'
+                                  }
+                                , { 'attrs' :
+                                      [ { 'name' : 'start'
+                                        , 'sig_key' : 0
+                                        , 'ui_name' : 'Start'
+                                        }
+                                      , { 'name' : 'finish'
+                                        , 'sig_key' : 0
+                                        , 'ui_name' : 'Finish'
+                                        }
+                                      , { 'name' : 'alive'
+                                        , 'sig_key' : 1
+                                        , 'ui_name' : 'Alive'
+                                        }
+                                      ]
+                                  , 'name' : 'lifetime'
+                                  , 'ui_name' : 'Lifetime'
+                                  }
+                                , { 'name' : 'sex'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Sex'
+                                  }
+                                ]
+                            , 'name' : 'manager'
+                            , 'sig_key' : 2
+                            , 'ui_name' : 'Manager'
+                            }
+                          , { 'attrs' :
+                                [ { 'name' : 'start'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Start'
+                                  }
+                                , { 'name' : 'finish'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Finish'
+                                  }
+                                , { 'name' : 'alive'
+                                  , 'sig_key' : 1
+                                  , 'ui_name' : 'Alive'
+                                  }
+                                ]
+                            , 'name' : 'lifetime'
+                            , 'ui_name' : 'Lifetime'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'street'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Street'
+                                  }
+                                , { 'name' : 'zip'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Zip code'
+                                  }
+                                , { 'name' : 'city'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'City'
+                                  }
+                                , { 'name' : 'country'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Country'
+                                  }
+                                , { 'name' : 'desc'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Description'
+                                  }
+                                , { 'name' : 'region'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Region'
+                                  }
+                                ]
+                            , 'name' : 'address'
+                            , 'sig_key' : 2
+                            , 'ui_name' : 'Address'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'children_np' :
+                                [ { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Name'
+                                        }
+                                      ]
+                                  , 'name' : 'owner'
+                                  , 'sig_key' : 2
+                                  , 'type_name' : 'PAP.Association'
+                                  , 'ui_name' : 'Owner'
+                                  , 'ui_type_name' : 'Association'
+                                  }
+                                , { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Name'
+                                        }
+                                      , { 'name' : 'registered_in'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Registered in'
+                                        }
+                                      ]
+                                  , 'name' : 'owner'
+                                  , 'sig_key' : 2
+                                  , 'type_name' : 'PAP.Company'
+                                  , 'ui_name' : 'Owner'
+                                  , 'ui_type_name' : 'Company'
+                                  }
+                                , { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'last_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Last name'
+                                        }
+                                      , { 'name' : 'first_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'First name'
+                                        }
+                                      , { 'name' : 'middle_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Middle name'
+                                        }
+                                      , { 'name' : 'title'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Academic title'
+                                        }
+                                      ]
+                                  , 'name' : 'owner'
+                                  , 'sig_key' : 2
+                                  , 'type_name' : 'PAP.Person'
+                                  , 'ui_name' : 'Owner'
+                                  , 'ui_type_name' : 'Person'
+                                  }
+                                ]
+                            , 'default_child' : 'PAP.Person'
+                            , 'name' : 'owner'
+                            , 'sig_key' : 2
+                            , 'ui_name' : 'Owner'
+                            }
+                          , { 'attrs' :
+                                [ { 'name' : 'lat'
+                                  , 'sig_key' : 4
+                                  , 'ui_name' : 'Latitude'
+                                  }
+                                , { 'name' : 'lon'
+                                  , 'sig_key' : 4
+                                  , 'ui_name' : 'Longitude'
+                                  }
+                                , { 'name' : 'height'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Height'
+                                  }
+                                ]
+                            , 'name' : 'position'
+                            , 'ui_name' : 'Position'
+                            }
+                          , { 'name' : 'show_in_map'
+                            , 'sig_key' : 1
+                            , 'ui_name' : 'Show in map'
+                            }
+                          ]
+                      , 'name' : 'my_node'
+                      , 'sig_key' : 2
+                      , 'ui_name' : 'My node'
+                      }
+                    ]
+                , 'name' : 'my_net_device'
+                , 'sig_key' : 2
+                , 'ui_name' : 'My net device'
                 }
               ]
           , 'name' : 'wireless_interface'
@@ -3815,9 +5368,9 @@ _test_AQ = """
                             , 'ui_name' : 'Show in map'
                             }
                           ]
-                      , 'name' : 'belongs_to_node'
+                      , 'name' : 'my_node'
                       , 'sig_key' : 2
-                      , 'ui_name' : 'Belongs to node'
+                      , 'ui_name' : 'My node'
                       }
                     ]
                 , 'name' : 'left'
@@ -4229,9 +5782,9 @@ _test_AQ = """
                                   , 'ui_name' : 'Show in map'
                                   }
                                 ]
-                            , 'name' : 'belongs_to_node'
+                            , 'name' : 'my_node'
                             , 'sig_key' : 2
-                            , 'ui_name' : 'Belongs to node'
+                            , 'ui_name' : 'My node'
                             }
                           ]
                       , 'name' : 'left'
@@ -4468,9 +6021,421 @@ _test_AQ = """
                             , 'ui_name' : 'Show in map'
                             }
                           ]
-                      , 'name' : 'belongs_to_node'
+                      , 'name' : 'my_node'
                       , 'sig_key' : 2
-                      , 'ui_name' : 'Belongs to node'
+                      , 'ui_name' : 'My node'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Name'
+                                  }
+                                , { 'name' : 'model_no'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Model no'
+                                  }
+                                , { 'name' : 'revision'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Revision'
+                                  }
+                                , { 'name' : 'desc'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Desc'
+                                  }
+                                ]
+                            , 'name' : 'left'
+                            , 'sig_key' : 2
+                            , 'ui_name' : 'Net device type'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Name'
+                                  }
+                                , { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'last_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Last name'
+                                        }
+                                      , { 'name' : 'first_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'First name'
+                                        }
+                                      , { 'name' : 'middle_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Middle name'
+                                        }
+                                      , { 'name' : 'title'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Academic title'
+                                        }
+                                      , { 'attrs' :
+                                            [ { 'name' : 'start'
+                                              , 'sig_key' : 0
+                                              , 'ui_name' : 'Start'
+                                              }
+                                            , { 'name' : 'finish'
+                                              , 'sig_key' : 0
+                                              , 'ui_name' : 'Finish'
+                                              }
+                                            , { 'name' : 'alive'
+                                              , 'sig_key' : 1
+                                              , 'ui_name' : 'Alive'
+                                              }
+                                            ]
+                                        , 'name' : 'lifetime'
+                                        , 'ui_name' : 'Lifetime'
+                                        }
+                                      , { 'name' : 'sex'
+                                        , 'sig_key' : 0
+                                        , 'ui_name' : 'Sex'
+                                        }
+                                      ]
+                                  , 'name' : 'manager'
+                                  , 'sig_key' : 2
+                                  , 'ui_name' : 'Manager'
+                                  }
+                                , { 'attrs' :
+                                      [ { 'name' : 'start'
+                                        , 'sig_key' : 0
+                                        , 'ui_name' : 'Start'
+                                        }
+                                      , { 'name' : 'finish'
+                                        , 'sig_key' : 0
+                                        , 'ui_name' : 'Finish'
+                                        }
+                                      , { 'name' : 'alive'
+                                        , 'sig_key' : 1
+                                        , 'ui_name' : 'Alive'
+                                        }
+                                      ]
+                                  , 'name' : 'lifetime'
+                                  , 'ui_name' : 'Lifetime'
+                                  }
+                                , { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'street'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Street'
+                                        }
+                                      , { 'name' : 'zip'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Zip code'
+                                        }
+                                      , { 'name' : 'city'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'City'
+                                        }
+                                      , { 'name' : 'country'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Country'
+                                        }
+                                      , { 'name' : 'desc'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Description'
+                                        }
+                                      , { 'name' : 'region'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Region'
+                                        }
+                                      ]
+                                  , 'name' : 'address'
+                                  , 'sig_key' : 2
+                                  , 'ui_name' : 'Address'
+                                  }
+                                , { 'Class' : 'Entity'
+                                  , 'children_np' :
+                                      [ { 'Class' : 'Entity'
+                                        , 'attrs' :
+                                            [ { 'name' : 'name'
+                                              , 'sig_key' : 3
+                                              , 'ui_name' : 'Name'
+                                              }
+                                            ]
+                                        , 'name' : 'owner'
+                                        , 'sig_key' : 2
+                                        , 'type_name' : 'PAP.Association'
+                                        , 'ui_name' : 'Owner'
+                                        , 'ui_type_name' : 'Association'
+                                        }
+                                      , { 'Class' : 'Entity'
+                                        , 'attrs' :
+                                            [ { 'name' : 'name'
+                                              , 'sig_key' : 3
+                                              , 'ui_name' : 'Name'
+                                              }
+                                            , { 'name' : 'registered_in'
+                                              , 'sig_key' : 3
+                                              , 'ui_name' : 'Registered in'
+                                              }
+                                            ]
+                                        , 'name' : 'owner'
+                                        , 'sig_key' : 2
+                                        , 'type_name' : 'PAP.Company'
+                                        , 'ui_name' : 'Owner'
+                                        , 'ui_type_name' : 'Company'
+                                        }
+                                      , { 'Class' : 'Entity'
+                                        , 'attrs' :
+                                            [ { 'name' : 'last_name'
+                                              , 'sig_key' : 3
+                                              , 'ui_name' : 'Last name'
+                                              }
+                                            , { 'name' : 'first_name'
+                                              , 'sig_key' : 3
+                                              , 'ui_name' : 'First name'
+                                              }
+                                            , { 'name' : 'middle_name'
+                                              , 'sig_key' : 3
+                                              , 'ui_name' : 'Middle name'
+                                              }
+                                            , { 'name' : 'title'
+                                              , 'sig_key' : 3
+                                              , 'ui_name' : 'Academic title'
+                                              }
+                                            ]
+                                        , 'name' : 'owner'
+                                        , 'sig_key' : 2
+                                        , 'type_name' : 'PAP.Person'
+                                        , 'ui_name' : 'Owner'
+                                        , 'ui_type_name' : 'Person'
+                                        }
+                                      ]
+                                  , 'default_child' : 'PAP.Person'
+                                  , 'name' : 'owner'
+                                  , 'sig_key' : 2
+                                  , 'ui_name' : 'Owner'
+                                  }
+                                , { 'attrs' :
+                                      [ { 'name' : 'lat'
+                                        , 'sig_key' : 4
+                                        , 'ui_name' : 'Latitude'
+                                        }
+                                      , { 'name' : 'lon'
+                                        , 'sig_key' : 4
+                                        , 'ui_name' : 'Longitude'
+                                        }
+                                      , { 'name' : 'height'
+                                        , 'sig_key' : 0
+                                        , 'ui_name' : 'Height'
+                                        }
+                                      ]
+                                  , 'name' : 'position'
+                                  , 'ui_name' : 'Position'
+                                  }
+                                , { 'name' : 'show_in_map'
+                                  , 'sig_key' : 1
+                                  , 'ui_name' : 'Show in map'
+                                  }
+                                ]
+                            , 'name' : 'node'
+                            , 'sig_key' : 2
+                            , 'ui_name' : 'Node'
+                            }
+                          , { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          , { 'name' : 'desc'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Desc'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Name'
+                                  }
+                                , { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'last_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Last name'
+                                        }
+                                      , { 'name' : 'first_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'First name'
+                                        }
+                                      , { 'name' : 'middle_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Middle name'
+                                        }
+                                      , { 'name' : 'title'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Academic title'
+                                        }
+                                      , { 'attrs' :
+                                            [ { 'name' : 'start'
+                                              , 'sig_key' : 0
+                                              , 'ui_name' : 'Start'
+                                              }
+                                            , { 'name' : 'finish'
+                                              , 'sig_key' : 0
+                                              , 'ui_name' : 'Finish'
+                                              }
+                                            , { 'name' : 'alive'
+                                              , 'sig_key' : 1
+                                              , 'ui_name' : 'Alive'
+                                              }
+                                            ]
+                                        , 'name' : 'lifetime'
+                                        , 'ui_name' : 'Lifetime'
+                                        }
+                                      , { 'name' : 'sex'
+                                        , 'sig_key' : 0
+                                        , 'ui_name' : 'Sex'
+                                        }
+                                      ]
+                                  , 'name' : 'manager'
+                                  , 'sig_key' : 2
+                                  , 'ui_name' : 'Manager'
+                                  }
+                                , { 'attrs' :
+                                      [ { 'name' : 'start'
+                                        , 'sig_key' : 0
+                                        , 'ui_name' : 'Start'
+                                        }
+                                      , { 'name' : 'finish'
+                                        , 'sig_key' : 0
+                                        , 'ui_name' : 'Finish'
+                                        }
+                                      , { 'name' : 'alive'
+                                        , 'sig_key' : 1
+                                        , 'ui_name' : 'Alive'
+                                        }
+                                      ]
+                                  , 'name' : 'lifetime'
+                                  , 'ui_name' : 'Lifetime'
+                                  }
+                                , { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'street'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Street'
+                                        }
+                                      , { 'name' : 'zip'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Zip code'
+                                        }
+                                      , { 'name' : 'city'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'City'
+                                        }
+                                      , { 'name' : 'country'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Country'
+                                        }
+                                      , { 'name' : 'desc'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Description'
+                                        }
+                                      , { 'name' : 'region'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Region'
+                                        }
+                                      ]
+                                  , 'name' : 'address'
+                                  , 'sig_key' : 2
+                                  , 'ui_name' : 'Address'
+                                  }
+                                , { 'Class' : 'Entity'
+                                  , 'children_np' :
+                                      [ { 'Class' : 'Entity'
+                                        , 'attrs' :
+                                            [ { 'name' : 'name'
+                                              , 'sig_key' : 3
+                                              , 'ui_name' : 'Name'
+                                              }
+                                            ]
+                                        , 'name' : 'owner'
+                                        , 'sig_key' : 2
+                                        , 'type_name' : 'PAP.Association'
+                                        , 'ui_name' : 'Owner'
+                                        , 'ui_type_name' : 'Association'
+                                        }
+                                      , { 'Class' : 'Entity'
+                                        , 'attrs' :
+                                            [ { 'name' : 'name'
+                                              , 'sig_key' : 3
+                                              , 'ui_name' : 'Name'
+                                              }
+                                            , { 'name' : 'registered_in'
+                                              , 'sig_key' : 3
+                                              , 'ui_name' : 'Registered in'
+                                              }
+                                            ]
+                                        , 'name' : 'owner'
+                                        , 'sig_key' : 2
+                                        , 'type_name' : 'PAP.Company'
+                                        , 'ui_name' : 'Owner'
+                                        , 'ui_type_name' : 'Company'
+                                        }
+                                      , { 'Class' : 'Entity'
+                                        , 'attrs' :
+                                            [ { 'name' : 'last_name'
+                                              , 'sig_key' : 3
+                                              , 'ui_name' : 'Last name'
+                                              }
+                                            , { 'name' : 'first_name'
+                                              , 'sig_key' : 3
+                                              , 'ui_name' : 'First name'
+                                              }
+                                            , { 'name' : 'middle_name'
+                                              , 'sig_key' : 3
+                                              , 'ui_name' : 'Middle name'
+                                              }
+                                            , { 'name' : 'title'
+                                              , 'sig_key' : 3
+                                              , 'ui_name' : 'Academic title'
+                                              }
+                                            ]
+                                        , 'name' : 'owner'
+                                        , 'sig_key' : 2
+                                        , 'type_name' : 'PAP.Person'
+                                        , 'ui_name' : 'Owner'
+                                        , 'ui_type_name' : 'Person'
+                                        }
+                                      ]
+                                  , 'default_child' : 'PAP.Person'
+                                  , 'name' : 'owner'
+                                  , 'sig_key' : 2
+                                  , 'ui_name' : 'Owner'
+                                  }
+                                , { 'attrs' :
+                                      [ { 'name' : 'lat'
+                                        , 'sig_key' : 4
+                                        , 'ui_name' : 'Latitude'
+                                        }
+                                      , { 'name' : 'lon'
+                                        , 'sig_key' : 4
+                                        , 'ui_name' : 'Longitude'
+                                        }
+                                      , { 'name' : 'height'
+                                        , 'sig_key' : 0
+                                        , 'ui_name' : 'Height'
+                                        }
+                                      ]
+                                  , 'name' : 'position'
+                                  , 'ui_name' : 'Position'
+                                  }
+                                , { 'name' : 'show_in_map'
+                                  , 'sig_key' : 1
+                                  , 'ui_name' : 'Show in map'
+                                  }
+                                ]
+                            , 'name' : 'my_node'
+                            , 'sig_key' : 2
+                            , 'ui_name' : 'My node'
+                            }
+                          ]
+                      , 'name' : 'my_net_device'
+                      , 'sig_key' : 2
+                      , 'ui_name' : 'My net device'
                       }
                     ]
                 , 'name' : 'hardware'
@@ -4688,9 +6653,421 @@ _test_AQ = """
                       , 'ui_name' : 'Show in map'
                       }
                     ]
-                , 'name' : 'belongs_to_node'
+                , 'name' : 'my_node'
                 , 'sig_key' : 2
-                , 'ui_name' : 'Belongs to node'
+                , 'ui_name' : 'My node'
+                }
+              , { 'Class' : 'Entity'
+                , 'attrs' :
+                    [ { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          , { 'name' : 'model_no'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Model no'
+                            }
+                          , { 'name' : 'revision'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Revision'
+                            }
+                          , { 'name' : 'desc'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Desc'
+                            }
+                          ]
+                      , 'name' : 'left'
+                      , 'sig_key' : 2
+                      , 'ui_name' : 'Net device type'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'last_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Last name'
+                                  }
+                                , { 'name' : 'first_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'First name'
+                                  }
+                                , { 'name' : 'middle_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Middle name'
+                                  }
+                                , { 'name' : 'title'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Academic title'
+                                  }
+                                , { 'attrs' :
+                                      [ { 'name' : 'start'
+                                        , 'sig_key' : 0
+                                        , 'ui_name' : 'Start'
+                                        }
+                                      , { 'name' : 'finish'
+                                        , 'sig_key' : 0
+                                        , 'ui_name' : 'Finish'
+                                        }
+                                      , { 'name' : 'alive'
+                                        , 'sig_key' : 1
+                                        , 'ui_name' : 'Alive'
+                                        }
+                                      ]
+                                  , 'name' : 'lifetime'
+                                  , 'ui_name' : 'Lifetime'
+                                  }
+                                , { 'name' : 'sex'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Sex'
+                                  }
+                                ]
+                            , 'name' : 'manager'
+                            , 'sig_key' : 2
+                            , 'ui_name' : 'Manager'
+                            }
+                          , { 'attrs' :
+                                [ { 'name' : 'start'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Start'
+                                  }
+                                , { 'name' : 'finish'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Finish'
+                                  }
+                                , { 'name' : 'alive'
+                                  , 'sig_key' : 1
+                                  , 'ui_name' : 'Alive'
+                                  }
+                                ]
+                            , 'name' : 'lifetime'
+                            , 'ui_name' : 'Lifetime'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'street'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Street'
+                                  }
+                                , { 'name' : 'zip'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Zip code'
+                                  }
+                                , { 'name' : 'city'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'City'
+                                  }
+                                , { 'name' : 'country'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Country'
+                                  }
+                                , { 'name' : 'desc'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Description'
+                                  }
+                                , { 'name' : 'region'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Region'
+                                  }
+                                ]
+                            , 'name' : 'address'
+                            , 'sig_key' : 2
+                            , 'ui_name' : 'Address'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'children_np' :
+                                [ { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Name'
+                                        }
+                                      ]
+                                  , 'name' : 'owner'
+                                  , 'sig_key' : 2
+                                  , 'type_name' : 'PAP.Association'
+                                  , 'ui_name' : 'Owner'
+                                  , 'ui_type_name' : 'Association'
+                                  }
+                                , { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Name'
+                                        }
+                                      , { 'name' : 'registered_in'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Registered in'
+                                        }
+                                      ]
+                                  , 'name' : 'owner'
+                                  , 'sig_key' : 2
+                                  , 'type_name' : 'PAP.Company'
+                                  , 'ui_name' : 'Owner'
+                                  , 'ui_type_name' : 'Company'
+                                  }
+                                , { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'last_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Last name'
+                                        }
+                                      , { 'name' : 'first_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'First name'
+                                        }
+                                      , { 'name' : 'middle_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Middle name'
+                                        }
+                                      , { 'name' : 'title'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Academic title'
+                                        }
+                                      ]
+                                  , 'name' : 'owner'
+                                  , 'sig_key' : 2
+                                  , 'type_name' : 'PAP.Person'
+                                  , 'ui_name' : 'Owner'
+                                  , 'ui_type_name' : 'Person'
+                                  }
+                                ]
+                            , 'default_child' : 'PAP.Person'
+                            , 'name' : 'owner'
+                            , 'sig_key' : 2
+                            , 'ui_name' : 'Owner'
+                            }
+                          , { 'attrs' :
+                                [ { 'name' : 'lat'
+                                  , 'sig_key' : 4
+                                  , 'ui_name' : 'Latitude'
+                                  }
+                                , { 'name' : 'lon'
+                                  , 'sig_key' : 4
+                                  , 'ui_name' : 'Longitude'
+                                  }
+                                , { 'name' : 'height'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Height'
+                                  }
+                                ]
+                            , 'name' : 'position'
+                            , 'ui_name' : 'Position'
+                            }
+                          , { 'name' : 'show_in_map'
+                            , 'sig_key' : 1
+                            , 'ui_name' : 'Show in map'
+                            }
+                          ]
+                      , 'name' : 'node'
+                      , 'sig_key' : 2
+                      , 'ui_name' : 'Node'
+                      }
+                    , { 'name' : 'name'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Name'
+                      }
+                    , { 'name' : 'desc'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Desc'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'last_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Last name'
+                                  }
+                                , { 'name' : 'first_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'First name'
+                                  }
+                                , { 'name' : 'middle_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Middle name'
+                                  }
+                                , { 'name' : 'title'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Academic title'
+                                  }
+                                , { 'attrs' :
+                                      [ { 'name' : 'start'
+                                        , 'sig_key' : 0
+                                        , 'ui_name' : 'Start'
+                                        }
+                                      , { 'name' : 'finish'
+                                        , 'sig_key' : 0
+                                        , 'ui_name' : 'Finish'
+                                        }
+                                      , { 'name' : 'alive'
+                                        , 'sig_key' : 1
+                                        , 'ui_name' : 'Alive'
+                                        }
+                                      ]
+                                  , 'name' : 'lifetime'
+                                  , 'ui_name' : 'Lifetime'
+                                  }
+                                , { 'name' : 'sex'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Sex'
+                                  }
+                                ]
+                            , 'name' : 'manager'
+                            , 'sig_key' : 2
+                            , 'ui_name' : 'Manager'
+                            }
+                          , { 'attrs' :
+                                [ { 'name' : 'start'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Start'
+                                  }
+                                , { 'name' : 'finish'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Finish'
+                                  }
+                                , { 'name' : 'alive'
+                                  , 'sig_key' : 1
+                                  , 'ui_name' : 'Alive'
+                                  }
+                                ]
+                            , 'name' : 'lifetime'
+                            , 'ui_name' : 'Lifetime'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'street'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Street'
+                                  }
+                                , { 'name' : 'zip'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Zip code'
+                                  }
+                                , { 'name' : 'city'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'City'
+                                  }
+                                , { 'name' : 'country'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Country'
+                                  }
+                                , { 'name' : 'desc'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Description'
+                                  }
+                                , { 'name' : 'region'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Region'
+                                  }
+                                ]
+                            , 'name' : 'address'
+                            , 'sig_key' : 2
+                            , 'ui_name' : 'Address'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'children_np' :
+                                [ { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Name'
+                                        }
+                                      ]
+                                  , 'name' : 'owner'
+                                  , 'sig_key' : 2
+                                  , 'type_name' : 'PAP.Association'
+                                  , 'ui_name' : 'Owner'
+                                  , 'ui_type_name' : 'Association'
+                                  }
+                                , { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Name'
+                                        }
+                                      , { 'name' : 'registered_in'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Registered in'
+                                        }
+                                      ]
+                                  , 'name' : 'owner'
+                                  , 'sig_key' : 2
+                                  , 'type_name' : 'PAP.Company'
+                                  , 'ui_name' : 'Owner'
+                                  , 'ui_type_name' : 'Company'
+                                  }
+                                , { 'Class' : 'Entity'
+                                  , 'attrs' :
+                                      [ { 'name' : 'last_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Last name'
+                                        }
+                                      , { 'name' : 'first_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'First name'
+                                        }
+                                      , { 'name' : 'middle_name'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Middle name'
+                                        }
+                                      , { 'name' : 'title'
+                                        , 'sig_key' : 3
+                                        , 'ui_name' : 'Academic title'
+                                        }
+                                      ]
+                                  , 'name' : 'owner'
+                                  , 'sig_key' : 2
+                                  , 'type_name' : 'PAP.Person'
+                                  , 'ui_name' : 'Owner'
+                                  , 'ui_type_name' : 'Person'
+                                  }
+                                ]
+                            , 'default_child' : 'PAP.Person'
+                            , 'name' : 'owner'
+                            , 'sig_key' : 2
+                            , 'ui_name' : 'Owner'
+                            }
+                          , { 'attrs' :
+                                [ { 'name' : 'lat'
+                                  , 'sig_key' : 4
+                                  , 'ui_name' : 'Latitude'
+                                  }
+                                , { 'name' : 'lon'
+                                  , 'sig_key' : 4
+                                  , 'ui_name' : 'Longitude'
+                                  }
+                                , { 'name' : 'height'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Height'
+                                  }
+                                ]
+                            , 'name' : 'position'
+                            , 'ui_name' : 'Position'
+                            }
+                          , { 'name' : 'show_in_map'
+                            , 'sig_key' : 1
+                            , 'ui_name' : 'Show in map'
+                            }
+                          ]
+                      , 'name' : 'my_node'
+                      , 'sig_key' : 2
+                      , 'ui_name' : 'My node'
+                      }
+                    ]
+                , 'name' : 'my_net_device'
+                , 'sig_key' : 2
+                , 'ui_name' : 'My net device'
                 }
               , { 'Class' : 'Entity'
                 , 'attrs' :
@@ -6094,15 +8471,15 @@ _test_AQ = """
                   )
                 , Record
                   ( Class = 'Entity'
-                  , attr = Entity `belongs_to_node`
+                  , attr = Entity `my_node`
                   , attrs =
                       [ Record
                         ( attr = String `name`
-                        , full_name = 'wired_interface.left.belongs_to_node.name'
-                        , id = 'wired_interface__left__belongs_to_node__name'
+                        , full_name = 'wired_interface.left.my_node.name'
+                        , id = 'wired_interface__left__my_node__name'
                         , name = 'name'
                         , sig_key = 3
-                        , ui_name = 'Wired interface/Net device/Belongs to node/Name'
+                        , ui_name = 'Wired interface/Net device/My node/Name'
                         )
                       , Record
                         ( Class = 'Entity'
@@ -6110,86 +8487,86 @@ _test_AQ = """
                         , attrs =
                             [ Record
                               ( attr = String `last_name`
-                              , full_name = 'wired_interface.left.belongs_to_node.manager.last_name'
-                              , id = 'wired_interface__left__belongs_to_node__manager__last_name'
+                              , full_name = 'wired_interface.left.my_node.manager.last_name'
+                              , id = 'wired_interface__left__my_node__manager__last_name'
                               , name = 'last_name'
                               , sig_key = 3
-                              , ui_name = 'Wired interface/Net device/Belongs to node/Manager/Last name'
+                              , ui_name = 'Wired interface/Net device/My node/Manager/Last name'
                               )
                             , Record
                               ( attr = String `first_name`
-                              , full_name = 'wired_interface.left.belongs_to_node.manager.first_name'
-                              , id = 'wired_interface__left__belongs_to_node__manager__first_name'
+                              , full_name = 'wired_interface.left.my_node.manager.first_name'
+                              , id = 'wired_interface__left__my_node__manager__first_name'
                               , name = 'first_name'
                               , sig_key = 3
-                              , ui_name = 'Wired interface/Net device/Belongs to node/Manager/First name'
+                              , ui_name = 'Wired interface/Net device/My node/Manager/First name'
                               )
                             , Record
                               ( attr = String `middle_name`
-                              , full_name = 'wired_interface.left.belongs_to_node.manager.middle_name'
-                              , id = 'wired_interface__left__belongs_to_node__manager__middle_name'
+                              , full_name = 'wired_interface.left.my_node.manager.middle_name'
+                              , id = 'wired_interface__left__my_node__manager__middle_name'
                               , name = 'middle_name'
                               , sig_key = 3
-                              , ui_name = 'Wired interface/Net device/Belongs to node/Manager/Middle name'
+                              , ui_name = 'Wired interface/Net device/My node/Manager/Middle name'
                               )
                             , Record
                               ( attr = String `title`
-                              , full_name = 'wired_interface.left.belongs_to_node.manager.title'
-                              , id = 'wired_interface__left__belongs_to_node__manager__title'
+                              , full_name = 'wired_interface.left.my_node.manager.title'
+                              , id = 'wired_interface__left__my_node__manager__title'
                               , name = 'title'
                               , sig_key = 3
-                              , ui_name = 'Wired interface/Net device/Belongs to node/Manager/Academic title'
+                              , ui_name = 'Wired interface/Net device/My node/Manager/Academic title'
                               )
                             , Record
                               ( attr = Date_Interval `lifetime`
                               , attrs =
                                   [ Record
                                     ( attr = Date `start`
-                                    , full_name = 'wired_interface.left.belongs_to_node.manager.lifetime.start'
-                                    , id = 'wired_interface__left__belongs_to_node__manager__lifetime__start'
+                                    , full_name = 'wired_interface.left.my_node.manager.lifetime.start'
+                                    , id = 'wired_interface__left__my_node__manager__lifetime__start'
                                     , name = 'start'
                                     , sig_key = 0
-                                    , ui_name = 'Wired interface/Net device/Belongs to node/Manager/Lifetime/Start'
+                                    , ui_name = 'Wired interface/Net device/My node/Manager/Lifetime/Start'
                                     )
                                   , Record
                                     ( attr = Date `finish`
-                                    , full_name = 'wired_interface.left.belongs_to_node.manager.lifetime.finish'
-                                    , id = 'wired_interface__left__belongs_to_node__manager__lifetime__finish'
+                                    , full_name = 'wired_interface.left.my_node.manager.lifetime.finish'
+                                    , id = 'wired_interface__left__my_node__manager__lifetime__finish'
                                     , name = 'finish'
                                     , sig_key = 0
-                                    , ui_name = 'Wired interface/Net device/Belongs to node/Manager/Lifetime/Finish'
+                                    , ui_name = 'Wired interface/Net device/My node/Manager/Lifetime/Finish'
                                     )
                                   , Record
                                     ( attr = Boolean `alive`
                                     , choices = <Recursion on list...>
-                                    , full_name = 'wired_interface.left.belongs_to_node.manager.lifetime.alive'
-                                    , id = 'wired_interface__left__belongs_to_node__manager__lifetime__alive'
+                                    , full_name = 'wired_interface.left.my_node.manager.lifetime.alive'
+                                    , id = 'wired_interface__left__my_node__manager__lifetime__alive'
                                     , name = 'alive'
                                     , sig_key = 1
-                                    , ui_name = 'Wired interface/Net device/Belongs to node/Manager/Lifetime/Alive'
+                                    , ui_name = 'Wired interface/Net device/My node/Manager/Lifetime/Alive'
                                     )
                                   ]
-                              , full_name = 'wired_interface.left.belongs_to_node.manager.lifetime'
-                              , id = 'wired_interface__left__belongs_to_node__manager__lifetime'
+                              , full_name = 'wired_interface.left.my_node.manager.lifetime'
+                              , id = 'wired_interface__left__my_node__manager__lifetime'
                               , name = 'lifetime'
-                              , ui_name = 'Wired interface/Net device/Belongs to node/Manager/Lifetime'
+                              , ui_name = 'Wired interface/Net device/My node/Manager/Lifetime'
                               )
                             , Record
                               ( attr = Sex `sex`
                               , choices = <Recursion on list...>
-                              , full_name = 'wired_interface.left.belongs_to_node.manager.sex'
-                              , id = 'wired_interface__left__belongs_to_node__manager__sex'
+                              , full_name = 'wired_interface.left.my_node.manager.sex'
+                              , id = 'wired_interface__left__my_node__manager__sex'
                               , name = 'sex'
                               , sig_key = 0
-                              , ui_name = 'Wired interface/Net device/Belongs to node/Manager/Sex'
+                              , ui_name = 'Wired interface/Net device/My node/Manager/Sex'
                               )
                             ]
-                        , full_name = 'wired_interface.left.belongs_to_node.manager'
-                        , id = 'wired_interface__left__belongs_to_node__manager'
+                        , full_name = 'wired_interface.left.my_node.manager'
+                        , id = 'wired_interface__left__my_node__manager'
                         , name = 'manager'
                         , sig_key = 2
                         , type_name = 'PAP.Person'
-                        , ui_name = 'Wired interface/Net device/Belongs to node/Manager'
+                        , ui_name = 'Wired interface/Net device/My node/Manager'
                         , ui_type_name = 'Person'
                         )
                       , Record
@@ -6197,34 +8574,34 @@ _test_AQ = """
                         , attrs =
                             [ Record
                               ( attr = Date `start`
-                              , full_name = 'wired_interface.left.belongs_to_node.lifetime.start'
-                              , id = 'wired_interface__left__belongs_to_node__lifetime__start'
+                              , full_name = 'wired_interface.left.my_node.lifetime.start'
+                              , id = 'wired_interface__left__my_node__lifetime__start'
                               , name = 'start'
                               , sig_key = 0
-                              , ui_name = 'Wired interface/Net device/Belongs to node/Lifetime/Start'
+                              , ui_name = 'Wired interface/Net device/My node/Lifetime/Start'
                               )
                             , Record
                               ( attr = Date `finish`
-                              , full_name = 'wired_interface.left.belongs_to_node.lifetime.finish'
-                              , id = 'wired_interface__left__belongs_to_node__lifetime__finish'
+                              , full_name = 'wired_interface.left.my_node.lifetime.finish'
+                              , id = 'wired_interface__left__my_node__lifetime__finish'
                               , name = 'finish'
                               , sig_key = 0
-                              , ui_name = 'Wired interface/Net device/Belongs to node/Lifetime/Finish'
+                              , ui_name = 'Wired interface/Net device/My node/Lifetime/Finish'
                               )
                             , Record
                               ( attr = Boolean `alive`
                               , choices = <Recursion on list...>
-                              , full_name = 'wired_interface.left.belongs_to_node.lifetime.alive'
-                              , id = 'wired_interface__left__belongs_to_node__lifetime__alive'
+                              , full_name = 'wired_interface.left.my_node.lifetime.alive'
+                              , id = 'wired_interface__left__my_node__lifetime__alive'
                               , name = 'alive'
                               , sig_key = 1
-                              , ui_name = 'Wired interface/Net device/Belongs to node/Lifetime/Alive'
+                              , ui_name = 'Wired interface/Net device/My node/Lifetime/Alive'
                               )
                             ]
-                        , full_name = 'wired_interface.left.belongs_to_node.lifetime'
-                        , id = 'wired_interface__left__belongs_to_node__lifetime'
+                        , full_name = 'wired_interface.left.my_node.lifetime'
+                        , id = 'wired_interface__left__my_node__lifetime'
                         , name = 'lifetime'
-                        , ui_name = 'Wired interface/Net device/Belongs to node/Lifetime'
+                        , ui_name = 'Wired interface/Net device/My node/Lifetime'
                         )
                       , Record
                         ( Class = 'Entity'
@@ -6232,59 +8609,59 @@ _test_AQ = """
                         , attrs =
                             [ Record
                               ( attr = String `street`
-                              , full_name = 'wired_interface.left.belongs_to_node.address.street'
-                              , id = 'wired_interface__left__belongs_to_node__address__street'
+                              , full_name = 'wired_interface.left.my_node.address.street'
+                              , id = 'wired_interface__left__my_node__address__street'
                               , name = 'street'
                               , sig_key = 3
-                              , ui_name = 'Wired interface/Net device/Belongs to node/Address/Street'
+                              , ui_name = 'Wired interface/Net device/My node/Address/Street'
                               )
                             , Record
                               ( attr = String `zip`
-                              , full_name = 'wired_interface.left.belongs_to_node.address.zip'
-                              , id = 'wired_interface__left__belongs_to_node__address__zip'
+                              , full_name = 'wired_interface.left.my_node.address.zip'
+                              , id = 'wired_interface__left__my_node__address__zip'
                               , name = 'zip'
                               , sig_key = 3
-                              , ui_name = 'Wired interface/Net device/Belongs to node/Address/Zip code'
+                              , ui_name = 'Wired interface/Net device/My node/Address/Zip code'
                               )
                             , Record
                               ( attr = String `city`
-                              , full_name = 'wired_interface.left.belongs_to_node.address.city'
-                              , id = 'wired_interface__left__belongs_to_node__address__city'
+                              , full_name = 'wired_interface.left.my_node.address.city'
+                              , id = 'wired_interface__left__my_node__address__city'
                               , name = 'city'
                               , sig_key = 3
-                              , ui_name = 'Wired interface/Net device/Belongs to node/Address/City'
+                              , ui_name = 'Wired interface/Net device/My node/Address/City'
                               )
                             , Record
                               ( attr = String `country`
-                              , full_name = 'wired_interface.left.belongs_to_node.address.country'
-                              , id = 'wired_interface__left__belongs_to_node__address__country'
+                              , full_name = 'wired_interface.left.my_node.address.country'
+                              , id = 'wired_interface__left__my_node__address__country'
                               , name = 'country'
                               , sig_key = 3
-                              , ui_name = 'Wired interface/Net device/Belongs to node/Address/Country'
+                              , ui_name = 'Wired interface/Net device/My node/Address/Country'
                               )
                             , Record
                               ( attr = String `desc`
-                              , full_name = 'wired_interface.left.belongs_to_node.address.desc'
-                              , id = 'wired_interface__left__belongs_to_node__address__desc'
+                              , full_name = 'wired_interface.left.my_node.address.desc'
+                              , id = 'wired_interface__left__my_node__address__desc'
                               , name = 'desc'
                               , sig_key = 3
-                              , ui_name = 'Wired interface/Net device/Belongs to node/Address/Description'
+                              , ui_name = 'Wired interface/Net device/My node/Address/Description'
                               )
                             , Record
                               ( attr = String `region`
-                              , full_name = 'wired_interface.left.belongs_to_node.address.region'
-                              , id = 'wired_interface__left__belongs_to_node__address__region'
+                              , full_name = 'wired_interface.left.my_node.address.region'
+                              , id = 'wired_interface__left__my_node__address__region'
                               , name = 'region'
                               , sig_key = 3
-                              , ui_name = 'Wired interface/Net device/Belongs to node/Address/Region'
+                              , ui_name = 'Wired interface/Net device/My node/Address/Region'
                               )
                             ]
-                        , full_name = 'wired_interface.left.belongs_to_node.address'
-                        , id = 'wired_interface__left__belongs_to_node__address'
+                        , full_name = 'wired_interface.left.my_node.address'
+                        , id = 'wired_interface__left__my_node__address'
                         , name = 'address'
                         , sig_key = 2
                         , type_name = 'PAP.Address'
-                        , ui_name = 'Wired interface/Net device/Belongs to node/Address'
+                        , ui_name = 'Wired interface/Net device/My node/Address'
                         , ui_type_name = 'Address'
                         )
                       , Record
@@ -6388,12 +8765,12 @@ _test_AQ = """
                               )
                             ]
                         , default_child = 'PAP.Person'
-                        , full_name = 'wired_interface.left.belongs_to_node.owner'
-                        , id = 'wired_interface__left__belongs_to_node__owner'
+                        , full_name = 'wired_interface.left.my_node.owner'
+                        , id = 'wired_interface__left__my_node__owner'
                         , name = 'owner'
                         , sig_key = 2
                         , type_name = 'PAP.Subject'
-                        , ui_name = 'Wired interface/Net device/Belongs to node/Owner'
+                        , ui_name = 'Wired interface/Net device/My node/Owner'
                         , ui_type_name = 'Subject'
                         )
                       , Record
@@ -6401,50 +8778,50 @@ _test_AQ = """
                         , attrs =
                             [ Record
                               ( attr = Angle `lat`
-                              , full_name = 'wired_interface.left.belongs_to_node.position.lat'
-                              , id = 'wired_interface__left__belongs_to_node__position__lat'
+                              , full_name = 'wired_interface.left.my_node.position.lat'
+                              , id = 'wired_interface__left__my_node__position__lat'
                               , name = 'lat'
                               , sig_key = 4
-                              , ui_name = 'Wired interface/Net device/Belongs to node/Position/Latitude'
+                              , ui_name = 'Wired interface/Net device/My node/Position/Latitude'
                               )
                             , Record
                               ( attr = Angle `lon`
-                              , full_name = 'wired_interface.left.belongs_to_node.position.lon'
-                              , id = 'wired_interface__left__belongs_to_node__position__lon'
+                              , full_name = 'wired_interface.left.my_node.position.lon'
+                              , id = 'wired_interface__left__my_node__position__lon'
                               , name = 'lon'
                               , sig_key = 4
-                              , ui_name = 'Wired interface/Net device/Belongs to node/Position/Longitude'
+                              , ui_name = 'Wired interface/Net device/My node/Position/Longitude'
                               )
                             , Record
                               ( attr = Float `height`
-                              , full_name = 'wired_interface.left.belongs_to_node.position.height'
-                              , id = 'wired_interface__left__belongs_to_node__position__height'
+                              , full_name = 'wired_interface.left.my_node.position.height'
+                              , id = 'wired_interface__left__my_node__position__height'
                               , name = 'height'
                               , sig_key = 0
-                              , ui_name = 'Wired interface/Net device/Belongs to node/Position/Height'
+                              , ui_name = 'Wired interface/Net device/My node/Position/Height'
                               )
                             ]
-                        , full_name = 'wired_interface.left.belongs_to_node.position'
-                        , id = 'wired_interface__left__belongs_to_node__position'
+                        , full_name = 'wired_interface.left.my_node.position'
+                        , id = 'wired_interface__left__my_node__position'
                         , name = 'position'
-                        , ui_name = 'Wired interface/Net device/Belongs to node/Position'
+                        , ui_name = 'Wired interface/Net device/My node/Position'
                         )
                       , Record
                         ( attr = Boolean `show_in_map`
                         , choices = <Recursion on list...>
-                        , full_name = 'wired_interface.left.belongs_to_node.show_in_map'
-                        , id = 'wired_interface__left__belongs_to_node__show_in_map'
+                        , full_name = 'wired_interface.left.my_node.show_in_map'
+                        , id = 'wired_interface__left__my_node__show_in_map'
                         , name = 'show_in_map'
                         , sig_key = 1
-                        , ui_name = 'Wired interface/Net device/Belongs to node/Show in map'
+                        , ui_name = 'Wired interface/Net device/My node/Show in map'
                         )
                       ]
-                  , full_name = 'wired_interface.left.belongs_to_node'
-                  , id = 'wired_interface__left__belongs_to_node'
-                  , name = 'belongs_to_node'
+                  , full_name = 'wired_interface.left.my_node'
+                  , id = 'wired_interface__left__my_node'
+                  , name = 'my_node'
                   , sig_key = 2
                   , type_name = 'FFM.Node'
-                  , ui_name = 'Wired interface/Net device/Belongs to node'
+                  , ui_name = 'Wired interface/Net device/My node'
                   , ui_type_name = 'Node'
                   )
                 ]
@@ -6494,15 +8871,15 @@ _test_AQ = """
             )
           , Record
             ( Class = 'Entity'
-            , attr = Entity `belongs_to_node`
+            , attr = Entity `my_node`
             , attrs =
                 [ Record
                   ( attr = String `name`
-                  , full_name = 'wired_interface.belongs_to_node.name'
-                  , id = 'wired_interface__belongs_to_node__name'
+                  , full_name = 'wired_interface.my_node.name'
+                  , id = 'wired_interface__my_node__name'
                   , name = 'name'
                   , sig_key = 3
-                  , ui_name = 'Wired interface/Belongs to node/Name'
+                  , ui_name = 'Wired interface/My node/Name'
                   )
                 , Record
                   ( Class = 'Entity'
@@ -6510,86 +8887,86 @@ _test_AQ = """
                   , attrs =
                       [ Record
                         ( attr = String `last_name`
-                        , full_name = 'wired_interface.belongs_to_node.manager.last_name'
-                        , id = 'wired_interface__belongs_to_node__manager__last_name'
+                        , full_name = 'wired_interface.my_node.manager.last_name'
+                        , id = 'wired_interface__my_node__manager__last_name'
                         , name = 'last_name'
                         , sig_key = 3
-                        , ui_name = 'Wired interface/Belongs to node/Manager/Last name'
+                        , ui_name = 'Wired interface/My node/Manager/Last name'
                         )
                       , Record
                         ( attr = String `first_name`
-                        , full_name = 'wired_interface.belongs_to_node.manager.first_name'
-                        , id = 'wired_interface__belongs_to_node__manager__first_name'
+                        , full_name = 'wired_interface.my_node.manager.first_name'
+                        , id = 'wired_interface__my_node__manager__first_name'
                         , name = 'first_name'
                         , sig_key = 3
-                        , ui_name = 'Wired interface/Belongs to node/Manager/First name'
+                        , ui_name = 'Wired interface/My node/Manager/First name'
                         )
                       , Record
                         ( attr = String `middle_name`
-                        , full_name = 'wired_interface.belongs_to_node.manager.middle_name'
-                        , id = 'wired_interface__belongs_to_node__manager__middle_name'
+                        , full_name = 'wired_interface.my_node.manager.middle_name'
+                        , id = 'wired_interface__my_node__manager__middle_name'
                         , name = 'middle_name'
                         , sig_key = 3
-                        , ui_name = 'Wired interface/Belongs to node/Manager/Middle name'
+                        , ui_name = 'Wired interface/My node/Manager/Middle name'
                         )
                       , Record
                         ( attr = String `title`
-                        , full_name = 'wired_interface.belongs_to_node.manager.title'
-                        , id = 'wired_interface__belongs_to_node__manager__title'
+                        , full_name = 'wired_interface.my_node.manager.title'
+                        , id = 'wired_interface__my_node__manager__title'
                         , name = 'title'
                         , sig_key = 3
-                        , ui_name = 'Wired interface/Belongs to node/Manager/Academic title'
+                        , ui_name = 'Wired interface/My node/Manager/Academic title'
                         )
                       , Record
                         ( attr = Date_Interval `lifetime`
                         , attrs =
                             [ Record
                               ( attr = Date `start`
-                              , full_name = 'wired_interface.belongs_to_node.manager.lifetime.start'
-                              , id = 'wired_interface__belongs_to_node__manager__lifetime__start'
+                              , full_name = 'wired_interface.my_node.manager.lifetime.start'
+                              , id = 'wired_interface__my_node__manager__lifetime__start'
                               , name = 'start'
                               , sig_key = 0
-                              , ui_name = 'Wired interface/Belongs to node/Manager/Lifetime/Start'
+                              , ui_name = 'Wired interface/My node/Manager/Lifetime/Start'
                               )
                             , Record
                               ( attr = Date `finish`
-                              , full_name = 'wired_interface.belongs_to_node.manager.lifetime.finish'
-                              , id = 'wired_interface__belongs_to_node__manager__lifetime__finish'
+                              , full_name = 'wired_interface.my_node.manager.lifetime.finish'
+                              , id = 'wired_interface__my_node__manager__lifetime__finish'
                               , name = 'finish'
                               , sig_key = 0
-                              , ui_name = 'Wired interface/Belongs to node/Manager/Lifetime/Finish'
+                              , ui_name = 'Wired interface/My node/Manager/Lifetime/Finish'
                               )
                             , Record
                               ( attr = Boolean `alive`
                               , choices = <Recursion on list...>
-                              , full_name = 'wired_interface.belongs_to_node.manager.lifetime.alive'
-                              , id = 'wired_interface__belongs_to_node__manager__lifetime__alive'
+                              , full_name = 'wired_interface.my_node.manager.lifetime.alive'
+                              , id = 'wired_interface__my_node__manager__lifetime__alive'
                               , name = 'alive'
                               , sig_key = 1
-                              , ui_name = 'Wired interface/Belongs to node/Manager/Lifetime/Alive'
+                              , ui_name = 'Wired interface/My node/Manager/Lifetime/Alive'
                               )
                             ]
-                        , full_name = 'wired_interface.belongs_to_node.manager.lifetime'
-                        , id = 'wired_interface__belongs_to_node__manager__lifetime'
+                        , full_name = 'wired_interface.my_node.manager.lifetime'
+                        , id = 'wired_interface__my_node__manager__lifetime'
                         , name = 'lifetime'
-                        , ui_name = 'Wired interface/Belongs to node/Manager/Lifetime'
+                        , ui_name = 'Wired interface/My node/Manager/Lifetime'
                         )
                       , Record
                         ( attr = Sex `sex`
                         , choices = <Recursion on list...>
-                        , full_name = 'wired_interface.belongs_to_node.manager.sex'
-                        , id = 'wired_interface__belongs_to_node__manager__sex'
+                        , full_name = 'wired_interface.my_node.manager.sex'
+                        , id = 'wired_interface__my_node__manager__sex'
                         , name = 'sex'
                         , sig_key = 0
-                        , ui_name = 'Wired interface/Belongs to node/Manager/Sex'
+                        , ui_name = 'Wired interface/My node/Manager/Sex'
                         )
                       ]
-                  , full_name = 'wired_interface.belongs_to_node.manager'
-                  , id = 'wired_interface__belongs_to_node__manager'
+                  , full_name = 'wired_interface.my_node.manager'
+                  , id = 'wired_interface__my_node__manager'
                   , name = 'manager'
                   , sig_key = 2
                   , type_name = 'PAP.Person'
-                  , ui_name = 'Wired interface/Belongs to node/Manager'
+                  , ui_name = 'Wired interface/My node/Manager'
                   , ui_type_name = 'Person'
                   )
                 , Record
@@ -6597,34 +8974,34 @@ _test_AQ = """
                   , attrs =
                       [ Record
                         ( attr = Date `start`
-                        , full_name = 'wired_interface.belongs_to_node.lifetime.start'
-                        , id = 'wired_interface__belongs_to_node__lifetime__start'
+                        , full_name = 'wired_interface.my_node.lifetime.start'
+                        , id = 'wired_interface__my_node__lifetime__start'
                         , name = 'start'
                         , sig_key = 0
-                        , ui_name = 'Wired interface/Belongs to node/Lifetime/Start'
+                        , ui_name = 'Wired interface/My node/Lifetime/Start'
                         )
                       , Record
                         ( attr = Date `finish`
-                        , full_name = 'wired_interface.belongs_to_node.lifetime.finish'
-                        , id = 'wired_interface__belongs_to_node__lifetime__finish'
+                        , full_name = 'wired_interface.my_node.lifetime.finish'
+                        , id = 'wired_interface__my_node__lifetime__finish'
                         , name = 'finish'
                         , sig_key = 0
-                        , ui_name = 'Wired interface/Belongs to node/Lifetime/Finish'
+                        , ui_name = 'Wired interface/My node/Lifetime/Finish'
                         )
                       , Record
                         ( attr = Boolean `alive`
                         , choices = <Recursion on list...>
-                        , full_name = 'wired_interface.belongs_to_node.lifetime.alive'
-                        , id = 'wired_interface__belongs_to_node__lifetime__alive'
+                        , full_name = 'wired_interface.my_node.lifetime.alive'
+                        , id = 'wired_interface__my_node__lifetime__alive'
                         , name = 'alive'
                         , sig_key = 1
-                        , ui_name = 'Wired interface/Belongs to node/Lifetime/Alive'
+                        , ui_name = 'Wired interface/My node/Lifetime/Alive'
                         )
                       ]
-                  , full_name = 'wired_interface.belongs_to_node.lifetime'
-                  , id = 'wired_interface__belongs_to_node__lifetime'
+                  , full_name = 'wired_interface.my_node.lifetime'
+                  , id = 'wired_interface__my_node__lifetime'
                   , name = 'lifetime'
-                  , ui_name = 'Wired interface/Belongs to node/Lifetime'
+                  , ui_name = 'Wired interface/My node/Lifetime'
                   )
                 , Record
                   ( Class = 'Entity'
@@ -6632,59 +9009,59 @@ _test_AQ = """
                   , attrs =
                       [ Record
                         ( attr = String `street`
-                        , full_name = 'wired_interface.belongs_to_node.address.street'
-                        , id = 'wired_interface__belongs_to_node__address__street'
+                        , full_name = 'wired_interface.my_node.address.street'
+                        , id = 'wired_interface__my_node__address__street'
                         , name = 'street'
                         , sig_key = 3
-                        , ui_name = 'Wired interface/Belongs to node/Address/Street'
+                        , ui_name = 'Wired interface/My node/Address/Street'
                         )
                       , Record
                         ( attr = String `zip`
-                        , full_name = 'wired_interface.belongs_to_node.address.zip'
-                        , id = 'wired_interface__belongs_to_node__address__zip'
+                        , full_name = 'wired_interface.my_node.address.zip'
+                        , id = 'wired_interface__my_node__address__zip'
                         , name = 'zip'
                         , sig_key = 3
-                        , ui_name = 'Wired interface/Belongs to node/Address/Zip code'
+                        , ui_name = 'Wired interface/My node/Address/Zip code'
                         )
                       , Record
                         ( attr = String `city`
-                        , full_name = 'wired_interface.belongs_to_node.address.city'
-                        , id = 'wired_interface__belongs_to_node__address__city'
+                        , full_name = 'wired_interface.my_node.address.city'
+                        , id = 'wired_interface__my_node__address__city'
                         , name = 'city'
                         , sig_key = 3
-                        , ui_name = 'Wired interface/Belongs to node/Address/City'
+                        , ui_name = 'Wired interface/My node/Address/City'
                         )
                       , Record
                         ( attr = String `country`
-                        , full_name = 'wired_interface.belongs_to_node.address.country'
-                        , id = 'wired_interface__belongs_to_node__address__country'
+                        , full_name = 'wired_interface.my_node.address.country'
+                        , id = 'wired_interface__my_node__address__country'
                         , name = 'country'
                         , sig_key = 3
-                        , ui_name = 'Wired interface/Belongs to node/Address/Country'
+                        , ui_name = 'Wired interface/My node/Address/Country'
                         )
                       , Record
                         ( attr = String `desc`
-                        , full_name = 'wired_interface.belongs_to_node.address.desc'
-                        , id = 'wired_interface__belongs_to_node__address__desc'
+                        , full_name = 'wired_interface.my_node.address.desc'
+                        , id = 'wired_interface__my_node__address__desc'
                         , name = 'desc'
                         , sig_key = 3
-                        , ui_name = 'Wired interface/Belongs to node/Address/Description'
+                        , ui_name = 'Wired interface/My node/Address/Description'
                         )
                       , Record
                         ( attr = String `region`
-                        , full_name = 'wired_interface.belongs_to_node.address.region'
-                        , id = 'wired_interface__belongs_to_node__address__region'
+                        , full_name = 'wired_interface.my_node.address.region'
+                        , id = 'wired_interface__my_node__address__region'
                         , name = 'region'
                         , sig_key = 3
-                        , ui_name = 'Wired interface/Belongs to node/Address/Region'
+                        , ui_name = 'Wired interface/My node/Address/Region'
                         )
                       ]
-                  , full_name = 'wired_interface.belongs_to_node.address'
-                  , id = 'wired_interface__belongs_to_node__address'
+                  , full_name = 'wired_interface.my_node.address'
+                  , id = 'wired_interface__my_node__address'
                   , name = 'address'
                   , sig_key = 2
                   , type_name = 'PAP.Address'
-                  , ui_name = 'Wired interface/Belongs to node/Address'
+                  , ui_name = 'Wired interface/My node/Address'
                   , ui_type_name = 'Address'
                   )
                 , Record
@@ -6788,12 +9165,12 @@ _test_AQ = """
                         )
                       ]
                   , default_child = 'PAP.Person'
-                  , full_name = 'wired_interface.belongs_to_node.owner'
-                  , id = 'wired_interface__belongs_to_node__owner'
+                  , full_name = 'wired_interface.my_node.owner'
+                  , id = 'wired_interface__my_node__owner'
                   , name = 'owner'
                   , sig_key = 2
                   , type_name = 'PAP.Subject'
-                  , ui_name = 'Wired interface/Belongs to node/Owner'
+                  , ui_name = 'Wired interface/My node/Owner'
                   , ui_type_name = 'Subject'
                   )
                 , Record
@@ -6801,51 +9178,835 @@ _test_AQ = """
                   , attrs =
                       [ Record
                         ( attr = Angle `lat`
-                        , full_name = 'wired_interface.belongs_to_node.position.lat'
-                        , id = 'wired_interface__belongs_to_node__position__lat'
+                        , full_name = 'wired_interface.my_node.position.lat'
+                        , id = 'wired_interface__my_node__position__lat'
                         , name = 'lat'
                         , sig_key = 4
-                        , ui_name = 'Wired interface/Belongs to node/Position/Latitude'
+                        , ui_name = 'Wired interface/My node/Position/Latitude'
                         )
                       , Record
                         ( attr = Angle `lon`
-                        , full_name = 'wired_interface.belongs_to_node.position.lon'
-                        , id = 'wired_interface__belongs_to_node__position__lon'
+                        , full_name = 'wired_interface.my_node.position.lon'
+                        , id = 'wired_interface__my_node__position__lon'
                         , name = 'lon'
                         , sig_key = 4
-                        , ui_name = 'Wired interface/Belongs to node/Position/Longitude'
+                        , ui_name = 'Wired interface/My node/Position/Longitude'
                         )
                       , Record
                         ( attr = Float `height`
-                        , full_name = 'wired_interface.belongs_to_node.position.height'
-                        , id = 'wired_interface__belongs_to_node__position__height'
+                        , full_name = 'wired_interface.my_node.position.height'
+                        , id = 'wired_interface__my_node__position__height'
                         , name = 'height'
                         , sig_key = 0
-                        , ui_name = 'Wired interface/Belongs to node/Position/Height'
+                        , ui_name = 'Wired interface/My node/Position/Height'
                         )
                       ]
-                  , full_name = 'wired_interface.belongs_to_node.position'
-                  , id = 'wired_interface__belongs_to_node__position'
+                  , full_name = 'wired_interface.my_node.position'
+                  , id = 'wired_interface__my_node__position'
                   , name = 'position'
-                  , ui_name = 'Wired interface/Belongs to node/Position'
+                  , ui_name = 'Wired interface/My node/Position'
                   )
                 , Record
                   ( attr = Boolean `show_in_map`
                   , choices = <Recursion on list...>
-                  , full_name = 'wired_interface.belongs_to_node.show_in_map'
-                  , id = 'wired_interface__belongs_to_node__show_in_map'
+                  , full_name = 'wired_interface.my_node.show_in_map'
+                  , id = 'wired_interface__my_node__show_in_map'
                   , name = 'show_in_map'
                   , sig_key = 1
-                  , ui_name = 'Wired interface/Belongs to node/Show in map'
+                  , ui_name = 'Wired interface/My node/Show in map'
                   )
                 ]
-            , full_name = 'wired_interface.belongs_to_node'
-            , id = 'wired_interface__belongs_to_node'
-            , name = 'belongs_to_node'
+            , full_name = 'wired_interface.my_node'
+            , id = 'wired_interface__my_node'
+            , name = 'my_node'
             , sig_key = 2
             , type_name = 'FFM.Node'
-            , ui_name = 'Wired interface/Belongs to node'
+            , ui_name = 'Wired interface/My node'
             , ui_type_name = 'Node'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `my_net_device`
+            , attrs =
+                [ Record
+                  ( Class = 'Entity'
+                  , attr = Net_Device_Type `left`
+                  , attrs =
+                      [ Record
+                        ( attr = String `name`
+                        , full_name = 'wired_interface.my_net_device.left.name'
+                        , id = 'wired_interface__my_net_device__left__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Wired interface/My net device/Net device type/Name'
+                        )
+                      , Record
+                        ( attr = String `model_no`
+                        , full_name = 'wired_interface.my_net_device.left.model_no'
+                        , id = 'wired_interface__my_net_device__left__model_no'
+                        , name = 'model_no'
+                        , sig_key = 3
+                        , ui_name = 'Wired interface/My net device/Net device type/Model no'
+                        )
+                      , Record
+                        ( attr = String `revision`
+                        , full_name = 'wired_interface.my_net_device.left.revision'
+                        , id = 'wired_interface__my_net_device__left__revision'
+                        , name = 'revision'
+                        , sig_key = 3
+                        , ui_name = 'Wired interface/My net device/Net device type/Revision'
+                        )
+                      , Record
+                        ( attr = Text `desc`
+                        , full_name = 'wired_interface.my_net_device.left.desc'
+                        , id = 'wired_interface__my_net_device__left__desc'
+                        , name = 'desc'
+                        , sig_key = 3
+                        , ui_name = 'Wired interface/My net device/Net device type/Desc'
+                        )
+                      ]
+                  , full_name = 'wired_interface.my_net_device.left'
+                  , id = 'wired_interface__my_net_device__left'
+                  , name = 'left'
+                  , sig_key = 2
+                  , type_name = 'FFM.Net_Device_Type'
+                  , ui_name = 'Wired interface/My net device/Net device type'
+                  , ui_type_name = 'Net_Device_Type'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `node`
+                  , attrs =
+                      [ Record
+                        ( attr = String `name`
+                        , full_name = 'wired_interface.my_net_device.node.name'
+                        , id = 'wired_interface__my_net_device__node__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Wired interface/My net device/Node/Name'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `manager`
+                        , attrs =
+                            [ Record
+                              ( attr = String `last_name`
+                              , full_name = 'wired_interface.my_net_device.node.manager.last_name'
+                              , id = 'wired_interface__my_net_device__node__manager__last_name'
+                              , name = 'last_name'
+                              , sig_key = 3
+                              , ui_name = 'Wired interface/My net device/Node/Manager/Last name'
+                              )
+                            , Record
+                              ( attr = String `first_name`
+                              , full_name = 'wired_interface.my_net_device.node.manager.first_name'
+                              , id = 'wired_interface__my_net_device__node__manager__first_name'
+                              , name = 'first_name'
+                              , sig_key = 3
+                              , ui_name = 'Wired interface/My net device/Node/Manager/First name'
+                              )
+                            , Record
+                              ( attr = String `middle_name`
+                              , full_name = 'wired_interface.my_net_device.node.manager.middle_name'
+                              , id = 'wired_interface__my_net_device__node__manager__middle_name'
+                              , name = 'middle_name'
+                              , sig_key = 3
+                              , ui_name = 'Wired interface/My net device/Node/Manager/Middle name'
+                              )
+                            , Record
+                              ( attr = String `title`
+                              , full_name = 'wired_interface.my_net_device.node.manager.title'
+                              , id = 'wired_interface__my_net_device__node__manager__title'
+                              , name = 'title'
+                              , sig_key = 3
+                              , ui_name = 'Wired interface/My net device/Node/Manager/Academic title'
+                              )
+                            , Record
+                              ( attr = Date_Interval `lifetime`
+                              , attrs =
+                                  [ Record
+                                    ( attr = Date `start`
+                                    , full_name = 'wired_interface.my_net_device.node.manager.lifetime.start'
+                                    , id = 'wired_interface__my_net_device__node__manager__lifetime__start'
+                                    , name = 'start'
+                                    , sig_key = 0
+                                    , ui_name = 'Wired interface/My net device/Node/Manager/Lifetime/Start'
+                                    )
+                                  , Record
+                                    ( attr = Date `finish`
+                                    , full_name = 'wired_interface.my_net_device.node.manager.lifetime.finish'
+                                    , id = 'wired_interface__my_net_device__node__manager__lifetime__finish'
+                                    , name = 'finish'
+                                    , sig_key = 0
+                                    , ui_name = 'Wired interface/My net device/Node/Manager/Lifetime/Finish'
+                                    )
+                                  , Record
+                                    ( attr = Boolean `alive`
+                                    , choices = <Recursion on list...>
+                                    , full_name = 'wired_interface.my_net_device.node.manager.lifetime.alive'
+                                    , id = 'wired_interface__my_net_device__node__manager__lifetime__alive'
+                                    , name = 'alive'
+                                    , sig_key = 1
+                                    , ui_name = 'Wired interface/My net device/Node/Manager/Lifetime/Alive'
+                                    )
+                                  ]
+                              , full_name = 'wired_interface.my_net_device.node.manager.lifetime'
+                              , id = 'wired_interface__my_net_device__node__manager__lifetime'
+                              , name = 'lifetime'
+                              , ui_name = 'Wired interface/My net device/Node/Manager/Lifetime'
+                              )
+                            , Record
+                              ( attr = Sex `sex`
+                              , choices = <Recursion on list...>
+                              , full_name = 'wired_interface.my_net_device.node.manager.sex'
+                              , id = 'wired_interface__my_net_device__node__manager__sex'
+                              , name = 'sex'
+                              , sig_key = 0
+                              , ui_name = 'Wired interface/My net device/Node/Manager/Sex'
+                              )
+                            ]
+                        , full_name = 'wired_interface.my_net_device.node.manager'
+                        , id = 'wired_interface__my_net_device__node__manager'
+                        , name = 'manager'
+                        , sig_key = 2
+                        , type_name = 'PAP.Person'
+                        , ui_name = 'Wired interface/My net device/Node/Manager'
+                        , ui_type_name = 'Person'
+                        )
+                      , Record
+                        ( attr = Date_Interval `lifetime`
+                        , attrs =
+                            [ Record
+                              ( attr = Date `start`
+                              , full_name = 'wired_interface.my_net_device.node.lifetime.start'
+                              , id = 'wired_interface__my_net_device__node__lifetime__start'
+                              , name = 'start'
+                              , sig_key = 0
+                              , ui_name = 'Wired interface/My net device/Node/Lifetime/Start'
+                              )
+                            , Record
+                              ( attr = Date `finish`
+                              , full_name = 'wired_interface.my_net_device.node.lifetime.finish'
+                              , id = 'wired_interface__my_net_device__node__lifetime__finish'
+                              , name = 'finish'
+                              , sig_key = 0
+                              , ui_name = 'Wired interface/My net device/Node/Lifetime/Finish'
+                              )
+                            , Record
+                              ( attr = Boolean `alive`
+                              , choices = <Recursion on list...>
+                              , full_name = 'wired_interface.my_net_device.node.lifetime.alive'
+                              , id = 'wired_interface__my_net_device__node__lifetime__alive'
+                              , name = 'alive'
+                              , sig_key = 1
+                              , ui_name = 'Wired interface/My net device/Node/Lifetime/Alive'
+                              )
+                            ]
+                        , full_name = 'wired_interface.my_net_device.node.lifetime'
+                        , id = 'wired_interface__my_net_device__node__lifetime'
+                        , name = 'lifetime'
+                        , ui_name = 'Wired interface/My net device/Node/Lifetime'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `address`
+                        , attrs =
+                            [ Record
+                              ( attr = String `street`
+                              , full_name = 'wired_interface.my_net_device.node.address.street'
+                              , id = 'wired_interface__my_net_device__node__address__street'
+                              , name = 'street'
+                              , sig_key = 3
+                              , ui_name = 'Wired interface/My net device/Node/Address/Street'
+                              )
+                            , Record
+                              ( attr = String `zip`
+                              , full_name = 'wired_interface.my_net_device.node.address.zip'
+                              , id = 'wired_interface__my_net_device__node__address__zip'
+                              , name = 'zip'
+                              , sig_key = 3
+                              , ui_name = 'Wired interface/My net device/Node/Address/Zip code'
+                              )
+                            , Record
+                              ( attr = String `city`
+                              , full_name = 'wired_interface.my_net_device.node.address.city'
+                              , id = 'wired_interface__my_net_device__node__address__city'
+                              , name = 'city'
+                              , sig_key = 3
+                              , ui_name = 'Wired interface/My net device/Node/Address/City'
+                              )
+                            , Record
+                              ( attr = String `country`
+                              , full_name = 'wired_interface.my_net_device.node.address.country'
+                              , id = 'wired_interface__my_net_device__node__address__country'
+                              , name = 'country'
+                              , sig_key = 3
+                              , ui_name = 'Wired interface/My net device/Node/Address/Country'
+                              )
+                            , Record
+                              ( attr = String `desc`
+                              , full_name = 'wired_interface.my_net_device.node.address.desc'
+                              , id = 'wired_interface__my_net_device__node__address__desc'
+                              , name = 'desc'
+                              , sig_key = 3
+                              , ui_name = 'Wired interface/My net device/Node/Address/Description'
+                              )
+                            , Record
+                              ( attr = String `region`
+                              , full_name = 'wired_interface.my_net_device.node.address.region'
+                              , id = 'wired_interface__my_net_device__node__address__region'
+                              , name = 'region'
+                              , sig_key = 3
+                              , ui_name = 'Wired interface/My net device/Node/Address/Region'
+                              )
+                            ]
+                        , full_name = 'wired_interface.my_net_device.node.address'
+                        , id = 'wired_interface__my_net_device__node__address'
+                        , name = 'address'
+                        , sig_key = 2
+                        , type_name = 'PAP.Address'
+                        , ui_name = 'Wired interface/My net device/Node/Address'
+                        , ui_type_name = 'Address'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `owner`
+                        , children_np =
+                            [ Record
+                              ( Class = 'Entity'
+                              , attr = Entity `owner`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `name`
+                                    , full_name = 'owner.name'
+                                    , id = 'owner__name'
+                                    , name = 'name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Association]/Name'
+                                    )
+                                  ]
+                              , full_name = 'owner'
+                              , id = 'owner'
+                              , name = 'owner'
+                              , sig_key = 2
+                              , type_name = 'PAP.Association'
+                              , ui_name = 'Owner[Association]'
+                              , ui_type_name = 'Association'
+                              )
+                            , Record
+                              ( Class = 'Entity'
+                              , attr = Entity `owner`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `name`
+                                    , full_name = 'owner.name'
+                                    , id = 'owner__name'
+                                    , name = 'name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Company]/Name'
+                                    )
+                                  , Record
+                                    ( attr = String `registered_in`
+                                    , full_name = 'owner.registered_in'
+                                    , id = 'owner__registered_in'
+                                    , name = 'registered_in'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Company]/Registered in'
+                                    )
+                                  ]
+                              , full_name = 'owner'
+                              , id = 'owner'
+                              , name = 'owner'
+                              , sig_key = 2
+                              , type_name = 'PAP.Company'
+                              , ui_name = 'Owner[Company]'
+                              , ui_type_name = 'Company'
+                              )
+                            , Record
+                              ( Class = 'Entity'
+                              , attr = Entity `owner`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `last_name`
+                                    , full_name = 'owner.last_name'
+                                    , id = 'owner__last_name'
+                                    , name = 'last_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/Last name'
+                                    )
+                                  , Record
+                                    ( attr = String `first_name`
+                                    , full_name = 'owner.first_name'
+                                    , id = 'owner__first_name'
+                                    , name = 'first_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/First name'
+                                    )
+                                  , Record
+                                    ( attr = String `middle_name`
+                                    , full_name = 'owner.middle_name'
+                                    , id = 'owner__middle_name'
+                                    , name = 'middle_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/Middle name'
+                                    )
+                                  , Record
+                                    ( attr = String `title`
+                                    , full_name = 'owner.title'
+                                    , id = 'owner__title'
+                                    , name = 'title'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/Academic title'
+                                    )
+                                  ]
+                              , full_name = 'owner'
+                              , id = 'owner'
+                              , name = 'owner'
+                              , sig_key = 2
+                              , type_name = 'PAP.Person'
+                              , ui_name = 'Owner[Person]'
+                              , ui_type_name = 'Person'
+                              )
+                            ]
+                        , default_child = 'PAP.Person'
+                        , full_name = 'wired_interface.my_net_device.node.owner'
+                        , id = 'wired_interface__my_net_device__node__owner'
+                        , name = 'owner'
+                        , sig_key = 2
+                        , type_name = 'PAP.Subject'
+                        , ui_name = 'Wired interface/My net device/Node/Owner'
+                        , ui_type_name = 'Subject'
+                        )
+                      , Record
+                        ( attr = Position `position`
+                        , attrs =
+                            [ Record
+                              ( attr = Angle `lat`
+                              , full_name = 'wired_interface.my_net_device.node.position.lat'
+                              , id = 'wired_interface__my_net_device__node__position__lat'
+                              , name = 'lat'
+                              , sig_key = 4
+                              , ui_name = 'Wired interface/My net device/Node/Position/Latitude'
+                              )
+                            , Record
+                              ( attr = Angle `lon`
+                              , full_name = 'wired_interface.my_net_device.node.position.lon'
+                              , id = 'wired_interface__my_net_device__node__position__lon'
+                              , name = 'lon'
+                              , sig_key = 4
+                              , ui_name = 'Wired interface/My net device/Node/Position/Longitude'
+                              )
+                            , Record
+                              ( attr = Float `height`
+                              , full_name = 'wired_interface.my_net_device.node.position.height'
+                              , id = 'wired_interface__my_net_device__node__position__height'
+                              , name = 'height'
+                              , sig_key = 0
+                              , ui_name = 'Wired interface/My net device/Node/Position/Height'
+                              )
+                            ]
+                        , full_name = 'wired_interface.my_net_device.node.position'
+                        , id = 'wired_interface__my_net_device__node__position'
+                        , name = 'position'
+                        , ui_name = 'Wired interface/My net device/Node/Position'
+                        )
+                      , Record
+                        ( attr = Boolean `show_in_map`
+                        , choices = <Recursion on list...>
+                        , full_name = 'wired_interface.my_net_device.node.show_in_map'
+                        , id = 'wired_interface__my_net_device__node__show_in_map'
+                        , name = 'show_in_map'
+                        , sig_key = 1
+                        , ui_name = 'Wired interface/My net device/Node/Show in map'
+                        )
+                      ]
+                  , full_name = 'wired_interface.my_net_device.node'
+                  , id = 'wired_interface__my_net_device__node'
+                  , name = 'node'
+                  , sig_key = 2
+                  , type_name = 'FFM.Node'
+                  , ui_name = 'Wired interface/My net device/Node'
+                  , ui_type_name = 'Node'
+                  )
+                , Record
+                  ( attr = String `name`
+                  , full_name = 'wired_interface.my_net_device.name'
+                  , id = 'wired_interface__my_net_device__name'
+                  , name = 'name'
+                  , sig_key = 3
+                  , ui_name = 'Wired interface/My net device/Name'
+                  )
+                , Record
+                  ( attr = Text `desc`
+                  , full_name = 'wired_interface.my_net_device.desc'
+                  , id = 'wired_interface__my_net_device__desc'
+                  , name = 'desc'
+                  , sig_key = 3
+                  , ui_name = 'Wired interface/My net device/Desc'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `my_node`
+                  , attrs =
+                      [ Record
+                        ( attr = String `name`
+                        , full_name = 'wired_interface.my_net_device.my_node.name'
+                        , id = 'wired_interface__my_net_device__my_node__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Wired interface/My net device/My node/Name'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `manager`
+                        , attrs =
+                            [ Record
+                              ( attr = String `last_name`
+                              , full_name = 'wired_interface.my_net_device.my_node.manager.last_name'
+                              , id = 'wired_interface__my_net_device__my_node__manager__last_name'
+                              , name = 'last_name'
+                              , sig_key = 3
+                              , ui_name = 'Wired interface/My net device/My node/Manager/Last name'
+                              )
+                            , Record
+                              ( attr = String `first_name`
+                              , full_name = 'wired_interface.my_net_device.my_node.manager.first_name'
+                              , id = 'wired_interface__my_net_device__my_node__manager__first_name'
+                              , name = 'first_name'
+                              , sig_key = 3
+                              , ui_name = 'Wired interface/My net device/My node/Manager/First name'
+                              )
+                            , Record
+                              ( attr = String `middle_name`
+                              , full_name = 'wired_interface.my_net_device.my_node.manager.middle_name'
+                              , id = 'wired_interface__my_net_device__my_node__manager__middle_name'
+                              , name = 'middle_name'
+                              , sig_key = 3
+                              , ui_name = 'Wired interface/My net device/My node/Manager/Middle name'
+                              )
+                            , Record
+                              ( attr = String `title`
+                              , full_name = 'wired_interface.my_net_device.my_node.manager.title'
+                              , id = 'wired_interface__my_net_device__my_node__manager__title'
+                              , name = 'title'
+                              , sig_key = 3
+                              , ui_name = 'Wired interface/My net device/My node/Manager/Academic title'
+                              )
+                            , Record
+                              ( attr = Date_Interval `lifetime`
+                              , attrs =
+                                  [ Record
+                                    ( attr = Date `start`
+                                    , full_name = 'wired_interface.my_net_device.my_node.manager.lifetime.start'
+                                    , id = 'wired_interface__my_net_device__my_node__manager__lifetime__start'
+                                    , name = 'start'
+                                    , sig_key = 0
+                                    , ui_name = 'Wired interface/My net device/My node/Manager/Lifetime/Start'
+                                    )
+                                  , Record
+                                    ( attr = Date `finish`
+                                    , full_name = 'wired_interface.my_net_device.my_node.manager.lifetime.finish'
+                                    , id = 'wired_interface__my_net_device__my_node__manager__lifetime__finish'
+                                    , name = 'finish'
+                                    , sig_key = 0
+                                    , ui_name = 'Wired interface/My net device/My node/Manager/Lifetime/Finish'
+                                    )
+                                  , Record
+                                    ( attr = Boolean `alive`
+                                    , choices = <Recursion on list...>
+                                    , full_name = 'wired_interface.my_net_device.my_node.manager.lifetime.alive'
+                                    , id = 'wired_interface__my_net_device__my_node__manager__lifetime__alive'
+                                    , name = 'alive'
+                                    , sig_key = 1
+                                    , ui_name = 'Wired interface/My net device/My node/Manager/Lifetime/Alive'
+                                    )
+                                  ]
+                              , full_name = 'wired_interface.my_net_device.my_node.manager.lifetime'
+                              , id = 'wired_interface__my_net_device__my_node__manager__lifetime'
+                              , name = 'lifetime'
+                              , ui_name = 'Wired interface/My net device/My node/Manager/Lifetime'
+                              )
+                            , Record
+                              ( attr = Sex `sex`
+                              , choices = <Recursion on list...>
+                              , full_name = 'wired_interface.my_net_device.my_node.manager.sex'
+                              , id = 'wired_interface__my_net_device__my_node__manager__sex'
+                              , name = 'sex'
+                              , sig_key = 0
+                              , ui_name = 'Wired interface/My net device/My node/Manager/Sex'
+                              )
+                            ]
+                        , full_name = 'wired_interface.my_net_device.my_node.manager'
+                        , id = 'wired_interface__my_net_device__my_node__manager'
+                        , name = 'manager'
+                        , sig_key = 2
+                        , type_name = 'PAP.Person'
+                        , ui_name = 'Wired interface/My net device/My node/Manager'
+                        , ui_type_name = 'Person'
+                        )
+                      , Record
+                        ( attr = Date_Interval `lifetime`
+                        , attrs =
+                            [ Record
+                              ( attr = Date `start`
+                              , full_name = 'wired_interface.my_net_device.my_node.lifetime.start'
+                              , id = 'wired_interface__my_net_device__my_node__lifetime__start'
+                              , name = 'start'
+                              , sig_key = 0
+                              , ui_name = 'Wired interface/My net device/My node/Lifetime/Start'
+                              )
+                            , Record
+                              ( attr = Date `finish`
+                              , full_name = 'wired_interface.my_net_device.my_node.lifetime.finish'
+                              , id = 'wired_interface__my_net_device__my_node__lifetime__finish'
+                              , name = 'finish'
+                              , sig_key = 0
+                              , ui_name = 'Wired interface/My net device/My node/Lifetime/Finish'
+                              )
+                            , Record
+                              ( attr = Boolean `alive`
+                              , choices = <Recursion on list...>
+                              , full_name = 'wired_interface.my_net_device.my_node.lifetime.alive'
+                              , id = 'wired_interface__my_net_device__my_node__lifetime__alive'
+                              , name = 'alive'
+                              , sig_key = 1
+                              , ui_name = 'Wired interface/My net device/My node/Lifetime/Alive'
+                              )
+                            ]
+                        , full_name = 'wired_interface.my_net_device.my_node.lifetime'
+                        , id = 'wired_interface__my_net_device__my_node__lifetime'
+                        , name = 'lifetime'
+                        , ui_name = 'Wired interface/My net device/My node/Lifetime'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `address`
+                        , attrs =
+                            [ Record
+                              ( attr = String `street`
+                              , full_name = 'wired_interface.my_net_device.my_node.address.street'
+                              , id = 'wired_interface__my_net_device__my_node__address__street'
+                              , name = 'street'
+                              , sig_key = 3
+                              , ui_name = 'Wired interface/My net device/My node/Address/Street'
+                              )
+                            , Record
+                              ( attr = String `zip`
+                              , full_name = 'wired_interface.my_net_device.my_node.address.zip'
+                              , id = 'wired_interface__my_net_device__my_node__address__zip'
+                              , name = 'zip'
+                              , sig_key = 3
+                              , ui_name = 'Wired interface/My net device/My node/Address/Zip code'
+                              )
+                            , Record
+                              ( attr = String `city`
+                              , full_name = 'wired_interface.my_net_device.my_node.address.city'
+                              , id = 'wired_interface__my_net_device__my_node__address__city'
+                              , name = 'city'
+                              , sig_key = 3
+                              , ui_name = 'Wired interface/My net device/My node/Address/City'
+                              )
+                            , Record
+                              ( attr = String `country`
+                              , full_name = 'wired_interface.my_net_device.my_node.address.country'
+                              , id = 'wired_interface__my_net_device__my_node__address__country'
+                              , name = 'country'
+                              , sig_key = 3
+                              , ui_name = 'Wired interface/My net device/My node/Address/Country'
+                              )
+                            , Record
+                              ( attr = String `desc`
+                              , full_name = 'wired_interface.my_net_device.my_node.address.desc'
+                              , id = 'wired_interface__my_net_device__my_node__address__desc'
+                              , name = 'desc'
+                              , sig_key = 3
+                              , ui_name = 'Wired interface/My net device/My node/Address/Description'
+                              )
+                            , Record
+                              ( attr = String `region`
+                              , full_name = 'wired_interface.my_net_device.my_node.address.region'
+                              , id = 'wired_interface__my_net_device__my_node__address__region'
+                              , name = 'region'
+                              , sig_key = 3
+                              , ui_name = 'Wired interface/My net device/My node/Address/Region'
+                              )
+                            ]
+                        , full_name = 'wired_interface.my_net_device.my_node.address'
+                        , id = 'wired_interface__my_net_device__my_node__address'
+                        , name = 'address'
+                        , sig_key = 2
+                        , type_name = 'PAP.Address'
+                        , ui_name = 'Wired interface/My net device/My node/Address'
+                        , ui_type_name = 'Address'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `owner`
+                        , children_np =
+                            [ Record
+                              ( Class = 'Entity'
+                              , attr = Entity `owner`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `name`
+                                    , full_name = 'owner.name'
+                                    , id = 'owner__name'
+                                    , name = 'name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Association]/Name'
+                                    )
+                                  ]
+                              , full_name = 'owner'
+                              , id = 'owner'
+                              , name = 'owner'
+                              , sig_key = 2
+                              , type_name = 'PAP.Association'
+                              , ui_name = 'Owner[Association]'
+                              , ui_type_name = 'Association'
+                              )
+                            , Record
+                              ( Class = 'Entity'
+                              , attr = Entity `owner`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `name`
+                                    , full_name = 'owner.name'
+                                    , id = 'owner__name'
+                                    , name = 'name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Company]/Name'
+                                    )
+                                  , Record
+                                    ( attr = String `registered_in`
+                                    , full_name = 'owner.registered_in'
+                                    , id = 'owner__registered_in'
+                                    , name = 'registered_in'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Company]/Registered in'
+                                    )
+                                  ]
+                              , full_name = 'owner'
+                              , id = 'owner'
+                              , name = 'owner'
+                              , sig_key = 2
+                              , type_name = 'PAP.Company'
+                              , ui_name = 'Owner[Company]'
+                              , ui_type_name = 'Company'
+                              )
+                            , Record
+                              ( Class = 'Entity'
+                              , attr = Entity `owner`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `last_name`
+                                    , full_name = 'owner.last_name'
+                                    , id = 'owner__last_name'
+                                    , name = 'last_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/Last name'
+                                    )
+                                  , Record
+                                    ( attr = String `first_name`
+                                    , full_name = 'owner.first_name'
+                                    , id = 'owner__first_name'
+                                    , name = 'first_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/First name'
+                                    )
+                                  , Record
+                                    ( attr = String `middle_name`
+                                    , full_name = 'owner.middle_name'
+                                    , id = 'owner__middle_name'
+                                    , name = 'middle_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/Middle name'
+                                    )
+                                  , Record
+                                    ( attr = String `title`
+                                    , full_name = 'owner.title'
+                                    , id = 'owner__title'
+                                    , name = 'title'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/Academic title'
+                                    )
+                                  ]
+                              , full_name = 'owner'
+                              , id = 'owner'
+                              , name = 'owner'
+                              , sig_key = 2
+                              , type_name = 'PAP.Person'
+                              , ui_name = 'Owner[Person]'
+                              , ui_type_name = 'Person'
+                              )
+                            ]
+                        , default_child = 'PAP.Person'
+                        , full_name = 'wired_interface.my_net_device.my_node.owner'
+                        , id = 'wired_interface__my_net_device__my_node__owner'
+                        , name = 'owner'
+                        , sig_key = 2
+                        , type_name = 'PAP.Subject'
+                        , ui_name = 'Wired interface/My net device/My node/Owner'
+                        , ui_type_name = 'Subject'
+                        )
+                      , Record
+                        ( attr = Position `position`
+                        , attrs =
+                            [ Record
+                              ( attr = Angle `lat`
+                              , full_name = 'wired_interface.my_net_device.my_node.position.lat'
+                              , id = 'wired_interface__my_net_device__my_node__position__lat'
+                              , name = 'lat'
+                              , sig_key = 4
+                              , ui_name = 'Wired interface/My net device/My node/Position/Latitude'
+                              )
+                            , Record
+                              ( attr = Angle `lon`
+                              , full_name = 'wired_interface.my_net_device.my_node.position.lon'
+                              , id = 'wired_interface__my_net_device__my_node__position__lon'
+                              , name = 'lon'
+                              , sig_key = 4
+                              , ui_name = 'Wired interface/My net device/My node/Position/Longitude'
+                              )
+                            , Record
+                              ( attr = Float `height`
+                              , full_name = 'wired_interface.my_net_device.my_node.position.height'
+                              , id = 'wired_interface__my_net_device__my_node__position__height'
+                              , name = 'height'
+                              , sig_key = 0
+                              , ui_name = 'Wired interface/My net device/My node/Position/Height'
+                              )
+                            ]
+                        , full_name = 'wired_interface.my_net_device.my_node.position'
+                        , id = 'wired_interface__my_net_device__my_node__position'
+                        , name = 'position'
+                        , ui_name = 'Wired interface/My net device/My node/Position'
+                        )
+                      , Record
+                        ( attr = Boolean `show_in_map`
+                        , choices = <Recursion on list...>
+                        , full_name = 'wired_interface.my_net_device.my_node.show_in_map'
+                        , id = 'wired_interface__my_net_device__my_node__show_in_map'
+                        , name = 'show_in_map'
+                        , sig_key = 1
+                        , ui_name = 'Wired interface/My net device/My node/Show in map'
+                        )
+                      ]
+                  , full_name = 'wired_interface.my_net_device.my_node'
+                  , id = 'wired_interface__my_net_device__my_node'
+                  , name = 'my_node'
+                  , sig_key = 2
+                  , type_name = 'FFM.Node'
+                  , ui_name = 'Wired interface/My net device/My node'
+                  , ui_type_name = 'Node'
+                  )
+                ]
+            , full_name = 'wired_interface.my_net_device'
+            , id = 'wired_interface__my_net_device'
+            , name = 'my_net_device'
+            , sig_key = 2
+            , type_name = 'FFM.Net_Device'
+            , ui_name = 'Wired interface/My net device'
+            , ui_type_name = 'Net_Device'
             )
           ]
       , full_name = 'wired_interface'
@@ -7282,15 +10443,15 @@ _test_AQ = """
                   )
                 , Record
                   ( Class = 'Entity'
-                  , attr = Entity `belongs_to_node`
+                  , attr = Entity `my_node`
                   , attrs =
                       [ Record
                         ( attr = String `name`
-                        , full_name = 'wireless_interface.left.belongs_to_node.name'
-                        , id = 'wireless_interface__left__belongs_to_node__name'
+                        , full_name = 'wireless_interface.left.my_node.name'
+                        , id = 'wireless_interface__left__my_node__name'
                         , name = 'name'
                         , sig_key = 3
-                        , ui_name = 'Wireless interface/Net device/Belongs to node/Name'
+                        , ui_name = 'Wireless interface/Net device/My node/Name'
                         )
                       , Record
                         ( Class = 'Entity'
@@ -7298,86 +10459,86 @@ _test_AQ = """
                         , attrs =
                             [ Record
                               ( attr = String `last_name`
-                              , full_name = 'wireless_interface.left.belongs_to_node.manager.last_name'
-                              , id = 'wireless_interface__left__belongs_to_node__manager__last_name'
+                              , full_name = 'wireless_interface.left.my_node.manager.last_name'
+                              , id = 'wireless_interface__left__my_node__manager__last_name'
                               , name = 'last_name'
                               , sig_key = 3
-                              , ui_name = 'Wireless interface/Net device/Belongs to node/Manager/Last name'
+                              , ui_name = 'Wireless interface/Net device/My node/Manager/Last name'
                               )
                             , Record
                               ( attr = String `first_name`
-                              , full_name = 'wireless_interface.left.belongs_to_node.manager.first_name'
-                              , id = 'wireless_interface__left__belongs_to_node__manager__first_name'
+                              , full_name = 'wireless_interface.left.my_node.manager.first_name'
+                              , id = 'wireless_interface__left__my_node__manager__first_name'
                               , name = 'first_name'
                               , sig_key = 3
-                              , ui_name = 'Wireless interface/Net device/Belongs to node/Manager/First name'
+                              , ui_name = 'Wireless interface/Net device/My node/Manager/First name'
                               )
                             , Record
                               ( attr = String `middle_name`
-                              , full_name = 'wireless_interface.left.belongs_to_node.manager.middle_name'
-                              , id = 'wireless_interface__left__belongs_to_node__manager__middle_name'
+                              , full_name = 'wireless_interface.left.my_node.manager.middle_name'
+                              , id = 'wireless_interface__left__my_node__manager__middle_name'
                               , name = 'middle_name'
                               , sig_key = 3
-                              , ui_name = 'Wireless interface/Net device/Belongs to node/Manager/Middle name'
+                              , ui_name = 'Wireless interface/Net device/My node/Manager/Middle name'
                               )
                             , Record
                               ( attr = String `title`
-                              , full_name = 'wireless_interface.left.belongs_to_node.manager.title'
-                              , id = 'wireless_interface__left__belongs_to_node__manager__title'
+                              , full_name = 'wireless_interface.left.my_node.manager.title'
+                              , id = 'wireless_interface__left__my_node__manager__title'
                               , name = 'title'
                               , sig_key = 3
-                              , ui_name = 'Wireless interface/Net device/Belongs to node/Manager/Academic title'
+                              , ui_name = 'Wireless interface/Net device/My node/Manager/Academic title'
                               )
                             , Record
                               ( attr = Date_Interval `lifetime`
                               , attrs =
                                   [ Record
                                     ( attr = Date `start`
-                                    , full_name = 'wireless_interface.left.belongs_to_node.manager.lifetime.start'
-                                    , id = 'wireless_interface__left__belongs_to_node__manager__lifetime__start'
+                                    , full_name = 'wireless_interface.left.my_node.manager.lifetime.start'
+                                    , id = 'wireless_interface__left__my_node__manager__lifetime__start'
                                     , name = 'start'
                                     , sig_key = 0
-                                    , ui_name = 'Wireless interface/Net device/Belongs to node/Manager/Lifetime/Start'
+                                    , ui_name = 'Wireless interface/Net device/My node/Manager/Lifetime/Start'
                                     )
                                   , Record
                                     ( attr = Date `finish`
-                                    , full_name = 'wireless_interface.left.belongs_to_node.manager.lifetime.finish'
-                                    , id = 'wireless_interface__left__belongs_to_node__manager__lifetime__finish'
+                                    , full_name = 'wireless_interface.left.my_node.manager.lifetime.finish'
+                                    , id = 'wireless_interface__left__my_node__manager__lifetime__finish'
                                     , name = 'finish'
                                     , sig_key = 0
-                                    , ui_name = 'Wireless interface/Net device/Belongs to node/Manager/Lifetime/Finish'
+                                    , ui_name = 'Wireless interface/Net device/My node/Manager/Lifetime/Finish'
                                     )
                                   , Record
                                     ( attr = Boolean `alive`
                                     , choices = <Recursion on list...>
-                                    , full_name = 'wireless_interface.left.belongs_to_node.manager.lifetime.alive'
-                                    , id = 'wireless_interface__left__belongs_to_node__manager__lifetime__alive'
+                                    , full_name = 'wireless_interface.left.my_node.manager.lifetime.alive'
+                                    , id = 'wireless_interface__left__my_node__manager__lifetime__alive'
                                     , name = 'alive'
                                     , sig_key = 1
-                                    , ui_name = 'Wireless interface/Net device/Belongs to node/Manager/Lifetime/Alive'
+                                    , ui_name = 'Wireless interface/Net device/My node/Manager/Lifetime/Alive'
                                     )
                                   ]
-                              , full_name = 'wireless_interface.left.belongs_to_node.manager.lifetime'
-                              , id = 'wireless_interface__left__belongs_to_node__manager__lifetime'
+                              , full_name = 'wireless_interface.left.my_node.manager.lifetime'
+                              , id = 'wireless_interface__left__my_node__manager__lifetime'
                               , name = 'lifetime'
-                              , ui_name = 'Wireless interface/Net device/Belongs to node/Manager/Lifetime'
+                              , ui_name = 'Wireless interface/Net device/My node/Manager/Lifetime'
                               )
                             , Record
                               ( attr = Sex `sex`
                               , choices = <Recursion on list...>
-                              , full_name = 'wireless_interface.left.belongs_to_node.manager.sex'
-                              , id = 'wireless_interface__left__belongs_to_node__manager__sex'
+                              , full_name = 'wireless_interface.left.my_node.manager.sex'
+                              , id = 'wireless_interface__left__my_node__manager__sex'
                               , name = 'sex'
                               , sig_key = 0
-                              , ui_name = 'Wireless interface/Net device/Belongs to node/Manager/Sex'
+                              , ui_name = 'Wireless interface/Net device/My node/Manager/Sex'
                               )
                             ]
-                        , full_name = 'wireless_interface.left.belongs_to_node.manager'
-                        , id = 'wireless_interface__left__belongs_to_node__manager'
+                        , full_name = 'wireless_interface.left.my_node.manager'
+                        , id = 'wireless_interface__left__my_node__manager'
                         , name = 'manager'
                         , sig_key = 2
                         , type_name = 'PAP.Person'
-                        , ui_name = 'Wireless interface/Net device/Belongs to node/Manager'
+                        , ui_name = 'Wireless interface/Net device/My node/Manager'
                         , ui_type_name = 'Person'
                         )
                       , Record
@@ -7385,34 +10546,34 @@ _test_AQ = """
                         , attrs =
                             [ Record
                               ( attr = Date `start`
-                              , full_name = 'wireless_interface.left.belongs_to_node.lifetime.start'
-                              , id = 'wireless_interface__left__belongs_to_node__lifetime__start'
+                              , full_name = 'wireless_interface.left.my_node.lifetime.start'
+                              , id = 'wireless_interface__left__my_node__lifetime__start'
                               , name = 'start'
                               , sig_key = 0
-                              , ui_name = 'Wireless interface/Net device/Belongs to node/Lifetime/Start'
+                              , ui_name = 'Wireless interface/Net device/My node/Lifetime/Start'
                               )
                             , Record
                               ( attr = Date `finish`
-                              , full_name = 'wireless_interface.left.belongs_to_node.lifetime.finish'
-                              , id = 'wireless_interface__left__belongs_to_node__lifetime__finish'
+                              , full_name = 'wireless_interface.left.my_node.lifetime.finish'
+                              , id = 'wireless_interface__left__my_node__lifetime__finish'
                               , name = 'finish'
                               , sig_key = 0
-                              , ui_name = 'Wireless interface/Net device/Belongs to node/Lifetime/Finish'
+                              , ui_name = 'Wireless interface/Net device/My node/Lifetime/Finish'
                               )
                             , Record
                               ( attr = Boolean `alive`
                               , choices = <Recursion on list...>
-                              , full_name = 'wireless_interface.left.belongs_to_node.lifetime.alive'
-                              , id = 'wireless_interface__left__belongs_to_node__lifetime__alive'
+                              , full_name = 'wireless_interface.left.my_node.lifetime.alive'
+                              , id = 'wireless_interface__left__my_node__lifetime__alive'
                               , name = 'alive'
                               , sig_key = 1
-                              , ui_name = 'Wireless interface/Net device/Belongs to node/Lifetime/Alive'
+                              , ui_name = 'Wireless interface/Net device/My node/Lifetime/Alive'
                               )
                             ]
-                        , full_name = 'wireless_interface.left.belongs_to_node.lifetime'
-                        , id = 'wireless_interface__left__belongs_to_node__lifetime'
+                        , full_name = 'wireless_interface.left.my_node.lifetime'
+                        , id = 'wireless_interface__left__my_node__lifetime'
                         , name = 'lifetime'
-                        , ui_name = 'Wireless interface/Net device/Belongs to node/Lifetime'
+                        , ui_name = 'Wireless interface/Net device/My node/Lifetime'
                         )
                       , Record
                         ( Class = 'Entity'
@@ -7420,59 +10581,59 @@ _test_AQ = """
                         , attrs =
                             [ Record
                               ( attr = String `street`
-                              , full_name = 'wireless_interface.left.belongs_to_node.address.street'
-                              , id = 'wireless_interface__left__belongs_to_node__address__street'
+                              , full_name = 'wireless_interface.left.my_node.address.street'
+                              , id = 'wireless_interface__left__my_node__address__street'
                               , name = 'street'
                               , sig_key = 3
-                              , ui_name = 'Wireless interface/Net device/Belongs to node/Address/Street'
+                              , ui_name = 'Wireless interface/Net device/My node/Address/Street'
                               )
                             , Record
                               ( attr = String `zip`
-                              , full_name = 'wireless_interface.left.belongs_to_node.address.zip'
-                              , id = 'wireless_interface__left__belongs_to_node__address__zip'
+                              , full_name = 'wireless_interface.left.my_node.address.zip'
+                              , id = 'wireless_interface__left__my_node__address__zip'
                               , name = 'zip'
                               , sig_key = 3
-                              , ui_name = 'Wireless interface/Net device/Belongs to node/Address/Zip code'
+                              , ui_name = 'Wireless interface/Net device/My node/Address/Zip code'
                               )
                             , Record
                               ( attr = String `city`
-                              , full_name = 'wireless_interface.left.belongs_to_node.address.city'
-                              , id = 'wireless_interface__left__belongs_to_node__address__city'
+                              , full_name = 'wireless_interface.left.my_node.address.city'
+                              , id = 'wireless_interface__left__my_node__address__city'
                               , name = 'city'
                               , sig_key = 3
-                              , ui_name = 'Wireless interface/Net device/Belongs to node/Address/City'
+                              , ui_name = 'Wireless interface/Net device/My node/Address/City'
                               )
                             , Record
                               ( attr = String `country`
-                              , full_name = 'wireless_interface.left.belongs_to_node.address.country'
-                              , id = 'wireless_interface__left__belongs_to_node__address__country'
+                              , full_name = 'wireless_interface.left.my_node.address.country'
+                              , id = 'wireless_interface__left__my_node__address__country'
                               , name = 'country'
                               , sig_key = 3
-                              , ui_name = 'Wireless interface/Net device/Belongs to node/Address/Country'
+                              , ui_name = 'Wireless interface/Net device/My node/Address/Country'
                               )
                             , Record
                               ( attr = String `desc`
-                              , full_name = 'wireless_interface.left.belongs_to_node.address.desc'
-                              , id = 'wireless_interface__left__belongs_to_node__address__desc'
+                              , full_name = 'wireless_interface.left.my_node.address.desc'
+                              , id = 'wireless_interface__left__my_node__address__desc'
                               , name = 'desc'
                               , sig_key = 3
-                              , ui_name = 'Wireless interface/Net device/Belongs to node/Address/Description'
+                              , ui_name = 'Wireless interface/Net device/My node/Address/Description'
                               )
                             , Record
                               ( attr = String `region`
-                              , full_name = 'wireless_interface.left.belongs_to_node.address.region'
-                              , id = 'wireless_interface__left__belongs_to_node__address__region'
+                              , full_name = 'wireless_interface.left.my_node.address.region'
+                              , id = 'wireless_interface__left__my_node__address__region'
                               , name = 'region'
                               , sig_key = 3
-                              , ui_name = 'Wireless interface/Net device/Belongs to node/Address/Region'
+                              , ui_name = 'Wireless interface/Net device/My node/Address/Region'
                               )
                             ]
-                        , full_name = 'wireless_interface.left.belongs_to_node.address'
-                        , id = 'wireless_interface__left__belongs_to_node__address'
+                        , full_name = 'wireless_interface.left.my_node.address'
+                        , id = 'wireless_interface__left__my_node__address'
                         , name = 'address'
                         , sig_key = 2
                         , type_name = 'PAP.Address'
-                        , ui_name = 'Wireless interface/Net device/Belongs to node/Address'
+                        , ui_name = 'Wireless interface/Net device/My node/Address'
                         , ui_type_name = 'Address'
                         )
                       , Record
@@ -7576,12 +10737,12 @@ _test_AQ = """
                               )
                             ]
                         , default_child = 'PAP.Person'
-                        , full_name = 'wireless_interface.left.belongs_to_node.owner'
-                        , id = 'wireless_interface__left__belongs_to_node__owner'
+                        , full_name = 'wireless_interface.left.my_node.owner'
+                        , id = 'wireless_interface__left__my_node__owner'
                         , name = 'owner'
                         , sig_key = 2
                         , type_name = 'PAP.Subject'
-                        , ui_name = 'Wireless interface/Net device/Belongs to node/Owner'
+                        , ui_name = 'Wireless interface/Net device/My node/Owner'
                         , ui_type_name = 'Subject'
                         )
                       , Record
@@ -7589,50 +10750,50 @@ _test_AQ = """
                         , attrs =
                             [ Record
                               ( attr = Angle `lat`
-                              , full_name = 'wireless_interface.left.belongs_to_node.position.lat'
-                              , id = 'wireless_interface__left__belongs_to_node__position__lat'
+                              , full_name = 'wireless_interface.left.my_node.position.lat'
+                              , id = 'wireless_interface__left__my_node__position__lat'
                               , name = 'lat'
                               , sig_key = 4
-                              , ui_name = 'Wireless interface/Net device/Belongs to node/Position/Latitude'
+                              , ui_name = 'Wireless interface/Net device/My node/Position/Latitude'
                               )
                             , Record
                               ( attr = Angle `lon`
-                              , full_name = 'wireless_interface.left.belongs_to_node.position.lon'
-                              , id = 'wireless_interface__left__belongs_to_node__position__lon'
+                              , full_name = 'wireless_interface.left.my_node.position.lon'
+                              , id = 'wireless_interface__left__my_node__position__lon'
                               , name = 'lon'
                               , sig_key = 4
-                              , ui_name = 'Wireless interface/Net device/Belongs to node/Position/Longitude'
+                              , ui_name = 'Wireless interface/Net device/My node/Position/Longitude'
                               )
                             , Record
                               ( attr = Float `height`
-                              , full_name = 'wireless_interface.left.belongs_to_node.position.height'
-                              , id = 'wireless_interface__left__belongs_to_node__position__height'
+                              , full_name = 'wireless_interface.left.my_node.position.height'
+                              , id = 'wireless_interface__left__my_node__position__height'
                               , name = 'height'
                               , sig_key = 0
-                              , ui_name = 'Wireless interface/Net device/Belongs to node/Position/Height'
+                              , ui_name = 'Wireless interface/Net device/My node/Position/Height'
                               )
                             ]
-                        , full_name = 'wireless_interface.left.belongs_to_node.position'
-                        , id = 'wireless_interface__left__belongs_to_node__position'
+                        , full_name = 'wireless_interface.left.my_node.position'
+                        , id = 'wireless_interface__left__my_node__position'
                         , name = 'position'
-                        , ui_name = 'Wireless interface/Net device/Belongs to node/Position'
+                        , ui_name = 'Wireless interface/Net device/My node/Position'
                         )
                       , Record
                         ( attr = Boolean `show_in_map`
                         , choices = <Recursion on list...>
-                        , full_name = 'wireless_interface.left.belongs_to_node.show_in_map'
-                        , id = 'wireless_interface__left__belongs_to_node__show_in_map'
+                        , full_name = 'wireless_interface.left.my_node.show_in_map'
+                        , id = 'wireless_interface__left__my_node__show_in_map'
                         , name = 'show_in_map'
                         , sig_key = 1
-                        , ui_name = 'Wireless interface/Net device/Belongs to node/Show in map'
+                        , ui_name = 'Wireless interface/Net device/My node/Show in map'
                         )
                       ]
-                  , full_name = 'wireless_interface.left.belongs_to_node'
-                  , id = 'wireless_interface__left__belongs_to_node'
-                  , name = 'belongs_to_node'
+                  , full_name = 'wireless_interface.left.my_node'
+                  , id = 'wireless_interface__left__my_node'
+                  , name = 'my_node'
                   , sig_key = 2
                   , type_name = 'FFM.Node'
-                  , ui_name = 'Wireless interface/Net device/Belongs to node'
+                  , ui_name = 'Wireless interface/Net device/My node'
                   , ui_type_name = 'Node'
                   )
                 ]
@@ -7754,15 +10915,15 @@ _test_AQ = """
             )
           , Record
             ( Class = 'Entity'
-            , attr = Entity `belongs_to_node`
+            , attr = Entity `my_node`
             , attrs =
                 [ Record
                   ( attr = String `name`
-                  , full_name = 'wireless_interface.belongs_to_node.name'
-                  , id = 'wireless_interface__belongs_to_node__name'
+                  , full_name = 'wireless_interface.my_node.name'
+                  , id = 'wireless_interface__my_node__name'
                   , name = 'name'
                   , sig_key = 3
-                  , ui_name = 'Wireless interface/Belongs to node/Name'
+                  , ui_name = 'Wireless interface/My node/Name'
                   )
                 , Record
                   ( Class = 'Entity'
@@ -7770,86 +10931,86 @@ _test_AQ = """
                   , attrs =
                       [ Record
                         ( attr = String `last_name`
-                        , full_name = 'wireless_interface.belongs_to_node.manager.last_name'
-                        , id = 'wireless_interface__belongs_to_node__manager__last_name'
+                        , full_name = 'wireless_interface.my_node.manager.last_name'
+                        , id = 'wireless_interface__my_node__manager__last_name'
                         , name = 'last_name'
                         , sig_key = 3
-                        , ui_name = 'Wireless interface/Belongs to node/Manager/Last name'
+                        , ui_name = 'Wireless interface/My node/Manager/Last name'
                         )
                       , Record
                         ( attr = String `first_name`
-                        , full_name = 'wireless_interface.belongs_to_node.manager.first_name'
-                        , id = 'wireless_interface__belongs_to_node__manager__first_name'
+                        , full_name = 'wireless_interface.my_node.manager.first_name'
+                        , id = 'wireless_interface__my_node__manager__first_name'
                         , name = 'first_name'
                         , sig_key = 3
-                        , ui_name = 'Wireless interface/Belongs to node/Manager/First name'
+                        , ui_name = 'Wireless interface/My node/Manager/First name'
                         )
                       , Record
                         ( attr = String `middle_name`
-                        , full_name = 'wireless_interface.belongs_to_node.manager.middle_name'
-                        , id = 'wireless_interface__belongs_to_node__manager__middle_name'
+                        , full_name = 'wireless_interface.my_node.manager.middle_name'
+                        , id = 'wireless_interface__my_node__manager__middle_name'
                         , name = 'middle_name'
                         , sig_key = 3
-                        , ui_name = 'Wireless interface/Belongs to node/Manager/Middle name'
+                        , ui_name = 'Wireless interface/My node/Manager/Middle name'
                         )
                       , Record
                         ( attr = String `title`
-                        , full_name = 'wireless_interface.belongs_to_node.manager.title'
-                        , id = 'wireless_interface__belongs_to_node__manager__title'
+                        , full_name = 'wireless_interface.my_node.manager.title'
+                        , id = 'wireless_interface__my_node__manager__title'
                         , name = 'title'
                         , sig_key = 3
-                        , ui_name = 'Wireless interface/Belongs to node/Manager/Academic title'
+                        , ui_name = 'Wireless interface/My node/Manager/Academic title'
                         )
                       , Record
                         ( attr = Date_Interval `lifetime`
                         , attrs =
                             [ Record
                               ( attr = Date `start`
-                              , full_name = 'wireless_interface.belongs_to_node.manager.lifetime.start'
-                              , id = 'wireless_interface__belongs_to_node__manager__lifetime__start'
+                              , full_name = 'wireless_interface.my_node.manager.lifetime.start'
+                              , id = 'wireless_interface__my_node__manager__lifetime__start'
                               , name = 'start'
                               , sig_key = 0
-                              , ui_name = 'Wireless interface/Belongs to node/Manager/Lifetime/Start'
+                              , ui_name = 'Wireless interface/My node/Manager/Lifetime/Start'
                               )
                             , Record
                               ( attr = Date `finish`
-                              , full_name = 'wireless_interface.belongs_to_node.manager.lifetime.finish'
-                              , id = 'wireless_interface__belongs_to_node__manager__lifetime__finish'
+                              , full_name = 'wireless_interface.my_node.manager.lifetime.finish'
+                              , id = 'wireless_interface__my_node__manager__lifetime__finish'
                               , name = 'finish'
                               , sig_key = 0
-                              , ui_name = 'Wireless interface/Belongs to node/Manager/Lifetime/Finish'
+                              , ui_name = 'Wireless interface/My node/Manager/Lifetime/Finish'
                               )
                             , Record
                               ( attr = Boolean `alive`
                               , choices = <Recursion on list...>
-                              , full_name = 'wireless_interface.belongs_to_node.manager.lifetime.alive'
-                              , id = 'wireless_interface__belongs_to_node__manager__lifetime__alive'
+                              , full_name = 'wireless_interface.my_node.manager.lifetime.alive'
+                              , id = 'wireless_interface__my_node__manager__lifetime__alive'
                               , name = 'alive'
                               , sig_key = 1
-                              , ui_name = 'Wireless interface/Belongs to node/Manager/Lifetime/Alive'
+                              , ui_name = 'Wireless interface/My node/Manager/Lifetime/Alive'
                               )
                             ]
-                        , full_name = 'wireless_interface.belongs_to_node.manager.lifetime'
-                        , id = 'wireless_interface__belongs_to_node__manager__lifetime'
+                        , full_name = 'wireless_interface.my_node.manager.lifetime'
+                        , id = 'wireless_interface__my_node__manager__lifetime'
                         , name = 'lifetime'
-                        , ui_name = 'Wireless interface/Belongs to node/Manager/Lifetime'
+                        , ui_name = 'Wireless interface/My node/Manager/Lifetime'
                         )
                       , Record
                         ( attr = Sex `sex`
                         , choices = <Recursion on list...>
-                        , full_name = 'wireless_interface.belongs_to_node.manager.sex'
-                        , id = 'wireless_interface__belongs_to_node__manager__sex'
+                        , full_name = 'wireless_interface.my_node.manager.sex'
+                        , id = 'wireless_interface__my_node__manager__sex'
                         , name = 'sex'
                         , sig_key = 0
-                        , ui_name = 'Wireless interface/Belongs to node/Manager/Sex'
+                        , ui_name = 'Wireless interface/My node/Manager/Sex'
                         )
                       ]
-                  , full_name = 'wireless_interface.belongs_to_node.manager'
-                  , id = 'wireless_interface__belongs_to_node__manager'
+                  , full_name = 'wireless_interface.my_node.manager'
+                  , id = 'wireless_interface__my_node__manager'
                   , name = 'manager'
                   , sig_key = 2
                   , type_name = 'PAP.Person'
-                  , ui_name = 'Wireless interface/Belongs to node/Manager'
+                  , ui_name = 'Wireless interface/My node/Manager'
                   , ui_type_name = 'Person'
                   )
                 , Record
@@ -7857,34 +11018,34 @@ _test_AQ = """
                   , attrs =
                       [ Record
                         ( attr = Date `start`
-                        , full_name = 'wireless_interface.belongs_to_node.lifetime.start'
-                        , id = 'wireless_interface__belongs_to_node__lifetime__start'
+                        , full_name = 'wireless_interface.my_node.lifetime.start'
+                        , id = 'wireless_interface__my_node__lifetime__start'
                         , name = 'start'
                         , sig_key = 0
-                        , ui_name = 'Wireless interface/Belongs to node/Lifetime/Start'
+                        , ui_name = 'Wireless interface/My node/Lifetime/Start'
                         )
                       , Record
                         ( attr = Date `finish`
-                        , full_name = 'wireless_interface.belongs_to_node.lifetime.finish'
-                        , id = 'wireless_interface__belongs_to_node__lifetime__finish'
+                        , full_name = 'wireless_interface.my_node.lifetime.finish'
+                        , id = 'wireless_interface__my_node__lifetime__finish'
                         , name = 'finish'
                         , sig_key = 0
-                        , ui_name = 'Wireless interface/Belongs to node/Lifetime/Finish'
+                        , ui_name = 'Wireless interface/My node/Lifetime/Finish'
                         )
                       , Record
                         ( attr = Boolean `alive`
                         , choices = <Recursion on list...>
-                        , full_name = 'wireless_interface.belongs_to_node.lifetime.alive'
-                        , id = 'wireless_interface__belongs_to_node__lifetime__alive'
+                        , full_name = 'wireless_interface.my_node.lifetime.alive'
+                        , id = 'wireless_interface__my_node__lifetime__alive'
                         , name = 'alive'
                         , sig_key = 1
-                        , ui_name = 'Wireless interface/Belongs to node/Lifetime/Alive'
+                        , ui_name = 'Wireless interface/My node/Lifetime/Alive'
                         )
                       ]
-                  , full_name = 'wireless_interface.belongs_to_node.lifetime'
-                  , id = 'wireless_interface__belongs_to_node__lifetime'
+                  , full_name = 'wireless_interface.my_node.lifetime'
+                  , id = 'wireless_interface__my_node__lifetime'
                   , name = 'lifetime'
-                  , ui_name = 'Wireless interface/Belongs to node/Lifetime'
+                  , ui_name = 'Wireless interface/My node/Lifetime'
                   )
                 , Record
                   ( Class = 'Entity'
@@ -7892,59 +11053,59 @@ _test_AQ = """
                   , attrs =
                       [ Record
                         ( attr = String `street`
-                        , full_name = 'wireless_interface.belongs_to_node.address.street'
-                        , id = 'wireless_interface__belongs_to_node__address__street'
+                        , full_name = 'wireless_interface.my_node.address.street'
+                        , id = 'wireless_interface__my_node__address__street'
                         , name = 'street'
                         , sig_key = 3
-                        , ui_name = 'Wireless interface/Belongs to node/Address/Street'
+                        , ui_name = 'Wireless interface/My node/Address/Street'
                         )
                       , Record
                         ( attr = String `zip`
-                        , full_name = 'wireless_interface.belongs_to_node.address.zip'
-                        , id = 'wireless_interface__belongs_to_node__address__zip'
+                        , full_name = 'wireless_interface.my_node.address.zip'
+                        , id = 'wireless_interface__my_node__address__zip'
                         , name = 'zip'
                         , sig_key = 3
-                        , ui_name = 'Wireless interface/Belongs to node/Address/Zip code'
+                        , ui_name = 'Wireless interface/My node/Address/Zip code'
                         )
                       , Record
                         ( attr = String `city`
-                        , full_name = 'wireless_interface.belongs_to_node.address.city'
-                        , id = 'wireless_interface__belongs_to_node__address__city'
+                        , full_name = 'wireless_interface.my_node.address.city'
+                        , id = 'wireless_interface__my_node__address__city'
                         , name = 'city'
                         , sig_key = 3
-                        , ui_name = 'Wireless interface/Belongs to node/Address/City'
+                        , ui_name = 'Wireless interface/My node/Address/City'
                         )
                       , Record
                         ( attr = String `country`
-                        , full_name = 'wireless_interface.belongs_to_node.address.country'
-                        , id = 'wireless_interface__belongs_to_node__address__country'
+                        , full_name = 'wireless_interface.my_node.address.country'
+                        , id = 'wireless_interface__my_node__address__country'
                         , name = 'country'
                         , sig_key = 3
-                        , ui_name = 'Wireless interface/Belongs to node/Address/Country'
+                        , ui_name = 'Wireless interface/My node/Address/Country'
                         )
                       , Record
                         ( attr = String `desc`
-                        , full_name = 'wireless_interface.belongs_to_node.address.desc'
-                        , id = 'wireless_interface__belongs_to_node__address__desc'
+                        , full_name = 'wireless_interface.my_node.address.desc'
+                        , id = 'wireless_interface__my_node__address__desc'
                         , name = 'desc'
                         , sig_key = 3
-                        , ui_name = 'Wireless interface/Belongs to node/Address/Description'
+                        , ui_name = 'Wireless interface/My node/Address/Description'
                         )
                       , Record
                         ( attr = String `region`
-                        , full_name = 'wireless_interface.belongs_to_node.address.region'
-                        , id = 'wireless_interface__belongs_to_node__address__region'
+                        , full_name = 'wireless_interface.my_node.address.region'
+                        , id = 'wireless_interface__my_node__address__region'
                         , name = 'region'
                         , sig_key = 3
-                        , ui_name = 'Wireless interface/Belongs to node/Address/Region'
+                        , ui_name = 'Wireless interface/My node/Address/Region'
                         )
                       ]
-                  , full_name = 'wireless_interface.belongs_to_node.address'
-                  , id = 'wireless_interface__belongs_to_node__address'
+                  , full_name = 'wireless_interface.my_node.address'
+                  , id = 'wireless_interface__my_node__address'
                   , name = 'address'
                   , sig_key = 2
                   , type_name = 'PAP.Address'
-                  , ui_name = 'Wireless interface/Belongs to node/Address'
+                  , ui_name = 'Wireless interface/My node/Address'
                   , ui_type_name = 'Address'
                   )
                 , Record
@@ -8048,12 +11209,12 @@ _test_AQ = """
                         )
                       ]
                   , default_child = 'PAP.Person'
-                  , full_name = 'wireless_interface.belongs_to_node.owner'
-                  , id = 'wireless_interface__belongs_to_node__owner'
+                  , full_name = 'wireless_interface.my_node.owner'
+                  , id = 'wireless_interface__my_node__owner'
                   , name = 'owner'
                   , sig_key = 2
                   , type_name = 'PAP.Subject'
-                  , ui_name = 'Wireless interface/Belongs to node/Owner'
+                  , ui_name = 'Wireless interface/My node/Owner'
                   , ui_type_name = 'Subject'
                   )
                 , Record
@@ -8061,51 +11222,835 @@ _test_AQ = """
                   , attrs =
                       [ Record
                         ( attr = Angle `lat`
-                        , full_name = 'wireless_interface.belongs_to_node.position.lat'
-                        , id = 'wireless_interface__belongs_to_node__position__lat'
+                        , full_name = 'wireless_interface.my_node.position.lat'
+                        , id = 'wireless_interface__my_node__position__lat'
                         , name = 'lat'
                         , sig_key = 4
-                        , ui_name = 'Wireless interface/Belongs to node/Position/Latitude'
+                        , ui_name = 'Wireless interface/My node/Position/Latitude'
                         )
                       , Record
                         ( attr = Angle `lon`
-                        , full_name = 'wireless_interface.belongs_to_node.position.lon'
-                        , id = 'wireless_interface__belongs_to_node__position__lon'
+                        , full_name = 'wireless_interface.my_node.position.lon'
+                        , id = 'wireless_interface__my_node__position__lon'
                         , name = 'lon'
                         , sig_key = 4
-                        , ui_name = 'Wireless interface/Belongs to node/Position/Longitude'
+                        , ui_name = 'Wireless interface/My node/Position/Longitude'
                         )
                       , Record
                         ( attr = Float `height`
-                        , full_name = 'wireless_interface.belongs_to_node.position.height'
-                        , id = 'wireless_interface__belongs_to_node__position__height'
+                        , full_name = 'wireless_interface.my_node.position.height'
+                        , id = 'wireless_interface__my_node__position__height'
                         , name = 'height'
                         , sig_key = 0
-                        , ui_name = 'Wireless interface/Belongs to node/Position/Height'
+                        , ui_name = 'Wireless interface/My node/Position/Height'
                         )
                       ]
-                  , full_name = 'wireless_interface.belongs_to_node.position'
-                  , id = 'wireless_interface__belongs_to_node__position'
+                  , full_name = 'wireless_interface.my_node.position'
+                  , id = 'wireless_interface__my_node__position'
                   , name = 'position'
-                  , ui_name = 'Wireless interface/Belongs to node/Position'
+                  , ui_name = 'Wireless interface/My node/Position'
                   )
                 , Record
                   ( attr = Boolean `show_in_map`
                   , choices = <Recursion on list...>
-                  , full_name = 'wireless_interface.belongs_to_node.show_in_map'
-                  , id = 'wireless_interface__belongs_to_node__show_in_map'
+                  , full_name = 'wireless_interface.my_node.show_in_map'
+                  , id = 'wireless_interface__my_node__show_in_map'
                   , name = 'show_in_map'
                   , sig_key = 1
-                  , ui_name = 'Wireless interface/Belongs to node/Show in map'
+                  , ui_name = 'Wireless interface/My node/Show in map'
                   )
                 ]
-            , full_name = 'wireless_interface.belongs_to_node'
-            , id = 'wireless_interface__belongs_to_node'
-            , name = 'belongs_to_node'
+            , full_name = 'wireless_interface.my_node'
+            , id = 'wireless_interface__my_node'
+            , name = 'my_node'
             , sig_key = 2
             , type_name = 'FFM.Node'
-            , ui_name = 'Wireless interface/Belongs to node'
+            , ui_name = 'Wireless interface/My node'
             , ui_type_name = 'Node'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `my_net_device`
+            , attrs =
+                [ Record
+                  ( Class = 'Entity'
+                  , attr = Net_Device_Type `left`
+                  , attrs =
+                      [ Record
+                        ( attr = String `name`
+                        , full_name = 'wireless_interface.my_net_device.left.name'
+                        , id = 'wireless_interface__my_net_device__left__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Wireless interface/My net device/Net device type/Name'
+                        )
+                      , Record
+                        ( attr = String `model_no`
+                        , full_name = 'wireless_interface.my_net_device.left.model_no'
+                        , id = 'wireless_interface__my_net_device__left__model_no'
+                        , name = 'model_no'
+                        , sig_key = 3
+                        , ui_name = 'Wireless interface/My net device/Net device type/Model no'
+                        )
+                      , Record
+                        ( attr = String `revision`
+                        , full_name = 'wireless_interface.my_net_device.left.revision'
+                        , id = 'wireless_interface__my_net_device__left__revision'
+                        , name = 'revision'
+                        , sig_key = 3
+                        , ui_name = 'Wireless interface/My net device/Net device type/Revision'
+                        )
+                      , Record
+                        ( attr = Text `desc`
+                        , full_name = 'wireless_interface.my_net_device.left.desc'
+                        , id = 'wireless_interface__my_net_device__left__desc'
+                        , name = 'desc'
+                        , sig_key = 3
+                        , ui_name = 'Wireless interface/My net device/Net device type/Desc'
+                        )
+                      ]
+                  , full_name = 'wireless_interface.my_net_device.left'
+                  , id = 'wireless_interface__my_net_device__left'
+                  , name = 'left'
+                  , sig_key = 2
+                  , type_name = 'FFM.Net_Device_Type'
+                  , ui_name = 'Wireless interface/My net device/Net device type'
+                  , ui_type_name = 'Net_Device_Type'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `node`
+                  , attrs =
+                      [ Record
+                        ( attr = String `name`
+                        , full_name = 'wireless_interface.my_net_device.node.name'
+                        , id = 'wireless_interface__my_net_device__node__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Wireless interface/My net device/Node/Name'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `manager`
+                        , attrs =
+                            [ Record
+                              ( attr = String `last_name`
+                              , full_name = 'wireless_interface.my_net_device.node.manager.last_name'
+                              , id = 'wireless_interface__my_net_device__node__manager__last_name'
+                              , name = 'last_name'
+                              , sig_key = 3
+                              , ui_name = 'Wireless interface/My net device/Node/Manager/Last name'
+                              )
+                            , Record
+                              ( attr = String `first_name`
+                              , full_name = 'wireless_interface.my_net_device.node.manager.first_name'
+                              , id = 'wireless_interface__my_net_device__node__manager__first_name'
+                              , name = 'first_name'
+                              , sig_key = 3
+                              , ui_name = 'Wireless interface/My net device/Node/Manager/First name'
+                              )
+                            , Record
+                              ( attr = String `middle_name`
+                              , full_name = 'wireless_interface.my_net_device.node.manager.middle_name'
+                              , id = 'wireless_interface__my_net_device__node__manager__middle_name'
+                              , name = 'middle_name'
+                              , sig_key = 3
+                              , ui_name = 'Wireless interface/My net device/Node/Manager/Middle name'
+                              )
+                            , Record
+                              ( attr = String `title`
+                              , full_name = 'wireless_interface.my_net_device.node.manager.title'
+                              , id = 'wireless_interface__my_net_device__node__manager__title'
+                              , name = 'title'
+                              , sig_key = 3
+                              , ui_name = 'Wireless interface/My net device/Node/Manager/Academic title'
+                              )
+                            , Record
+                              ( attr = Date_Interval `lifetime`
+                              , attrs =
+                                  [ Record
+                                    ( attr = Date `start`
+                                    , full_name = 'wireless_interface.my_net_device.node.manager.lifetime.start'
+                                    , id = 'wireless_interface__my_net_device__node__manager__lifetime__start'
+                                    , name = 'start'
+                                    , sig_key = 0
+                                    , ui_name = 'Wireless interface/My net device/Node/Manager/Lifetime/Start'
+                                    )
+                                  , Record
+                                    ( attr = Date `finish`
+                                    , full_name = 'wireless_interface.my_net_device.node.manager.lifetime.finish'
+                                    , id = 'wireless_interface__my_net_device__node__manager__lifetime__finish'
+                                    , name = 'finish'
+                                    , sig_key = 0
+                                    , ui_name = 'Wireless interface/My net device/Node/Manager/Lifetime/Finish'
+                                    )
+                                  , Record
+                                    ( attr = Boolean `alive`
+                                    , choices = <Recursion on list...>
+                                    , full_name = 'wireless_interface.my_net_device.node.manager.lifetime.alive'
+                                    , id = 'wireless_interface__my_net_device__node__manager__lifetime__alive'
+                                    , name = 'alive'
+                                    , sig_key = 1
+                                    , ui_name = 'Wireless interface/My net device/Node/Manager/Lifetime/Alive'
+                                    )
+                                  ]
+                              , full_name = 'wireless_interface.my_net_device.node.manager.lifetime'
+                              , id = 'wireless_interface__my_net_device__node__manager__lifetime'
+                              , name = 'lifetime'
+                              , ui_name = 'Wireless interface/My net device/Node/Manager/Lifetime'
+                              )
+                            , Record
+                              ( attr = Sex `sex`
+                              , choices = <Recursion on list...>
+                              , full_name = 'wireless_interface.my_net_device.node.manager.sex'
+                              , id = 'wireless_interface__my_net_device__node__manager__sex'
+                              , name = 'sex'
+                              , sig_key = 0
+                              , ui_name = 'Wireless interface/My net device/Node/Manager/Sex'
+                              )
+                            ]
+                        , full_name = 'wireless_interface.my_net_device.node.manager'
+                        , id = 'wireless_interface__my_net_device__node__manager'
+                        , name = 'manager'
+                        , sig_key = 2
+                        , type_name = 'PAP.Person'
+                        , ui_name = 'Wireless interface/My net device/Node/Manager'
+                        , ui_type_name = 'Person'
+                        )
+                      , Record
+                        ( attr = Date_Interval `lifetime`
+                        , attrs =
+                            [ Record
+                              ( attr = Date `start`
+                              , full_name = 'wireless_interface.my_net_device.node.lifetime.start'
+                              , id = 'wireless_interface__my_net_device__node__lifetime__start'
+                              , name = 'start'
+                              , sig_key = 0
+                              , ui_name = 'Wireless interface/My net device/Node/Lifetime/Start'
+                              )
+                            , Record
+                              ( attr = Date `finish`
+                              , full_name = 'wireless_interface.my_net_device.node.lifetime.finish'
+                              , id = 'wireless_interface__my_net_device__node__lifetime__finish'
+                              , name = 'finish'
+                              , sig_key = 0
+                              , ui_name = 'Wireless interface/My net device/Node/Lifetime/Finish'
+                              )
+                            , Record
+                              ( attr = Boolean `alive`
+                              , choices = <Recursion on list...>
+                              , full_name = 'wireless_interface.my_net_device.node.lifetime.alive'
+                              , id = 'wireless_interface__my_net_device__node__lifetime__alive'
+                              , name = 'alive'
+                              , sig_key = 1
+                              , ui_name = 'Wireless interface/My net device/Node/Lifetime/Alive'
+                              )
+                            ]
+                        , full_name = 'wireless_interface.my_net_device.node.lifetime'
+                        , id = 'wireless_interface__my_net_device__node__lifetime'
+                        , name = 'lifetime'
+                        , ui_name = 'Wireless interface/My net device/Node/Lifetime'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `address`
+                        , attrs =
+                            [ Record
+                              ( attr = String `street`
+                              , full_name = 'wireless_interface.my_net_device.node.address.street'
+                              , id = 'wireless_interface__my_net_device__node__address__street'
+                              , name = 'street'
+                              , sig_key = 3
+                              , ui_name = 'Wireless interface/My net device/Node/Address/Street'
+                              )
+                            , Record
+                              ( attr = String `zip`
+                              , full_name = 'wireless_interface.my_net_device.node.address.zip'
+                              , id = 'wireless_interface__my_net_device__node__address__zip'
+                              , name = 'zip'
+                              , sig_key = 3
+                              , ui_name = 'Wireless interface/My net device/Node/Address/Zip code'
+                              )
+                            , Record
+                              ( attr = String `city`
+                              , full_name = 'wireless_interface.my_net_device.node.address.city'
+                              , id = 'wireless_interface__my_net_device__node__address__city'
+                              , name = 'city'
+                              , sig_key = 3
+                              , ui_name = 'Wireless interface/My net device/Node/Address/City'
+                              )
+                            , Record
+                              ( attr = String `country`
+                              , full_name = 'wireless_interface.my_net_device.node.address.country'
+                              , id = 'wireless_interface__my_net_device__node__address__country'
+                              , name = 'country'
+                              , sig_key = 3
+                              , ui_name = 'Wireless interface/My net device/Node/Address/Country'
+                              )
+                            , Record
+                              ( attr = String `desc`
+                              , full_name = 'wireless_interface.my_net_device.node.address.desc'
+                              , id = 'wireless_interface__my_net_device__node__address__desc'
+                              , name = 'desc'
+                              , sig_key = 3
+                              , ui_name = 'Wireless interface/My net device/Node/Address/Description'
+                              )
+                            , Record
+                              ( attr = String `region`
+                              , full_name = 'wireless_interface.my_net_device.node.address.region'
+                              , id = 'wireless_interface__my_net_device__node__address__region'
+                              , name = 'region'
+                              , sig_key = 3
+                              , ui_name = 'Wireless interface/My net device/Node/Address/Region'
+                              )
+                            ]
+                        , full_name = 'wireless_interface.my_net_device.node.address'
+                        , id = 'wireless_interface__my_net_device__node__address'
+                        , name = 'address'
+                        , sig_key = 2
+                        , type_name = 'PAP.Address'
+                        , ui_name = 'Wireless interface/My net device/Node/Address'
+                        , ui_type_name = 'Address'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `owner`
+                        , children_np =
+                            [ Record
+                              ( Class = 'Entity'
+                              , attr = Entity `owner`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `name`
+                                    , full_name = 'owner.name'
+                                    , id = 'owner__name'
+                                    , name = 'name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Association]/Name'
+                                    )
+                                  ]
+                              , full_name = 'owner'
+                              , id = 'owner'
+                              , name = 'owner'
+                              , sig_key = 2
+                              , type_name = 'PAP.Association'
+                              , ui_name = 'Owner[Association]'
+                              , ui_type_name = 'Association'
+                              )
+                            , Record
+                              ( Class = 'Entity'
+                              , attr = Entity `owner`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `name`
+                                    , full_name = 'owner.name'
+                                    , id = 'owner__name'
+                                    , name = 'name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Company]/Name'
+                                    )
+                                  , Record
+                                    ( attr = String `registered_in`
+                                    , full_name = 'owner.registered_in'
+                                    , id = 'owner__registered_in'
+                                    , name = 'registered_in'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Company]/Registered in'
+                                    )
+                                  ]
+                              , full_name = 'owner'
+                              , id = 'owner'
+                              , name = 'owner'
+                              , sig_key = 2
+                              , type_name = 'PAP.Company'
+                              , ui_name = 'Owner[Company]'
+                              , ui_type_name = 'Company'
+                              )
+                            , Record
+                              ( Class = 'Entity'
+                              , attr = Entity `owner`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `last_name`
+                                    , full_name = 'owner.last_name'
+                                    , id = 'owner__last_name'
+                                    , name = 'last_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/Last name'
+                                    )
+                                  , Record
+                                    ( attr = String `first_name`
+                                    , full_name = 'owner.first_name'
+                                    , id = 'owner__first_name'
+                                    , name = 'first_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/First name'
+                                    )
+                                  , Record
+                                    ( attr = String `middle_name`
+                                    , full_name = 'owner.middle_name'
+                                    , id = 'owner__middle_name'
+                                    , name = 'middle_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/Middle name'
+                                    )
+                                  , Record
+                                    ( attr = String `title`
+                                    , full_name = 'owner.title'
+                                    , id = 'owner__title'
+                                    , name = 'title'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/Academic title'
+                                    )
+                                  ]
+                              , full_name = 'owner'
+                              , id = 'owner'
+                              , name = 'owner'
+                              , sig_key = 2
+                              , type_name = 'PAP.Person'
+                              , ui_name = 'Owner[Person]'
+                              , ui_type_name = 'Person'
+                              )
+                            ]
+                        , default_child = 'PAP.Person'
+                        , full_name = 'wireless_interface.my_net_device.node.owner'
+                        , id = 'wireless_interface__my_net_device__node__owner'
+                        , name = 'owner'
+                        , sig_key = 2
+                        , type_name = 'PAP.Subject'
+                        , ui_name = 'Wireless interface/My net device/Node/Owner'
+                        , ui_type_name = 'Subject'
+                        )
+                      , Record
+                        ( attr = Position `position`
+                        , attrs =
+                            [ Record
+                              ( attr = Angle `lat`
+                              , full_name = 'wireless_interface.my_net_device.node.position.lat'
+                              , id = 'wireless_interface__my_net_device__node__position__lat'
+                              , name = 'lat'
+                              , sig_key = 4
+                              , ui_name = 'Wireless interface/My net device/Node/Position/Latitude'
+                              )
+                            , Record
+                              ( attr = Angle `lon`
+                              , full_name = 'wireless_interface.my_net_device.node.position.lon'
+                              , id = 'wireless_interface__my_net_device__node__position__lon'
+                              , name = 'lon'
+                              , sig_key = 4
+                              , ui_name = 'Wireless interface/My net device/Node/Position/Longitude'
+                              )
+                            , Record
+                              ( attr = Float `height`
+                              , full_name = 'wireless_interface.my_net_device.node.position.height'
+                              , id = 'wireless_interface__my_net_device__node__position__height'
+                              , name = 'height'
+                              , sig_key = 0
+                              , ui_name = 'Wireless interface/My net device/Node/Position/Height'
+                              )
+                            ]
+                        , full_name = 'wireless_interface.my_net_device.node.position'
+                        , id = 'wireless_interface__my_net_device__node__position'
+                        , name = 'position'
+                        , ui_name = 'Wireless interface/My net device/Node/Position'
+                        )
+                      , Record
+                        ( attr = Boolean `show_in_map`
+                        , choices = <Recursion on list...>
+                        , full_name = 'wireless_interface.my_net_device.node.show_in_map'
+                        , id = 'wireless_interface__my_net_device__node__show_in_map'
+                        , name = 'show_in_map'
+                        , sig_key = 1
+                        , ui_name = 'Wireless interface/My net device/Node/Show in map'
+                        )
+                      ]
+                  , full_name = 'wireless_interface.my_net_device.node'
+                  , id = 'wireless_interface__my_net_device__node'
+                  , name = 'node'
+                  , sig_key = 2
+                  , type_name = 'FFM.Node'
+                  , ui_name = 'Wireless interface/My net device/Node'
+                  , ui_type_name = 'Node'
+                  )
+                , Record
+                  ( attr = String `name`
+                  , full_name = 'wireless_interface.my_net_device.name'
+                  , id = 'wireless_interface__my_net_device__name'
+                  , name = 'name'
+                  , sig_key = 3
+                  , ui_name = 'Wireless interface/My net device/Name'
+                  )
+                , Record
+                  ( attr = Text `desc`
+                  , full_name = 'wireless_interface.my_net_device.desc'
+                  , id = 'wireless_interface__my_net_device__desc'
+                  , name = 'desc'
+                  , sig_key = 3
+                  , ui_name = 'Wireless interface/My net device/Desc'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `my_node`
+                  , attrs =
+                      [ Record
+                        ( attr = String `name`
+                        , full_name = 'wireless_interface.my_net_device.my_node.name'
+                        , id = 'wireless_interface__my_net_device__my_node__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Wireless interface/My net device/My node/Name'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `manager`
+                        , attrs =
+                            [ Record
+                              ( attr = String `last_name`
+                              , full_name = 'wireless_interface.my_net_device.my_node.manager.last_name'
+                              , id = 'wireless_interface__my_net_device__my_node__manager__last_name'
+                              , name = 'last_name'
+                              , sig_key = 3
+                              , ui_name = 'Wireless interface/My net device/My node/Manager/Last name'
+                              )
+                            , Record
+                              ( attr = String `first_name`
+                              , full_name = 'wireless_interface.my_net_device.my_node.manager.first_name'
+                              , id = 'wireless_interface__my_net_device__my_node__manager__first_name'
+                              , name = 'first_name'
+                              , sig_key = 3
+                              , ui_name = 'Wireless interface/My net device/My node/Manager/First name'
+                              )
+                            , Record
+                              ( attr = String `middle_name`
+                              , full_name = 'wireless_interface.my_net_device.my_node.manager.middle_name'
+                              , id = 'wireless_interface__my_net_device__my_node__manager__middle_name'
+                              , name = 'middle_name'
+                              , sig_key = 3
+                              , ui_name = 'Wireless interface/My net device/My node/Manager/Middle name'
+                              )
+                            , Record
+                              ( attr = String `title`
+                              , full_name = 'wireless_interface.my_net_device.my_node.manager.title'
+                              , id = 'wireless_interface__my_net_device__my_node__manager__title'
+                              , name = 'title'
+                              , sig_key = 3
+                              , ui_name = 'Wireless interface/My net device/My node/Manager/Academic title'
+                              )
+                            , Record
+                              ( attr = Date_Interval `lifetime`
+                              , attrs =
+                                  [ Record
+                                    ( attr = Date `start`
+                                    , full_name = 'wireless_interface.my_net_device.my_node.manager.lifetime.start'
+                                    , id = 'wireless_interface__my_net_device__my_node__manager__lifetime__start'
+                                    , name = 'start'
+                                    , sig_key = 0
+                                    , ui_name = 'Wireless interface/My net device/My node/Manager/Lifetime/Start'
+                                    )
+                                  , Record
+                                    ( attr = Date `finish`
+                                    , full_name = 'wireless_interface.my_net_device.my_node.manager.lifetime.finish'
+                                    , id = 'wireless_interface__my_net_device__my_node__manager__lifetime__finish'
+                                    , name = 'finish'
+                                    , sig_key = 0
+                                    , ui_name = 'Wireless interface/My net device/My node/Manager/Lifetime/Finish'
+                                    )
+                                  , Record
+                                    ( attr = Boolean `alive`
+                                    , choices = <Recursion on list...>
+                                    , full_name = 'wireless_interface.my_net_device.my_node.manager.lifetime.alive'
+                                    , id = 'wireless_interface__my_net_device__my_node__manager__lifetime__alive'
+                                    , name = 'alive'
+                                    , sig_key = 1
+                                    , ui_name = 'Wireless interface/My net device/My node/Manager/Lifetime/Alive'
+                                    )
+                                  ]
+                              , full_name = 'wireless_interface.my_net_device.my_node.manager.lifetime'
+                              , id = 'wireless_interface__my_net_device__my_node__manager__lifetime'
+                              , name = 'lifetime'
+                              , ui_name = 'Wireless interface/My net device/My node/Manager/Lifetime'
+                              )
+                            , Record
+                              ( attr = Sex `sex`
+                              , choices = <Recursion on list...>
+                              , full_name = 'wireless_interface.my_net_device.my_node.manager.sex'
+                              , id = 'wireless_interface__my_net_device__my_node__manager__sex'
+                              , name = 'sex'
+                              , sig_key = 0
+                              , ui_name = 'Wireless interface/My net device/My node/Manager/Sex'
+                              )
+                            ]
+                        , full_name = 'wireless_interface.my_net_device.my_node.manager'
+                        , id = 'wireless_interface__my_net_device__my_node__manager'
+                        , name = 'manager'
+                        , sig_key = 2
+                        , type_name = 'PAP.Person'
+                        , ui_name = 'Wireless interface/My net device/My node/Manager'
+                        , ui_type_name = 'Person'
+                        )
+                      , Record
+                        ( attr = Date_Interval `lifetime`
+                        , attrs =
+                            [ Record
+                              ( attr = Date `start`
+                              , full_name = 'wireless_interface.my_net_device.my_node.lifetime.start'
+                              , id = 'wireless_interface__my_net_device__my_node__lifetime__start'
+                              , name = 'start'
+                              , sig_key = 0
+                              , ui_name = 'Wireless interface/My net device/My node/Lifetime/Start'
+                              )
+                            , Record
+                              ( attr = Date `finish`
+                              , full_name = 'wireless_interface.my_net_device.my_node.lifetime.finish'
+                              , id = 'wireless_interface__my_net_device__my_node__lifetime__finish'
+                              , name = 'finish'
+                              , sig_key = 0
+                              , ui_name = 'Wireless interface/My net device/My node/Lifetime/Finish'
+                              )
+                            , Record
+                              ( attr = Boolean `alive`
+                              , choices = <Recursion on list...>
+                              , full_name = 'wireless_interface.my_net_device.my_node.lifetime.alive'
+                              , id = 'wireless_interface__my_net_device__my_node__lifetime__alive'
+                              , name = 'alive'
+                              , sig_key = 1
+                              , ui_name = 'Wireless interface/My net device/My node/Lifetime/Alive'
+                              )
+                            ]
+                        , full_name = 'wireless_interface.my_net_device.my_node.lifetime'
+                        , id = 'wireless_interface__my_net_device__my_node__lifetime'
+                        , name = 'lifetime'
+                        , ui_name = 'Wireless interface/My net device/My node/Lifetime'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `address`
+                        , attrs =
+                            [ Record
+                              ( attr = String `street`
+                              , full_name = 'wireless_interface.my_net_device.my_node.address.street'
+                              , id = 'wireless_interface__my_net_device__my_node__address__street'
+                              , name = 'street'
+                              , sig_key = 3
+                              , ui_name = 'Wireless interface/My net device/My node/Address/Street'
+                              )
+                            , Record
+                              ( attr = String `zip`
+                              , full_name = 'wireless_interface.my_net_device.my_node.address.zip'
+                              , id = 'wireless_interface__my_net_device__my_node__address__zip'
+                              , name = 'zip'
+                              , sig_key = 3
+                              , ui_name = 'Wireless interface/My net device/My node/Address/Zip code'
+                              )
+                            , Record
+                              ( attr = String `city`
+                              , full_name = 'wireless_interface.my_net_device.my_node.address.city'
+                              , id = 'wireless_interface__my_net_device__my_node__address__city'
+                              , name = 'city'
+                              , sig_key = 3
+                              , ui_name = 'Wireless interface/My net device/My node/Address/City'
+                              )
+                            , Record
+                              ( attr = String `country`
+                              , full_name = 'wireless_interface.my_net_device.my_node.address.country'
+                              , id = 'wireless_interface__my_net_device__my_node__address__country'
+                              , name = 'country'
+                              , sig_key = 3
+                              , ui_name = 'Wireless interface/My net device/My node/Address/Country'
+                              )
+                            , Record
+                              ( attr = String `desc`
+                              , full_name = 'wireless_interface.my_net_device.my_node.address.desc'
+                              , id = 'wireless_interface__my_net_device__my_node__address__desc'
+                              , name = 'desc'
+                              , sig_key = 3
+                              , ui_name = 'Wireless interface/My net device/My node/Address/Description'
+                              )
+                            , Record
+                              ( attr = String `region`
+                              , full_name = 'wireless_interface.my_net_device.my_node.address.region'
+                              , id = 'wireless_interface__my_net_device__my_node__address__region'
+                              , name = 'region'
+                              , sig_key = 3
+                              , ui_name = 'Wireless interface/My net device/My node/Address/Region'
+                              )
+                            ]
+                        , full_name = 'wireless_interface.my_net_device.my_node.address'
+                        , id = 'wireless_interface__my_net_device__my_node__address'
+                        , name = 'address'
+                        , sig_key = 2
+                        , type_name = 'PAP.Address'
+                        , ui_name = 'Wireless interface/My net device/My node/Address'
+                        , ui_type_name = 'Address'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `owner`
+                        , children_np =
+                            [ Record
+                              ( Class = 'Entity'
+                              , attr = Entity `owner`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `name`
+                                    , full_name = 'owner.name'
+                                    , id = 'owner__name'
+                                    , name = 'name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Association]/Name'
+                                    )
+                                  ]
+                              , full_name = 'owner'
+                              , id = 'owner'
+                              , name = 'owner'
+                              , sig_key = 2
+                              , type_name = 'PAP.Association'
+                              , ui_name = 'Owner[Association]'
+                              , ui_type_name = 'Association'
+                              )
+                            , Record
+                              ( Class = 'Entity'
+                              , attr = Entity `owner`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `name`
+                                    , full_name = 'owner.name'
+                                    , id = 'owner__name'
+                                    , name = 'name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Company]/Name'
+                                    )
+                                  , Record
+                                    ( attr = String `registered_in`
+                                    , full_name = 'owner.registered_in'
+                                    , id = 'owner__registered_in'
+                                    , name = 'registered_in'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Company]/Registered in'
+                                    )
+                                  ]
+                              , full_name = 'owner'
+                              , id = 'owner'
+                              , name = 'owner'
+                              , sig_key = 2
+                              , type_name = 'PAP.Company'
+                              , ui_name = 'Owner[Company]'
+                              , ui_type_name = 'Company'
+                              )
+                            , Record
+                              ( Class = 'Entity'
+                              , attr = Entity `owner`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `last_name`
+                                    , full_name = 'owner.last_name'
+                                    , id = 'owner__last_name'
+                                    , name = 'last_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/Last name'
+                                    )
+                                  , Record
+                                    ( attr = String `first_name`
+                                    , full_name = 'owner.first_name'
+                                    , id = 'owner__first_name'
+                                    , name = 'first_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/First name'
+                                    )
+                                  , Record
+                                    ( attr = String `middle_name`
+                                    , full_name = 'owner.middle_name'
+                                    , id = 'owner__middle_name'
+                                    , name = 'middle_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/Middle name'
+                                    )
+                                  , Record
+                                    ( attr = String `title`
+                                    , full_name = 'owner.title'
+                                    , id = 'owner__title'
+                                    , name = 'title'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/Academic title'
+                                    )
+                                  ]
+                              , full_name = 'owner'
+                              , id = 'owner'
+                              , name = 'owner'
+                              , sig_key = 2
+                              , type_name = 'PAP.Person'
+                              , ui_name = 'Owner[Person]'
+                              , ui_type_name = 'Person'
+                              )
+                            ]
+                        , default_child = 'PAP.Person'
+                        , full_name = 'wireless_interface.my_net_device.my_node.owner'
+                        , id = 'wireless_interface__my_net_device__my_node__owner'
+                        , name = 'owner'
+                        , sig_key = 2
+                        , type_name = 'PAP.Subject'
+                        , ui_name = 'Wireless interface/My net device/My node/Owner'
+                        , ui_type_name = 'Subject'
+                        )
+                      , Record
+                        ( attr = Position `position`
+                        , attrs =
+                            [ Record
+                              ( attr = Angle `lat`
+                              , full_name = 'wireless_interface.my_net_device.my_node.position.lat'
+                              , id = 'wireless_interface__my_net_device__my_node__position__lat'
+                              , name = 'lat'
+                              , sig_key = 4
+                              , ui_name = 'Wireless interface/My net device/My node/Position/Latitude'
+                              )
+                            , Record
+                              ( attr = Angle `lon`
+                              , full_name = 'wireless_interface.my_net_device.my_node.position.lon'
+                              , id = 'wireless_interface__my_net_device__my_node__position__lon'
+                              , name = 'lon'
+                              , sig_key = 4
+                              , ui_name = 'Wireless interface/My net device/My node/Position/Longitude'
+                              )
+                            , Record
+                              ( attr = Float `height`
+                              , full_name = 'wireless_interface.my_net_device.my_node.position.height'
+                              , id = 'wireless_interface__my_net_device__my_node__position__height'
+                              , name = 'height'
+                              , sig_key = 0
+                              , ui_name = 'Wireless interface/My net device/My node/Position/Height'
+                              )
+                            ]
+                        , full_name = 'wireless_interface.my_net_device.my_node.position'
+                        , id = 'wireless_interface__my_net_device__my_node__position'
+                        , name = 'position'
+                        , ui_name = 'Wireless interface/My net device/My node/Position'
+                        )
+                      , Record
+                        ( attr = Boolean `show_in_map`
+                        , choices = <Recursion on list...>
+                        , full_name = 'wireless_interface.my_net_device.my_node.show_in_map'
+                        , id = 'wireless_interface__my_net_device__my_node__show_in_map'
+                        , name = 'show_in_map'
+                        , sig_key = 1
+                        , ui_name = 'Wireless interface/My net device/My node/Show in map'
+                        )
+                      ]
+                  , full_name = 'wireless_interface.my_net_device.my_node'
+                  , id = 'wireless_interface__my_net_device__my_node'
+                  , name = 'my_node'
+                  , sig_key = 2
+                  , type_name = 'FFM.Node'
+                  , ui_name = 'Wireless interface/My net device/My node'
+                  , ui_type_name = 'Node'
+                  )
+                ]
+            , full_name = 'wireless_interface.my_net_device'
+            , id = 'wireless_interface__my_net_device'
+            , name = 'my_net_device'
+            , sig_key = 2
+            , type_name = 'FFM.Net_Device'
+            , ui_name = 'Wireless interface/My net device'
+            , ui_type_name = 'Net_Device'
             )
           ]
       , full_name = 'wireless_interface'
@@ -8542,15 +12487,15 @@ _test_AQ = """
                   )
                 , Record
                   ( Class = 'Entity'
-                  , attr = Entity `belongs_to_node`
+                  , attr = Entity `my_node`
                   , attrs =
                       [ Record
                         ( attr = String `name`
-                        , full_name = 'virtual_wireless_interface.left.belongs_to_node.name'
-                        , id = 'virtual_wireless_interface__left__belongs_to_node__name'
+                        , full_name = 'virtual_wireless_interface.left.my_node.name'
+                        , id = 'virtual_wireless_interface__left__my_node__name'
                         , name = 'name'
                         , sig_key = 3
-                        , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Name'
+                        , ui_name = 'Virtual wireless interface/Net device/My node/Name'
                         )
                       , Record
                         ( Class = 'Entity'
@@ -8558,86 +12503,86 @@ _test_AQ = """
                         , attrs =
                             [ Record
                               ( attr = String `last_name`
-                              , full_name = 'virtual_wireless_interface.left.belongs_to_node.manager.last_name'
-                              , id = 'virtual_wireless_interface__left__belongs_to_node__manager__last_name'
+                              , full_name = 'virtual_wireless_interface.left.my_node.manager.last_name'
+                              , id = 'virtual_wireless_interface__left__my_node__manager__last_name'
                               , name = 'last_name'
                               , sig_key = 3
-                              , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Manager/Last name'
+                              , ui_name = 'Virtual wireless interface/Net device/My node/Manager/Last name'
                               )
                             , Record
                               ( attr = String `first_name`
-                              , full_name = 'virtual_wireless_interface.left.belongs_to_node.manager.first_name'
-                              , id = 'virtual_wireless_interface__left__belongs_to_node__manager__first_name'
+                              , full_name = 'virtual_wireless_interface.left.my_node.manager.first_name'
+                              , id = 'virtual_wireless_interface__left__my_node__manager__first_name'
                               , name = 'first_name'
                               , sig_key = 3
-                              , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Manager/First name'
+                              , ui_name = 'Virtual wireless interface/Net device/My node/Manager/First name'
                               )
                             , Record
                               ( attr = String `middle_name`
-                              , full_name = 'virtual_wireless_interface.left.belongs_to_node.manager.middle_name'
-                              , id = 'virtual_wireless_interface__left__belongs_to_node__manager__middle_name'
+                              , full_name = 'virtual_wireless_interface.left.my_node.manager.middle_name'
+                              , id = 'virtual_wireless_interface__left__my_node__manager__middle_name'
                               , name = 'middle_name'
                               , sig_key = 3
-                              , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Manager/Middle name'
+                              , ui_name = 'Virtual wireless interface/Net device/My node/Manager/Middle name'
                               )
                             , Record
                               ( attr = String `title`
-                              , full_name = 'virtual_wireless_interface.left.belongs_to_node.manager.title'
-                              , id = 'virtual_wireless_interface__left__belongs_to_node__manager__title'
+                              , full_name = 'virtual_wireless_interface.left.my_node.manager.title'
+                              , id = 'virtual_wireless_interface__left__my_node__manager__title'
                               , name = 'title'
                               , sig_key = 3
-                              , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Manager/Academic title'
+                              , ui_name = 'Virtual wireless interface/Net device/My node/Manager/Academic title'
                               )
                             , Record
                               ( attr = Date_Interval `lifetime`
                               , attrs =
                                   [ Record
                                     ( attr = Date `start`
-                                    , full_name = 'virtual_wireless_interface.left.belongs_to_node.manager.lifetime.start'
-                                    , id = 'virtual_wireless_interface__left__belongs_to_node__manager__lifetime__start'
+                                    , full_name = 'virtual_wireless_interface.left.my_node.manager.lifetime.start'
+                                    , id = 'virtual_wireless_interface__left__my_node__manager__lifetime__start'
                                     , name = 'start'
                                     , sig_key = 0
-                                    , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Manager/Lifetime/Start'
+                                    , ui_name = 'Virtual wireless interface/Net device/My node/Manager/Lifetime/Start'
                                     )
                                   , Record
                                     ( attr = Date `finish`
-                                    , full_name = 'virtual_wireless_interface.left.belongs_to_node.manager.lifetime.finish'
-                                    , id = 'virtual_wireless_interface__left__belongs_to_node__manager__lifetime__finish'
+                                    , full_name = 'virtual_wireless_interface.left.my_node.manager.lifetime.finish'
+                                    , id = 'virtual_wireless_interface__left__my_node__manager__lifetime__finish'
                                     , name = 'finish'
                                     , sig_key = 0
-                                    , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Manager/Lifetime/Finish'
+                                    , ui_name = 'Virtual wireless interface/Net device/My node/Manager/Lifetime/Finish'
                                     )
                                   , Record
                                     ( attr = Boolean `alive`
                                     , choices = <Recursion on list...>
-                                    , full_name = 'virtual_wireless_interface.left.belongs_to_node.manager.lifetime.alive'
-                                    , id = 'virtual_wireless_interface__left__belongs_to_node__manager__lifetime__alive'
+                                    , full_name = 'virtual_wireless_interface.left.my_node.manager.lifetime.alive'
+                                    , id = 'virtual_wireless_interface__left__my_node__manager__lifetime__alive'
                                     , name = 'alive'
                                     , sig_key = 1
-                                    , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Manager/Lifetime/Alive'
+                                    , ui_name = 'Virtual wireless interface/Net device/My node/Manager/Lifetime/Alive'
                                     )
                                   ]
-                              , full_name = 'virtual_wireless_interface.left.belongs_to_node.manager.lifetime'
-                              , id = 'virtual_wireless_interface__left__belongs_to_node__manager__lifetime'
+                              , full_name = 'virtual_wireless_interface.left.my_node.manager.lifetime'
+                              , id = 'virtual_wireless_interface__left__my_node__manager__lifetime'
                               , name = 'lifetime'
-                              , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Manager/Lifetime'
+                              , ui_name = 'Virtual wireless interface/Net device/My node/Manager/Lifetime'
                               )
                             , Record
                               ( attr = Sex `sex`
                               , choices = <Recursion on list...>
-                              , full_name = 'virtual_wireless_interface.left.belongs_to_node.manager.sex'
-                              , id = 'virtual_wireless_interface__left__belongs_to_node__manager__sex'
+                              , full_name = 'virtual_wireless_interface.left.my_node.manager.sex'
+                              , id = 'virtual_wireless_interface__left__my_node__manager__sex'
                               , name = 'sex'
                               , sig_key = 0
-                              , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Manager/Sex'
+                              , ui_name = 'Virtual wireless interface/Net device/My node/Manager/Sex'
                               )
                             ]
-                        , full_name = 'virtual_wireless_interface.left.belongs_to_node.manager'
-                        , id = 'virtual_wireless_interface__left__belongs_to_node__manager'
+                        , full_name = 'virtual_wireless_interface.left.my_node.manager'
+                        , id = 'virtual_wireless_interface__left__my_node__manager'
                         , name = 'manager'
                         , sig_key = 2
                         , type_name = 'PAP.Person'
-                        , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Manager'
+                        , ui_name = 'Virtual wireless interface/Net device/My node/Manager'
                         , ui_type_name = 'Person'
                         )
                       , Record
@@ -8645,34 +12590,34 @@ _test_AQ = """
                         , attrs =
                             [ Record
                               ( attr = Date `start`
-                              , full_name = 'virtual_wireless_interface.left.belongs_to_node.lifetime.start'
-                              , id = 'virtual_wireless_interface__left__belongs_to_node__lifetime__start'
+                              , full_name = 'virtual_wireless_interface.left.my_node.lifetime.start'
+                              , id = 'virtual_wireless_interface__left__my_node__lifetime__start'
                               , name = 'start'
                               , sig_key = 0
-                              , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Lifetime/Start'
+                              , ui_name = 'Virtual wireless interface/Net device/My node/Lifetime/Start'
                               )
                             , Record
                               ( attr = Date `finish`
-                              , full_name = 'virtual_wireless_interface.left.belongs_to_node.lifetime.finish'
-                              , id = 'virtual_wireless_interface__left__belongs_to_node__lifetime__finish'
+                              , full_name = 'virtual_wireless_interface.left.my_node.lifetime.finish'
+                              , id = 'virtual_wireless_interface__left__my_node__lifetime__finish'
                               , name = 'finish'
                               , sig_key = 0
-                              , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Lifetime/Finish'
+                              , ui_name = 'Virtual wireless interface/Net device/My node/Lifetime/Finish'
                               )
                             , Record
                               ( attr = Boolean `alive`
                               , choices = <Recursion on list...>
-                              , full_name = 'virtual_wireless_interface.left.belongs_to_node.lifetime.alive'
-                              , id = 'virtual_wireless_interface__left__belongs_to_node__lifetime__alive'
+                              , full_name = 'virtual_wireless_interface.left.my_node.lifetime.alive'
+                              , id = 'virtual_wireless_interface__left__my_node__lifetime__alive'
                               , name = 'alive'
                               , sig_key = 1
-                              , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Lifetime/Alive'
+                              , ui_name = 'Virtual wireless interface/Net device/My node/Lifetime/Alive'
                               )
                             ]
-                        , full_name = 'virtual_wireless_interface.left.belongs_to_node.lifetime'
-                        , id = 'virtual_wireless_interface__left__belongs_to_node__lifetime'
+                        , full_name = 'virtual_wireless_interface.left.my_node.lifetime'
+                        , id = 'virtual_wireless_interface__left__my_node__lifetime'
                         , name = 'lifetime'
-                        , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Lifetime'
+                        , ui_name = 'Virtual wireless interface/Net device/My node/Lifetime'
                         )
                       , Record
                         ( Class = 'Entity'
@@ -8680,59 +12625,59 @@ _test_AQ = """
                         , attrs =
                             [ Record
                               ( attr = String `street`
-                              , full_name = 'virtual_wireless_interface.left.belongs_to_node.address.street'
-                              , id = 'virtual_wireless_interface__left__belongs_to_node__address__street'
+                              , full_name = 'virtual_wireless_interface.left.my_node.address.street'
+                              , id = 'virtual_wireless_interface__left__my_node__address__street'
                               , name = 'street'
                               , sig_key = 3
-                              , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Address/Street'
+                              , ui_name = 'Virtual wireless interface/Net device/My node/Address/Street'
                               )
                             , Record
                               ( attr = String `zip`
-                              , full_name = 'virtual_wireless_interface.left.belongs_to_node.address.zip'
-                              , id = 'virtual_wireless_interface__left__belongs_to_node__address__zip'
+                              , full_name = 'virtual_wireless_interface.left.my_node.address.zip'
+                              , id = 'virtual_wireless_interface__left__my_node__address__zip'
                               , name = 'zip'
                               , sig_key = 3
-                              , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Address/Zip code'
+                              , ui_name = 'Virtual wireless interface/Net device/My node/Address/Zip code'
                               )
                             , Record
                               ( attr = String `city`
-                              , full_name = 'virtual_wireless_interface.left.belongs_to_node.address.city'
-                              , id = 'virtual_wireless_interface__left__belongs_to_node__address__city'
+                              , full_name = 'virtual_wireless_interface.left.my_node.address.city'
+                              , id = 'virtual_wireless_interface__left__my_node__address__city'
                               , name = 'city'
                               , sig_key = 3
-                              , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Address/City'
+                              , ui_name = 'Virtual wireless interface/Net device/My node/Address/City'
                               )
                             , Record
                               ( attr = String `country`
-                              , full_name = 'virtual_wireless_interface.left.belongs_to_node.address.country'
-                              , id = 'virtual_wireless_interface__left__belongs_to_node__address__country'
+                              , full_name = 'virtual_wireless_interface.left.my_node.address.country'
+                              , id = 'virtual_wireless_interface__left__my_node__address__country'
                               , name = 'country'
                               , sig_key = 3
-                              , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Address/Country'
+                              , ui_name = 'Virtual wireless interface/Net device/My node/Address/Country'
                               )
                             , Record
                               ( attr = String `desc`
-                              , full_name = 'virtual_wireless_interface.left.belongs_to_node.address.desc'
-                              , id = 'virtual_wireless_interface__left__belongs_to_node__address__desc'
+                              , full_name = 'virtual_wireless_interface.left.my_node.address.desc'
+                              , id = 'virtual_wireless_interface__left__my_node__address__desc'
                               , name = 'desc'
                               , sig_key = 3
-                              , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Address/Description'
+                              , ui_name = 'Virtual wireless interface/Net device/My node/Address/Description'
                               )
                             , Record
                               ( attr = String `region`
-                              , full_name = 'virtual_wireless_interface.left.belongs_to_node.address.region'
-                              , id = 'virtual_wireless_interface__left__belongs_to_node__address__region'
+                              , full_name = 'virtual_wireless_interface.left.my_node.address.region'
+                              , id = 'virtual_wireless_interface__left__my_node__address__region'
                               , name = 'region'
                               , sig_key = 3
-                              , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Address/Region'
+                              , ui_name = 'Virtual wireless interface/Net device/My node/Address/Region'
                               )
                             ]
-                        , full_name = 'virtual_wireless_interface.left.belongs_to_node.address'
-                        , id = 'virtual_wireless_interface__left__belongs_to_node__address'
+                        , full_name = 'virtual_wireless_interface.left.my_node.address'
+                        , id = 'virtual_wireless_interface__left__my_node__address'
                         , name = 'address'
                         , sig_key = 2
                         , type_name = 'PAP.Address'
-                        , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Address'
+                        , ui_name = 'Virtual wireless interface/Net device/My node/Address'
                         , ui_type_name = 'Address'
                         )
                       , Record
@@ -8836,12 +12781,12 @@ _test_AQ = """
                               )
                             ]
                         , default_child = 'PAP.Person'
-                        , full_name = 'virtual_wireless_interface.left.belongs_to_node.owner'
-                        , id = 'virtual_wireless_interface__left__belongs_to_node__owner'
+                        , full_name = 'virtual_wireless_interface.left.my_node.owner'
+                        , id = 'virtual_wireless_interface__left__my_node__owner'
                         , name = 'owner'
                         , sig_key = 2
                         , type_name = 'PAP.Subject'
-                        , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Owner'
+                        , ui_name = 'Virtual wireless interface/Net device/My node/Owner'
                         , ui_type_name = 'Subject'
                         )
                       , Record
@@ -8849,50 +12794,50 @@ _test_AQ = """
                         , attrs =
                             [ Record
                               ( attr = Angle `lat`
-                              , full_name = 'virtual_wireless_interface.left.belongs_to_node.position.lat'
-                              , id = 'virtual_wireless_interface__left__belongs_to_node__position__lat'
+                              , full_name = 'virtual_wireless_interface.left.my_node.position.lat'
+                              , id = 'virtual_wireless_interface__left__my_node__position__lat'
                               , name = 'lat'
                               , sig_key = 4
-                              , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Position/Latitude'
+                              , ui_name = 'Virtual wireless interface/Net device/My node/Position/Latitude'
                               )
                             , Record
                               ( attr = Angle `lon`
-                              , full_name = 'virtual_wireless_interface.left.belongs_to_node.position.lon'
-                              , id = 'virtual_wireless_interface__left__belongs_to_node__position__lon'
+                              , full_name = 'virtual_wireless_interface.left.my_node.position.lon'
+                              , id = 'virtual_wireless_interface__left__my_node__position__lon'
                               , name = 'lon'
                               , sig_key = 4
-                              , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Position/Longitude'
+                              , ui_name = 'Virtual wireless interface/Net device/My node/Position/Longitude'
                               )
                             , Record
                               ( attr = Float `height`
-                              , full_name = 'virtual_wireless_interface.left.belongs_to_node.position.height'
-                              , id = 'virtual_wireless_interface__left__belongs_to_node__position__height'
+                              , full_name = 'virtual_wireless_interface.left.my_node.position.height'
+                              , id = 'virtual_wireless_interface__left__my_node__position__height'
                               , name = 'height'
                               , sig_key = 0
-                              , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Position/Height'
+                              , ui_name = 'Virtual wireless interface/Net device/My node/Position/Height'
                               )
                             ]
-                        , full_name = 'virtual_wireless_interface.left.belongs_to_node.position'
-                        , id = 'virtual_wireless_interface__left__belongs_to_node__position'
+                        , full_name = 'virtual_wireless_interface.left.my_node.position'
+                        , id = 'virtual_wireless_interface__left__my_node__position'
                         , name = 'position'
-                        , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Position'
+                        , ui_name = 'Virtual wireless interface/Net device/My node/Position'
                         )
                       , Record
                         ( attr = Boolean `show_in_map`
                         , choices = <Recursion on list...>
-                        , full_name = 'virtual_wireless_interface.left.belongs_to_node.show_in_map'
-                        , id = 'virtual_wireless_interface__left__belongs_to_node__show_in_map'
+                        , full_name = 'virtual_wireless_interface.left.my_node.show_in_map'
+                        , id = 'virtual_wireless_interface__left__my_node__show_in_map'
                         , name = 'show_in_map'
                         , sig_key = 1
-                        , ui_name = 'Virtual wireless interface/Net device/Belongs to node/Show in map'
+                        , ui_name = 'Virtual wireless interface/Net device/My node/Show in map'
                         )
                       ]
-                  , full_name = 'virtual_wireless_interface.left.belongs_to_node'
-                  , id = 'virtual_wireless_interface__left__belongs_to_node'
-                  , name = 'belongs_to_node'
+                  , full_name = 'virtual_wireless_interface.left.my_node'
+                  , id = 'virtual_wireless_interface__left__my_node'
+                  , name = 'my_node'
                   , sig_key = 2
                   , type_name = 'FFM.Node'
-                  , ui_name = 'Virtual wireless interface/Net device/Belongs to node'
+                  , ui_name = 'Virtual wireless interface/Net device/My node'
                   , ui_type_name = 'Node'
                   )
                 ]
@@ -9330,15 +13275,15 @@ _test_AQ = """
                         )
                       , Record
                         ( Class = 'Entity'
-                        , attr = Entity `belongs_to_node`
+                        , attr = Entity `my_node`
                         , attrs =
                             [ Record
                               ( attr = String `name`
-                              , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.name'
-                              , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__name'
+                              , full_name = 'virtual_wireless_interface.hardware.left.my_node.name'
+                              , id = 'virtual_wireless_interface__hardware__left__my_node__name'
                               , name = 'name'
                               , sig_key = 3
-                              , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Name'
+                              , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Name'
                               )
                             , Record
                               ( Class = 'Entity'
@@ -9346,86 +13291,86 @@ _test_AQ = """
                               , attrs =
                                   [ Record
                                     ( attr = String `last_name`
-                                    , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.manager.last_name'
-                                    , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__manager__last_name'
+                                    , full_name = 'virtual_wireless_interface.hardware.left.my_node.manager.last_name'
+                                    , id = 'virtual_wireless_interface__hardware__left__my_node__manager__last_name'
                                     , name = 'last_name'
                                     , sig_key = 3
-                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Manager/Last name'
+                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Manager/Last name'
                                     )
                                   , Record
                                     ( attr = String `first_name`
-                                    , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.manager.first_name'
-                                    , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__manager__first_name'
+                                    , full_name = 'virtual_wireless_interface.hardware.left.my_node.manager.first_name'
+                                    , id = 'virtual_wireless_interface__hardware__left__my_node__manager__first_name'
                                     , name = 'first_name'
                                     , sig_key = 3
-                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Manager/First name'
+                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Manager/First name'
                                     )
                                   , Record
                                     ( attr = String `middle_name`
-                                    , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.manager.middle_name'
-                                    , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__manager__middle_name'
+                                    , full_name = 'virtual_wireless_interface.hardware.left.my_node.manager.middle_name'
+                                    , id = 'virtual_wireless_interface__hardware__left__my_node__manager__middle_name'
                                     , name = 'middle_name'
                                     , sig_key = 3
-                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Manager/Middle name'
+                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Manager/Middle name'
                                     )
                                   , Record
                                     ( attr = String `title`
-                                    , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.manager.title'
-                                    , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__manager__title'
+                                    , full_name = 'virtual_wireless_interface.hardware.left.my_node.manager.title'
+                                    , id = 'virtual_wireless_interface__hardware__left__my_node__manager__title'
                                     , name = 'title'
                                     , sig_key = 3
-                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Manager/Academic title'
+                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Manager/Academic title'
                                     )
                                   , Record
                                     ( attr = Date_Interval `lifetime`
                                     , attrs =
                                         [ Record
                                           ( attr = Date `start`
-                                          , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.manager.lifetime.start'
-                                          , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__manager__lifetime__start'
+                                          , full_name = 'virtual_wireless_interface.hardware.left.my_node.manager.lifetime.start'
+                                          , id = 'virtual_wireless_interface__hardware__left__my_node__manager__lifetime__start'
                                           , name = 'start'
                                           , sig_key = 0
-                                          , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Manager/Lifetime/Start'
+                                          , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Manager/Lifetime/Start'
                                           )
                                         , Record
                                           ( attr = Date `finish`
-                                          , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.manager.lifetime.finish'
-                                          , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__manager__lifetime__finish'
+                                          , full_name = 'virtual_wireless_interface.hardware.left.my_node.manager.lifetime.finish'
+                                          , id = 'virtual_wireless_interface__hardware__left__my_node__manager__lifetime__finish'
                                           , name = 'finish'
                                           , sig_key = 0
-                                          , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Manager/Lifetime/Finish'
+                                          , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Manager/Lifetime/Finish'
                                           )
                                         , Record
                                           ( attr = Boolean `alive`
                                           , choices = <Recursion on list...>
-                                          , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.manager.lifetime.alive'
-                                          , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__manager__lifetime__alive'
+                                          , full_name = 'virtual_wireless_interface.hardware.left.my_node.manager.lifetime.alive'
+                                          , id = 'virtual_wireless_interface__hardware__left__my_node__manager__lifetime__alive'
                                           , name = 'alive'
                                           , sig_key = 1
-                                          , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Manager/Lifetime/Alive'
+                                          , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Manager/Lifetime/Alive'
                                           )
                                         ]
-                                    , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.manager.lifetime'
-                                    , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__manager__lifetime'
+                                    , full_name = 'virtual_wireless_interface.hardware.left.my_node.manager.lifetime'
+                                    , id = 'virtual_wireless_interface__hardware__left__my_node__manager__lifetime'
                                     , name = 'lifetime'
-                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Manager/Lifetime'
+                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Manager/Lifetime'
                                     )
                                   , Record
                                     ( attr = Sex `sex`
                                     , choices = <Recursion on list...>
-                                    , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.manager.sex'
-                                    , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__manager__sex'
+                                    , full_name = 'virtual_wireless_interface.hardware.left.my_node.manager.sex'
+                                    , id = 'virtual_wireless_interface__hardware__left__my_node__manager__sex'
                                     , name = 'sex'
                                     , sig_key = 0
-                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Manager/Sex'
+                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Manager/Sex'
                                     )
                                   ]
-                              , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.manager'
-                              , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__manager'
+                              , full_name = 'virtual_wireless_interface.hardware.left.my_node.manager'
+                              , id = 'virtual_wireless_interface__hardware__left__my_node__manager'
                               , name = 'manager'
                               , sig_key = 2
                               , type_name = 'PAP.Person'
-                              , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Manager'
+                              , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Manager'
                               , ui_type_name = 'Person'
                               )
                             , Record
@@ -9433,34 +13378,34 @@ _test_AQ = """
                               , attrs =
                                   [ Record
                                     ( attr = Date `start`
-                                    , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.lifetime.start'
-                                    , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__lifetime__start'
+                                    , full_name = 'virtual_wireless_interface.hardware.left.my_node.lifetime.start'
+                                    , id = 'virtual_wireless_interface__hardware__left__my_node__lifetime__start'
                                     , name = 'start'
                                     , sig_key = 0
-                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Lifetime/Start'
+                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Lifetime/Start'
                                     )
                                   , Record
                                     ( attr = Date `finish`
-                                    , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.lifetime.finish'
-                                    , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__lifetime__finish'
+                                    , full_name = 'virtual_wireless_interface.hardware.left.my_node.lifetime.finish'
+                                    , id = 'virtual_wireless_interface__hardware__left__my_node__lifetime__finish'
                                     , name = 'finish'
                                     , sig_key = 0
-                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Lifetime/Finish'
+                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Lifetime/Finish'
                                     )
                                   , Record
                                     ( attr = Boolean `alive`
                                     , choices = <Recursion on list...>
-                                    , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.lifetime.alive'
-                                    , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__lifetime__alive'
+                                    , full_name = 'virtual_wireless_interface.hardware.left.my_node.lifetime.alive'
+                                    , id = 'virtual_wireless_interface__hardware__left__my_node__lifetime__alive'
                                     , name = 'alive'
                                     , sig_key = 1
-                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Lifetime/Alive'
+                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Lifetime/Alive'
                                     )
                                   ]
-                              , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.lifetime'
-                              , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__lifetime'
+                              , full_name = 'virtual_wireless_interface.hardware.left.my_node.lifetime'
+                              , id = 'virtual_wireless_interface__hardware__left__my_node__lifetime'
                               , name = 'lifetime'
-                              , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Lifetime'
+                              , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Lifetime'
                               )
                             , Record
                               ( Class = 'Entity'
@@ -9468,59 +13413,59 @@ _test_AQ = """
                               , attrs =
                                   [ Record
                                     ( attr = String `street`
-                                    , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.address.street'
-                                    , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__address__street'
+                                    , full_name = 'virtual_wireless_interface.hardware.left.my_node.address.street'
+                                    , id = 'virtual_wireless_interface__hardware__left__my_node__address__street'
                                     , name = 'street'
                                     , sig_key = 3
-                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Address/Street'
+                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Address/Street'
                                     )
                                   , Record
                                     ( attr = String `zip`
-                                    , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.address.zip'
-                                    , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__address__zip'
+                                    , full_name = 'virtual_wireless_interface.hardware.left.my_node.address.zip'
+                                    , id = 'virtual_wireless_interface__hardware__left__my_node__address__zip'
                                     , name = 'zip'
                                     , sig_key = 3
-                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Address/Zip code'
+                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Address/Zip code'
                                     )
                                   , Record
                                     ( attr = String `city`
-                                    , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.address.city'
-                                    , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__address__city'
+                                    , full_name = 'virtual_wireless_interface.hardware.left.my_node.address.city'
+                                    , id = 'virtual_wireless_interface__hardware__left__my_node__address__city'
                                     , name = 'city'
                                     , sig_key = 3
-                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Address/City'
+                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Address/City'
                                     )
                                   , Record
                                     ( attr = String `country`
-                                    , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.address.country'
-                                    , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__address__country'
+                                    , full_name = 'virtual_wireless_interface.hardware.left.my_node.address.country'
+                                    , id = 'virtual_wireless_interface__hardware__left__my_node__address__country'
                                     , name = 'country'
                                     , sig_key = 3
-                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Address/Country'
+                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Address/Country'
                                     )
                                   , Record
                                     ( attr = String `desc`
-                                    , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.address.desc'
-                                    , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__address__desc'
+                                    , full_name = 'virtual_wireless_interface.hardware.left.my_node.address.desc'
+                                    , id = 'virtual_wireless_interface__hardware__left__my_node__address__desc'
                                     , name = 'desc'
                                     , sig_key = 3
-                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Address/Description'
+                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Address/Description'
                                     )
                                   , Record
                                     ( attr = String `region`
-                                    , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.address.region'
-                                    , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__address__region'
+                                    , full_name = 'virtual_wireless_interface.hardware.left.my_node.address.region'
+                                    , id = 'virtual_wireless_interface__hardware__left__my_node__address__region'
                                     , name = 'region'
                                     , sig_key = 3
-                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Address/Region'
+                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Address/Region'
                                     )
                                   ]
-                              , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.address'
-                              , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__address'
+                              , full_name = 'virtual_wireless_interface.hardware.left.my_node.address'
+                              , id = 'virtual_wireless_interface__hardware__left__my_node__address'
                               , name = 'address'
                               , sig_key = 2
                               , type_name = 'PAP.Address'
-                              , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Address'
+                              , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Address'
                               , ui_type_name = 'Address'
                               )
                             , Record
@@ -9624,12 +13569,12 @@ _test_AQ = """
                                     )
                                   ]
                               , default_child = 'PAP.Person'
-                              , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.owner'
-                              , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__owner'
+                              , full_name = 'virtual_wireless_interface.hardware.left.my_node.owner'
+                              , id = 'virtual_wireless_interface__hardware__left__my_node__owner'
                               , name = 'owner'
                               , sig_key = 2
                               , type_name = 'PAP.Subject'
-                              , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Owner'
+                              , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Owner'
                               , ui_type_name = 'Subject'
                               )
                             , Record
@@ -9637,50 +13582,50 @@ _test_AQ = """
                               , attrs =
                                   [ Record
                                     ( attr = Angle `lat`
-                                    , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.position.lat'
-                                    , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__position__lat'
+                                    , full_name = 'virtual_wireless_interface.hardware.left.my_node.position.lat'
+                                    , id = 'virtual_wireless_interface__hardware__left__my_node__position__lat'
                                     , name = 'lat'
                                     , sig_key = 4
-                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Position/Latitude'
+                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Position/Latitude'
                                     )
                                   , Record
                                     ( attr = Angle `lon`
-                                    , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.position.lon'
-                                    , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__position__lon'
+                                    , full_name = 'virtual_wireless_interface.hardware.left.my_node.position.lon'
+                                    , id = 'virtual_wireless_interface__hardware__left__my_node__position__lon'
                                     , name = 'lon'
                                     , sig_key = 4
-                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Position/Longitude'
+                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Position/Longitude'
                                     )
                                   , Record
                                     ( attr = Float `height`
-                                    , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.position.height'
-                                    , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__position__height'
+                                    , full_name = 'virtual_wireless_interface.hardware.left.my_node.position.height'
+                                    , id = 'virtual_wireless_interface__hardware__left__my_node__position__height'
                                     , name = 'height'
                                     , sig_key = 0
-                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Position/Height'
+                                    , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Position/Height'
                                     )
                                   ]
-                              , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.position'
-                              , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__position'
+                              , full_name = 'virtual_wireless_interface.hardware.left.my_node.position'
+                              , id = 'virtual_wireless_interface__hardware__left__my_node__position'
                               , name = 'position'
-                              , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Position'
+                              , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Position'
                               )
                             , Record
                               ( attr = Boolean `show_in_map`
                               , choices = <Recursion on list...>
-                              , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node.show_in_map'
-                              , id = 'virtual_wireless_interface__hardware__left__belongs_to_node__show_in_map'
+                              , full_name = 'virtual_wireless_interface.hardware.left.my_node.show_in_map'
+                              , id = 'virtual_wireless_interface__hardware__left__my_node__show_in_map'
                               , name = 'show_in_map'
                               , sig_key = 1
-                              , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node/Show in map'
+                              , ui_name = 'Virtual wireless interface/Hardware/Net device/My node/Show in map'
                               )
                             ]
-                        , full_name = 'virtual_wireless_interface.hardware.left.belongs_to_node'
-                        , id = 'virtual_wireless_interface__hardware__left__belongs_to_node'
-                        , name = 'belongs_to_node'
+                        , full_name = 'virtual_wireless_interface.hardware.left.my_node'
+                        , id = 'virtual_wireless_interface__hardware__left__my_node'
+                        , name = 'my_node'
                         , sig_key = 2
                         , type_name = 'FFM.Node'
-                        , ui_name = 'Virtual wireless interface/Hardware/Net device/Belongs to node'
+                        , ui_name = 'Virtual wireless interface/Hardware/Net device/My node'
                         , ui_type_name = 'Node'
                         )
                       ]
@@ -9789,15 +13734,15 @@ _test_AQ = """
                   )
                 , Record
                   ( Class = 'Entity'
-                  , attr = Entity `belongs_to_node`
+                  , attr = Entity `my_node`
                   , attrs =
                       [ Record
                         ( attr = String `name`
-                        , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.name'
-                        , id = 'virtual_wireless_interface__hardware__belongs_to_node__name'
+                        , full_name = 'virtual_wireless_interface.hardware.my_node.name'
+                        , id = 'virtual_wireless_interface__hardware__my_node__name'
                         , name = 'name'
                         , sig_key = 3
-                        , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Name'
+                        , ui_name = 'Virtual wireless interface/Hardware/My node/Name'
                         )
                       , Record
                         ( Class = 'Entity'
@@ -9805,86 +13750,86 @@ _test_AQ = """
                         , attrs =
                             [ Record
                               ( attr = String `last_name`
-                              , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.manager.last_name'
-                              , id = 'virtual_wireless_interface__hardware__belongs_to_node__manager__last_name'
+                              , full_name = 'virtual_wireless_interface.hardware.my_node.manager.last_name'
+                              , id = 'virtual_wireless_interface__hardware__my_node__manager__last_name'
                               , name = 'last_name'
                               , sig_key = 3
-                              , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Manager/Last name'
+                              , ui_name = 'Virtual wireless interface/Hardware/My node/Manager/Last name'
                               )
                             , Record
                               ( attr = String `first_name`
-                              , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.manager.first_name'
-                              , id = 'virtual_wireless_interface__hardware__belongs_to_node__manager__first_name'
+                              , full_name = 'virtual_wireless_interface.hardware.my_node.manager.first_name'
+                              , id = 'virtual_wireless_interface__hardware__my_node__manager__first_name'
                               , name = 'first_name'
                               , sig_key = 3
-                              , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Manager/First name'
+                              , ui_name = 'Virtual wireless interface/Hardware/My node/Manager/First name'
                               )
                             , Record
                               ( attr = String `middle_name`
-                              , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.manager.middle_name'
-                              , id = 'virtual_wireless_interface__hardware__belongs_to_node__manager__middle_name'
+                              , full_name = 'virtual_wireless_interface.hardware.my_node.manager.middle_name'
+                              , id = 'virtual_wireless_interface__hardware__my_node__manager__middle_name'
                               , name = 'middle_name'
                               , sig_key = 3
-                              , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Manager/Middle name'
+                              , ui_name = 'Virtual wireless interface/Hardware/My node/Manager/Middle name'
                               )
                             , Record
                               ( attr = String `title`
-                              , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.manager.title'
-                              , id = 'virtual_wireless_interface__hardware__belongs_to_node__manager__title'
+                              , full_name = 'virtual_wireless_interface.hardware.my_node.manager.title'
+                              , id = 'virtual_wireless_interface__hardware__my_node__manager__title'
                               , name = 'title'
                               , sig_key = 3
-                              , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Manager/Academic title'
+                              , ui_name = 'Virtual wireless interface/Hardware/My node/Manager/Academic title'
                               )
                             , Record
                               ( attr = Date_Interval `lifetime`
                               , attrs =
                                   [ Record
                                     ( attr = Date `start`
-                                    , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.manager.lifetime.start'
-                                    , id = 'virtual_wireless_interface__hardware__belongs_to_node__manager__lifetime__start'
+                                    , full_name = 'virtual_wireless_interface.hardware.my_node.manager.lifetime.start'
+                                    , id = 'virtual_wireless_interface__hardware__my_node__manager__lifetime__start'
                                     , name = 'start'
                                     , sig_key = 0
-                                    , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Manager/Lifetime/Start'
+                                    , ui_name = 'Virtual wireless interface/Hardware/My node/Manager/Lifetime/Start'
                                     )
                                   , Record
                                     ( attr = Date `finish`
-                                    , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.manager.lifetime.finish'
-                                    , id = 'virtual_wireless_interface__hardware__belongs_to_node__manager__lifetime__finish'
+                                    , full_name = 'virtual_wireless_interface.hardware.my_node.manager.lifetime.finish'
+                                    , id = 'virtual_wireless_interface__hardware__my_node__manager__lifetime__finish'
                                     , name = 'finish'
                                     , sig_key = 0
-                                    , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Manager/Lifetime/Finish'
+                                    , ui_name = 'Virtual wireless interface/Hardware/My node/Manager/Lifetime/Finish'
                                     )
                                   , Record
                                     ( attr = Boolean `alive`
                                     , choices = <Recursion on list...>
-                                    , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.manager.lifetime.alive'
-                                    , id = 'virtual_wireless_interface__hardware__belongs_to_node__manager__lifetime__alive'
+                                    , full_name = 'virtual_wireless_interface.hardware.my_node.manager.lifetime.alive'
+                                    , id = 'virtual_wireless_interface__hardware__my_node__manager__lifetime__alive'
                                     , name = 'alive'
                                     , sig_key = 1
-                                    , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Manager/Lifetime/Alive'
+                                    , ui_name = 'Virtual wireless interface/Hardware/My node/Manager/Lifetime/Alive'
                                     )
                                   ]
-                              , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.manager.lifetime'
-                              , id = 'virtual_wireless_interface__hardware__belongs_to_node__manager__lifetime'
+                              , full_name = 'virtual_wireless_interface.hardware.my_node.manager.lifetime'
+                              , id = 'virtual_wireless_interface__hardware__my_node__manager__lifetime'
                               , name = 'lifetime'
-                              , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Manager/Lifetime'
+                              , ui_name = 'Virtual wireless interface/Hardware/My node/Manager/Lifetime'
                               )
                             , Record
                               ( attr = Sex `sex`
                               , choices = <Recursion on list...>
-                              , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.manager.sex'
-                              , id = 'virtual_wireless_interface__hardware__belongs_to_node__manager__sex'
+                              , full_name = 'virtual_wireless_interface.hardware.my_node.manager.sex'
+                              , id = 'virtual_wireless_interface__hardware__my_node__manager__sex'
                               , name = 'sex'
                               , sig_key = 0
-                              , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Manager/Sex'
+                              , ui_name = 'Virtual wireless interface/Hardware/My node/Manager/Sex'
                               )
                             ]
-                        , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.manager'
-                        , id = 'virtual_wireless_interface__hardware__belongs_to_node__manager'
+                        , full_name = 'virtual_wireless_interface.hardware.my_node.manager'
+                        , id = 'virtual_wireless_interface__hardware__my_node__manager'
                         , name = 'manager'
                         , sig_key = 2
                         , type_name = 'PAP.Person'
-                        , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Manager'
+                        , ui_name = 'Virtual wireless interface/Hardware/My node/Manager'
                         , ui_type_name = 'Person'
                         )
                       , Record
@@ -9892,34 +13837,34 @@ _test_AQ = """
                         , attrs =
                             [ Record
                               ( attr = Date `start`
-                              , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.lifetime.start'
-                              , id = 'virtual_wireless_interface__hardware__belongs_to_node__lifetime__start'
+                              , full_name = 'virtual_wireless_interface.hardware.my_node.lifetime.start'
+                              , id = 'virtual_wireless_interface__hardware__my_node__lifetime__start'
                               , name = 'start'
                               , sig_key = 0
-                              , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Lifetime/Start'
+                              , ui_name = 'Virtual wireless interface/Hardware/My node/Lifetime/Start'
                               )
                             , Record
                               ( attr = Date `finish`
-                              , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.lifetime.finish'
-                              , id = 'virtual_wireless_interface__hardware__belongs_to_node__lifetime__finish'
+                              , full_name = 'virtual_wireless_interface.hardware.my_node.lifetime.finish'
+                              , id = 'virtual_wireless_interface__hardware__my_node__lifetime__finish'
                               , name = 'finish'
                               , sig_key = 0
-                              , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Lifetime/Finish'
+                              , ui_name = 'Virtual wireless interface/Hardware/My node/Lifetime/Finish'
                               )
                             , Record
                               ( attr = Boolean `alive`
                               , choices = <Recursion on list...>
-                              , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.lifetime.alive'
-                              , id = 'virtual_wireless_interface__hardware__belongs_to_node__lifetime__alive'
+                              , full_name = 'virtual_wireless_interface.hardware.my_node.lifetime.alive'
+                              , id = 'virtual_wireless_interface__hardware__my_node__lifetime__alive'
                               , name = 'alive'
                               , sig_key = 1
-                              , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Lifetime/Alive'
+                              , ui_name = 'Virtual wireless interface/Hardware/My node/Lifetime/Alive'
                               )
                             ]
-                        , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.lifetime'
-                        , id = 'virtual_wireless_interface__hardware__belongs_to_node__lifetime'
+                        , full_name = 'virtual_wireless_interface.hardware.my_node.lifetime'
+                        , id = 'virtual_wireless_interface__hardware__my_node__lifetime'
                         , name = 'lifetime'
-                        , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Lifetime'
+                        , ui_name = 'Virtual wireless interface/Hardware/My node/Lifetime'
                         )
                       , Record
                         ( Class = 'Entity'
@@ -9927,59 +13872,59 @@ _test_AQ = """
                         , attrs =
                             [ Record
                               ( attr = String `street`
-                              , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.address.street'
-                              , id = 'virtual_wireless_interface__hardware__belongs_to_node__address__street'
+                              , full_name = 'virtual_wireless_interface.hardware.my_node.address.street'
+                              , id = 'virtual_wireless_interface__hardware__my_node__address__street'
                               , name = 'street'
                               , sig_key = 3
-                              , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Address/Street'
+                              , ui_name = 'Virtual wireless interface/Hardware/My node/Address/Street'
                               )
                             , Record
                               ( attr = String `zip`
-                              , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.address.zip'
-                              , id = 'virtual_wireless_interface__hardware__belongs_to_node__address__zip'
+                              , full_name = 'virtual_wireless_interface.hardware.my_node.address.zip'
+                              , id = 'virtual_wireless_interface__hardware__my_node__address__zip'
                               , name = 'zip'
                               , sig_key = 3
-                              , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Address/Zip code'
+                              , ui_name = 'Virtual wireless interface/Hardware/My node/Address/Zip code'
                               )
                             , Record
                               ( attr = String `city`
-                              , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.address.city'
-                              , id = 'virtual_wireless_interface__hardware__belongs_to_node__address__city'
+                              , full_name = 'virtual_wireless_interface.hardware.my_node.address.city'
+                              , id = 'virtual_wireless_interface__hardware__my_node__address__city'
                               , name = 'city'
                               , sig_key = 3
-                              , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Address/City'
+                              , ui_name = 'Virtual wireless interface/Hardware/My node/Address/City'
                               )
                             , Record
                               ( attr = String `country`
-                              , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.address.country'
-                              , id = 'virtual_wireless_interface__hardware__belongs_to_node__address__country'
+                              , full_name = 'virtual_wireless_interface.hardware.my_node.address.country'
+                              , id = 'virtual_wireless_interface__hardware__my_node__address__country'
                               , name = 'country'
                               , sig_key = 3
-                              , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Address/Country'
+                              , ui_name = 'Virtual wireless interface/Hardware/My node/Address/Country'
                               )
                             , Record
                               ( attr = String `desc`
-                              , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.address.desc'
-                              , id = 'virtual_wireless_interface__hardware__belongs_to_node__address__desc'
+                              , full_name = 'virtual_wireless_interface.hardware.my_node.address.desc'
+                              , id = 'virtual_wireless_interface__hardware__my_node__address__desc'
                               , name = 'desc'
                               , sig_key = 3
-                              , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Address/Description'
+                              , ui_name = 'Virtual wireless interface/Hardware/My node/Address/Description'
                               )
                             , Record
                               ( attr = String `region`
-                              , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.address.region'
-                              , id = 'virtual_wireless_interface__hardware__belongs_to_node__address__region'
+                              , full_name = 'virtual_wireless_interface.hardware.my_node.address.region'
+                              , id = 'virtual_wireless_interface__hardware__my_node__address__region'
                               , name = 'region'
                               , sig_key = 3
-                              , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Address/Region'
+                              , ui_name = 'Virtual wireless interface/Hardware/My node/Address/Region'
                               )
                             ]
-                        , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.address'
-                        , id = 'virtual_wireless_interface__hardware__belongs_to_node__address'
+                        , full_name = 'virtual_wireless_interface.hardware.my_node.address'
+                        , id = 'virtual_wireless_interface__hardware__my_node__address'
                         , name = 'address'
                         , sig_key = 2
                         , type_name = 'PAP.Address'
-                        , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Address'
+                        , ui_name = 'Virtual wireless interface/Hardware/My node/Address'
                         , ui_type_name = 'Address'
                         )
                       , Record
@@ -10083,12 +14028,12 @@ _test_AQ = """
                               )
                             ]
                         , default_child = 'PAP.Person'
-                        , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.owner'
-                        , id = 'virtual_wireless_interface__hardware__belongs_to_node__owner'
+                        , full_name = 'virtual_wireless_interface.hardware.my_node.owner'
+                        , id = 'virtual_wireless_interface__hardware__my_node__owner'
                         , name = 'owner'
                         , sig_key = 2
                         , type_name = 'PAP.Subject'
-                        , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Owner'
+                        , ui_name = 'Virtual wireless interface/Hardware/My node/Owner'
                         , ui_type_name = 'Subject'
                         )
                       , Record
@@ -10096,51 +14041,835 @@ _test_AQ = """
                         , attrs =
                             [ Record
                               ( attr = Angle `lat`
-                              , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.position.lat'
-                              , id = 'virtual_wireless_interface__hardware__belongs_to_node__position__lat'
+                              , full_name = 'virtual_wireless_interface.hardware.my_node.position.lat'
+                              , id = 'virtual_wireless_interface__hardware__my_node__position__lat'
                               , name = 'lat'
                               , sig_key = 4
-                              , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Position/Latitude'
+                              , ui_name = 'Virtual wireless interface/Hardware/My node/Position/Latitude'
                               )
                             , Record
                               ( attr = Angle `lon`
-                              , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.position.lon'
-                              , id = 'virtual_wireless_interface__hardware__belongs_to_node__position__lon'
+                              , full_name = 'virtual_wireless_interface.hardware.my_node.position.lon'
+                              , id = 'virtual_wireless_interface__hardware__my_node__position__lon'
                               , name = 'lon'
                               , sig_key = 4
-                              , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Position/Longitude'
+                              , ui_name = 'Virtual wireless interface/Hardware/My node/Position/Longitude'
                               )
                             , Record
                               ( attr = Float `height`
-                              , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.position.height'
-                              , id = 'virtual_wireless_interface__hardware__belongs_to_node__position__height'
+                              , full_name = 'virtual_wireless_interface.hardware.my_node.position.height'
+                              , id = 'virtual_wireless_interface__hardware__my_node__position__height'
                               , name = 'height'
                               , sig_key = 0
-                              , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Position/Height'
+                              , ui_name = 'Virtual wireless interface/Hardware/My node/Position/Height'
                               )
                             ]
-                        , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.position'
-                        , id = 'virtual_wireless_interface__hardware__belongs_to_node__position'
+                        , full_name = 'virtual_wireless_interface.hardware.my_node.position'
+                        , id = 'virtual_wireless_interface__hardware__my_node__position'
                         , name = 'position'
-                        , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Position'
+                        , ui_name = 'Virtual wireless interface/Hardware/My node/Position'
                         )
                       , Record
                         ( attr = Boolean `show_in_map`
                         , choices = <Recursion on list...>
-                        , full_name = 'virtual_wireless_interface.hardware.belongs_to_node.show_in_map'
-                        , id = 'virtual_wireless_interface__hardware__belongs_to_node__show_in_map'
+                        , full_name = 'virtual_wireless_interface.hardware.my_node.show_in_map'
+                        , id = 'virtual_wireless_interface__hardware__my_node__show_in_map'
                         , name = 'show_in_map'
                         , sig_key = 1
-                        , ui_name = 'Virtual wireless interface/Hardware/Belongs to node/Show in map'
+                        , ui_name = 'Virtual wireless interface/Hardware/My node/Show in map'
                         )
                       ]
-                  , full_name = 'virtual_wireless_interface.hardware.belongs_to_node'
-                  , id = 'virtual_wireless_interface__hardware__belongs_to_node'
-                  , name = 'belongs_to_node'
+                  , full_name = 'virtual_wireless_interface.hardware.my_node'
+                  , id = 'virtual_wireless_interface__hardware__my_node'
+                  , name = 'my_node'
                   , sig_key = 2
                   , type_name = 'FFM.Node'
-                  , ui_name = 'Virtual wireless interface/Hardware/Belongs to node'
+                  , ui_name = 'Virtual wireless interface/Hardware/My node'
                   , ui_type_name = 'Node'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `my_net_device`
+                  , attrs =
+                      [ Record
+                        ( Class = 'Entity'
+                        , attr = Net_Device_Type `left`
+                        , attrs =
+                            [ Record
+                              ( attr = String `name`
+                              , full_name = 'virtual_wireless_interface.hardware.my_net_device.left.name'
+                              , id = 'virtual_wireless_interface__hardware__my_net_device__left__name'
+                              , name = 'name'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/Hardware/My net device/Net device type/Name'
+                              )
+                            , Record
+                              ( attr = String `model_no`
+                              , full_name = 'virtual_wireless_interface.hardware.my_net_device.left.model_no'
+                              , id = 'virtual_wireless_interface__hardware__my_net_device__left__model_no'
+                              , name = 'model_no'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/Hardware/My net device/Net device type/Model no'
+                              )
+                            , Record
+                              ( attr = String `revision`
+                              , full_name = 'virtual_wireless_interface.hardware.my_net_device.left.revision'
+                              , id = 'virtual_wireless_interface__hardware__my_net_device__left__revision'
+                              , name = 'revision'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/Hardware/My net device/Net device type/Revision'
+                              )
+                            , Record
+                              ( attr = Text `desc`
+                              , full_name = 'virtual_wireless_interface.hardware.my_net_device.left.desc'
+                              , id = 'virtual_wireless_interface__hardware__my_net_device__left__desc'
+                              , name = 'desc'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/Hardware/My net device/Net device type/Desc'
+                              )
+                            ]
+                        , full_name = 'virtual_wireless_interface.hardware.my_net_device.left'
+                        , id = 'virtual_wireless_interface__hardware__my_net_device__left'
+                        , name = 'left'
+                        , sig_key = 2
+                        , type_name = 'FFM.Net_Device_Type'
+                        , ui_name = 'Virtual wireless interface/Hardware/My net device/Net device type'
+                        , ui_type_name = 'Net_Device_Type'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `node`
+                        , attrs =
+                            [ Record
+                              ( attr = String `name`
+                              , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.name'
+                              , id = 'virtual_wireless_interface__hardware__my_net_device__node__name'
+                              , name = 'name'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Name'
+                              )
+                            , Record
+                              ( Class = 'Entity'
+                              , attr = Entity `manager`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `last_name`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.manager.last_name'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__node__manager__last_name'
+                                    , name = 'last_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Manager/Last name'
+                                    )
+                                  , Record
+                                    ( attr = String `first_name`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.manager.first_name'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__node__manager__first_name'
+                                    , name = 'first_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Manager/First name'
+                                    )
+                                  , Record
+                                    ( attr = String `middle_name`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.manager.middle_name'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__node__manager__middle_name'
+                                    , name = 'middle_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Manager/Middle name'
+                                    )
+                                  , Record
+                                    ( attr = String `title`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.manager.title'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__node__manager__title'
+                                    , name = 'title'
+                                    , sig_key = 3
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Manager/Academic title'
+                                    )
+                                  , Record
+                                    ( attr = Date_Interval `lifetime`
+                                    , attrs =
+                                        [ Record
+                                          ( attr = Date `start`
+                                          , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.manager.lifetime.start'
+                                          , id = 'virtual_wireless_interface__hardware__my_net_device__node__manager__lifetime__start'
+                                          , name = 'start'
+                                          , sig_key = 0
+                                          , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Manager/Lifetime/Start'
+                                          )
+                                        , Record
+                                          ( attr = Date `finish`
+                                          , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.manager.lifetime.finish'
+                                          , id = 'virtual_wireless_interface__hardware__my_net_device__node__manager__lifetime__finish'
+                                          , name = 'finish'
+                                          , sig_key = 0
+                                          , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Manager/Lifetime/Finish'
+                                          )
+                                        , Record
+                                          ( attr = Boolean `alive`
+                                          , choices = <Recursion on list...>
+                                          , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.manager.lifetime.alive'
+                                          , id = 'virtual_wireless_interface__hardware__my_net_device__node__manager__lifetime__alive'
+                                          , name = 'alive'
+                                          , sig_key = 1
+                                          , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Manager/Lifetime/Alive'
+                                          )
+                                        ]
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.manager.lifetime'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__node__manager__lifetime'
+                                    , name = 'lifetime'
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Manager/Lifetime'
+                                    )
+                                  , Record
+                                    ( attr = Sex `sex`
+                                    , choices = <Recursion on list...>
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.manager.sex'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__node__manager__sex'
+                                    , name = 'sex'
+                                    , sig_key = 0
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Manager/Sex'
+                                    )
+                                  ]
+                              , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.manager'
+                              , id = 'virtual_wireless_interface__hardware__my_net_device__node__manager'
+                              , name = 'manager'
+                              , sig_key = 2
+                              , type_name = 'PAP.Person'
+                              , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Manager'
+                              , ui_type_name = 'Person'
+                              )
+                            , Record
+                              ( attr = Date_Interval `lifetime`
+                              , attrs =
+                                  [ Record
+                                    ( attr = Date `start`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.lifetime.start'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__node__lifetime__start'
+                                    , name = 'start'
+                                    , sig_key = 0
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Lifetime/Start'
+                                    )
+                                  , Record
+                                    ( attr = Date `finish`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.lifetime.finish'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__node__lifetime__finish'
+                                    , name = 'finish'
+                                    , sig_key = 0
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Lifetime/Finish'
+                                    )
+                                  , Record
+                                    ( attr = Boolean `alive`
+                                    , choices = <Recursion on list...>
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.lifetime.alive'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__node__lifetime__alive'
+                                    , name = 'alive'
+                                    , sig_key = 1
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Lifetime/Alive'
+                                    )
+                                  ]
+                              , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.lifetime'
+                              , id = 'virtual_wireless_interface__hardware__my_net_device__node__lifetime'
+                              , name = 'lifetime'
+                              , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Lifetime'
+                              )
+                            , Record
+                              ( Class = 'Entity'
+                              , attr = Entity `address`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `street`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.address.street'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__node__address__street'
+                                    , name = 'street'
+                                    , sig_key = 3
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Address/Street'
+                                    )
+                                  , Record
+                                    ( attr = String `zip`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.address.zip'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__node__address__zip'
+                                    , name = 'zip'
+                                    , sig_key = 3
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Address/Zip code'
+                                    )
+                                  , Record
+                                    ( attr = String `city`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.address.city'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__node__address__city'
+                                    , name = 'city'
+                                    , sig_key = 3
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Address/City'
+                                    )
+                                  , Record
+                                    ( attr = String `country`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.address.country'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__node__address__country'
+                                    , name = 'country'
+                                    , sig_key = 3
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Address/Country'
+                                    )
+                                  , Record
+                                    ( attr = String `desc`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.address.desc'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__node__address__desc'
+                                    , name = 'desc'
+                                    , sig_key = 3
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Address/Description'
+                                    )
+                                  , Record
+                                    ( attr = String `region`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.address.region'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__node__address__region'
+                                    , name = 'region'
+                                    , sig_key = 3
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Address/Region'
+                                    )
+                                  ]
+                              , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.address'
+                              , id = 'virtual_wireless_interface__hardware__my_net_device__node__address'
+                              , name = 'address'
+                              , sig_key = 2
+                              , type_name = 'PAP.Address'
+                              , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Address'
+                              , ui_type_name = 'Address'
+                              )
+                            , Record
+                              ( Class = 'Entity'
+                              , attr = Entity `owner`
+                              , children_np =
+                                  [ Record
+                                    ( Class = 'Entity'
+                                    , attr = Entity `owner`
+                                    , attrs =
+                                        [ Record
+                                          ( attr = String `name`
+                                          , full_name = 'owner.name'
+                                          , id = 'owner__name'
+                                          , name = 'name'
+                                          , sig_key = 3
+                                          , ui_name = 'Owner[Association]/Name'
+                                          )
+                                        ]
+                                    , full_name = 'owner'
+                                    , id = 'owner'
+                                    , name = 'owner'
+                                    , sig_key = 2
+                                    , type_name = 'PAP.Association'
+                                    , ui_name = 'Owner[Association]'
+                                    , ui_type_name = 'Association'
+                                    )
+                                  , Record
+                                    ( Class = 'Entity'
+                                    , attr = Entity `owner`
+                                    , attrs =
+                                        [ Record
+                                          ( attr = String `name`
+                                          , full_name = 'owner.name'
+                                          , id = 'owner__name'
+                                          , name = 'name'
+                                          , sig_key = 3
+                                          , ui_name = 'Owner[Company]/Name'
+                                          )
+                                        , Record
+                                          ( attr = String `registered_in`
+                                          , full_name = 'owner.registered_in'
+                                          , id = 'owner__registered_in'
+                                          , name = 'registered_in'
+                                          , sig_key = 3
+                                          , ui_name = 'Owner[Company]/Registered in'
+                                          )
+                                        ]
+                                    , full_name = 'owner'
+                                    , id = 'owner'
+                                    , name = 'owner'
+                                    , sig_key = 2
+                                    , type_name = 'PAP.Company'
+                                    , ui_name = 'Owner[Company]'
+                                    , ui_type_name = 'Company'
+                                    )
+                                  , Record
+                                    ( Class = 'Entity'
+                                    , attr = Entity `owner`
+                                    , attrs =
+                                        [ Record
+                                          ( attr = String `last_name`
+                                          , full_name = 'owner.last_name'
+                                          , id = 'owner__last_name'
+                                          , name = 'last_name'
+                                          , sig_key = 3
+                                          , ui_name = 'Owner[Person]/Last name'
+                                          )
+                                        , Record
+                                          ( attr = String `first_name`
+                                          , full_name = 'owner.first_name'
+                                          , id = 'owner__first_name'
+                                          , name = 'first_name'
+                                          , sig_key = 3
+                                          , ui_name = 'Owner[Person]/First name'
+                                          )
+                                        , Record
+                                          ( attr = String `middle_name`
+                                          , full_name = 'owner.middle_name'
+                                          , id = 'owner__middle_name'
+                                          , name = 'middle_name'
+                                          , sig_key = 3
+                                          , ui_name = 'Owner[Person]/Middle name'
+                                          )
+                                        , Record
+                                          ( attr = String `title`
+                                          , full_name = 'owner.title'
+                                          , id = 'owner__title'
+                                          , name = 'title'
+                                          , sig_key = 3
+                                          , ui_name = 'Owner[Person]/Academic title'
+                                          )
+                                        ]
+                                    , full_name = 'owner'
+                                    , id = 'owner'
+                                    , name = 'owner'
+                                    , sig_key = 2
+                                    , type_name = 'PAP.Person'
+                                    , ui_name = 'Owner[Person]'
+                                    , ui_type_name = 'Person'
+                                    )
+                                  ]
+                              , default_child = 'PAP.Person'
+                              , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.owner'
+                              , id = 'virtual_wireless_interface__hardware__my_net_device__node__owner'
+                              , name = 'owner'
+                              , sig_key = 2
+                              , type_name = 'PAP.Subject'
+                              , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Owner'
+                              , ui_type_name = 'Subject'
+                              )
+                            , Record
+                              ( attr = Position `position`
+                              , attrs =
+                                  [ Record
+                                    ( attr = Angle `lat`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.position.lat'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__node__position__lat'
+                                    , name = 'lat'
+                                    , sig_key = 4
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Position/Latitude'
+                                    )
+                                  , Record
+                                    ( attr = Angle `lon`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.position.lon'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__node__position__lon'
+                                    , name = 'lon'
+                                    , sig_key = 4
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Position/Longitude'
+                                    )
+                                  , Record
+                                    ( attr = Float `height`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.position.height'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__node__position__height'
+                                    , name = 'height'
+                                    , sig_key = 0
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Position/Height'
+                                    )
+                                  ]
+                              , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.position'
+                              , id = 'virtual_wireless_interface__hardware__my_net_device__node__position'
+                              , name = 'position'
+                              , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Position'
+                              )
+                            , Record
+                              ( attr = Boolean `show_in_map`
+                              , choices = <Recursion on list...>
+                              , full_name = 'virtual_wireless_interface.hardware.my_net_device.node.show_in_map'
+                              , id = 'virtual_wireless_interface__hardware__my_net_device__node__show_in_map'
+                              , name = 'show_in_map'
+                              , sig_key = 1
+                              , ui_name = 'Virtual wireless interface/Hardware/My net device/Node/Show in map'
+                              )
+                            ]
+                        , full_name = 'virtual_wireless_interface.hardware.my_net_device.node'
+                        , id = 'virtual_wireless_interface__hardware__my_net_device__node'
+                        , name = 'node'
+                        , sig_key = 2
+                        , type_name = 'FFM.Node'
+                        , ui_name = 'Virtual wireless interface/Hardware/My net device/Node'
+                        , ui_type_name = 'Node'
+                        )
+                      , Record
+                        ( attr = String `name`
+                        , full_name = 'virtual_wireless_interface.hardware.my_net_device.name'
+                        , id = 'virtual_wireless_interface__hardware__my_net_device__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Virtual wireless interface/Hardware/My net device/Name'
+                        )
+                      , Record
+                        ( attr = Text `desc`
+                        , full_name = 'virtual_wireless_interface.hardware.my_net_device.desc'
+                        , id = 'virtual_wireless_interface__hardware__my_net_device__desc'
+                        , name = 'desc'
+                        , sig_key = 3
+                        , ui_name = 'Virtual wireless interface/Hardware/My net device/Desc'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `my_node`
+                        , attrs =
+                            [ Record
+                              ( attr = String `name`
+                              , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.name'
+                              , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__name'
+                              , name = 'name'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Name'
+                              )
+                            , Record
+                              ( Class = 'Entity'
+                              , attr = Entity `manager`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `last_name`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.manager.last_name'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__manager__last_name'
+                                    , name = 'last_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Manager/Last name'
+                                    )
+                                  , Record
+                                    ( attr = String `first_name`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.manager.first_name'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__manager__first_name'
+                                    , name = 'first_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Manager/First name'
+                                    )
+                                  , Record
+                                    ( attr = String `middle_name`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.manager.middle_name'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__manager__middle_name'
+                                    , name = 'middle_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Manager/Middle name'
+                                    )
+                                  , Record
+                                    ( attr = String `title`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.manager.title'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__manager__title'
+                                    , name = 'title'
+                                    , sig_key = 3
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Manager/Academic title'
+                                    )
+                                  , Record
+                                    ( attr = Date_Interval `lifetime`
+                                    , attrs =
+                                        [ Record
+                                          ( attr = Date `start`
+                                          , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.manager.lifetime.start'
+                                          , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__manager__lifetime__start'
+                                          , name = 'start'
+                                          , sig_key = 0
+                                          , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Manager/Lifetime/Start'
+                                          )
+                                        , Record
+                                          ( attr = Date `finish`
+                                          , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.manager.lifetime.finish'
+                                          , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__manager__lifetime__finish'
+                                          , name = 'finish'
+                                          , sig_key = 0
+                                          , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Manager/Lifetime/Finish'
+                                          )
+                                        , Record
+                                          ( attr = Boolean `alive`
+                                          , choices = <Recursion on list...>
+                                          , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.manager.lifetime.alive'
+                                          , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__manager__lifetime__alive'
+                                          , name = 'alive'
+                                          , sig_key = 1
+                                          , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Manager/Lifetime/Alive'
+                                          )
+                                        ]
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.manager.lifetime'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__manager__lifetime'
+                                    , name = 'lifetime'
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Manager/Lifetime'
+                                    )
+                                  , Record
+                                    ( attr = Sex `sex`
+                                    , choices = <Recursion on list...>
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.manager.sex'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__manager__sex'
+                                    , name = 'sex'
+                                    , sig_key = 0
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Manager/Sex'
+                                    )
+                                  ]
+                              , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.manager'
+                              , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__manager'
+                              , name = 'manager'
+                              , sig_key = 2
+                              , type_name = 'PAP.Person'
+                              , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Manager'
+                              , ui_type_name = 'Person'
+                              )
+                            , Record
+                              ( attr = Date_Interval `lifetime`
+                              , attrs =
+                                  [ Record
+                                    ( attr = Date `start`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.lifetime.start'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__lifetime__start'
+                                    , name = 'start'
+                                    , sig_key = 0
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Lifetime/Start'
+                                    )
+                                  , Record
+                                    ( attr = Date `finish`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.lifetime.finish'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__lifetime__finish'
+                                    , name = 'finish'
+                                    , sig_key = 0
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Lifetime/Finish'
+                                    )
+                                  , Record
+                                    ( attr = Boolean `alive`
+                                    , choices = <Recursion on list...>
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.lifetime.alive'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__lifetime__alive'
+                                    , name = 'alive'
+                                    , sig_key = 1
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Lifetime/Alive'
+                                    )
+                                  ]
+                              , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.lifetime'
+                              , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__lifetime'
+                              , name = 'lifetime'
+                              , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Lifetime'
+                              )
+                            , Record
+                              ( Class = 'Entity'
+                              , attr = Entity `address`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `street`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.address.street'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__address__street'
+                                    , name = 'street'
+                                    , sig_key = 3
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Address/Street'
+                                    )
+                                  , Record
+                                    ( attr = String `zip`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.address.zip'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__address__zip'
+                                    , name = 'zip'
+                                    , sig_key = 3
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Address/Zip code'
+                                    )
+                                  , Record
+                                    ( attr = String `city`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.address.city'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__address__city'
+                                    , name = 'city'
+                                    , sig_key = 3
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Address/City'
+                                    )
+                                  , Record
+                                    ( attr = String `country`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.address.country'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__address__country'
+                                    , name = 'country'
+                                    , sig_key = 3
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Address/Country'
+                                    )
+                                  , Record
+                                    ( attr = String `desc`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.address.desc'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__address__desc'
+                                    , name = 'desc'
+                                    , sig_key = 3
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Address/Description'
+                                    )
+                                  , Record
+                                    ( attr = String `region`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.address.region'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__address__region'
+                                    , name = 'region'
+                                    , sig_key = 3
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Address/Region'
+                                    )
+                                  ]
+                              , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.address'
+                              , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__address'
+                              , name = 'address'
+                              , sig_key = 2
+                              , type_name = 'PAP.Address'
+                              , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Address'
+                              , ui_type_name = 'Address'
+                              )
+                            , Record
+                              ( Class = 'Entity'
+                              , attr = Entity `owner`
+                              , children_np =
+                                  [ Record
+                                    ( Class = 'Entity'
+                                    , attr = Entity `owner`
+                                    , attrs =
+                                        [ Record
+                                          ( attr = String `name`
+                                          , full_name = 'owner.name'
+                                          , id = 'owner__name'
+                                          , name = 'name'
+                                          , sig_key = 3
+                                          , ui_name = 'Owner[Association]/Name'
+                                          )
+                                        ]
+                                    , full_name = 'owner'
+                                    , id = 'owner'
+                                    , name = 'owner'
+                                    , sig_key = 2
+                                    , type_name = 'PAP.Association'
+                                    , ui_name = 'Owner[Association]'
+                                    , ui_type_name = 'Association'
+                                    )
+                                  , Record
+                                    ( Class = 'Entity'
+                                    , attr = Entity `owner`
+                                    , attrs =
+                                        [ Record
+                                          ( attr = String `name`
+                                          , full_name = 'owner.name'
+                                          , id = 'owner__name'
+                                          , name = 'name'
+                                          , sig_key = 3
+                                          , ui_name = 'Owner[Company]/Name'
+                                          )
+                                        , Record
+                                          ( attr = String `registered_in`
+                                          , full_name = 'owner.registered_in'
+                                          , id = 'owner__registered_in'
+                                          , name = 'registered_in'
+                                          , sig_key = 3
+                                          , ui_name = 'Owner[Company]/Registered in'
+                                          )
+                                        ]
+                                    , full_name = 'owner'
+                                    , id = 'owner'
+                                    , name = 'owner'
+                                    , sig_key = 2
+                                    , type_name = 'PAP.Company'
+                                    , ui_name = 'Owner[Company]'
+                                    , ui_type_name = 'Company'
+                                    )
+                                  , Record
+                                    ( Class = 'Entity'
+                                    , attr = Entity `owner`
+                                    , attrs =
+                                        [ Record
+                                          ( attr = String `last_name`
+                                          , full_name = 'owner.last_name'
+                                          , id = 'owner__last_name'
+                                          , name = 'last_name'
+                                          , sig_key = 3
+                                          , ui_name = 'Owner[Person]/Last name'
+                                          )
+                                        , Record
+                                          ( attr = String `first_name`
+                                          , full_name = 'owner.first_name'
+                                          , id = 'owner__first_name'
+                                          , name = 'first_name'
+                                          , sig_key = 3
+                                          , ui_name = 'Owner[Person]/First name'
+                                          )
+                                        , Record
+                                          ( attr = String `middle_name`
+                                          , full_name = 'owner.middle_name'
+                                          , id = 'owner__middle_name'
+                                          , name = 'middle_name'
+                                          , sig_key = 3
+                                          , ui_name = 'Owner[Person]/Middle name'
+                                          )
+                                        , Record
+                                          ( attr = String `title`
+                                          , full_name = 'owner.title'
+                                          , id = 'owner__title'
+                                          , name = 'title'
+                                          , sig_key = 3
+                                          , ui_name = 'Owner[Person]/Academic title'
+                                          )
+                                        ]
+                                    , full_name = 'owner'
+                                    , id = 'owner'
+                                    , name = 'owner'
+                                    , sig_key = 2
+                                    , type_name = 'PAP.Person'
+                                    , ui_name = 'Owner[Person]'
+                                    , ui_type_name = 'Person'
+                                    )
+                                  ]
+                              , default_child = 'PAP.Person'
+                              , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.owner'
+                              , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__owner'
+                              , name = 'owner'
+                              , sig_key = 2
+                              , type_name = 'PAP.Subject'
+                              , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Owner'
+                              , ui_type_name = 'Subject'
+                              )
+                            , Record
+                              ( attr = Position `position`
+                              , attrs =
+                                  [ Record
+                                    ( attr = Angle `lat`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.position.lat'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__position__lat'
+                                    , name = 'lat'
+                                    , sig_key = 4
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Position/Latitude'
+                                    )
+                                  , Record
+                                    ( attr = Angle `lon`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.position.lon'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__position__lon'
+                                    , name = 'lon'
+                                    , sig_key = 4
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Position/Longitude'
+                                    )
+                                  , Record
+                                    ( attr = Float `height`
+                                    , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.position.height'
+                                    , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__position__height'
+                                    , name = 'height'
+                                    , sig_key = 0
+                                    , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Position/Height'
+                                    )
+                                  ]
+                              , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.position'
+                              , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__position'
+                              , name = 'position'
+                              , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Position'
+                              )
+                            , Record
+                              ( attr = Boolean `show_in_map`
+                              , choices = <Recursion on list...>
+                              , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node.show_in_map'
+                              , id = 'virtual_wireless_interface__hardware__my_net_device__my_node__show_in_map'
+                              , name = 'show_in_map'
+                              , sig_key = 1
+                              , ui_name = 'Virtual wireless interface/Hardware/My net device/My node/Show in map'
+                              )
+                            ]
+                        , full_name = 'virtual_wireless_interface.hardware.my_net_device.my_node'
+                        , id = 'virtual_wireless_interface__hardware__my_net_device__my_node'
+                        , name = 'my_node'
+                        , sig_key = 2
+                        , type_name = 'FFM.Node'
+                        , ui_name = 'Virtual wireless interface/Hardware/My net device/My node'
+                        , ui_type_name = 'Node'
+                        )
+                      ]
+                  , full_name = 'virtual_wireless_interface.hardware.my_net_device'
+                  , id = 'virtual_wireless_interface__hardware__my_net_device'
+                  , name = 'my_net_device'
+                  , sig_key = 2
+                  , type_name = 'FFM.Net_Device'
+                  , ui_name = 'Virtual wireless interface/Hardware/My net device'
+                  , ui_type_name = 'Net_Device'
                   )
                 ]
             , full_name = 'virtual_wireless_interface.hardware'
@@ -10224,15 +14953,15 @@ _test_AQ = """
             )
           , Record
             ( Class = 'Entity'
-            , attr = Entity `belongs_to_node`
+            , attr = Entity `my_node`
             , attrs =
                 [ Record
                   ( attr = String `name`
-                  , full_name = 'virtual_wireless_interface.belongs_to_node.name'
-                  , id = 'virtual_wireless_interface__belongs_to_node__name'
+                  , full_name = 'virtual_wireless_interface.my_node.name'
+                  , id = 'virtual_wireless_interface__my_node__name'
                   , name = 'name'
                   , sig_key = 3
-                  , ui_name = 'Virtual wireless interface/Belongs to node/Name'
+                  , ui_name = 'Virtual wireless interface/My node/Name'
                   )
                 , Record
                   ( Class = 'Entity'
@@ -10240,86 +14969,86 @@ _test_AQ = """
                   , attrs =
                       [ Record
                         ( attr = String `last_name`
-                        , full_name = 'virtual_wireless_interface.belongs_to_node.manager.last_name'
-                        , id = 'virtual_wireless_interface__belongs_to_node__manager__last_name'
+                        , full_name = 'virtual_wireless_interface.my_node.manager.last_name'
+                        , id = 'virtual_wireless_interface__my_node__manager__last_name'
                         , name = 'last_name'
                         , sig_key = 3
-                        , ui_name = 'Virtual wireless interface/Belongs to node/Manager/Last name'
+                        , ui_name = 'Virtual wireless interface/My node/Manager/Last name'
                         )
                       , Record
                         ( attr = String `first_name`
-                        , full_name = 'virtual_wireless_interface.belongs_to_node.manager.first_name'
-                        , id = 'virtual_wireless_interface__belongs_to_node__manager__first_name'
+                        , full_name = 'virtual_wireless_interface.my_node.manager.first_name'
+                        , id = 'virtual_wireless_interface__my_node__manager__first_name'
                         , name = 'first_name'
                         , sig_key = 3
-                        , ui_name = 'Virtual wireless interface/Belongs to node/Manager/First name'
+                        , ui_name = 'Virtual wireless interface/My node/Manager/First name'
                         )
                       , Record
                         ( attr = String `middle_name`
-                        , full_name = 'virtual_wireless_interface.belongs_to_node.manager.middle_name'
-                        , id = 'virtual_wireless_interface__belongs_to_node__manager__middle_name'
+                        , full_name = 'virtual_wireless_interface.my_node.manager.middle_name'
+                        , id = 'virtual_wireless_interface__my_node__manager__middle_name'
                         , name = 'middle_name'
                         , sig_key = 3
-                        , ui_name = 'Virtual wireless interface/Belongs to node/Manager/Middle name'
+                        , ui_name = 'Virtual wireless interface/My node/Manager/Middle name'
                         )
                       , Record
                         ( attr = String `title`
-                        , full_name = 'virtual_wireless_interface.belongs_to_node.manager.title'
-                        , id = 'virtual_wireless_interface__belongs_to_node__manager__title'
+                        , full_name = 'virtual_wireless_interface.my_node.manager.title'
+                        , id = 'virtual_wireless_interface__my_node__manager__title'
                         , name = 'title'
                         , sig_key = 3
-                        , ui_name = 'Virtual wireless interface/Belongs to node/Manager/Academic title'
+                        , ui_name = 'Virtual wireless interface/My node/Manager/Academic title'
                         )
                       , Record
                         ( attr = Date_Interval `lifetime`
                         , attrs =
                             [ Record
                               ( attr = Date `start`
-                              , full_name = 'virtual_wireless_interface.belongs_to_node.manager.lifetime.start'
-                              , id = 'virtual_wireless_interface__belongs_to_node__manager__lifetime__start'
+                              , full_name = 'virtual_wireless_interface.my_node.manager.lifetime.start'
+                              , id = 'virtual_wireless_interface__my_node__manager__lifetime__start'
                               , name = 'start'
                               , sig_key = 0
-                              , ui_name = 'Virtual wireless interface/Belongs to node/Manager/Lifetime/Start'
+                              , ui_name = 'Virtual wireless interface/My node/Manager/Lifetime/Start'
                               )
                             , Record
                               ( attr = Date `finish`
-                              , full_name = 'virtual_wireless_interface.belongs_to_node.manager.lifetime.finish'
-                              , id = 'virtual_wireless_interface__belongs_to_node__manager__lifetime__finish'
+                              , full_name = 'virtual_wireless_interface.my_node.manager.lifetime.finish'
+                              , id = 'virtual_wireless_interface__my_node__manager__lifetime__finish'
                               , name = 'finish'
                               , sig_key = 0
-                              , ui_name = 'Virtual wireless interface/Belongs to node/Manager/Lifetime/Finish'
+                              , ui_name = 'Virtual wireless interface/My node/Manager/Lifetime/Finish'
                               )
                             , Record
                               ( attr = Boolean `alive`
                               , choices = <Recursion on list...>
-                              , full_name = 'virtual_wireless_interface.belongs_to_node.manager.lifetime.alive'
-                              , id = 'virtual_wireless_interface__belongs_to_node__manager__lifetime__alive'
+                              , full_name = 'virtual_wireless_interface.my_node.manager.lifetime.alive'
+                              , id = 'virtual_wireless_interface__my_node__manager__lifetime__alive'
                               , name = 'alive'
                               , sig_key = 1
-                              , ui_name = 'Virtual wireless interface/Belongs to node/Manager/Lifetime/Alive'
+                              , ui_name = 'Virtual wireless interface/My node/Manager/Lifetime/Alive'
                               )
                             ]
-                        , full_name = 'virtual_wireless_interface.belongs_to_node.manager.lifetime'
-                        , id = 'virtual_wireless_interface__belongs_to_node__manager__lifetime'
+                        , full_name = 'virtual_wireless_interface.my_node.manager.lifetime'
+                        , id = 'virtual_wireless_interface__my_node__manager__lifetime'
                         , name = 'lifetime'
-                        , ui_name = 'Virtual wireless interface/Belongs to node/Manager/Lifetime'
+                        , ui_name = 'Virtual wireless interface/My node/Manager/Lifetime'
                         )
                       , Record
                         ( attr = Sex `sex`
                         , choices = <Recursion on list...>
-                        , full_name = 'virtual_wireless_interface.belongs_to_node.manager.sex'
-                        , id = 'virtual_wireless_interface__belongs_to_node__manager__sex'
+                        , full_name = 'virtual_wireless_interface.my_node.manager.sex'
+                        , id = 'virtual_wireless_interface__my_node__manager__sex'
                         , name = 'sex'
                         , sig_key = 0
-                        , ui_name = 'Virtual wireless interface/Belongs to node/Manager/Sex'
+                        , ui_name = 'Virtual wireless interface/My node/Manager/Sex'
                         )
                       ]
-                  , full_name = 'virtual_wireless_interface.belongs_to_node.manager'
-                  , id = 'virtual_wireless_interface__belongs_to_node__manager'
+                  , full_name = 'virtual_wireless_interface.my_node.manager'
+                  , id = 'virtual_wireless_interface__my_node__manager'
                   , name = 'manager'
                   , sig_key = 2
                   , type_name = 'PAP.Person'
-                  , ui_name = 'Virtual wireless interface/Belongs to node/Manager'
+                  , ui_name = 'Virtual wireless interface/My node/Manager'
                   , ui_type_name = 'Person'
                   )
                 , Record
@@ -10327,34 +15056,34 @@ _test_AQ = """
                   , attrs =
                       [ Record
                         ( attr = Date `start`
-                        , full_name = 'virtual_wireless_interface.belongs_to_node.lifetime.start'
-                        , id = 'virtual_wireless_interface__belongs_to_node__lifetime__start'
+                        , full_name = 'virtual_wireless_interface.my_node.lifetime.start'
+                        , id = 'virtual_wireless_interface__my_node__lifetime__start'
                         , name = 'start'
                         , sig_key = 0
-                        , ui_name = 'Virtual wireless interface/Belongs to node/Lifetime/Start'
+                        , ui_name = 'Virtual wireless interface/My node/Lifetime/Start'
                         )
                       , Record
                         ( attr = Date `finish`
-                        , full_name = 'virtual_wireless_interface.belongs_to_node.lifetime.finish'
-                        , id = 'virtual_wireless_interface__belongs_to_node__lifetime__finish'
+                        , full_name = 'virtual_wireless_interface.my_node.lifetime.finish'
+                        , id = 'virtual_wireless_interface__my_node__lifetime__finish'
                         , name = 'finish'
                         , sig_key = 0
-                        , ui_name = 'Virtual wireless interface/Belongs to node/Lifetime/Finish'
+                        , ui_name = 'Virtual wireless interface/My node/Lifetime/Finish'
                         )
                       , Record
                         ( attr = Boolean `alive`
                         , choices = <Recursion on list...>
-                        , full_name = 'virtual_wireless_interface.belongs_to_node.lifetime.alive'
-                        , id = 'virtual_wireless_interface__belongs_to_node__lifetime__alive'
+                        , full_name = 'virtual_wireless_interface.my_node.lifetime.alive'
+                        , id = 'virtual_wireless_interface__my_node__lifetime__alive'
                         , name = 'alive'
                         , sig_key = 1
-                        , ui_name = 'Virtual wireless interface/Belongs to node/Lifetime/Alive'
+                        , ui_name = 'Virtual wireless interface/My node/Lifetime/Alive'
                         )
                       ]
-                  , full_name = 'virtual_wireless_interface.belongs_to_node.lifetime'
-                  , id = 'virtual_wireless_interface__belongs_to_node__lifetime'
+                  , full_name = 'virtual_wireless_interface.my_node.lifetime'
+                  , id = 'virtual_wireless_interface__my_node__lifetime'
                   , name = 'lifetime'
-                  , ui_name = 'Virtual wireless interface/Belongs to node/Lifetime'
+                  , ui_name = 'Virtual wireless interface/My node/Lifetime'
                   )
                 , Record
                   ( Class = 'Entity'
@@ -10362,59 +15091,59 @@ _test_AQ = """
                   , attrs =
                       [ Record
                         ( attr = String `street`
-                        , full_name = 'virtual_wireless_interface.belongs_to_node.address.street'
-                        , id = 'virtual_wireless_interface__belongs_to_node__address__street'
+                        , full_name = 'virtual_wireless_interface.my_node.address.street'
+                        , id = 'virtual_wireless_interface__my_node__address__street'
                         , name = 'street'
                         , sig_key = 3
-                        , ui_name = 'Virtual wireless interface/Belongs to node/Address/Street'
+                        , ui_name = 'Virtual wireless interface/My node/Address/Street'
                         )
                       , Record
                         ( attr = String `zip`
-                        , full_name = 'virtual_wireless_interface.belongs_to_node.address.zip'
-                        , id = 'virtual_wireless_interface__belongs_to_node__address__zip'
+                        , full_name = 'virtual_wireless_interface.my_node.address.zip'
+                        , id = 'virtual_wireless_interface__my_node__address__zip'
                         , name = 'zip'
                         , sig_key = 3
-                        , ui_name = 'Virtual wireless interface/Belongs to node/Address/Zip code'
+                        , ui_name = 'Virtual wireless interface/My node/Address/Zip code'
                         )
                       , Record
                         ( attr = String `city`
-                        , full_name = 'virtual_wireless_interface.belongs_to_node.address.city'
-                        , id = 'virtual_wireless_interface__belongs_to_node__address__city'
+                        , full_name = 'virtual_wireless_interface.my_node.address.city'
+                        , id = 'virtual_wireless_interface__my_node__address__city'
                         , name = 'city'
                         , sig_key = 3
-                        , ui_name = 'Virtual wireless interface/Belongs to node/Address/City'
+                        , ui_name = 'Virtual wireless interface/My node/Address/City'
                         )
                       , Record
                         ( attr = String `country`
-                        , full_name = 'virtual_wireless_interface.belongs_to_node.address.country'
-                        , id = 'virtual_wireless_interface__belongs_to_node__address__country'
+                        , full_name = 'virtual_wireless_interface.my_node.address.country'
+                        , id = 'virtual_wireless_interface__my_node__address__country'
                         , name = 'country'
                         , sig_key = 3
-                        , ui_name = 'Virtual wireless interface/Belongs to node/Address/Country'
+                        , ui_name = 'Virtual wireless interface/My node/Address/Country'
                         )
                       , Record
                         ( attr = String `desc`
-                        , full_name = 'virtual_wireless_interface.belongs_to_node.address.desc'
-                        , id = 'virtual_wireless_interface__belongs_to_node__address__desc'
+                        , full_name = 'virtual_wireless_interface.my_node.address.desc'
+                        , id = 'virtual_wireless_interface__my_node__address__desc'
                         , name = 'desc'
                         , sig_key = 3
-                        , ui_name = 'Virtual wireless interface/Belongs to node/Address/Description'
+                        , ui_name = 'Virtual wireless interface/My node/Address/Description'
                         )
                       , Record
                         ( attr = String `region`
-                        , full_name = 'virtual_wireless_interface.belongs_to_node.address.region'
-                        , id = 'virtual_wireless_interface__belongs_to_node__address__region'
+                        , full_name = 'virtual_wireless_interface.my_node.address.region'
+                        , id = 'virtual_wireless_interface__my_node__address__region'
                         , name = 'region'
                         , sig_key = 3
-                        , ui_name = 'Virtual wireless interface/Belongs to node/Address/Region'
+                        , ui_name = 'Virtual wireless interface/My node/Address/Region'
                         )
                       ]
-                  , full_name = 'virtual_wireless_interface.belongs_to_node.address'
-                  , id = 'virtual_wireless_interface__belongs_to_node__address'
+                  , full_name = 'virtual_wireless_interface.my_node.address'
+                  , id = 'virtual_wireless_interface__my_node__address'
                   , name = 'address'
                   , sig_key = 2
                   , type_name = 'PAP.Address'
-                  , ui_name = 'Virtual wireless interface/Belongs to node/Address'
+                  , ui_name = 'Virtual wireless interface/My node/Address'
                   , ui_type_name = 'Address'
                   )
                 , Record
@@ -10518,12 +15247,12 @@ _test_AQ = """
                         )
                       ]
                   , default_child = 'PAP.Person'
-                  , full_name = 'virtual_wireless_interface.belongs_to_node.owner'
-                  , id = 'virtual_wireless_interface__belongs_to_node__owner'
+                  , full_name = 'virtual_wireless_interface.my_node.owner'
+                  , id = 'virtual_wireless_interface__my_node__owner'
                   , name = 'owner'
                   , sig_key = 2
                   , type_name = 'PAP.Subject'
-                  , ui_name = 'Virtual wireless interface/Belongs to node/Owner'
+                  , ui_name = 'Virtual wireless interface/My node/Owner'
                   , ui_type_name = 'Subject'
                   )
                 , Record
@@ -10531,51 +15260,835 @@ _test_AQ = """
                   , attrs =
                       [ Record
                         ( attr = Angle `lat`
-                        , full_name = 'virtual_wireless_interface.belongs_to_node.position.lat'
-                        , id = 'virtual_wireless_interface__belongs_to_node__position__lat'
+                        , full_name = 'virtual_wireless_interface.my_node.position.lat'
+                        , id = 'virtual_wireless_interface__my_node__position__lat'
                         , name = 'lat'
                         , sig_key = 4
-                        , ui_name = 'Virtual wireless interface/Belongs to node/Position/Latitude'
+                        , ui_name = 'Virtual wireless interface/My node/Position/Latitude'
                         )
                       , Record
                         ( attr = Angle `lon`
-                        , full_name = 'virtual_wireless_interface.belongs_to_node.position.lon'
-                        , id = 'virtual_wireless_interface__belongs_to_node__position__lon'
+                        , full_name = 'virtual_wireless_interface.my_node.position.lon'
+                        , id = 'virtual_wireless_interface__my_node__position__lon'
                         , name = 'lon'
                         , sig_key = 4
-                        , ui_name = 'Virtual wireless interface/Belongs to node/Position/Longitude'
+                        , ui_name = 'Virtual wireless interface/My node/Position/Longitude'
                         )
                       , Record
                         ( attr = Float `height`
-                        , full_name = 'virtual_wireless_interface.belongs_to_node.position.height'
-                        , id = 'virtual_wireless_interface__belongs_to_node__position__height'
+                        , full_name = 'virtual_wireless_interface.my_node.position.height'
+                        , id = 'virtual_wireless_interface__my_node__position__height'
                         , name = 'height'
                         , sig_key = 0
-                        , ui_name = 'Virtual wireless interface/Belongs to node/Position/Height'
+                        , ui_name = 'Virtual wireless interface/My node/Position/Height'
                         )
                       ]
-                  , full_name = 'virtual_wireless_interface.belongs_to_node.position'
-                  , id = 'virtual_wireless_interface__belongs_to_node__position'
+                  , full_name = 'virtual_wireless_interface.my_node.position'
+                  , id = 'virtual_wireless_interface__my_node__position'
                   , name = 'position'
-                  , ui_name = 'Virtual wireless interface/Belongs to node/Position'
+                  , ui_name = 'Virtual wireless interface/My node/Position'
                   )
                 , Record
                   ( attr = Boolean `show_in_map`
                   , choices = <Recursion on list...>
-                  , full_name = 'virtual_wireless_interface.belongs_to_node.show_in_map'
-                  , id = 'virtual_wireless_interface__belongs_to_node__show_in_map'
+                  , full_name = 'virtual_wireless_interface.my_node.show_in_map'
+                  , id = 'virtual_wireless_interface__my_node__show_in_map'
                   , name = 'show_in_map'
                   , sig_key = 1
-                  , ui_name = 'Virtual wireless interface/Belongs to node/Show in map'
+                  , ui_name = 'Virtual wireless interface/My node/Show in map'
                   )
                 ]
-            , full_name = 'virtual_wireless_interface.belongs_to_node'
-            , id = 'virtual_wireless_interface__belongs_to_node'
-            , name = 'belongs_to_node'
+            , full_name = 'virtual_wireless_interface.my_node'
+            , id = 'virtual_wireless_interface__my_node'
+            , name = 'my_node'
             , sig_key = 2
             , type_name = 'FFM.Node'
-            , ui_name = 'Virtual wireless interface/Belongs to node'
+            , ui_name = 'Virtual wireless interface/My node'
             , ui_type_name = 'Node'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `my_net_device`
+            , attrs =
+                [ Record
+                  ( Class = 'Entity'
+                  , attr = Net_Device_Type `left`
+                  , attrs =
+                      [ Record
+                        ( attr = String `name`
+                        , full_name = 'virtual_wireless_interface.my_net_device.left.name'
+                        , id = 'virtual_wireless_interface__my_net_device__left__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Virtual wireless interface/My net device/Net device type/Name'
+                        )
+                      , Record
+                        ( attr = String `model_no`
+                        , full_name = 'virtual_wireless_interface.my_net_device.left.model_no'
+                        , id = 'virtual_wireless_interface__my_net_device__left__model_no'
+                        , name = 'model_no'
+                        , sig_key = 3
+                        , ui_name = 'Virtual wireless interface/My net device/Net device type/Model no'
+                        )
+                      , Record
+                        ( attr = String `revision`
+                        , full_name = 'virtual_wireless_interface.my_net_device.left.revision'
+                        , id = 'virtual_wireless_interface__my_net_device__left__revision'
+                        , name = 'revision'
+                        , sig_key = 3
+                        , ui_name = 'Virtual wireless interface/My net device/Net device type/Revision'
+                        )
+                      , Record
+                        ( attr = Text `desc`
+                        , full_name = 'virtual_wireless_interface.my_net_device.left.desc'
+                        , id = 'virtual_wireless_interface__my_net_device__left__desc'
+                        , name = 'desc'
+                        , sig_key = 3
+                        , ui_name = 'Virtual wireless interface/My net device/Net device type/Desc'
+                        )
+                      ]
+                  , full_name = 'virtual_wireless_interface.my_net_device.left'
+                  , id = 'virtual_wireless_interface__my_net_device__left'
+                  , name = 'left'
+                  , sig_key = 2
+                  , type_name = 'FFM.Net_Device_Type'
+                  , ui_name = 'Virtual wireless interface/My net device/Net device type'
+                  , ui_type_name = 'Net_Device_Type'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `node`
+                  , attrs =
+                      [ Record
+                        ( attr = String `name`
+                        , full_name = 'virtual_wireless_interface.my_net_device.node.name'
+                        , id = 'virtual_wireless_interface__my_net_device__node__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Virtual wireless interface/My net device/Node/Name'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `manager`
+                        , attrs =
+                            [ Record
+                              ( attr = String `last_name`
+                              , full_name = 'virtual_wireless_interface.my_net_device.node.manager.last_name'
+                              , id = 'virtual_wireless_interface__my_net_device__node__manager__last_name'
+                              , name = 'last_name'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/My net device/Node/Manager/Last name'
+                              )
+                            , Record
+                              ( attr = String `first_name`
+                              , full_name = 'virtual_wireless_interface.my_net_device.node.manager.first_name'
+                              , id = 'virtual_wireless_interface__my_net_device__node__manager__first_name'
+                              , name = 'first_name'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/My net device/Node/Manager/First name'
+                              )
+                            , Record
+                              ( attr = String `middle_name`
+                              , full_name = 'virtual_wireless_interface.my_net_device.node.manager.middle_name'
+                              , id = 'virtual_wireless_interface__my_net_device__node__manager__middle_name'
+                              , name = 'middle_name'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/My net device/Node/Manager/Middle name'
+                              )
+                            , Record
+                              ( attr = String `title`
+                              , full_name = 'virtual_wireless_interface.my_net_device.node.manager.title'
+                              , id = 'virtual_wireless_interface__my_net_device__node__manager__title'
+                              , name = 'title'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/My net device/Node/Manager/Academic title'
+                              )
+                            , Record
+                              ( attr = Date_Interval `lifetime`
+                              , attrs =
+                                  [ Record
+                                    ( attr = Date `start`
+                                    , full_name = 'virtual_wireless_interface.my_net_device.node.manager.lifetime.start'
+                                    , id = 'virtual_wireless_interface__my_net_device__node__manager__lifetime__start'
+                                    , name = 'start'
+                                    , sig_key = 0
+                                    , ui_name = 'Virtual wireless interface/My net device/Node/Manager/Lifetime/Start'
+                                    )
+                                  , Record
+                                    ( attr = Date `finish`
+                                    , full_name = 'virtual_wireless_interface.my_net_device.node.manager.lifetime.finish'
+                                    , id = 'virtual_wireless_interface__my_net_device__node__manager__lifetime__finish'
+                                    , name = 'finish'
+                                    , sig_key = 0
+                                    , ui_name = 'Virtual wireless interface/My net device/Node/Manager/Lifetime/Finish'
+                                    )
+                                  , Record
+                                    ( attr = Boolean `alive`
+                                    , choices = <Recursion on list...>
+                                    , full_name = 'virtual_wireless_interface.my_net_device.node.manager.lifetime.alive'
+                                    , id = 'virtual_wireless_interface__my_net_device__node__manager__lifetime__alive'
+                                    , name = 'alive'
+                                    , sig_key = 1
+                                    , ui_name = 'Virtual wireless interface/My net device/Node/Manager/Lifetime/Alive'
+                                    )
+                                  ]
+                              , full_name = 'virtual_wireless_interface.my_net_device.node.manager.lifetime'
+                              , id = 'virtual_wireless_interface__my_net_device__node__manager__lifetime'
+                              , name = 'lifetime'
+                              , ui_name = 'Virtual wireless interface/My net device/Node/Manager/Lifetime'
+                              )
+                            , Record
+                              ( attr = Sex `sex`
+                              , choices = <Recursion on list...>
+                              , full_name = 'virtual_wireless_interface.my_net_device.node.manager.sex'
+                              , id = 'virtual_wireless_interface__my_net_device__node__manager__sex'
+                              , name = 'sex'
+                              , sig_key = 0
+                              , ui_name = 'Virtual wireless interface/My net device/Node/Manager/Sex'
+                              )
+                            ]
+                        , full_name = 'virtual_wireless_interface.my_net_device.node.manager'
+                        , id = 'virtual_wireless_interface__my_net_device__node__manager'
+                        , name = 'manager'
+                        , sig_key = 2
+                        , type_name = 'PAP.Person'
+                        , ui_name = 'Virtual wireless interface/My net device/Node/Manager'
+                        , ui_type_name = 'Person'
+                        )
+                      , Record
+                        ( attr = Date_Interval `lifetime`
+                        , attrs =
+                            [ Record
+                              ( attr = Date `start`
+                              , full_name = 'virtual_wireless_interface.my_net_device.node.lifetime.start'
+                              , id = 'virtual_wireless_interface__my_net_device__node__lifetime__start'
+                              , name = 'start'
+                              , sig_key = 0
+                              , ui_name = 'Virtual wireless interface/My net device/Node/Lifetime/Start'
+                              )
+                            , Record
+                              ( attr = Date `finish`
+                              , full_name = 'virtual_wireless_interface.my_net_device.node.lifetime.finish'
+                              , id = 'virtual_wireless_interface__my_net_device__node__lifetime__finish'
+                              , name = 'finish'
+                              , sig_key = 0
+                              , ui_name = 'Virtual wireless interface/My net device/Node/Lifetime/Finish'
+                              )
+                            , Record
+                              ( attr = Boolean `alive`
+                              , choices = <Recursion on list...>
+                              , full_name = 'virtual_wireless_interface.my_net_device.node.lifetime.alive'
+                              , id = 'virtual_wireless_interface__my_net_device__node__lifetime__alive'
+                              , name = 'alive'
+                              , sig_key = 1
+                              , ui_name = 'Virtual wireless interface/My net device/Node/Lifetime/Alive'
+                              )
+                            ]
+                        , full_name = 'virtual_wireless_interface.my_net_device.node.lifetime'
+                        , id = 'virtual_wireless_interface__my_net_device__node__lifetime'
+                        , name = 'lifetime'
+                        , ui_name = 'Virtual wireless interface/My net device/Node/Lifetime'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `address`
+                        , attrs =
+                            [ Record
+                              ( attr = String `street`
+                              , full_name = 'virtual_wireless_interface.my_net_device.node.address.street'
+                              , id = 'virtual_wireless_interface__my_net_device__node__address__street'
+                              , name = 'street'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/My net device/Node/Address/Street'
+                              )
+                            , Record
+                              ( attr = String `zip`
+                              , full_name = 'virtual_wireless_interface.my_net_device.node.address.zip'
+                              , id = 'virtual_wireless_interface__my_net_device__node__address__zip'
+                              , name = 'zip'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/My net device/Node/Address/Zip code'
+                              )
+                            , Record
+                              ( attr = String `city`
+                              , full_name = 'virtual_wireless_interface.my_net_device.node.address.city'
+                              , id = 'virtual_wireless_interface__my_net_device__node__address__city'
+                              , name = 'city'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/My net device/Node/Address/City'
+                              )
+                            , Record
+                              ( attr = String `country`
+                              , full_name = 'virtual_wireless_interface.my_net_device.node.address.country'
+                              , id = 'virtual_wireless_interface__my_net_device__node__address__country'
+                              , name = 'country'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/My net device/Node/Address/Country'
+                              )
+                            , Record
+                              ( attr = String `desc`
+                              , full_name = 'virtual_wireless_interface.my_net_device.node.address.desc'
+                              , id = 'virtual_wireless_interface__my_net_device__node__address__desc'
+                              , name = 'desc'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/My net device/Node/Address/Description'
+                              )
+                            , Record
+                              ( attr = String `region`
+                              , full_name = 'virtual_wireless_interface.my_net_device.node.address.region'
+                              , id = 'virtual_wireless_interface__my_net_device__node__address__region'
+                              , name = 'region'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/My net device/Node/Address/Region'
+                              )
+                            ]
+                        , full_name = 'virtual_wireless_interface.my_net_device.node.address'
+                        , id = 'virtual_wireless_interface__my_net_device__node__address'
+                        , name = 'address'
+                        , sig_key = 2
+                        , type_name = 'PAP.Address'
+                        , ui_name = 'Virtual wireless interface/My net device/Node/Address'
+                        , ui_type_name = 'Address'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `owner`
+                        , children_np =
+                            [ Record
+                              ( Class = 'Entity'
+                              , attr = Entity `owner`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `name`
+                                    , full_name = 'owner.name'
+                                    , id = 'owner__name'
+                                    , name = 'name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Association]/Name'
+                                    )
+                                  ]
+                              , full_name = 'owner'
+                              , id = 'owner'
+                              , name = 'owner'
+                              , sig_key = 2
+                              , type_name = 'PAP.Association'
+                              , ui_name = 'Owner[Association]'
+                              , ui_type_name = 'Association'
+                              )
+                            , Record
+                              ( Class = 'Entity'
+                              , attr = Entity `owner`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `name`
+                                    , full_name = 'owner.name'
+                                    , id = 'owner__name'
+                                    , name = 'name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Company]/Name'
+                                    )
+                                  , Record
+                                    ( attr = String `registered_in`
+                                    , full_name = 'owner.registered_in'
+                                    , id = 'owner__registered_in'
+                                    , name = 'registered_in'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Company]/Registered in'
+                                    )
+                                  ]
+                              , full_name = 'owner'
+                              , id = 'owner'
+                              , name = 'owner'
+                              , sig_key = 2
+                              , type_name = 'PAP.Company'
+                              , ui_name = 'Owner[Company]'
+                              , ui_type_name = 'Company'
+                              )
+                            , Record
+                              ( Class = 'Entity'
+                              , attr = Entity `owner`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `last_name`
+                                    , full_name = 'owner.last_name'
+                                    , id = 'owner__last_name'
+                                    , name = 'last_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/Last name'
+                                    )
+                                  , Record
+                                    ( attr = String `first_name`
+                                    , full_name = 'owner.first_name'
+                                    , id = 'owner__first_name'
+                                    , name = 'first_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/First name'
+                                    )
+                                  , Record
+                                    ( attr = String `middle_name`
+                                    , full_name = 'owner.middle_name'
+                                    , id = 'owner__middle_name'
+                                    , name = 'middle_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/Middle name'
+                                    )
+                                  , Record
+                                    ( attr = String `title`
+                                    , full_name = 'owner.title'
+                                    , id = 'owner__title'
+                                    , name = 'title'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/Academic title'
+                                    )
+                                  ]
+                              , full_name = 'owner'
+                              , id = 'owner'
+                              , name = 'owner'
+                              , sig_key = 2
+                              , type_name = 'PAP.Person'
+                              , ui_name = 'Owner[Person]'
+                              , ui_type_name = 'Person'
+                              )
+                            ]
+                        , default_child = 'PAP.Person'
+                        , full_name = 'virtual_wireless_interface.my_net_device.node.owner'
+                        , id = 'virtual_wireless_interface__my_net_device__node__owner'
+                        , name = 'owner'
+                        , sig_key = 2
+                        , type_name = 'PAP.Subject'
+                        , ui_name = 'Virtual wireless interface/My net device/Node/Owner'
+                        , ui_type_name = 'Subject'
+                        )
+                      , Record
+                        ( attr = Position `position`
+                        , attrs =
+                            [ Record
+                              ( attr = Angle `lat`
+                              , full_name = 'virtual_wireless_interface.my_net_device.node.position.lat'
+                              , id = 'virtual_wireless_interface__my_net_device__node__position__lat'
+                              , name = 'lat'
+                              , sig_key = 4
+                              , ui_name = 'Virtual wireless interface/My net device/Node/Position/Latitude'
+                              )
+                            , Record
+                              ( attr = Angle `lon`
+                              , full_name = 'virtual_wireless_interface.my_net_device.node.position.lon'
+                              , id = 'virtual_wireless_interface__my_net_device__node__position__lon'
+                              , name = 'lon'
+                              , sig_key = 4
+                              , ui_name = 'Virtual wireless interface/My net device/Node/Position/Longitude'
+                              )
+                            , Record
+                              ( attr = Float `height`
+                              , full_name = 'virtual_wireless_interface.my_net_device.node.position.height'
+                              , id = 'virtual_wireless_interface__my_net_device__node__position__height'
+                              , name = 'height'
+                              , sig_key = 0
+                              , ui_name = 'Virtual wireless interface/My net device/Node/Position/Height'
+                              )
+                            ]
+                        , full_name = 'virtual_wireless_interface.my_net_device.node.position'
+                        , id = 'virtual_wireless_interface__my_net_device__node__position'
+                        , name = 'position'
+                        , ui_name = 'Virtual wireless interface/My net device/Node/Position'
+                        )
+                      , Record
+                        ( attr = Boolean `show_in_map`
+                        , choices = <Recursion on list...>
+                        , full_name = 'virtual_wireless_interface.my_net_device.node.show_in_map'
+                        , id = 'virtual_wireless_interface__my_net_device__node__show_in_map'
+                        , name = 'show_in_map'
+                        , sig_key = 1
+                        , ui_name = 'Virtual wireless interface/My net device/Node/Show in map'
+                        )
+                      ]
+                  , full_name = 'virtual_wireless_interface.my_net_device.node'
+                  , id = 'virtual_wireless_interface__my_net_device__node'
+                  , name = 'node'
+                  , sig_key = 2
+                  , type_name = 'FFM.Node'
+                  , ui_name = 'Virtual wireless interface/My net device/Node'
+                  , ui_type_name = 'Node'
+                  )
+                , Record
+                  ( attr = String `name`
+                  , full_name = 'virtual_wireless_interface.my_net_device.name'
+                  , id = 'virtual_wireless_interface__my_net_device__name'
+                  , name = 'name'
+                  , sig_key = 3
+                  , ui_name = 'Virtual wireless interface/My net device/Name'
+                  )
+                , Record
+                  ( attr = Text `desc`
+                  , full_name = 'virtual_wireless_interface.my_net_device.desc'
+                  , id = 'virtual_wireless_interface__my_net_device__desc'
+                  , name = 'desc'
+                  , sig_key = 3
+                  , ui_name = 'Virtual wireless interface/My net device/Desc'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `my_node`
+                  , attrs =
+                      [ Record
+                        ( attr = String `name`
+                        , full_name = 'virtual_wireless_interface.my_net_device.my_node.name'
+                        , id = 'virtual_wireless_interface__my_net_device__my_node__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Virtual wireless interface/My net device/My node/Name'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `manager`
+                        , attrs =
+                            [ Record
+                              ( attr = String `last_name`
+                              , full_name = 'virtual_wireless_interface.my_net_device.my_node.manager.last_name'
+                              , id = 'virtual_wireless_interface__my_net_device__my_node__manager__last_name'
+                              , name = 'last_name'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/My net device/My node/Manager/Last name'
+                              )
+                            , Record
+                              ( attr = String `first_name`
+                              , full_name = 'virtual_wireless_interface.my_net_device.my_node.manager.first_name'
+                              , id = 'virtual_wireless_interface__my_net_device__my_node__manager__first_name'
+                              , name = 'first_name'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/My net device/My node/Manager/First name'
+                              )
+                            , Record
+                              ( attr = String `middle_name`
+                              , full_name = 'virtual_wireless_interface.my_net_device.my_node.manager.middle_name'
+                              , id = 'virtual_wireless_interface__my_net_device__my_node__manager__middle_name'
+                              , name = 'middle_name'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/My net device/My node/Manager/Middle name'
+                              )
+                            , Record
+                              ( attr = String `title`
+                              , full_name = 'virtual_wireless_interface.my_net_device.my_node.manager.title'
+                              , id = 'virtual_wireless_interface__my_net_device__my_node__manager__title'
+                              , name = 'title'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/My net device/My node/Manager/Academic title'
+                              )
+                            , Record
+                              ( attr = Date_Interval `lifetime`
+                              , attrs =
+                                  [ Record
+                                    ( attr = Date `start`
+                                    , full_name = 'virtual_wireless_interface.my_net_device.my_node.manager.lifetime.start'
+                                    , id = 'virtual_wireless_interface__my_net_device__my_node__manager__lifetime__start'
+                                    , name = 'start'
+                                    , sig_key = 0
+                                    , ui_name = 'Virtual wireless interface/My net device/My node/Manager/Lifetime/Start'
+                                    )
+                                  , Record
+                                    ( attr = Date `finish`
+                                    , full_name = 'virtual_wireless_interface.my_net_device.my_node.manager.lifetime.finish'
+                                    , id = 'virtual_wireless_interface__my_net_device__my_node__manager__lifetime__finish'
+                                    , name = 'finish'
+                                    , sig_key = 0
+                                    , ui_name = 'Virtual wireless interface/My net device/My node/Manager/Lifetime/Finish'
+                                    )
+                                  , Record
+                                    ( attr = Boolean `alive`
+                                    , choices = <Recursion on list...>
+                                    , full_name = 'virtual_wireless_interface.my_net_device.my_node.manager.lifetime.alive'
+                                    , id = 'virtual_wireless_interface__my_net_device__my_node__manager__lifetime__alive'
+                                    , name = 'alive'
+                                    , sig_key = 1
+                                    , ui_name = 'Virtual wireless interface/My net device/My node/Manager/Lifetime/Alive'
+                                    )
+                                  ]
+                              , full_name = 'virtual_wireless_interface.my_net_device.my_node.manager.lifetime'
+                              , id = 'virtual_wireless_interface__my_net_device__my_node__manager__lifetime'
+                              , name = 'lifetime'
+                              , ui_name = 'Virtual wireless interface/My net device/My node/Manager/Lifetime'
+                              )
+                            , Record
+                              ( attr = Sex `sex`
+                              , choices = <Recursion on list...>
+                              , full_name = 'virtual_wireless_interface.my_net_device.my_node.manager.sex'
+                              , id = 'virtual_wireless_interface__my_net_device__my_node__manager__sex'
+                              , name = 'sex'
+                              , sig_key = 0
+                              , ui_name = 'Virtual wireless interface/My net device/My node/Manager/Sex'
+                              )
+                            ]
+                        , full_name = 'virtual_wireless_interface.my_net_device.my_node.manager'
+                        , id = 'virtual_wireless_interface__my_net_device__my_node__manager'
+                        , name = 'manager'
+                        , sig_key = 2
+                        , type_name = 'PAP.Person'
+                        , ui_name = 'Virtual wireless interface/My net device/My node/Manager'
+                        , ui_type_name = 'Person'
+                        )
+                      , Record
+                        ( attr = Date_Interval `lifetime`
+                        , attrs =
+                            [ Record
+                              ( attr = Date `start`
+                              , full_name = 'virtual_wireless_interface.my_net_device.my_node.lifetime.start'
+                              , id = 'virtual_wireless_interface__my_net_device__my_node__lifetime__start'
+                              , name = 'start'
+                              , sig_key = 0
+                              , ui_name = 'Virtual wireless interface/My net device/My node/Lifetime/Start'
+                              )
+                            , Record
+                              ( attr = Date `finish`
+                              , full_name = 'virtual_wireless_interface.my_net_device.my_node.lifetime.finish'
+                              , id = 'virtual_wireless_interface__my_net_device__my_node__lifetime__finish'
+                              , name = 'finish'
+                              , sig_key = 0
+                              , ui_name = 'Virtual wireless interface/My net device/My node/Lifetime/Finish'
+                              )
+                            , Record
+                              ( attr = Boolean `alive`
+                              , choices = <Recursion on list...>
+                              , full_name = 'virtual_wireless_interface.my_net_device.my_node.lifetime.alive'
+                              , id = 'virtual_wireless_interface__my_net_device__my_node__lifetime__alive'
+                              , name = 'alive'
+                              , sig_key = 1
+                              , ui_name = 'Virtual wireless interface/My net device/My node/Lifetime/Alive'
+                              )
+                            ]
+                        , full_name = 'virtual_wireless_interface.my_net_device.my_node.lifetime'
+                        , id = 'virtual_wireless_interface__my_net_device__my_node__lifetime'
+                        , name = 'lifetime'
+                        , ui_name = 'Virtual wireless interface/My net device/My node/Lifetime'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `address`
+                        , attrs =
+                            [ Record
+                              ( attr = String `street`
+                              , full_name = 'virtual_wireless_interface.my_net_device.my_node.address.street'
+                              , id = 'virtual_wireless_interface__my_net_device__my_node__address__street'
+                              , name = 'street'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/My net device/My node/Address/Street'
+                              )
+                            , Record
+                              ( attr = String `zip`
+                              , full_name = 'virtual_wireless_interface.my_net_device.my_node.address.zip'
+                              , id = 'virtual_wireless_interface__my_net_device__my_node__address__zip'
+                              , name = 'zip'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/My net device/My node/Address/Zip code'
+                              )
+                            , Record
+                              ( attr = String `city`
+                              , full_name = 'virtual_wireless_interface.my_net_device.my_node.address.city'
+                              , id = 'virtual_wireless_interface__my_net_device__my_node__address__city'
+                              , name = 'city'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/My net device/My node/Address/City'
+                              )
+                            , Record
+                              ( attr = String `country`
+                              , full_name = 'virtual_wireless_interface.my_net_device.my_node.address.country'
+                              , id = 'virtual_wireless_interface__my_net_device__my_node__address__country'
+                              , name = 'country'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/My net device/My node/Address/Country'
+                              )
+                            , Record
+                              ( attr = String `desc`
+                              , full_name = 'virtual_wireless_interface.my_net_device.my_node.address.desc'
+                              , id = 'virtual_wireless_interface__my_net_device__my_node__address__desc'
+                              , name = 'desc'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/My net device/My node/Address/Description'
+                              )
+                            , Record
+                              ( attr = String `region`
+                              , full_name = 'virtual_wireless_interface.my_net_device.my_node.address.region'
+                              , id = 'virtual_wireless_interface__my_net_device__my_node__address__region'
+                              , name = 'region'
+                              , sig_key = 3
+                              , ui_name = 'Virtual wireless interface/My net device/My node/Address/Region'
+                              )
+                            ]
+                        , full_name = 'virtual_wireless_interface.my_net_device.my_node.address'
+                        , id = 'virtual_wireless_interface__my_net_device__my_node__address'
+                        , name = 'address'
+                        , sig_key = 2
+                        , type_name = 'PAP.Address'
+                        , ui_name = 'Virtual wireless interface/My net device/My node/Address'
+                        , ui_type_name = 'Address'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `owner`
+                        , children_np =
+                            [ Record
+                              ( Class = 'Entity'
+                              , attr = Entity `owner`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `name`
+                                    , full_name = 'owner.name'
+                                    , id = 'owner__name'
+                                    , name = 'name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Association]/Name'
+                                    )
+                                  ]
+                              , full_name = 'owner'
+                              , id = 'owner'
+                              , name = 'owner'
+                              , sig_key = 2
+                              , type_name = 'PAP.Association'
+                              , ui_name = 'Owner[Association]'
+                              , ui_type_name = 'Association'
+                              )
+                            , Record
+                              ( Class = 'Entity'
+                              , attr = Entity `owner`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `name`
+                                    , full_name = 'owner.name'
+                                    , id = 'owner__name'
+                                    , name = 'name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Company]/Name'
+                                    )
+                                  , Record
+                                    ( attr = String `registered_in`
+                                    , full_name = 'owner.registered_in'
+                                    , id = 'owner__registered_in'
+                                    , name = 'registered_in'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Company]/Registered in'
+                                    )
+                                  ]
+                              , full_name = 'owner'
+                              , id = 'owner'
+                              , name = 'owner'
+                              , sig_key = 2
+                              , type_name = 'PAP.Company'
+                              , ui_name = 'Owner[Company]'
+                              , ui_type_name = 'Company'
+                              )
+                            , Record
+                              ( Class = 'Entity'
+                              , attr = Entity `owner`
+                              , attrs =
+                                  [ Record
+                                    ( attr = String `last_name`
+                                    , full_name = 'owner.last_name'
+                                    , id = 'owner__last_name'
+                                    , name = 'last_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/Last name'
+                                    )
+                                  , Record
+                                    ( attr = String `first_name`
+                                    , full_name = 'owner.first_name'
+                                    , id = 'owner__first_name'
+                                    , name = 'first_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/First name'
+                                    )
+                                  , Record
+                                    ( attr = String `middle_name`
+                                    , full_name = 'owner.middle_name'
+                                    , id = 'owner__middle_name'
+                                    , name = 'middle_name'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/Middle name'
+                                    )
+                                  , Record
+                                    ( attr = String `title`
+                                    , full_name = 'owner.title'
+                                    , id = 'owner__title'
+                                    , name = 'title'
+                                    , sig_key = 3
+                                    , ui_name = 'Owner[Person]/Academic title'
+                                    )
+                                  ]
+                              , full_name = 'owner'
+                              , id = 'owner'
+                              , name = 'owner'
+                              , sig_key = 2
+                              , type_name = 'PAP.Person'
+                              , ui_name = 'Owner[Person]'
+                              , ui_type_name = 'Person'
+                              )
+                            ]
+                        , default_child = 'PAP.Person'
+                        , full_name = 'virtual_wireless_interface.my_net_device.my_node.owner'
+                        , id = 'virtual_wireless_interface__my_net_device__my_node__owner'
+                        , name = 'owner'
+                        , sig_key = 2
+                        , type_name = 'PAP.Subject'
+                        , ui_name = 'Virtual wireless interface/My net device/My node/Owner'
+                        , ui_type_name = 'Subject'
+                        )
+                      , Record
+                        ( attr = Position `position`
+                        , attrs =
+                            [ Record
+                              ( attr = Angle `lat`
+                              , full_name = 'virtual_wireless_interface.my_net_device.my_node.position.lat'
+                              , id = 'virtual_wireless_interface__my_net_device__my_node__position__lat'
+                              , name = 'lat'
+                              , sig_key = 4
+                              , ui_name = 'Virtual wireless interface/My net device/My node/Position/Latitude'
+                              )
+                            , Record
+                              ( attr = Angle `lon`
+                              , full_name = 'virtual_wireless_interface.my_net_device.my_node.position.lon'
+                              , id = 'virtual_wireless_interface__my_net_device__my_node__position__lon'
+                              , name = 'lon'
+                              , sig_key = 4
+                              , ui_name = 'Virtual wireless interface/My net device/My node/Position/Longitude'
+                              )
+                            , Record
+                              ( attr = Float `height`
+                              , full_name = 'virtual_wireless_interface.my_net_device.my_node.position.height'
+                              , id = 'virtual_wireless_interface__my_net_device__my_node__position__height'
+                              , name = 'height'
+                              , sig_key = 0
+                              , ui_name = 'Virtual wireless interface/My net device/My node/Position/Height'
+                              )
+                            ]
+                        , full_name = 'virtual_wireless_interface.my_net_device.my_node.position'
+                        , id = 'virtual_wireless_interface__my_net_device__my_node__position'
+                        , name = 'position'
+                        , ui_name = 'Virtual wireless interface/My net device/My node/Position'
+                        )
+                      , Record
+                        ( attr = Boolean `show_in_map`
+                        , choices = <Recursion on list...>
+                        , full_name = 'virtual_wireless_interface.my_net_device.my_node.show_in_map'
+                        , id = 'virtual_wireless_interface__my_net_device__my_node__show_in_map'
+                        , name = 'show_in_map'
+                        , sig_key = 1
+                        , ui_name = 'Virtual wireless interface/My net device/My node/Show in map'
+                        )
+                      ]
+                  , full_name = 'virtual_wireless_interface.my_net_device.my_node'
+                  , id = 'virtual_wireless_interface__my_net_device__my_node'
+                  , name = 'my_node'
+                  , sig_key = 2
+                  , type_name = 'FFM.Node'
+                  , ui_name = 'Virtual wireless interface/My net device/My node'
+                  , ui_type_name = 'Node'
+                  )
+                ]
+            , full_name = 'virtual_wireless_interface.my_net_device'
+            , id = 'virtual_wireless_interface__my_net_device'
+            , name = 'my_net_device'
+            , sig_key = 2
+            , type_name = 'FFM.Net_Device'
+            , ui_name = 'Virtual wireless interface/My net device'
+            , ui_type_name = 'Net_Device'
             )
           , Record
             ( Class = 'Entity'
@@ -10794,35 +16307,35 @@ _test_AQ = """
     Device/Node/Show in map
     Device/Name
     Device/Desc
-    Device/Belongs to node
-    Device/Belongs to node/Name
-    Device/Belongs to node/Manager
-    Device/Belongs to node/Manager/Last name
-    Device/Belongs to node/Manager/First name
-    Device/Belongs to node/Manager/Middle name
-    Device/Belongs to node/Manager/Academic title
-    Device/Belongs to node/Manager/Lifetime
-    Device/Belongs to node/Manager/Lifetime/Start
-    Device/Belongs to node/Manager/Lifetime/Finish
-    Device/Belongs to node/Manager/Lifetime/Alive
-    Device/Belongs to node/Manager/Sex
-    Device/Belongs to node/Lifetime
-    Device/Belongs to node/Lifetime/Start
-    Device/Belongs to node/Lifetime/Finish
-    Device/Belongs to node/Lifetime/Alive
-    Device/Belongs to node/Address
-    Device/Belongs to node/Address/Street
-    Device/Belongs to node/Address/Zip code
-    Device/Belongs to node/Address/City
-    Device/Belongs to node/Address/Country
-    Device/Belongs to node/Address/Description
-    Device/Belongs to node/Address/Region
-    Device/Belongs to node/Owner
-    Device/Belongs to node/Position
-    Device/Belongs to node/Position/Latitude
-    Device/Belongs to node/Position/Longitude
-    Device/Belongs to node/Position/Height
-    Device/Belongs to node/Show in map
+    Device/My node
+    Device/My node/Name
+    Device/My node/Manager
+    Device/My node/Manager/Last name
+    Device/My node/Manager/First name
+    Device/My node/Manager/Middle name
+    Device/My node/Manager/Academic title
+    Device/My node/Manager/Lifetime
+    Device/My node/Manager/Lifetime/Start
+    Device/My node/Manager/Lifetime/Finish
+    Device/My node/Manager/Lifetime/Alive
+    Device/My node/Manager/Sex
+    Device/My node/Lifetime
+    Device/My node/Lifetime/Start
+    Device/My node/Lifetime/Finish
+    Device/My node/Lifetime/Alive
+    Device/My node/Address
+    Device/My node/Address/Street
+    Device/My node/Address/Zip code
+    Device/My node/Address/City
+    Device/My node/Address/Country
+    Device/My node/Address/Description
+    Device/My node/Address/Region
+    Device/My node/Owner
+    Device/My node/Position
+    Device/My node/Position/Latitude
+    Device/My node/Position/Longitude
+    Device/My node/Position/Height
+    Device/My node/Show in map
     Mac address
     Name
     Is active
@@ -10842,65 +16355,169 @@ _test_AQ = """
     Last cid
     Pid
     Type name
-    Belongs to node
-    Belongs to node/Name
-    Belongs to node/Manager
-    Belongs to node/Manager/Last name
-    Belongs to node/Manager/First name
-    Belongs to node/Manager/Middle name
-    Belongs to node/Manager/Academic title
-    Belongs to node/Manager/Lifetime
-    Belongs to node/Manager/Lifetime/Start
-    Belongs to node/Manager/Lifetime/Finish
-    Belongs to node/Manager/Lifetime/Alive
-    Belongs to node/Manager/Sex
-    Belongs to node/Lifetime
-    Belongs to node/Lifetime/Start
-    Belongs to node/Lifetime/Finish
-    Belongs to node/Lifetime/Alive
-    Belongs to node/Address
-    Belongs to node/Address/Street
-    Belongs to node/Address/Zip code
-    Belongs to node/Address/City
-    Belongs to node/Address/Country
-    Belongs to node/Address/Description
-    Belongs to node/Address/Region
-    Belongs to node/Owner
-    Belongs to node/Position
-    Belongs to node/Position/Latitude
-    Belongs to node/Position/Longitude
-    Belongs to node/Position/Height
-    Belongs to node/Show in map
+    My node
+    My node/Name
+    My node/Manager
+    My node/Manager/Last name
+    My node/Manager/First name
+    My node/Manager/Middle name
+    My node/Manager/Academic title
+    My node/Manager/Lifetime
+    My node/Manager/Lifetime/Start
+    My node/Manager/Lifetime/Finish
+    My node/Manager/Lifetime/Alive
+    My node/Manager/Sex
+    My node/Lifetime
+    My node/Lifetime/Start
+    My node/Lifetime/Finish
+    My node/Lifetime/Alive
+    My node/Address
+    My node/Address/Street
+    My node/Address/Zip code
+    My node/Address/City
+    My node/Address/Country
+    My node/Address/Description
+    My node/Address/Region
+    My node/Owner
+    My node/Position
+    My node/Position/Latitude
+    My node/Position/Longitude
+    My node/Position/Height
+    My node/Show in map
+    My net device
+    My net device/Net device type
+    My net device/Net device type/Name
+    My net device/Net device type/Model no
+    My net device/Net device type/Revision
+    My net device/Net device type/Desc
+    My net device/Node
+    My net device/Node/Name
+    My net device/Node/Manager
+    My net device/Node/Manager/Last name
+    My net device/Node/Manager/First name
+    My net device/Node/Manager/Middle name
+    My net device/Node/Manager/Academic title
+    My net device/Node/Manager/Lifetime
+    My net device/Node/Manager/Lifetime/Start
+    My net device/Node/Manager/Lifetime/Finish
+    My net device/Node/Manager/Lifetime/Alive
+    My net device/Node/Manager/Sex
+    My net device/Node/Lifetime
+    My net device/Node/Lifetime/Start
+    My net device/Node/Lifetime/Finish
+    My net device/Node/Lifetime/Alive
+    My net device/Node/Address
+    My net device/Node/Address/Street
+    My net device/Node/Address/Zip code
+    My net device/Node/Address/City
+    My net device/Node/Address/Country
+    My net device/Node/Address/Description
+    My net device/Node/Address/Region
+    My net device/Node/Owner
+    My net device/Node/Position
+    My net device/Node/Position/Latitude
+    My net device/Node/Position/Longitude
+    My net device/Node/Position/Height
+    My net device/Node/Show in map
+    My net device/Name
+    My net device/Desc
+    My net device/My node
+    My net device/My node/Name
+    My net device/My node/Manager
+    My net device/My node/Manager/Last name
+    My net device/My node/Manager/First name
+    My net device/My node/Manager/Middle name
+    My net device/My node/Manager/Academic title
+    My net device/My node/Manager/Lifetime
+    My net device/My node/Manager/Lifetime/Start
+    My net device/My node/Manager/Lifetime/Finish
+    My net device/My node/Manager/Lifetime/Alive
+    My net device/My node/Manager/Sex
+    My net device/My node/Lifetime
+    My net device/My node/Lifetime/Start
+    My net device/My node/Lifetime/Finish
+    My net device/My node/Lifetime/Alive
+    My net device/My node/Address
+    My net device/My node/Address/Street
+    My net device/My node/Address/Zip code
+    My net device/My node/Address/City
+    My net device/My node/Address/Country
+    My net device/My node/Address/Description
+    My net device/My node/Address/Region
+    My net device/My node/Owner
+    My net device/My node/Position
+    My net device/My node/Position/Latitude
+    My net device/My node/Position/Longitude
+    My net device/My node/Position/Height
+    My net device/My node/Show in map
     Credentials 1
-    Credentials 1/Belongs to node
-    Credentials 1/Belongs to node/Name
-    Credentials 1/Belongs to node/Manager
-    Credentials 1/Belongs to node/Manager/Last name
-    Credentials 1/Belongs to node/Manager/First name
-    Credentials 1/Belongs to node/Manager/Middle name
-    Credentials 1/Belongs to node/Manager/Academic title
-    Credentials 1/Belongs to node/Manager/Lifetime
-    Credentials 1/Belongs to node/Manager/Lifetime/Start
-    Credentials 1/Belongs to node/Manager/Lifetime/Finish
-    Credentials 1/Belongs to node/Manager/Lifetime/Alive
-    Credentials 1/Belongs to node/Manager/Sex
-    Credentials 1/Belongs to node/Lifetime
-    Credentials 1/Belongs to node/Lifetime/Start
-    Credentials 1/Belongs to node/Lifetime/Finish
-    Credentials 1/Belongs to node/Lifetime/Alive
-    Credentials 1/Belongs to node/Address
-    Credentials 1/Belongs to node/Address/Street
-    Credentials 1/Belongs to node/Address/Zip code
-    Credentials 1/Belongs to node/Address/City
-    Credentials 1/Belongs to node/Address/Country
-    Credentials 1/Belongs to node/Address/Description
-    Credentials 1/Belongs to node/Address/Region
-    Credentials 1/Belongs to node/Owner
-    Credentials 1/Belongs to node/Position
-    Credentials 1/Belongs to node/Position/Latitude
-    Credentials 1/Belongs to node/Position/Longitude
-    Credentials 1/Belongs to node/Position/Height
-    Credentials 1/Belongs to node/Show in map
+    Credentials 1/My node
+    Credentials 1/My node/Name
+    Credentials 1/My node/Manager
+    Credentials 1/My node/Manager/Last name
+    Credentials 1/My node/Manager/First name
+    Credentials 1/My node/Manager/Middle name
+    Credentials 1/My node/Manager/Academic title
+    Credentials 1/My node/Manager/Lifetime
+    Credentials 1/My node/Manager/Lifetime/Start
+    Credentials 1/My node/Manager/Lifetime/Finish
+    Credentials 1/My node/Manager/Lifetime/Alive
+    Credentials 1/My node/Manager/Sex
+    Credentials 1/My node/Lifetime
+    Credentials 1/My node/Lifetime/Start
+    Credentials 1/My node/Lifetime/Finish
+    Credentials 1/My node/Lifetime/Alive
+    Credentials 1/My node/Address
+    Credentials 1/My node/Address/Street
+    Credentials 1/My node/Address/Zip code
+    Credentials 1/My node/Address/City
+    Credentials 1/My node/Address/Country
+    Credentials 1/My node/Address/Description
+    Credentials 1/My node/Address/Region
+    Credentials 1/My node/Owner
+    Credentials 1/My node/Position
+    Credentials 1/My node/Position/Latitude
+    Credentials 1/My node/Position/Longitude
+    Credentials 1/My node/Position/Height
+    Credentials 1/My node/Show in map
+    Credentials 1/My net device
+    Credentials 1/My net device/Net device type
+    Credentials 1/My net device/Net device type/Name
+    Credentials 1/My net device/Net device type/Model no
+    Credentials 1/My net device/Net device type/Revision
+    Credentials 1/My net device/Net device type/Desc
+    Credentials 1/My net device/Node
+    Credentials 1/My net device/Node/Name
+    Credentials 1/My net device/Node/Manager
+    Credentials 1/My net device/Node/Manager/Last name
+    Credentials 1/My net device/Node/Manager/First name
+    Credentials 1/My net device/Node/Manager/Middle name
+    Credentials 1/My net device/Node/Manager/Academic title
+    Credentials 1/My net device/Node/Manager/Lifetime
+    Credentials 1/My net device/Node/Manager/Lifetime/Start
+    Credentials 1/My net device/Node/Manager/Lifetime/Finish
+    Credentials 1/My net device/Node/Manager/Lifetime/Alive
+    Credentials 1/My net device/Node/Manager/Sex
+    Credentials 1/My net device/Node/Lifetime
+    Credentials 1/My net device/Node/Lifetime/Start
+    Credentials 1/My net device/Node/Lifetime/Finish
+    Credentials 1/My net device/Node/Lifetime/Alive
+    Credentials 1/My net device/Node/Address
+    Credentials 1/My net device/Node/Address/Street
+    Credentials 1/My net device/Node/Address/Zip code
+    Credentials 1/My net device/Node/Address/City
+    Credentials 1/My net device/Node/Address/Country
+    Credentials 1/My net device/Node/Address/Description
+    Credentials 1/My net device/Node/Address/Region
+    Credentials 1/My net device/Node/Owner
+    Credentials 1/My net device/Node/Position
+    Credentials 1/My net device/Node/Position/Latitude
+    Credentials 1/My net device/Node/Position/Longitude
+    Credentials 1/My net device/Node/Position/Height
+    Credentials 1/My net device/Node/Show in map
+    Credentials 1/My net device/Name
+    Credentials 1/My net device/Desc
+    Credentials 1/My net device/My node
     Ip4 networks
     Ip4 networks/Net address
     Ip4 networks/Desc
@@ -10969,31 +16586,31 @@ _test_net_fixtures = """
     53  : Net_Device                Generic, Node-net4, n4d4
     54  : Net_Device                Generic, Node-net4, n4d5
 
-    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.belongs_to_node.name == "nogps"))
+    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.my_node.name == "nogps"))
     2   : Node                      nogps
 
-    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.belongs_to_node.name == "node2"))
+    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.my_node.name == "node2"))
     3   : Node                      node2
     28  : Net_Device                Generic, node2, dev
     29  : Wired_Interface           Generic, node2, dev, wr
     30  : Wireless_Interface        Generic, node2, dev, wl
 
-    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.RAW.belongs_to_node.name == "Node-net1"))
+    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.RAW.my_node.name == "Node-net1"))
     38  : Node                      Node-net1
     44  : Net_Device                Generic, Node-net1, n1d1
     45  : Net_Device                Generic, Node-net1, n1d2
 
-    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.RAW.belongs_to_node.name == "Node-net2"))
+    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.RAW.my_node.name == "Node-net2"))
     39  : Node                      Node-net2
     46  : Net_Device                Generic, Node-net2, n2d1
     47  : Net_Device                Generic, Node-net2, n2d2
     48  : Net_Device                Generic, Node-net2, n2d3
 
-    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.RAW.belongs_to_node.name == "Node-net3"))
+    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.RAW.my_node.name == "Node-net3"))
     40  : Node                      Node-net3
     49  : Net_Device                Generic, Node-net3, n3d1
 
-    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.belongs_to_node.name == "node-net4"))
+    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.my_node.name == "node-net4"))
     41  : Node                      Node-net4
     50  : Net_Device                Generic, Node-net4, n4d1
     51  : Net_Device                Generic, Node-net4, n4d2
@@ -11184,10 +16801,10 @@ _test_std_fixtures = """
     25  : IP4_Network               192.168.23.4
     26  : IP4_Network               192.168.23.5
 
-    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.belongs_to_node.name == "nogps"))
+    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.my_node.name == "nogps"))
     2   : Node                      nogps
 
-    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.belongs_to_node.name == "node2"))
+    >>> show_query_by_pid (scope.FFM.Belongs_to_Node.query (Q.my_node.name == "node2"))
     3   : Node                      node2
     28  : Net_Device                Generic, node2, dev
     29  : Wired_Interface           Generic, node2, dev, wr

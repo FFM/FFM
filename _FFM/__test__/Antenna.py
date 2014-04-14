@@ -32,6 +32,7 @@
 #    26-Feb-2013 (CT) Disable tests `belongs_to_node`
 #    14-Aug-2013 (CT) Reenable tests for `belongs_to_node`
 #    27-Jan-2014 (CT) Add tests for `polarization` vs. `raw_query_attrs`
+#    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
 #    ««revision-date»»···
 #--
 
@@ -123,42 +124,42 @@ _test_code = """
     >>> wl  = FFM.Wireless_Interface (left = dev, name = 'wl', raw = True)
     >>> wia = FFM.Wireless_Interface_uses_Antenna (wl, b)
 
-    >>> b.__class__.belongs_to_node
-    Entity `belongs_to_node`
+    >>> b.__class__.my_node
+    Entity `my_node`
 
-    >>> a.belongs_to_node is None
+    >>> a.my_node is None
     True
 
-    >>> b.belongs_to_node
+    >>> b.my_node
     FFM.Node (u'nogps')
 
     >>> FFM.Antenna.query (Q.interface == wl).count ()
     1
-    >>> FFM.Antenna.query (Q.belongs_to_node.manager == mgr).count ()
+    >>> FFM.Antenna.query (Q.my_node.manager == mgr).count ()
     1
-    >>> FFM.Wireless_Interface.query (Q.belongs_to_node.manager == mgr).count ()
+    >>> FFM.Wireless_Interface.query (Q.my_node.manager == mgr).count ()
     1
-    >>> FFM.Wireless_Interface.query (Q.belongs_to_node.owner == mgr).count ()
+    >>> FFM.Wireless_Interface.query (Q.my_node.owner == mgr).count ()
     1
 
-    >>> for x in scope.FFM.Net_Interface.query (Q.belongs_to_node.manager == mgr, sort_key = Q.pid) :
+    >>> for x in scope.FFM.Net_Interface.query (Q.my_node.manager == mgr, sort_key = Q.pid) :
     ...     x
     FFM.Wireless_Interface (((u'generic', u'', u''), (u'nogps', ), u'dev'), u'', u'wl')
 
-    >>> for x in scope.FFM.Wireless_Interface_uses_Antenna.query (Q.belongs_to_node.manager == mgr, sort_key = Q.pid) :
+    >>> for x in scope.FFM.Wireless_Interface_uses_Antenna.query (Q.my_node.manager == mgr, sort_key = Q.pid) :
     ...     x
     FFM.Wireless_Interface_uses_Antenna ((((u'generic', u'', u''), (u'nogps', ), u'dev'), u'', u'wl'), ((u'yagi2', u'', u''), u'6'))
 
-    >>> for x in scope.FFM.Net_Device.query (Q.belongs_to_node.manager == mgr, sort_key = Q.pid) :
+    >>> for x in scope.FFM.Net_Device.query (Q.my_node.manager == mgr, sort_key = Q.pid) :
     ...     x
     FFM.Net_Device ((u'generic', u'', u''), (u'nogps', ), u'dev')
     FFM.Net_Device ((u'generic', u'', u''), (u'node2', ), u'dev2')
 
-    >>> for x in scope.FFM.Net_Device.query (Q.belongs_to_node.owner == owner, sort_key = Q.pid) :
+    >>> for x in scope.FFM.Net_Device.query (Q.my_node.owner == owner, sort_key = Q.pid) :
     ...     x
     FFM.Net_Device ((u'generic', u'', u''), (u'node2', ), u'dev2')
 
-    >>> for x in scope.FFM.Antenna.query (Q.belongs_to_node.manager == mgr, sort_key = Q.pid) :
+    >>> for x in scope.FFM.Antenna.query (Q.my_node.manager == mgr, sort_key = Q.pid) :
     ...     x
     FFM.Antenna ((u'yagi2', u'', u''), u'6')
 

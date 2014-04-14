@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2014 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -47,6 +47,7 @@
 #    30-Sep-2013 (CT) Mixin `Belongs_to_Node`,
 #                     change `belongs_to_node` to query `Q.SELF`
 #     1-Oct-2013 (CT) Set `belongs_to_node.hidden` to `True`
+#    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
 #    ««revision-date»»···
 #--
 
@@ -105,7 +106,7 @@ class Node (_Mixin, FFM.Entity, _Ancestor_Essence) :
 
         # end class address
 
-        class belongs_to_node (_Mixin._Attributes.belongs_to_node) :
+        class my_node (_Mixin._Attributes.my_node) :
             """Node to which this node belongs.
 
                Just an alias to the node itself to be compatible with all
@@ -115,7 +116,7 @@ class Node (_Mixin, FFM.Entity, _Ancestor_Essence) :
             query              = Q.SELF
             hidden             = True
 
-        # end class belongs_to_node
+        # end class my_node
 
         class manager (A_Id_Entity) :
             """Manager of the node"""
@@ -125,6 +126,18 @@ class Node (_Mixin, FFM.Entity, _Ancestor_Essence) :
             ui_allow_new       = False
 
         # end class manager
+
+        class my_node (_Mixin._Attributes.my_node) :
+            """Node to which this node belongs.
+
+               Just an alias to the node itself to be compatible with all
+               other entities belonging to nodes.
+            """
+
+            query              = Q.SELF
+            hidden             = True
+
+        # end class my_node
 
         class owner (A_Id_Entity) :
             """Owner of the node, defaults to manager"""
