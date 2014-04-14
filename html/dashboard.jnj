@@ -27,6 +27,7 @@
 ## Revision Dates
 ##     9-Apr-2014 (CT) Creation
 ##    14-Apr-2014 (CT) Factor `nav_menu_links`, `nav_menu_person`
+##    15-Apr-2014 (CT) Add `ff_dashboard` to `body_tail_scripts`
 ##    ««revision-date»»···
 ##--
 #}
@@ -123,6 +124,15 @@
     {%- endblock body -%}
     {%- block body_tail_scripts -%}
       {{ MF.js_on_ready (template) }}
+      <script>
+        $("body").ff_dashboard
+          ( { url : {# -#}
+                { page : "{{ page.abs_href }}" {#- -#}
+                , page : "{{ page.abs_href }}/pid" {# -#}
+                }
+            }
+          )
+      </script>
     {%- endblock body_tail_scripts -%}
   </body>
 {%- endcall -%} {#- X.html -#}

@@ -310,6 +310,7 @@ style_sheet = Style_Sheet \
 Include     ("html/print.media")
 
 Script      (GTW.Script._.Modernizr)
-Script      (GTW.Script._.jQuery)
+Script      (GTW.Script._.GTW_jq_util)
+Script_File ("html/dashboard.js")
 
 ### __END__ html/dashboard.jnj

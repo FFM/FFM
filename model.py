@@ -53,6 +53,7 @@
 #     7-Oct-2013 (CT) Add `RST_addons.User_Antenna`
 #     1-Apr-2014 (CT) Add resource for `GTW.RST.MOM.Doc.App_Type`
 #    14-Apr-2014 (CT) Add `pid="RESTful"` to resource `/api`
+#    14-Apr-2014 (CT) Add `RST_addons.User_Net_Interface`
 #    ««revision-date»»···
 #--
 
@@ -262,6 +263,10 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
                     , RST_addons.User_Net_Device
                         ( name            = "device"
                         , short_title     = _T ("Device")
+                        )
+                    , RST_addons.User_Net_Interface
+                        ( name            = "net-interface"
+                        , short_title     = _T ("Net IF")
                         )
                     , RST_addons.User_Wired_Interface
                         ( name            = "wired-interface"

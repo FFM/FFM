@@ -29,6 +29,7 @@
 ##    13-Apr-2014 (CT) Factor `entity_actions`
 ##    14-Apr-2014 (CT) Factor `action_button`, `nav_menu_links`,
 ##                     `nav_menu_person`, `th_number_of`
+##    14-Apr-2014 (CT) Restructure to show all instances of each type
 ##    ««revision-date»»···
 ##--
 #}
@@ -67,44 +68,59 @@
   </td>
 {%- endmacro -%} {#- entity_actions -#}
 
-{%- macro device_interfaces (page, device) -%}
-  {%- set net_interfaces = GTW.sorted (device.net_interfaces, key = GTW.Getter.pid) %}
-  <h2>{{ GTW._T ("Interfaces of device %s") % (device.name, ) }}</h2>
-  <table id="interface-list" class="interface-list pure-table pure-table-bordered">
+{%- macro device_overview (page) -%}
+  {%- set net_devices = page.devices %}
+  <h2>{{ GTW._T ("Devices managed/owned by %s") % (page.user.FO.person, ) }}</h2>
+  <table id="device-list" class="device-list pure-table pure-table-bordered">
     <thead>
       <tr>
-        <th>{{ GTW._T ("Name")         }}</th>
-        <th>{{ GTW._T ("IP addresses") }}</th>
-        <th>{{ GTW._T ("Type")         }}</th>
-        <th>{{ GTW._T ("Created")      }}</th>
-        <th>{{ GTW._T ("Action")       }}</th>
+        <th class="Node">{{ page.scope.FFM.Node.ui_name_T }}</th>
+        <th class="name">{{ GTW._T ("Name")         }}</th>
+        {{ th_number_of (page.scope.FFM.Net_Device, page.scope.FFM.Net_Interface) }}
+        <th class="type">{{ GTW._T ("Type")         }}</th>
+        <th class="created">{{ GTW._T ("Created")   }}</th>
+        <th class="action">{{ GTW._T ("Action")    }}</th>
       </tr>
     </thead>
     <tbody>
-      {%- for ni in net_interfaces %}
-        {%- set name = ni.FO.name %}
-        <tr id="interface-{{ ni.pid }}">
+      {%- for nd in net_devices %}
+        {%- set name = nd.FO.name %}
+        {%- set node = nd.my_node %}
+        <tr id="device-{{ nd.pid }}" {# -#}
+            class="node-{{ node.pid }}- device-{{ nd.pid }}-"{# -#}
+        >
+          <td class="Node">
+            {{ node.FO.name }}
+          </td>
           <td class="name">
             {{ name }}
           </td>
-          <td class="ip-addresses">
-            <span class="badge status-success">TBD</span>
+          <td class="number interfaces">
+            {{ GTW.len (nd.net_interfaces) }}
           </td>
           <td class="type">
-            <span class="badge status-failure">TBD</span>
+            {{ nd.ui_name_T }}
           </td>
           <td class="created">
-            {{ ("%s" % (ni.FO.creation_date, )).split (" ") [0] }}
+            {{ ("%s" % (nd.FO.creation_date, )).split (" ") [0] }}
           </td>
-          {{ entity_actions (ni, name, show_graphs = True) }}
+          {% call entity_actions (nd, name) -%}
+            {{- action_button
+                ( "#firmware"
+                , GTW._T ("Generate firmware for %s %s")
+                  % (nd.ui_name_T, name, )
+                , "magic"
+                )
+            -}}
+          {%- endcall %} {# entity_actions (nd, name) #}
         </tr>
       {% endfor -%}
     </tbody>
   </table>
-  <section id="interface-details">
-    {{ edit_interface (page, net_interfaces [0]) }}
+  <section id="device-details">
+    {{ interface_overview (page) }}
   </section>
-{%- endmacro -%} {#- device_interfaces -#}
+{%- endmacro -%} {#- device_overview -#}
 
 {%- macro edit_interface (page, interface) -%}
   <h2>{{ GTW._T ("Interface %s") % (interface.name, ) }}</h2>
@@ -147,68 +163,76 @@
   </form>
 {%- endmacro -%} {#- edit_interface -#}
 
-{%- macro node_devices (page, node) -%}
-  {%- set net_devices = GTW.sorted (node.net_devices, key = GTW.Getter.pid) %}
-  <h2>{{ GTW._T ("Devices of node %s") % (node.name, ) }}</h2>
-  <table id="device-list" class="device-list pure-table pure-table-bordered">
+{%- macro interface_overview (page) -%}
+  {%- set net_interfaces = page.interfaces %}
+  <h2>{{ GTW._T ("Interfaces managed/owned by %s") % (page.user.FO.person, ) }}</h2>
+  <table id="interface-list" class="interface-list pure-table pure-table-bordered">
     <thead>
       <tr>
+        <th class="Node">{{ page.scope.FFM.Node.ui_name_T }}</th>
+        <th class="Device">{{ page.scope.FFM.Net_Device.ui_name_T }}</th>
         <th>{{ GTW._T ("Name")         }}</th>
-        {{ th_number_of (page.scope.FFM.Net_Device, page.scope.FFM.Net_Interface) }}
+        <th>{{ GTW._T ("IP addresses") }}</th>
         <th>{{ GTW._T ("Type")         }}</th>
-        <th>{{ GTW._T ("Created")   }}</th>
-        <th>{{ GTW._T ("Action")    }}</th>
+        <th>{{ GTW._T ("Created")      }}</th>
+        <th>{{ GTW._T ("Action")       }}</th>
       </tr>
     </thead>
     <tbody>
-      {%- for nd in net_devices %}
-        {%- set name = nd.FO.name %}
-        <tr id="device-{{ nd.pid }}">
+      {%- for ni in net_interfaces %}
+        {%- set nd   = ni.my_net_device %}
+        {%- set name = ni.FO.name %}
+        {%- set node = ni.my_node %}
+        <tr id="interface-{{ ni.pid }}" {# -#}
+          class="node-{{ node.pid }}- device-{{ nd.pid }}- interface-{{ ni.pid }}-"{# -#}
+        >
+          <td class="Node">
+            {{ node.FO.name }}
+          </td>
+          <td class="Device">
+            {{ nd.FO.name }}
+          </td>
           <td class="name">
             {{ name }}
           </td>
-          <td class="number interfaces">
-            {{ GTW.len (nd.net_interfaces) }}
+          <td class="ip-addresses">
+            {%- for ipa in GTW.ichain (ni.ip4_networks, ni.ip6_networks) %}
+              {{ ipa.net_address }}<br>
+            {% endfor -%}
           </td>
           <td class="type">
-            <span class="badge status-failure">TBD</span>
+            {{ ni.ui_name_T }}
           </td>
           <td class="created">
-            {{ ("%s" % (nd.FO.creation_date, )).split (" ") [0] }}
+            {{ ("%s" % (ni.FO.creation_date, )).split (" ") [0] }}
           </td>
-          {% call entity_actions (nd, name) -%}
-            {{- action_button
-                ( "#firmware"
-                , GTW._T ("Generate firmware for %s %s")
-                  % (nd.ui_name_T, name, )
-                , "magic"
-                )
-            -}}
-          {%- endcall %} {# entity_actions (nd, name) #}
+          {{ entity_actions (ni, name, show_graphs = True) }}
         </tr>
       {% endfor -%}
     </tbody>
   </table>
-  <section id="device-details">
-    {{ device_interfaces (page, net_devices [0]) }}
+  <section id="interface-details">
+    {%- if net_interfaces %}
+      {{ edit_interface (page, net_interfaces [0]) }}
+    {% endif -%}
   </section>
-{%- endmacro -%} {#- node_devices -#}
+{%- endmacro -%} {#- interface_overview -#}
 
 {%- macro node_overview (page) -%}
   <h2>{{ GTW._T ("Nodes managed/owned by %s") % (page.user.FO.person, ) }}</h2>
   <table id="node-list" class="node-list pure-table pure-table-bordered">
     <thead>
       <tr>
-        <th>{{ GTW._T ("Name")      }}</th>
+        <th class="name">{{ GTW._T ("Name")      }}</th>
         {{ th_number_of (page.scope.FFM.Node, page.scope.FFM.Net_Device) }}
-        <th>{{ GTW._T ("Created")   }}</th>
-        <th>{{ GTW._T ("Action")    }}</th>
+        <th class="created">{{ GTW._T ("Created")   }}</th>
+        <th class="action">{{ GTW._T ("Action")    }}</th>
       </tr>
     </thead>
     <tbody>
       {%- for node in page.nodes %}
         {%- set name = node.FO.name %}
-        <tr id="node-{{ node.pid }}">
+        <tr id="node-{{ node.pid }}" class="node-{{ node.pid }}-">
           <td class="name">
             {{ name }}
           </td>
@@ -224,7 +248,7 @@
     </tbody>
   </table>
   <section id="node-details">
-    {{ node_devices (page, page.nodes [0]) }}
+    {{ device_overview (page) }}
   </section>
 {%- endmacro -%} {#- node_overview -#}
 

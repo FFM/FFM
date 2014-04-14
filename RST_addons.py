@@ -47,6 +47,8 @@
 #     7-Oct-2013 (CT) Add `User_Antenna`
 #    10-Apr-2014 (CT) Add `Dashboard`
 #    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
+#    14-Apr-2014 (CT) Add `devices`, `interfaces` to `Dashboard`;
+#                     add `User_Net_Interface`
 #    ««revision-date»»···
 #--
 
@@ -314,6 +316,12 @@ class User_Net_Device (User_Node_Dependent) :
 
 # end class User_Net_Device
 
+class User_Net_Interface (User_Node_Dependent) :
+
+    _ETM                  = "FFM.Net_Interface"
+
+# end class User_Net_Interface
+
 class User_Wired_Interface (User_Node_Dependent) :
 
     ET_depends            = "FFM.Net_Device"
@@ -366,6 +374,24 @@ class Dashboard (_Ancestor) :
     def device_admin (self) :
         return self._get_admin ("FFM.Net_Device")
     # end def device_admin
+
+    @property
+    @getattr_safe
+    def devices (self) :
+        return self.device_admin.objects
+    # end def devices
+
+    @Once_Property
+    @getattr_safe
+    def interface_admin (self) :
+        return self._get_admin ("FFM.Net_Interface")
+    # end def interface_admin
+
+    @property
+    @getattr_safe
+    def interfaces (self) :
+        return self.interface_admin.objects
+    # end def interfaces
 
     @Once_Property
     @getattr_safe
