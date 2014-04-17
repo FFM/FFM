@@ -49,6 +49,7 @@
 #    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
 #    14-Apr-2014 (CT) Add `devices`, `interfaces` to `Dashboard`;
 #                     add `User_Net_Interface`
+#    17-Apr-2014 (CT) Add `Dashboard` divisions
 #    ««revision-date»»···
 #--
 
@@ -352,22 +353,50 @@ class User_Wireless_Interface_uses_Wireless_Channel (User_Node_Dependent) :
 
 _Ancestor = GTW.RST.TOP.Dir_V
 
-class Dashboard (_Ancestor) :
-    """Funkfeuer dashboard"""
+class _Meta_DB_Div_ (_Ancestor.__class__) :
+    """Meta class of _DB_Div_"""
+
+    def __init__ (cls, name, bases, dct) :
+        cls.__m_super.__init__ (name, bases, dct)
+        if name.startswith ("DB_") :
+            cls.Div_Name = name [3:]
+            cls.div_name = cls.Div_Name.lower ()
+            setattr (cls, "fill_%s" % cls.div_name, True)
+    # end def __init__
+
+# end class _Meta_DB_Div_
+
+class _DB_Div_ (TFL.Meta.BaM (_Ancestor, metaclass = _Meta_DB_Div_)) :
+    """Division of Funkfeuer dashboard"""
 
     dir_template_name     = "html/dashboard.jnj"
 
     def __init__ (self, ** kw) :
-        dkw = dict \
-            ( name            = "dashboard"
-            , short_title     = "Dashboard"
-            , title           = "Funkfeuer Dashboard"
-            , auth_required   = True
-            , permission      = Login_has_Person
+        dkw   = dict \
+            ( name            = self.div_name
+            , short_title     = self.Div_Name
+            , title           = ": ".join ((self.parent.title, self.Div_Name))
             )
-        xkw = dict (dkw, ** kw)
+        xkw   = dict (dkw, ** kw)
         self.__super.__init__ (** xkw)
     # end def __init__
+
+# end class _DB_Div_
+
+class DB_Edit (_DB_Div_) :
+    """Edit division of Funkfeuer dashboard"""
+
+    hidden                = True
+
+# end class DB_Edit
+
+class DB_User (_DB_Div_) :
+    """User division of Funkfeuer dashboard"""
+
+# end class DB_User
+
+class DB_View (_DB_Div_) :
+    """View division of Funkfeuer dashboard"""
 
     @Once_Property
     @getattr_safe
@@ -408,6 +437,62 @@ class Dashboard (_Ancestor) :
     def _get_admin (self, tn) :
         return self.top.ET_Map [tn].admin_noom
     # end def _get_admin
+
+# end class DB_View
+
+_Ancestor = GTW.RST.TOP.Dir
+
+class Dashboard (_Ancestor) :
+    """Funkfeuer dashboard"""
+
+    fill_edit             = False
+    fill_user             = False
+    fill_view             = False
+    pid                   = "Dashboard"
+
+    _entry_types          = \
+        ( DB_View
+        , DB_User
+        , DB_Edit
+        )
+    _exclude_robots       = True
+
+    def __init__ (self, ** kw) :
+        dkw = dict \
+            ( name            = "dashboard"
+            , short_title     = "Dashboard"
+            , title           = "Funkfeuer Dashboard"
+            , auth_required   = True
+            , permission      = Login_has_Person
+            )
+        xkw = dict (dkw, ** kw)
+        self.__super.__init__ (** xkw)
+    # end def __init__
+
+    @property
+    def db_edit (self) :
+        return self.entry_map ["edit"]
+    # end def db_edit
+
+    @property
+    def db_view (self) :
+        return self.entry_map ["view"]
+    # end def db_view
+
+    @property
+    def db_user (self) :
+        return self.entry_map ["user"]
+    # end def db_user
+
+    @property
+    @getattr_safe
+    def entries (self) :
+        result = self._entries
+        if not result :
+            entries = tuple  (T (parent = self) for T in self._entry_types)
+            self.add_entries (* entries)
+        return self._entries
+    # end def entries
 
 # end class Dashboard
 

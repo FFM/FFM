@@ -28,6 +28,7 @@
 ##     9-Apr-2014 (CT) Creation
 ##    14-Apr-2014 (CT) Factor `nav_menu_links`, `nav_menu_person`
 ##    15-Apr-2014 (CT) Add `ff_dashboard` to `body_tail_scripts`
+##    17-Apr-2014 (CT) Add dashboard divisions `app-edit`, `-user`, `-view`
 ##    ««revision-date»»···
 ##--
 #}
@@ -93,17 +94,23 @@
       {% endcall %} {# X.header #}
       <div class="main">
         <div id="messages"></div>
-        <div id="app" class="app pure-g-r">
-          <section id="node-overview" class="pure-u-24-24" data-graph-show="pure-u-14-24">
-            {{ DM.node_overview (page) }}
-          </section>
-          <section id="statistics" class="hidden pure-u-10-24">
-            <h2>Graphs / Statistiken</h2>
-            <p><img src="https://marvin.funkfeuer.at/smokeping/freenet/rei6/nanom5wan_last_10800.png"></p>
-            <p><img src="https://marvin.funkfeuer.at/smokeping/freenet/rei6/nanom5wan_last_86400.png" /></p>
-            <p><img src="https://marvin.funkfeuer.at/smokeping/freenet/rei6/nanom5wan_last_604800.png" /></p>
-            <p><img src="https://marvin.funkfeuer.at/smokeping/freenet/rei6/nanom5wan_last_31536000.png" /></p>
-          </section>
+        <div id="app" class="app">
+          <div id="app-view" class="pure-g-r">
+            <section id="node-overview" class="pure-u-24-24" data-graph-show="pure-u-14-24">
+              {{ DM.node_overview (page) }}
+            </section>
+            <section id="statistics" class="hidden pure-u-10-24">
+              <h2>Graphs / Statistiken</h2>
+              <p><img src="https://marvin.funkfeuer.at/smokeping/freenet/rei6/nanom5wan_last_10800.png"></p>
+              <p><img src="https://marvin.funkfeuer.at/smokeping/freenet/rei6/nanom5wan_last_86400.png" /></p>
+              <p><img src="https://marvin.funkfeuer.at/smokeping/freenet/rei6/nanom5wan_last_604800.png" /></p>
+              <p><img src="https://marvin.funkfeuer.at/smokeping/freenet/rei6/nanom5wan_last_31536000.png" /></p>
+            </section>
+          </div>
+          <div id="app-user" class="pure-g-r">
+          </div>
+          <div id="app-edit" class="pure-g-r">
+          </div>
         </div>
       </div>
       {% call X.footer () -%}
