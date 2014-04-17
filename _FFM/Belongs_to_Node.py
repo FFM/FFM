@@ -70,6 +70,17 @@ class Belongs_to_Node (_Ancestor_Essence) :
 
         # end class my_node
 
+        class my_person (A_Id_Entity) :
+            """Person this %(ui_type_name)s is managed or owned by."""
+
+            kind                = Attr.Query
+            P_Type              = "PAP.Person"
+            query               = \
+                Q.OR (Q.my_node.manager.my_person, Q.my_node.owner.my_person)
+            hidden              = True
+
+        # end class my_person
+
     # end class _Attributes
 
 # end class Belongs_to_Node
