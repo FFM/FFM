@@ -128,88 +128,125 @@ style_sheet = Style_Sheet \
             ]
         )
     , Rule
-        ( "#app form"
-        , font_size            = Em (0.875)
-        , children             =
-            [ Rule_Class
-                ( "pure-form"
-                , children     =
-                    [ Rule
-                        ( "input", "select", "textarea"
-                        , line_height          = Em (1.143)
-                        , children             =
-                            [ Rule_Class
-                                ( "invalid"
-                                , border_color = P.color_status_bad
-                                , border_width = Px (2)
-                                )
-                            , Rule_Pseudo
-                                ( "invalid"
-                                , border_color = P.color_status_bad
-                                )
-                            , Rule_Pseudo
-                                ( """invalid[value=""]"""
-                                , border_color = P.color_status_missing
-                                )
-                            ]
-                        )
-                    ]
-                )
-            ]
-        )
-    , Rule
-        ( "#app table"
-        , font_size            = Em (0.875)
+        ( "#app"
         , children             =
             [ Rule
-                ( "td"
-                , children     =
+                ( "form"
+                , font_size            = Em (0.875)
+                , children             =
                     [ Rule_Class
-                        ( "action"
-                        , font_size        = Em (1.125)
-                        , padding_bottom   = Px (4)
-                        , padding_top      = Px (4)
+                        ( "pure-form"
                         , children     =
                             [ Rule
-                                ( "a"
-                                , border_radius    = Em (0.25)
-                                , padding          = Em (0.25)
-                                , children         =
-                                    [ Rule
-                                        ( "+ a"
-                                        , margin_left  = Em (0.25)
+                                ( "input", "select", "textarea"
+                                , line_height          = Em (1.143)
+                                , children             =
+                                    [ Rule_Class
+                                        ( "invalid"
+                                        , border_color = P.color_status_bad
+                                        , border_width = Px (2)
+                                        )
+                                    , Rule_Pseudo
+                                        ( "invalid"
+                                        , border_color = P.color_status_bad
+                                        )
+                                    , Rule_Pseudo
+                                        ( """invalid[value=""]"""
+                                        , border_color = P.color_status_missing
                                         )
                                     ]
                                 )
-                            , Rule
-                                ( ".fa"
-                                , color        = "#0078E7"
-                                , height       = Em (1.0)
-                                , width        = Em (1.0)
-                                )
                             ]
-                        )
-                    , Rule_Class
-                        ( "number"
-                        , text_align   = "right"
                         )
                     ]
                 )
             , Rule
-                ( "th"
-                , font_weight          = "normal"
+                ( "h2"
+                , children             =
+                    [ Rule
+                        ( ".fa"
+                        , color        = "#0078E7"
+                        , height       = Em (1.0)
+                        , width        = Em (1.0)
+                        )
+                    , Rule
+                        ( ".pure-button"
+                        , border_radius    = Rem (0.25)
+                        , font_size        = Rem (1.50)
+                        , margin_left      = Rem (1.00)
+                        , padding          = Rem (0.25)
+                        )
+                    ]
                 )
             , Rule
-                ( "thead"
-                , background_color     = "inherit"
-                , border_bottom        = "1px solid #cbcbcb"
-                )
-            , Rule
-                ( "tbody tr"
-                , children     =
-                    [ Rule_Pseudo
-                        ( "hover"
-                        , background_color = "#f2f2f2"
+                ( "table"
+                , font_size            = Em (0.875)
+                , children             =
+                    [ Rule
+                        ( "td"
+                        , children     =
+                            [ Rule_Class
+                                ( "action"
+                                , font_size        = Em (1.125)
+                                , padding_bottom   = Px (4)
+                                , padding_top      = Px (4)
+                                , children     =
+                                    [ Rule
+                                        ( "a"
+                                        , border_radius    = Em (0.25)
+                                        , padding          = Em (0.25)
+                                        , children         =
+                                            [ Rule
+                                                ( "+ a"
+                                                , margin_left  = Em (0.25)
+                                                )
+                                            ]
+                                        )
+                                    , Rule
+                                        ( ".fa"
+                                        , color        = "#0078E7"
+                                        , height       = Em (1.0)
+                                        , width        = Em (1.0)
+                                        )
+                                    ]
+                                )
+                            , Rule_Attr
+                                ( "[colspan] .pure-button"
+                                , display      = "inline-block"
+                                , width        = Percent (100)
+                                , children     =
+                                    [ Rule
+                                        ( "i.fa"
+                                        , color        = "#0078E7"
+                                        , float        = "left"
+                                        , height       = Em (1.0)
+                                        , width        = Em (1.0)
+                                        )
+                                    ]
+                                )
+                            , Rule_Class
+                                ( "number"
+                                , text_align   = "right"
+                                )
+                            ]
+                        )
+                    , Rule
+                        ( "th"
+                        , font_weight          = "normal"
+                        )
+                    , Rule
+                        ( "thead"
+                        , background_color     = "inherit"
+                        , border_bottom        = "1px solid #cbcbcb"
+                        )
+                    , Rule
+                        ( "tbody tr"
+                        , children     =
+                            [ Rule_Pseudo
+                                ( "hover"
+                                , background_color = "#f2f2f2"
+                                )
+                            ]
                         )
                     ]
                 )

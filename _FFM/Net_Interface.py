@@ -36,6 +36,7 @@
 #     8-May-2013 (RS) Fix comment for desc
 #    30-Sep-2013 (CT) Mixin `Belongs_to_Node_Left`, not `Belongs_to_Node`
 #    14-Apr-2014 (CT) Add mixin `Belongs_to_Net_Device_Left`
+#    17-Apr-2014 (CT) Fix typo in `Net_Interface.name.description`
 #    ««revision-date»»···
 #--
 
@@ -89,7 +90,7 @@ class Net_Interface (_Mixin_1, _Mixin_2, _Ancestor_Essence) :
         # end class mac_address
 
         class name (A_DNS_Label) :
-            """Name of the node"""
+            """Name of the interface."""
 
             kind               = Attr.Primary_Optional
             completer          = Attr.Completer_Spec  (2, Attr.Selector.primary)

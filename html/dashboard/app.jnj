@@ -36,6 +36,7 @@
 {%- import (html_version or "html/5.jnj") as X -%}
 {%- import "html/media_fragments.jnj"     as MF      with context %}
 {%- import "html/dashboard/app.m.jnj"     as DB      with context %}
+{%- import "html/dashboard/user.m.jnj"    as DB_User with context %}
 {%- import "html/dashboard/view.m.jnj"    as DB_View with context %}
 
 {%- call X.html (lang = page.language|default ("en")) -%}
@@ -76,7 +77,7 @@
           {% call X.nav (class="pure-menu pure-menu-fixed pure-menu-horizontal pure-menu-inverse pure-menu-open") -%}
             {#- TBD: button+CSS+JS for hiding menu+form on narrow screens -#}
             {%- block navigate -%}
-              <a href="/dashboard" class="dashboard pure-menu-heading">
+              <a href="{{ page.db_view.abs_href }}" class="dashboard pure-menu-heading">
                 FF Dashboard
               </a>
               <ul>
@@ -97,20 +98,19 @@
         <div id="messages"></div>
         <div id="app" class="app">
           <div id="app-view" class="pure-g-r">
-            <section id="node-overview" class="pure-u-24-24" data-graph-show="pure-u-14-24">
-              {{ DB_View.node_overview (page) }}
-            </section>
-            <section id="statistics" class="hidden pure-u-10-24">
-              <h2>Graphs / Statistiken</h2>
-              <p><img src="https://marvin.funkfeuer.at/smokeping/freenet/rei6/nanom5wan_last_10800.png"></p>
-              <p><img src="https://marvin.funkfeuer.at/smokeping/freenet/rei6/nanom5wan_last_86400.png" /></p>
-              <p><img src="https://marvin.funkfeuer.at/smokeping/freenet/rei6/nanom5wan_last_604800.png" /></p>
-              <p><img src="https://marvin.funkfeuer.at/smokeping/freenet/rei6/nanom5wan_last_31536000.png" /></p>
-            </section>
+            {% if page.fill_view %}
+              {{- DB_View.main (page) -}}
+            {% endif -%}
           </div>
           <div id="app-user" class="pure-g-r">
+            {% if page.fill_user %}
+              {{- DB_User.main (page) -}}
+            {% endif -%}
           </div>
           <div id="app-edit" class="pure-g-r">
+            {% if page.fill_edit %}
+              {#- {{- DB_Edit.main (page) -}} -#}
+            {% endif -%}
           </div>
         </div>
       </div>

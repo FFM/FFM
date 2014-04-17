@@ -30,194 +30,26 @@
 ##    14-Apr-2014 (CT) Factor `action_button`, `nav_menu_links`,
 ##                     `nav_menu_person`, `th_number_of`
 ##    14-Apr-2014 (CT) Restructure to show all instances of each type
+##    17-Apr-2014 (CT) Factor out `e_type_table`; add `main`
+##    18-Apr-2014 (CT) Factor out `db_div_main`
 ##    ««revision-date»»···
 ##--
 #}
 
-{%- import "html/dashboard/app.m.jnj"     as DB      with context %}
+{%- import "html/dashboard/app.m.jnj" as DB with context %}
 
-{%- macro device_overview (page) -%}
-  {%- set net_devices = page.devices %}
-  <h2>{{ GTW._T ("Devices managed/owned by %s") % (page.user.FO.person, ) }}</h2>
-  <table id="device-list" class="device-list pure-table pure-table-bordered">
-    <thead>
-      <tr>
-        <th class="Node">{{ page.scope.FFM.Node.ui_name_T }}</th>
-        <th class="name">{{ GTW._T ("Name")         }}</th>
-        {{ DB.th_number_of (page.scope.FFM.Net_Device, page.scope.FFM.Net_Interface) }}
-        <th class="type">{{ GTW._T ("Type")         }}</th>
-        <th class="created">{{ GTW._T ("Created")   }}</th>
-        <th class="action">{{ GTW._T ("Action")    }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      {%- for nd in net_devices %}
-        {%- set name = nd.FO.name %}
-        {%- set node = nd.my_node %}
-        <tr id="device-{{ nd.pid }}" {# -#}
-            class="node-{{ node.pid }}- device-{{ nd.pid }}-"{# -#}
-        >
-          <td class="Node">
-            {{ node.FO.name }}
-          </td>
-          <td class="name">
-            {{ name }}
-          </td>
-          <td class="number interfaces">
-            {{ GTW.len (nd.net_interfaces) }}
-          </td>
-          <td class="type">
-            {{ nd.ui_name_T }}
-          </td>
-          <td class="created">
-            {{ ("%s" % (nd.FO.creation_date, )).split (" ") [0] }}
-          </td>
-          {% call DB.entity_actions (nd, name) -%}
-            {{- DB.action_button
-                ( "#firmware"
-                , GTW._T ("Generate firmware for %s %s")
-                  % (nd.ui_name_T, name, )
-                , "magic"
-                )
-            -}}
-          {%- endcall %} {# entity_actions (nd, name) #}
-        </tr>
-      {% endfor -%}
-    </tbody>
-  </table>
-  <section id="device-details">
-    {{ interface_overview (page) }}
+{%- macro node_graphs (page, node) -%}
+  <section id="node-statistics-{{ node.pid }}-" class="pure-u-10-24">
+    <h2>Graphs / Statistiken</h2>
+    <p><img src="https://marvin.funkfeuer.at/smokeping/freenet/rei6/nanom5wan_last_10800.png"></p>
+    <p><img src="https://marvin.funkfeuer.at/smokeping/freenet/rei6/nanom5wan_last_86400.png" /></p>
+    <p><img src="https://marvin.funkfeuer.at/smokeping/freenet/rei6/nanom5wan_last_604800.png" /></p>
+    <p><img src="https://marvin.funkfeuer.at/smokeping/freenet/rei6/nanom5wan_last_31536000.png" /></p>
   </section>
-{%- endmacro -%} {#- device_overview -#}
+{%- endmacro -%} {#- node_graphs -#}
 
-{%- macro edit_interface (page, interface) -%}
-  <h2>{{ GTW._T ("Interface %s") % (interface.name, ) }}</h2>
-  <form class="pure-form pure-form-aligned" method="post" action="TBD">
-    <div class="pure-control-group"
-         title="{{ GTW._T ("Mac address of the interface") }}"
-    >
-      <label for="mac_address">MAC address</label>
-      <input id="mac_address" type="text"
-             value="{{ interface.raw_attr ("mac_address")}}"
-      >
-    </div>
-    <div class="pure-control-group"
-         title="{{ GTW._T ("DNS label of the interface") }}"
-    >
-      <label for="name">Name</label>
-      <input id="name" type="text" value="{{ interface.raw_attr ("name")}}">
-    </div>
-    <div class="pure-controls">
-      <label for="is_active" class="pure-checkbox">
-        <input id="is_active" type="checkbox"
-             value="{{ "1" if interface.is_active else "" }}"
-        >
-        {{ GTW._T ("Indicates if this interface is active.") }}
-      </label>
-    </div>
-    <div class="pure-control-group"
-         title="{{ GTW._T ("Description of the interface") }}"
-    >
-      <label for="desc">Description</label>
-      <input id="desc" type="text"
-             value="{{ interface.raw_attr ("desc")}}"
-      >
-    </div>
-    <div class="pure-controls">
-      <button type="submit" class="pure-button pure-button-primary">
-        {{ GTW._T ("Save") }}
-      </button>
-    </div>
-  </form>
-{%- endmacro -%} {#- edit_interface -#}
-
-{%- macro interface_overview (page) -%}
-  {%- set net_interfaces = page.interfaces %}
-  <h2>{{ GTW._T ("Interfaces managed/owned by %s") % (page.user.FO.person, ) }}</h2>
-  <table id="interface-list" class="interface-list pure-table pure-table-bordered">
-    <thead>
-      <tr>
-        <th class="Node">{{ page.scope.FFM.Node.ui_name_T }}</th>
-        <th class="Device">{{ page.scope.FFM.Net_Device.ui_name_T }}</th>
-        <th>{{ GTW._T ("Name")         }}</th>
-        <th>{{ GTW._T ("IP addresses") }}</th>
-        <th>{{ GTW._T ("Type")         }}</th>
-        <th>{{ GTW._T ("Created")      }}</th>
-        <th>{{ GTW._T ("Action")       }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      {%- for ni in net_interfaces %}
-        {%- set nd   = ni.my_net_device %}
-        {%- set name = ni.FO.name %}
-        {%- set node = ni.my_node %}
-        <tr id="interface-{{ ni.pid }}" {# -#}
-          class="node-{{ node.pid }}- device-{{ nd.pid }}- interface-{{ ni.pid }}-"{# -#}
-        >
-          <td class="Node">
-            {{ node.FO.name }}
-          </td>
-          <td class="Device">
-            {{ nd.FO.name }}
-          </td>
-          <td class="name">
-            {{ name }}
-          </td>
-          <td class="ip-addresses">
-            {%- for ipa in GTW.ichain (ni.ip4_networks, ni.ip6_networks) %}
-              {{ ipa.net_address }}<br>
-            {% endfor -%}
-          </td>
-          <td class="type">
-            {{ ni.ui_name_T }}
-          </td>
-          <td class="created">
-            {{ ("%s" % (ni.FO.creation_date, )).split (" ") [0] }}
-          </td>
-          {{ DB.entity_actions (ni, name, show_graphs = True) }}
-        </tr>
-      {% endfor -%}
-    </tbody>
-  </table>
-  <section id="interface-details">
-    {%- if net_interfaces %}
-      {{ edit_interface (page, net_interfaces [0]) }}
-    {% endif -%}
-  </section>
-{%- endmacro -%} {#- interface_overview -#}
-
-{%- macro node_overview (page) -%}
-  <h2>{{ GTW._T ("Nodes managed/owned by %s") % (page.user.FO.person, ) }}</h2>
-  <table id="node-list" class="node-list pure-table pure-table-bordered">
-    <thead>
-      <tr>
-        <th class="name">{{ GTW._T ("Name")      }}</th>
-        {{ DB.th_number_of (page.scope.FFM.Node, page.scope.FFM.Net_Device) }}
-        <th class="created">{{ GTW._T ("Created")   }}</th>
-        <th class="action">{{ GTW._T ("Action")    }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      {%- for node in page.nodes %}
-        {%- set name = node.FO.name %}
-        <tr id="node-{{ node.pid }}" class="node-{{ node.pid }}-">
-          <td class="name">
-            {{ name }}
-          </td>
-          <td class="number devices">
-            {{ GTW.len (node.net_devices) }}
-          </td>
-          <td class="created">
-            {{ ("%s" % (node.FO.creation_date, )).split (" ") [0] }}
-          </td>
-          {{ DB.entity_actions (node, name, show_graphs = True) }}
-        </tr>
-      {% endfor -%}
-    </tbody>
-  </table>
-  <section id="node-details">
-    {{ device_overview (page) }}
-  </section>
-{%- endmacro -%} {#- node_overview -#}
+{%- macro main (page) -%}
+  {{ DB.db_div_main (page.db_view) }}
+{%- endmacro -%} {#- main -#}
 
 {#- __END__ jinja template: html/dashboard/view.m.jnj -#}

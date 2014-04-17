@@ -54,6 +54,7 @@
 #     1-Apr-2014 (CT) Add resource for `GTW.RST.MOM.Doc.App_Type`
 #    14-Apr-2014 (CT) Add `pid="RESTful"` to resource `/api`
 #    14-Apr-2014 (CT) Add `RST_addons.User_Net_Interface`
+#    18-Apr-2014 (CT) Add `RST_addons.User_Person*`
 #    ««revision-date»»···
 #--
 
@@ -265,20 +266,44 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
                         , short_title     = _T ("Device")
                         )
                     , RST_addons.User_Net_Interface
-                        ( name            = "net-interface"
-                        , short_title     = _T ("Net IF")
+                        ( name            = "interface"
+                        , short_title     = _T ("Interface")
                         )
                     , RST_addons.User_Wired_Interface
                         ( name            = "wired-interface"
-                        , short_title     = _T ("Wired IF")
+                        , short_title     = _T ("Wired_Interface")
                         )
                     , RST_addons.User_Wireless_Interface
                         ( name            = "wireless-interface"
-                        , short_title     = _T ("Wireless IF")
+                        , short_title     = _T ("Wireless_Interface")
                         )
                     , RST_addons.User_Antenna
                         ( name            = "antenna"
                         , short_title     = _T ("Antenna")
+                        )
+                    , RST_addons.User_Person
+                        ( name            = "person"
+                        , hidden          = True
+                        )
+                    , RST_addons.User_Person_has_Address
+                        ( name            = "has_address"
+                        , hidden          = True
+                        )
+                    , RST_addons.User_Person_has_Account
+                        ( name            = "has_account"
+                        , hidden          = True
+                        )
+                    , RST_addons.User_Person_has_Email
+                        ( name            = "has_email"
+                        , hidden          = True
+                        )
+                    , RST_addons.User_Person_has_IM_Handle
+                        ( name            = "has_im_handle"
+                        , hidden          = True
+                        )
+                    , RST_addons.User_Person_has_Phone
+                        ( name            = "has_phone"
+                        , hidden          = True
                         )
                     ]
                 )

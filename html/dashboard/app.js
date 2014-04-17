@@ -22,7 +22,8 @@
     "use strict";
     $.fn.ff_dashboard = function ff_dashboard (opts) {
         var selectors = $.extend
-            ( { delete_button    : "[href=#delete]"
+            ( { create_button    : "[href=#create]"
+              , delete_button    : "[href=#delete]"
               , edit_button      : "[href=#edit]"
               , filter_button    : "[href=#filter]"
               , instance_row     : "tr"
@@ -33,7 +34,8 @@
         var page_url  =
             (opts ["urls"] && opts ["urls"] ["page"]) || "/dashboard/";
         var urls      = $.extend
-            ( { "pid"            : page_url + "pid/"
+            ( { page             : page_url
+              , pid              : page_url + "pid/"
               }
             , opts && opts ["urls"] || {}
             );
@@ -46,6 +48,29 @@
               , urls      : urls
               }
             );
+        var create_cb = function create_cb (ev) {
+            var tab$  = $(this).closest ("section");
+            var id    = tab$.prop ("id");
+            var typ   = id.match  (/-(\w+)$/) [1];
+            $.gtw_ajax_2json
+                ( { url         : options.urls.page + typ + "?create"
+                  , type        : "GET"
+                  , success     : function (response, status) {
+                        if (! response ["error"]) {
+                            // XXX TBD
+                            // hide "#overview"
+                            // fill and display "#edit" with response.html...
+                            $GTW.show_message (response);
+                        } else {
+                            $GTW.show_message
+                                ("Ajax Error: " + response ["error"]);
+                        };
+                    }
+                  }
+                , "Create"
+                );
+            return false;
+        } ;
         var delete_cb = function delete_cb (ev) {
             var tr$   = $(this).closest (selectors.instance_row);
             var id    = tr$.prop  ("id");
@@ -133,9 +158,10 @@
         };
         selectors.filter_active_button =
             "." + options.active_button_class + selectors.filter_button;
-        $(selectors.filter_button).on ("click", filter_cb);
+        $(selectors.create_button).on ("click", create_cb);
         $(selectors.delete_button).on ("click", delete_cb);
         $(selectors.edit_button  ).on ("click", edit_cb);
+        $(selectors.filter_button).on ("click", filter_cb);
         return this;
     };
   } (jQuery)

@@ -1,0 +1,80 @@
+{#- jinja template: html/dashboard/edit.m.jnj -#}
+{#
+## Copyright (C) 2014 Mag. Christian Tanzer All rights reserved
+## Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+## #*** <License> ************************************************************
+## This module is free software: you can redistribute it and/or modify
+## it under the terms of the GNU Affero General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This module is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+## GNU Affero General Public License for more details.
+##
+## You should have received a copy of the GNU Affero General Public License
+## along with this module. If not, see <http://www.gnu.org/licenses/>.
+## #*** </License> ***********************************************************#
+##
+##++
+## Name
+##    html/dashboard/edit.m.jnj
+##
+## Purpose
+##    Template macros for division `edit` of Funkfeuer dashboard
+##
+## Revision Dates
+##    10-Apr-2014 (CT) Creation
+##    13-Apr-2014 (CT) Factor `entity_actions`
+##    14-Apr-2014 (CT) Factor `action_button`, `nav_menu_links`,
+##                     `nav_menu_person`, `th_number_of`
+##    14-Apr-2014 (CT) Restructure to show all instances of each type
+##    ««revision-date»»···
+##--
+#}
+
+{%- import "html/dashboard/app.m.jnj"     as DB      with context %}
+
+{%- macro edit_interface (page, interface) -%}
+  <h2>{{ GTW._T ("Interface %s") % (interface.name, ) }}</h2>
+  <form class="pure-form pure-form-aligned" method="post" action="TBD">
+    <div class="pure-control-group"
+         title="{{ GTW._T ("Mac address of the interface") }}"
+    >
+      <label for="mac_address">MAC address</label>
+      <input id="mac_address" type="text"
+             value="{{ interface.raw_attr ("mac_address")}}"
+      >
+    </div>
+    <div class="pure-control-group"
+         title="{{ GTW._T ("DNS label of the interface") }}"
+    >
+      <label for="name">Name</label>
+      <input id="name" type="text" value="{{ interface.raw_attr ("name")}}">
+    </div>
+    <div class="pure-controls">
+      <label for="is_active" class="pure-checkbox">
+        <input id="is_active" type="checkbox"
+             value="{{ "1" if interface.is_active else "" }}"
+        >
+        {{ GTW._T ("Indicates if this interface is active.") }}
+      </label>
+    </div>
+    <div class="pure-control-group"
+         title="{{ GTW._T ("Description of the interface") }}"
+    >
+      <label for="desc">Description</label>
+      <input id="desc" type="text"
+             value="{{ interface.raw_attr ("desc")}}"
+      >
+    </div>
+    <div class="pure-controls">
+      <button type="submit" class="pure-button pure-button-primary">
+        {{ GTW._T ("Save") }}
+      </button>
+    </div>
+  </form>
+{%- endmacro -%} {#- edit_interface -#}
+
+{#- __END__ jinja template: html/dashboard/edit.m.jnj -#}

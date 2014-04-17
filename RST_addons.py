@@ -50,6 +50,8 @@
 #    14-Apr-2014 (CT) Add `devices`, `interfaces` to `Dashboard`;
 #                     add `User_Net_Interface`
 #    17-Apr-2014 (CT) Add `Dashboard` divisions
+#    18-Apr-2014 (CT) Add `person`, `address`, ..., to `Dashboard`
+#    18-Apr-2014 (CT) Change `query_filters_restricted` to use `my_person`
 #    ««revision-date»»···
 #--
 
@@ -72,8 +74,12 @@ import _GTW._RST._TOP._MOM.Admin_Restricted
 from   _MOM.import_MOM          import Q
 
 from   _TFL._Meta.Once_Property import Once_Property
-from   _TFL.Decorator           import getattr_safe, Add_New_Method
+from   _TFL.Decorator           import getattr_safe, Add_New_Method, Decorator
 from   _TFL.I18N                import _, _T, _Tn
+from   _TFL.predicate           import filtered_join
+from   _TFL.Record              import Record
+
+from   itertools                import chain as ichain
 
 class Node_Manager_Error (MOM.Error._Invariant_, TypeError) :
     """You are not allowed to change owner or manager unless after the change
@@ -198,7 +204,7 @@ class User_Entity (_Ancestor) :
         ( create              = (_pre_commit_entity_check, )
         , change              = (_pre_commit_entity_check, )
         )
-    et_map_name               = "admin_noom"
+    et_map_name               = "admin_ffd"
     restriction_desc          = _ ("owned/managed by")
 
     def __init__ (self, ** kw) :
@@ -236,10 +242,7 @@ class User_Entity (_Ancestor) :
     def query_filters_restricted (self) :
         person = self.user_restriction
         if person is not None :
-            return \
-                ( (Q.my_node.owner   == person)
-                | (Q.my_node.manager == person)
-                )
+            return Q.my_person == person
     # end def query_filters_restricted
 
 # end class User_Entity
@@ -319,9 +322,52 @@ class User_Net_Device (User_Node_Dependent) :
 
 class User_Net_Interface (User_Node_Dependent) :
 
+    ET_depends            = "FFM.Net_Device"
     _ETM                  = "FFM.Net_Interface"
 
 # end class User_Net_Interface
+
+class User_Person (User_Entity) :
+
+    _ETM                  = "PAP.Person"
+
+# end class User_Person
+
+class _User_Person_has_Property_ (User_Entity) :
+
+    ET_depends            = "PAP.Person"
+
+# end class _User_Person_has_Property_
+
+class User_Person_has_Account (_User_Person_has_Property_) :
+
+    _ETM                  = "PAP.Person_has_Account"
+
+# end class User_Person_has_Account
+
+class User_Person_has_Address (_User_Person_has_Property_) :
+
+    _ETM                  = "PAP.Person_has_Address"
+
+# end class User_Person_has_Address
+
+class User_Person_has_Email (_User_Person_has_Property_) :
+
+    _ETM                  = "PAP.Person_has_Email"
+
+# end class User_Person_has_Email
+
+class User_Person_has_IM_Handle (_User_Person_has_Property_) :
+
+    _ETM                  = "PAP.Person_has_IM_Handle"
+
+# end class User_Person_has_IM_Handle
+
+class User_Person_has_Phone (_User_Person_has_Property_) :
+
+    _ETM                  = "PAP.Person_has_Phone"
+
+# end class User_Person_has_Phone
 
 class User_Wired_Interface (User_Node_Dependent) :
 
@@ -351,7 +397,9 @@ class User_Wireless_Interface_uses_Wireless_Channel (User_Node_Dependent) :
 
 # end class User_Wireless_Interface_uses_Wireless_Channel
 
-_Ancestor = GTW.RST.TOP.Dir_V
+##### Dashboard ###############################################################
+
+_Ancestor = GTW.RST.TOP.Dir
 
 class _Meta_DB_Div_ (_Ancestor.__class__) :
     """Meta class of _DB_Div_"""
@@ -370,6 +418,7 @@ class _DB_Div_ (TFL.Meta.BaM (_Ancestor, metaclass = _Meta_DB_Div_)) :
     """Division of Funkfeuer dashboard"""
 
     dir_template_name     = "html/dashboard/app.jnj"
+    _entry_types          = ()
 
     def __init__ (self, ** kw) :
         dkw   = dict \
@@ -381,7 +430,387 @@ class _DB_Div_ (TFL.Meta.BaM (_Ancestor, metaclass = _Meta_DB_Div_)) :
         self.__super.__init__ (** xkw)
     # end def __init__
 
+    @property
+    @getattr_safe
+    def entries (self) :
+        result = self._entries
+        if not result :
+            entries = tuple  (T (parent = self) for T in self._entry_types)
+            self.add_entries (* entries)
+        return self._entries
+    # end def entries
+
+    @property
+    @getattr_safe
+    def view_title (self) :
+        TN = self.Div_Name
+        return _T ("%ss managed/owned by %%s" % TN) % (self.user.FO.person, )
+    # end def view_title
+
+    def tr_instance_css_class (self, o) :
+        return "%s-%d-" % (self.div_name, o.pid)
+    # end def tr_instance_css_class
+
 # end class _DB_Div_
+
+class _DB_E_Type_ (_DB_Div_) :
+    """E_Type displayed by, and managed via, Funkfeuer dashboard."""
+
+    Field                 = GTW.RST.TOP.MOM.Admin.E_Type.Field
+    add_css_classes       = []
+    ui_allow_new          = True
+    view_action_names     = ("filter", "edit", "delete", "graphs")
+    view_field_names      = ()    ### to be defined by subclass
+    type_name             = None  ### to be defined by subclass
+    hidden                = True
+
+    _action_map           = dict \
+        ( (r.name, r) for r in
+            ( Record
+                ( name = "change_password"
+                , msg  = _ ("Change password of %s %s")
+                , icon = "key"
+                )
+            , Record
+                ( name = "create"
+                , msg  = _ ("Create a new %s %s")
+                , icon = "plus-circle"
+                )
+            , Record
+                ( name = "delete"
+                , msg  = _ ("Delete %s %s")
+                , icon = "trash-o"
+                )
+            , Record
+                ( name = "edit"
+                , msg  = _ ("Edit %s %s")
+                , icon = "pencil"
+                )
+            , Record
+                ( name = "filter"
+                , msg  = _
+                    ("Restrict details below to objects belonging to %s %s")
+                , icon = "eye"
+                )
+            , Record
+                ( name = "firmware"
+                , msg  = _ ("Generate firmware for %s %s")
+                , icon = "magic"
+                )
+            , Record
+                ( name = "graphs"
+                , msg  = _ ("Show graphs and statistics about %s %s")
+                , icon = "bar-chart-o"
+                )
+            , Record
+                ( name = "reset_password"
+                , msg  = _ ("I forgot my password; reset password of %s %s")
+                , icon = "unlock"
+                )
+            )
+        )
+
+    class _DB_Field_ (GTW.RST.TOP.MOM.Admin.E_Type.Field) :
+
+        @Once_Property
+        @getattr_safe
+        def add_css_classes (self) :
+            return [self.attr_name]
+        # end def add_css_classes
+
+        @Once_Property
+        @getattr_safe
+        def attr_name (self) :
+            return self.attr.name
+        # end def attr_name
+
+        @Once_Property
+        @getattr_safe
+        def css_class (self) :
+            result = [self.__super.css_class] + self.add_css_classes
+            return filtered_join (" ", result)
+        # end def css_class
+
+    Field = _DB_Field_ # end class
+
+    class _Field_Ref_ (Field) :
+
+        @Once_Property
+        @getattr_safe
+        def add_css_classes (self) :
+            return [self.ref_name] ### don't want `__super.add_css_classes` here
+        # end def add_css_classes
+
+        @property ### depends on currently selected language (I18N/L10N)
+        @getattr_safe
+        def ui_name (self) :
+            return _T (self.ref_name.capitalize ())
+        # end def ui_name
+
+    # end class _Field_Device_
+
+    class _Field_Created_ (Field) :
+
+        attr_name         = "created"
+
+        @property ### depends on currently selected language (I18N/L10N)
+        @getattr_safe
+        def description (self) :
+            return _T ("Date of creation.")
+        # end def description
+
+        @property ### depends on currently selected language (I18N/L10N)
+        @getattr_safe
+        def ui_name (self) :
+            return _T ("Created")
+        # end def ui_name
+
+        def value (self, o) :
+            return self.__super.value (o).split (" ") [0]
+        # end def value
+
+    # end class _Field_Created_
+
+    class _Field_Device_ (_Field_Ref_) :
+
+        ref_name          = "Device"
+
+    # end class _Field_Device_
+
+    class _Field_IP_Addresses_ (Field) :
+
+        @Once_Property
+        @getattr_safe
+        def add_css_classes (self) :
+            return ["ip-addresses"] ### don't want `__super.add_css_classes` here
+        # end def add_css_classes
+
+        @property ### depends on currently selected language (I18N/L10N)
+        @getattr_safe
+        def description (self) :
+            return _T ("IP addresses assigned to interface")
+        # end def description
+
+        @property ### depends on currently selected language (I18N/L10N)
+        @getattr_safe
+        def ui_name (self) :
+            return _T ("IP addresses")
+        # end def ui_name
+
+        def as_html (self, o, v) :
+            return "<br>".join (v.split (", "))
+        # end def as_thml
+
+        def value (self, o) :
+            return ", ".join \
+                (   str (nw.net_address)
+                for nw in ichain (o.ip4_networks, o.ip6_networks)
+                )
+        # end def value
+
+    # end class _Field_IP_Addresses_
+
+    class _Field_Node_ (_Field_Ref_) :
+
+        ref_name          = "Node"
+
+    # end class _Field_Node_
+
+    class _Field_No_ (Field) :
+        """Number-of field"""
+
+        ### break inherited `property` to allow assignment in `__init__`
+        attr_name         = None
+        name              = None
+        ui_name           = None
+
+        def __init__ (self, name, attr_name, ET) :
+            self.attr_name   = attr_name
+            self.ET          = ET
+            self.name        = name
+            self.ui_name     = "#"
+        # end def __init__
+
+        @Once_Property
+        @getattr_safe
+        def attr (self) :
+            return self.ET.attr_prop (self.attr_name)
+        # end def attr
+
+        @Once_Property
+        @getattr_safe
+        def add_css_classes (self) :
+             ### don't want `__super.add_css_classes` here
+            return ["number", self.name]
+        # end def add_css_classes
+
+        @property ### depends on currently selected language (I18N/L10N)
+        @getattr_safe
+        def description (self) :
+            try :
+                return _T (self._description) % \
+                (self.attr.P_Type.ui_name_T, self.ET.ui_name_T)
+            except AttributeError as exc :
+                TFL.Environment.exec_python_startup (); import pdb; pdb.set_trace ()
+        # end def description
+
+        @Once_Property
+        @getattr_safe
+        def _description (self) :
+            return _ ("Number of %s belonging to %s")
+        # end def _description
+
+        def value (self, o) :
+            return len (getattr (o, self.attr_name))
+        # end def value
+
+    # end class _Field_No_
+
+    class _Field_Type_ (_Field_Ref_) :
+
+        ref_name = "type"
+
+        def value (self, o) :
+            return o.ui_name_T
+        # end def value
+
+    # end class _Field_Type_
+
+    _field_type_map       = dict \
+        ( { "my_net_device.name"    : _Field_Device_
+          , "my_node.name"          : _Field_Node_
+          }
+        , creation_date   = _Field_Created_
+        , type_name       = _Field_Type_
+        )
+
+    def __init__ (self, ** kw) :
+        self.__super.__init__ (** kw)
+        self._field_map = {}
+    # end def __init__
+
+    @Once_Property
+    @getattr_safe
+    def admin (self) :
+        return self._get_ffd_admin (self.type_name)
+    # end def admin
+
+    @Once_Property
+    @getattr_safe
+    def create_action (self) :
+        if self.ui_allow_new :
+            return self._action_map ["create"]
+    # end def create_action
+
+    @Once_Property
+    @getattr_safe
+    def E_Type (self) :
+        return self.admin.E_Type
+    # end def E_Type
+
+    @Once_Property
+    @getattr_safe
+    def objects (self) :
+        return self.admin.objects
+    # end def objects
+
+    @Once_Property
+    @getattr_safe
+    def view_actions (self) :
+        map = self._action_map
+        return tuple (map [k] for k in self.view_action_names)
+    # end def view_actions
+
+    @Once_Property
+    @getattr_safe
+    def view_fields (self) :
+        return self._fields (self.view_field_names)
+    # end def view_fields
+
+    def view_name_instance (self, o) :
+        return o.FO.name
+    # end def view_name_instance
+
+    _fields = GTW.RST.TOP.MOM.Admin.E_Type._fields.__func__
+
+# end class _DB_E_Type_
+
+class _DB_Person_Property_ (_DB_E_Type_) :
+
+    view_action_names     = ("edit", "delete")
+    view_field_names      = \
+        ( "desc"
+        , "right"
+        , "creation_date"
+        )
+
+    @property
+    @getattr_safe
+    def view_title (self) :
+        TN = self.Div_Name
+        return _T ("%ss used by %%s" % TN) % (self.user.FO.person, )
+    # end def view_title
+
+    def view_name_instance (self, o) :
+        return o.right.FO
+    # end def view_name_instance
+
+# end class _DB_Person_Property_
+
+class DB_Account (_DB_Person_Property_) :
+    """PAP.Person_has_Account displayed by, and managed via, Funkfeuer dashboard."""
+
+    type_name             = "PAP.Person_has_Account"
+    view_action_names     = \
+        ("edit", "change_password", "reset_password")
+
+    view_field_names      = \
+        ( "right"
+        , "creation_date"
+        )
+
+# end class DB_Account
+
+class DB_Address (_DB_Person_Property_) :
+    """PAP.Person_has_Address displayed by, and managed via, Funkfeuer dashboard."""
+
+    type_name             = "PAP.Person_has_Address"
+
+    @property
+    @getattr_safe
+    def view_title (self) :
+        return _T ("Addresses used by %s") % (self.user.FO.person, )
+    # end def view_title
+
+# end class DB_Address
+
+class DB_Device (_DB_E_Type_) :
+    """FFM.Net_Device displayed by, and managed via, Funkfeuer dashboard."""
+
+    type_name             = "FFM.Net_Device"
+
+    view_action_names     = _DB_E_Type_.view_action_names + ("firmware", )
+    view_field_names      = \
+        ( "my_node.name"
+        , "name"
+        , "interfaces"
+        , "type_name"
+        , "creation_date"
+        )
+
+    def __init__ (self, ** kw) :
+        self.__super.__init__ (** kw)
+        self._field_map.update \
+            ( interfaces
+            = self._Field_No_ ("interfaces", "net_interfaces", self.E_Type)
+            )
+    # end def __init__
+
+    def tr_instance_css_class (self, o) :
+        return "node-%d- device-%d-" % (o.my_node.pid, o.pid)
+    # end def tr_instance_css_class
+
+# end class DB_Device
 
 class DB_Edit (_DB_Div_) :
     """Edit division of Funkfeuer dashboard"""
@@ -390,64 +819,154 @@ class DB_Edit (_DB_Div_) :
 
 # end class DB_Edit
 
+class DB_Email (_DB_Person_Property_) :
+    """PAP.Person_has_Email displayed by, and managed via, Funkfeuer dashboard."""
+
+    type_name             = "PAP.Person_has_Email"
+
+# end class DB_Email
+
+class DB_IM_Handle (_DB_Person_Property_) :
+    """PAP.Person_has_IM_Handle displayed by, and managed via, Funkfeuer dashboard."""
+
+    type_name             = "PAP.Person_has_IM_Handle"
+
+# end class DB_IM_Handle
+
+class DB_Interface (_DB_E_Type_) :
+    """FFM.Net_Interface displayed by, and managed via, Funkfeuer dashboard."""
+
+    type_name             = "FFM.Net_Interface"
+
+    view_field_names      = \
+        ( "my_node.name"
+        , "my_net_device.name"
+        , "name"
+        , "ip4_networks" ### rendered as `IP addresses` by _Field_IP_Addresses_
+        , "type_name"
+        , "creation_date"
+        )
+
+    _field_type_map       = dict \
+        ( _DB_E_Type_._field_type_map
+        , ip4_networks    = _DB_E_Type_._Field_IP_Addresses_
+        )
+
+    def tr_instance_css_class (self, o) :
+        return "node-%d- device-%d- interface-%d-" % \
+            (o.my_node.pid, o.my_net_device.pid, o.pid)
+    # end def tr_instance_css_class
+
+# end class DB_Interface
+
+class DB_Node (_DB_E_Type_) :
+    """FFM.Node displayed by, and managed via, Funkfeuer dashboard."""
+
+    type_name             = "FFM.Node"
+
+    view_field_names      = \
+        ( "name"
+        , "devices"
+        , "creation_date"
+        )
+
+    def __init__ (self, ** kw) :
+        self.__super.__init__ (** kw)
+        self._field_map.update \
+            (devices = self._Field_No_ ("devices", "net_devices", self.E_Type))
+    # end def __init__
+
+# end class DB_Node
+
+class DB_Person (_DB_E_Type_) :
+    """PAP.Person displayed by, and managed via, Funkfeuer dashboard."""
+
+    type_name             = "PAP.Person"
+
+    ui_allow_new          = False
+    view_action_names     = ("edit", )
+    view_field_names      = \
+        ( "ui_display"
+        , "creation_date"
+        )
+
+    @property
+    @getattr_safe
+    def view_title (self) :
+        return _T ("Personal data of %s") % (self.user.FO.person, )
+    # end def view_title
+
+    def view_name_instance (self, o) :
+        return o.FO
+    # end def view_name_instance
+
+# end class DB_Person
+
+class DB_Phone (_DB_Person_Property_) :
+    """PAP.Person_has_Phone displayed by, and managed via, Funkfeuer dashboard."""
+
+    type_name             = "PAP.Person_has_Phone"
+
+# end class DB_Phone
+
 class DB_User (_DB_Div_) :
     """User division of Funkfeuer dashboard"""
+
+    _entry_types          = \
+        ( DB_Person
+        , DB_Account
+        , DB_Address
+        , DB_Email
+        , DB_IM_Handle
+        , DB_Phone
+        )
 
 # end class DB_User
 
 class DB_View (_DB_Div_) :
     """View division of Funkfeuer dashboard"""
 
-    @Once_Property
-    @getattr_safe
-    def device_admin (self) :
-        return self._get_admin ("FFM.Net_Device")
-    # end def device_admin
-
-    @property
-    @getattr_safe
-    def devices (self) :
-        return self.device_admin.objects
-    # end def devices
-
-    @Once_Property
-    @getattr_safe
-    def interface_admin (self) :
-        return self._get_admin ("FFM.Net_Interface")
-    # end def interface_admin
-
-    @property
-    @getattr_safe
-    def interfaces (self) :
-        return self.interface_admin.objects
-    # end def interfaces
-
-    @Once_Property
-    @getattr_safe
-    def node_admin (self) :
-        return self._get_admin ("FFM.Node")
-    # end def node_admin
-
-    @property
-    @getattr_safe
-    def nodes (self) :
-        return self.node_admin.objects
-    # end def nodes
-
-    def _get_admin (self, tn) :
-        return self.top.ET_Map [tn].admin_noom
-    # end def _get_admin
+    _entry_types          = \
+        ( DB_Node
+        , DB_Device
+        , DB_Interface
+        )
 
 # end class DB_View
+
+@Decorator
+def _entry_map_prop_ (f) :
+    e_name = f.__name__ [3:]
+    def _ (self) :
+        return self.entry_map.get (e_name)
+    return _
+# end def _entry_map_prop_
+
+@Decorator
+def _db_user_entry_map_prop_ (f) :
+    e_name = f.__name__ [3:]
+    def _ (self) :
+        return self.db_user.entry_map.get (e_name)
+    return _
+# end def _db_user_entry_map_prop_
+
+@Decorator
+def _db_view_entry_map_prop_ (f) :
+    e_name = f.__name__ [3:]
+    def _ (self) :
+        return self.db_view.entry_map.get (e_name)
+    return _
+# end def _db_view_entry_map_prop_
+
+def _entry_map_prop (f)         : return property (_entry_map_prop_         (f))
+def _db_user_entry_map_prop (f) : return property (_db_user_entry_map_prop_ (f))
+def _db_view_entry_map_prop (f) : return property (_db_view_entry_map_prop_ (f))
 
 _Ancestor = GTW.RST.TOP.Dir
 
 class Dashboard (_Ancestor) :
     """Funkfeuer dashboard"""
 
-    fill_edit             = False
-    fill_user             = False
-    fill_view             = False
     pid                   = "Dashboard"
 
     _entry_types          = \
@@ -469,20 +988,41 @@ class Dashboard (_Ancestor) :
         self.__super.__init__ (** xkw)
     # end def __init__
 
-    @property
-    def db_edit (self) :
-        return self.entry_map ["edit"]
-    # end def db_edit
+    @_entry_map_prop
+    def db_edit (self) : pass
 
-    @property
-    def db_view (self) :
-        return self.entry_map ["view"]
-    # end def db_view
+    @_entry_map_prop
+    def db_view (self) : pass
 
-    @property
-    def db_user (self) :
-        return self.entry_map ["user"]
-    # end def db_user
+    @_entry_map_prop
+    def db_user (self) : pass
+
+    @_db_user_entry_map_prop
+    def db_account (self) : pass
+
+    @_db_user_entry_map_prop
+    def db_address (self) : pass
+
+    @_db_user_entry_map_prop
+    def db_email (self) : pass
+
+    @_db_user_entry_map_prop
+    def db_person (self) : pass
+
+    @_db_user_entry_map_prop
+    def db_phone (self) : pass
+
+    @_db_view_entry_map_prop
+    def db_antenna (self) : pass
+
+    @_db_view_entry_map_prop
+    def db_device (self) : pass
+
+    @_db_view_entry_map_prop
+    def db_interface (self) : pass
+
+    @_db_view_entry_map_prop
+    def db_node (self) : pass
 
     @property
     @getattr_safe
@@ -493,6 +1033,10 @@ class Dashboard (_Ancestor) :
             self.add_entries (* entries)
         return self._entries
     # end def entries
+
+    def _get_ffd_admin (self, tn) :
+        return self.top.ET_Map [tn].admin_ffd
+    # end def _get_ffd_admin
 
 # end class Dashboard
 

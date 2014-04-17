@@ -30,43 +30,103 @@
 ##    14-Apr-2014 (CT) Factor `action_button`, `nav_menu_links`,
 ##                     `nav_menu_person`, `th_number_of`
 ##    14-Apr-2014 (CT) Restructure to show all instances of each type
+##    18-Apr-2014 (CT) Generalize `e_type_table` (use `db_type.view_actions`...)
+##    18-Apr-2014 (CT) Factor `db_div_main`
 ##    ««revision-date»»···
 ##--
 #}
 
-{%- macro action_button (href, title, icon_name, a_cls = "pure-button", i_add_cls = None) -%}
+{%- macro action_button
+    (href, icon_name, title=None, a_cls = "pure-button", i_add_cls = None, text="")
+-%}
   {%- set i_cls = "fa fa-%s" % (icon_name, ) %}
   {%- if i_add_cls %}
     {%- set i_cls = "%s %s" % (i_cls, i_add_cls) %}
   {% endif -%}
-  <a class="{{ a_cls}}" href="{{ href }}" title="{{ title }}">{# -#}
-    <i class="{{ i_cls }}"></i>{# -#}
-  </a>
+  <a class="{{ a_cls}}" href="{{ href }}"
+     {%- if title %} title="{{ title }}"{% endif -%}
+  ><i class="{{ i_cls }}"></i>{{ text }}</a>
 {%- endmacro -%} {#- action_button -#}
 
-{%- macro entity_actions (entity, name, show_graphs = False) -%}
-  {%- set caller = kwargs.pop ("caller", None) -%}
-  {%- set type = entity.ui_name_T %}
-  {%- set edit_msg   = GTW._T ("Edit %s %s")   % (type, name) %}
-  {%- set delete_msg = GTW._T ("Delete %s %s") % (type, name) %}
-  {%- set filter_msg = GTW._T
-        ("Restrict details below to objects belonging to %s %s") % (type, name)
-  -%}
-  <td class="action">
-    {{ action_button ("#filter", filter_msg, "eye")     -}}
-    {{ action_button ("#edit",   edit_msg,   "pencil")  -}}
-    {{ action_button ("#delete", delete_msg, "trash-o") -}}
-    {%- if show_graphs %}
-      {%- set graph_msg = GTW._T
-            ("Show graphs and statistics about %s %s" % (type, name))
-      -%}
-      {{ action_button ("#graphs", graph_msg, "bar-chart-o") -}}
+{%- macro db_div_main (db_div) -%}
+  {%- for db_type in db_div.entries %}
+    <section id="app-user-{{ db_type.div_name }}" class="pure-u-24-24" data-graph-show="pure-u-14-24">
+      {{ DB.e_type_table (db_type) }}
+    </section>
+  {% endfor -%}
+{%- endmacro -%} {#- db_div_main -#}
+
+{%- macro e_type_table (db_type) -%}
+  {%- set actions = db_type.view_actions %}
+  {%- set fields  = db_type.view_fields %}
+  {%- set tn      = db_type.div_name %}
+  {%- set TN      = db_type.Div_Name %}
+  {%- set create  = db_type.create_action %}
+  <h2>
+    {{- db_type.view_title -}}
+    {%- if create %}
+      {{- action_button
+          ( "#" + create.name, create.icon
+          , (GTW._T (create.msg) % (TN, "")).strip ()
+          )
+      -}}
     {% endif -%}
-    {%- if caller %}
-      {{- caller () -}}
-    {%- endif -%}
-  </td>
-{%- endmacro -%} {#- entity_actions -#}
+  </h2>
+  <table id="{{ tn }}-table" class="{{ tn }}-table pure-table pure-table-bordered">
+    <thead>
+      <tr>
+        {%- for f in fields %}
+          {%- set css_class =
+                 (" class=\"%s\" " % (f.css_class, )) if f.css_class else ""
+          -%}
+          <th{{ css_class }}scope="col" title="{{ f.description }}">
+            {{- f.ui_name -}}
+          </th>
+        {% endfor -%}
+        {%- if actions %}
+          <th class="action">{{- GTW._T ("Action") -}}</th>
+        {% endif -%}
+      </tr>
+    </thead>
+    <tbody>
+      {%- for o in db_type.objects %}
+        {%- set name = db_type.view_name_instance (o) %}
+        <tr id="{{ tn }}-{{ o.pid }}" {# -#}
+            class="{{ db_type.tr_instance_css_class (o) }}"{#- -#}
+        >
+          {%- for f in fields %}
+            {%- set css_class =
+                (" class=\"%s\" " % (f.css_class, )) if f.css_class else ""
+            -%}
+            <td{{ css_class }}>
+              {{- f.as_html (o, f.value (o)) -}}
+            </td>
+          {% endfor -%}
+          {%- if actions %}
+            <td class="action">
+              {%- for a in actions -%}
+                {{- action_button
+                    ("#" + a.name, a.icon, GTW._T (a.msg) % (TN, name))
+                -}}
+              {%- endfor -%}
+            </td>
+          {% endif -%}
+        </tr>
+      {% endfor -%}
+      {%- if create %}
+        <tr>
+          <td colspan="{{ GTW.len (fields) + GTW.bool (actions) }}">
+            {{- action_button
+                ( "#" + create.name, create.icon
+                , text = (GTW._T (create.msg) % (TN, "")).strip ()
+                )
+            -}}
+          </td>
+        </tr>
+      {% endif -%}
+    </tbody>
+  </table>
+{%- endmacro -%} {#- e_type_table -#}
 
 {%- macro nav_menu_links (page) -%}
   {%- set caller = kwargs.pop ("caller", None) -%}
@@ -109,7 +169,7 @@
     {{- caller () -}}
   {%- endif -%}
   {{ action_button
-      ("#Settings", GTW._T ("Personal settings"), "cog", "settings")
+      (page.db_user.abs_href, "cog", GTW._T ("Personal settings"), "settings")
   -}}
   <a class="logout pure-button" href="{{ page.href_logout }}">
     Logout
