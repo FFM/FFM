@@ -1,5 +1,5 @@
 # German translations for FFM.
-# Copyright (C) 2012 Mag. Christian Tanzer, Ralf Schlatterbeck
+# Copyright (C) 2012-2014 Mag. Christian Tanzer, Ralf Schlatterbeck
 # This file is distributed under the same license as the FFM project.
 # Christian Tanzer <tanzer@swing.co.at>, 2012.
 #
@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Project 0.9\n"
 "Report-Msgid-Bugs-To: tanzer@swing.co.at,ralf@runtux.com\n"
-"POT-Creation-Date: 2012-09-11 17:53+0200\n"
+"POT-Creation-Date: 2014-04-17 12:54+0200\n"
 "PO-Revision-Date: 2012-05-23 10:46+0200\n"
 "Last-Translator: Christian Tanzer <tanzer@swing.co.at>\n"
 "Language-Team: de <LL@li.org>\n"
@@ -15,27 +15,31 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.6\n"
-
-#: _FFM.Wireless_Interface:0
-msgid "???"
-msgstr ""
+"Generated-By: Babel 1.3\n"
 
 #: _FFM.Firmware:0
 msgid "A bundle of binaries for firmware."
 msgstr "Ein Bündel von Binärcodes."
 
-#: _FFM.Wireless_Mode:0
-msgid "AP_Mode"
-msgid_plural "AP_Modes"
-msgstr[0] "AP-Mode"
-msgstr[1] "AP-Modi"
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Address of association"
+msgstr ""
 
-#: _FFM.Wireless_Mode:0
-msgid "Ad_Hoc_Mode"
-msgid_plural "Ad_Hoc_Modes"
-msgstr[0] "Ad-Hoc Mode"
-msgstr[1] "Ad-Hoc Modi"
+#: _FFM.Node:0
+msgid "Address of the node (if stationary)."
+msgstr ""
+
+#: _FFM/__test__/model.py:63
+msgid "Administration of node database"
+msgstr ""
+
+#: _FFM/__test__/model.py:69
+msgid "Administration of persons/addresses..."
+msgstr ""
+
+#: _FFM/__test__/model.py:75
+msgid "Administration of user accounts and groups"
+msgstr ""
 
 #: _FFM.Antenna:0 _FFM.Wireless_Interface_uses_Antenna:0
 msgid "Antenna"
@@ -43,7 +47,19 @@ msgid_plural "Antennas"
 msgstr[0] "Antenne"
 msgstr[1] "Antennen"
 
+#: _FFM.Antenna_Type:0
+msgid "Antenna polarization."
+msgstr "Polarisation der Antenne."
+
 #: _FFM.Antenna:0
+msgid ""
+"Antenna polarization. Per default,\n"
+"`antenna_type.polarization` is used, but can be overriden here."
+msgstr ""
+"Polarisation der Antenne. `antenna_type.polarization` wird verwendet, "
+"wenn hier kein Wert eingegeben wird."
+
+#: _FFM.Antenna:0 _FFM.Antenna_Band:0
 msgid "Antenna type"
 msgstr "Antennentyp"
 
@@ -55,11 +71,63 @@ msgstr "Von der drahtlosen Schnittstelle verwendete Antenne."
 msgid "Antenna."
 msgstr "Antenne."
 
+#: _FFM.Antenna_Band:0
+msgid "Antenna_Band"
+msgid_plural "Antenna_Bands"
+msgstr[0] "Antennenband"
+msgstr[1] "Antennenbänder"
+
 #: _FFM.Antenna_Type:0
 msgid "Antenna_Type"
 msgid_plural "Antenna_Types"
 msgstr[0] "Antennentyp"
 msgstr[1] "Antennentypen"
+
+#: _FFM.Person_mentors_Person:0
+msgid "Apprentice"
+msgstr ""
+
+#: _GTW._OMP._PAP.Association:0 _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Association"
+msgid_plural "Associations"
+msgstr[0] "Verein"
+msgstr[1] "Vereine"
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Association linked to Address"
+msgstr "Adresse des Vereins"
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Association linked to IM_Handle"
+msgstr ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Association linked to Nickname"
+msgstr ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Association_has_Address"
+msgid_plural "Association_has_Addresses"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Association_has_IM_Handle"
+msgid_plural "Association_has_IM_Handles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Association_has_Nickname"
+msgid_plural "Association_has_Nicknames"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _FFM.IP_Network:0
+msgid ""
+"At most one of `owner` and `cool_down` can be defined at one\n"
+"time."
+msgstr ""
 
 #: _FFM.Antenna:0
 msgid "Azimuth"
@@ -73,7 +141,7 @@ msgstr "Azimuth der Antenne (in Grad)."
 msgid "BSSID"
 msgstr ""
 
-#: _FFM.Regulatory_Permission:0
+#: _FFM.Antenna_Band:0 _FFM.Regulatory_Permission:0
 msgid "Band"
 msgstr ""
 
@@ -88,6 +156,30 @@ msgstr "Bandbreite"
 #: _FFM.Wireless_Standard:0
 msgid "Bandwidth of a channel"
 msgstr "Bandbreite eines Kanals"
+
+#: _FFM.Belongs_to_Net_Device:0
+msgid "Belongs_to_Net_Device"
+msgid_plural "Belongs_to_Net_Devices"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _FFM.Belongs_to_Net_Device:0
+msgid "Belongs_to_Net_Device_Left"
+msgid_plural "Belongs_to_Net_Device_Lefts"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _FFM.Belongs_to_Node:0
+msgid "Belongs_to_Node"
+msgid_plural "Belongs_to_Nodes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _FFM.Belongs_to_Node:0
+msgid "Belongs_to_Node_Left"
+msgid_plural "Belongs_to_Node_Lefts"
+msgstr[0] ""
+msgstr[1] ""
 
 #: _FFM.Firmware:0
 msgid "Binary for firmware."
@@ -113,15 +205,29 @@ msgstr "Zentralfrequenz dieses Kanals"
 msgid "Channel"
 msgstr "Kanal"
 
-#: _FFM.Wireless_Mode:0
-msgid "Client_Mode"
-msgid_plural "Client_Modes"
-msgstr[0] "Klientenmode"
-msgstr[1] "Klientenmodi"
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Company linked to IM_Handle"
+msgstr ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Company linked to Nickname"
+msgstr ""
 
 #: _FFM.Device_Type_made_by_Company:0
 msgid "Company manufacturing the device-type."
 msgstr "Firma, die den Gerätetyp herstellt."
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Company_has_IM_Handle"
+msgid_plural "Company_has_IM_Handles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Company_has_Nickname"
+msgid_plural "Company_has_Nicknames"
+msgstr[0] ""
+msgstr[1] ""
 
 #: _FFM.Regulatory_Domain:0
 msgid "Countrycode"
@@ -142,12 +248,29 @@ msgid ""
 "`antenna_type.gain` is used, but can be overriden here."
 msgstr ""
 "Beschreibt, wie gut die Antenne das Inputsignal in Radiowellen mit einer "
-"bestimmten Richtung verwandelt (in dBi). Normalerweise wird die Verstärkung "
-"des Antennentyps verwendet, aber das kann hier modifiziert werden."
+"bestimmten Richtung verwandelt (in dBi). Normalerweise wird die "
+"Verstärkung des Antennentyps verwendet, aber das kann hier modifiziert "
+"werden."
+
+#: _FFM.IP_Network:0
+msgid "Description of and remarks about the IP_Network"
+msgstr "Beschreibung des IP Netzwerks"
+
+#: _FFM.Device:0
+msgid "Description of device"
+msgstr "Beschreibung des Geräts"
 
 #: _FFM.Device_Type:0
 msgid "Description of device type"
 msgstr "Beschreibung des Gerätetyps"
+
+#: _MOM.Document:0
+msgid "Description of document."
+msgstr "Beschreibung des Dokuments."
+
+#: _FFM.Net_Interface:0
+msgid "Description of interface"
+msgstr "Beschreibung der Schnittstelle"
 
 #: _FFM.Device:0 _FFM.Net_Interface:0
 msgid "Device"
@@ -175,12 +298,40 @@ msgid_plural "Device_Type_made_by_Companys"
 msgstr[0] "Gerätetyp erzeugt durch Firma"
 msgstr[1] "Gerätetypen erzeugt durch Firmen"
 
+#: _MOM.Document:0
+msgid "Document"
+msgid_plural "Documents"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _FFM.Regulatory_Permission:0
+msgid "Domain"
+msgstr "Domäne"
+
 #: _FFM.Wireless_Interface:0
 msgid "ESSID"
 msgstr ""
 
 #: _FFM.Regulatory_Permission:0
 msgid "Eirp"
+msgstr ""
+
+#: _FFM.Antenna:0
+msgid "Elevation angle"
+msgstr ""
+
+#: _FFM.Antenna:0
+msgid ""
+"Elevation angle of the beam from the horizontal plane\n"
+"(in degrees)."
+msgstr "Neigung der Strahlungsrichtung gegen die Horizontale (in Grad)."
+
+#: _MOM.Document:0
+msgid "Entity the document applies to."
+msgstr ""
+
+#: _FFM/graph.py:165
+msgid "FFM graph"
 msgstr ""
 
 #: _FFM.Firmware:0
@@ -253,13 +404,17 @@ msgstr[1] ""
 msgid "Floating-point attribute."
 msgstr "Gleitkommazahliges Attribut."
 
+#: _FFM.Antenna_Band:0
+msgid "Frequency Band of an antenna type"
+msgstr "Durch die Antenne unterstützter Frequenzbereich."
+
+#: _FFM.Antenna_Band:0
+msgid "Frequency range an antenna type supports."
+msgstr "Durch die Antenne unterstützter Frequenzbereich."
+
 #: _FFM.Regulatory_Permission:0
 msgid "Frequency range for which transmission is allowed."
 msgstr "Erlaubter Frequenzbereich für die Übertragung."
-
-#: _FFM.Antenna_Type:0
-msgid "Frequency range the antenna supports."
-msgstr "Durch die Antenne unterstützter Frequenzbereich."
 
 #: _MOM._Attr.Number_Interval:0
 msgid "Frequency with unit information (e.g. 2.437 GHz)."
@@ -279,69 +434,78 @@ msgstr "GPS Position und optional die Höhe des Knotens"
 msgid "Gain"
 msgstr "Gewinn"
 
+#: _FFM/graph.py:164
+msgid "Graph displaying Funkfeuer object model"
+msgstr ""
+
+#: _GTW._OMP._PAP.IM_Handle:0
+msgid "Handle of a subject for an instant messaging system"
+msgstr ""
+
+#: _FFM.Wireless_Interface:0
+msgid "Hardware"
+msgstr ""
+
+#: _FFM.Wireless_Interface:0
+msgid "Hardware interface used by virtual interface."
+msgstr ""
+
 #: _FFM.Wireless_Interface_uses_Antenna:0
 msgid "Height relative to device the antenna is connected to."
 msgstr "Höhe der Antenne relativ zum Gerät."
 
-#: _GTW._OMP._NET.Attr_Type:0
-msgid "IP Address"
-msgstr "IP Adresse"
+#: _GTW._OMP._PAP.IM_Handle:0
+msgid "IM Protocol of handle"
+msgstr ""
 
-#: _FFM.Net_Interface_in_IP_Network:0
-msgid "IP Address in this IP Network."
-msgstr "IP Adresse in diesem IP Netzwerk"
+#: _GTW._OMP._PAP.IM_Handle:0
+msgid "IM address (excluding protocol)"
+msgstr ""
+
+#: _GTW._OMP._PAP.IM_Handle:0
+msgid "IM_Handle"
+msgid_plural "IM_Handles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "IM_Handle of association"
+msgstr ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "IM_Handle of company"
+msgstr ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "IM_Handle of node"
+msgstr ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "IM_Handle of person"
+msgstr ""
 
 #: _FFM.Net_Interface_in_IP_Network:0 _FFM.Net_Interface_in_IP4_Network:0
+#: _FFM.Net_Interface_in_IP6_Network:0
 msgid "IP Network."
 msgstr "IP Netzwerk."
 
-#: _GTW._OMP._NET.Attr_Type:0
-msgid "IP4_Address"
-msgid_plural "IP4_Addresses"
-msgstr[0] "IP4 Adresse"
-msgstr[1] "IP4 Adressen"
-
-#: _GTW._OMP._NET.Attr_Type:0 _FFM.IP4_Network:0
+#: _FFM.IP4_Network:0
 msgid "IP4_Network"
 msgid_plural "IP4_Networks"
 msgstr[0] "IP4 Netzwerk"
 msgstr[1] "IP4 Netzwerke"
 
-#: _GTW._OMP._NET.Attr_Type:0
-msgid "IP6_Address"
-msgid_plural "IP6_Addresses"
-msgstr[0] "IP6 Adresse"
-msgstr[1] "IP6 Adressen"
-
-#: _GTW._OMP._NET.Attr_Type:0 _FFM.IP6_Network:0
+#: _FFM.IP6_Network:0
 msgid "IP6_Network"
 msgid_plural "IP6_Networks"
 msgstr[0] "IP6 Netzwerk"
 msgstr[1] "IP6 Netzwerke"
-
-#: _GTW._OMP._NET.Attr_Type:0
-msgid "IP_Address"
-msgid_plural "IP_Addresses"
-msgstr[0] "IP Adresse"
-msgstr[1] "IP Adressen"
 
 #: _FFM.IP_Network:0
 msgid "IP_Network"
 msgid_plural "IP_Networks"
 msgstr[0] "IP Netzwerk"
 msgstr[1] "IP Netzwerke"
-
-#: _GTW._OMP._NET.Attr_Type:0
-msgid "IPv4 Address"
-msgstr "IPv4 Adresse"
-
-#: _FFM.Net_Interface_in_IP4_Network:0
-msgid "IPv4 Address in this IPv4 Network."
-msgstr "IPv4 Adresse in diesem IPv4 Netzwerk."
-
-#: _GTW._OMP._NET.Attr_Type:0
-msgid "IPv4 Network"
-msgstr "IPv4 Netzwerk"
 
 #: _FFM.IP4_Network:0
 msgid "IPv4 Network address."
@@ -351,14 +515,6 @@ msgstr "IPv4 Netzwerk Adresse."
 msgid "IPv4 Network of FFM"
 msgstr "IPv4 Netzwerk von FFM"
 
-#: _GTW._OMP._NET.Attr_Type:0
-msgid "IPv6 Address"
-msgstr "IPv6 Adresse"
-
-#: _GTW._OMP._NET.Attr_Type:0
-msgid "IPv6 Network"
-msgstr "IPv6 Netzwerk"
-
 #: _FFM.IP6_Network:0
 msgid "IPv6 Network address."
 msgstr "IPv6 Netzwerk-Adresse."
@@ -367,13 +523,9 @@ msgstr "IPv6 Netzwerk-Adresse."
 msgid "IPv6 Network of FFM"
 msgstr "IPv6 Netzwerk von FFM"
 
-#: _FFM.Antenna:0
-msgid "Inclination"
-msgstr "Neigung"
-
-#: _FFM.Antenna:0
-msgid "Inclination of the beam from the horizontal plane (in degrees)."
-msgstr "Neigung der Strahlungsrichtung gegen die Horizontale (in Grad)."
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Im handle"
+msgstr ""
 
 #: _FFM.Net_Interface:0
 msgid "Indicates if this interface is active."
@@ -381,16 +533,11 @@ msgstr "Gibt an, ob die Schnittstelle aktiv ist."
 
 #: _FFM.Regulatory_Permission:0
 msgid "Indoor only"
-msgstr ""
+msgstr "Nur in geschlossenen Räumen"
 
-#: _FFM.Net_Credentials:0 _FFM.Wireless_Mode:0
-#: _FFM.Wireless_Interface_uses_Wireless_Channel:0
+#: _FFM.Net_Credentials:0 _FFM.Wireless_Interface_uses_Wireless_Channel:0
 msgid "Interface"
 msgstr "Schnittstelle"
-
-#: _FFM.Net_Interface_in_IP_Network:0 _FFM.Net_Interface_in_IP4_Network:0
-msgid "Ip address"
-msgstr "IP Adresse"
 
 #: _FFM.Net_Interface_in_IP_Network:0
 msgid "Ip network"
@@ -400,13 +547,13 @@ msgstr "IP Netzwerk"
 msgid "Ip4 network"
 msgstr "IP4 Netzwerk"
 
+#: _FFM.Net_Interface_in_IP6_Network:0
+msgid "Ip6 network"
+msgstr "IP6 Netzwerk"
+
 #: _FFM.Net_Interface:0
 msgid "Is active"
 msgstr "Ist aktiv"
-
-#: _FFM.Wireless_Interface:0
-msgid "Is hidden"
-msgstr "Ist verborgen"
 
 #: _FFM.Net_Credentials:0
 msgid "Key"
@@ -416,21 +563,65 @@ msgstr "Schlüssel"
 msgid "Key used for WPA authentication."
 msgstr "Für WPA Autentifizierung verwendeter Schlüssel."
 
-#: _FFM.Net_Link:0 _FFM.Wired_Link:0 _FFM.Wireless_Link:0
+#: _FFM.Net_Link:0
 msgid "Left network interface"
 msgstr "Linke Netzwerkschnittstelle"
+
+#: _FFM.Person_acts_for_Legal_Entity:0
+msgid "Legal entity"
+msgstr "Juristische Person"
 
 #: _FFM.Firmware:0
 msgid "Link Firmware_Binary to Firmware_Bundle."
 msgstr "Verknüpfe Firmwarebinärcode mit Firmwarebündel."
 
-#: _FFM.Wired_Link:0
-msgid "Link between two wired network interfaces."
-msgstr "Link zwischen zwei drahtgebundenen Netzwerkschnittstellen"
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Link a association to a address"
+msgstr ""
 
-#: _FFM.Wireless_Link:0
-msgid "Link between two wireless network interfaces."
-msgstr "Link zwischen zwei drahtlosen Netzwerkschnittstellen"
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Link a association to a im_handle"
+msgstr ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Link a association to a nickname"
+msgstr ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Link a company to a im_handle"
+msgstr ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Link a company to a nickname"
+msgstr ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Link a node to a im_handle"
+msgstr ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Link a node to a nickname"
+msgstr ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Link a person to a im_handle"
+msgstr ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Link a person to a nickname"
+msgstr ""
+
+#: _FFM.Net_Link:0
+msgid "Link between two network interfaces."
+msgstr "Link zwischen zwei Netzwerkschnittstellen."
+
+#: _FFM.Person_acts_for_Legal_Entity:0
+msgid "Link person to legal entities they are allowed to act for"
+msgstr ""
+
+#: _MOM.Document:0
+msgid "Location of document."
+msgstr ""
 
 #: _MOM._Attr.Number_Interval:0
 msgid "Lower"
@@ -448,13 +639,21 @@ msgstr "MAC Adresse der Schnittstelle."
 msgid "Mac address"
 msgstr "Mac Adresse"
 
+#: _FFM.Node:0
+msgid "Manager"
+msgstr ""
+
+#: _FFM.Node:0
+msgid "Manager of the node"
+msgstr "Manager des Knotens"
+
 #: _FFM.Device_Type_made_by_Company:0
 msgid "Manufacturer"
 msgstr "Hersteller"
 
-#: _FFM.Node:0
-msgid "Map p"
-msgstr "Karte"
+#: _FFM.Net_Interface_in_IP_Network:0
+msgid "Mask len"
+msgstr "Maskenlänge"
 
 #: _FFM.Regulatory_Permission:0
 msgid "Maximum allowed TX power in dBm, dBW or units of W."
@@ -468,13 +667,21 @@ msgstr "Maximale erlaubte Antennenverstärkung in dB."
 msgid "Maximum allowed bandwidth."
 msgstr "Maximale erlaubte Bandbreite."
 
+#: _FFM.Person_mentors_Person:0
+msgid "Mentor"
+msgstr ""
+
+#: _FFM.Wireless_Interface:0
+msgid "Mode"
+msgstr "Modus"
+
+#: _MOM.Document:0
+msgid "Model a document linked to some other entity."
+msgstr ""
+
 #: _FFM.Net_Device:0
 msgid "Model a network device of FFM."
 msgstr "Netzwerkgerät in FFM."
-
-#: _FFM.Net_Interface:0
-msgid "Model a network interface of a FFM device"
-msgstr "Netzwerkschnittstelle eines Netzwerkgeräts"
 
 #: _FFM.Node:0
 msgid "Model a node of FFM"
@@ -484,29 +691,13 @@ msgstr "Knoten in FFM"
 msgid "Model a routing zone of FFM."
 msgstr "Routing Zone in FFM."
 
-#: _GTW._OMP._NET.Attr_Type:0
-msgid "Model an IPv4 Address (without netmask)."
-msgstr "IPv4 Addresse (ohne Maske)."
-
-#: _GTW._OMP._NET.Attr_Type:0
-msgid "Model an IPv4 Network with netmask."
-msgstr "IPv4 Netzwerk mit Maske."
-
-#: _GTW._OMP._NET.Attr_Type:0
-msgid "Model an IPv6 Address (without netmask)."
-msgstr "IPv6 Addresse (ohne Maske)."
-
-#: _GTW._OMP._NET.Attr_Type:0
-msgid "Model an IPv6 Network with netmask."
-msgstr "IPv6 Netzwerk mit Maske."
-
-#: _GTW._OMP._NET.Attr_Type:0
-msgid "Model an abstract IP Address."
-msgstr "IP Addresse."
-
 #: _FFM.Antenna:0
 msgid "Model an antenna used by a FFM node."
-msgstr "Von einem FFM verwendete Antenne."
+msgstr "Von einem FFM Knoten verwendete Antenne."
+
+#: _GTW._OMP._PAP.Association:0
+msgid "Model an association."
+msgstr ""
 
 #: _MOM._Attr.Number_Interval:0
 msgid "Model an interval of float values (lower, upper)."
@@ -532,18 +723,6 @@ msgstr "Modellnummer"
 msgid "Model number identifying the device type"
 msgstr "Den Gerätetyp eindeutig beschreibende Modellnummer"
 
-#: _FFM.Wireless_Mode:0
-msgid "Model the mode `access point`."
-msgstr "Mode `Access Point`."
-
-#: _FFM.Wireless_Mode:0
-msgid "Model the mode `ad hoc`."
-msgstr "Mode `Ad Hoc`."
-
-#: _FFM.Wireless_Mode:0
-msgid "Model the mode `client`."
-msgstr "Mode `Klient`."
-
 #: _FFM.Antenna_Type:0
 msgid "Model the type of antennas in FFM."
 msgstr "Antennentyp."
@@ -560,9 +739,21 @@ msgstr "Eindeutiger Name des Firmwarebündels."
 msgid "Name identifying the firmware type."
 msgstr "Eindeutiger Name des Firmwaretyps."
 
+#: _FFM.Antenna:0
+msgid "Name of Antenna"
+msgstr "Name der Antenne"
+
 #: _FFM.Device:0
-msgid "Name of device"
-msgstr "Names des Geräts"
+msgid "Name of Device"
+msgstr "Name des Geräts"
+
+#: _FFM.Net_Device:0
+msgid "Name of Net_Device"
+msgstr "Names des Netzwerkgeräts"
+
+#: _GTW._OMP._PAP.Association:0
+msgid "Name of association."
+msgstr ""
 
 #: _FFM.Device_Type:0
 msgid "Name of device type"
@@ -588,6 +779,10 @@ msgstr ""
 msgid "Net address"
 msgstr "Netzadresse"
 
+#: _FFM.Wired_Interface:0 _FFM.Wireless_Interface:0
+msgid "Net device"
+msgstr "Netzwerkgerät"
+
 #: _FFM.Net_Device:0
 msgid "Net device type"
 msgstr "Netzwerkgerätetyp"
@@ -595,10 +790,6 @@ msgstr "Netzwerkgerätetyp"
 #: _FFM.Net_Interface_in_IP_Network:0
 msgid "Net interface"
 msgstr "Netzwerkschnittstelle"
-
-#: _FFM.Net_Interface_in_IP4_Network:0
-msgid "Net interface in IPv4 network"
-msgstr "Netzwerkschnittstelle in IPv4 Netzwerk"
 
 #: _FFM.Net_Device:0
 msgid "Net_Device"
@@ -624,6 +815,12 @@ msgid_plural "Net_Interface_in_IP4_Networks"
 msgstr[0] ""
 msgstr[1] ""
 
+#: _FFM.Net_Interface_in_IP6_Network:0
+msgid "Net_Interface_in_IP6_Network"
+msgid_plural "Net_Interface_in_IP6_Networks"
+msgstr[0] ""
+msgstr[1] ""
+
 #: _FFM.Net_Interface_in_IP_Network:0
 msgid "Net_Interface_in_IP_Network"
 msgid_plural "Net_Interface_in_IP_Networks"
@@ -644,47 +841,134 @@ msgstr "Netzwerk-Adresse."
 msgid "Network device the interface is connected to."
 msgstr "Netzwerkgerät, mit dem die Schnittstelle verbunden ist."
 
-#: _FFM.Net_Interface_in_IP_Network:0
+#: _FFM.Net_Interface_in_IP_Network:0 _FFM.Net_Interface_in_IP6_Network:0
+#: _FFM.Net_Interface_in_IP4_Network:0
 msgid "Network interface."
 msgstr "Netzwerkschnittstelle."
+
+#: _FFM.Net_Interface_in_IP_Network:0
+msgid "Network mask used for this IP Network."
+msgstr ""
 
 #: _FFM.Wireless_Interface:0
 msgid "Network name."
 msgstr "Netzwerkname."
 
-#: _FFM.Node:0 _FFM.Net_Device:0 _FFM.Subject_owns_Node:0
+#: _GTW._OMP._PAP.Nickname:0 _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Nickname"
+msgid_plural "Nicknames"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _GTW._OMP._PAP.Nickname:0
+msgid "Nickname of a subject"
+msgstr ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Nickname of association"
+msgstr ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Nickname of company"
+msgstr ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Nickname of node"
+msgstr "Kürzel des Knotens"
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Nickname of person"
+msgstr ""
+
+#: _FFM.Node:0 _FFM.Net_Device:0 _GTW._OMP._PAP.Subject_has_Property:0
 msgid "Node"
 msgid_plural "Nodes"
 msgstr[0] "Knoten"
 msgstr[1] "Knoten"
 
-#: _FFM.Subject_owns_Node:0
-msgid "Node owned by Subject"
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Node linked to IM_Handle"
 msgstr ""
 
-#: _FFM.Subject_owns_Node:0
-msgid "Node."
-msgstr "Knoten."
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Node linked to Nickname"
+msgstr ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Node_has_IM_Handle"
+msgid_plural "Node_has_IM_Handles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Node_has_Nickname"
+msgid_plural "Node_has_Nicknames"
+msgstr[0] ""
+msgstr[1] ""
 
 #: _FFM.Regulatory_Permission:0
 msgid "Only indoor TX allowed."
 msgstr ""
 
-#: _FFM.Antenna:0
-msgid "Orientation"
-msgstr "Orientierung"
+#: _FFM.Node:0 _FFM.IP_Network:0 _FFM.IP4_Network:0 _FFM.IP6_Network:0
+msgid "Owner"
+msgstr "Eigner"
 
-#: _FFM.Antenna:0
-msgid "Orientation in degrees relative to standard orientation."
-msgstr "Orientierung in Grad relativ zur Standardorientierung."
+#: _FFM.IP_Network:0 _FFM.IP4_Network:0 _FFM.IP6_Network:0
+msgid "Owner of the `String `type_name``."
+msgstr ""
 
-#: _FFM.Wireless_Interface:0
+#: _FFM.Node:0
+msgid "Owner of the node, defaults to manager"
+msgstr "Eigner des Knotens, Default: Manager"
+
+#: _FFM.Person_acts_for_Legal_Entity:0
+msgid "Person allowed to act for a legal entity"
+msgstr ""
+
+#: _FFM.Person_mentors_Person:0
+msgid "Person is the mentor of another person."
+msgstr ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Person linked to IM_Handle"
+msgstr ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Person linked to Nickname"
+msgstr ""
+
+#: _FFM.Person_acts_for_Legal_Entity:0
+msgid "Person_acts_for_Legal_Entity"
+msgid_plural "Person_acts_for_Legal_Entitys"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Person_has_IM_Handle"
+msgid_plural "Person_has_IM_Handles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _GTW._OMP._PAP.Subject_has_Property:0
+msgid "Person_has_Nickname"
+msgid_plural "Person_has_Nicknames"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _FFM.Person_mentors_Person:0
+msgid "Person_mentors_Person"
+msgid_plural "Person_mentors_Persons"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _FFM.Antenna_Type:0 _FFM.Antenna:0
+msgid "Polarization"
+msgstr "Polarisation"
+
+#: _GTW._OMP._PAP.IM_Handle:0
 msgid "Protocol"
 msgstr "Protokoll"
-
-#: _FFM.Wireless_Interface:0
-msgid "Protocol used by the wireless interface."
-msgstr "Von der Netzwerkschnittstelle verwendetes Protokoll."
 
 #: _FFM.Regulatory_Permission:0
 msgid "Regulatory transmit permission"
@@ -714,7 +998,7 @@ msgstr "Revisionsnummer"
 msgid "Revision of hardware of device type"
 msgstr "Revisionsnummer der Gerätetyphardware."
 
-#: _FFM.Net_Link:0 _FFM.Wired_Link:0 _FFM.Wireless_Link:0
+#: _FFM.Net_Link:0
 msgid "Right network interface"
 msgstr "Rechte Netzwerkschnittstelle"
 
@@ -734,21 +1018,31 @@ msgid_plural "Routing_Zone_OLSRs"
 msgstr[0] "Routing Zone OLSR"
 msgstr[1] "Routing Zonen OLSR"
 
+#: _GTW._OMP._PAP.IM_Handle:0
+msgid "Short description of the im_handle"
+msgstr ""
+
+#: _GTW._OMP._PAP.Nickname:0
+msgid "Short description of the nickname"
+msgstr ""
+
+#: _GTW._OMP._PAP.Association:0
+msgid "Short name of association."
+msgstr ""
+
 #: _FFM.Node:0
-msgid "Show in map ???"
+msgid "Show in map"
 msgstr "Zeige in Karte"
 
-#: _FFM.Subject_owns_Node:0
-msgid "Subject."
-msgstr "Subjekt."
+#: _FFM.Node:0
+msgid "Show in map."
+msgstr "Zeige in Karte."
 
-#: _FFM.Subject_owns_Node:0
-msgid "Subject_owns_Node"
-msgid_plural "Subject_owns_Nodes"
-msgstr[0] ""
-msgstr[1] ""
+#: _FFM.Wireless_Channel:0 _FFM.Wireless_Interface:0
+msgid "Standard"
+msgstr "Standard"
 
-#: /Node/tr/.swing/work/project/funkfeuer/code/_FFM/Attr_Type.py:71
+#: _FFM/Attr_Type.py:80
 msgid "TX Power"
 msgstr "Sendeleistung"
 
@@ -756,9 +1050,35 @@ msgstr "Sendeleistung"
 msgid "TX power"
 msgstr "Sendeleistung"
 
+#: _FFM.Person_mentors_Person:0
+msgid "The Person being mentored."
+msgstr ""
+
+#: _FFM.Person_mentors_Person:0
+msgid "The Person mentoring another person."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP_Network:0
+msgid ""
+"The `mask_len` must match the one of `right` or of any\n"
+"network containing `right`."
+msgstr ""
+
+#: _FFM.IP_Network:0
+msgid "The `net_address` must be contained in the `parent`."
+msgstr ""
+
+#: _FFM.Antenna_Band:0
+msgid "The antenna type for this band"
+msgstr ""
+
 #: _FFM.Net_Credentials:0
 msgid "The network interface using these credentials."
 msgstr "Netzwerkschnittstelle, die den Berechtigungsnachweis verwendet."
+
+#: _GTW._OMP._PAP.Nickname:0
+msgid "The nickname."
+msgstr ""
 
 #: _FFM.Regulatory_Permission:0
 msgid "The regulatory domain that gives this permission."
@@ -768,10 +1088,6 @@ msgstr ""
 msgid "The upper bound must be greater than the lower bound."
 msgstr "Die obere Grenze muss grösser als die untere Grenze sein."
 
-#: _FFM.Wireless_Mode:0
-msgid "The wireless device operating in this mode."
-msgstr "In diesem Mode arbeitendes Netzwerkgerät."
-
 #: _FFM.Wireless_Channel:0
 msgid "The wireless standard for this channel"
 msgstr ""
@@ -780,11 +1096,189 @@ msgstr ""
 msgid "The zone that's routed for."
 msgstr "Die Zone, die geroutet wird."
 
+#: _FFM.Antenna_Type:0
+msgid "There must be at least one frequency band for the antenna."
+msgstr ""
+
 #: _FFM.Net_Link:0
 msgid ""
 "There must not be a second link with `left` and `right`\n"
 "swapped."
 msgstr "Es darf keinen zweiten Link mit vertauschter Richtung geben."
+
+#: _FFM.Net_Interface_in_IP4_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`net_interface_in_ip4_network` `left`, the network `right` must\n"
+"have been explicitly allocated to an `owner`."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP4_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`net_interface_in_ip4_network` `left`, the network `right` must\n"
+"not be split into sub-networks."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP6_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`net_interface_in_ip6_network` `left`, the network `right` must\n"
+"have been explicitly allocated to an `owner`."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP6_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`net_interface_in_ip6_network` `left`, the network `right` must\n"
+"not be split into sub-networks."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`net_interface_in_ip_network` `left`, the network `right` must\n"
+"have been explicitly allocated to an `owner`."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`net_interface_in_ip_network` `left`, the network `right` must\n"
+"not be split into sub-networks."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP4_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`virtual_wireless_interface_in_ip4_network` `left`, the network `right` "
+"must\n"
+"have been explicitly allocated to an `owner`."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP4_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`virtual_wireless_interface_in_ip4_network` `left`, the network `right` "
+"must\n"
+"not be split into sub-networks."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP6_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`virtual_wireless_interface_in_ip6_network` `left`, the network `right` "
+"must\n"
+"have been explicitly allocated to an `owner`."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP6_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`virtual_wireless_interface_in_ip6_network` `left`, the network `right` "
+"must\n"
+"not be split into sub-networks."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`virtual_wireless_interface_in_ip_network` `left`, the network `right` "
+"must\n"
+"have been explicitly allocated to an `owner`."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`virtual_wireless_interface_in_ip_network` `left`, the network `right` "
+"must\n"
+"not be split into sub-networks."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP4_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`wired_interface_in_ip4_network` `left`, the network `right` must\n"
+"have been explicitly allocated to an `owner`."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP4_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`wired_interface_in_ip4_network` `left`, the network `right` must\n"
+"not be split into sub-networks."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP6_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`wired_interface_in_ip6_network` `left`, the network `right` must\n"
+"have been explicitly allocated to an `owner`."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP6_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`wired_interface_in_ip6_network` `left`, the network `right` must\n"
+"not be split into sub-networks."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`wired_interface_in_ip_network` `left`, the network `right` must\n"
+"have been explicitly allocated to an `owner`."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`wired_interface_in_ip_network` `left`, the network `right` must\n"
+"not be split into sub-networks."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP4_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`wireless_interface_in_ip4_network` `left`, the network `right` must\n"
+"have been explicitly allocated to an `owner`."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP4_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`wireless_interface_in_ip4_network` `left`, the network `right` must\n"
+"not be split into sub-networks."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP6_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`wireless_interface_in_ip6_network` `left`, the network `right` must\n"
+"have been explicitly allocated to an `owner`."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP6_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`wireless_interface_in_ip6_network` `left`, the network `right` must\n"
+"not be split into sub-networks."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`wireless_interface_in_ip_network` `left`, the network `right` must\n"
+"have been explicitly allocated to an `owner`."
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP_Network:0
+msgid ""
+"To be eligible to be assigned to the\n"
+"`wireless_interface_in_ip_network` `left`, the network `right` must\n"
+"not be split into sub-networks."
+msgstr ""
 
 #: _FFM.Wireless_Interface:0
 msgid "Transmit power with unit (units of dBW or W)."
@@ -794,17 +1288,25 @@ msgstr "Sendeleistung mit Einheit (dBW oder W)."
 msgid "Two-letter country-code"
 msgstr "Landeskürzel (2 Buchstaben)"
 
-#: _FFM.Device:0
+#: _FFM.Device:0 _MOM.Document:0
 msgid "Type"
 msgstr "Typ"
 
 #: _FFM.Antenna:0
-msgid "Type of antenna"
+msgid "Type of Antenna"
 msgstr "Typ der Antenne."
 
 #: _FFM.Device:0
-msgid "Type of device"
+msgid "Type of Device"
 msgstr "Typ des Geräts"
+
+#: _FFM.Net_Device:0
+msgid "Type of Net_Device"
+msgstr "Type des Netzwerkgeräts"
+
+#: _MOM.Document:0
+msgid "Type of document (e.g., picture, user manual)."
+msgstr "Typ des Documents (z.B. Bild, Gebrauchsanleitung)."
 
 #: _FFM.Firmware:0
 msgid "Type of firmware"
@@ -814,7 +1316,7 @@ msgstr "Typ der Firmware."
 msgid "Type of firmware usable by some devices."
 msgstr "Für bestimmte Geräte verwendbarer Firmwaretyp."
 
-#: _FFM.Net_Device:0
+#: _FFM.Wired_Interface:0 _FFM.Wireless_Interface:0
 msgid "Type of net device"
 msgstr "Type des Netzwerkgeräts"
 
@@ -830,6 +1332,10 @@ msgstr "Obere Grenze"
 msgid "Upper bound of interval."
 msgstr "Obere Grenze des Intervalls."
 
+#: _FFM/__test__/model.py:74
+msgid "Users"
+msgstr ""
+
 #: _FFM.Firmware:0
 msgid "Version"
 msgstr "Version"
@@ -842,13 +1348,47 @@ msgstr "Version der Firmware"
 msgid "Version of the firmware bundle."
 msgstr "Version des Firmwarebündels."
 
+#: _FFM.Net_Interface_in_IP6_Network:0 _FFM.Net_Interface_in_IP4_Network:0
+#: _FFM.Net_Interface_in_IP_Network:0
+msgid "Virtual wireless interface"
+msgstr "Virtuelle drahtlose Schnittstelle"
+
+#: _FFM.Wireless_Interface:0
+msgid "Virtual wireless interface of a FFM device"
+msgstr "Virtuelle drahtlose Schnittstelle eines FFM Geräts"
+
+#: _FFM.Wireless_Interface:0
+msgid "Virtual_Wireless_Interface"
+msgid_plural "Virtual_Wireless_Interfaces"
+msgstr[0] "Virtuelle drahtlose Schnittstelle"
+msgstr[1] "Virtuelle drahtlose Schnittstellen"
+
+#: _FFM.Net_Interface_in_IP4_Network:0
+msgid "Virtual_Wireless_Interface_in_IP4_Network"
+msgid_plural "Virtual_Wireless_Interface_in_IP4_Networks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _FFM.Net_Interface_in_IP6_Network:0
+msgid "Virtual_Wireless_Interface_in_IP6_Network"
+msgid_plural "Virtual_Wireless_Interface_in_IP6_Networks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _FFM.Net_Interface_in_IP_Network:0
+msgid "Virtual_Wireless_Interface_in_IP_Network"
+msgid_plural "Virtual_Wireless_Interface_in_IP_Networks"
+msgstr[0] ""
+msgstr[1] ""
+
 #: _FFM.Net_Credentials:0
 msgid "WPA_Credentials"
 msgid_plural "WPA_Credentialses"
 msgstr[0] "WPA Berechtigungsnachweis"
 msgstr[1] "WPA Berechtigungsnachweise"
 
-#: _FFM.Wired_Link:0
+#: _FFM.Net_Interface_in_IP6_Network:0 _FFM.Net_Interface_in_IP4_Network:0
+#: _FFM.Net_Interface_in_IP_Network:0
 msgid "Wired interface"
 msgstr "Drahtgebundene Schnittstelle"
 
@@ -859,12 +1399,24 @@ msgstr "Drahtgebundene Schnittstelle eines FFM Geräts"
 #: _FFM.Wired_Interface:0
 msgid "Wired_Interface"
 msgid_plural "Wired_Interfaces"
-msgstr[0] "Drahtlose Schnittstelle"
-msgstr[1] "Drahtlose Schnittstellen"
+msgstr[0] "Drahtgebundene Schnittstelle"
+msgstr[1] "Drahtgebundene Schnittstellen"
 
-#: _FFM.Wired_Link:0
-msgid "Wired_Link"
-msgid_plural "Wired_Links"
+#: _FFM.Net_Interface_in_IP4_Network:0
+msgid "Wired_Interface_in_IP4_Network"
+msgid_plural "Wired_Interface_in_IP4_Networks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _FFM.Net_Interface_in_IP6_Network:0
+msgid "Wired_Interface_in_IP6_Network"
+msgid_plural "Wired_Interface_in_IP6_Networks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _FFM.Net_Interface_in_IP_Network:0
+msgid "Wired_Interface_in_IP_Network"
+msgid_plural "Wired_Interface_in_IP_Networks"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -884,7 +1436,8 @@ msgstr "Von der drahtlosen Schnittstelle verwendeter Kanal"
 msgid "Wireless channel."
 msgstr "Drahtloser Kanal."
 
-#: _FFM.Wireless_Interface_uses_Antenna:0 _FFM.Wireless_Link:0
+#: _FFM.Wireless_Interface_uses_Antenna:0 _FFM.Net_Interface_in_IP6_Network:0
+#: _FFM.Net_Interface_in_IP4_Network:0 _FFM.Net_Interface_in_IP_Network:0
 msgid "Wireless interface"
 msgstr "Drahtlose Schnittstelle"
 
@@ -897,9 +1450,25 @@ msgstr "Drahtlose Schnittstelle eines FFM Geräts"
 msgid "Wireless interface."
 msgstr "Drahtlose Schnittstelle"
 
+#: _FFM.Wireless_Interface:0
+msgid "Wireless mode to use for Virtual_Wireless_Interface"
+msgstr ""
+
+#: _FFM.Wireless_Interface:0
+msgid "Wireless mode to use for Wireless_Interface"
+msgstr "Von der drahtlosen Schnittstelle verwendeter Modus"
+
+#: _FFM.Wireless_Interface:0
+msgid "Wireless mode to use for _Wireless_Interface_"
+msgstr ""
+
 #: _FFM.Wireless_Standard:0
 msgid "Wireless standard"
 msgstr "Drahtloser Standard"
+
+#: _FFM.Wireless_Interface:0
+msgid "Wireless standard used by the wireless interface."
+msgstr "Von der drahtlosen Schnittstelle verwendeter Standard."
 
 #: _FFM.Wireless_Channel:0
 msgid "Wireless_Channel"
@@ -913,6 +1482,24 @@ msgid_plural "Wireless_Interfaces"
 msgstr[0] "Drahtlose Schnittstelle"
 msgstr[1] "Drahtlose Schnittstellen"
 
+#: _FFM.Net_Interface_in_IP4_Network:0
+msgid "Wireless_Interface_in_IP4_Network"
+msgid_plural "Wireless_Interface_in_IP4_Networks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _FFM.Net_Interface_in_IP6_Network:0
+msgid "Wireless_Interface_in_IP6_Network"
+msgid_plural "Wireless_Interface_in_IP6_Networks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: _FFM.Net_Interface_in_IP_Network:0
+msgid "Wireless_Interface_in_IP_Network"
+msgid_plural "Wireless_Interface_in_IP_Networks"
+msgstr[0] ""
+msgstr[1] ""
+
 #: _FFM.Wireless_Interface_uses_Antenna:0
 msgid "Wireless_Interface_uses_Antenna"
 msgid_plural "Wireless_Interface_uses_Antennas"
@@ -924,12 +1511,6 @@ msgid "Wireless_Interface_uses_Wireless_Channel"
 msgid_plural "Wireless_Interface_uses_Wireless_Channels"
 msgstr[0] "Drahtlose Schnittstelle verwendet Kanal"
 msgstr[1] "Drahtlose Schnittstellen verwenden Kanäle"
-
-#: _FFM.Wireless_Link:0
-msgid "Wireless_Link"
-msgid_plural "Wireless_Links"
-msgstr[0] "Drahtlose Verbindung"
-msgstr[1] "Drahtlose Verbindungen"
 
 #: _FFM.Wireless_Standard:0
 msgid "Wireless_Standard"
@@ -947,13 +1528,17 @@ msgstr[1] "Zonen"
 msgid "`Node` to which the `net_device` is connected."
 msgstr "Mit dem Netzwerkgerät verbundener Knoten."
 
-#: _FFM.Wireless_Link:0
-msgid "`left.mode` and `right.mode` must be linkable to each other."
-msgstr "Der `linke` und der `rechte` Modus müssen verknüpfbar sein."
-
 #: _FFM.Net_Link:0
 msgid "`left` and `right` must be different objects!"
 msgstr "`links` und `rechts` müssen unterschiedliche Objekte sein!"
+
+#: _FFM.Wireless_Interface:0
+msgid "`left` must be equal to `hardware.left`"
+msgstr ""
+
+#: _FFM.Antenna_Type:0
+msgid "band_exists"
+msgstr ""
 
 #: _MOM._Attr.Number_Interval:0
 msgid "is_valid"
@@ -961,6 +1546,15 @@ msgstr "ist gültig"
 
 #: _FFM.Net_Link:0
 msgid "left_not_right"
+msgstr ""
+
+#: _FFM.IP_Network:0
+msgid "net_address_in_parent"
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP_Network:0 _FFM.Net_Interface_in_IP4_Network:0
+#: _FFM.Net_Interface_in_IP6_Network:0
+msgid "network_not_split"
 msgstr ""
 
 #: _FFM.Net_Link:0
@@ -971,39 +1565,160 @@ msgstr ""
 msgid "number of this channel"
 msgstr "Kanalnummer"
 
-#: _FFM.Wireless_Link:0
-msgid "valid_modes"
+#: _FFM.IP_Network:0
+msgid "owner_or_cool_down"
 msgstr ""
 
-#~ msgid "Base class for Firmware_Binary and Firmware_Bundle."
+#: _FFM.Wireless_Interface:0
+msgid "valid_left"
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP_Network:0
+msgid "valid_mask_len"
+msgstr ""
+
+#: _FFM.Net_Interface_in_IP_Network:0 _FFM.Net_Interface_in_IP4_Network:0
+#: _FFM.Net_Interface_in_IP6_Network:0
+msgid "valid_network"
+msgstr "Gültiges  Netzwerk"
+
+#~ msgid "???"
 #~ msgstr ""
 
-#~ msgid "IP Network of FFM"
-#~ msgstr "IP Netzwerk von FFM"
-
-#~ msgid "Model an interval of freqency values (lower, upper)."
-#~ msgstr ""
-
-#~ msgid "Net device"
-#~ msgstr "Netzwerkgerät"
-
-#~ msgid "Network devices used by a node."
-#~ msgstr "Netzwerkgeräte die von dem Knoten verwendet werden"
-
-#~ msgid "Network devices used by node"
-#~ msgstr "Netzwerkgeräte die von dem Knoten verwendet werden"
-
-#~ msgid "Node using network devices"
-#~ msgstr "Knoten verwendet Netzwerkgerät"
-
-#~ msgid "Node_has_Net_Device"
-#~ msgid_plural "Node_has_Net_Devices"
-#~ msgstr[0] ""
+#~ msgid "AP_Mode"
+#~ msgid_plural "AP_Modes"
+#~ msgstr[0] "AP-Mode"
 #~ msgstr[1] ""
 
-#~ msgid "SSID"
+#~ msgid "Ad_Hoc_Mode"
+#~ msgstr "AP-Modi"
+
+#~ msgid "Ad_Hoc_Modes"
+#~ msgstr "Ad-Hoc Mode"
+
+#~ msgid "Client_Mode"
+#~ msgstr "Ad-Hoc Modi"
+
+#~ msgid "Client_Modes"
+#~ msgstr "Klientenmode"
+
+#~ msgid "IP Address"
+#~ msgstr "Klientenmodi"
+
+#~ msgid "IP Address in this IP Network."
+#~ msgstr "IP Adresse"
+
+#~ msgid "IP4_Address"
+#~ msgstr "IP Adresse in diesem IP Netzwerk"
+
+#~ msgid "IP4_Addresses"
+#~ msgstr "IP4 Adresse"
+
+#~ msgid "IP6_Address"
+#~ msgstr "IP4 Adressen"
+
+#~ msgid "IP6_Addresses"
+#~ msgstr "IP6 Adresse"
+
+#~ msgid "IP_Address"
+#~ msgstr "IP6 Adressen"
+
+#~ msgid "IP_Addresses"
+#~ msgstr "IP Adresse"
+
+#~ msgid "IPv4 Address"
+#~ msgstr "IP Adressen"
+
+#~ msgid "IPv4 Address in this IPv4 Network."
+#~ msgstr "IPv4 Adresse"
+
+#~ msgid "IPv4 Network"
+#~ msgstr "IPv4 Adresse in diesem IPv4 Netzwerk."
+
+#~ msgid "IPv6 Address"
+#~ msgstr "IPv4 Netzwerk"
+
+#~ msgid "IPv6 Network"
+#~ msgstr "IPv6 Adresse"
+
+#~ msgid "Ip address"
+#~ msgstr "IPv6 Netzwerk"
+
+#~ msgid "Is hidden"
+#~ msgstr "IP Adresse"
+
+#~ msgid "Link between two wireless network interfaces."
+#~ msgstr "Ist verborgen"
+
+#~ msgid "Map p"
+#~ msgstr "Link zwischen zwei drahtlosen Netzwerkschnittstellen"
+
+#~ msgid "Model a network interface of a FFM device"
+#~ msgstr "Karte"
+
+#~ msgid "Model an IPv4 Address (without netmask)."
+#~ msgstr "Netzwerkschnittstelle eines Netzwerkgeräts"
+
+#~ msgid "Model an IPv4 Network with netmask."
+#~ msgstr "IPv4 Addresse (ohne Maske)."
+
+#~ msgid "Model an IPv6 Address (without netmask)."
+#~ msgstr "IPv4 Netzwerk mit Maske."
+
+#~ msgid "Model an IPv6 Network with netmask."
+#~ msgstr "IPv6 Addresse (ohne Maske)."
+
+#~ msgid "Model an abstract IP Address."
+#~ msgstr "IPv6 Netzwerk mit Maske."
+
+#~ msgid "Model the mode `access point`."
+#~ msgstr "IP Addresse."
+
+#~ msgid "Model the mode `ad hoc`."
+#~ msgstr "Mode `Access Point`."
+
+#~ msgid "Model the mode `client`."
+#~ msgstr "Mode `Ad Hoc`."
+
+#~ msgid "Net interface in IPv4 network"
+#~ msgstr "Mode `Klient`."
+
+#~ msgid "Node owned by Subject"
+#~ msgstr "Netzwerkschnittstelle in IPv4 Netzwerk"
+
+#~ msgid "Node."
 #~ msgstr ""
 
-#~ msgid "Transmit power in dBm."
-#~ msgstr "Sendeleistung in dBm."
+#~ msgid "Orientation in degrees relative to standard orientation."
+#~ msgstr "Knoten."
+
+#~ msgid "Subject."
+#~ msgstr "Orientierung in Grad relativ zur Standardorientierung."
+
+#~ msgid "Subject_owns_Node"
+#~ msgstr "Subjekt."
+
+#~ msgid "Subject_owns_Nodes"
+#~ msgstr ""
+
+#~ msgid "The wireless device operating in this mode."
+#~ msgstr ""
+
+#~ msgid "Wired_Link"
+#~ msgstr "In diesem Mode arbeitendes Netzwerkgerät."
+
+#~ msgid "Wired_Links"
+#~ msgstr ""
+
+#~ msgid "Wireless_Link"
+#~ msgstr ""
+
+#~ msgid "Wireless_Links"
+#~ msgstr "Drahtlose Verbindung"
+
+#~ msgid "`left.mode` and `right.mode` must be linkable to each other."
+#~ msgstr "Drahtlose Verbindungen"
+
+#~ msgid "valid_modes"
+#~ msgstr "Der `linke` und der `rechte` Modus müssen verknüpfbar sein."
 

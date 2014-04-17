@@ -1,5 +1,5 @@
 # German translations for FFM.
-# Copyright (C) 2012 Mag. Christian Tanzer, Ralf Schlatterbeck
+# Copyright (C) 2012-2014 Mag. Christian Tanzer, Ralf Schlatterbeck
 # This file is distributed under the same license as the FFM project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
 #
@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FFM 1.0\n"
 "Report-Msgid-Bugs-To: tanzer@swing.co.at,ralf@runtux.com\n"
-"POT-Creation-Date: 2012-09-11 17:53+0200\n"
+"POT-Creation-Date: 2014-04-17 12:54+0200\n"
 "PO-Revision-Date: 2012-05-23 10:46+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: de <LL@li.org>\n"
@@ -15,58 +15,172 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.6\n"
+"Generated-By: Babel 1.3\n"
 
-#: /Node/tr/.swing/work/project/funkfeuer/code/model.py:160
-#: /Node/tr/.swing/work/project/funkfeuer/code/model.py:161
+#: html/dashboard/app.m.jnj:97
+msgid "About"
+msgstr "Über"
+
+#: html/dashboard/view.m.jnj:50 html/dashboard/view.m.jnj:146
+#: html/dashboard/view.m.jnj:197
+msgid "Action"
+msgstr "Aktion"
+
+#: model.py:294 model.py:295
 msgid "Administration of FFM node database"
 msgstr "Verwaltung der Funkfuer Knotendatenbank"
 
-#: /Node/tr/.swing/work/project/funkfeuer/code/model.py:166
-msgid "Administration of node database"
-msgstr "Verwaltung der Knotendatenbank"
-
-#: /Node/tr/.swing/work/project/funkfeuer/code/model.py:172
-msgid "Administration of persons/addresses..."
-msgstr "Verwaltung von Personen/Adressen..."
-
-#: /Node/tr/.swing/work/project/funkfeuer/code/model.py:178
-msgid "Administration of user accounts and groups"
-msgstr "Verwaltung von Benutzerkonten und Gruppen"
-
-#: /Node/tr/.swing/work/project/funkfeuer/code/model.py:202
+#: model.py:349
 msgid "Console"
 msgstr "Konsole"
 
-#: /Node/tr/.swing/work/project/funkfeuer/code/model.py:154
+#: html/dashboard/view.m.jnj:49 html/dashboard/view.m.jnj:145
+#: html/dashboard/view.m.jnj:196
+msgid "Created"
+msgstr "Erzeugt"
+
+#: html/dashboard/view.m.jnj:105
+msgid "DNS label of the interface"
+msgstr ""
+
+#: html/dashboard/app.m.jnj:51
+#, python-format
+msgid "Delete %s %s"
+msgstr "Lösche %s %s"
+
+#: html/dashboard/view.m.jnj:119
+msgid "Description of the interface"
+msgstr "Bescreibung der Schnittstelle"
+
+#: html/dashboard/app.m.jnj:78
+msgid "Development"
+msgstr "Entwicklung"
+
+#: html/dashboard/view.m.jnj:41
+#, python-format
+msgid "Devices managed/owned by %s"
+msgstr "Geräte unter der Kontrolle von %s"
+
+#: html/dashboard/app.m.jnj:83
+msgid "Documentation"
+msgstr "Dokumentation"
+
+#: model.py:288
 msgid "Documentation for FFM object model"
 msgstr "Dokumentation für das Funkfeuer Objektmodell"
 
-#: /Node/tr/.swing/work/project/funkfeuer/code/html/base.jnj:38
+#: html/dashboard/app.m.jnj:50
+#, python-format
+msgid "Edit %s %s"
+msgstr "Ändere %s %s"
+
+#: html/base.jnj:38
 msgid "Funkfeuer Knotendatenbank"
 msgstr ""
 
-#: /Node/tr/.swing/work/project/funkfeuer/code/model.py:203
+#: html/dashboard/view.m.jnj:78
+#, python-format
+msgid "Generate firmware for %s %s"
+msgstr "Erzeuge Firmware für %s %s"
+
+#: html/dashboard/view.m.jnj:143
+msgid "IP addresses"
+msgstr "IP Adressen"
+
+#: model.py:350
 msgid "Interactive Python interpreter"
 msgstr "Interaktiver Python Interpreter"
 
-#: /Node/tr/.swing/work/project/funkfeuer/code/html/base.jnj:61
+#: html/dashboard/view.m.jnj:94
+#, python-format
+msgid "Interface %s"
+msgstr "Schnittstelle %s"
+
+#: html/dashboard/view.m.jnj:136
+#, python-format
+msgid "Interfaces managed/owned by %s"
+msgstr "Schnittstellen unter der Kontrolle von %s"
+
+#: html/base.jnj:61
 msgid "Last change"
 msgstr "Letzte Änderung"
 
-#: /Node/tr/.swing/work/project/funkfeuer/code/model.py:153
+#: html/dashboard/view.m.jnj:97
+msgid "Mac address of the interface"
+msgstr "Macadresse der Schnittstelle"
+
+#: model.py:287
 msgid "Model doc"
 msgstr "Modelldokumentation"
 
-#: /Node/tr/.swing/work/project/funkfeuer/code/html/navigation.jnj:47
+#: html/dashboard/view.m.jnj:190
+#, python-format
+msgid "Nodes managed/owned by %s"
+msgstr "Knoten unter der Kontrolle von %s"
+
+#: html/dashboard/app.m.jnj:121
+#, python-format
+msgid "Number of %s belonging to %s"
+msgstr "Anzahl der %s, die zu %s gehören."
+
+#: html/navigation.jnj:48
 msgid "Open wireless networks"
 msgstr "Offene drahtlose Netzwerke"
 
-#: /Node/tr/.swing/work/project/funkfeuer/code/html/base.jnj:56
+#: html/dashboard/app.m.jnj:112
+msgid "Personal settings"
+msgstr "Persönliche Daten"
+
+#: html/dashboard/app.m.jnj:90
+msgid "RESTful API"
+msgstr ""
+
+#: html/dashboard/app.m.jnj:53
+#, python-format
+msgid "Restrict details below to objects belonging to %s %s"
+msgstr "Schränke Darstellung auf Objekte ein, die zu %s %s gehören"
+
+#: html/dashboard/view.m.jnj:128
+msgid "Save"
+msgstr "Sichern"
+
+#: html/base.jnj:56
 msgid "Top of page"
 msgstr "Seitenanfang"
 
-#: /Node/tr/.swing/work/project/funkfeuer/code/model.py:177
-msgid "Users"
-msgstr "Benutzer"
+#: RST_addons.py:104
+#, python-format
+msgid ""
+"You are not allowed to change %s unless afterwards you [%s] are still "
+"either manager or owner"
+msgstr ""
 
+#: RST_addons.py:107
+msgid "and"
+msgstr "und"
+
+#: RST_addons.py:202
+msgid "owned/managed by"
+msgstr "verwaltet von"
+
+#: RST_addons.py:109
+msgid "to"
+msgstr "zu"
+
+#~ msgid "Administration of node database"
+#~ msgstr "Verwaltung der Knotendatenbank"
+
+#~ msgid "Administration of persons/addresses..."
+#~ msgstr "Verwaltung von Personen/Adressen..."
+
+#~ msgid "Administration of user accounts and groups"
+#~ msgstr "Verwaltung von Benutzerkonten und Gruppen"
+
+#~ msgid "Users"
+#~ msgstr "Benutzer"
+
+#~ msgid "Wired Interface"
+#~ msgstr ""
+
+#~ msgid "Wireless Interface"
+#~ msgstr "Offene drahtlose Netzwerke"

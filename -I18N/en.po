@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FFM 1.0\n"
 "Report-Msgid-Bugs-To: tanzer@swing.co.at,ralf@runtux.com\n"
-"POT-Creation-Date: 2012-09-11 17:53+0200\n"
+"POT-Creation-Date: 2014-04-17 12:54+0200\n"
 "PO-Revision-Date: 2012-05-23 10:46+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: en <LL@li.org>\n"
@@ -15,58 +15,173 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.6\n"
+"Generated-By: Babel 1.3\n"
 
-#: /Node/tr/.swing/work/project/funkfeuer/code/model.py:160
-#: /Node/tr/.swing/work/project/funkfeuer/code/model.py:161
+#: html/dashboard/app.m.jnj:97
+msgid "About"
+msgstr ""
+
+#: html/dashboard/view.m.jnj:50 html/dashboard/view.m.jnj:146
+#: html/dashboard/view.m.jnj:197
+msgid "Action"
+msgstr ""
+
+#: model.py:294 model.py:295
 msgid "Administration of FFM node database"
 msgstr ""
 
-#: /Node/tr/.swing/work/project/funkfeuer/code/model.py:166
-msgid "Administration of node database"
-msgstr ""
-
-#: /Node/tr/.swing/work/project/funkfeuer/code/model.py:172
-msgid "Administration of persons/addresses..."
-msgstr ""
-
-#: /Node/tr/.swing/work/project/funkfeuer/code/model.py:178
-msgid "Administration of user accounts and groups"
-msgstr ""
-
-#: /Node/tr/.swing/work/project/funkfeuer/code/model.py:202
+#: model.py:349
 msgid "Console"
 msgstr ""
 
-#: /Node/tr/.swing/work/project/funkfeuer/code/model.py:154
+#: html/dashboard/view.m.jnj:49 html/dashboard/view.m.jnj:145
+#: html/dashboard/view.m.jnj:196
+msgid "Created"
+msgstr ""
+
+#: html/dashboard/view.m.jnj:105
+msgid "DNS label of the interface"
+msgstr ""
+
+#: html/dashboard/app.m.jnj:51
+#, python-format
+msgid "Delete %s %s"
+msgstr ""
+
+#: html/dashboard/view.m.jnj:119
+msgid "Description of the interface"
+msgstr ""
+
+#: html/dashboard/app.m.jnj:78
+msgid "Development"
+msgstr ""
+
+#: html/dashboard/view.m.jnj:41
+#, python-format
+msgid "Devices managed/owned by %s"
+msgstr ""
+
+#: html/dashboard/app.m.jnj:83
+msgid "Documentation"
+msgstr ""
+
+#: model.py:288
 msgid "Documentation for FFM object model"
 msgstr ""
 
-#: /Node/tr/.swing/work/project/funkfeuer/code/html/base.jnj:38
+#: html/dashboard/app.m.jnj:50
+#, python-format
+msgid "Edit %s %s"
+msgstr ""
+
+#: html/base.jnj:38
 msgid "Funkfeuer Knotendatenbank"
 msgstr ""
 
-#: /Node/tr/.swing/work/project/funkfeuer/code/model.py:203
+#: html/dashboard/view.m.jnj:78
+#, python-format
+msgid "Generate firmware for %s %s"
+msgstr ""
+
+#: html/dashboard/view.m.jnj:143
+msgid "IP addresses"
+msgstr ""
+
+#: model.py:350
 msgid "Interactive Python interpreter"
 msgstr ""
 
-#: /Node/tr/.swing/work/project/funkfeuer/code/html/base.jnj:61
+#: html/dashboard/view.m.jnj:94
+#, python-format
+msgid "Interface %s"
+msgstr ""
+
+#: html/dashboard/view.m.jnj:136
+#, python-format
+msgid "Interfaces managed/owned by %s"
+msgstr ""
+
+#: html/base.jnj:61
 msgid "Last change"
 msgstr ""
 
-#: /Node/tr/.swing/work/project/funkfeuer/code/model.py:153
+#: html/dashboard/view.m.jnj:97
+msgid "Mac address of the interface"
+msgstr ""
+
+#: model.py:287
 msgid "Model doc"
 msgstr ""
 
-#: /Node/tr/.swing/work/project/funkfeuer/code/html/navigation.jnj:47
+#: html/dashboard/view.m.jnj:190
+#, python-format
+msgid "Nodes managed/owned by %s"
+msgstr ""
+
+#: html/dashboard/app.m.jnj:121
+#, python-format
+msgid "Number of %s belonging to %s"
+msgstr ""
+
+#: html/navigation.jnj:48
 msgid "Open wireless networks"
 msgstr ""
 
-#: /Node/tr/.swing/work/project/funkfeuer/code/html/base.jnj:56
+#: html/dashboard/app.m.jnj:112
+msgid "Personal settings"
+msgstr ""
+
+#: html/dashboard/app.m.jnj:90
+msgid "RESTful API"
+msgstr ""
+
+#: html/dashboard/app.m.jnj:53
+#, python-format
+msgid "Restrict details below to objects belonging to %s %s"
+msgstr ""
+
+#: html/dashboard/view.m.jnj:128
+msgid "Save"
+msgstr ""
+
+#: html/base.jnj:56
 msgid "Top of page"
 msgstr ""
 
-#: /Node/tr/.swing/work/project/funkfeuer/code/model.py:177
-msgid "Users"
+#: RST_addons.py:104
+#, python-format
+msgid ""
+"You are not allowed to change %s unless afterwards you [%s] are still "
+"either manager or owner"
 msgstr ""
+
+#: RST_addons.py:107
+msgid "and"
+msgstr ""
+
+#: RST_addons.py:202
+msgid "owned/managed by"
+msgstr ""
+
+#: RST_addons.py:109
+msgid "to"
+msgstr ""
+
+#~ msgid "Administration of node database"
+#~ msgstr ""
+
+#~ msgid "Administration of persons/addresses..."
+#~ msgstr ""
+
+#~ msgid "Administration of user accounts and groups"
+#~ msgstr ""
+
+#~ msgid "Users"
+#~ msgstr ""
+
+#~ msgid "Wired Interface"
+#~ msgstr ""
+
+#~ msgid "Wireless Interface"
+#~ msgstr ""
 
