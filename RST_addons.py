@@ -369,7 +369,7 @@ class _Meta_DB_Div_ (_Ancestor.__class__) :
 class _DB_Div_ (TFL.Meta.BaM (_Ancestor, metaclass = _Meta_DB_Div_)) :
     """Division of Funkfeuer dashboard"""
 
-    dir_template_name     = "html/dashboard.jnj"
+    dir_template_name     = "html/dashboard/app.jnj"
 
     def __init__ (self, ** kw) :
         dkw   = dict \

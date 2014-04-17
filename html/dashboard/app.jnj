@@ -1,4 +1,4 @@
-{#- jinja template: dashboard.jnj -#}
+{#- jinja template: html/dashboard/app.jnj -#}
 {#
 ## Copyright (C) 2014 Mag. Christian Tanzer All rights reserved
 ## Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
@@ -19,7 +19,7 @@
 ##
 ##++
 ## Name
-##    dashboard
+##    html/dashboard/app.jnj
 ##
 ## Purpose
 ##    Template for dashboard for Funkfeuer node database
@@ -34,8 +34,9 @@
 #}
 
 {%- import (html_version or "html/5.jnj") as X -%}
-{%- import "html/media_fragments.jnj" as MF with context %}
-{%- import "html/dashboard.m.jnj" as DM with context %}
+{%- import "html/media_fragments.jnj"     as MF      with context %}
+{%- import "html/dashboard/app.m.jnj"     as DB      with context %}
+{%- import "html/dashboard/view.m.jnj"    as DB_View with context %}
 
 {%- call X.html (lang = page.language|default ("en")) -%}
   {%- call X.head () -%}
@@ -80,12 +81,12 @@
               </a>
               <ul>
                 {%- block nav_menu_links -%}
-                  {{ DM.nav_menu_links (page) }}
+                  {{ DB.nav_menu_links (page) }}
                 {%- endblock nav_menu_links -%}
               </ul>
               <span class="nav-menu-person">
                 {%- block nav_menu_person -%}
-                  {{ DM.nav_menu_person (page) }}
+                  {{ DB.nav_menu_person (page) }}
                 {%- endblock nav_menu_person -%}
               </span>
             {%- endblock -%}
@@ -97,7 +98,7 @@
         <div id="app" class="app">
           <div id="app-view" class="pure-g-r">
             <section id="node-overview" class="pure-u-24-24" data-graph-show="pure-u-14-24">
-              {{ DM.node_overview (page) }}
+              {{ DB_View.node_overview (page) }}
             </section>
             <section id="statistics" class="hidden pure-u-10-24">
               <h2>Graphs / Statistiken</h2>
@@ -144,4 +145,4 @@
   </body>
 {%- endcall -%} {#- X.html -#}
 
-{#- __END__ jinja template: dashboard.jnj -#}
+{#- __END__ jinja template: html/dashboard/app.jnj -#}

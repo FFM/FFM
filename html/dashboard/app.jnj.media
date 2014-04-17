@@ -18,10 +18,10 @@
 #
 #++
 # Name
-#    html/dashboard.jnj
+#    html/dashboard/app.jnj.media
 #
 # Purpose
-#    Media fragment for template html/dashboard.jnj
+#    Media fragment for template html/dashboard/app.jnj
 #
 # Revision Dates
 #     9-Apr-2014 (CT) Creation
@@ -311,6 +311,6 @@ Include     ("html/print.media")
 
 Script      (GTW.Script._.Modernizr)
 Script      (GTW.Script._.GTW_jq_util)
-Script_File ("html/dashboard.js")
+Script_File ("html/dashboard/app.js")
 
-### __END__ html/dashboard.jnj
+### __END__ html/dashboard/app.jnj.media

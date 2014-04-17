@@ -8,7 +8,7 @@
 //
 //++
 // Name
-//    html/dashboard.js
+//    html/dashboard/app.js
 //
 // Purpose
 //    Javascript code for Funkfeuer dashboard
@@ -141,4 +141,4 @@
   } (jQuery)
 );
 
-// __END__ html/dashboard.js
+// __END__ html/dashboard/app.js
