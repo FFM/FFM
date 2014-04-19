@@ -52,6 +52,9 @@
 #    17-Apr-2014 (CT) Add `Dashboard` divisions
 #    18-Apr-2014 (CT) Add `person`, `address`, ..., to `Dashboard`
 #    18-Apr-2014 (CT) Change `query_filters_restricted` to use `my_person`
+#    19-Apr-2014 (CT) Add `_get_child` for `<div_name>`,
+#                     `__getattr__` for `db_*`
+#    26-Apr-2014 (CT) Add first draft of `_DB_E_Type_.GET` to render `MF3.Form`
 #    ««revision-date»»···
 #--
 
@@ -64,6 +67,8 @@ from   _MOM                     import MOM
 from   _TFL                     import TFL
 
 import _FFM.import_FFM
+
+from   _GTW._MF3                import Element as MF3
 
 import _GTW._RST._TOP.import_TOP
 import _GTW._RST._TOP._MOM.import_MOM
@@ -407,27 +412,38 @@ class _Meta_DB_Div_ (_Ancestor.__class__) :
     def __init__ (cls, name, bases, dct) :
         cls.__m_super.__init__ (name, bases, dct)
         if name.startswith ("DB_") :
-            cls.Div_Name = name [3:]
-            cls.div_name = cls.Div_Name.lower ()
-            setattr (cls, "fill_%s" % cls.div_name, True)
+            cls.Div_Name   = name [3:]
+            cls.div_name   = dn = cls.Div_Name.lower ()
+            cls.app_div_id = cls.app_div_prefix + dn
+            cls._entry_type_names = set \
+                (et.type_name for et in cls._entry_types if et.type_name)
+            setattr (cls, "fill_%s" % dn, True)
     # end def __init__
+
+    def __call__ (cls, * args, ** kw) :
+        result = cls.__m_super.__call__ (* args, ** kw)
+        name   = cls.__name__
+        if name.startswith ("DB_") :
+            cls._db_name_map [name.lower ()] = result
+            if result.type_name :
+                result.parent._div_name_map [result.div_name] = result
+        return result
+    # end def __call__
 
 # end class _Meta_DB_Div_
 
-class _DB_Div_ (TFL.Meta.BaM (_Ancestor, metaclass = _Meta_DB_Div_)) :
-    """Division of Funkfeuer dashboard"""
+class _DB_Base_ (TFL.Meta.BaM (_Ancestor, metaclass = _Meta_DB_Div_)) :
+    """Base class of Funkfeuer dashboard classes"""
 
-    dir_template_name     = "html/dashboard/app.jnj"
+    app_div_prefix        = "app-D:"
+    app_typ_prefix        = "app-T:"
+    type_name             = None
+    _db_name_map          = {}
     _entry_types          = ()
+    _exclude_robots       = True
 
     def __init__ (self, ** kw) :
-        dkw   = dict \
-            ( name            = self.div_name
-            , short_title     = self.Div_Name
-            , title           = ": ".join ((self.parent.title, self.Div_Name))
-            )
-        xkw   = dict (dkw, ** kw)
-        self.__super.__init__ (** xkw)
+        self.__super.__init__ (** self._init_kw (** kw))
     # end def __init__
 
     @property
@@ -440,29 +456,96 @@ class _DB_Div_ (TFL.Meta.BaM (_Ancestor, metaclass = _Meta_DB_Div_)) :
         return self._entries
     # end def entries
 
-    @property
-    @getattr_safe
-    def view_title (self) :
-        TN = self.Div_Name
-        return _T ("%ss managed/owned by %%s" % TN) % (self.user.FO.person, )
-    # end def view_title
-
     def tr_instance_css_class (self, o) :
         return "%s-%d-" % (self.div_name, o.pid)
     # end def tr_instance_css_class
 
+    def _get_ffd_admin (self, tn) :
+        et     = self.top.ET_Map [tn]
+        result = et.admin_ffd
+        return result
+    # end def _get_ffd_admin
+
+    def _init_kw (self, ** kw) :
+        dkw = dict \
+            ( name            = self.div_name
+            , short_title     = self.Div_Name
+            , title           = ": ".join ((self.parent.title, self.Div_Name))
+            )
+        result = dict (dkw, ** kw)
+        return result
+    # end def _init_kw
+
+    def __getattr__ (self, name) :
+        if name.startswith ("db_") :
+            self._populate_db_entries ()
+            dn_map = self._db_name_map
+            if name in dn_map :
+                result = dn_map [name]
+                setattr (self, name, result)
+                return result
+        return self.__super.__getattr__ (name)
+    # end def __getattr__
+
+# end class _DB_Base_
+
+class _DB_Div_Base_ (_DB_Base_) :
+
+    _div_name_map         = {}
+
+    def _get_child (self, child, * grandchildren) :
+        self._populate_db_entries ()
+        result = self.__super._get_child (child, * grandchildren)
+        if result is None and child in self._div_name_map :
+            result = self._div_name_map [child]
+            rtn    = result.type_name
+            if rtn and rtn not in self._entry_type_names :
+                raise self.Status.Not_Found ()
+            elif grandchildren :
+                result = result._get_child (* grandchildren)
+        return result
+    # end def _get_child
+
+# end class _DB_Div_Base_
+
+class _DB_Div_ (_DB_Div_Base_) :
+    """Division of Funkfeuer dashboard"""
+
+    dir_template_name     = "html/dashboard/app.jnj"
+
 # end class _DB_Div_
 
-class _DB_E_Type_ (_DB_Div_) :
+_Ancestor = _DB_Base_
+
+class _DB_E_Type_ (_Ancestor) :
     """E_Type displayed by, and managed via, Funkfeuer dashboard."""
 
     Field                 = GTW.RST.TOP.MOM.Admin.E_Type.Field
     add_css_classes       = []
+    app_div_prefix        = _Ancestor.app_typ_prefix
     ui_allow_new          = True
     view_action_names     = ("filter", "edit", "delete", "graphs")
     view_field_names      = ()    ### to be defined by subclass
     type_name             = None  ### to be defined by subclass
     hidden                = True
+
+    class _DB_E_Type_GET_ (_Ancestor.GET) :
+
+        _real_name             = "GET"
+
+        def __call__ (self, resource, request, response) :
+            req_data = request.req_data
+            if "create" in req_data :
+                dbe  = resource.db_edit
+                Form = resource.Form
+                form = dbe.form = Form (resource.scope)
+                form.referrer   = request.referrer
+                return dbe.GET () (dbe, request, response)
+            else :
+                return self.__super.__call__ (resource, request, response)
+        # end def __call__
+
+    GET =  _DB_E_Type_GET_ # end class
 
     _action_map           = dict \
         ( (r.name, r) for r in
@@ -684,11 +767,6 @@ class _DB_E_Type_ (_DB_Div_) :
         , type_name       = _Field_Type_
         )
 
-    def __init__ (self, ** kw) :
-        self.__super.__init__ (** kw)
-        self._field_map = {}
-    # end def __init__
-
     @Once_Property
     @getattr_safe
     def admin (self) :
@@ -710,6 +788,12 @@ class _DB_E_Type_ (_DB_Div_) :
 
     @Once_Property
     @getattr_safe
+    def Form (self) :
+        return MF3.Entity.Auto (self.E_Type, id_prefix = "AMF")
+    # end def Form
+
+    @Once_Property
+    @getattr_safe
     def objects (self) :
         return self.admin.objects
     # end def objects
@@ -727,11 +811,36 @@ class _DB_E_Type_ (_DB_Div_) :
         return self._fields (self.view_field_names)
     # end def view_fields
 
+    @property
+    @getattr_safe
+    def view_title (self) :
+        TN = self.Div_Name
+        return _T ("%ss managed/owned by %%s" % TN) % (self.user.FO.person, )
+    # end def view_title
+
     def view_name_instance (self, o) :
         return o.FO.name
     # end def view_name_instance
 
     _fields = GTW.RST.TOP.MOM.Admin.E_Type._fields.__func__
+
+    def _get_child (self, child, * grandchildren) :
+        result = self.__super._get_child (child, * grandchildren)
+        if result is None :
+            try :
+                pid = int (child)
+            except ValueError :
+                pass
+            else :
+                if not grandchildren :
+                    ### XXX result =
+                    print ("+" * 3, self, child)
+        return result
+    # end def _get_child
+
+    def _init_kw (self, ** kw) :
+        return self.__super._init_kw (_field_map = {}, ** kw)
+    # end def _init_kw
 
 # end class _DB_E_Type_
 
@@ -934,35 +1043,7 @@ class DB_View (_DB_Div_) :
 
 # end class DB_View
 
-@Decorator
-def _entry_map_prop_ (f) :
-    e_name = f.__name__ [3:]
-    def _ (self) :
-        return self.entry_map.get (e_name)
-    return _
-# end def _entry_map_prop_
-
-@Decorator
-def _db_user_entry_map_prop_ (f) :
-    e_name = f.__name__ [3:]
-    def _ (self) :
-        return self.db_user.entry_map.get (e_name)
-    return _
-# end def _db_user_entry_map_prop_
-
-@Decorator
-def _db_view_entry_map_prop_ (f) :
-    e_name = f.__name__ [3:]
-    def _ (self) :
-        return self.db_view.entry_map.get (e_name)
-    return _
-# end def _db_view_entry_map_prop_
-
-def _entry_map_prop (f)         : return property (_entry_map_prop_         (f))
-def _db_user_entry_map_prop (f) : return property (_db_user_entry_map_prop_ (f))
-def _db_view_entry_map_prop (f) : return property (_db_view_entry_map_prop_ (f))
-
-_Ancestor = GTW.RST.TOP.Dir
+_Ancestor = _DB_Div_Base_
 
 class Dashboard (_Ancestor) :
     """Funkfeuer dashboard"""
@@ -974,9 +1055,10 @@ class Dashboard (_Ancestor) :
         , DB_User
         , DB_Edit
         )
-    _exclude_robots       = True
+    _entry_type_names     = \
+        DB_View._entry_type_names | DB_User._entry_type_names
 
-    def __init__ (self, ** kw) :
+    def _init_kw (self, ** kw) :
         dkw = dict \
             ( name            = "dashboard"
             , short_title     = "Dashboard"
@@ -984,59 +1066,15 @@ class Dashboard (_Ancestor) :
             , auth_required   = True
             , permission      = Login_has_Person
             )
-        xkw = dict (dkw, ** kw)
-        self.__super.__init__ (** xkw)
-    # end def __init__
+        result = dict (dkw, ** kw)
+        return result
+    # end def _init_kw
 
-    @_entry_map_prop
-    def db_edit (self) : pass
-
-    @_entry_map_prop
-    def db_view (self) : pass
-
-    @_entry_map_prop
-    def db_user (self) : pass
-
-    @_db_user_entry_map_prop
-    def db_account (self) : pass
-
-    @_db_user_entry_map_prop
-    def db_address (self) : pass
-
-    @_db_user_entry_map_prop
-    def db_email (self) : pass
-
-    @_db_user_entry_map_prop
-    def db_person (self) : pass
-
-    @_db_user_entry_map_prop
-    def db_phone (self) : pass
-
-    @_db_view_entry_map_prop
-    def db_antenna (self) : pass
-
-    @_db_view_entry_map_prop
-    def db_device (self) : pass
-
-    @_db_view_entry_map_prop
-    def db_interface (self) : pass
-
-    @_db_view_entry_map_prop
-    def db_node (self) : pass
-
-    @property
-    @getattr_safe
-    def entries (self) :
-        result = self._entries
-        if not result :
-            entries = tuple  (T (parent = self) for T in self._entry_types)
-            self.add_entries (* entries)
-        return self._entries
-    # end def entries
-
-    def _get_ffd_admin (self, tn) :
-        return self.top.ET_Map [tn].admin_ffd
-    # end def _get_ffd_admin
+    def _populate_db_entries (self) :
+        ### populate `entries`, `entry_map`, `_div_name_map`
+        for e in self.entries :
+            e.entries
+    # end def _populate_db_entries
 
 # end class Dashboard
 

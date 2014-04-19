@@ -78,8 +78,27 @@ style_sheet = Style_Sheet \
                         , visibility       = "visible"
                         , children         =
                             [ Rule
-                                ( "> li:first-child:before"
-                                , padding_top  = Em (1.5)
+                                ( "> li"
+                                , padding_left = Em (1.0)
+                                , children     =
+                                    [ Rule_Pseudo
+                                        ( "first-child:before"
+                                        , padding_top      = Em (1.5)
+                                        )
+                                    , Rule_Pseudo
+                                        ( "last-child:after"
+                                        , padding_bottom   = Em (1.5)
+                                        )
+                                    ]
+                                )
+                            ]
+                        )
+                    , Rule_Class
+                        ( "pure-menu-horizontal"
+                        , children         =
+                            [ Rule_Child
+                                ( ".nav-menu-person", ".pure-menu-heading", "ul"
+                                , vertical_align   = "top"
                                 )
                             ]
                         )
@@ -127,6 +146,33 @@ style_sheet = Style_Sheet \
                 )
             ]
         )
+    , Media.Rule
+        ( Media.Query ("screen", P.breakpoint.narrow)
+        , Media.Query ("screen", P.breakpoint.small_device)
+        , rules               =
+            [ Rule
+                ( "header > .pure-menu .nav-menu-links"
+                , children             =
+                    [ Rule
+                        ( "> li"
+                        , display      = "none"
+                        , visibility   = "hidden"
+                        )
+                    , Rule_Pseudo
+                        ( "hover > li"
+                        , display      = "block"
+                        , visibility   = "visible"
+                        )
+                    , Rule_Pseudo
+                        ( "before"
+                        , color        = "#999999"
+                        , content      = "'\\2630'" ### "☰"
+                        , font_size    = Rem (1.5)
+                        )
+                    ]
+                )
+            ]
+        )
     , Rule
         ( "#app"
         , children             =
@@ -153,6 +199,82 @@ style_sheet = Style_Sheet \
                                     , Rule_Pseudo
                                         ( """invalid[value=""]"""
                                         , border_color = P.color_status_missing
+                                        )
+                                    ]
+                                )
+                            ]
+                        )
+                    , Rule
+                        ( "fieldset"
+                        , children         =
+                            [ Rule_Class
+                                ( "Entity"
+                                , children         =
+                                    [ Rule
+                                        ( "legend"
+                                        , font_size    = Em (1.5)
+                                        , font_weight  = "bold"
+                                        )
+                                    ]
+                                )
+                            , Rule_Class
+                                ( "Field-Entity", "Field-Composite"
+                                , border           = "1px solid #DEDEDE"
+                                , margin_bottom    = Em (1.0)
+                                , children         =
+                                    [ Rule
+                                        ( "fieldset.Field_Entity"
+                                        , margin   = TRBL
+                                            (0, Em (0.25), 0, Em (1.0))
+                                        )
+                                    , Rule
+                                        ( "legend"
+                                        , border   = 0
+                                        , display  = "inline"
+                                        , margin   = TRBL0 (l = Em (2.0))
+                                        , padding  = TRBL  (0,  Em (1.0))
+                                        , width    = "auto"
+                                        )
+                                    ]
+                                )
+                            ]
+                        )
+                    , Rule
+                        ( ".Field"
+                        , children         =
+                            [ Rule
+                                ( "aside"
+                                , display              = "none"
+                                , visibility           = "hidden"
+                                )
+                            , Rule
+                                ( "input", "textarea"
+                                , children     =
+                                    [ Rule_Class
+                                        ( "display.value"
+                                        , background_color     = "inherit"
+                                        , border_color         = "inherit"
+                                        , color                = "inherit"
+                                        )
+                                    , Rule_Class
+                                        ( "hidden.value"
+                                        , display              = "none"
+                                        )
+                                    , Rule_Pseudo
+                                        ( "focus + aside"
+                                        , display              = "inline-block"
+                                        , visibility           = "visible"
+                                        )
+                                    ]
+                                )
+                            , Rule
+                                ( "textarea"
+                                , height       = Em (10.0)
+                                , children     =
+                                    [ Rule_Pseudo
+                                        ( "focus + aside"
+                                        , margin       = TRBL
+                                            (Em (2.5), 0, 0, Em (12.0))
                                         )
                                     ]
                                 )

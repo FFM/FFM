@@ -29,6 +29,7 @@
 ##    14-Apr-2014 (CT) Factor `nav_menu_links`, `nav_menu_person`
 ##    15-Apr-2014 (CT) Add `ff_dashboard` to `body_tail_scripts`
 ##    17-Apr-2014 (CT) Add dashboard divisions `app-edit`, `-user`, `-view`
+##    19-Apr-2014 (CT) Use `app_div_id`, `app_div_prefix`
 ##    ««revision-date»»···
 ##--
 #}
@@ -36,6 +37,7 @@
 {%- import (html_version or "html/5.jnj") as X -%}
 {%- import "html/media_fragments.jnj"     as MF      with context %}
 {%- import "html/dashboard/app.m.jnj"     as DB      with context %}
+{%- import "html/dashboard/edit.m.jnj"    as DB_Edit with context %}
 {%- import "html/dashboard/user.m.jnj"    as DB_User with context %}
 {%- import "html/dashboard/view.m.jnj"    as DB_View with context %}
 
@@ -80,7 +82,7 @@
               <a href="{{ page.db_view.abs_href }}" class="dashboard pure-menu-heading">
                 FF Dashboard
               </a>
-              <ul>
+              <ul class="nav-menu-links">
                 {%- block nav_menu_links -%}
                   {{ DB.nav_menu_links (page) }}
                 {%- endblock nav_menu_links -%}
@@ -97,19 +99,19 @@
       <div class="main">
         <div id="messages"></div>
         <div id="app" class="app">
-          <div id="app-view" class="pure-g-r">
+          <div id="{{ page.db_view.app_div_id }}" class="pure-g-r">
             {% if page.fill_view %}
               {{- DB_View.main (page) -}}
             {% endif -%}
           </div>
-          <div id="app-user" class="pure-g-r">
+          <div id="{{ page.db_user.app_div_id }}" class="pure-g-r">
             {% if page.fill_user %}
               {{- DB_User.main (page) -}}
             {% endif -%}
           </div>
-          <div id="app-edit" class="pure-g-r">
+          <div id="{{ page.db_user.app_div_prefix }}edit" class="pure-g-r">
             {% if page.fill_edit %}
-              {#- {{- DB_Edit.main (page) -}} -#}
+              {{- DB_Edit.main (page) -}}
             {% endif -%}
           </div>
         </div>
@@ -134,10 +136,12 @@
       {{ MF.js_on_ready (template) }}
       <script>
         $("body").ff_dashboard
-          ( { url : {# -#}
-                { page : "{{ page.abs_href }}" {#- -#}
-                , page : "{{ page.abs_href }}/pid" {# -#}
-                }
+          ( { app_div_prefix : "{{ page.app_div_prefix }}" {#- -#}
+            , app_typ_prefix : "{{ page.app_typ_prefix }}" {#- -#}
+            , url : {# -#}
+                { page : "{{ page.abs_href }}/" {#- -#}
+                , pid  : "{{ page.abs_href }}/pid/" {# -#}
+                } {#- -#}
             }
           )
       </script>

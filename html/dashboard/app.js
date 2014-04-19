@@ -26,7 +26,7 @@
               , delete_button    : "[href=#delete]"
               , edit_button      : "[href=#edit]"
               , filter_button    : "[href=#filter]"
-              , instance_row     : "tr"
+              , obj_row          : "tr"
               , root             : "#app"
               }
             , opts && opts ["selectors"] || {}
@@ -41,19 +41,33 @@
             );
         var options   = $.extend
             ( { active_button_class   : "pure-button-active"
-              , instance_id_pattern   : /^([^-]+-)(\d+)$/
+              , app_div_prefix        : "app-D:"
+              , app_typ_prefix        : "app-T:"
               }
             , opts || {}
             , { selectors : selectors
               , urls      : urls
               }
             );
+        var pat_div_name  = new RegExp (options.app_div_prefix + "(\\w+)$");
+        var pat_pid       = new RegExp ("^([^-]+-)(\\d+)$");
+        var pat_typ_name  = new RegExp (options.app_typ_prefix + "(\\w+)$");
+        var closest_el_id = function closest_el_id (self, selector) {
+            return $(self).closest (selector).prop ("id");
+        };
         var create_cb = function create_cb (ev) {
-            var tab$  = $(this).closest ("section");
-            var id    = tab$.prop ("id");
-            var typ   = id.match  (/-(\w+)$/) [1];
+            var sid   = closest_el_id (this, "section");
+            var typ   = sid.match     (pat_typ_name) [1];
+            var url   = options.urls.page + typ + "?create";
+            setTimeout
+                ( function () {
+                    window.location.href = url;
+                  }
+                , 0
+                );
+            return false;
             $.gtw_ajax_2json
-                ( { url         : options.urls.page + typ + "?create"
+                ( { url         : url
                   , type        : "GET"
                   , success     : function (response, status) {
                         if (! response ["error"]) {
@@ -70,13 +84,11 @@
                 , "Create"
                 );
             return false;
-        } ;
+        };
         var delete_cb = function delete_cb (ev) {
-            var tr$   = $(this).closest (selectors.instance_row);
-            var id    = tr$.prop  ("id");
-            var pid   = pid_of_id (id);
+            var obj   = obj_of_row (this);
             $.gtw_ajax_2json
-                ( { url         : options.urls.pid + pid
+                ( { url         : obj.url
                   , type        : "DELETE"
                   , success     : function (response, status) {
                         if (! response ["error"]) {
@@ -92,11 +104,9 @@
             return false;
         };
         var edit_cb   = function edit_cb (ev) {
-            var tr$   = $(this).closest (selectors.instance_row);
-            var id    = tr$.prop  ("id");
-            var pid   = pid_of_id (id);
+            var obj   = obj_of_row (this);
             $.gtw_ajax_2json
-                ( { url         : options.urls.pid + pid
+                ( { url         : obj.url
                   , type        : "GET"
                   , success     : function (response, status) {
                         if (! response ["error"]) {
@@ -115,16 +125,16 @@
             return false;
         };
         var do_filter = function do_filter (ev) {
-            var id    = instance_row_id (this);
-            var all   = instance_rows_selector_all (id);
-            var sel   = instance_rows_selector_sel (id);
+            var id    = closest_el_id (this, selectors.obj_row);
+            var all   = obj_rows_selector_all (id);
+            var sel   = obj_rows_selector_sel (id);
             $(all).hide ();
             $(sel).show ();
         };
         var filter_cb = function filter_cb (ev) {
             var a$    = $(this);
-            var id    = instance_row_id (this);
-            var all   = instance_rows_selector_all (id);
+            var id    = closest_el_id (this, selectors.obj_row);
+            var all   = obj_rows_selector_all (id);
             var hide$;
             if (a$.hasClass (options.active_button_class)) {
                 // currently filtered --> show all instances
@@ -136,24 +146,28 @@
             hide$.each (do_filter);
             return false;
         };
-        var instance_row_id = function instance_row_id (self) {
-            return $(self).closest (selectors.instance_row).prop ("id");
+        var obj_of_row = function obj_of_row (self) {
+            var result = {};
+            result.rid = closest_el_id    (self, selectors.obj_row);
+            result.pid = pid_of_obj_id    (result.rid);
+            result.sid = closest_el_id    (self, "section");
+            result.typ = result.sid.match (pat_typ_name) [1];
+            result.url = options.urls.page + result.typ + "/" + result.pid;
+            return result;
         };
-        var instance_rows_selector_all = function instance_rows_selector_all
-                (id) {
-            var typ = type_of_id (id);
-            return selectors.instance_row + "[class*=\"" + typ + "\"]";
+        var obj_rows_selector_all = function obj_rows_selector_all (id) {
+            var typ = type_of_obj_id (id);
+            return selectors.obj_row + "[class*=\"" + typ + "\"]";
         };
-        var instance_rows_selector_sel = function instance_rows_selector_sel
-                (id) {
-            return selectors.instance_row + "[class~=\"" + id + "-\"]";
+        var obj_rows_selector_sel = function obj_rows_selector_sel (id) {
+            return selectors.obj_row + "[class~=\"" + id + "-\"]";
         };
-        var pid_of_id = function pid_of_id (id) {
-            var groups = id.match (options.instance_id_pattern);
+        var pid_of_obj_id = function pid_of_obj_id (id) {
+            var groups = id.match (pat_pid);
             return groups [2];
         };
-        var type_of_id = function type_of_id (id) {
-            var groups = id.match (options.instance_id_pattern);
+        var type_of_obj_id = function type_of_obj_id (id) {
+            var groups = id.match (pat_pid);
             return groups [1];
         };
         selectors.filter_active_button =

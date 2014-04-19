@@ -36,6 +36,7 @@
 #    10-Apr-2014 (CT) Set `node.rev_ref_attr_name` to `net_devices`
 #    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
 #    14-Apr-2014 (CT) Add `my_net_device`
+#    26-Apr-2014 (CT) Set `node.ui_allow_new` to `False`
 #    ««revision-date»»···
 #--
 
@@ -77,6 +78,7 @@ class Net_Device (_Mixin_1, _Mixin_2, _Ancestor_Essence) :
             kind               = Attr.Primary
             P_Type             = FFM.Node
             rev_ref_attr_name  = "net_devices"
+            ui_allow_new       = False
 
         # end class node
 

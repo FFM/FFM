@@ -32,6 +32,7 @@
 ##    14-Apr-2014 (CT) Restructure to show all instances of each type
 ##    18-Apr-2014 (CT) Generalize `e_type_table` (use `db_type.view_actions`...)
 ##    18-Apr-2014 (CT) Factor `db_div_main`
+##    19-Apr-2014 (CT) Use `db_type.app_div_id`
 ##    ««revision-date»»···
 ##--
 #}
@@ -50,7 +51,7 @@
 
 {%- macro db_div_main (db_div) -%}
   {%- for db_type in db_div.entries %}
-    <section id="app-user-{{ db_type.div_name }}" class="pure-u-24-24" data-graph-show="pure-u-14-24">
+    <section id="{{ db_type.app_div_id }}" class="pure-u-24-24" data-graph-show="pure-u-14-24">
       {{ DB.e_type_table (db_type) }}
     </section>
   {% endfor -%}
@@ -133,6 +134,10 @@
   {%- set admin  = page.SC.Admin %}
   {%- set et_doc = page.SC.ET_Doc %}
   {%- set rf_api = page.SC.RESTful %}
+  <li><a href="#About">{{ GTW._T ("About") }}</a></li>
+  {%- if admin and page.allow (admin, page.request.user) %}
+    <li><a href="{{ admin.abs_href }}">{{ GTW._T ("Admin") }}</a></li>
+  {% endif -%}
   {%- if et_doc or rf_api %}
     <li class="pure-menu-auto-open">
       <a>{{ GTW._T ("Development") }}</a>
@@ -153,10 +158,6 @@
         {% endif -%}
       </ul>
     </li>
-  {% endif -%}
-  <li><a href="#About">{{ GTW._T ("About") }}</a></li>
-  {%- if admin and page.allow (admin, page.request.user) %}
-    <li><a href="{{ admin.abs_href }}">{{ GTW._T ("Admin") }}</a></li>
   {% endif -%}
   {%- if caller %}
     {{- caller () -}}
