@@ -249,10 +249,11 @@ class Status (Page_Tree) :
                     iface.wlan_info = self.wlan_info
                     wl_count += 1
         if not wl_count and getattr (self.wlan_info, 'name', None) :
-            iface = self.if_by_name [self.wlan_info.name]
-            iface.is_wlan = True
-            iface.wlan_info = self.wlan_info
-            wl_count += 1
+            if self.wlan_info.name in self.if_by_name :
+                iface = self.if_by_name [self.wlan_info.name]
+                iface.is_wlan = True
+                iface.wlan_info = self.wlan_info
+                wl_count += 1
 
         assert wl_count <= 1
         for sm in root.findall (".//%s" % tag ("small")) :
