@@ -153,7 +153,9 @@ class Backfire_OLSR_Parser (autosuper) :
 # end class Backfire_OLSR_Parser
 
 def get_olsr_container (file_or_url) :
-    if file_or_url.startswith ('http://') :
+    if  (  file_or_url.startswith ('http://')
+        or file_or_url.startswith ('https://')
+        ) :
         r = urlparse (file_or_url)
         p = r.netloc.split (':', 1) [-1]
         if p and '.' in p or ':' in p :
