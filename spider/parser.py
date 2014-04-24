@@ -31,6 +31,7 @@ from   spider.freifunk      import Freifunk
 from   spider.olsr_httpinfo import OLSR
 from   spider.backfire      import Backfire
 from   spider.openwrt       import OpenWRT
+from   spider.routeros      import Router_OS
 
 # for pickle
 from   spider.common      import Interface, Net_Link, Inet4, Inet6, WLAN_Config
@@ -65,37 +66,75 @@ class First_Guess (Page_Tree) :
         if title is not None and title.text and title.text.strip () == t :
             self.backend = 'OLSR'
             self.params.update (site = self.url)
+        for trial in self.try_luci, self.try_freifunk, self.try_router_os :
+            if not self.backend :
+                trial (root)
         if not self.backend :
-            for meta in root.findall (".//%s" % tag ("meta")) :
-                if meta.get ('http-equiv') == 'refresh' :
-                    c = meta.get ('content')
-                    if c and c.endswith ('cgi-bin/luci') :
-                        self.backend = 'Luci'
-                        break
-                    elif c and c.endswith ('URL=/cgi-bin-index.html') :
-                        # e.g. Fonera
-                        self.backend = 'Freifunk'
-                        break
-            else : # Freifunk
-                for big in root.findall (".//%s" % tag ("big")) :
-                    if big.get ('class') == 'plugin' :
-                        self.backend = "Freifunk"
-                        break
-                else :
-                    raise ValueError ("Unknown Web Frontend")
-                # Best effort to find status url
-                for a in root.findall (".//%s" % tag ("a")) :
-                    if a.get ('class') == 'plugin' :
-                        # Allow 'Status klassisch' to override status
-                        # even if found first
-                        if a.text == 'Status klassisch' :
-                            self.status_url = a.get ('href')
-                            self.status_ok = 1
-                        elif a.text == 'Status' and not self.status_ok :
-                            self.status_url = a.get ('href')
-                self.params.update (url = self.status_url)
-
+            #print self.tree_as_string (root)
+            raise ValueError ("Unknown Web Frontend")
     # end def parse
+
+    def try_freifunk (self, root) :
+        for big in root.findall (".//%s" % tag ("big")) :
+            if big.get ('class') == 'plugin' :
+                self.backend = "Freifunk"
+                break
+        # Best effort to find status url
+        for a in root.findall (".//%s" % tag ("a")) :
+            if a.get ('class') == 'plugin' :
+                # Allow 'Status klassisch' to override status
+                # even if found first
+                if a.text == 'Status klassisch' :
+                    self.status_url = a.get ('href')
+                    self.status_ok = 1
+                elif a.text == 'Status' and not self.status_ok :
+                    self.status_url = a.get ('href')
+        self.params.update (url = self.status_url)
+    # end def try_freifunk
+
+    def try_luci (self, root) :
+        for meta in root.findall (".//%s" % tag ("meta")) :
+            if meta.get ('http-equiv') == 'refresh' :
+                c = meta.get ('content')
+                if c and c.endswith ('cgi-bin/luci') :
+                    self.backend = 'Luci'
+                    break
+                elif c and c.endswith ('URL=/cgi-bin-index.html') :
+                    # e.g. Fonera
+                    self.backend = 'Freifunk'
+                    break
+    # end def try_luci
+
+    router_os_scores = \
+        { 'UBNT-Version:'  : 100
+        , 'Loadavg:'       :   1
+        , 'Idle Time:'     :   1
+        , 'Default Route:' :   1
+        , 'Uptime:'        :   1
+        , 'Interface'      :   1
+        }
+
+    def try_router_os (self, root) :
+        score = 0
+        for td in root.findall (".//%s" % tag ("td")) :
+            if td.text in self.router_os_scores :
+                score += self.router_os_scores [td.text]
+            if score > 3 :
+                self.backend = 'Router_OS'
+                break
+        else :
+            for form in root.findall (".//%s" % tag ("form")) :
+                if form.get ('action') == "/login.cgi" :
+                    self.backend = 'Router_OS'
+                    self.params.update (url = 'cgi-bin/index.sh')
+                    break
+            else :
+                return
+        for a in root.findall (".//%s" % tag ("a")) :
+            if a.text in ('OLSR-Routen', 'OLSR-Routen (IPv4)') :
+                self.params.update (url = a.get ('href').split ('?') [0])
+                break
+    # end def try_router_os
 
 # end class First_Guess
 
@@ -131,10 +170,11 @@ class Luci_Guess (Page_Tree) :
 class Guess (Compare_Mixin) :
 
     backend_table = dict \
-        ( Backfire = Backfire
-        , Freifunk = Freifunk
-        , OLSR     = OLSR
-        , OpenWRT  = OpenWRT
+        ( Backfire  = Backfire
+        , Freifunk  = Freifunk
+        , OLSR      = OLSR
+        , OpenWRT   = OpenWRT
+        , Router_OS = Router_OS
         )
 
     def __init__ (self, site, ip, url = None, port = 0) :
