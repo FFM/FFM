@@ -126,6 +126,8 @@ class Consolidated_Interface (object) :
                 (left = dev, name = self.ifname, desc = desc, raw = True)
         manager = dev.node.manager
         for ip in self.ips.itervalues () :
+            if len (scope.uncommitted_changes) > 10 :
+                scope.commit ()
             if self.verbose :
                 pyk.fprint \
                     ( "Adding IP %s to iface: %s/%s (of dev %s)"
