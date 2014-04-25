@@ -127,8 +127,6 @@ class Consolidated_Interface (object) :
         manager = dev.node.manager
         scope   = self.convert.scope
         for ip in self.ips.itervalues () :
-            if len (scope.uncommitted_changes) > 10 :
-                scope.commit ()
             if self.verbose :
                 pyk.fprint \
                     ( "Adding IP %s to iface: %s/%s (of dev %s)"
@@ -141,6 +139,8 @@ class Consolidated_Interface (object) :
             netadr  = network.reserve (ip.ip, manager)
             ffm.Net_Interface_in_IP4_Network \
                 (iface, netadr, mask_len = 32)
+            if len (scope.uncommitted_changes) > 10 :
+                scope.commit ()
     # end def create
 
     @property
