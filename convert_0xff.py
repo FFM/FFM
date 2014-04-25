@@ -333,6 +333,13 @@ class Convert (object) :
                 else :
                     ip = IP4_Address (ip)
                     self.ip4nets [ip] = comment
+        self.spider_ignore_ip = {}
+        if cmd.spider_ignore_ip :
+            for i in cmd.spider_ignore_ip :
+                ip_dev, ip = i.split (':')
+                if ip_dev not in self.spider_ignore_ip :
+                    self.spider_ignore_ip [ip_dev] = []
+                self.spider_ignore_ip [ip_dev].append (ip)
         olsr = get_olsr_container (cmd.olsr_file)
         self.olsr_nodes   = {}
         for t in olsr.topo.forward.iterkeys () :
@@ -355,6 +362,9 @@ class Convert (object) :
         for ip, dev in self.spider_info.iteritems () :
             if self.verbose :
                 pyk.fprint ("IP:", ip)
+            ignore = {}
+            if str (ip) in self.spider_ignore_ip :
+                ignore = dict.fromkeys (self.spider_ignore_ip [str (ip)])
             # ignore spider errors
             if not isinstance (dev, Guess) :
                 continue
@@ -367,6 +377,10 @@ class Convert (object) :
                     # ignore rfc1918, link local, localnet
                     if unroutable (i4) :
                         continue
+                    # ignore explicitly specified ips
+                    if str (i4) in ignore :
+                        pyk.fprint ("INFO: Ignoring %s/%s" % (ip, i4))
+                        continue
                     if  (   i4 in self.spider_devs
                         and self.spider_devs [i4] != dev
                         ) :
@@ -376,6 +390,7 @@ class Convert (object) :
                         pyk.fprint ("-" * 60)
                         pyk.fprint (self.spider_devs [i4].verbose_repr ())
                         pyk.fprint ("=" * 60)
+                        continue
                     elif (   i4 in self.spider_iface
                          and self.spider_iface [i4] != iface
                          ) :
@@ -705,6 +720,23 @@ class Convert (object) :
         if m.instant_messenger_nick.endswith ('@aon.at') :
             self.try_insert_email (person, m, attr = 'instant_messenger_nick')
             return
+        if m.instant_messenger_nick.startswith ('alt/falsch') :
+            return
+        if m.instant_messenger_nick.startswith ('housing') :
+            return
+        if m.instant_messenger_nick.startswith ('Wohnadresse:') :
+            adr = m.instant_messenger_nick.split (':', 1) [1].strip ()
+            # delimiter is a literal backslash followed by n
+            street, r = adr.split (r'\n')
+            plz, ort  = r.split ()
+            address = self.pap.Address.instance_or_new \
+                ( street     = street
+                , zip        = plz
+                , city       = ort
+                , country    = 'Austria'.decode ('utf-8')
+                )
+            self.pap.Subject_has_Address (person, address)
+            return
         pyk.fprint \
             ("INFO: Instant messenger nickname: %s" % m.instant_messenger_nick)
         im = self.pap.IM_Handle (address = m.instant_messenger_nick)
@@ -904,6 +936,8 @@ class Convert (object) :
             # can happen if a duplicate inserted this:
             if mentor_id == person_id :
                 continue
+            mentor_id = self.person_dupes.get (mentor_id, mentor_id)
+            person_id = self.person_dupes.get (person_id, person_id)
             mentor = self.person_by_id [mentor_id]
             person = self.person_by_id [person_id]
             actors = (self.company_actor, self.association_actor)
@@ -1257,6 +1291,7 @@ _Command = TFL.CAO.Cmd \
         , "olsr_file:S=olsr/txtinfo.txt?OLSR dump-file to convert"
         , "spider_dump:S=Funkfeuer.dump?Spider pickle dump"
         , "network:S,?Networks already reserved"
+        , "spider_ignore_ip:S,?<IP>:<IP> ignore sub-IP for spidered device"
         ) + model.opts
     , min_args        = 1
     , defaults        = model.command.defaults
