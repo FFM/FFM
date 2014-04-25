@@ -42,6 +42,7 @@
 #     7-Oct-2013 (CT) Add tests for `belongs_to_node`
 #     8-Apr-2014 (RS) Test failing allocation in sub-pool
 #    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
+#    25-Apr-2014 (RS) Add `_test_partial`
 #    ««revision-date»»···
 #--
 
@@ -378,6 +379,32 @@ _test_alloc = """
     Traceback (most recent call last):
       ...
     No_Free_Address_Range: Address range [192.168.0.0/16] of this IP4_Network doesn't contain a free subrange for mask length 32
+
+"""
+
+_test_partial = """
+    >>> scope = Scaffold.scope (%(p1)s, %(n1)s) # doctest:+ELLIPSIS
+    Creating new scope MOMT__...
+
+    >>> FFM = scope.FFM
+    >>> PAP = scope.PAP
+
+    Clear the cache, how can we avoid to cache across tests??
+    #>>> FFM.Net_Interface_in_IP4_Network.child_np_map = {}
+    #>>> FFM.Net_Interface_in_IP4_Network.child_np_map
+    #{}
+
+    >>> ff = PAP.Association ("Funkfeuer", short_name = "0xFF", raw = True)
+    >>> rs = PAP.Person ("Schlatterbeck", "Ralf", raw = True)
+    >>> fp = FFM.IP4_Network ('10.0.0.0/8', owner = ff, raw = True)
+    >>> a4 = fp.reserve ('10.0.0.1/32', owner = ff)
+    >>> dt = FFM.Net_Device_Type.instance_or_new (name = 'G', raw = True)
+    >>> n1 = FFM.Node (name = "nogps", manager = rs, raw = True)
+    >>> dv = FFM.Net_Device (left = dt, node = n1, name = 'dev', raw = True)
+    >>> wl = FFM.Wireless_Interface (left = dv, name = 'wl', raw = True)
+    >>> scope.commit ()
+
+    >>> il2 = FFM.Net_Interface_in_IP4_Network (wl, a4, mask_len = 24)
 
 """
 
@@ -16886,6 +16913,7 @@ def show_query_by_pid (q) :
 __test__ = Scaffold.create_test_dict \
   ( dict
       ( test_alloc         = _test_alloc
+      , test_partial       = _test_partial
       , test_AQ            = _test_AQ
       , test_net_fixtures  = _test_net_fixtures
       , test_order_4       = _test_order_4
