@@ -125,6 +125,7 @@ class Consolidated_Interface (object) :
             iface   = self.net_interface = ffm.Wired_Interface \
                 (left = dev, name = self.ifname, desc = desc, raw = True)
         manager = dev.node.manager
+        scope   = self.convert.scope
         for ip in self.ips.itervalues () :
             if len (scope.uncommitted_changes) > 10 :
                 scope.commit ()
