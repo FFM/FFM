@@ -37,6 +37,7 @@
 #    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
 #    14-Apr-2014 (CT) Add `my_net_device`
 #    26-Apr-2014 (CT) Set `node.ui_allow_new` to `False`
+#    30-Apr-2014 (CT) Set `node.Kind_Mixins` to `Attr.Init_Only_Mixin`
 #    ««revision-date»»···
 #--
 
@@ -79,6 +80,7 @@ class Net_Device (_Mixin_1, _Mixin_2, _Ancestor_Essence) :
             P_Type             = FFM.Node
             rev_ref_attr_name  = "net_devices"
             ui_allow_new       = False
+            Kind_Mixins        = (Attr.Init_Only_Mixin, )
 
         # end class node
 

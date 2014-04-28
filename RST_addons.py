@@ -75,6 +75,7 @@ import _GTW._RST._TOP._MOM.import_MOM
 
 import _GTW._RST._TOP._MOM.Admin
 import _GTW._RST._TOP._MOM.Admin_Restricted
+import _GTW._RST._TOP._MOM.MF3
 
 from   _MOM.import_MOM          import Q
 
@@ -426,7 +427,8 @@ class _Meta_DB_Div_ (_Ancestor.__class__) :
         if name.startswith ("DB_") :
             cls._db_name_map [name.lower ()] = result
             if result.type_name :
-                result.parent._div_name_map [result.div_name] = result
+                dnm = result.parent._div_name_map
+                dnm [result.div_name] = dnm [result.Div_Name] = result
         return result
     # end def __call__
 
@@ -437,6 +439,7 @@ class _DB_Base_ (TFL.Meta.BaM (_Ancestor, metaclass = _Meta_DB_Div_)) :
 
     app_div_prefix        = "app-D:"
     app_typ_prefix        = "app-T:"
+    skip_etag             = True
     type_name             = None
     _db_name_map          = {}
     _entry_types          = ()
@@ -515,19 +518,49 @@ class _DB_Div_ (_DB_Div_Base_) :
 
 # end class _DB_Div_
 
-_Ancestor = _DB_Base_
+_Ancestor  = _DB_Base_
+_MF3_Mixin = GTW.RST.TOP.MOM.MF3.E_Type_Mixin
 
-class _DB_E_Type_ (_Ancestor) :
+class _DB_E_Type_ (_MF3_Mixin, _Ancestor) :
     """E_Type displayed by, and managed via, Funkfeuer dashboard."""
 
     Field                 = GTW.RST.TOP.MOM.Admin.E_Type.Field
     add_css_classes       = []
     app_div_prefix        = _Ancestor.app_typ_prefix
+    fill_edit             = True
+    fill_user             = False
+    fill_view             = False
     ui_allow_new          = True
     view_action_names     = ("filter", "edit", "delete", "graphs")
     view_field_names      = ()    ### to be defined by subclass
     type_name             = None  ### to be defined by subclass
     hidden                = True
+
+    child_permission_map     = property \
+        (lambda s : s.admin.child_permission_map)
+
+    child_postconditions_map = property \
+        (lambda s : s.admin.User_Entity.child_postconditions_map)
+
+    class _Action_Override_ (GTW.RST.TOP._Base_) :
+
+        fill_edit          = True
+        name_postfix       = "FF"
+        page_template_name = "html/dashboard/app.jnj"
+
+    # end class _Action_Override_
+
+    class _FF_Creator_ (_Action_Override_, _MF3_Mixin.Creator) :
+
+        _real_name         = "Creator"
+
+    Creator = _FF_Creator_ # end class
+
+    class _FF_Instance_ (_Action_Override_, _MF3_Mixin.Instance) :
+
+        _real_name         = "Instance"
+
+    Instance = _FF_Instance_ # end class
 
     class _DB_E_Type_GET_ (_Ancestor.GET) :
 
@@ -536,16 +569,30 @@ class _DB_E_Type_ (_Ancestor) :
         def __call__ (self, resource, request, response) :
             req_data = request.req_data
             if "create" in req_data :
-                dbe  = resource.db_edit
-                Form = resource.Form
-                form = dbe.form = Form (resource.scope)
-                form.referrer   = request.referrer
-                return dbe.GET () (dbe, request, response)
+                creator = resource._get_child ("create")
+                return creator.GET () (creator, request, response)
             else :
                 return self.__super.__call__ (resource, request, response)
         # end def __call__
 
     GET =  _DB_E_Type_GET_ # end class
+
+    class _DB_E_Type_POST_ (_Ancestor.POST or GTW.RST.POST) :
+
+        _real_name             = "POST"
+
+        def __call__ (self, resource, request, response) :
+            req_data = request.req_data
+            if "qx_esf" in req_data :
+                json   = TFL.Record (** request.json)
+                af     = resource._get_esf_filter (json)
+                result = resource._rendered_esf   (af)
+                return result
+            else :
+                return self.__super.__call__ (resource, request, response)
+        # end def __call__
+
+    POST =  _DB_E_Type_POST_ # end class
 
     _action_map           = dict \
         ( (r.name, r) for r in
@@ -588,7 +635,7 @@ class _DB_E_Type_ (_Ancestor) :
             , Record
                 ( name = "reset_password"
                 , msg  = _ ("I forgot my password; reset password of %s %s")
-                , icon = "unlock"
+                , icon = "exclamation"
                 )
             )
         )
@@ -782,21 +829,39 @@ class _DB_E_Type_ (_Ancestor) :
 
     @Once_Property
     @getattr_safe
+    def eligible_object_restriction (self) :
+        return self.admin.eligible_object_restriction
+    # end def eligible_object_restriction
+
+    @Once_Property
+    @getattr_safe
+    def ETM (self) :
+        return self.admin.ETM
+    # end def ETM
+
+    @Once_Property
+    @getattr_safe
     def E_Type (self) :
         return self.admin.E_Type
     # end def E_Type
 
-    @Once_Property
-    @getattr_safe
-    def Form (self) :
-        return MF3.Entity.Auto (self.E_Type, id_prefix = "AMF")
-    # end def Form
-
-    @Once_Property
+    @property
     @getattr_safe
     def objects (self) :
         return self.admin.objects
     # end def objects
+
+    @property
+    @getattr_safe
+    def pid_query_request (self):
+        return self.admin.pid_query_request
+    # end def pid_query_request
+
+    @Once_Property
+    @getattr_safe
+    def QR (self) :
+        return self.admin.QR
+    # end def QR
 
     @Once_Property
     @getattr_safe
@@ -818,25 +883,21 @@ class _DB_E_Type_ (_Ancestor) :
         return _T ("%ss managed/owned by %%s" % TN) % (self.user.FO.person, )
     # end def view_title
 
+    @Once_Property
+    @getattr_safe
+    def _ETM (self) :
+        return self.admin._ETM
+    # end def _ETM
+
+    def href_anchor_pid (self, obj) :
+        return "#%s-%s" % (self.div_name, obj.pid) if obj else ""
+    # end def href_anchor_pid
+
     def view_name_instance (self, o) :
         return o.FO.name
     # end def view_name_instance
 
     _fields = GTW.RST.TOP.MOM.Admin.E_Type._fields.__func__
-
-    def _get_child (self, child, * grandchildren) :
-        result = self.__super._get_child (child, * grandchildren)
-        if result is None :
-            try :
-                pid = int (child)
-            except ValueError :
-                pass
-            else :
-                if not grandchildren :
-                    ### XXX result =
-                    print ("+" * 3, self, child)
-        return result
-    # end def _get_child
 
     def _init_kw (self, ** kw) :
         return self.__super._init_kw (_field_map = {}, ** kw)
@@ -852,6 +913,19 @@ class _DB_Person_Property_ (_DB_E_Type_) :
         , "right"
         , "creation_date"
         )
+
+    @property
+    @getattr_safe
+    def form_attr_spec (self) :
+        result = self.__super.form_attr_spec
+        u = self.admin.user_restriction
+        if u is not None :
+            result = dict \
+                ( result
+                , left = dict (default = u, prefilled = "True")
+                )
+        return result
+    # end def form_attr_spec
 
     @property
     @getattr_safe
@@ -984,6 +1058,25 @@ class DB_Node (_DB_E_Type_) :
         self._field_map.update \
             (devices = self._Field_No_ ("devices", "net_devices", self.E_Type))
     # end def __init__
+
+    @property
+    @getattr_safe
+    def form_attr_spec (self) :
+        result = self.__super.form_attr_spec
+        u = self.admin.user_restriction
+        if u is not None :
+            result = dict \
+                ( result
+                , manager = dict (default = u)
+                , owner   = dict (default = u)
+                )
+        return result
+    # end def form_attr_spec
+
+    @form_attr_spec.setter
+    def form_attr_spec (self, value) :
+        self._form_attr_spec = value
+    # end def form_attr_spec
 
 # end class DB_Node
 

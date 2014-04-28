@@ -4165,7 +4165,7 @@ _test_tables = """
         Column desc                      : Text                 Optional Text desc
         Column left                      : Integer              Link_Role__Init_Only Net_Device_Type left Id_Entity()
         Column name                      : Varchar(40)          Primary_Optional__Raw_Value String name
-        Column node                      : Integer              Primary__Id_Entity_Reference Entity node Id_Entity()
+        Column node                      : Integer              Primary__Init_Only__Id_Entity_Reference Entity node Id_Entity()
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
     FFM.Net_Interface (MOM.Id_Entity) <Table ffm_net_interface>
         Column __raw_name                : Varchar(63)          Primary_Optional__Raw_Value String name

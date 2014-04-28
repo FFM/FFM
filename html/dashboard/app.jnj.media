@@ -204,20 +204,25 @@ style_sheet = Style_Sheet \
                                 )
                             ]
                         )
-                    , Rule
+                    , Rule_Child
                         ( "fieldset"
                         , children         =
                             [ Rule_Class
                                 ( "Entity"
                                 , children         =
-                                    [ Rule
+                                    [ Rule_Child
                                         ( "legend"
                                         , font_size    = Em (1.5)
                                         , font_weight  = "bold"
                                         )
                                     ]
                                 )
-                            , Rule_Class
+                            ]
+                        )
+                    , Rule
+                        ( "fieldset"
+                        , children         =
+                            [ Rule_Class
                                 ( "Field-Entity", "Field-Composite"
                                 , border           = "1px solid #DEDEDE"
                                 , margin_bottom    = Em (1.0)
@@ -246,6 +251,44 @@ style_sheet = Style_Sheet \
                                 ( "aside"
                                 , display              = "none"
                                 , visibility           = "hidden"
+                                )
+                            , Rule_Class
+                                ( "Composite-horizontal"
+                                , margin           = TRBL0 (t = Em (1.0))
+                                , children             =
+                                    [ Rule_Child
+                                        ( "label"
+                                        , vertical_align   = "top"
+                                        )
+                                    , Rule_Child
+                                        ( ".Fields"
+                                        , display          = "inline-block"
+                                        , margin           =
+                                            TRBL0 (b = Em (0.5))
+                                        , vertical_align   = "top"
+                                        )
+                                    ]
+                                )
+                            , Rule_Class
+                                ( "mf3-control-group-h"
+                                , display              = "inline-block"
+                                , vertical_align       = "top"
+                                , children             =
+                                    [ Rule
+                                        ( "label"
+                                        , display          = "block"
+                                        , margin           =
+                                            TRBL0 (l = Em (0.5))
+                                        , text_align       = "left"
+                                        , vertical_align   = "top"
+                                        , width            = "auto"
+                                        )
+                                    , Rule
+                                        ( "input"
+                                        , display          = "block"
+                                        , vertical_align   = "top"
+                                        )
+                                    ]
                                 )
                             , Rule
                                 ( "input", "textarea"
@@ -280,6 +323,31 @@ style_sheet = Style_Sheet \
                                 )
                             ]
                         )
+                    , Rule
+                        ( ".Status"
+                        , Border (radius = Percent (50))
+                        , display           = "inline-block"
+                        , float             = "left"
+                        , height            = P.afs.status_size
+                        , margin_left       = P.afs.status_size / 2
+                        , margin_right      = P.afs.status_size
+                        , margin_top        = P.afs.status_size / 4
+                        , width             = P.afs.status_size
+                        , children          =
+                            [ Rule_Class
+                                ( "good"
+                                , background_color  = "transparent"# P.color_status_good
+                                )
+                            , Rule_Class
+                                ( "missing"
+                                , background_color  = "transparent"# P.color_status_missing
+                                )
+                            , Rule_Class
+                                ( "bad"
+                                , background_color  = "transparent"# P.color_status_bad
+                                )
+                            ]
+                        )
                     ]
                 )
             , Rule
@@ -309,20 +377,16 @@ style_sheet = Style_Sheet \
                         , children     =
                             [ Rule_Class
                                 ( "action"
-                                , font_size        = Em (1.125)
-                                , padding_bottom   = Px (4)
-                                , padding_top      = Px (4)
+                                , font_size    = Em (1.125)
+                                , padding      = TRBL
+                                    (Em (0.25), Em (0.25), 0, 0)
                                 , children     =
                                     [ Rule
                                         ( "a"
                                         , border_radius    = Em (0.25)
+                                        , margin           = TRBL
+                                            (0, 0, Em (0.25), Em (0.25))
                                         , padding          = Em (0.25)
-                                        , children         =
-                                            [ Rule
-                                                ( "+ a"
-                                                , margin_left  = Em (0.25)
-                                                )
-                                            ]
                                         )
                                     , Rule
                                         ( ".fa"
@@ -331,6 +395,13 @@ style_sheet = Style_Sheet \
                                         , width        = Em (1.0)
                                         )
                                     ]
+                                )
+                            , Rule_Attr
+                                ( ".feedback"
+                                , background_color     = "#DFF0D8"
+                                , color                = "#3C763D"
+                                , text_align           = "center"
+                                , width                = Percent (100)
                                 )
                             , Rule_Attr
                                 ( "[colspan] .pure-button"
@@ -368,7 +439,42 @@ style_sheet = Style_Sheet \
                                 ( "hover"
                                 , background_color = "#f2f2f2"
                                 )
+                            , Rule_Pseudo
+                                ( "target"
+                                , background_color = P.color_status_good
+                                )
                             ]
+                        )
+                    ]
+                )
+            ]
+        )
+    , Rule
+        ( "#messages"
+        , children              =
+            [ Rule
+                ( ".feedback"
+                , border_radius        = Px (10)
+                , background_color     = "#DFF0D8"
+                , color                = "#3C763D"
+                , display              = "block"
+                , font_size            = Em (1.0)
+                , line_height          = Em (1.5)
+                , margin               = TRBL (Em (0.5), 0)
+                , outline              = 0
+                , padding              = TRBL
+                    (Em (0.5), Em (2.5), Em (0.5), Em (1.0))
+                , position             = "relative"
+                , text_decoration      = "none"
+                , children             =
+                    [ Rule
+                        ( "i"
+                        , display              = "block"
+                        , font_size            = Em (1.5)
+                        , margin_top           = Em (- 0.5)
+                        , right                = Em (0.5)
+                        , top                  = Percent (50)
+                        , position             = "absolute"
                         )
                     ]
                 )
@@ -464,9 +570,20 @@ style_sheet = Style_Sheet \
         ( ".status-warning"
         , background_color     = P.color_status_missing
         )
+    , Media.Rule
+        ( Media.Query ("screen", P.breakpoint.narrow)
+        , Media.Query ("screen", P.breakpoint.small_device)
+        , rules               =
+            [ Rule
+                ( "#app form .Field.mf3-control-group-h"
+                , display              = "block"
+                )
+            ]
+        )
     )
 
 Include     ("html/print.media")
+Include     ("html/mf3.m.jnj.media")
 
 Script      (GTW.Script._.Modernizr)
 Script      (GTW.Script._.GTW_jq_util)

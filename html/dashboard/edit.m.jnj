@@ -90,19 +90,14 @@
 {%- endmacro -%} {#- edit_interface -#}
 
 {%- macro main (page) -%}
-  <section class="pure-u-24-24">
   {%- set form = page.form %}
   {%- if form %}
     {{ GTW.call_macro
-        (form.template_macro, page, form, templ_name = form.template_module)
-    }}
-    {{ GTW.call_macro
-        ("tail_scripts", page, form, templ_name = form.template_module)
+        ("main", page, form, templ_name = form.template_module)
     }}
   {%- else %}
     {{ edit_interface (page, page.db_interface.objects [0]) }}
   {% endif -%}
-  </section>
 {%- endmacro -%} {#- main -#}
 
 {#- __END__ jinja template: html/dashboard/edit.m.jnj -#}

@@ -22,10 +22,13 @@
     "use strict";
     $.fn.ff_dashboard = function ff_dashboard (opts) {
         var selectors = $.extend
-            ( { create_button    : "[href=#create]"
+            ( { app_div          : "[id^=\"app-D:\"]"
+              , app_div_edit     : "[id=\"app-D:edit\"]"
+              , create_button    : "[href=#create]"
               , delete_button    : "[href=#delete]"
               , edit_button      : "[href=#edit]"
               , filter_button    : "[href=#filter]"
+              , firmware_button  : "[href=#firmware]"
               , obj_row          : "tr"
               , root             : "#app"
               }
@@ -52,6 +55,9 @@
         var pat_div_name  = new RegExp (options.app_div_prefix + "(\\w+)$");
         var pat_pid       = new RegExp ("^([^-]+-)(\\d+)$");
         var pat_typ_name  = new RegExp (options.app_typ_prefix + "(\\w+)$");
+        var closest_el    = function closest_el_id (self, selector) {
+            return $(self).closest (selector);
+        };
         var closest_el_id = function closest_el_id (self, selector) {
             return $(self).closest (selector).prop ("id");
         };
@@ -67,8 +73,8 @@
                 );
             return false;
             $.gtw_ajax_2json
-                ( { url         : url
-                  , type        : "GET"
+                ( { type        : "GET"
+                  , url         : url
                   , success     : function (response, status) {
                         if (! response ["error"]) {
                             // XXX TBD
@@ -87,38 +93,60 @@
         };
         var delete_cb = function delete_cb (ev) {
             var obj   = obj_of_row (this);
+            var success_cb = function success_cb (response, status) {
+                var cs  = $("td", obj.row$).length;
+                if (! response ["error"]) {
+                    obj.row$.html
+                        ( "<td class=\"feedback\" colspan=\"" + cs + "\">"
+                        + (  response.html
+                          || response.replacement
+                          || "Deleted"
+                          )
+                        + "</td>"
+                        );
+                } else {
+                    $GTW.show_message ("Ajax Error: " + response ["error"]);
+                };
+            };
             $.gtw_ajax_2json
-                ( { url         : obj.url
-                  , type        : "DELETE"
-                  , success     : function (response, status) {
-                        if (! response ["error"]) {
-                            tr$.html (response.html || "<td>Deleted</td>");
-                        } else {
-                            $GTW.show_message
-                                ("Ajax Error: " + response ["error"]);
-                        };
-                    }
+                ( { type        : "DELETE"
+                  , url         : obj.url
+                  , success     : success_cb
                   }
                 , "Delete"
                 );
             return false;
         };
         var edit_cb   = function edit_cb (ev) {
-            var obj   = obj_of_row (this);
+            var obj         = obj_of_row (this);
+            var referrer_id = closest_el_id (this, selectors.app_div);
+            var url         = obj.url;
+            setTimeout
+                ( function () {
+                    window.location.href = url;
+                  }
+                , 0
+                );
+            return false;
+            var success_cb  = function success_cb (response, status) {
+                if (! response ["error"]) {
+                    var target_id =
+                        response ["target_id"] || selectors.app_div_edit;
+                    var target$   = $(target_id);
+                    var form$     = $(response ["form"]);
+                    form$.data ("ffd_referrer", referrer_id);
+                    target$.prepend (form$);
+                    $(selectors.app_div).hide ();
+                    target$.show ();
+                } else {
+                    $GTW.show_message
+                        ("Ajax Error: " + response ["error"]);
+                };
+            };
             $.gtw_ajax_2json
-                ( { url         : obj.url
-                  , type        : "GET"
-                  , success     : function (response, status) {
-                        if (! response ["error"]) {
-                            // XXX TBD
-                            // hide "#overview"
-                            // fill and display "#edit" with response.html...
-                            $GTW.show_message (response);
-                        } else {
-                            $GTW.show_message
-                                ("Ajax Error: " + response ["error"]);
-                        };
-                    }
+                ( { type        : "GET"
+                  , url         : url
+                  , success     : success_cb
                   }
                 , "Edit"
                 );
@@ -146,13 +174,38 @@
             hide$.each (do_filter);
             return false;
         };
-        var obj_of_row = function obj_of_row (self) {
-            var result = {};
-            result.rid = closest_el_id    (self, selectors.obj_row);
-            result.pid = pid_of_obj_id    (result.rid);
-            result.sid = closest_el_id    (self, "section");
-            result.typ = result.sid.match (pat_typ_name) [1];
-            result.url = options.urls.page + result.typ + "/" + result.pid;
+        var firmware_cb = function firmware_cb (ev) {
+            var a$    = $(this);
+            var row$  = closest_el (this, selectors.obj_row);
+            var name  = $(".name", row$).text ();
+            var msgs$ = $("#messages");
+            var mid   = new Date().valueOf().toString();
+            var msg$  =
+                $( "<a class=\"feedback\" id=\""
+                + mid + "\" href=\"#" + mid+ "\">"
+                + "The firmware for " + name
+                + " will be built and an email with the download URL "
+                + "sent to you."
+                + "<i>✕</i></a>"
+                );
+            msgs$.append (msg$);
+            msg$.focus ();
+            msg$.on    ("click", hide_feedback);
+        };
+        var hide_feedback = function hide_feedback (ev) {
+            var target$ = $(ev.target);
+            target$.remove ();
+            return false;
+        };
+        var obj_of_row  = function obj_of_row (self) {
+            var result  = {};
+            var row$    = closest_el       (self, selectors.obj_row)
+            result.row$ = row$;
+            result.rid  = row$.prop        ("id");
+            result.pid  = pid_of_obj_id    (result.rid);
+            result.sid  = closest_el_id    (self, "section");
+            result.typ  = result.sid.match (pat_typ_name) [1];
+            result.url  = options.urls.page + result.typ + "/" + result.pid;
             return result;
         };
         var obj_rows_selector_all = function obj_rows_selector_all (id) {
@@ -172,10 +225,11 @@
         };
         selectors.filter_active_button =
             "." + options.active_button_class + selectors.filter_button;
-        $(selectors.create_button).on ("click", create_cb);
-        $(selectors.delete_button).on ("click", delete_cb);
-        $(selectors.edit_button  ).on ("click", edit_cb);
-        $(selectors.filter_button).on ("click", filter_cb);
+        $(selectors.create_button  ).on ("click", create_cb);
+        $(selectors.delete_button  ).on ("click", delete_cb);
+        $(selectors.edit_button    ).on ("click", edit_cb);
+        $(selectors.filter_button  ).on ("click", filter_cb);
+        $(selectors.firmware_button).on ("click", firmware_cb);
         return this;
     };
   } (jQuery)

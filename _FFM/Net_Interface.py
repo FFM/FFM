@@ -37,6 +37,7 @@
 #    30-Sep-2013 (CT) Mixin `Belongs_to_Node_Left`, not `Belongs_to_Node`
 #    14-Apr-2014 (CT) Add mixin `Belongs_to_Net_Device_Left`
 #    17-Apr-2014 (CT) Fix typo in `Net_Interface.name.description`
+#    30-Apr-2014 (CT) Set `left.Kind_Mixins` to `Attr.Init_Only_Mixin`
 #    ««revision-date»»···
 #--
 
@@ -79,6 +80,7 @@ class Net_Interface (_Mixin_1, _Mixin_2, _Ancestor_Essence) :
 
             role_type          = FFM.Net_Device
             role_name          = "device"
+            Kind_Mixins        = (Attr.Init_Only_Mixin, )
 
         # end class left
 

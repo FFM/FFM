@@ -109,7 +109,7 @@
               {{- DB_User.main (page) -}}
             {% endif -%}
           </div>
-          <div id="{{ page.db_user.app_div_prefix }}edit" class="pure-g-r">
+          <div id="{{ page.db_user.app_div_prefix }}edit">
             {% if page.fill_edit %}
               {{- DB_Edit.main (page) -}}
             {% endif -%}
