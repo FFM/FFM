@@ -698,12 +698,15 @@ class Convert (object) :
             if  (   m.id not in self.company_actor
                 and m.id not in self.association_actor
                 ) :
-                auth  = self.scope.Auth.Account.create_new_account_x \
-                    ( mail
-                    , enabled   = True
-                    , suspended = True
-                    , password  = uuid.uuid4 ().hex
-                    )
+                # Some accounts are in fixtures
+                auth  = self.scope.Auth.Account.instance (mail)
+                if not auth :
+                    auth  = self.scope.Auth.Account.create_new_account_x \
+                        ( mail
+                        , enabled   = True
+                        , suspended = True
+                        , password  = uuid.uuid4 ().hex
+                        )
                 self.pap.Person_has_Account (person, auth)
     # end def try_insert_email
 
