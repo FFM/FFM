@@ -50,6 +50,10 @@ def create (scope) :
         ( "aaron@lo-res.org"
         , enabled = True, superuser = True, suspended = False
         )
+    Auth.Account.create_new_account_x \
+        ( "ralf@zoo.priv.at"
+        , enabled = True, superuser = True, suspended = False
+        )
     Auth.Group ("FFM")
     Auth.Group ("FFM-admin")
     Auth.Account_in_Group ("tanzer@swing.co.at", "FFM")
