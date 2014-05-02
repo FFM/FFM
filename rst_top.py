@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2014 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the program FFM.
@@ -33,6 +33,7 @@
 #     4-Dec-2012 (CT) Remove `http:` (--> protocol-relative)
 #     4-May-2013 (CT) Re-add `http:` for external URLs
 #     4-May-2013 (CT) Add `RAT`
+#     2-May-2014 (CT) Use option `webmaster`
 #    ««revision-date»»···
 #--
 
@@ -99,8 +100,7 @@ def root_kw_args (cmd, ** kw) :
         , language          = "de"
         , owner             = "Funkfeuer"
         , web_links         = web_links
-        , webmaster         =
-            ("christian.tanzer@gmail.com", "Christian Tanzer") ### XXX ???
+        , webmaster         = cmd.webmaster
         , entries           =
             [ GTW.RST.RAT (name = "RAT")
             ]
