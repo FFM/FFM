@@ -1,0 +1,133 @@
+{%- extends "html/dashboard/app.jnj" %}
+{#- jinja template: html/login.jnj -#}
+{#
+## Copyright (C) 2014 Mag. Christian Tanzer All rights reserved
+## Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+## #*** <License> ************************************************************
+## This template is free software: you can redistribute it and/or modify
+## it under the terms of the GNU Affero General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This template is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+## GNU Affero General Public License for more details.
+##
+## You should have received a copy of the GNU Affero General Public License
+## along with this template. If not, see <http://www.gnu.org/licenses/>.
+## #*** </License> ***********************************************************#
+##
+##++
+## Name
+##    html/login.jnj
+##
+## Purpose
+##    Dashboard specific template for login page
+##
+## Revision Dates
+##     2-May-2014 (CT) Creation
+##    ««revision-date»»···
+##--
+#}
+
+{%- import (html_version or "html/5.jnj") as X -%}
+
+{%- macro display_errors (errors, field_name) -%}
+  {%- for err in errors.get (field_name, ()) %}
+    <li class="Error-Message">
+      {{ err }}
+    </li>
+  {% endfor -%}
+{%- endmacro -%} {#- display_errors -#}
+
+{%- block nav_block -%}
+  {% call X.nav (class="pure-menu pure-menu-fixed pure-menu-horizontal pure-menu-inverse pure-menu-open") -%}
+    {%- block navigate -%}
+      <b class="dashboard pure-menu-heading">
+        FF Dashboard
+      </b>
+    {%- endblock -%}
+  {%- endcall %} {# X.nav #}
+{%- endblock nav_block -%}
+
+{%- block app -%}
+  {%- set Auth     = page.SC.Auth -%}
+  {%- set action   = Auth.href_login -%}
+  {%- set cc_href  = page.cc_href %}
+  {%- set next     = "/dashboard" -%}
+  {%- set request  = page.request %}
+  {%- set title    = page.title or
+      GTW._T ("Login for %s" % page.request.host)
+  -%}
+  <form action="{{ action }}" {# -#}
+        class="Auth login pure-form pure-form-aligned" {# -#}
+        method="post" {# -#}
+  >
+    <fieldset>
+      <legend>
+        {{ title }}
+      </legend>
+      <div class="Errors pure-controls">
+        {{- display_errors (errors, None) -}}
+      </div>
+      {%- if cc_href %}
+        <div class="pure-controls" title="{{ GTW._T ("Login with a previously created client certificate") }}">
+          <a class="pure-button" href="{{ cc_href }}">{# -#}
+            <i class="fa fa-certificate"></i> {{ GTW._T ("Certificate login") -}}
+          </a>{# -#}
+        </li>
+      {% endif -%}
+      <div class="pure-control-group" {# -#}
+        title="{{ GTW._T ("Email address of your account") }}"{# -#}
+      >
+        <label for="F_username">{{ GTW._T ("Email") }}</label>
+        {{ X.input.email
+            ( id            = "F_username"
+            , name          = "username"
+            , maxlength     = "30"
+            , required      = True
+            )
+        }}
+      </div>
+      <div class="Errors pure-controls">
+        {{- display_errors (errors, "username") -}}
+      </div>
+      <div class="pure-control-group" {# -#}
+        title="{{ GTW._T ("Password of your account") }}"{# -#}
+      >
+        <label for="F_password">{{ GTW._T ("Password") }}</label>
+        {{ X.input.password
+            ( id            = "F_password"
+            , name          = "password"
+            )
+        }}
+      </div>
+      <div class="Errors pure-controls">
+        {{- display_errors (errors, "password") -}}
+      </div>
+      <div class="pure-controls">
+        <button class="pure-button pure-button-primary" {# -#}
+          name="submit"
+          title="{{ GTW._T ("Log into website") }}" {# -#}
+          type="submit" {# -#}
+        >{# -#}
+          <i class="fa fa-sign-in"></i> {{ GTW._T ("Login") -}}
+        </button>{# -#}
+      </div>
+      <div class="pure-controls">
+        <button class="pure-button" {# -#}
+          name="reset"
+          tabindex="-1" {# -#}
+          title="{{ GTW._T ("I forgot my password; send me a temporary one to my email address") }}" {# -#}
+          type="submit" {# -#}
+        >{# -#}
+          <i class="fa fa-frown-o"></i> {{ GTW._T ("I forgot my password") -}}
+        </button>{# -#}
+      </div>
+      {{ X.input.hidden (name = "next", value = next) }}
+    </fieldset>
+  </form>
+{%- endblock app -%}
+
+{#- __END__ jinja template: html/login.jnj -#}

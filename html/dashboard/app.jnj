@@ -30,6 +30,7 @@
 ##    15-Apr-2014 (CT) Add `ff_dashboard` to `body_tail_scripts`
 ##    17-Apr-2014 (CT) Add dashboard divisions `app-edit`, `-user`, `-view`
 ##    19-Apr-2014 (CT) Use `app_div_id`, `app_div_prefix`
+##     2-May-2014 (CT) Add blocks `app` and `main`
 ##    ««revision-date»»···
 ##--
 #}
@@ -77,7 +78,6 @@
       {% call X.header () -%}
         {%- block nav_block -%}
           {% call X.nav (class="pure-menu pure-menu-fixed pure-menu-horizontal pure-menu-inverse pure-menu-open") -%}
-            {#- TBD: button+CSS+JS for hiding menu+form on narrow screens -#}
             {%- block navigate -%}
               <a href="{{ page.db_view.abs_href }}" class="dashboard pure-menu-heading">
                 FF Dashboard
@@ -96,26 +96,30 @@
           {%- endcall %} {# X.nav #}
         {%- endblock nav_block -%}
       {% endcall %} {# X.header #}
-      <div class="main">
-        <div id="messages"></div>
-        <div id="app" class="app">
-          <div id="{{ page.db_view.app_div_id }}" class="pure-g-r">
-            {% if page.fill_view %}
-              {{- DB_View.main (page) -}}
-            {% endif -%}
-          </div>
-          <div id="{{ page.db_user.app_div_id }}" class="pure-g-r">
-            {% if page.fill_user %}
-              {{- DB_User.main (page) -}}
-            {% endif -%}
-          </div>
-          <div id="{{ page.db_user.app_div_prefix }}edit">
-            {% if page.fill_edit %}
-              {{- DB_Edit.main (page) -}}
-            {% endif -%}
-          </div>
+      {%- block main -%}
+        <div class="main">
+          <div id="messages"></div>
+          {%- block app -%}
+            <div id="app" class="app">
+              <div id="{{ page.db_view.app_div_id }}" class="pure-g-r">
+                {% if page.fill_view %}
+                  {{- DB_View.main (page) -}}
+                {% endif -%}
+              </div>
+              <div id="{{ page.db_user.app_div_id }}" class="pure-g-r">
+                {% if page.fill_user %}
+                  {{- DB_User.main (page) -}}
+                {% endif -%}
+              </div>
+              <div id="{{ page.db_user.app_div_prefix }}edit">
+                {% if page.fill_edit %}
+                  {{- DB_Edit.main (page) -}}
+                {% endif -%}
+              </div>
+            </div>
+          {%- endblock app -%}
         </div>
-      </div>
+      {%- endblock main -%}
       {% call X.footer () -%}
         {%- block body_footer %}
           <p class="pull-left">

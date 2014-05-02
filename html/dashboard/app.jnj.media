@@ -25,6 +25,7 @@
 #
 # Revision Dates
 #     9-Apr-2014 (CT) Creation
+#     2-May-2014 (CT) Add rules for `form.login`, `form.logout`
 #    ««revision-date»»···
 #--
 
@@ -52,10 +53,35 @@ style_sheet = Style_Sheet \
         , children             =
             ( Rule
                 ( "p"
+                , line_height          = Rem (1.5)
                 , margin               = 0
-                , padding_top          = Em (0.5)
+                , padding              = 0
+                , vertical_align       = "bottom"
                 )
             )
+        )
+    , Rule
+        ( "form.login"
+        , children             =
+            [ Rule
+                ( "button[type=submit]"
+                , border_radius    = Em ( 1/4)
+                , margin_left      = Em ( 1.5)
+                , width            = Em (15.0)
+                , children         =
+                    [ Rule
+                        ( "i.fa"
+                        , float    = "left"
+                        )
+                    ]
+                )
+            , Rule
+                ( "legend"
+                , font_size    = Em  (1.25)
+                , font_weight  = "bold"
+                , margin_top   = Rem (1.00)
+                )
+            ]
         )
     , Rule
         ( "header"
@@ -126,8 +152,9 @@ style_sheet = Style_Sheet \
                                 , vertical_align   = "middle"
                                 )
                             , Rule
-                                ( ".logout"
-                                , padding          = TRBL (Rem (1/4), Rem (5/4))
+                                ( "form.logout"
+                                , display          = "inline-block"
+                                , padding          = 0
                                 )
                             , Rule
                                 ( ".settings"
@@ -516,7 +543,16 @@ style_sheet = Style_Sheet \
         , children             =
             [ Rule
                 ( ".logout"
+                , border_radius    = Em (0.25)
+                , background_color = "#E6E6E6"
                 , color            = "#333333"
+                , children         =
+                    [ Rule_Pseudo
+                        ( "hover", "active"
+                        , background_color = "#FFFFFF"
+                        , color            = "#1B1B1B"
+                        )
+                    ]
                 )
             , Rule
                 ( ".pure-menu-heading"

@@ -33,6 +33,7 @@
 ##    18-Apr-2014 (CT) Generalize `e_type_table` (use `db_type.view_actions`...)
 ##    18-Apr-2014 (CT) Factor `db_div_main`
 ##    19-Apr-2014 (CT) Use `db_type.app_div_id`
+##     2-May-2014 (CT) Add `logout_widget` to render `form`
 ##    ««revision-date»»···
 ##--
 #}
@@ -129,6 +130,23 @@
   </table>
 {%- endmacro -%} {#- e_type_table -#}
 
+{%- macro logout_widget (page) -%}
+  {%- set Auth     = page.SC.Auth -%}
+  {%- set action   = Auth.href_logout -%}
+  <form action="{{ action }}" {# -#}
+        class="Auth logout pure-form" {# -#}
+        method="post" {# -#}
+  >
+    <button class="logout pure-button" {# -#}
+      name="submit"
+      title="{{ GTW._T ("Logout %s") % (page.user.person.FO, ) }}" {# -#}
+      type="submit" {# -#}
+    >{# -#}
+      <i class="fa fa-sign-out"></i> {{ GTW._T ("Logout") -}}
+    </button>{# -#}
+  </form>
+{%- endmacro -%} {#- logout_widget -#}
+
 {%- macro nav_menu_links (page) -%}
   {%- set caller = kwargs.pop ("caller", None) -%}
   {%- set admin  = page.SC.Admin %}
@@ -172,9 +190,7 @@
   {{ action_button
       (page.db_user.abs_href, "cog", GTW._T ("Personal settings"), "settings")
   -}}
-  <a class="logout pure-button" href="{{ page.href_logout }}">
-    Logout
-  </a>
+  {{ logout_widget (page) }}
 {%- endmacro -%} {#- nav_menu_person -#}
 
 {%- macro th_number_of (left, right) -%}
