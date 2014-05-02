@@ -27,6 +27,7 @@
 ##
 ## Revision Dates
 ##     2-May-2014 (CT) Creation
+##     2-May-2014 (CT) Fix name of `Reset` button, add value
 ##    ««revision-date»»···
 ##--
 #}
@@ -117,10 +118,11 @@
       </div>
       <div class="pure-controls">
         <button class="pure-button" {# -#}
-          name="reset"
+          name="Reset"
           tabindex="-1" {# -#}
           title="{{ GTW._T ("I forgot my password; send me a temporary one to my email address") }}" {# -#}
           type="submit" {# -#}
+          value="reset"
         >{# -#}
           <i class="fa fa-frown-o"></i> {{ GTW._T ("I forgot my password") -}}
         </button>{# -#}
