@@ -81,6 +81,7 @@ class Net_Interface (_Mixin_1, _Mixin_2, _Ancestor_Essence) :
             role_type          = FFM.Net_Device
             role_name          = "device"
             Kind_Mixins        = (Attr.Init_Only_Mixin, )
+            show_in_ui_selector= False
 
         # end class left
 

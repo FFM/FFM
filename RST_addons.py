@@ -55,6 +55,10 @@
 #    19-Apr-2014 (CT) Add `_get_child` for `<div_name>`,
 #                     `__getattr__` for `db_*`
 #    26-Apr-2014 (CT) Add first draft of `_DB_E_Type_.GET` to render `MF3.Form`
+#     2-May-2014 (CT) Remove `graphs` from `DB_Device.view_action_names`
+#     2-May-2014 (CT) Put `name` in front of `view_field_names` of
+#                     `DB_Device` and `DB_Interface`
+#     2-May-2014 (CT) Add `skip` for `lifetime` to `DB_Node.form_attr_spec`
 #    ««revision-date»»···
 #--
 
@@ -972,10 +976,13 @@ class DB_Device (_DB_E_Type_) :
 
     type_name             = "FFM.Net_Device"
 
-    view_action_names     = _DB_E_Type_.view_action_names + ("firmware", )
+    view_action_names     = \
+        ( tuple (n for n in _DB_E_Type_.view_action_names if n != "graphs")
+        + ("firmware", )
+        )
     view_field_names      = \
-        ( "my_node.name"
-        , "name"
+        ( "name"
+        , "my_node.name"
         , "interfaces"
         , "type_name"
         , "creation_date"
@@ -1022,9 +1029,9 @@ class DB_Interface (_DB_E_Type_) :
     type_name             = "FFM.Net_Interface"
 
     view_field_names      = \
-        ( "my_node.name"
+        ( "name"
         , "my_net_device.name"
-        , "name"
+        , "my_node.name"
         , "ip4_networks" ### rendered as `IP addresses` by _Field_IP_Addresses_
         , "type_name"
         , "creation_date"
@@ -1070,6 +1077,10 @@ class DB_Node (_DB_E_Type_) :
                 , manager = dict (default = u)
                 , owner   = dict (default = u)
                 )
+        result = dict \
+            ( result
+            , lifetime = dict (skip = True)
+            )
         return result
     # end def form_attr_spec
 

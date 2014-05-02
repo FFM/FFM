@@ -29,6 +29,7 @@
               , edit_button      : "[href=#edit]"
               , filter_button    : "[href=#filter]"
               , firmware_button  : "[href=#firmware]"
+              , graph_button     : "[href=#graphs]"
               , obj_row          : "tr"
               , root             : "#app"
               }
@@ -53,7 +54,7 @@
               }
             );
         var pat_div_name  = new RegExp (options.app_div_prefix + "(\\w+)$");
-        var pat_pid       = new RegExp ("^([^-]+-)(\\d+)$");
+        var pat_pid       = new RegExp ("^([^-]+)-(\\d+)$");
         var pat_typ_name  = new RegExp (options.app_typ_prefix + "(\\w+)$");
         var closest_el    = function closest_el_id (self, selector) {
             return $(self).closest (selector);
@@ -192,6 +193,27 @@
             msg$.focus ();
             msg$.on    ("click", hide_feedback);
         };
+        var graph_cb = function graph_cb (ev) {
+            var a$    = $(this);
+            var row$  = closest_el     (this, selectors.obj_row);
+            var rid   = row$.prop      ("id");
+            var typ   = type_of_obj_id (rid);
+            var pref  =
+                "https://marvin.funkfeuer.at/cgi-bin/smokeping/freenet.cgi?target=";
+            var name  = $(".name", row$).text ();
+            var node, url;
+            if (typ == "node") {
+                url   = pref + name;
+            } else if (typ == "interface") {
+                node  = $(".Node", row$).text ();
+                url   = pref + node + "." + name;
+            } else {
+                alert ("Graph type " + typ + " is not implemented");
+            };
+            if (url) {
+                window.open (url).focus ();
+            };
+        };
         var hide_feedback = function hide_feedback (ev) {
             var target$ = $(ev.target);
             target$.remove ();
@@ -230,6 +252,7 @@
         $(selectors.edit_button    ).on ("click", edit_cb);
         $(selectors.filter_button  ).on ("click", filter_cb);
         $(selectors.firmware_button).on ("click", firmware_cb);
+        $(selectors.graph_button   ).on ("click", graph_cb);
         return this;
     };
   } (jQuery)

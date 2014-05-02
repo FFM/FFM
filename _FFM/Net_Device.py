@@ -70,6 +70,7 @@ class Net_Device (_Mixin_1, _Mixin_2, _Ancestor_Essence) :
             """Type of net device"""
 
             role_type          = FFM.Net_Device_Type
+            show_in_ui_selector= False
 
         # end class left
 
