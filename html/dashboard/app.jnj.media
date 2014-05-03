@@ -31,9 +31,9 @@
 
 from   __future__ import division
 
-CSS_Link    ("/media/GTW/css/leaflet.css")
 Style_File  ("/media/GTW/css/font-awesome.css")
 Style_File  ("/media/GTW/css/pure.css")
+Style_File  ("/media/GTW/css/leaflet.css")
 
 style_sheet = Style_Sheet \
     ( Rule
@@ -445,10 +445,6 @@ style_sheet = Style_Sheet \
                                         )
                                     ]
                                 )
-                            , Rule_Class
-                                ( "number"
-                                , text_align   = "right"
-                                )
                             ]
                         )
                     , Rule
@@ -473,9 +469,17 @@ style_sheet = Style_Sheet \
                                 )
                             ]
                         )
+                    , Rule
+                        ( ".number"
+                        , text_align   = "right"
+                        )
                     ]
                 )
             ]
+        )
+    , Rule
+        ( "#node-table"
+        , width                 = Percent (95)
         )
     , Rule
         ( "#messages"

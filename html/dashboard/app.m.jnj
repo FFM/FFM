@@ -53,7 +53,7 @@
 
 {%- macro db_div_main (db_div) -%}
   {%- for db_type in db_div.entries %}
-    <section id="{{ db_type.app_div_id }}" class="{{ db_type.app_div_class }}" data-graph-show="pure-u-14-24">
+    <section id="{{ db_type.app_div_id }}" class="{{ db_type.app_div_class }}" data-graph-show="pure-u-12-24">
       {{ DB.e_type_table (db_type) }}
     </section>
     {% if db_type.xtra_template_macro %}
@@ -64,16 +64,17 @@
 
 {%- macro db_node_map (db_type) -%}
   {%- set pos = db_type.objects [0].position %}
-  <div class="pure-u-10-24">
+  <div class="pure-u-12-24">
     <div id="{{ db_type.app_div_id }}:map" {# -#}
          class="map" {# -#}
          style="height: 18rem; margin-top: 5rem;"{# -#}
     >
     </div>
     <script>
+      L.Icon.Default.imagePath = "/media/GTW/css/images";
       var node_map =
           L.map ('{{ db_type.app_div_id }}:map')
-           .setView ([{{ pos.lat }}, {{ pos.lon }}], 12);
+           .setView ([{{ pos.lat }}, {{ pos.lon }}], 10);
       L.tileLayer
         ( 'https://\{s\}.tiles.mapbox.com/v3/{id}/\{z\}/\{x\}/\{y\}.png'
         , { maxZoom: 18
@@ -88,8 +89,7 @@
         {%- if pos.lat and pos.lon %}
           L.marker    ([{{ pos.lat }}, {{ pos.lon }}])
            .addTo     (node_map)
-           .bindPopup ("<b>{{ o.name }}</b>")
-           .openPopup ();
+           .bindPopup ("<b>{{ o.name }}</b>");
         {% endif %}
       {% endfor %}
     </script>

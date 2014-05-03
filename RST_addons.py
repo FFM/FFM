@@ -1085,7 +1085,7 @@ class DB_Interface (_DB_E_Type_) :
 class DB_Node (_DB_E_Type_) :
     """FFM.Node displayed by, and managed via, Funkfeuer dashboard."""
 
-    app_div_class         = "pure-u-14-24"
+    app_div_class         = "pure-u-12-24"
     type_name             = "FFM.Node"
     xtra_template_macro   = "html/dashboard/app.m.jnj, db_node_map"
 
