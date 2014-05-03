@@ -443,6 +443,7 @@ class _Meta_DB_Div_ (_Ancestor.__class__) :
 class _DB_Base_ (TFL.Meta.BaM (_Ancestor, metaclass = _Meta_DB_Div_)) :
     """Base class of Funkfeuer dashboard classes"""
 
+    app_div_class         = "pure-u-24-24"
     app_div_prefix        = "app-D:"
     app_typ_prefix        = "app-T:"
     skip_etag             = True
@@ -1084,7 +1085,9 @@ class DB_Interface (_DB_E_Type_) :
 class DB_Node (_DB_E_Type_) :
     """FFM.Node displayed by, and managed via, Funkfeuer dashboard."""
 
+    app_div_class         = "pure-u-14-24"
     type_name             = "FFM.Node"
+    xtra_template_macro   = "html/dashboard/app.m.jnj, db_node_map"
 
     view_field_names      = \
         ( "name"
@@ -1111,6 +1114,7 @@ class DB_Node (_DB_E_Type_) :
                 )
         result = dict \
             ( result
+            , address  = dict (skip = True)
             , lifetime = dict (skip = True)
             )
         return result

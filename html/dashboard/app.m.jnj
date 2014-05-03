@@ -34,6 +34,7 @@
 ##    18-Apr-2014 (CT) Factor `db_div_main`
 ##    19-Apr-2014 (CT) Use `db_type.app_div_id`
 ##     2-May-2014 (CT) Add `logout_widget` to render `form`
+##     3-May-2014 (CT) Add `db_node_map`
 ##    ««revision-date»»···
 ##--
 #}
@@ -52,11 +53,48 @@
 
 {%- macro db_div_main (db_div) -%}
   {%- for db_type in db_div.entries %}
-    <section id="{{ db_type.app_div_id }}" class="pure-u-24-24" data-graph-show="pure-u-14-24">
+    <section id="{{ db_type.app_div_id }}" class="{{ db_type.app_div_class }}" data-graph-show="pure-u-14-24">
       {{ DB.e_type_table (db_type) }}
     </section>
+    {% if db_type.xtra_template_macro %}
+      {{ GTW.call_macro (db_type.xtra_template_macro, db_type) }}
+    {% endif %}
   {% endfor -%}
 {%- endmacro -%} {#- db_div_main -#}
+
+{%- macro db_node_map (db_type) -%}
+  {%- set pos = db_type.objects [0].position %}
+  <div class="pure-u-10-24">
+    <div id="{{ db_type.app_div_id }}:map" {# -#}
+         class="map" {# -#}
+         style="height: 18rem; margin-top: 5rem;"{# -#}
+    >
+    </div>
+    <script>
+      var node_map =
+          L.map ('{{ db_type.app_div_id }}:map')
+           .setView ([{{ pos.lat }}, {{ pos.lon }}], 12);
+      L.tileLayer
+        ( 'https://\{s\}.tiles.mapbox.com/v3/{id}/\{z\}/\{x\}/\{y\}.png'
+        , { maxZoom: 18
+          , attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, '
+          + '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, '
+          + 'Imagery © <a href="http://mapbox.com">Mapbox</a>'
+          , id: 'examples.map-9ijuk24y'
+          }
+        ).addTo (node_map);
+      {%- for o in db_type.objects %}
+        {%- set pos = o.position %}
+        {%- if pos.lat and pos.lon %}
+          L.marker    ([{{ pos.lat }}, {{ pos.lon }}])
+           .addTo     (node_map)
+           .bindPopup ("<b>{{ o.name }}</b>")
+           .openPopup ();
+        {% endif %}
+      {% endfor %}
+    </script>
+  </div>
+{%- endmacro -%} {#- db_node_map -#}
 
 {%- macro e_type_table (db_type) -%}
   {%- set actions = db_type.view_actions %}
