@@ -59,6 +59,8 @@
 #     2-May-2014 (CT) Put `name` in front of `view_field_names` of
 #                     `DB_Device` and `DB_Interface`
 #     2-May-2014 (CT) Add `skip` for `lifetime` to `DB_Node.form_attr_spec`
+#     3-May-2014 (CT) Add and use `_setup_create_form_attr_spec`,
+#                     redefine it for `DB_Device` and `DB_Interface`
 #    ««revision-date»»···
 #--
 
@@ -534,11 +536,13 @@ class _DB_E_Type_ (_MF3_Mixin, _Ancestor) :
     fill_edit             = True
     fill_user             = False
     fill_view             = False
+    hidden                = True
     ui_allow_new          = True
     view_action_names     = ("filter", "edit", "delete", "graphs")
     view_field_names      = ()    ### to be defined by subclass
     type_name             = None  ### to be defined by subclass
-    hidden                = True
+
+    _form_attr_spec_d     = {}
 
     child_permission_map     = property \
         (lambda s : s.admin.child_permission_map)
@@ -573,6 +577,7 @@ class _DB_E_Type_ (_MF3_Mixin, _Ancestor) :
         def __call__ (self, resource, request, response) :
             req_data = request.req_data
             if "create" in req_data :
+                resource._setup_create_form_attr_spec (request)
                 creator = resource._get_child ("create")
                 return creator.GET () (creator, request, response)
             else :
@@ -781,11 +786,8 @@ class _DB_E_Type_ (_MF3_Mixin, _Ancestor) :
         @property ### depends on currently selected language (I18N/L10N)
         @getattr_safe
         def description (self) :
-            try :
-                return _T (self._description) % \
+            return _T (self._description) % \
                 (self.attr.P_Type.ui_name_T, self.ET.ui_name_T)
-            except AttributeError as exc :
-                TFL.Environment.exec_python_startup (); import pdb; pdb.set_trace ()
         # end def description
 
         @Once_Property
@@ -907,6 +909,10 @@ class _DB_E_Type_ (_MF3_Mixin, _Ancestor) :
         return self.__super._init_kw (_field_map = {}, ** kw)
     # end def _init_kw
 
+    def _setup_create_form_attr_spec (self, request) :
+        pass
+    # end def _setup_create_form_attr_spec
+
 # end class _DB_E_Type_
 
 class _DB_Person_Property_ (_DB_E_Type_) :
@@ -1000,6 +1006,19 @@ class DB_Device (_DB_E_Type_) :
         return "node-%d- device-%d-" % (o.my_node.pid, o.pid)
     # end def tr_instance_css_class
 
+    def _setup_create_form_attr_spec (self, request) :
+        fasd     = self.form_attr_spec_d = {}
+        req_data = request.req_data
+        scope    = self.scope
+        if "node" in req_data :
+             try :
+                 node = scope.pid_query (req_data ["node"])
+             except Exception :
+                 pass
+             else :
+                 fasd ["node"] = dict (default = node)
+    # end def _setup_create_form_attr_spec
+
 # end class DB_Device
 
 class DB_Edit (_DB_Div_) :
@@ -1047,6 +1066,19 @@ class DB_Interface (_DB_E_Type_) :
             (o.my_node.pid, o.my_net_device.pid, o.pid)
     # end def tr_instance_css_class
 
+    def _setup_create_form_attr_spec (self, request) :
+        fasd     = self.form_attr_spec_d = {}
+        req_data = request.req_data
+        scope    = self.scope
+        if "device" in req_data :
+             try :
+                 device = scope.pid_query (req_data ["device"])
+             except Exception :
+                 pass
+             else :
+                 fasd ["left"] = dict (default = device)
+    # end def _setup_create_form_attr_spec
+
 # end class DB_Interface
 
 class DB_Node (_DB_E_Type_) :
@@ -1068,8 +1100,8 @@ class DB_Node (_DB_E_Type_) :
 
     @property
     @getattr_safe
-    def form_attr_spec (self) :
-        result = self.__super.form_attr_spec
+    def form_attr_spec_d (self) :
+        result = {}
         u = self.admin.user_restriction
         if u is not None :
             result = dict \
@@ -1082,12 +1114,7 @@ class DB_Node (_DB_E_Type_) :
             , lifetime = dict (skip = True)
             )
         return result
-    # end def form_attr_spec
-
-    @form_attr_spec.setter
-    def form_attr_spec (self, value) :
-        self._form_attr_spec = value
-    # end def form_attr_spec
+    # end def form_attr_spec_d
 
 # end class DB_Node
 

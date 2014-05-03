@@ -15,6 +15,8 @@
 //
 // Revision Dates
 //    15-Apr-2014 (CT) Creation
+//     2-May-2014 (CT) Add `graph_cb`
+//     3-May-2014 (CT) Add `active_filters`; pass contents to `?create`
 //    ««revision-date»»···
 //--
 
@@ -53,19 +55,24 @@
               , urls      : urls
               }
             );
-        var pat_div_name  = new RegExp (options.app_div_prefix + "(\\w+)$");
-        var pat_pid       = new RegExp ("^([^-]+)-(\\d+)$");
-        var pat_typ_name  = new RegExp (options.app_typ_prefix + "(\\w+)$");
-        var closest_el    = function closest_el_id (self, selector) {
+        var active_filters = {};
+        var pat_div_name   = new RegExp (options.app_div_prefix + "(\\w+)$");
+        var pat_pid        = new RegExp ("^([^-]+)-(\\d+)$");
+        var pat_typ_name   = new RegExp (options.app_typ_prefix + "(\\w+)$");
+        var closest_el     = function closest_el_id (self, selector) {
             return $(self).closest (selector);
         };
         var closest_el_id = function closest_el_id (self, selector) {
             return $(self).closest (selector).prop ("id");
         };
         var create_cb = function create_cb (ev) {
+            var afs   = $.param       (active_filters);
             var sid   = closest_el_id (this, "section");
             var typ   = sid.match     (pat_typ_name) [1];
             var url   = options.urls.page + typ + "?create";
+            if (afs.length > 0) {
+                url   = url + "&" + afs;
+            };
             setTimeout
                 ( function () {
                     window.location.href = url;
@@ -162,12 +169,17 @@
         };
         var filter_cb = function filter_cb (ev) {
             var a$    = $(this);
-            var id    = closest_el_id (this, selectors.obj_row);
+            var id    = closest_el_id         (this, selectors.obj_row);
+            var pid   = pid_of_obj_id         (id);
+            var typ   = type_of_obj_id        (id);
             var all   = obj_rows_selector_all (id);
             var hide$;
             if (a$.hasClass (options.active_button_class)) {
                 // currently filtered --> show all instances
                 $(all).show ();
+                delete active_filters [typ];
+            } else {
+                active_filters [typ] = pid;
             };
             a$.toggleClass (options.active_button_class);
             // execute all filters that are active now
