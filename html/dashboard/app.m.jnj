@@ -35,6 +35,7 @@
 ##    19-Apr-2014 (CT) Use `db_type.app_div_id`
 ##     2-May-2014 (CT) Add `logout_widget` to render `form`
 ##     3-May-2014 (CT) Add `db_node_map`
+##     4-May-2014 (CT) Add `db_graph`
 ##    ««revision-date»»···
 ##--
 #}
@@ -53,7 +54,7 @@
 
 {%- macro db_div_main (db_div) -%}
   {%- for db_type in db_div.entries %}
-    <section id="{{ db_type.app_div_id }}" class="{{ db_type.app_div_class }}" data-graph-show="pure-u-12-24">
+    <section id="{{ db_type.app_div_id }}" class="{{ db_type.app_div_class }}">
       {{ DB.e_type_table (db_type) }}
     </section>
     {% if db_type.xtra_template_macro %}
@@ -62,18 +63,26 @@
   {% endfor -%}
 {%- endmacro -%} {#- db_div_main -#}
 
+{%- macro db_graph (db_type) -%}
+  {%- set tn  = db_type.div_name %}
+  <div class="pure-u-24-24 graph" id="{{ tn }}-graph">
+  </div>
+{%- endmacro -%} {#- db_graph -#}
+
 {%- macro db_node_map (db_type) -%}
   {%- set pos = db_type.objects [0].position %}
+  {%- set tn  = db_type.div_name %}
+  {%- set nn = GTW.len (db_type.objects) %}
   <div class="pure-u-12-24">
-    <div id="{{ db_type.app_div_id }}:map" {# -#}
+    <div id="{{ tn }}-map" {# -#}
          class="map" {# -#}
-         style="height: 18rem; margin-top: 5rem;"{# -#}
+         style="height: {{ 3 * (nn + 1) -}}rem; margin-top: 5rem;"{# -#}
     >
     </div>
     <script>
       L.Icon.Default.imagePath = "/media/GTW/css/images";
       var node_map =
-          L.map ('{{ db_type.app_div_id }}:map')
+          L.map ('{{ tn }}-map')
            .setView ([{{ pos.lat }}, {{ pos.lon }}], 10);
       L.tileLayer
         ( 'https://\{s\}.tiles.mapbox.com/v3/{id}/\{z\}/\{x\}/\{y\}.png'
@@ -84,13 +93,14 @@
           , id: 'examples.map-9ijuk24y'
           }
         ).addTo (node_map);
-      {%- for o in db_type.objects %}
+      {%- for o in db_type.objects if o.position.lat and o.position.lon %}
         {%- set pos = o.position %}
-        {%- if pos.lat and pos.lon %}
-          L.marker    ([{{ pos.lat }}, {{ pos.lon }}])
-           .addTo     (node_map)
-           .bindPopup ("<b>{{ o.name }}</b>");
-        {% endif %}
+        L .marker    ([{{ pos.lat }}, {{ pos.lon }}])
+          .addTo     (node_map)
+          .bindPopup ("<b>{{ o.name }}</b>")
+          {%- if loop.first %}
+            .openPopup ()
+          {%- endif %};
       {% endfor %}
     </script>
   </div>

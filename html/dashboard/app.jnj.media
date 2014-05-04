@@ -205,6 +205,10 @@ style_sheet = Style_Sheet \
         ( "#app"
         , children             =
             [ Rule
+                ( "[class^=pure-u-]"
+                , overflow     = "auto"
+                )
+            , Rule
                 ( "form"
                 , font_size            = Em (0.875)
                 , children             =
@@ -399,9 +403,11 @@ style_sheet = Style_Sheet \
             , Rule
                 ( "table"
                 , font_size            = Em (0.875)
+                , max_width            = Percent (100)
                 , children             =
                     [ Rule
                         ( "td"
+                        , word_wrap    = "break-word"
                         , children     =
                             [ Rule_Class
                                 ( "action"
@@ -450,6 +456,7 @@ style_sheet = Style_Sheet \
                     , Rule
                         ( "th"
                         , font_weight          = "normal"
+                        , word_wrap            = "break-word"
                         )
                     , Rule
                         ( "thead"
@@ -476,6 +483,11 @@ style_sheet = Style_Sheet \
                     ]
                 )
             ]
+        )
+    , Rule
+        ( ".graph a"
+        , display               = "block"
+        , margin_top            = Em (2)
         )
     , Rule
         ( "#node-table"
@@ -618,6 +630,28 @@ style_sheet = Style_Sheet \
             [ Rule
                 ( "#app form .Field.mf3-control-group-h"
                 , display              = "block"
+                )
+            , Rule
+                ( "#interface-table"
+                , children              =
+                    [ Rule
+                        ( ".created"
+                        , max_width     = Em (5)
+                        )
+                    , Rule
+                        ( ".Device"
+                        , display       = "none"
+                        , visibility    = "hidden"
+                        )
+                    , Rule
+                        ( ".ip-addresses"
+                        , max_width     = Em (7)
+                        )
+                    , Rule
+                        ( ".name"
+                        , max_width     = Em (6)
+                        )
+                    ]
                 )
             ]
         )

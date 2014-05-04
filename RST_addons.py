@@ -63,6 +63,7 @@
 #                     redefine it for `DB_Device` and `DB_Interface`
 #     4-May-2014 (CT) Redefine `DB_Interface.Creator` and `.Instance` to do
 #                     IP allocation (very hackish for now)
+#     4-May-2014 (CT) Add `DB_Interface.xtra_template_macro`
 #    ««revision-date»»···
 #--
 
@@ -541,7 +542,7 @@ class _DB_E_Type_ (_MF3_Mixin, _Ancestor) :
     fill_view             = False
     hidden                = True
     ui_allow_new          = True
-    view_action_names     = ("filter", "edit", "delete", "graphs")
+    view_action_names     = ("filter", "edit", "delete")
     view_field_names      = ()    ### to be defined by subclass
     type_name             = None  ### to be defined by subclass
 
@@ -808,9 +809,14 @@ class _DB_E_Type_ (_MF3_Mixin, _Ancestor) :
     class _Field_Type_ (_Field_Ref_) :
 
         ref_name = "type"
+        typ_map  = \
+            { "FFM.Virtual_Wireless_Interface" : "V"
+            , "FFM.Wired_Interface"            : "L"
+            , "FFM.Wireless_Interface"         : "W"
+            }
 
         def value (self, o) :
-            return o.ui_name_T
+            return self.typ_map.get (o.type_name, o.ui_name_T)
         # end def value
 
     # end class _Field_Type_
@@ -985,15 +991,13 @@ class DB_Device (_DB_E_Type_) :
 
     type_name             = "FFM.Net_Device"
 
-    view_action_names     = \
-        ( tuple (n for n in _DB_E_Type_.view_action_names if n != "graphs")
-        + ("firmware", )
-        )
+    view_action_names     = _DB_E_Type_.view_action_names + \
+        ("firmware", )
     view_field_names      = \
         ( "name"
         , "my_node.name"
         , "interfaces"
-        , "type_name"
+        # "type_name"
         , "creation_date"
         )
 
@@ -1050,7 +1054,9 @@ _Ancestor = _DB_E_Type_
 class DB_Interface (_Ancestor) :
     """FFM.Net_Interface displayed by, and managed via, Funkfeuer dashboard."""
 
+    app_div_class         = "pure-u-24-24"
     type_name             = "FFM.Net_Interface"
+    xtra_template_macro   = "html/dashboard/app.m.jnj, db_graph"
 
     view_field_names      = \
         ( "name"
@@ -1147,6 +1153,7 @@ class DB_Node (_DB_E_Type_) :
     type_name             = "FFM.Node"
     xtra_template_macro   = "html/dashboard/app.m.jnj, db_node_map"
 
+    view_action_names     = _DB_E_Type_.view_action_names + ("graphs", )
     view_field_names      = \
         ( "name"
         , "devices"

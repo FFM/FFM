@@ -17,6 +17,7 @@
 //    15-Apr-2014 (CT) Creation
 //     2-May-2014 (CT) Add `graph_cb`
 //     3-May-2014 (CT) Add `active_filters`; pass contents to `?create`
+//     4-May-2014 (CT) Add `filter_typ_cb ["interface"]`, `graph_interface_cb`
 //    ««revision-date»»···
 //--
 
@@ -32,6 +33,8 @@
               , filter_button    : "[href=#filter]"
               , firmware_button  : "[href=#firmware]"
               , graph_button     : "[href=#graphs]"
+              , graph_button_if  : ".interface-table [href=#graphs]"
+              , graph_button_node: ".node-table [href=#graphs]"
               , obj_row          : "tr"
               , root             : "#app"
               }
@@ -168,11 +171,12 @@
             $(sel).show ();
         };
         var filter_cb = function filter_cb (ev) {
-            var a$    = $(this);
-            var id    = closest_el_id         (this, selectors.obj_row);
-            var pid   = pid_of_obj_id         (id);
-            var typ   = type_of_obj_id        (id);
-            var all   = obj_rows_selector_all (id);
+            var a$      = $(this);
+            var id      = closest_el_id         (this, selectors.obj_row);
+            var pid     = pid_of_obj_id         (id);
+            var typ     = type_of_obj_id        (id);
+            var all     = obj_rows_selector_all (id);
+            var typ_cb  = filter_typ_cb [typ];
             var hide$;
             if (a$.hasClass (options.active_button_class)) {
                 // currently filtered --> show all instances
@@ -180,6 +184,9 @@
                 delete active_filters [typ];
             } else {
                 active_filters [typ] = pid;
+                if (typ_cb) {
+                    typ_cb.apply (this, arguments);
+                };
             };
             a$.toggleClass (options.active_button_class);
             // execute all filters that are active now
@@ -226,6 +233,28 @@
                 window.open (url).focus ();
             };
         };
+        var graph_interface_cb = function graph_interface_cb (ev) {
+            var a$    = $(this);
+            var dg$   = $("#interface-graph");
+            var row$  = closest_el     (this, selectors.obj_row);
+            var name  = $(".name", row$).text ();
+            var node  = $(".Node", row$).text ();
+            var pref  =
+                "https://marvin.funkfeuer.at/cgi-bin/smokeping/freenet.cgi?target=";
+            var rid   = row$.prop      ("id");
+            var typ   = type_of_obj_id (rid);
+            var url_g =
+                ( "https://marvin.funkfeuer.at/smokeping/freenet/"
+                + node + "/" + name
+                + "_last_86400.png"
+                );
+            var url_h = pref + node + "." + name;
+            dg$.html
+                ( "<a href=\""  + url_h + "\" target=\"_blank\">"
+                + "<img src=\"" + url_g + "\" alt=\"Smokeping Graphik für " + name + "." + node + "\"/>"
+                + "</a>"
+                );
+        };
         var hide_feedback = function hide_feedback (ev) {
             var target$ = $(ev.target);
             target$.remove ();
@@ -257,14 +286,18 @@
             var groups = id.match (pat_pid);
             return groups [1];
         };
+        var filter_typ_cb = {
+            interface : graph_interface_cb
+        };
         selectors.filter_active_button =
             "." + options.active_button_class + selectors.filter_button;
-        $(selectors.create_button  ).on ("click", create_cb);
-        $(selectors.delete_button  ).on ("click", delete_cb);
-        $(selectors.edit_button    ).on ("click", edit_cb);
-        $(selectors.filter_button  ).on ("click", filter_cb);
-        $(selectors.firmware_button).on ("click", firmware_cb);
-        $(selectors.graph_button   ).on ("click", graph_cb);
+        $(selectors.create_button    ).on ("click", create_cb);
+        $(selectors.delete_button    ).on ("click", delete_cb);
+        $(selectors.edit_button      ).on ("click", edit_cb);
+        $(selectors.filter_button    ).on ("click", filter_cb);
+        $(selectors.firmware_button  ).on ("click", firmware_cb);
+        $(selectors.graph_button_if  ).on ("click", graph_interface_cb);
+        $(selectors.graph_button_node).on ("click", graph_cb);
         return this;
     };
   } (jQuery)
