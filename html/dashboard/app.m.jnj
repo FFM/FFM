@@ -222,6 +222,7 @@
             </a>
           </li>
         {% endif -%}
+        <li><a hreaf="#">API Key</a></li>
       </ul>
     </li>
   {% endif -%}
