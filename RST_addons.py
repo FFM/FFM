@@ -61,6 +61,8 @@
 #     2-May-2014 (CT) Add `skip` for `lifetime` to `DB_Node.form_attr_spec`
 #     3-May-2014 (CT) Add and use `_setup_create_form_attr_spec`,
 #                     redefine it for `DB_Device` and `DB_Interface`
+#     4-May-2014 (CT) Redefine `DB_Interface.Creator` and `.Instance` to do
+#                     IP allocation (very hackish for now)
 #    ««revision-date»»···
 #--
 
@@ -1043,7 +1045,9 @@ class DB_IM_Handle (_DB_Person_Property_) :
 
 # end class DB_IM_Handle
 
-class DB_Interface (_DB_E_Type_) :
+_Ancestor = _DB_E_Type_
+
+class DB_Interface (_Ancestor) :
     """FFM.Net_Interface displayed by, and managed via, Funkfeuer dashboard."""
 
     type_name             = "FFM.Net_Interface"
@@ -1061,6 +1065,60 @@ class DB_Interface (_DB_E_Type_) :
         ( _DB_E_Type_._field_type_map
         , ip4_networks    = _DB_E_Type_._Field_IP_Addresses_
         )
+
+    class _DBI_Action_Override_ (_Ancestor._Action_Override_) :
+
+        # Freenet networks according to Wiki dokumentation (from call_convert)
+        # This may be old info, ask Aaron
+        # FIXME: in the future we will have permissions and don't need
+        # to search by IP of network.
+        freenet_networks = \
+            [ '193.238.156.0/24'
+            , '193.238.157.128/25'
+            , '193.238.158.0/24'
+            , '193.238.159.0/24'
+            , '78.41.112.0/24'
+            , '78.41.113.0/24'
+            ]
+
+        def _commit_scope_fv (self, scope, form_value, request, response) :
+            iface = form_value.essence
+            if not iface.ip4_networks :
+                person = self.user.person ### XXX ??? iface.my_node.manager...
+                try :
+                    self._get_ip_for_interface (scope, person, iface)
+                except Exception as exc :
+                    logging.exception ("_get_ip_for_interface")
+            self.__super._commit_scope_fv (scope, form_value, request, response)
+        # end def _commit_scope_fv
+
+        def _get_ip_for_interface (self, scope, owner, iface) :
+            from rsclib.IP_Address import IP4_Address
+            FFM = scope.FFM
+            for ip in self.freenet_networks :
+                ip  = IP4_Address (ip)
+                net = FFM.IP4_Network.instance (ip)
+                try :
+                    adr = net.allocate (32, owner)
+                except FFM.Error.No_Free_Address_Range :
+                    continue
+                FFM.Net_Interface_in_IP4_Network (iface, adr, mask_len = 32)
+                return adr
+        # end def _get_ip_for_interface
+
+    # end class _DBI_Action_Override_
+
+    class _DBI_Creator (_DBI_Action_Override_, _DB_E_Type_.Creator) :
+
+        _real_name         = "Creator"
+
+    Creator = _DBI_Creator # end class
+
+    class _DBI_Instance_ (_DBI_Action_Override_, _DB_E_Type_.Instance) :
+
+        _real_name         = "Instance"
+
+    Instance = _DBI_Instance_ # end class
 
     def tr_instance_css_class (self, o) :
         return "node-%d- device-%d- interface-%d-" % \
