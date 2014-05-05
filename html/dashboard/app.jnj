@@ -31,6 +31,7 @@
 ##    17-Apr-2014 (CT) Add dashboard divisions `app-edit`, `-user`, `-view`
 ##    19-Apr-2014 (CT) Use `app_div_id`, `app_div_prefix`
 ##     2-May-2014 (CT) Add blocks `app` and `main`
+##     5-May-2014 (CT) Factor macro `nav_menu_dashboard` to `app.m.jnj`
 ##    ««revision-date»»···
 ##--
 #}
@@ -79,9 +80,7 @@
         {%- block nav_block -%}
           {% call X.nav (class="pure-menu pure-menu-fixed pure-menu-horizontal pure-menu-inverse pure-menu-open") -%}
             {%- block navigate -%}
-              <a href="{{ page.db_view.abs_href }}" class="dashboard pure-menu-heading">
-                FF Dashboard
-              </a>
+              {{ DB.nav_menu_dashboard (page) }}
               <ul class="nav-menu-links">
                 {%- block nav_menu_links -%}
                   {{ DB.nav_menu_links (page) }}

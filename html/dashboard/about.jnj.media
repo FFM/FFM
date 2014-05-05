@@ -1,0 +1,64 @@
+# -*- coding: utf-8 -*-
+# Copyright (C) 2014 Mag. Christian Tanzer All rights reserved
+# Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+# #*** <License> ************************************************************
+# This module is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This module is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this module. If not, see <http://www.gnu.org/licenses/>.
+# #*** </License> ***********************************************************#
+#
+#++
+# Name
+#    html/dashboard/about.jnj.media
+#
+# Purpose
+#    Media fragment for template html/dashboard/about.jnj
+#
+# Revision Dates
+#     5-May-2014 (CT) Creation
+#    ««revision-date»»···
+#--
+
+from   __future__ import division
+
+#Style_File  ("/media/GTW/css/font-awesome.css")
+#Style_File  ("/media/GTW/css/pure.css")
+
+style_sheet = Style_Sheet \
+    ( Rule
+        (".hero-unit"
+        , background_color     = "#EEEEEE"
+        , border_radius        = Px (6)
+        , font_size            = Rem (1.125)
+        , font_weight          = 500
+        , line_height          = Rem (1.875)
+        , margin               = TRBL (Rem (0.25), 0, Rem (2.0))
+        , padding              = Rem (4.0)
+        , children             =
+           [ Rule
+               ( "h2"
+               , font_size     = Em (1.75)
+               , margin        = TRBL (Rem (0.625), 0)
+               )
+           , Rule
+               ( "img"
+               , max_width     = Percent (100)
+               )
+           , Rule
+               ( "p"
+               , margin        = TRBL (0, 0, Rem (0.625))
+               )
+           ]
+        )
+    )
+
+### __END__ html/dashboard/about.jnj.media

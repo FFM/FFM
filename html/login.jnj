@@ -28,6 +28,7 @@
 ## Revision Dates
 ##     2-May-2014 (CT) Creation
 ##     2-May-2014 (CT) Fix name of `Reset` button, add value
+##     5-May-2014 (CT) Remove redefinition of `nav_block`
 ##    ««revision-date»»···
 ##--
 #}
@@ -41,16 +42,6 @@
     </li>
   {% endfor -%}
 {%- endmacro -%} {#- display_errors -#}
-
-{%- block nav_block -%}
-  {% call X.nav (class="pure-menu pure-menu-fixed pure-menu-horizontal pure-menu-inverse pure-menu-open") -%}
-    {%- block navigate -%}
-      <b class="dashboard pure-menu-heading">
-        FF Dashboard
-      </b>
-    {%- endblock -%}
-  {%- endcall %} {# X.nav #}
-{%- endblock nav_block -%}
 
 {%- block app -%}
   {%- set Auth     = page.SC.Auth -%}

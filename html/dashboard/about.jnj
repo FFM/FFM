@@ -1,0 +1,141 @@
+{%- extends "html/dashboard/app.jnj" %}
+{#- jinja template: html/dashboard/about.jnj -#}
+{#
+## Copyright (C) 2014 Mag. Christian Tanzer All rights reserved
+## Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+## #*** <License> ************************************************************
+## This template is free software: you can redistribute it and/or modify
+## it under the terms of the GNU Affero General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This template is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+## GNU Affero General Public License for more details.
+##
+## You should have received a copy of the GNU Affero General Public License
+## along with this template. If not, see <http://www.gnu.org/licenses/>.
+## #*** </License> ***********************************************************#
+##
+##++
+## Name
+##    html/dashboard/about.jnj
+##
+## Purpose
+##    Dashboard specific `About` page
+##
+## Revision Dates
+##     5-May-2014 (CT) Creation
+##    ««revision-date»»···
+##--
+#}
+
+{%- block app -%}
+  <div class="hero-unit">
+    <h2>Willkommen!</h2>
+    <img src="/media/images/main_graphic_small.png">
+    <p>
+      Das ist das neue user-interface für die Common Node DB (“nodeDB”).
+      Den Source Code dazu findest du auf
+      <a href="http://github.com/FFM/FFM/">github</a>.
+    </p>
+  </div>
+  <div class="contents">
+    <h2>Über</h2>
+    <p>
+      Die neue node Datenbank (“common Node DB”) ist ein Projekt bei
+      Funkfeuer, um die alte bestehende Verwaltungs-Datenbank zu ersetzen und
+      zu erweitern. Während die alte Datenbank uns viele Jahre erfolgreich
+      gedient hat und die IP Adressenverwaltung bei Funkfeuer Wien überhaupt
+      ermöglicht hat, gab es — wie so oft — im Laufe der Zeit immer
+      mehr Wünsche bezüglich neuer Funktionalität.
+    </p>
+    <p>
+      So war es bei der alten Datenbank nicht möglich:
+      <ul>
+        <li>
+          Linkplanung zu haben,
+        </li>
+        <li>
+          IP Adressen gescheit zurück zu fordern,
+        </li>
+        <li>
+          Benutzern einen Überblick über ihre Knoten zu geben (Link-Quality,
+          Statistiken, ...),
+        </li>
+        <li>
+          “Mentoren” zu haben, die offiziell Knoten im Namen anderer
+          betreuen,
+        </li>
+        <li>
+          ein API zu verwenden, gegen das viele verschiedene Tools ihre
+          Anfragen stellen können,
+        </li>
+        <li> etc. </li>
+      </ul>
+    </p>
+
+    <p>
+      Die common Node DB:
+      <ul>
+        <li>
+          hat ein <a href="/api">API</a>, sodass viele kleine Programme die
+          nodeDB abfragen können;
+        </li>
+        <li>
+          hat <a href="/Doc/FFM">Dokumentation</a>, wie das API zu
+          verwenden ist;
+        </li>
+        <li>
+          hat eine <a href="XXX">IP History</a>, um zu sehen, wer welche
+          IP wann verwendet hat;
+        </li>
+        <li>
+          hat Exporter, die die Konfigurationsdateien für die
+          wichtigsten Services (DNS Server, Nagios, Smokeping,...)
+          generieren können;
+        </li>
+        <li>
+          ist ein offenes, open-source Projekt, das für und mit der
+          community entwickelt wird.
+        </li>
+      </ul>
+
+    </p>
+
+    <p>
+      Geplante features der common Node DB sind:
+      <ul>
+        <li>
+          Linkplaning tools: Integration von
+          <a href="http://heywhatsthat.com">heywhatsthat.com</a> oder
+          <a href="www.cplus.org/rmw/english1.html">Radio Mobile</a>,
+          um Funkfeuer Benutzer bei der Link-Planung zu unterstützen.
+        </li>
+        <li>
+          Firmeware-Generator: je nach verwendetem Device kann man die
+          Firmware dafuer mit den richtigen Settings automatisch
+          generieren lassen.
+        </li>
+        <li>
+          Tunnel-Konfigurator: Tunnel gewünscht?
+        </li>
+      </ul>
+    </p>
+
+    <p>
+      In Summe ist die neue common Node DB eine komplette neue
+      Implementation. Ihr Source code findet sich auf
+      <a href="http://github.com/FFM/FFM/">github.com</a>.
+    </p>
+
+    <p>
+      Die common Node DB wurde im Rahmen des EU geförderten Projektes
+      <a href="http://www.confine-project.eu">“CONFINE”</a>
+      implementiert.
+    </p>
+  </div>
+{%- endblock app -%}
+
+{#- __END__ jinja template: html/dashboard/about.jnj -#}

@@ -1,0 +1,38 @@
+{%- extends "html/dashboard/app.jnj" %}
+{#- jinja template: html/dashboard/static.jnj -#}
+{#
+## Copyright (C) 2014 Mag. Christian Tanzer All rights reserved
+## Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
+## #*** <License> ************************************************************
+## This template is free software: you can redistribute it and/or modify
+## it under the terms of the GNU Affero General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This template is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+## GNU Affero General Public License for more details.
+##
+## You should have received a copy of the GNU Affero General Public License
+## along with this template. If not, see <http://www.gnu.org/licenses/>.
+## #*** </License> ***********************************************************#
+##
+##++
+## Name
+##    html/dashboard/static.jnj
+##
+## Purpose
+##    Dashboard specific template for pages with static text
+##
+## Revision Dates
+##     5-May-2014 (CT) Creation
+##    ««revision-date»»···
+##--
+#}
+
+{%- block app -%}
+  {{ page.contents|safe }}
+{%- endblock app -%}
+
+{#- __END__ jinja template: html/dashboard/static.jnj -#}

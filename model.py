@@ -55,6 +55,7 @@
 #    14-Apr-2014 (CT) Add `pid="RESTful"` to resource `/api`
 #    14-Apr-2014 (CT) Add `RST_addons.User_Net_Interface`
 #    18-Apr-2014 (CT) Add `RST_addons.User_Person*`
+#     5-May-2014 (CT) Replace `landing_page` bei `/about`; add `/impressum`
 #    ««revision-date»»···
 #--
 
@@ -123,77 +124,40 @@ FFM.Version = Product_Version \
         )
     )
 
-landing_page = """
-Statt :q:`Ich will ins Netz` :q:`Wir sind das Netz`
-===================================================
+impressum_contents = """
 
-Was?
-++++
+Name des Vereins
+----------------
 
-Frei
-----
+:email:`FunkFeuer Wien <vorstand@funkfeuer.at>` — Verein zur Förderung freier
+Netze
 
-FunkFeuer ist ein freies, experimentelles Netzwerk in Wien, Graz, der
-Weststeiermark, in Teilen des Weinviertels (NÖ) und in Bad Ischl. Es wird
-aufgebaut und betrieben von computerbegeisterten Menschen. Das Projekt verfolgt
-keine kommerziellen Interessen.
+`ZVR-Zahl`_: 814804682
 
-Offen
------
+Vereinssitz
+-----------
 
-FunkFeuer ist offen für jeden und jede, der/die Interesse hat und bereit ist
-mitzuarbeiten. Es soll dabei ein nicht reguliertes Netzwerk entstehen, welches
-das Potential hat, den digitalen Graben zwischen den sozialen Schichten zu
-überbrücken und so Infrastruktur und Wissen zur Verfügung zu stellen. Teilnahme
-Zur Teilnahme an FunkFeuer braucht man einen WLAN Router (gibt's ab 60 Euro)
-oder einen PC, das OLSR Programm, eine IP Adresse von FunkFeuer, etwas Geduld
-und Motivation. Auf unserer Karte ist eingezeichnet, wo man FunkFeuer schon
-überall (ungefähr) empfangen kann (bitte beachte, dass manchmal Häuser oder
-ähnliches im Weg sind, dann geht's nur über Umwege).
+1010 Wien, Gonzagagasse 11/25
 
-*Wir bauen uns unser Netzwerk selber!*
+.. _`ZVR-Zahl`: http://zvr.bmi.gv.at/Start
 
-WIE?
-++++
-
-Eine Einführung gibts als `PDF-Datei`_ (Danke Andreas!)
-Die `ersten Schritte`_ werden im `wiki`_ erläutert.
-
-.. _`PDF-Datei`:
-    http://funkfeuer.at/fileadmin/Dokumente/vortraege/FunkFeuer_Intro.pdf
-.. _`ersten Schritte`: http://wiki.funkfeuer.at/index.php/Erste_Schritte
-.. _`wiki`: http://wiki.funkfeuer.at/
-
-Siehe auch `die Geschichte von Funkfeuer`_.
-
-.. _`die Geschichte von Funkfeuer`: http://www.funkfeuer.at/Geschichte.94.0.html
-
-WARUM?
-++++++
-
-`Darum!`_
-
-.. _`Darum!`:
-    http://wiki.funkfeuer.at/index.php/Die_Konstruktion_der_Netzwerk-Allmende
-
-
-Armin Medosch hat die Theorie der freien Netze sehr gut analyisiert und sogar
-ein `Buch`_ darüber geschrieben.
-
-.. _`Buch`: http://www.heise.de/tp/r4/buch/buch_11.html
-
-Cooles Projekt, wie kann ich helfen?
-++++++++++++++++++++++++++++++++++++
-
-Vielseitig! wir sind ein kleines Team und können **jede** Unterstützung
-gebrauchen.
-
-Tritt einfach mit uns in Kontakt. Es gibt verschiedene Arbeitsgruppen. Die
-meiste Kommunikation verläuft über die `Mailinglisten`_.
-
-.. _`Mailinglisten`: http://funkfeuer.at/Mailinglisten.61.0.html
 """
 
+impressum_contents_add = """
+Copyright
+---------
+
+Die Inhalte dieser Seiten sind urheberrechtlich geschützt.
+
+Haftungsausschluss
+------------------
+
+Jede Haftung für unmittelbare, mittelbare oder sonstige Schäden, unabhängig
+von deren Ursachen, die aus der Benutzung oder Nichtverfügbarkeit der Daten
+und Informationen dieser Homepage erwachsen, wird, soweit rechtlich zulässig,
+ausgeschlossen.
+
+"""
 class Command (_Base_Command_, GTW.Werkzeug.Command) :
     """Manage database, run server or WSGI app."""
 
@@ -245,12 +209,13 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
         result.add_entries \
             ( RST_addons.Dashboard
                 ( auth_required   = auth_r
+                , pid             = "DB"
                 )
             , TOP.Page_ReST
-                ( name            = "Funkfeuer"
-                , short_title     = "Funkfeuer?"
-                , title           = "Was ist Funkfeuer?"
-                , src_contents    = landing_page
+                ( name            = "about"
+                , short_title     = "Über Funkfeuer"
+                , title           = "Über Funkfeuer"
+                , page_template_name = "html/dashboard/about.jnj"
                 )
             , TOP.Dir
                 ( name            = "My-Funkfeuer"
@@ -348,6 +313,13 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
                 , exclude_robots  = True
                 , json_indent     = 2
                 , pid             = "RESTful"
+                )
+            , TOP.Page_ReST
+                ( name               = "impressum"
+                , short_title        = "Impressum"
+                , title              = "Impressum"
+                , page_template_name = "html/dashboard/static.jnj"
+                , src_contents       = impressum_contents
                 )
             , GTW.RST.MOM.Doc.App_Type
                 ( name            = "api-doc"

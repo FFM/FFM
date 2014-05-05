@@ -41,6 +41,15 @@ style_sheet = Style_Sheet \
         , Box (sizing = "border-box")
         )
     , Rule
+        ( "a"
+        , color                = "#0088CC"
+        , text_decoration      = "none"
+        )
+    , Rule
+        ( "body"
+        , color                = "#333333"
+        )
+    , Rule
         ( "footer", ".main"
         , clear                = "both"
         , margin               = TRBL (0, Em (2.0))
@@ -481,6 +490,17 @@ style_sheet = Style_Sheet \
                         , text_align   = "right"
                         )
                     ]
+                )
+            ]
+        )
+    , Rule
+        ( ".contents"
+        , max_width            = Em (50)
+        , children             =
+            [ Rule
+                ( "ul"
+                , margin       = TRBL (0, 0, Rem (0.625), Rem (1.50))
+                , padding      = 0
                 )
             ]
         )

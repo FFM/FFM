@@ -36,6 +36,8 @@
 ##     2-May-2014 (CT) Add `logout_widget` to render `form`
 ##     3-May-2014 (CT) Add `db_node_map`
 ##     4-May-2014 (CT) Add `db_graph`
+##     5-May-2014 (CT) Add `nav_menu_dashboard`;
+##                     honor `user` in `nav_menu_person` and `nav_menu_links`
 ##    ««revision-date»»···
 ##--
 #}
@@ -195,12 +197,24 @@
   </form>
 {%- endmacro -%} {#- logout_widget -#}
 
+{%- macro nav_menu_dashboard (page) -%}
+  {%- if page.request.user %}
+    <a href="/dashboard" class="dashboard pure-menu-heading">
+      FF Dashboard
+    </a>
+  {%- else %}
+    <b class="dashboard pure-menu-heading">
+      FF Dashboard
+    </b>
+  {% endif -%}
+{%- endmacro -%} {#- nav_menu_dashboard -#}
+
 {%- macro nav_menu_links (page) -%}
   {%- set caller = kwargs.pop ("caller", None) -%}
   {%- set admin  = page.SC.Admin %}
   {%- set et_doc = page.SC.ET_Doc %}
   {%- set rf_api = page.SC.RESTful %}
-  <li><a href="#About">{{ GTW._T ("About") }}</a></li>
+  <li><a href="/about">{{ GTW._T ("About") }}</a></li>
   {%- if admin and page.allow (admin, page.request.user) %}
     <li><a href="{{ admin.abs_href }}">{{ GTW._T ("Admin") }}</a></li>
   {% endif -%}
@@ -210,7 +224,7 @@
       <ul>
         {%- if et_doc %}
           <li>
-            <a href="{{ et_doc.abs_href }}">
+            <a href="{{ et_doc.abs_href }}/FFM">
               {{ GTW._T ("Documentation") }}
             </a>
           </li>
@@ -222,7 +236,9 @@
             </a>
           </li>
         {% endif -%}
-        <li><a hreaf="#">API Key</a></li>
+        {%- if page.request.user %}
+          <li><a hreaf="#">API Key</a></li>
+        {% endif -%}
       </ul>
     </li>
   {% endif -%}
@@ -233,13 +249,25 @@
 
 {%- macro nav_menu_person (page) -%}
   {%- set caller = kwargs.pop ("caller", None) -%}
+  {%- set db_page = page.SC.DB %}
+  {%- set href_login = page.SC.Auth.href_login %}
   {%- if caller %}
     {{- caller () -}}
   {%- endif -%}
-  {{ action_button
-      (page.db_user.abs_href, "cog", GTW._T ("Personal settings"), "settings")
-  -}}
-  {{ logout_widget (page) }}
+  {%- if page.request.user %}
+    {{ action_button
+        (db_page.db_user.abs_href, "cog", GTW._T ("Personal settings"), "settings")
+    -}}
+    {{ logout_widget (page) }}
+  {%- elif page.abs_href != href_login %}
+    <a href="{{ href_login }}" class="login pure-button">
+      <i class="fa fa-sign-in"></i> {{ GTW._T ("Login") -}}
+    </a>
+  {%- else %}
+    <b class="login">
+      <i class="fa fa-sign-in"></i> {{ GTW._T ("Login") -}}
+    </b>
+  {% endif -%}
 {%- endmacro -%} {#- nav_menu_person -#}
 
 {%- macro th_number_of (left, right) -%}
