@@ -64,6 +64,7 @@
 #     4-May-2014 (CT) Redefine `DB_Interface.Creator` and `.Instance` to do
 #                     IP allocation (very hackish for now)
 #     4-May-2014 (CT) Add `DB_Interface.xtra_template_macro`
+#     5-May-2014 (CT) Add `DB_Node.position`
 #    ««revision-date»»···
 #--
 
@@ -1184,6 +1185,25 @@ class DB_Node (_DB_E_Type_) :
             )
         return result
     # end def form_attr_spec_d
+
+    @property
+    @getattr_safe
+    def position (self) :
+        lat, lon = (0, 0)
+        n = 0
+        for node in self.objects :
+            if node.position.lat and node.position.lon :
+                lat += node.position.lat
+                lon += node.position.lon
+                n += 1
+        if n :
+            lat /= n
+            lon /= n
+            result = self.E_Type.position.P_Type (lat, lon)
+        else :
+            result = self.E_Type.position.P_Type ()
+        return result
+    # end def position
 
 # end class DB_Node
 
