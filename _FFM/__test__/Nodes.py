@@ -305,7 +305,7 @@ _test_refuse_e_types = """
     >>> sorted (FFM.Node.owner.eligible_e_types)
     ['PAP.Association', 'PAP.Company', 'PAP.Person']
 
-    >>> sorted (FFM.Node.owner.selectable_e_types_unique_epk)
+    >>> sorted (FFM.Node.owner.selectable_e_types)
     ['PAP.Association', 'PAP.Company', 'PAP.Person']
 
     >>> sorted (PAP.Subject_has_Property.left.eligible_e_types)
