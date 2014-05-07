@@ -240,7 +240,7 @@
           </li>
         {% endif -%}
         {%- if page.request.user %}
-          <li><a hreaf="#">API Key</a></li>
+          <li><a href="#">API Key</a></li>
         {% endif -%}
       </ul>
     </li>
