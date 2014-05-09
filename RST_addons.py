@@ -1180,7 +1180,7 @@ class DB_Node (_DB_E_Type_) :
                 )
         result = dict \
             ( result
-            , address  = dict (skip = True)
+            # address  = dict (skip = True)
             , lifetime = dict (skip = True)
             )
         return result
