@@ -26,6 +26,7 @@
 # Revision Dates
 #     9-Apr-2014 (CT) Creation
 #     2-May-2014 (CT) Add rules for `form.login`, `form.logout`
+#    14-May-2014 (CT) Factor rules for `form` to `JNJ/html/mf3.m.jnj.media`
 #    ««revision-date»»···
 #--
 
@@ -141,8 +142,7 @@ style_sheet = Style_Sheet \
                     , Rule
                         ( ".dashboard"
                         , font_size        = Em  (1.15)
-                        , padding_left     = 0
-                        , padding_top      = Rem (0.1)
+                        , padding          = TRBL (Rem (0.1), Rem (0.5), 0, 0)
                         , text_transform   = "none"
                         )
                     , Rule
@@ -188,23 +188,33 @@ style_sheet = Style_Sheet \
         , Media.Query ("screen", P.breakpoint.small_device)
         , rules               =
             [ Rule
-                ( "header > .pure-menu .nav-menu-links"
-                , children             =
+                ( "footer", ".main"
+                , margin               = TRBL (0, Em (1.0))
+                )
+            , Rule
+                ( "header > .pure-menu"
+                , padding          = TRBL (Rem (0.25), Rem (1.0), Rem (0.15))
+                , children         =
                     [ Rule
-                        ( "> li"
-                        , display      = "none"
-                        , visibility   = "hidden"
-                        )
-                    , Rule_Pseudo
-                        ( "hover > li"
-                        , display      = "block"
-                        , visibility   = "visible"
-                        )
-                    , Rule_Pseudo
-                        ( "before"
-                        , color        = "#999999"
-                        , content      = "'\\2630'" ### "☰"
-                        , font_size    = Rem (1.5)
+                        ( ".nav-menu-links"
+                        , children             =
+                            [ Rule
+                                ( "> li"
+                                , display      = "none"
+                                , visibility   = "hidden"
+                                )
+                            , Rule_Pseudo
+                                ( "hover > li"
+                                , display      = "block"
+                                , visibility   = "visible"
+                                )
+                            , Rule_Pseudo
+                                ( "before"
+                                , color        = "#999999"
+                                , content      = "'\\2630'" ### "☰"
+                                , font_size    = Rem (1.5)
+                                )
+                            ]
                         )
                     ]
                 )
@@ -216,180 +226,6 @@ style_sheet = Style_Sheet \
             [ Rule
                 ( "[class^=pure-u-]"
                 , overflow     = "auto"
-                )
-            , Rule
-                ( "form"
-                , font_size            = Em (0.875)
-                , children             =
-                    [ Rule_Class
-                        ( "pure-form"
-                        , children     =
-                            [ Rule
-                                ( "input", "select", "textarea"
-                                , line_height          = Em (1.143)
-                                , children             =
-                                    [ Rule_Class
-                                        ( "invalid"
-                                        , border_color = P.color_status_bad
-                                        , border_width = Px (2)
-                                        )
-                                    , Rule_Pseudo
-                                        ( "invalid"
-                                        , border_color = P.color_status_bad
-                                        )
-                                    , Rule_Pseudo
-                                        ( """invalid[value=""]"""
-                                        , border_color = P.color_status_missing
-                                        )
-                                    ]
-                                )
-                            ]
-                        )
-                    , Rule_Child
-                        ( "fieldset"
-                        , children         =
-                            [ Rule_Class
-                                ( "Entity"
-                                , children         =
-                                    [ Rule_Child
-                                        ( "legend"
-                                        , font_size    = Em (1.5)
-                                        , font_weight  = "bold"
-                                        )
-                                    ]
-                                )
-                            ]
-                        )
-                    , Rule
-                        ( "fieldset"
-                        , children         =
-                            [ Rule_Class
-                                ( "Field-Entity", "Field-Composite"
-                                , border           = "1px solid #DEDEDE"
-                                , margin_bottom    = Em (1.0)
-                                , children         =
-                                    [ Rule
-                                        ( "fieldset.Field_Entity"
-                                        , margin   = TRBL
-                                            (0, Em (0.25), 0, Em (1.0))
-                                        )
-                                    , Rule
-                                        ( "legend"
-                                        , border   = 0
-                                        , display  = "inline"
-                                        , margin   = TRBL0 (l = Em (2.0))
-                                        , padding  = TRBL  (0,  Em (1.0))
-                                        , width    = "auto"
-                                        )
-                                    ]
-                                )
-                            ]
-                        )
-                    , Rule
-                        ( ".Field"
-                        , children         =
-                            [ Rule
-                                ( "aside"
-                                , display              = "none"
-                                , visibility           = "hidden"
-                                )
-                            , Rule_Class
-                                ( "Composite-horizontal"
-                                , margin           = TRBL0 (t = Em (1.0))
-                                , children             =
-                                    [ Rule_Child
-                                        ( "label"
-                                        , vertical_align   = "top"
-                                        )
-                                    , Rule_Child
-                                        ( ".Fields"
-                                        , display          = "inline-block"
-                                        , margin           =
-                                            TRBL0 (b = Em (0.5))
-                                        , vertical_align   = "top"
-                                        )
-                                    ]
-                                )
-                            , Rule_Class
-                                ( "mf3-control-group-h"
-                                , display              = "inline-block"
-                                , vertical_align       = "top"
-                                , children             =
-                                    [ Rule
-                                        ( "label"
-                                        , display          = "block"
-                                        , margin           =
-                                            TRBL0 (l = Em (0.5))
-                                        , text_align       = "left"
-                                        , vertical_align   = "top"
-                                        , width            = "auto"
-                                        )
-                                    , Rule
-                                        ( "input"
-                                        , display          = "block"
-                                        , vertical_align   = "top"
-                                        )
-                                    ]
-                                )
-                            , Rule
-                                ( "input", "textarea"
-                                , children     =
-                                    [ Rule_Class
-                                        ( "display.value"
-                                        , background_color     = "inherit"
-                                        , border_color         = "inherit"
-                                        , color                = "inherit"
-                                        )
-                                    , Rule_Class
-                                        ( "hidden.value"
-                                        , display              = "none"
-                                        )
-                                    , Rule_Pseudo
-                                        ( "focus + aside"
-                                        , display              = "inline-block"
-                                        , visibility           = "visible"
-                                        )
-                                    ]
-                                )
-                            , Rule
-                                ( "textarea"
-                                , height       = Em (10.0)
-                                , children     =
-                                    [ Rule_Pseudo
-                                        ( "focus + aside"
-                                        , margin       = TRBL
-                                            (Em (2.5), 0, 0, Em (12.0))
-                                        )
-                                    ]
-                                )
-                            ]
-                        )
-                    , Rule
-                        ( ".Status"
-                        , Border (radius = Percent (50))
-                        , display           = "inline-block"
-                        , float             = "left"
-                        , height            = P.afs.status_size
-                        , margin_left       = P.afs.status_size / 2
-                        , margin_right      = P.afs.status_size
-                        , margin_top        = P.afs.status_size / 4
-                        , width             = P.afs.status_size
-                        , children          =
-                            [ Rule_Class
-                                ( "good"
-                                , background_color  = "transparent"# P.color_status_good
-                                )
-                            , Rule_Class
-                                ( "missing"
-                                , background_color  = "transparent"# P.color_status_missing
-                                )
-                            , Rule_Class
-                                ( "bad"
-                                , background_color  = "transparent"# P.color_status_bad
-                                )
-                            ]
-                        )
-                    ]
                 )
             , Rule
                 ( "h2"
@@ -648,10 +484,6 @@ style_sheet = Style_Sheet \
         , Media.Query ("screen", P.breakpoint.small_device)
         , rules               =
             [ Rule
-                ( "#app form .Field.mf3-control-group-h"
-                , display              = "block"
-                )
-            , Rule
                 ( "#interface-table"
                 , children              =
                     [ Rule
