@@ -104,9 +104,9 @@ class IP_Network (_Ancestor_Essence) :
         for some time, a ``cool_down`` attribute holds the time when the
         object can be reused.
 
-        Thus `IP_Network`` objects are free to be allocated if they
+        Thus ``IP_Network`` objects are free to be allocated if they
         don't have an allocated subnet, are not assigned to a
-        `Net_Interface``, and have an empty ``cool_down`` attribute.
+        ``Net_Interface``, and have an empty ``cool_down`` attribute.
         This is ensured by the ``is_free`` property.
 
         While allocating, ``IP_Network`` objects are split in two and
