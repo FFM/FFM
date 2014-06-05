@@ -20,7 +20,7 @@
 import sys, os
 import re
 
-from   datetime               import datetime, tzinfo, timedelta
+from   datetime               import datetime, date, tzinfo, timedelta
 from   rsclib.IP_Address      import IP4_Address
 from   rsclib.Phone           import Phone
 from   rsclib.sqlparser       import make_naive, SQL_Parser
@@ -41,6 +41,7 @@ class Convert (object) :
         , 372 : 380 # same phone *and* password (!) different name (!)
         , 424 : 418
         , 617 : 623
+        , 669 : 1001 # same person?
         , 686 : 687
         , 708 : 707
         , 709 : 707
@@ -56,6 +57,7 @@ class Convert (object) :
         , 852 : 851
         , 892 : 706
         , 903 : 904
+        , 973 : 544
         }
 
     def __init__ (self, cmd, scope, debug = False) :
@@ -77,19 +79,24 @@ class Convert (object) :
         self.person_by_id = {}
         self.nicknames    = {}
         self.node_by_id   = {}
+        self.ffm_node     = {}
         self.phone_ids    = {}
     # end def __init__
 
     def create (self) :
         self.create_persons ()
+        self.scope.commit ()
         self.create_nodes   ()
+        self.scope.commit ()
         self.create_devices ()
+        self.scope.commit ()
     # end def create
 
     def create_devices (self) :
         # ignore snmp_ip and snmp_lastseen (only used by three nodes)
         # FIXME: Use smokeping?
         # FIXME: hastinc?
+        dt = self.ffm.Net_Device_Type.instance (name = 'Generic', raw = True)
         for d in self.contents ['node'] :
             if d.location_id not in self.node_by_id :
                 print "WARN: Ignoring device (node) %s with location_id %s" \
@@ -97,7 +104,22 @@ class Convert (object) :
                 continue
             n = self.node_by_id [d.location_id]
             if d.person_id and d.person_id != n.person_id :
-                print "person %s: d:%s n:%s" % (d.id, d.person_id, n.person_id)
+                print "WARN: Device (node) %s: person mismatch d:%s n:%s" \
+                    % (d.id, d.person_id, n.person_id)
+            if d.location_id not in self.ffm_node :
+                print "WARN: Node (location) %s for device (node) %s missing" \
+                    % (d.location_id, d.id)
+                continue
+            dev = self.ffm.Net_Device \
+                ( left = dt
+                , node = self.ffm_node [d.location_id]
+                , name = d.name
+                , desc = d.comment
+                , raw  = True
+                )
+            self.set_creation (dev, d.time)
+            if len (self.scope.uncommitted_changes) > 10 :
+                self.scope.commit ()
     # end def create_devices
 
     def create_nodes (self) :
@@ -123,11 +145,14 @@ class Convert (object) :
 
             node = self.ffm.Node \
                 ( name        = n.name
+                , desc        = n.comment.strip () or None
                 , show_in_map = not n.hidden
                 , manager     = person
                 , position    = dict (lat = lat, lon = lon)
                 , raw         = True
                 )
+            self.ffm_node [n.id] = node
+            self.set_creation (node, n.time)
             if n.street :
                 s = ' '.join (x for x in (n.street, n.streetnr) if x)
                 adr = self.pap.Address.instance_or_new \
@@ -136,16 +161,16 @@ class Convert (object) :
                     , city   = 'Graz'
                     , country = 'Austria'
                     )
-                self.pap.Node_has_Address (node, adr)
+                node.set (address = adr)
             if n.gallery_link :
+                MOM = self.scope.MOM
                 abs = 'http://gallery.funkfeuer.at/v/Graz/Knoten/%s/'
                 if n.gallery_link.startswith ('http') :
                     abs = "%s"
-                url = self.pap.Url.instance_or_new \
-                    (abs % n.gallery_link, desc = 'Gallery')
-                self.pap.Node_has_Url (node, url)
-            #print "%4d %s %s %r %s %s %s %r" % \
-            #    (n.id, n.hastinc, n.time, n.street, n.streetnr, n.gps_lon, n.gps_lat, n.comment)
+                url = MOM.Document \
+                    (node, url = abs % n.gallery_link, type = 'Gallery')
+            if len (self.scope.uncommitted_changes) > 10 :
+                self.scope.commit ()
     # end def create_nodes
 
     def create_persons (self) :
@@ -168,10 +193,13 @@ class Convert (object) :
             if m.nick :
                 self.try_insert_nick (m.nick, m.id, person)
             if m.email :
-                email = self.pap.Email (address = m.email)
+                mail  = m.email.replace ('[at]', '@')
+                email = self.pap.Email (address = mail)
                 self.pap.Person_has_Email (person, email)
             if m.tel :
                 self.try_insert_phone (m.tel, m.id, person)
+            if len (self.scope.uncommitted_changes) > 10 :
+                self.scope.commit ()
         # get data from dupes
         for d_id, m_id in self.person_dupes.iteritems () :
             # older version of db or dupe removed:
@@ -190,11 +218,17 @@ class Convert (object) :
     # end def create_persons
 
     def set_creation (self, obj, create_time) :
+        if not create_time :
+            return
+        if not isinstance (create_time, datetime) :
+            create_time = datetime (* create_time.timetuple () [:3])
         create_time = make_naive (create_time)
         self.scope.ems.convert_creation_change (obj.pid, c_time = create_time)
     # end def set_creation
 
     def try_insert_phone (self, tel, id, person) :
+        if tel.startswith ('+430659') :
+            tel = '+43650' + tel [6:]
         p = Phone (tel, city = "Graz")
         if p :
             k = str (p)
