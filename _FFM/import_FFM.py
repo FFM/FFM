@@ -45,6 +45,8 @@
 #     4-Mar-2013 (CT) Add `GTW.OMP.PAP.Association`
 #    28-Apr-2013 (CT) Add `Person_acts_for_Legal_Entity`
 #    27-Mar-2014 (CT) Add `MOM.Document`
+#     5-Jun-2014 (RS) Remove `Node_has_Address` (it's already in
+#                     `refuse_links` of `Node`)
 #    ««revision-date»»···
 #--
 
@@ -90,7 +92,6 @@ import _FFM.Net_Interface_in_IP4_Network
 import _FFM.Net_Interface_in_IP6_Network
 import _FFM.Net_Interface_in_IP_Network
 import _FFM.Net_Link
-import _FFM.Node_has_Address
 import _FFM.Person_mentors_Person
 import _FFM.Wireless_Interface_uses_Antenna
 import _FFM.Wireless_Interface_uses_Wireless_Channel

@@ -48,6 +48,7 @@
 #                     change `belongs_to_node` to query `Q.SELF`
 #     1-Oct-2013 (CT) Set `belongs_to_node.hidden` to `True`
 #    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
+#     5-Jun-2014 (RS) Remove duplicate `my_node`, add `desc`
 #    ««revision-date»»···
 #--
 
@@ -106,17 +107,12 @@ class Node (_Mixin, FFM.Entity, _Ancestor_Essence) :
 
         # end class address
 
-        class my_node (_Mixin._Attributes.my_node) :
-            """Node to which this node belongs.
+        class desc (A_Text) :
+            """Description of the node"""
 
-               Just an alias to the node itself to be compatible with all
-               other entities belonging to nodes.
-            """
+            kind               = Attr.Optional
 
-            query              = Q.SELF
-            hidden             = True
-
-        # end class my_node
+        # end class desc
 
         class manager (A_Id_Entity) :
             """Manager of the node"""
