@@ -89,12 +89,10 @@
             L.map ('{{ tn }}-map')
              .setView ([{{ pos.lat }}, {{ pos.lon }}], 10);
         L.tileLayer
-          ( 'https://\{s\}.tiles.mapbox.com/v3/{id}/\{z\}/\{x\}/\{y\}.png'
+          ( 'https://\{s\}.tiles.openstreetmap.org/\{z\}/\{x\}/\{y\}.png'
           , { maxZoom: 18
             , attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, '
             + '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, '
-            + 'Imagery © <a href="http://mapbox.com">Mapbox</a>'
-            , id: 'examples.map-9ijuk24y'
             }
           ).addTo (node_map);
         {%- for o in db_type.objects if o.position %}
