@@ -56,6 +56,7 @@
 #    14-Apr-2014 (CT) Add `RST_addons.User_Net_Interface`
 #    18-Apr-2014 (CT) Add `RST_addons.User_Person*`
 #     5-May-2014 (CT) Replace `landing_page` bei `/about`; add `/impressum`
+#    12-Jun-2014 (CT) DRY startup message
 #    ««revision-date»»···
 #--
 
@@ -354,7 +355,7 @@ class Command (_Base_Command_, GTW.Werkzeug.Command) :
                 )
         if result.DEBUG :
             scope = result.__dict__.get ("scope", "*not yet created*")
-            print ("RST.TOP root created, Scope", scope)
+            print ("RST.TOP root created,", scope)
         return result
     # end def create_nav
 
