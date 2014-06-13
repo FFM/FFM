@@ -36,6 +36,8 @@
 #    29-Jul-2013 (CT) Add `test_put`
 #     4-Oct-2013 (CT) Add tests for query arguments `fields` and `add_fields`
 #    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
+#    14-Jun-2014 (RS) Add `name` to `Net_Interface_in_IP_Network`, add
+#                     `desc` to `Node`, `Node` no longer derived from `Subject`
 #    ««revision-date»»···
 #--
 
@@ -104,9 +106,8 @@ _test_get = r"""
         { 'attribute_names' :
             [ 'name'
             , 'manager'
-            , 'lifetime.start'
-            , 'lifetime.finish'
             , 'address'
+            , 'desc'
             , 'owner'
             , 'position.lat'
             , 'position.lon'
@@ -141,9 +142,8 @@ _test_get = r"""
         { 'attribute_names' :
             [ 'name'
             , 'manager'
-            , 'lifetime.start'
-            , 'lifetime.finish'
             , 'address'
+            , 'desc'
             , 'owner'
             , 'position.lat'
             , 'position.lon'
@@ -207,6 +207,7 @@ _test_limit = r"""
             [ 'left'
             , 'right'
             , 'mask_len'
+            , 'name'
             ]
         , 'entries' :
             [ { 'attributes' :
@@ -282,6 +283,7 @@ _test_limit = r"""
                       , 'url' : '/v1/FFM-Wired_Interface/29'
                       }
                   , 'mask_len' : 24
+                  , 'name' : 'wr'
                   , 'right' :
                       { 'attributes' :
                           { 'net_address' : '192.168.23.1' }
@@ -308,6 +310,7 @@ _test_limit = r"""
             [ 'left'
             , 'right'
             , 'mask_len'
+            , 'name'
             ]
         , 'entries' :
             [ { 'attributes' :
@@ -407,6 +410,7 @@ _test_limit = r"""
                       , 'url' : '/v1/FFM-Wired_Interface/29'
                       }
                   , 'mask_len' : 24
+                  , 'name' : 'wr'
                   , 'right' :
                       { 'attributes' :
                           { 'net_address' : '192.168.23.1' }
@@ -686,11 +690,7 @@ _test_put = r"""
         , 'cid' : 2
         , 'pid' : 2
         , 'rels' :
-            [ '/v1/FFM-Node/2/documents'
-            , '/v1/FFM-Node/2/im_handle_links'
-            , '/v1/FFM-Node/2/nickname_links'
-            , '/v1/FFM-Node/2/url_links'
-            ]
+            [ '/v1/FFM-Node/2/documents' ]
         , 'type_name' : 'FFM.Node'
         , 'url' : '/v1/FFM-Node/2'
         }
@@ -739,11 +739,7 @@ _test_put = r"""
         , 'cid' : 41
         , 'pid' : 2
         , 'rels' :
-            [ '/v1/FFM-Node/2/documents'
-            , '/v1/FFM-Node/2/im_handle_links'
-            , '/v1/FFM-Node/2/nickname_links'
-            , '/v1/FFM-Node/2/url_links'
-            ]
+            [ '/v1/FFM-Node/2/documents' ]
         , 'type_name' : 'FFM.Node'
         , 'url' : '/v1/FFM-Node/2'
         }

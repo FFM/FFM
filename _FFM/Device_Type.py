@@ -30,6 +30,7 @@
 #    10-May-2012 (CT) Change `name` to `Primary`, `model_no` to
 #                     `Primary_Optional`
 #    10-May-2012 (RS) Change `name.length` to 40
+#    13-Jun-2014 (RS) Add `ui_name` to `desc`
 #    ««revision-date»»···
 #--
 
@@ -88,6 +89,7 @@ class Device_Type (_Ancestor_Essence) :
             """Description of device type"""
 
             kind               = Attr.Optional
+            ui_name            = "Description"
 
         # end class desc
 

@@ -36,6 +36,7 @@
 #    15-May-2013 (CT) Rename `auto_cache_np` to `auto_rev_ref_np`
 #    13-Aug-2013 (CT) Set `Net_Interface_in_IP_Network.is_relevant` to `True`
 #     7-Apr-2014 (CT) Remove `~ electric` from `valid_mask_len` query
+#    13-Jun-2014 (RS) Add `name`
 #    ««revision-date»»···
 #--
 
@@ -45,6 +46,7 @@ from   _MOM.import_MOM          import *
 from   _FFM                     import FFM
 
 from   _FFM.Attr_Type           import *
+from   _GTW._OMP._DNS.Attr_Type import A_DNS_Label
 
 import _FFM.Net_Interface
 import _FFM.IP_Network
@@ -89,6 +91,19 @@ class Net_Interface_in_IP_Network (_Ancestor_Essence) :
             kind               = Attr.Required
 
         # end class mask_len
+
+        class name (A_DNS_Label) :
+            """DNS name for this IP Network."""
+
+            kind               = Attr.Optional
+            Kind_Mixins        = (Attr.Computed_Set_Mixin, )
+
+            def computed (self, obj) :
+                if obj and obj.left :
+                    return obj.left.name
+            # end def computed
+
+        # end class name
 
     # end class _Attributes
 

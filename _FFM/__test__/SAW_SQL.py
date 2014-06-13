@@ -31,6 +31,10 @@
 #    30-Sep-2013 (CT) Adapt to uplift of `belongs_to_node`
 #     3-Apr-2014 (CT) Add `test_q_result_pg` and `test_q_result_sq`
 #    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
+#    14-Jun-2014 (RS) rename `IP_Network.cool_down`, `Node` no longer derived
+#                     from `Subject`, delete `Person_acts_for_Legal_Entity`,
+#                     add `Node.desc`, add `name` to
+#                     `Net_Interface_in_IP_Network`
 #    ««revision-date»»···
 #--
 
@@ -97,7 +101,7 @@ _test_cidr_pg = """
     >>> print (FFM.IP6_Network.query (Q.net_address == "2001:db8::20"))
     SQL: SELECT
            ffm_ip6_network."desc" AS ffm_ip6_network_desc,
-           ffm_ip6_network.cool_down AS ffm_ip6_network_cool_down,
+           ffm_ip6_network.expiration_date AS ffm_ip6_network_expiration_date,
            ffm_ip6_network.net_address AS ffm_ip6_network_net_address,
            ffm_ip6_network.owner AS ffm_ip6_network_owner,
            ffm_ip6_network.parent AS ffm_ip6_network_parent,
@@ -112,16 +116,16 @@ _test_cidr_pg = """
          WHERE ffm_ip6_network.net_address = :net_address_1
 
     >>> print (formatted_table (FFM.IP4_Network._SAW.sa_table, nl, ""))
-    Column cool_down                 : Datetime             Internal Date-Time cool_down
     Column desc                      : Varchar(80)          Optional String desc
+    Column expiration_date                 : Datetime             Internal Date-Time expiration_date
     Column net_address               : _CIDR_Type_          Primary IP4-network net_address
     Column owner                     : Integer              Optional__Id_Entity_Reference Entity owner Id_Entity()
     Column parent                    : Integer              Internal__Id_Entity_Reference Entity parent Id_Entity()
     Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
 
     >>> print (formatted_table (FFM.IP6_Network._SAW.sa_table, nl, ""))
-    Column cool_down                 : Datetime             Internal Date-Time cool_down
     Column desc                      : Varchar(80)          Optional String desc
+    Column expiration_date                 : Datetime             Internal Date-Time expiration_date
     Column net_address               : _CIDR_Type_          Primary IP6-network net_address
     Column owner                     : Integer              Optional__Id_Entity_Reference Entity owner Id_Entity()
     Column parent                    : Integer              Internal__Id_Entity_Reference Entity parent Id_Entity()
@@ -130,7 +134,7 @@ _test_cidr_pg = """
     >>> show_query (FFM.IP4_Network.query ((Q.net_address.CONTAINS ("192.168.23.1")) & (Q.electric == False)))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
@@ -150,7 +154,7 @@ _test_cidr_pg = """
     >>> show_query (FFM.IP4_Network.query ().order_by ("-net_address.mask_len", "net_address"))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
@@ -167,7 +171,7 @@ _test_cidr_pg = """
     >>> show_query (FFM.IP4_Network.query ().order_by ("electric", "-has_children", "net_address"))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
@@ -197,7 +201,7 @@ _test_cidr_sq = """
     >>> print (FFM.IP6_Network.query (Q.net_address == "2001:db8::20"))
     SQL: SELECT
            ffm_ip6_network."desc" AS ffm_ip6_network_desc,
-           ffm_ip6_network.cool_down AS ffm_ip6_network_cool_down,
+           ffm_ip6_network.expiration_date AS ffm_ip6_network_expiration_date,
            ffm_ip6_network.net_address AS ffm_ip6_network_net_address,
            ffm_ip6_network.net_address__mask_len AS ffm_ip6_network_net_address__mask_len,
            ffm_ip6_network.net_address__numeric__hi AS ffm_ip6_network_net_address__numeric__hi,
@@ -219,8 +223,8 @@ _test_cidr_sq = """
             AND ffm_ip6_network.net_address__mask_len = :net_address__mask_len_1
 
     >>> print (formatted_table (FFM.IP4_Network._SAW.sa_table, nl, ""))
-    Column cool_down                 : Datetime             Internal Date-Time cool_down
     Column desc                      : Varchar(80)          Optional String desc
+    Column expiration_date                 : Datetime             Internal Date-Time expiration_date
     Column net_address               : Varchar              Primary IP4-network net_address
     Column net_address__mask_len     : Smallint             ----------
     Column net_address__numeric      : Integer              ----------
@@ -230,8 +234,8 @@ _test_cidr_sq = """
     Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
 
     >>> print (formatted_table (FFM.IP6_Network._SAW.sa_table, nl, ""))
-    Column cool_down                 : Datetime             Internal Date-Time cool_down
     Column desc                      : Varchar(80)          Optional String desc
+    Column expiration_date                 : Datetime             Internal Date-Time expiration_date
     Column net_address               : Varchar              Primary IP6-network net_address
     Column net_address__mask_len     : Smallint             ----------
     Column net_address__numeric__hi  : Bigint               ----------
@@ -245,7 +249,7 @@ _test_cidr_sq = """
     >>> show_query (FFM.IP4_Network.query ((Q.net_address.CONTAINS ("192.168.23.1")) & (Q.electric == False)))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
@@ -272,7 +276,7 @@ _test_cidr_sq = """
     >>> show_query (FFM.IP4_Network.query ().order_by ("-net_address.mask_len", "net_address"))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
@@ -292,7 +296,7 @@ _test_cidr_sq = """
     >>> show_query (FFM.IP4_Network.query ().order_by ("electric", "-has_children", "net_address"))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
@@ -363,7 +367,7 @@ _test_q_able = """
       <SAW : Link_Ref_List `documents`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : Left `left` (FFM.Antenna | FFM.Antenna_Band | FFM.Device_Type_made_by_Company | FFM.Firmware_Binary | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.Firmware_Version | FFM.Net_Device | FFM.Net_Interface | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_acts_for_Legal_Entity | FFM.Person_mentors_Person | FFM.Regulatory_Permission | FFM.Routing_Zone_OLSR | FFM.WPA_Credentials | FFM.Wireless_Channel | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
+      <SAW : Left `left` (FFM.Antenna | FFM.Antenna_Band | FFM.Device_Type_made_by_Company | FFM.Firmware_Binary | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.Firmware_Version | FFM.Net_Device | FFM.Net_Interface | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_mentors_Person | FFM.Regulatory_Permission | FFM.Routing_Zone_OLSR | FFM.WPA_Credentials | FFM.Wireless_Channel | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
     <SAW : FFM.Link1 [mom_id_entity]>
@@ -404,21 +408,17 @@ _test_q_able = """
     <SAW : FFM.Node [ffm_node : mom_id_entity]>
       <SAW : Entity `address` [ffm_node.address]>
       <SAW : Rev_Ref `creation`>
+      <SAW : Text `desc` [ffm_node.desc]>
       <SAW : Link_Ref_List `documents`>
-      <SAW : Role_Ref_Set `im_handles`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : Date_Interval `lifetime` [ffm_node.lifetime__finish, ffm_node.lifetime__start]>
-      <SAW : Boolean `lifetime.alive`>
       <SAW : Entity `manager` [ffm_node.manager]>
       <SAW : String `name` [ffm_node.name, ffm_node.__raw_name]>
-      <SAW : Role_Ref_Set `nicknames`>
       <SAW : Entity `owner` [ffm_node.owner]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : Position `position` [ffm_node.position__height, ffm_node.position__lat, ffm_node.position____raw_lat, ffm_node.position__lon, ffm_node.position____raw_lon]>
       <SAW : Boolean `show_in_map` [ffm_node.show_in_map]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
-      <SAW : Role_Ref_Set `urls`>
     <SAW : FFM.Belongs_to_Net_Device [mom_id_entity]>
       <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `documents`>
@@ -514,18 +514,18 @@ _test_q_able = """
       <SAW : Link_Ref_List `documents`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : Left `left` (FFM.Device_Type_made_by_Company | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_acts_for_Legal_Entity | FFM.Person_mentors_Person | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
+      <SAW : Left `left` (FFM.Device_Type_made_by_Company | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_mentors_Person | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
-      <SAW : Right `right` (FFM.Device_Type_made_by_Company | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_acts_for_Legal_Entity | FFM.Person_mentors_Person | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
+      <SAW : Right `right` (FFM.Device_Type_made_by_Company | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_mentors_Person | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
       <SAW : String `type_name` [mom_id_entity.type_name]>
     <SAW : FFM.Link2 [mom_id_entity]>
       <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `documents`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : Left `left` (FFM.Device_Type_made_by_Company | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_acts_for_Legal_Entity | FFM.Person_mentors_Person | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
+      <SAW : Left `left` (FFM.Device_Type_made_by_Company | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_mentors_Person | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
-      <SAW : Right `right` (FFM.Device_Type_made_by_Company | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_acts_for_Legal_Entity | FFM.Person_mentors_Person | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
+      <SAW : Right `right` (FFM.Device_Type_made_by_Company | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_mentors_Person | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
       <SAW : String `type_name` [mom_id_entity.type_name]>
     <SAW : FFM.Firmware_Binary_in_Firmware_Bundle [ffm_firmware_binary_in_firmware_bundle : mom_id_entity]>
       <SAW : Rev_Ref `creation`>
@@ -537,10 +537,10 @@ _test_q_able = """
       <SAW : Firmware_Bundle `right` [ffm_firmware_binary_in_firmware_bundle.right]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
     <SAW : FFM.IP_Network [mom_id_entity]>
-      <SAW : Date-Time `cool_down` (FFM.IP4_Network | FFM.IP6_Network)>
       <SAW : Rev_Ref `creation`>
       <SAW : String `desc` (FFM.IP4_Network | FFM.IP6_Network)>
       <SAW : Link_Ref_List `documents`>
+      <SAW : Date-Time `expiration_date` (FFM.IP4_Network | FFM.IP6_Network)>
       <SAW : Boolean `has_children`>
       <SAW : Boolean `is_free`>
       <SAW : Rev_Ref `last_change`>
@@ -555,10 +555,10 @@ _test_q_able = """
       <SAW : Role_Ref `wired_interface`>
       <SAW : Role_Ref `wireless_interface`>
     <SAW : FFM.IP4_Network [ffm_ip4_network : mom_id_entity]>
-      <SAW : Date-Time `cool_down` [ffm_ip4_network.cool_down]>
       <SAW : Rev_Ref `creation`>
       <SAW : String `desc` [ffm_ip4_network.desc]>
       <SAW : Link_Ref_List `documents`>
+      <SAW : Date-Time `expiration_date` [ffm_ip4_network.expiration_date]>
       <SAW : Boolean `has_children`>
       <SAW : Boolean `is_free`>
       <SAW : Rev_Ref `last_change`>
@@ -573,10 +573,10 @@ _test_q_able = """
       <SAW : Role_Ref `wired_interface`>
       <SAW : Role_Ref `wireless_interface`>
     <SAW : FFM.IP6_Network [ffm_ip6_network : mom_id_entity]>
-      <SAW : Date-Time `cool_down` [ffm_ip6_network.cool_down]>
       <SAW : Rev_Ref `creation`>
       <SAW : String `desc` [ffm_ip6_network.desc]>
       <SAW : Link_Ref_List `documents`>
+      <SAW : Date-Time `expiration_date` [ffm_ip6_network.expiration_date]>
       <SAW : Boolean `has_children`>
       <SAW : Boolean `is_free`>
       <SAW : Rev_Ref `last_change`>
@@ -657,15 +657,6 @@ _test_q_able = """
       <SAW : Entity `my_net_device`>
       <SAW : Entity `my_node`>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
-      <SAW : String `type_name` [mom_id_entity.type_name]>
-    <SAW : FFM.Person_acts_for_Legal_Entity [ffm_person_acts_for_legal_entity : mom_id_entity]>
-      <SAW : Rev_Ref `creation`>
-      <SAW : Link_Ref_List `documents`>
-      <SAW : Rev_Ref `last_change`>
-      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : Person `left` [ffm_person_acts_for_legal_entity.left]>
-      <SAW : Surrogate `pid` [mom_id_entity.pid]>
-      <SAW : Legal_Entity `right` [ffm_person_acts_for_legal_entity.right]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
     <SAW : FFM.Regulatory_Domain [ffm_regulatory_domain : mom_id_entity]>
       <SAW : String `countrycode` [ffm_regulatory_domain.countrycode, ffm_regulatory_domain.__raw_countrycode]>
@@ -841,6 +832,7 @@ _test_q_able = """
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Net_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
+      <SAW : String `name` [ffm_net_interface_in_ip_network.name, ffm_net_interface_in_ip_network.__raw_name]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : IP_Network `right` [ffm_net_interface_in_ip_network.right]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
@@ -851,6 +843,7 @@ _test_q_able = """
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Net_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
+      <SAW : String `name` [ffm_net_interface_in_ip_network.name, ffm_net_interface_in_ip_network.__raw_name]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : IP4_Network `right` [ffm_net_interface_in_ip_network.right]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
@@ -861,6 +854,7 @@ _test_q_able = """
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Net_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
+      <SAW : String `name` [ffm_net_interface_in_ip_network.name, ffm_net_interface_in_ip_network.__raw_name]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : IP6_Network `right` [ffm_net_interface_in_ip_network.right]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
@@ -912,6 +906,7 @@ _test_q_able = """
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Wired_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
+      <SAW : String `name` [ffm_net_interface_in_ip_network.name, ffm_net_interface_in_ip_network.__raw_name]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : IP6_Network `right` [ffm_net_interface_in_ip_network.right]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
@@ -922,6 +917,7 @@ _test_q_able = """
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Wireless_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
+      <SAW : String `name` [ffm_net_interface_in_ip_network.name, ffm_net_interface_in_ip_network.__raw_name]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : IP6_Network `right` [ffm_net_interface_in_ip_network.right]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
@@ -932,6 +928,7 @@ _test_q_able = """
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Virtual_Wireless_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
+      <SAW : String `name` [ffm_net_interface_in_ip_network.name, ffm_net_interface_in_ip_network.__raw_name]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : IP6_Network `right` [ffm_net_interface_in_ip_network.right]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
@@ -942,6 +939,7 @@ _test_q_able = """
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Wired_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
+      <SAW : String `name` [ffm_net_interface_in_ip_network.name, ffm_net_interface_in_ip_network.__raw_name]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : IP4_Network `right` [ffm_net_interface_in_ip_network.right]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
@@ -952,6 +950,7 @@ _test_q_able = """
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Wireless_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
+      <SAW : String `name` [ffm_net_interface_in_ip_network.name, ffm_net_interface_in_ip_network.__raw_name]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : IP4_Network `right` [ffm_net_interface_in_ip_network.right]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
@@ -962,6 +961,7 @@ _test_q_able = """
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Virtual_Wireless_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
+      <SAW : String `name` [ffm_net_interface_in_ip_network.name, ffm_net_interface_in_ip_network.__raw_name]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : IP4_Network `right` [ffm_net_interface_in_ip_network.right]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
@@ -972,6 +972,7 @@ _test_q_able = """
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Wired_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
+      <SAW : String `name` [ffm_net_interface_in_ip_network.name, ffm_net_interface_in_ip_network.__raw_name]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : IP_Network `right` [ffm_net_interface_in_ip_network.right]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
@@ -982,6 +983,7 @@ _test_q_able = """
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Wireless_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
+      <SAW : String `name` [ffm_net_interface_in_ip_network.name, ffm_net_interface_in_ip_network.__raw_name]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : IP_Network `right` [ffm_net_interface_in_ip_network.right]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
@@ -992,6 +994,7 @@ _test_q_able = """
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Virtual_Wireless_Interface `left` [ffm_net_interface_in_ip_network.left]>
       <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
+      <SAW : String `name` [ffm_net_interface_in_ip_network.name, ffm_net_interface_in_ip_network.__raw_name]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : IP_Network `right` [ffm_net_interface_in_ip_network.right]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
@@ -1085,10 +1088,9 @@ _test_q_result = """
 
     >>> show_query (FFM.Node.query (Q.my_node == 42))
     SQL: SELECT
+           ffm_node."desc" AS ffm_node_desc,
            ffm_node.__raw_name AS ffm_node___raw_name,
            ffm_node.address AS ffm_node_address,
-           ffm_node.lifetime__finish AS ffm_node_lifetime__finish,
-           ffm_node.lifetime__start AS ffm_node_lifetime__start,
            ffm_node.manager AS ffm_node_manager,
            ffm_node.name AS ffm_node_name,
            ffm_node.owner AS ffm_node_owner,
@@ -1262,10 +1264,9 @@ _test_q_result = """
            ffm_net_interface.mac_address AS ffm_net_interface_mac_address,
            ffm_net_interface.name AS ffm_net_interface_name,
            ffm_net_interface.pid AS ffm_net_interface_pid,
+           ffm_node."desc" AS ffm_node_desc,
            ffm_node.__raw_name AS ffm_node___raw_name,
            ffm_node.address AS ffm_node_address,
-           ffm_node.lifetime__finish AS ffm_node_lifetime__finish,
-           ffm_node.lifetime__start AS ffm_node_lifetime__start,
            ffm_node.manager AS ffm_node_manager,
            ffm_node.name AS ffm_node_name,
            ffm_node.owner AS ffm_node_owner,
@@ -1373,10 +1374,9 @@ _test_q_result = """
            ffm_net_interface.mac_address AS ffm_net_interface_mac_address,
            ffm_net_interface.name AS ffm_net_interface_name,
            ffm_net_interface.pid AS ffm_net_interface_pid,
+           ffm_node."desc" AS ffm_node_desc,
            ffm_node.__raw_name AS ffm_node___raw_name,
            ffm_node.address AS ffm_node_address,
-           ffm_node.lifetime__finish AS ffm_node_lifetime__finish,
-           ffm_node.lifetime__start AS ffm_node_lifetime__start,
            ffm_node.manager AS ffm_node_manager,
            ffm_node.name AS ffm_node_name,
            ffm_node.owner AS ffm_node_owner,
@@ -1580,10 +1580,9 @@ _test_q_result = """
 
     >>> print (FFM.Node.query (Q.manager == 2))
     SQL: SELECT
+           ffm_node."desc" AS ffm_node_desc,
            ffm_node.__raw_name AS ffm_node___raw_name,
            ffm_node.address AS ffm_node_address,
-           ffm_node.lifetime__finish AS ffm_node_lifetime__finish,
-           ffm_node.lifetime__start AS ffm_node_lifetime__start,
            ffm_node.manager AS ffm_node_manager,
            ffm_node.name AS ffm_node_name,
            ffm_node.owner AS ffm_node_owner,
@@ -1640,7 +1639,7 @@ _test_q_result_pg = """
     >>> show_query (FFM.IP4_Network.query (Q.has_children))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
@@ -1658,7 +1657,7 @@ _test_q_result_pg = """
     >>> show_query (FFM.IP4_Network.query (~ Q.has_children))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
@@ -1673,10 +1672,10 @@ _test_q_result_pg = """
            LEFT OUTER JOIN ffm_ip4_network AS ffm_ip4_network__1 ON ffm_ip4_network__1.parent = ffm_ip4_network.pid
          WHERE ffm_ip4_network__1.parent IS NULL
 
-    >>> show_query (FFM.IP4_Network.query (Q.cool_down == None))
+    >>> show_query (FFM.IP4_Network.query (Q.expiration_date == None))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
@@ -1688,12 +1687,12 @@ _test_q_result_pg = """
            mom_id_entity.x_locked AS mom_id_entity_x_locked
          FROM mom_id_entity
            JOIN ffm_ip4_network ON mom_id_entity.pid = ffm_ip4_network.pid
-         WHERE ffm_ip4_network.cool_down IS NULL
+         WHERE ffm_ip4_network.expiration_date IS NULL
 
-    >>> show_query (FFM.IP4_Network.query (~ Q.cool_down))
+    >>> show_query (FFM.IP4_Network.query (~ Q.expiration_date))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
@@ -1705,12 +1704,12 @@ _test_q_result_pg = """
            mom_id_entity.x_locked AS mom_id_entity_x_locked
          FROM mom_id_entity
            JOIN ffm_ip4_network ON mom_id_entity.pid = ffm_ip4_network.pid
-         WHERE ffm_ip4_network.cool_down IS NULL
+         WHERE ffm_ip4_network.expiration_date IS NULL
 
     >>> show_query (FFM.IP4_Network.query (Q.net_interface == None))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
@@ -1729,7 +1728,7 @@ _test_q_result_pg = """
     >>> show_query (FFM.IP4_Network.query (~ Q.net_interface))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
@@ -1745,10 +1744,10 @@ _test_q_result_pg = """
            LEFT OUTER JOIN ffm_net_interface AS ffm_net_interface__1 ON ffm_net_interface__1.pid = ffm_net_interface_in_ip_network__1."left"
          WHERE ffm_net_interface_in_ip_network__1."left" IS NULL
 
-    >>> show_query (FFM.IP4_Network.query (Q.AND (~ Q.has_children, ~ Q.cool_down, ~ Q.net_interface)))
+    >>> show_query (FFM.IP4_Network.query (Q.AND (~ Q.has_children, ~ Q.expiration_date, ~ Q.net_interface)))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
@@ -1764,13 +1763,13 @@ _test_q_result_pg = """
            LEFT OUTER JOIN ffm_net_interface_in_ip_network AS ffm_net_interface_in_ip_network__1 ON ffm_net_interface_in_ip_network__1."right" = ffm_ip4_network.pid
            LEFT OUTER JOIN ffm_net_interface AS ffm_net_interface__1 ON ffm_net_interface__1.pid = ffm_net_interface_in_ip_network__1."left"
          WHERE ffm_ip4_network__1.parent IS NULL
-            AND ffm_ip4_network.cool_down IS NULL
+            AND ffm_ip4_network.expiration_date IS NULL
             AND ffm_net_interface_in_ip_network__1."left" IS NULL
 
-    >>> show_query (FFM.IP4_Network.query (Q.AND (Q.NOT (Q.OR (Q.has_children, Q.cool_down)), (Q.owner == 42), (Q.net_address.IN ("8.0.0.0/8")), ((Q.net_address.mask_len < 23) | ((Q.net_address.mask_len == 23) & Q.electric))), sort_key = TFL.Sorted_By ("-net_address.mask_len", "net_address")))
+    >>> show_query (FFM.IP4_Network.query (Q.AND (Q.NOT (Q.OR (Q.has_children, Q.expiration_date)), (Q.owner == 42), (Q.net_address.IN ("8.0.0.0/8")), ((Q.net_address.mask_len < 23) | ((Q.net_address.mask_len == 23) & Q.electric))), sort_key = TFL.Sorted_By ("-net_address.mask_len", "net_address")))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
@@ -1784,7 +1783,7 @@ _test_q_result_pg = """
            JOIN ffm_ip4_network ON mom_id_entity.pid = ffm_ip4_network.pid
            LEFT OUTER JOIN ffm_ip4_network AS ffm_ip4_network__1 ON ffm_ip4_network__1.parent = ffm_ip4_network.pid
          WHERE NOT (ffm_ip4_network__1.parent IS NOT NULL
-            OR ffm_ip4_network.cool_down IS NOT NULL)
+            OR ffm_ip4_network.expiration_date IS NOT NULL)
             AND ffm_ip4_network.owner = :owner_1
             AND (ffm_ip4_network.net_address <<= :net_address_1)
             AND (masklen(ffm_ip4_network.net_address) < :masklen_1
@@ -1797,10 +1796,10 @@ _test_q_result_pg = """
          net_address_1        : u'8.0.0.0/8'
          owner_1              : 42
 
-    >>> show_query (FFM.IP4_Network.query (Q.AND (Q.NOT (Q.OR (Q.has_children, Q.cool_down)), (Q.owner == 42), (Q.net_address.IN ("8.0.0.0/8")), ((Q.net_address.mask_len < 23) | ((Q.net_address.mask_len == 23) & Q.electric)), ~ Q.net_interface), sort_key = TFL.Sorted_By ("-net_address.mask_len", "net_address")))
+    >>> show_query (FFM.IP4_Network.query (Q.AND (Q.NOT (Q.OR (Q.has_children, Q.expiration_date)), (Q.owner == 42), (Q.net_address.IN ("8.0.0.0/8")), ((Q.net_address.mask_len < 23) | ((Q.net_address.mask_len == 23) & Q.electric)), ~ Q.net_interface), sort_key = TFL.Sorted_By ("-net_address.mask_len", "net_address")))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
@@ -1816,7 +1815,7 @@ _test_q_result_pg = """
            LEFT OUTER JOIN ffm_net_interface_in_ip_network AS ffm_net_interface_in_ip_network__1 ON ffm_net_interface_in_ip_network__1."right" = ffm_ip4_network.pid
            LEFT OUTER JOIN ffm_net_interface AS ffm_net_interface__1 ON ffm_net_interface__1.pid = ffm_net_interface_in_ip_network__1."left"
          WHERE NOT (ffm_ip4_network__1.parent IS NOT NULL
-            OR ffm_ip4_network.cool_down IS NOT NULL)
+            OR ffm_ip4_network.expiration_date IS NOT NULL)
             AND ffm_ip4_network.owner = :owner_1
             AND (ffm_ip4_network.net_address <<= :net_address_1)
             AND (masklen(ffm_ip4_network.net_address) < :masklen_1
@@ -1833,7 +1832,7 @@ _test_q_result_pg = """
     >>> show_query (FFM.IP4_Network.query (Q.AND (Q.is_free, (Q.owner == 42), (Q.net_address.IN ("8.0.0.0/8")), ((Q.net_address.mask_len < 23) | ((Q.net_address.mask_len == 23) & Q.electric))), sort_key = TFL.Sorted_By ("-net_address.mask_len", "net_address")))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
@@ -1848,7 +1847,7 @@ _test_q_result_pg = """
            LEFT OUTER JOIN ffm_ip4_network AS ffm_ip4_network__1 ON ffm_ip4_network__1.parent = ffm_ip4_network.pid
            LEFT OUTER JOIN ffm_net_interface_in_ip_network AS ffm_net_interface_in_ip_network__2 ON ffm_net_interface_in_ip_network__2."right" = ffm_ip4_network.pid
          WHERE NOT (ffm_ip4_network__1.parent IS NOT NULL
-            OR ffm_ip4_network.cool_down IS NOT NULL
+            OR ffm_ip4_network.expiration_date IS NOT NULL
             OR ffm_net_interface_in_ip_network__2."right" IS NOT NULL)
             AND ffm_ip4_network.owner = :owner_1
             AND (ffm_ip4_network.net_address <<= :net_address_1)
@@ -1865,7 +1864,7 @@ _test_q_result_pg = """
     >>> show_query (FFM.IP4_Network.query (sort_key = TFL.Sorted_By ("electric", "-has_children", "net_address")))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
@@ -1883,7 +1882,7 @@ _test_q_result_pg = """
     >>> show_query (FFM.IP4_Network.query (sort_key = TFL.Sorted_By ("electric", "-has_children", "net_address")).distinct ())
     SQL: SELECT DISTINCT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
@@ -1910,7 +1909,7 @@ _test_q_result_sq = """
     >>> show_query (FFM.IP4_Network.query (Q.has_children))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
@@ -1931,7 +1930,7 @@ _test_q_result_sq = """
     >>> show_query (FFM.IP4_Network.query (~ Q.has_children))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
@@ -1949,10 +1948,10 @@ _test_q_result_sq = """
            LEFT OUTER JOIN ffm_ip4_network AS ffm_ip4_network__1 ON ffm_ip4_network__1.parent = ffm_ip4_network.pid
          WHERE ffm_ip4_network__1.parent IS NULL
 
-    >>> show_query (FFM.IP4_Network.query (Q.cool_down == None))
+    >>> show_query (FFM.IP4_Network.query (Q.expiration_date == None))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
@@ -1967,12 +1966,12 @@ _test_q_result_sq = """
            mom_id_entity.x_locked AS mom_id_entity_x_locked
          FROM mom_id_entity
            JOIN ffm_ip4_network ON mom_id_entity.pid = ffm_ip4_network.pid
-         WHERE ffm_ip4_network.cool_down IS NULL
+         WHERE ffm_ip4_network.expiration_date IS NULL
 
-    >>> show_query (FFM.IP4_Network.query (~ Q.cool_down))
+    >>> show_query (FFM.IP4_Network.query (~ Q.expiration_date))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
@@ -1987,12 +1986,12 @@ _test_q_result_sq = """
            mom_id_entity.x_locked AS mom_id_entity_x_locked
          FROM mom_id_entity
            JOIN ffm_ip4_network ON mom_id_entity.pid = ffm_ip4_network.pid
-         WHERE ffm_ip4_network.cool_down IS NULL
+         WHERE ffm_ip4_network.expiration_date IS NULL
 
     >>> show_query (FFM.IP4_Network.query (Q.net_interface == None))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
@@ -2014,7 +2013,7 @@ _test_q_result_sq = """
     >>> show_query (FFM.IP4_Network.query (~ Q.net_interface))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
@@ -2033,10 +2032,10 @@ _test_q_result_sq = """
            LEFT OUTER JOIN ffm_net_interface AS ffm_net_interface__1 ON ffm_net_interface__1.pid = ffm_net_interface_in_ip_network__1."left"
          WHERE ffm_net_interface_in_ip_network__1."left" IS NULL
 
-    >>> show_query (FFM.IP4_Network.query (Q.AND (~ Q.has_children, ~ Q.cool_down, ~ Q.net_interface)))
+    >>> show_query (FFM.IP4_Network.query (Q.AND (~ Q.has_children, ~ Q.expiration_date, ~ Q.net_interface)))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
@@ -2055,13 +2054,13 @@ _test_q_result_sq = """
            LEFT OUTER JOIN ffm_net_interface_in_ip_network AS ffm_net_interface_in_ip_network__1 ON ffm_net_interface_in_ip_network__1."right" = ffm_ip4_network.pid
            LEFT OUTER JOIN ffm_net_interface AS ffm_net_interface__1 ON ffm_net_interface__1.pid = ffm_net_interface_in_ip_network__1."left"
          WHERE ffm_ip4_network__1.parent IS NULL
-            AND ffm_ip4_network.cool_down IS NULL
+            AND ffm_ip4_network.expiration_date IS NULL
             AND ffm_net_interface_in_ip_network__1."left" IS NULL
 
-    >>> show_query (FFM.IP4_Network.query (Q.AND (Q.NOT (Q.OR (Q.has_children, Q.cool_down)), (Q.owner == 42), (Q.net_address.IN ("8.0.0.0/8")), ((Q.net_address.mask_len < 23) | ((Q.net_address.mask_len == 23) & Q.electric))), sort_key = TFL.Sorted_By ("-net_address.mask_len", "net_address")))
+    >>> show_query (FFM.IP4_Network.query (Q.AND (Q.NOT (Q.OR (Q.has_children, Q.expiration_date)), (Q.owner == 42), (Q.net_address.IN ("8.0.0.0/8")), ((Q.net_address.mask_len < 23) | ((Q.net_address.mask_len == 23) & Q.electric))), sort_key = TFL.Sorted_By ("-net_address.mask_len", "net_address")))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
@@ -2078,7 +2077,7 @@ _test_q_result_sq = """
            JOIN ffm_ip4_network ON mom_id_entity.pid = ffm_ip4_network.pid
            LEFT OUTER JOIN ffm_ip4_network AS ffm_ip4_network__1 ON ffm_ip4_network__1.parent = ffm_ip4_network.pid
          WHERE NOT (ffm_ip4_network__1.parent IS NOT NULL
-            OR ffm_ip4_network.cool_down IS NOT NULL)
+            OR ffm_ip4_network.expiration_date IS NOT NULL)
             AND ffm_ip4_network.owner = :owner_1
             AND ffm_ip4_network.net_address__numeric >= :net_address__numeric_1
             AND ffm_ip4_network.net_address__numeric <= :net_address__numeric_2
@@ -2095,10 +2094,10 @@ _test_q_result_sq = """
          net_address__numeric_2 : -1996488705L
          owner_1              : 42
 
-    >>> show_query (FFM.IP4_Network.query (Q.AND (Q.NOT (Q.OR (Q.has_children, Q.cool_down)), (Q.owner == 42), (Q.net_address.IN ("8.0.0.0/8")), ((Q.net_address.mask_len < 23) | ((Q.net_address.mask_len == 23) & Q.electric)), ~ Q.net_interface), sort_key = TFL.Sorted_By ("-net_address.mask_len", "net_address")))
+    >>> show_query (FFM.IP4_Network.query (Q.AND (Q.NOT (Q.OR (Q.has_children, Q.expiration_date)), (Q.owner == 42), (Q.net_address.IN ("8.0.0.0/8")), ((Q.net_address.mask_len < 23) | ((Q.net_address.mask_len == 23) & Q.electric)), ~ Q.net_interface), sort_key = TFL.Sorted_By ("-net_address.mask_len", "net_address")))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
@@ -2117,7 +2116,7 @@ _test_q_result_sq = """
            LEFT OUTER JOIN ffm_net_interface_in_ip_network AS ffm_net_interface_in_ip_network__1 ON ffm_net_interface_in_ip_network__1."right" = ffm_ip4_network.pid
            LEFT OUTER JOIN ffm_net_interface AS ffm_net_interface__1 ON ffm_net_interface__1.pid = ffm_net_interface_in_ip_network__1."left"
          WHERE NOT (ffm_ip4_network__1.parent IS NOT NULL
-            OR ffm_ip4_network.cool_down IS NOT NULL)
+            OR ffm_ip4_network.expiration_date IS NOT NULL)
             AND ffm_ip4_network.owner = :owner_1
             AND ffm_ip4_network.net_address__numeric >= :net_address__numeric_1
             AND ffm_ip4_network.net_address__numeric <= :net_address__numeric_2
@@ -2138,7 +2137,7 @@ _test_q_result_sq = """
     >>> show_query (FFM.IP4_Network.query (Q.AND (Q.is_free, (Q.owner == 42), (Q.net_address.IN ("8.0.0.0/8")), ((Q.net_address.mask_len < 23) | ((Q.net_address.mask_len == 23) & Q.electric))), sort_key = TFL.Sorted_By ("-net_address.mask_len", "net_address")))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
@@ -2156,7 +2155,7 @@ _test_q_result_sq = """
            LEFT OUTER JOIN ffm_ip4_network AS ffm_ip4_network__1 ON ffm_ip4_network__1.parent = ffm_ip4_network.pid
            LEFT OUTER JOIN ffm_net_interface_in_ip_network AS ffm_net_interface_in_ip_network__2 ON ffm_net_interface_in_ip_network__2."right" = ffm_ip4_network.pid
          WHERE NOT (ffm_ip4_network__1.parent IS NOT NULL
-            OR ffm_ip4_network.cool_down IS NOT NULL
+            OR ffm_ip4_network.expiration_date IS NOT NULL
             OR ffm_net_interface_in_ip_network__2."right" IS NOT NULL)
             AND ffm_ip4_network.owner = :owner_1
             AND ffm_ip4_network.net_address__numeric >= :net_address__numeric_1
@@ -2177,7 +2176,7 @@ _test_q_result_sq = """
     >>> show_query (FFM.IP4_Network.query (sort_key = TFL.Sorted_By ("electric", "-has_children", "net_address")))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
@@ -2198,7 +2197,7 @@ _test_q_result_sq = """
     >>> show_query (FFM.IP4_Network.query (sort_key = TFL.Sorted_By ("electric", "-has_children", "net_address")).distinct ())
     SQL: SELECT DISTINCT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
@@ -2220,7 +2219,7 @@ _test_q_result_sq = """
     >>> show_query (FFM.IP4_Network.query ( Q.net_address.CONTAINS ("8.0.0.0/8"), Q.owner == 42, ~ Q.net_interface_links, sort_key = TFL.Sorted_By ("-net_address.mask_len")))
     SQL: SELECT
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-           ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
@@ -2411,13 +2410,13 @@ _test_qx = """
                <SAW : Entity `my_node`>>
       42
 
-    >>> qfi = ~ Q.cool_down
+    >>> qfi = ~ Q.expiration_date
     >>> qri = FFM.IP4_Network.query ()
     >>> qxi = QX.Mapper (qri)
     >>> print (QX.display (qxi (qfi)))
     Una:__not__:
       <FFM.IP4_Network | QX.Kind for
-           <SAW : Date-Time `cool_down` [ffm_ip4_network.cool_down]>>
+           <SAW : Date-Time `expiration_date` [ffm_ip4_network.expiration_date]>>
 
 """
 
@@ -2477,13 +2476,13 @@ _test_select = """
                ffm_firmware_version.pid AS ffm_firmware_version_pid,
                ffm_firmware_version.version AS ffm_firmware_version_version,
                ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-               ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+               ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
                ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
                ffm_ip4_network.owner AS ffm_ip4_network_owner,
                ffm_ip4_network.parent AS ffm_ip4_network_parent,
                ffm_ip4_network.pid AS ffm_ip4_network_pid,
                ffm_ip6_network."desc" AS ffm_ip6_network_desc,
-               ffm_ip6_network.cool_down AS ffm_ip6_network_cool_down,
+               ffm_ip6_network.expiration_date AS ffm_ip6_network_expiration_date,
                ffm_ip6_network.net_address AS ffm_ip6_network_net_address,
                ffm_ip6_network.owner AS ffm_ip6_network_owner,
                ffm_ip6_network.parent AS ffm_ip6_network_parent,
@@ -2511,15 +2510,16 @@ _test_select = """
                ffm_net_interface.pid AS ffm_net_interface_pid,
                ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
                ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
                ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
                ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
                ffm_net_link."left" AS ffm_net_link_left,
                ffm_net_link."right" AS ffm_net_link_right,
                ffm_net_link.pid AS ffm_net_link_pid,
+               ffm_node."desc" AS ffm_node_desc,
                ffm_node.__raw_name AS ffm_node___raw_name,
                ffm_node.address AS ffm_node_address,
-               ffm_node.lifetime__finish AS ffm_node_lifetime__finish,
-               ffm_node.lifetime__start AS ffm_node_lifetime__start,
                ffm_node.manager AS ffm_node_manager,
                ffm_node.name AS ffm_node_name,
                ffm_node.owner AS ffm_node_owner,
@@ -2530,9 +2530,6 @@ _test_select = """
                ffm_node.position__lat AS ffm_node_position__lat,
                ffm_node.position__lon AS ffm_node_position__lon,
                ffm_node.show_in_map AS ffm_node_show_in_map,
-               ffm_person_acts_for_legal_entity."left" AS ffm_person_acts_for_legal_entity_left,
-               ffm_person_acts_for_legal_entity."right" AS ffm_person_acts_for_legal_entity_right,
-               ffm_person_acts_for_legal_entity.pid AS ffm_person_acts_for_legal_entity_pid,
                ffm_person_mentors_person."left" AS ffm_person_mentors_person_left,
                ffm_person_mentors_person."right" AS ffm_person_mentors_person_right,
                ffm_person_mentors_person.pid AS ffm_person_mentors_person_pid,
@@ -2602,7 +2599,6 @@ _test_select = """
            LEFT OUTER JOIN ffm__wireless_interface_ ON ffm_net_interface.pid = ffm__wireless_interface_.pid
            LEFT OUTER JOIN ffm_virtual_wireless_interface ON ffm__wireless_interface_.pid = ffm_virtual_wireless_interface.pid
            LEFT OUTER JOIN ffm_wpa_credentials ON mom_id_entity.pid = ffm_wpa_credentials.pid
-           LEFT OUTER JOIN ffm_person_acts_for_legal_entity ON mom_id_entity.pid = ffm_person_acts_for_legal_entity.pid
            LEFT OUTER JOIN ffm_regulatory_domain ON mom_id_entity.pid = ffm_regulatory_domain.pid
            LEFT OUTER JOIN ffm_regulatory_permission ON mom_id_entity.pid = ffm_regulatory_permission.pid
            LEFT OUTER JOIN ffm_zone ON mom_id_entity.pid = ffm_zone.pid
@@ -2632,7 +2628,6 @@ _test_select = """
             OR mom_id_entity.pid = ffm__wireless_interface_.pid
             OR mom_id_entity.pid = ffm_virtual_wireless_interface.pid
             OR mom_id_entity.pid = ffm_wpa_credentials.pid
-            OR mom_id_entity.pid = ffm_person_acts_for_legal_entity.pid
             OR mom_id_entity.pid = ffm_regulatory_domain.pid
             OR mom_id_entity.pid = ffm_regulatory_permission.pid
             OR mom_id_entity.pid = ffm_zone.pid
@@ -2663,13 +2658,13 @@ _test_select = """
                ffm_firmware_type.pid AS ffm_firmware_type_pid,
                ffm_firmware_type.url AS ffm_firmware_type_url,
                ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-               ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+               ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
                ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
                ffm_ip4_network.owner AS ffm_ip4_network_owner,
                ffm_ip4_network.parent AS ffm_ip4_network_parent,
                ffm_ip4_network.pid AS ffm_ip4_network_pid,
                ffm_ip6_network."desc" AS ffm_ip6_network_desc,
-               ffm_ip6_network.cool_down AS ffm_ip6_network_cool_down,
+               ffm_ip6_network.expiration_date AS ffm_ip6_network_expiration_date,
                ffm_ip6_network.net_address AS ffm_ip6_network_net_address,
                ffm_ip6_network.owner AS ffm_ip6_network_owner,
                ffm_ip6_network.parent AS ffm_ip6_network_parent,
@@ -2682,6 +2677,19 @@ _test_select = """
                ffm_net_device_type.name AS ffm_net_device_type_name,
                ffm_net_device_type.pid AS ffm_net_device_type_pid,
                ffm_net_device_type.revision AS ffm_net_device_type_revision,
+               ffm_node."desc" AS ffm_node_desc,
+               ffm_node.__raw_name AS ffm_node___raw_name,
+               ffm_node.address AS ffm_node_address,
+               ffm_node.manager AS ffm_node_manager,
+               ffm_node.name AS ffm_node_name,
+               ffm_node.owner AS ffm_node_owner,
+               ffm_node.pid AS ffm_node_pid,
+               ffm_node.position____raw_lat AS ffm_node_position____raw_lat,
+               ffm_node.position____raw_lon AS ffm_node_position____raw_lon,
+               ffm_node.position__height AS ffm_node_position__height,
+               ffm_node.position__lat AS ffm_node_position__lat,
+               ffm_node.position__lon AS ffm_node_position__lon,
+               ffm_node.show_in_map AS ffm_node_show_in_map,
                ffm_regulatory_domain.__raw_countrycode AS ffm_regulatory_domain___raw_countrycode,
                ffm_regulatory_domain.countrycode AS ffm_regulatory_domain_countrycode,
                ffm_regulatory_domain.pid AS ffm_regulatory_domain_pid,
@@ -2700,6 +2708,7 @@ _test_select = """
                mom_id_entity.x_locked AS mom_id_entity_x_locked
         FROM mom_id_entity
            LEFT OUTER JOIN ffm_antenna_type ON mom_id_entity.pid = ffm_antenna_type.pid
+           LEFT OUTER JOIN ffm_node ON mom_id_entity.pid = ffm_node.pid
            LEFT OUTER JOIN ffm_firmware_type ON mom_id_entity.pid = ffm_firmware_type.pid
            LEFT OUTER JOIN ffm_firmware_bundle ON mom_id_entity.pid = ffm_firmware_bundle.pid
            LEFT OUTER JOIN ffm_ip4_network ON mom_id_entity.pid = ffm_ip4_network.pid
@@ -2709,6 +2718,7 @@ _test_select = """
            LEFT OUTER JOIN ffm_zone ON mom_id_entity.pid = ffm_zone.pid
            LEFT OUTER JOIN ffm_wireless_standard ON mom_id_entity.pid = ffm_wireless_standard.pid
         WHERE mom_id_entity.pid = ffm_antenna_type.pid
+            OR mom_id_entity.pid = ffm_node.pid
             OR mom_id_entity.pid = ffm_firmware_type.pid
             OR mom_id_entity.pid = ffm_firmware_bundle.pid
             OR mom_id_entity.pid = ffm_ip4_network.pid
@@ -2814,14 +2824,13 @@ _test_select = """
                ffm_net_interface.pid AS ffm_net_interface_pid,
                ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
                ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
                ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
                ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
                ffm_net_link."left" AS ffm_net_link_left,
                ffm_net_link."right" AS ffm_net_link_right,
                ffm_net_link.pid AS ffm_net_link_pid,
-               ffm_person_acts_for_legal_entity."left" AS ffm_person_acts_for_legal_entity_left,
-               ffm_person_acts_for_legal_entity."right" AS ffm_person_acts_for_legal_entity_right,
-               ffm_person_acts_for_legal_entity.pid AS ffm_person_acts_for_legal_entity_pid,
                ffm_person_mentors_person."left" AS ffm_person_mentors_person_left,
                ffm_person_mentors_person."right" AS ffm_person_mentors_person_right,
                ffm_person_mentors_person.pid AS ffm_person_mentors_person_pid,
@@ -2873,7 +2882,6 @@ _test_select = """
            LEFT OUTER JOIN ffm__wireless_interface_ ON ffm_net_interface.pid = ffm__wireless_interface_.pid
            LEFT OUTER JOIN ffm_virtual_wireless_interface ON ffm__wireless_interface_.pid = ffm_virtual_wireless_interface.pid
            LEFT OUTER JOIN ffm_wpa_credentials ON mom_id_entity.pid = ffm_wpa_credentials.pid
-           LEFT OUTER JOIN ffm_person_acts_for_legal_entity ON mom_id_entity.pid = ffm_person_acts_for_legal_entity.pid
            LEFT OUTER JOIN ffm_regulatory_permission ON mom_id_entity.pid = ffm_regulatory_permission.pid
            LEFT OUTER JOIN ffm_routing_zone_olsr ON mom_id_entity.pid = ffm_routing_zone_olsr.pid
            LEFT OUTER JOIN ffm_wireless_channel ON mom_id_entity.pid = ffm_wireless_channel.pid
@@ -2893,7 +2901,6 @@ _test_select = """
             OR mom_id_entity.pid = ffm__wireless_interface_.pid
             OR mom_id_entity.pid = ffm_virtual_wireless_interface.pid
             OR mom_id_entity.pid = ffm_wpa_credentials.pid
-            OR mom_id_entity.pid = ffm_person_acts_for_legal_entity.pid
             OR mom_id_entity.pid = ffm_regulatory_permission.pid
             OR mom_id_entity.pid = ffm_routing_zone_olsr.pid
             OR mom_id_entity.pid = ffm_wireless_channel.pid
@@ -3058,10 +3065,9 @@ _test_select = """
                ffm_net_interface.mac_address AS ffm_net_interface_mac_address,
                ffm_net_interface.name AS ffm_net_interface_name,
                ffm_net_interface.pid AS ffm_net_interface_pid,
+               ffm_node."desc" AS ffm_node_desc,
                ffm_node.__raw_name AS ffm_node___raw_name,
                ffm_node.address AS ffm_node_address,
-               ffm_node.lifetime__finish AS ffm_node_lifetime__finish,
-               ffm_node.lifetime__start AS ffm_node_lifetime__start,
                ffm_node.manager AS ffm_node_manager,
                ffm_node.name AS ffm_node_name,
                ffm_node.owner AS ffm_node_owner,
@@ -3154,10 +3160,9 @@ _test_select = """
             OR mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
             OR mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
     FFM.Node
-        SELECT ffm_node.__raw_name AS ffm_node___raw_name,
+        SELECT ffm_node."desc" AS ffm_node_desc,
+               ffm_node.__raw_name AS ffm_node___raw_name,
                ffm_node.address AS ffm_node_address,
-               ffm_node.lifetime__finish AS ffm_node_lifetime__finish,
-               ffm_node.lifetime__start AS ffm_node_lifetime__start,
                ffm_node.manager AS ffm_node_manager,
                ffm_node.name AS ffm_node_name,
                ffm_node.owner AS ffm_node_owner,
@@ -3385,14 +3390,13 @@ _test_select = """
                ffm_firmware_binary_in_firmware_bundle.pid AS ffm_firmware_binary_in_firmware_bundle_pid,
                ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
                ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
                ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
                ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
                ffm_net_link."left" AS ffm_net_link_left,
                ffm_net_link."right" AS ffm_net_link_right,
                ffm_net_link.pid AS ffm_net_link_pid,
-               ffm_person_acts_for_legal_entity."left" AS ffm_person_acts_for_legal_entity_left,
-               ffm_person_acts_for_legal_entity."right" AS ffm_person_acts_for_legal_entity_right,
-               ffm_person_acts_for_legal_entity.pid AS ffm_person_acts_for_legal_entity_pid,
                ffm_person_mentors_person."left" AS ffm_person_mentors_person_left,
                ffm_person_mentors_person."right" AS ffm_person_mentors_person_right,
                ffm_person_mentors_person.pid AS ffm_person_mentors_person_pid,
@@ -3410,7 +3414,6 @@ _test_select = """
                mom_id_entity.x_locked AS mom_id_entity_x_locked
         FROM mom_id_entity
            LEFT OUTER JOIN ffm_firmware_binary_in_firmware_bundle ON mom_id_entity.pid = ffm_firmware_binary_in_firmware_bundle.pid
-           LEFT OUTER JOIN ffm_person_acts_for_legal_entity ON mom_id_entity.pid = ffm_person_acts_for_legal_entity.pid
            LEFT OUTER JOIN ffm_device_type_made_by_company ON mom_id_entity.pid = ffm_device_type_made_by_company.pid
            LEFT OUTER JOIN ffm_net_interface_in_ip_network ON mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
            LEFT OUTER JOIN ffm_net_link ON mom_id_entity.pid = ffm_net_link.pid
@@ -3418,7 +3421,6 @@ _test_select = """
            LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
            LEFT OUTER JOIN ffm_wireless_interface_uses_wireless_channel ON mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
         WHERE mom_id_entity.pid = ffm_firmware_binary_in_firmware_bundle.pid
-            OR mom_id_entity.pid = ffm_person_acts_for_legal_entity.pid
             OR mom_id_entity.pid = ffm_device_type_made_by_company.pid
             OR mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
             OR mom_id_entity.pid = ffm_net_link.pid
@@ -3434,14 +3436,13 @@ _test_select = """
                ffm_firmware_binary_in_firmware_bundle.pid AS ffm_firmware_binary_in_firmware_bundle_pid,
                ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
                ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
                ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
                ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
                ffm_net_link."left" AS ffm_net_link_left,
                ffm_net_link."right" AS ffm_net_link_right,
                ffm_net_link.pid AS ffm_net_link_pid,
-               ffm_person_acts_for_legal_entity."left" AS ffm_person_acts_for_legal_entity_left,
-               ffm_person_acts_for_legal_entity."right" AS ffm_person_acts_for_legal_entity_right,
-               ffm_person_acts_for_legal_entity.pid AS ffm_person_acts_for_legal_entity_pid,
                ffm_person_mentors_person."left" AS ffm_person_mentors_person_left,
                ffm_person_mentors_person."right" AS ffm_person_mentors_person_right,
                ffm_person_mentors_person.pid AS ffm_person_mentors_person_pid,
@@ -3459,7 +3460,6 @@ _test_select = """
                mom_id_entity.x_locked AS mom_id_entity_x_locked
         FROM mom_id_entity
            LEFT OUTER JOIN ffm_firmware_binary_in_firmware_bundle ON mom_id_entity.pid = ffm_firmware_binary_in_firmware_bundle.pid
-           LEFT OUTER JOIN ffm_person_acts_for_legal_entity ON mom_id_entity.pid = ffm_person_acts_for_legal_entity.pid
            LEFT OUTER JOIN ffm_device_type_made_by_company ON mom_id_entity.pid = ffm_device_type_made_by_company.pid
            LEFT OUTER JOIN ffm_net_interface_in_ip_network ON mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
            LEFT OUTER JOIN ffm_net_link ON mom_id_entity.pid = ffm_net_link.pid
@@ -3467,7 +3467,6 @@ _test_select = """
            LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
            LEFT OUTER JOIN ffm_wireless_interface_uses_wireless_channel ON mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
         WHERE mom_id_entity.pid = ffm_firmware_binary_in_firmware_bundle.pid
-            OR mom_id_entity.pid = ffm_person_acts_for_legal_entity.pid
             OR mom_id_entity.pid = ffm_device_type_made_by_company.pid
             OR mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
             OR mom_id_entity.pid = ffm_net_link.pid
@@ -3487,13 +3486,13 @@ _test_select = """
            JOIN ffm_firmware_binary_in_firmware_bundle ON mom_id_entity.pid = ffm_firmware_binary_in_firmware_bundle.pid
     FFM.IP_Network
         SELECT ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-               ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+               ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
                ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
                ffm_ip4_network.owner AS ffm_ip4_network_owner,
                ffm_ip4_network.parent AS ffm_ip4_network_parent,
                ffm_ip4_network.pid AS ffm_ip4_network_pid,
                ffm_ip6_network."desc" AS ffm_ip6_network_desc,
-               ffm_ip6_network.cool_down AS ffm_ip6_network_cool_down,
+               ffm_ip6_network.expiration_date AS ffm_ip6_network_expiration_date,
                ffm_ip6_network.net_address AS ffm_ip6_network_net_address,
                ffm_ip6_network.owner AS ffm_ip6_network_owner,
                ffm_ip6_network.parent AS ffm_ip6_network_parent,
@@ -3510,7 +3509,7 @@ _test_select = """
             OR mom_id_entity.pid = ffm_ip6_network.pid
     FFM.IP4_Network
         SELECT ffm_ip4_network."desc" AS ffm_ip4_network_desc,
-               ffm_ip4_network.cool_down AS ffm_ip4_network_cool_down,
+               ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
                ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
                ffm_ip4_network.owner AS ffm_ip4_network_owner,
                ffm_ip4_network.parent AS ffm_ip4_network_parent,
@@ -3524,7 +3523,7 @@ _test_select = """
            JOIN ffm_ip4_network ON mom_id_entity.pid = ffm_ip4_network.pid
     FFM.IP6_Network
         SELECT ffm_ip6_network."desc" AS ffm_ip6_network_desc,
-               ffm_ip6_network.cool_down AS ffm_ip6_network_cool_down,
+               ffm_ip6_network.expiration_date AS ffm_ip6_network_expiration_date,
                ffm_ip6_network.net_address AS ffm_ip6_network_net_address,
                ffm_ip6_network.owner AS ffm_ip6_network_owner,
                ffm_ip6_network.parent AS ffm_ip6_network_parent,
@@ -3615,17 +3614,6 @@ _test_select = """
                mom_id_entity.x_locked AS mom_id_entity_x_locked
         FROM mom_id_entity
            JOIN ffm_wpa_credentials ON mom_id_entity.pid = ffm_wpa_credentials.pid
-    FFM.Person_acts_for_Legal_Entity
-        SELECT ffm_person_acts_for_legal_entity."left" AS ffm_person_acts_for_legal_entity_left,
-               ffm_person_acts_for_legal_entity."right" AS ffm_person_acts_for_legal_entity_right,
-               ffm_person_acts_for_legal_entity.pid AS ffm_person_acts_for_legal_entity_pid,
-               mom_id_entity.electric AS mom_id_entity_electric,
-               mom_id_entity.last_cid AS mom_id_entity_last_cid,
-               mom_id_entity.pid AS mom_id_entity_pid,
-               mom_id_entity.type_name AS mom_id_entity_type_name,
-               mom_id_entity.x_locked AS mom_id_entity_x_locked
-        FROM mom_id_entity
-           JOIN ffm_person_acts_for_legal_entity ON mom_id_entity.pid = ffm_person_acts_for_legal_entity.pid
     FFM.Regulatory_Domain
         SELECT ffm_regulatory_domain.__raw_countrycode AS ffm_regulatory_domain___raw_countrycode,
                ffm_regulatory_domain.countrycode AS ffm_regulatory_domain_countrycode,
@@ -3824,7 +3812,9 @@ _test_select = """
     FFM.Net_Interface_in_IP_Network
         SELECT ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
                ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
                ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
                ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
                mom_id_entity.electric AS mom_id_entity_electric,
                mom_id_entity.last_cid AS mom_id_entity_last_cid,
@@ -3836,7 +3826,9 @@ _test_select = """
     FFM.Net_Interface_in_IP4_Network FFM.Net_Interface_in_IP_Network
         SELECT ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
                ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
                ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
                ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
                ffm_virtual_wireless_interface_in_ip4_network.pid AS ffm_virtual_wireless_interface_in_ip4_network_pid,
                ffm_wired_interface_in_ip4_network.pid AS ffm_wired_interface_in_ip4_network_pid,
@@ -3857,7 +3849,9 @@ _test_select = """
     FFM.Net_Interface_in_IP6_Network FFM.Net_Interface_in_IP_Network
         SELECT ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
                ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
                ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
                ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
                ffm_virtual_wireless_interface_in_ip6_network.pid AS ffm_virtual_wireless_interface_in_ip6_network_pid,
                ffm_wired_interface_in_ip6_network.pid AS ffm_wired_interface_in_ip6_network_pid,
@@ -3923,7 +3917,9 @@ _test_select = """
     FFM.Wired_Interface_in_IP6_Network FFM.Net_Interface_in_IP_Network
         SELECT ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
                ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
                ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
                ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
                ffm_wired_interface_in_ip6_network.pid AS ffm_wired_interface_in_ip6_network_pid,
                mom_id_entity.electric AS mom_id_entity_electric,
@@ -3937,7 +3933,9 @@ _test_select = """
     FFM.Wireless_Interface_in_IP6_Network FFM.Net_Interface_in_IP_Network
         SELECT ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
                ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
                ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
                ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
                ffm_wireless_interface_in_ip6_network.pid AS ffm_wireless_interface_in_ip6_network_pid,
                mom_id_entity.electric AS mom_id_entity_electric,
@@ -3951,7 +3949,9 @@ _test_select = """
     FFM.Virtual_Wireless_Interface_in_IP6_Network FFM.Net_Interface_in_IP_Network
         SELECT ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
                ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
                ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
                ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
                ffm_virtual_wireless_interface_in_ip6_network.pid AS ffm_virtual_wireless_interface_in_ip6_network_pid,
                mom_id_entity.electric AS mom_id_entity_electric,
@@ -3965,7 +3965,9 @@ _test_select = """
     FFM.Wired_Interface_in_IP4_Network FFM.Net_Interface_in_IP_Network
         SELECT ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
                ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
                ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
                ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
                ffm_wired_interface_in_ip4_network.pid AS ffm_wired_interface_in_ip4_network_pid,
                mom_id_entity.electric AS mom_id_entity_electric,
@@ -3979,7 +3981,9 @@ _test_select = """
     FFM.Wireless_Interface_in_IP4_Network FFM.Net_Interface_in_IP_Network
         SELECT ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
                ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
                ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
                ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
                ffm_wireless_interface_in_ip4_network.pid AS ffm_wireless_interface_in_ip4_network_pid,
                mom_id_entity.electric AS mom_id_entity_electric,
@@ -3993,7 +3997,9 @@ _test_select = """
     FFM.Virtual_Wireless_Interface_in_IP4_Network FFM.Net_Interface_in_IP_Network
         SELECT ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
                ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
                ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
                ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
                ffm_virtual_wireless_interface_in_ip4_network.pid AS ffm_virtual_wireless_interface_in_ip4_network_pid,
                mom_id_entity.electric AS mom_id_entity_electric,
@@ -4045,7 +4051,6 @@ _test_tables = """
     FFM.Net_Link                             : ffm_net_link
     FFM.Node                                 : ffm_node
     FFM.Object                               : None
-    FFM.Person_acts_for_Legal_Entity         : ffm_person_acts_for_legal_entity
     FFM.Person_mentors_Person                : ffm_person_mentors_person
     FFM.Regulatory_Domain                    : ffm_regulatory_domain
     FFM.Regulatory_Permission                : ffm_regulatory_permission
@@ -4088,8 +4093,7 @@ _test_tables = """
     FFM.Node (MOM.Id_Entity) <Table ffm_node>
         Column __raw_name                : Varchar(63)          Primary__Raw_Value String name
         Column address                   : Integer              Optional__Id_Entity_Reference Entity address Id_Entity()
-        Column lifetime__finish          : Date                 Optional__Nested Date finish
-        Column lifetime__start           : Date                 Necessary__Nested Date start
+        Column desc                      : Text                 Optional Text desc
         Column manager                   : Integer              Required__Id_Entity_Reference Entity manager Id_Entity()
         Column name                      : Varchar(63)          Primary__Raw_Value String name
         Column owner                     : Integer              Optional__Computed_Set__Id_Entity_Reference Entity owner Id_Entity()
@@ -4138,15 +4142,15 @@ _test_tables = """
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
         Column right                     : Integer              Link_Role Firmware_Bundle right Id_Entity()
     FFM.IP4_Network (MOM.Id_Entity) <Table ffm_ip4_network>
-        Column cool_down                 : Datetime             Internal Date-Time cool_down
         Column desc                      : Varchar(80)          Optional String desc
+        Column expiration_date           : Datetime             Internal Date-Time expiration_date
         Column net_address               : CIDR                 Primary IP4-network net_address
         Column owner                     : Integer              Optional__Id_Entity_Reference Entity owner Id_Entity()
         Column parent                    : Integer              Internal__Id_Entity_Reference Entity parent Id_Entity()
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
     FFM.IP6_Network (MOM.Id_Entity) <Table ffm_ip6_network>
-        Column cool_down                 : Datetime             Internal Date-Time cool_down
         Column desc                      : Varchar(80)          Optional String desc
+        Column expiration_date           : Datetime             Internal Date-Time expiration_date
         Column net_address               : CIDR                 Primary IP6-network net_address
         Column owner                     : Integer              Optional__Id_Entity_Reference Entity owner Id_Entity()
         Column parent                    : Integer              Internal__Id_Entity_Reference Entity parent Id_Entity()
@@ -4179,10 +4183,6 @@ _test_tables = """
         Column key                       : Varchar(32)          Required Key key
         Column left                      : Integer              Link_Role__Init_Only Net_Interface left Id_Entity()
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
-    FFM.Person_acts_for_Legal_Entity (MOM.Id_Entity) <Table ffm_person_acts_for_legal_entity>
-        Column left                      : Integer              Link_Role Person left Id_Entity()
-        Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
-        Column right                     : Integer              Link_Role Legal_Entity right Id_Entity()
     FFM.Regulatory_Domain (MOM.Id_Entity) <Table ffm_regulatory_domain>
         Column __raw_countrycode         : Varchar(2)           Primary__Raw_Value String countrycode
         Column countrycode               : Varchar(2)           Primary__Raw_Value String countrycode
@@ -4240,8 +4240,10 @@ _test_tables = """
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
         Column right                     : Integer              Link_Role Company right Id_Entity()
     FFM.Net_Interface_in_IP_Network (MOM.Id_Entity) <Table ffm_net_interface_in_ip_network>
+        Column __raw_name                : Varchar(63)          Optional__Raw_Value__Computed_Set String name
         Column left                      : Integer              Link_Role Net_Interface left Id_Entity()
         Column mask_len                  : Integer              Required Int mask_len
+        Column name                      : Varchar(63)          Optional__Raw_Value__Computed_Set String name
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
         Column right                     : Integer              Link_Role IP_Network right Id_Entity()
     FFM.Net_Link (MOM.Id_Entity) <Table ffm_net_link>

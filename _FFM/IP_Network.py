@@ -53,6 +53,8 @@
 #     2-Apr-2014 (CT) Change `pool.kind` to internal; pass `pool` in `split`
 #     3-Apr-2014 (CT) Change `pool` to `parent`;
 #                     change `has_children` to `Attr.Query`
+#    13-Jun-2014 (RS) Rename `cool_down` to `expiration_date`
+#                     Add ui_name for `desc`
 #    ««revision-date»»···
 #--
 
@@ -101,13 +103,13 @@ class IP_Network (_Ancestor_Essence) :
 
         After an allocated ``IP_Network`` has been in use for some time,
         it may not be immediately re-allocated. To prevent re-allocation
-        for some time, a ``cool_down`` attribute holds the time when the
-        object can be reused.
+        for some time, an ``expiration_date`` attribute holds the time
+        when the object can be reused.
 
         Thus ``IP_Network`` objects are free to be allocated if they
         don't have an allocated subnet, are not assigned to a
-        ``Net_Interface``, and have an empty ``cool_down`` attribute.
-        This is ensured by the ``is_free`` property.
+        ``Net_Interface``, and have an empty ``expiration_date``
+        attribute. This is ensured by the ``is_free`` property.
 
         While allocating, ``IP_Network`` objects are split in two and
         create two successors with a netmask higher by one, each. These
@@ -146,6 +148,7 @@ class IP_Network (_Ancestor_Essence) :
 
             kind               = Attr.Optional
             max_length         = 80
+            ui_name            = "Description"
 
         # end class desc
 
@@ -154,18 +157,18 @@ class IP_Network (_Ancestor_Essence) :
 
             kind               = Attr.Query
             query              = Q.NOT \
-                (Q.has_children | Q.cool_down | Q.net_interface_links)
+                (Q.has_children | Q.expiration_date | Q.net_interface_links)
 
         # end class is_free
 
-        class cool_down (A_Date_Time) :
+        class expiration_date (A_Date_Time) :
             """Cool down date after which the IP_Network is free to be
                reallocated.
             """
 
             kind               = Attr.Internal
 
-        # end class cool_down
+        # end class expiration_date
 
         class has_children (A_Boolean) :
             """Indicates whether this `%(type_name)s` is split into parts."""
@@ -218,13 +221,13 @@ class IP_Network (_Ancestor_Essence) :
         # end class net_address_in_parent
 
         class owner_or_cool_down (Pred.Condition) :
-            """At most one of `owner` and `cool_down` can be defined at one
-               time.
+            """At most one of `owner` and `expiration_date` can be
+               defined at one time.
             """
 
             kind               = Pred.Region
-            assertion          = "not (owner and cool_down)"
-            attr_none          = ("owner", "cool_down")
+            assertion          = "not (owner and expiration_date)"
+            attr_none          = ("owner", "expiration_date")
 
         # end class owner_or_cool_down
 

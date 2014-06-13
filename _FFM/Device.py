@@ -29,6 +29,7 @@
 #     6-Mar-2012 (CT) Creation
 #     8-Dec-2012 (RS) Add `desc`
 #    17-Dec-2012 (CT) Use `ui_type_name` in docstrings
+#    13-Jun-2014 (RS) Add `ui_name` to `desc`
 #    ««revision-date»»···
 #--
 
@@ -76,6 +77,7 @@ class Device (_Ancestor_Essence) :
             """Description of device"""
 
             kind               = Attr.Optional
+            ui_name            = "Description"
 
         # end class desc
 

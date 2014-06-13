@@ -38,6 +38,7 @@
 #    14-Apr-2014 (CT) Add mixin `Belongs_to_Net_Device_Left`
 #    17-Apr-2014 (CT) Fix typo in `Net_Interface.name.description`
 #    30-Apr-2014 (CT) Set `left.Kind_Mixins` to `Attr.Init_Only_Mixin`
+#    13-Jun-2014 (RS) Add `ui_name` for `desc`
 #    ««revision-date»»···
 #--
 
@@ -113,6 +114,7 @@ class Net_Interface (_Mixin_1, _Mixin_2, _Ancestor_Essence) :
             """Description of interface"""
 
             kind               = Attr.Optional
+            ui_name            = "Description"
 
         # end class desc
 

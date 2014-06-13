@@ -138,17 +138,24 @@ class Consolidated_Interface (object) :
             network = ffm.IP4_Network.instance (net)
             netadr  = network.reserve (ip.ip, manager)
             ffm.Net_Interface_in_IP4_Network \
-                (iface, netadr, mask_len = 32)
+                (iface, netadr, mask_len = 32, name = self.ipname)
             if len (scope.uncommitted_changes) > 10 :
                 scope.commit ()
     # end def create
 
     @property
     def ifname (self) :
+        if self.names :
+            return self.names [0]
+        return self.ipname
+    # end def ifname
+
+    @property
+    def ipname (self) :
         if self.idxdev.if_idx > 1 :
             return "%s-%s" % (self.name, self.idx)
         return self.name
-    # end def ifname
+    # end def ipname
 
     def merge (self, other) :
         """ Merge other interface into this one """
@@ -443,6 +450,7 @@ class Convert (object) :
         self.node_by_id     = {}
         self.ip_by_ip       = {}
         self.email_ids      = {}
+        self.manager_by_id  = {}
         self.phone_ids      = {}
         self.person_by_id   = {}
         self.member_by_id   = {}
@@ -524,23 +532,21 @@ class Convert (object) :
             if self.anonymize :
                 manager = owner
             elif not isinstance (owner, self.pap.Person) :
-                assert len (owner.actor) == 1
-                manager = iter (owner.actor).next ()
+                manager = self.manager_by_id [id]
             elif n.id_tech_c and n.id_tech_c != n.id_members :
 
                 tid = self.person_dupes.get (n.id_tech_c, n.id_tech_c)
                 manager = self.person_by_id.get (tid)
                 assert (manager)
                 if not isinstance (manager, self.pap.Person) :
-                    assert len (manager.actor) == 1
-                    manager = iter (manager.actor).next ()
+                    manager = self.manager_by_id [tid]
                 pyk.fprint ("INFO: Tech contact found: %s" % n.id_tech_c)
             else :
                 manager = owner
             # node with missing manager has devices, use 0xff admin as owner
             if not owner and n.id in self.dev_by_node :
                 owner = self.person_by_id.get (1)
-                manager = iter (owner.actor).next ()
+                manager = self.manager_by_id [1]
                 pyk.fprint \
                     ( "WARN: Node %s: member %s not found, using 1"
                     % (n.id, n.id_members)
@@ -889,7 +895,8 @@ class Convert (object) :
                 q = self.pap.Subject_has_Property.query
                 for p in q (left = person).all () :
                     self.pap.Subject_has_Property (legal, p.right)
-                self.ffm.Person_acts_for_Legal_Entity (person, legal)
+                self.pap.Person_in_Group (person, legal)
+                self.manager_by_id [m.id] = person
         if self.anonymize :
             return
         x = dict (self.company_actor)
@@ -897,7 +904,8 @@ class Convert (object) :
         for l_id, p_id in x.iteritems () :
             person = self.person_by_id [p_id]
             legal  = self.person_by_id [l_id]
-            self.ffm.Person_acts_for_Legal_Entity (person, legal)
+            self.pap.Person_in_Group (person, legal)
+            self.manager_by_id [l_id] = person
         # Retrieve info from dupe account
         for dupe, id in self.person_dupes.iteritems () :
             # older version of db or dupe removed:

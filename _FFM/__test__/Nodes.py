@@ -42,6 +42,9 @@
 #     7-Aug-2013 (CT) Adapt to major surgery of GTW.OMP.NET.Attr_Type
 #    30-Sep-2013 (CT) Adapt to uplift of `belongs_to_node`
 #    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
+#    13-Jun-2014 (RS) Fixes for new `PAP` objects, `Node` no longer derived 
+#                     from `Subject`, addition of `Node.desc`, `ui_name`
+#                     for `desc`
 #    ««revision-date»»···
 #--
 
@@ -72,10 +75,6 @@ _test_code = """
     >>> node2 = FFM.Node \\
     ...     (name = "node2", manager = mgr, position = gps1, raw = True)
 
-    >>> nick = PAP.Nickname ('node-two', raw = True)
-    >>> x = PAP.Node_has_Nickname (node2, nick)
-    >>> url = PAP.Url ('http://example.com', raw = True)
-    >>> x = PAP.Node_has_Url (node2, url)
     >>> adr = PAP.Address \\
     ...     ( street  = 'Example 23'
     ...     , zip     = '1010'
@@ -188,33 +187,36 @@ _test_auto_children = """
 
     >>> for T, l in children_trans_iter (scope.PAP.Subject_has_Property) :
     ...     print ("%%-30s %%s" %% ("%%s%%s" %% ("  " * l, T.type_name), sorted (T.children_np_transitive)))
-    PAP.Subject_has_Property       ['PAP.Association_has_Address', 'PAP.Association_has_Email', 'PAP.Association_has_IM_Handle', 'PAP.Association_has_Nickname', 'PAP.Association_has_Phone', 'PAP.Association_has_Url', 'PAP.Company_has_Address', 'PAP.Company_has_Email', 'PAP.Company_has_IM_Handle', 'PAP.Company_has_Nickname', 'PAP.Company_has_Phone', 'PAP.Company_has_Url', 'PAP.Node_has_IM_Handle', 'PAP.Node_has_Nickname', 'PAP.Node_has_Url', 'PAP.Person_has_Address', 'PAP.Person_has_Email', 'PAP.Person_has_IM_Handle', 'PAP.Person_has_Nickname', 'PAP.Person_has_Phone', 'PAP.Person_has_Url']
-      PAP.Subject_has_IM_Handle    ['PAP.Association_has_IM_Handle', 'PAP.Company_has_IM_Handle', 'PAP.Node_has_IM_Handle', 'PAP.Person_has_IM_Handle']
+    PAP.Subject_has_Property       ['PAP.Adhoc_Group_has_Address', 'PAP.Adhoc_Group_has_Email', 'PAP.Adhoc_Group_has_IM_Handle', 'PAP.Adhoc_Group_has_Nickname', 'PAP.Adhoc_Group_has_Phone', 'PAP.Adhoc_Group_has_Url', 'PAP.Association_has_Address', 'PAP.Association_has_Email', 'PAP.Association_has_IM_Handle', 'PAP.Association_has_Nickname', 'PAP.Association_has_Phone', 'PAP.Association_has_Url', 'PAP.Company_has_Address', 'PAP.Company_has_Email', 'PAP.Company_has_IM_Handle', 'PAP.Company_has_Nickname', 'PAP.Company_has_Phone', 'PAP.Company_has_Url', 'PAP.Person_has_Address', 'PAP.Person_has_Email', 'PAP.Person_has_IM_Handle', 'PAP.Person_has_Nickname', 'PAP.Person_has_Phone', 'PAP.Person_has_Url']
+      PAP.Subject_has_IM_Handle    ['PAP.Adhoc_Group_has_IM_Handle', 'PAP.Association_has_IM_Handle', 'PAP.Company_has_IM_Handle', 'PAP.Person_has_IM_Handle']
         PAP.Association_has_IM_Handle ['PAP.Association_has_IM_Handle']
+        PAP.Adhoc_Group_has_IM_Handle ['PAP.Adhoc_Group_has_IM_Handle']
         PAP.Person_has_IM_Handle   ['PAP.Person_has_IM_Handle']
-        PAP.Node_has_IM_Handle     ['PAP.Node_has_IM_Handle']
         PAP.Company_has_IM_Handle  ['PAP.Company_has_IM_Handle']
-      PAP.Subject_has_Nickname     ['PAP.Association_has_Nickname', 'PAP.Company_has_Nickname', 'PAP.Node_has_Nickname', 'PAP.Person_has_Nickname']
+      PAP.Subject_has_Nickname     ['PAP.Adhoc_Group_has_Nickname', 'PAP.Association_has_Nickname', 'PAP.Company_has_Nickname', 'PAP.Person_has_Nickname']
         PAP.Association_has_Nickname ['PAP.Association_has_Nickname']
+        PAP.Adhoc_Group_has_Nickname ['PAP.Adhoc_Group_has_Nickname']
         PAP.Person_has_Nickname    ['PAP.Person_has_Nickname']
-        PAP.Node_has_Nickname      ['PAP.Node_has_Nickname']
         PAP.Company_has_Nickname   ['PAP.Company_has_Nickname']
-      PAP.Subject_has_Address      ['PAP.Association_has_Address', 'PAP.Company_has_Address', 'PAP.Person_has_Address']
+      PAP.Subject_has_Address      ['PAP.Adhoc_Group_has_Address', 'PAP.Association_has_Address', 'PAP.Company_has_Address', 'PAP.Person_has_Address']
         PAP.Association_has_Address ['PAP.Association_has_Address']
+        PAP.Adhoc_Group_has_Address ['PAP.Adhoc_Group_has_Address']
         PAP.Person_has_Address     ['PAP.Person_has_Address']
         PAP.Company_has_Address    ['PAP.Company_has_Address']
-      PAP.Subject_has_Email        ['PAP.Association_has_Email', 'PAP.Company_has_Email', 'PAP.Person_has_Email']
+      PAP.Subject_has_Email        ['PAP.Adhoc_Group_has_Email', 'PAP.Association_has_Email', 'PAP.Company_has_Email', 'PAP.Person_has_Email']
         PAP.Association_has_Email  ['PAP.Association_has_Email']
+        PAP.Adhoc_Group_has_Email  ['PAP.Adhoc_Group_has_Email']
         PAP.Person_has_Email       ['PAP.Person_has_Email']
         PAP.Company_has_Email      ['PAP.Company_has_Email']
-      PAP.Subject_has_Phone        ['PAP.Association_has_Phone', 'PAP.Company_has_Phone', 'PAP.Person_has_Phone']
+      PAP.Subject_has_Phone        ['PAP.Adhoc_Group_has_Phone', 'PAP.Association_has_Phone', 'PAP.Company_has_Phone', 'PAP.Person_has_Phone']
         PAP.Association_has_Phone  ['PAP.Association_has_Phone']
+        PAP.Adhoc_Group_has_Phone  ['PAP.Adhoc_Group_has_Phone']
         PAP.Person_has_Phone       ['PAP.Person_has_Phone']
         PAP.Company_has_Phone      ['PAP.Company_has_Phone']
-      PAP.Subject_has_Url          ['PAP.Association_has_Url', 'PAP.Company_has_Url', 'PAP.Node_has_Url', 'PAP.Person_has_Url']
+      PAP.Subject_has_Url          ['PAP.Adhoc_Group_has_Url', 'PAP.Association_has_Url', 'PAP.Company_has_Url', 'PAP.Person_has_Url']
         PAP.Association_has_Url    ['PAP.Association_has_Url']
+        PAP.Adhoc_Group_has_Url    ['PAP.Adhoc_Group_has_Url']
         PAP.Person_has_Url         ['PAP.Person_has_Url']
-        PAP.Node_has_Url           ['PAP.Node_has_Url']
         PAP.Company_has_Url        ['PAP.Company_has_Url']
 
     >>> for T, l in children_trans_iter (scope.PAP.Subject_has_Property) :
@@ -223,30 +225,33 @@ _test_auto_children = """
     PAP.Subject_has_Property       True  PAP.Subject_has_Property
       PAP.Subject_has_IM_Handle    True  PAP.Subject_has_Property
         PAP.Association_has_IM_Handle False PAP.Subject_has_Property
+        PAP.Adhoc_Group_has_IM_Handle False PAP.Subject_has_Property
         PAP.Person_has_IM_Handle   False PAP.Subject_has_Property
-        PAP.Node_has_IM_Handle     False PAP.Subject_has_Property
         PAP.Company_has_IM_Handle  False PAP.Subject_has_Property
       PAP.Subject_has_Nickname     True  PAP.Subject_has_Property
         PAP.Association_has_Nickname False PAP.Subject_has_Property
+        PAP.Adhoc_Group_has_Nickname False PAP.Subject_has_Property
         PAP.Person_has_Nickname    False PAP.Subject_has_Property
-        PAP.Node_has_Nickname      False PAP.Subject_has_Property
         PAP.Company_has_Nickname   False PAP.Subject_has_Property
       PAP.Subject_has_Address      True  PAP.Subject_has_Property
         PAP.Association_has_Address False PAP.Subject_has_Property
+        PAP.Adhoc_Group_has_Address False PAP.Subject_has_Property
         PAP.Person_has_Address     False PAP.Subject_has_Property
         PAP.Company_has_Address    False PAP.Subject_has_Property
       PAP.Subject_has_Email        True  PAP.Subject_has_Property
         PAP.Association_has_Email  False PAP.Subject_has_Property
+        PAP.Adhoc_Group_has_Email  False PAP.Subject_has_Property
         PAP.Person_has_Email       False PAP.Subject_has_Property
         PAP.Company_has_Email      False PAP.Subject_has_Property
       PAP.Subject_has_Phone        True  PAP.Subject_has_Property
         PAP.Association_has_Phone  False PAP.Subject_has_Property
+        PAP.Adhoc_Group_has_Phone  False PAP.Subject_has_Property
         PAP.Person_has_Phone       False PAP.Subject_has_Property
         PAP.Company_has_Phone      False PAP.Subject_has_Property
       PAP.Subject_has_Url          True  PAP.Subject_has_Property
         PAP.Association_has_Url    False PAP.Subject_has_Property
+        PAP.Adhoc_Group_has_Url    False PAP.Subject_has_Property
         PAP.Person_has_Url         False PAP.Subject_has_Property
-        PAP.Node_has_Url           False PAP.Subject_has_Property
         PAP.Company_has_Url        False PAP.Subject_has_Property
 
 """
@@ -270,7 +275,7 @@ _test_owner = """
     Traceback (most recent call last):
       ...
     Wrong_Type: Node 'nogps' not eligible for attribute owner,
-        must be instance of Subject, but not Node
+        must be instance of Subject
 
 """
 
@@ -286,33 +291,27 @@ _test_refuse_e_types = """
     ...         if getattr (a, "refuse_e_types", None) :
     ...             print (ET.type_name, a.name, sorted (a.refuse_e_types))
     FFM.Node owner ['FFM.Node']
-    PAP.Subject_has_Address left ['FFM.Node']
-    PAP.Subject_has_Email left ['FFM.Node']
-    PAP.Subject_has_Phone left ['FFM.Node']
 
     >>> for ET in scope.app_type._T_Extension :
     ...     for a in ET.id_entity_attr :
     ...         if getattr (a, "refuse_e_types", None) :
     ...             print (ET.type_name, a.name, sorted (a.refuse_e_types_transitive))
     FFM.Node owner ['FFM.Node']
-    PAP.Subject_has_Address left ['FFM.Node']
-    PAP.Subject_has_Email left ['FFM.Node']
-    PAP.Subject_has_Phone left ['FFM.Node']
 
     >>> sorted (FFM.Node.manager.eligible_e_types)
     ['PAP.Person']
 
     >>> sorted (FFM.Node.owner.eligible_e_types)
-    ['PAP.Association', 'PAP.Company', 'PAP.Person']
+    ['PAP.Adhoc_Group', 'PAP.Association', 'PAP.Company', 'PAP.Person']
 
     >>> sorted (FFM.Node.owner.selectable_e_types)
-    ['PAP.Association', 'PAP.Company', 'PAP.Person']
+    ['PAP.Adhoc_Group', 'PAP.Association', 'PAP.Company', 'PAP.Person']
 
     >>> sorted (PAP.Subject_has_Property.left.eligible_e_types)
-    ['FFM.Node', 'PAP.Association', 'PAP.Company', 'PAP.Person']
+    ['PAP.Adhoc_Group', 'PAP.Association', 'PAP.Company', 'PAP.Person']
 
     >>> sorted (PAP.Subject_has_Phone.left.eligible_e_types)
-    ['PAP.Association', 'PAP.Company', 'PAP.Person']
+    ['PAP.Adhoc_Group', 'PAP.Association', 'PAP.Company', 'PAP.Person']
 
     >>> AQ = FFM.Node.AQ
     >>> print (formatted (AQ.As_Template_Elem))
@@ -425,40 +424,6 @@ _test_refuse_e_types = """
       , ui_type_name = 'Person'
       )
     , Record
-      ( attr = Date_Interval `lifetime`
-      , attrs =
-          [ Record
-            ( attr = Date `start`
-            , full_name = 'lifetime.start'
-            , id = 'lifetime__start'
-            , name = 'start'
-            , sig_key = 0
-            , ui_name = 'Lifetime/Start'
-            )
-          , Record
-            ( attr = Date `finish`
-            , full_name = 'lifetime.finish'
-            , id = 'lifetime__finish'
-            , name = 'finish'
-            , sig_key = 0
-            , ui_name = 'Lifetime/Finish'
-            )
-          , Record
-            ( attr = Boolean `alive`
-            , choices = <Recursion on list...>
-            , full_name = 'lifetime.alive'
-            , id = 'lifetime__alive'
-            , name = 'alive'
-            , sig_key = 1
-            , ui_name = 'Lifetime/Alive'
-            )
-          ]
-      , full_name = 'lifetime'
-      , id = 'lifetime'
-      , name = 'lifetime'
-      , ui_name = 'Lifetime'
-      )
-    , Record
       ( Class = 'Entity'
       , attr = Entity `address`
       , attrs =
@@ -520,10 +485,39 @@ _test_refuse_e_types = """
       , ui_type_name = 'Address'
       )
     , Record
+      ( attr = Text `desc`
+      , full_name = 'desc'
+      , id = 'desc'
+      , name = 'desc'
+      , sig_key = 3
+      , ui_name = 'Description'
+      )
+    , Record
       ( Class = 'Entity'
       , attr = Entity `owner`
       , children_np =
           [ Record
+            ( Class = 'Entity'
+            , attr = Entity `owner`
+            , attrs =
+                [ Record
+                  ( attr = String `name`
+                  , full_name = 'owner.name'
+                  , id = 'owner__name'
+                  , name = 'name'
+                  , sig_key = 3
+                  , ui_name = 'Owner[Adhoc_Group]/Name'
+                  )
+                ]
+            , full_name = 'owner'
+            , id = 'owner'
+            , name = 'owner'
+            , sig_key = 2
+            , type_name = 'PAP.Adhoc_Group'
+            , ui_name = 'Owner[Adhoc_Group]'
+            , ui_type_name = 'Adhoc_Group'
+            )
+          , Record
             ( Class = 'Entity'
             , attr = Entity `owner`
             , attrs =
@@ -1123,115 +1117,6 @@ _test_refuse_e_types = """
       , type_name = 'MOM.Document'
       , ui_name = 'Documents'
       , ui_type_name = 'Document'
-      )
-    , Record
-      ( Class = 'Entity'
-      , attr = Role_Ref_Set `urls`
-      , attrs =
-          [ Record
-            ( attr = Url `value`
-            , full_name = 'urls.value'
-            , id = 'urls__value'
-            , name = 'value'
-            , sig_key = 3
-            , ui_name = 'Urls/Value'
-            )
-          , Record
-            ( attr = String `desc`
-            , full_name = 'urls.desc'
-            , id = 'urls__desc'
-            , name = 'desc'
-            , sig_key = 3
-            , ui_name = 'Urls/Description'
-            )
-          ]
-      , full_name = 'urls'
-      , id = 'urls'
-      , name = 'urls'
-      , sig_key = 2
-      , type_name = 'PAP.Url'
-      , ui_name = 'Urls'
-      , ui_type_name = 'Url'
-      )
-    , Record
-      ( Class = 'Entity'
-      , attr = Role_Ref_Set `nicknames`
-      , attrs =
-          [ Record
-            ( attr = String `name`
-            , full_name = 'nicknames.name'
-            , id = 'nicknames__name'
-            , name = 'name'
-            , sig_key = 3
-            , ui_name = 'Nicknames/Name'
-            )
-          , Record
-            ( attr = String `desc`
-            , full_name = 'nicknames.desc'
-            , id = 'nicknames__desc'
-            , name = 'desc'
-            , sig_key = 3
-            , ui_name = 'Nicknames/Description'
-            )
-          ]
-      , full_name = 'nicknames'
-      , id = 'nicknames'
-      , name = 'nicknames'
-      , sig_key = 2
-      , type_name = 'PAP.Nickname'
-      , ui_name = 'Nicknames'
-      , ui_type_name = 'Nickname'
-      )
-    , Record
-      ( Class = 'Entity'
-      , attr = Role_Ref_Set `im_handles`
-      , attrs =
-          [ Record
-            ( attr = im_protocol `protocol`
-            , choices =
-                [
-                  ( 'ICQ'
-                  , 'ICQ [First internet-wide instant messaging service]'
-                  )
-                ,
-                  ( 'IRC'
-                  , 'IRC [Internet relay chat]'
-                  )
-                ,
-                  ( 'XMPP'
-                  , 'XMPP [Extensible messaging and presence protocol; used by Jabber and Google Talk]'
-                  )
-                ]
-            , full_name = 'im_handles.protocol'
-            , id = 'im_handles__protocol'
-            , name = 'protocol'
-            , sig_key = 0
-            , ui_name = 'Im handles/Protocol'
-            )
-          , Record
-            ( attr = String `address`
-            , full_name = 'im_handles.address'
-            , id = 'im_handles__address'
-            , name = 'address'
-            , sig_key = 3
-            , ui_name = 'Im handles/Address'
-            )
-          , Record
-            ( attr = String `desc`
-            , full_name = 'im_handles.desc'
-            , id = 'im_handles__desc'
-            , name = 'desc'
-            , sig_key = 3
-            , ui_name = 'Im handles/Description'
-            )
-          ]
-      , full_name = 'im_handles'
-      , id = 'im_handles'
-      , name = 'im_handles'
-      , sig_key = 2
-      , type_name = 'PAP.IM_Handle'
-      , ui_name = 'Im handles'
-      , ui_type_name = 'IM_Handle'
       )
     ]
 

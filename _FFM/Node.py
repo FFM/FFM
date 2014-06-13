@@ -49,6 +49,8 @@
 #     1-Oct-2013 (CT) Set `belongs_to_node.hidden` to `True`
 #    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
 #     5-Jun-2014 (RS) Remove duplicate `my_node`, add `desc`
+#    13-Jun-2014 (RS) Add `ui_name` for `desc`
+#    13-Jun-2014 (RS) `Node` is no longer a `PAP.Subject`
 #    ««revision-date»»···
 #--
 
@@ -63,24 +65,14 @@ from   _GTW._OMP._DNS.Attr_Type import A_DNS_Label
 import _FFM.Entity
 import _FFM.Belongs_to_Node
 
-_Ancestor_Essence = PAP.Subject
+_Ancestor_Essence = FFM.Object
 _Mixin            = FFM.Belongs_to_Node
 
-class Node (_Mixin, FFM.Entity, _Ancestor_Essence) :
+class Node (_Mixin, _Ancestor_Essence) :
     """Model a node of FFM"""
-
-    refuse_links = set \
-        (( "GTW.OMP.PAP.Node_has_Address"
-         , "GTW.OMP.PAP.Node_has_Email"
-         , "GTW.OMP.PAP.Node_has_Phone"
-         , "GTW.OMP.PAP.Subject_has_Address"
-         , "GTW.OMP.PAP.Subject_has_Email"
-         , "GTW.OMP.PAP.Subject_has_Phone"
-        ))
 
     class _Attributes \
               ( _Mixin._Attributes
-              , FFM.Entity._Attributes
               , _Ancestor_Essence._Attributes
               ) :
 
@@ -111,6 +103,7 @@ class Node (_Mixin, FFM.Entity, _Ancestor_Essence) :
             """Description of the node"""
 
             kind               = Attr.Optional
+            ui_name            = "Description"
 
         # end class desc
 

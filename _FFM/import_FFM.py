@@ -47,6 +47,8 @@
 #    27-Mar-2014 (CT) Add `MOM.Document`
 #     5-Jun-2014 (RS) Remove `Node_has_Address` (it's already in
 #                     `refuse_links` of `Node`)
+#    13-Jun-2014 (RS) Remove `Person_acts_for_Legal_Entity`,
+#                     add `PAP.Adhoc_Group`, `PAP.Person_in_Group`
 #    ««revision-date»»···
 #--
 
@@ -58,6 +60,8 @@ from   _FFM                   import FFM
 import _GTW._OMP._PAP.Association
 import _GTW._OMP._PAP.IM_Handle
 import _GTW._OMP._PAP.Nickname
+import _GTW._OMP._PAP.Adhoc_Group
+import _GTW._OMP._PAP.Person_in_Group
 
 import _FFM.Entity
 
@@ -75,7 +79,6 @@ import _FFM.Net_Device
 import _FFM.Net_Device_Type
 import _FFM.Net_Interface
 import _FFM.Node
-import _FFM.Person_acts_for_Legal_Entity
 import _FFM.Regulatory_Domain
 import _FFM.Regulatory_Permission
 import _FFM.Routing_Zone
