@@ -19,6 +19,8 @@
 
 import sys, os
 import re
+import csv
+import uuid
 
 from   datetime               import datetime, date, tzinfo, timedelta
 from   rsclib.IP_Address      import IP4_Address
@@ -28,6 +30,7 @@ from   _GTW                   import GTW
 from   _TFL                   import TFL
 from   _FFM                   import FFM
 from   _GTW._OMP._PAP         import PAP
+from   _MOM.import_MOM        import Q
 
 import _TFL.CAO
 import model
@@ -35,11 +38,18 @@ import model
 class Convert (object) :
 
     person_dupes = \
-        { 179 : 124
+        {  23 : 895 # nick ähnlich, gleicher Name?
+        #  54 : 655 # nick == email vorn?
+        , 140 : 460
+        , 179 : 124
         , 267 : 322
+        , 273 : 272 # probably same unnamed person, almost same nick
+        , 276 : 272 # yet another dupe with almost same nick
         , 307 : 306
+        , 314 : 311
         , 372 : 380 # same phone *and* password (!) different name (!)
         , 424 : 418
+        , 440 : 838
         , 617 : 623
         , 669 : 1001 # same person?
         , 686 : 687
@@ -61,6 +71,15 @@ class Convert (object) :
         }
 
     def __init__ (self, cmd, scope, debug = False) :
+        self.pers_exception = {}
+        try :
+            pf = open ('pers.csv', 'r')
+            cr = csv.reader (pf, delimiter = ';')
+            for line in cr :
+                self.pers_exception [int (line [0])] = (line [1], line [2])
+        except IOError :
+            print "WARN: Can't read additional person data"
+
         self.debug = debug
         if len (cmd.argv) > 0 :
             f  = open (cmd.argv [0])
@@ -85,6 +104,7 @@ class Convert (object) :
 
     def create (self) :
         self.create_persons ()
+        self.create_networks ()
         self.scope.commit ()
         self.create_nodes   ()
         self.scope.commit ()
@@ -94,8 +114,6 @@ class Convert (object) :
 
     def create_devices (self) :
         # ignore snmp_ip and snmp_lastseen (only used by three nodes)
-        # FIXME: Use smokeping?
-        # FIXME: hastinc?
         dt = self.ffm.Net_Device_Type.instance (name = 'Generic', raw = True)
         for d in self.contents ['node'] :
             if d.location_id not in self.node_by_id :
@@ -121,6 +139,33 @@ class Convert (object) :
             if len (self.scope.uncommitted_changes) > 10 :
                 self.scope.commit ()
     # end def create_devices
+
+    def create_networks (self) :
+        """ Network ranges for reservation
+        """
+        by_mask = {}
+        # first group by netmask
+        for nw in self.contents ['nettype'] :
+            if not nw.comment :
+                print 'WARN: Ignoring nettype "%s"' % nw.name
+                continue
+            for net_ip in nw.comment.split (',') :
+                ip = IP4_Address (net_ip)
+                if ip.mask not in by_mask :
+                    by_mask [ip.mask] = []
+                by_mask [ip.mask].append ((ip, nw.name))
+        typ = self.ffm.IP4_Network
+        for mask in sorted (by_mask) :
+            for ip, name in by_mask [mask] :
+                r = typ.query \
+                    ( Q.net_address.CONTAINS (ip)
+                    , sort_key = TFL.Sorted_By ("-net_address.mask_len")
+                    ).first ()
+                reserver = r.reserve if r else typ
+                network  = reserver (ip, owner = self.graz_admin)
+                if name :
+                    network.set_raw (desc = name)
+    # end def create_networks
 
     def create_nodes (self) :
         x_start = 4080
@@ -176,17 +221,28 @@ class Convert (object) :
     def create_persons (self) :
         for m in sorted (self.contents ['person'], key = lambda x : x.id) :
             #print "%s: %r %r" % (m.id, m.firstname, m.lastname)
+            if m.id in self.pers_exception :
+                pe = self.pers_exception [m.id]
+                fn, ln = (x.decode ('utf-8') for x in pe)
+            else :
+                fn = m.firstname.strip ()
+                ln = m.lastname.strip ()
             self.member_by_id [m.id] = m
             if m.id in self.person_dupes :
                 print "INFO: Duplicate person: %s" % m.id
                 continue
-            if not m.firstname or not m.lastname :
-                print >> sys.stderr, "WARN: name missing: %s (%s/%s)" \
+            if not fn or not ln :
+                print >> sys.stderr, "WARN: name missing: %s (%r/%r)" \
                     % (m.id, m.firstname, m.lastname)
-                continue
+                if not fn and not ln :
+                    print >> sys.stderr, "WARN: ignoring person %s" % m.id
+                    continue
+                else :
+                    fn = fn or '?'
+                    ln = ln or '?'
             person = self.pap.Person \
-                ( first_name = m.firstname.strip ()
-                , last_name  = m.lastname.strip ()
+                ( first_name = fn
+                , last_name  = ln
                 , raw        = True
                 )
             self.person_by_id [m.id] = person
@@ -196,6 +252,15 @@ class Convert (object) :
                 mail  = m.email.replace ('[at]', '@')
                 email = self.pap.Email (address = mail)
                 self.pap.Person_has_Email (person, email)
+                if m.email == 'admin@graz.funkfeuer.at' :
+                    self.graz_admin = person
+                auth = self.scope.Auth.Account.create_new_account_x \
+                    ( mail
+                    , enabled   = True
+                    , suspended = True
+                    , password  = uuid.uuid4 ().hex
+                    )
+                self.pap.Person_has_Account (person, auth)
             if m.tel :
                 self.try_insert_phone (m.tel, m.id, person)
             if len (self.scope.uncommitted_changes) > 10 :
