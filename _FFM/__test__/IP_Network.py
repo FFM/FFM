@@ -47,6 +47,7 @@
 #                     `IP_Network.cool_down`, `Node` no longer derived
 #                     from `Subject`, addition of `Node.desc`, `ui_name`
 #                     for `desc`
+#    14-Jun-2014 (RS) Add `node` to `IP_Network`
 #    ««revision-date»»···
 #--
 
@@ -425,15 +426,16 @@ _test_AQ = """
     ...     print (aq)
     <net_address.AQ [Attr.Type.Querier Ckd]>
     <desc.AQ [Attr.Type.Querier String]>
+    <node.AQ [Attr.Type.Querier Id_Entity]>
     <owner.AQ [Attr.Type.Querier Id_Entity]>
     <creation.AQ [Attr.Type.Querier Rev_Ref]>
     <last_change.AQ [Attr.Type.Querier Rev_Ref]>
     <last_cid.AQ [Attr.Type.Querier Ckd]>
     <pid.AQ [Attr.Type.Querier Ckd]>
     <type_name.AQ [Attr.Type.Querier String]>
-    <is_free.AQ [Attr.Type.Querier Boolean]>
     <expiration_date.AQ [Attr.Type.Querier Ckd]>
     <has_children.AQ [Attr.Type.Querier Boolean]>
+    <is_free.AQ [Attr.Type.Querier Boolean]>
     <parent.AQ [Attr.Type.Querier Id_Entity]>
     <net_interface.AQ [Attr.Type.Querier Rev_Ref]>
     <documents.AQ [Attr.Type.Querier Rev_Ref]>
@@ -445,6 +447,32 @@ _test_AQ = """
     ...     print (aq, aq.E_Type.type_name if aq.E_Type else "-"*5)
     <net_address.AQ [Attr.Type.Querier Ckd]> -----
     <desc.AQ [Attr.Type.Querier String]> -----
+    <node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
+    <node.name.AQ [Attr.Type.Querier String]> -----
+    <node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
+    <node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
+    <node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
+    <node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
+    <node.manager.title.AQ [Attr.Type.Querier String]> -----
+    <node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
+    <node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
+    <node.address.street.AQ [Attr.Type.Querier String]> -----
+    <node.address.zip.AQ [Attr.Type.Querier String]> -----
+    <node.address.city.AQ [Attr.Type.Querier String]> -----
+    <node.address.country.AQ [Attr.Type.Querier String]> -----
+    <node.address.desc.AQ [Attr.Type.Querier String]> -----
+    <node.address.region.AQ [Attr.Type.Querier String]> -----
+    <node.desc.AQ [Attr.Type.Querier String]> -----
+    <node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
+    <node.position.lat.AQ [Attr.Type.Querier Raw]> -----
+    <node.position.lon.AQ [Attr.Type.Querier Raw]> -----
+    <node.position.height.AQ [Attr.Type.Querier Ckd]> -----
+    <node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
     <owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
     <creation.AQ [Attr.Type.Querier Rev_Ref]> MOM.MD_Change
     <creation.c_time.AQ [Attr.Type.Querier Ckd]> -----
@@ -461,16 +489,42 @@ _test_AQ = """
     <last_cid.AQ [Attr.Type.Querier Ckd]> -----
     <pid.AQ [Attr.Type.Querier Ckd]> -----
     <type_name.AQ [Attr.Type.Querier String]> -----
-    <is_free.AQ [Attr.Type.Querier Boolean]> -----
     <expiration_date.AQ [Attr.Type.Querier Ckd]> -----
     <has_children.AQ [Attr.Type.Querier Boolean]> -----
+    <is_free.AQ [Attr.Type.Querier Boolean]> -----
     <parent.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
     <parent.net_address.AQ [Attr.Type.Querier Ckd]> -----
     <parent.desc.AQ [Attr.Type.Querier String]> -----
+    <parent.node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
+    <parent.node.name.AQ [Attr.Type.Querier String]> -----
+    <parent.node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
+    <parent.node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
+    <parent.node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
+    <parent.node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
+    <parent.node.manager.title.AQ [Attr.Type.Querier String]> -----
+    <parent.node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <parent.node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <parent.node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <parent.node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <parent.node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
+    <parent.node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
+    <parent.node.address.street.AQ [Attr.Type.Querier String]> -----
+    <parent.node.address.zip.AQ [Attr.Type.Querier String]> -----
+    <parent.node.address.city.AQ [Attr.Type.Querier String]> -----
+    <parent.node.address.country.AQ [Attr.Type.Querier String]> -----
+    <parent.node.address.desc.AQ [Attr.Type.Querier String]> -----
+    <parent.node.address.region.AQ [Attr.Type.Querier String]> -----
+    <parent.node.desc.AQ [Attr.Type.Querier String]> -----
+    <parent.node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <parent.node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
+    <parent.node.position.lat.AQ [Attr.Type.Querier Raw]> -----
+    <parent.node.position.lon.AQ [Attr.Type.Querier Raw]> -----
+    <parent.node.position.height.AQ [Attr.Type.Querier Ckd]> -----
+    <parent.node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
     <parent.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
-    <parent.is_free.AQ [Attr.Type.Querier Boolean]> -----
     <parent.expiration_date.AQ [Attr.Type.Querier Ckd]> -----
     <parent.has_children.AQ [Attr.Type.Querier Boolean]> -----
+    <parent.is_free.AQ [Attr.Type.Querier Boolean]> -----
     <parent.parent.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
     <net_interface.AQ [Attr.Type.Querier Rev_Ref]> FFM.Net_Interface
     <documents.AQ [Attr.Type.Querier Rev_Ref]> MOM.Document
@@ -603,31 +657,6 @@ _test_AQ = """
     <wired_interface.my_net_device.name.AQ [Attr.Type.Querier String]> -----
     <wired_interface.my_net_device.desc.AQ [Attr.Type.Querier String]> -----
     <wired_interface.my_net_device.my_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
-    <wired_interface.my_net_device.my_node.name.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.my_net_device.my_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
-    <wired_interface.my_net_device.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
-    <wired_interface.my_net_device.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
-    <wired_interface.my_net_device.my_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.my_net_device.my_node.manager.title.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.my_net_device.my_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <wired_interface.my_net_device.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <wired_interface.my_net_device.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <wired_interface.my_net_device.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
-    <wired_interface.my_net_device.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
-    <wired_interface.my_net_device.my_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
-    <wired_interface.my_net_device.my_node.address.street.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.my_net_device.my_node.address.zip.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.my_net_device.my_node.address.city.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.my_net_device.my_node.address.country.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.my_net_device.my_node.address.desc.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.my_net_device.my_node.address.region.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.my_net_device.my_node.desc.AQ [Attr.Type.Querier String]> -----
-    <wired_interface.my_net_device.my_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
-    <wired_interface.my_net_device.my_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
-    <wired_interface.my_net_device.my_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
-    <wired_interface.my_net_device.my_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
-    <wired_interface.my_net_device.my_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
-    <wired_interface.my_net_device.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
     <wireless_interface.AQ [Attr.Type.Querier Rev_Ref]> FFM.Wireless_Interface
     <wireless_interface.left.AQ [Attr.Type.Querier Id_Entity]> FFM.Net_Device
     <wireless_interface.left.left.AQ [Attr.Type.Querier Id_Entity]> FFM.Net_Device_Type
@@ -761,31 +790,6 @@ _test_AQ = """
     <wireless_interface.my_net_device.name.AQ [Attr.Type.Querier String]> -----
     <wireless_interface.my_net_device.desc.AQ [Attr.Type.Querier String]> -----
     <wireless_interface.my_net_device.my_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
-    <wireless_interface.my_net_device.my_node.name.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.my_net_device.my_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
-    <wireless_interface.my_net_device.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
-    <wireless_interface.my_net_device.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
-    <wireless_interface.my_net_device.my_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.my_net_device.my_node.manager.title.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.my_net_device.my_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <wireless_interface.my_net_device.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <wireless_interface.my_net_device.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <wireless_interface.my_net_device.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
-    <wireless_interface.my_net_device.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
-    <wireless_interface.my_net_device.my_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
-    <wireless_interface.my_net_device.my_node.address.street.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.my_net_device.my_node.address.zip.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.my_net_device.my_node.address.city.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.my_net_device.my_node.address.country.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.my_net_device.my_node.address.desc.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.my_net_device.my_node.address.region.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.my_net_device.my_node.desc.AQ [Attr.Type.Querier String]> -----
-    <wireless_interface.my_net_device.my_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
-    <wireless_interface.my_net_device.my_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
-    <wireless_interface.my_net_device.my_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
-    <wireless_interface.my_net_device.my_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
-    <wireless_interface.my_net_device.my_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
-    <wireless_interface.my_net_device.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
     <virtual_wireless_interface.AQ [Attr.Type.Querier Rev_Ref]> FFM.Virtual_Wireless_Interface
     <virtual_wireless_interface.left.AQ [Attr.Type.Querier Id_Entity]> FFM.Net_Device
     <virtual_wireless_interface.left.left.AQ [Attr.Type.Querier Id_Entity]> FFM.Net_Device_Type
@@ -980,31 +984,6 @@ _test_AQ = """
     <virtual_wireless_interface.hardware.my_net_device.name.AQ [Attr.Type.Querier String]> -----
     <virtual_wireless_interface.hardware.my_net_device.desc.AQ [Attr.Type.Querier String]> -----
     <virtual_wireless_interface.hardware.my_net_device.my_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
-    <virtual_wireless_interface.hardware.my_net_device.my_node.name.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
-    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
-    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
-    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.title.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
-    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
-    <virtual_wireless_interface.hardware.my_net_device.my_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
-    <virtual_wireless_interface.hardware.my_net_device.my_node.address.street.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.my_net_device.my_node.address.zip.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.my_net_device.my_node.address.city.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.my_net_device.my_node.address.country.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.my_net_device.my_node.address.desc.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.my_net_device.my_node.address.region.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.my_net_device.my_node.desc.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.hardware.my_net_device.my_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
-    <virtual_wireless_interface.hardware.my_net_device.my_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
-    <virtual_wireless_interface.hardware.my_net_device.my_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
-    <virtual_wireless_interface.hardware.my_net_device.my_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
-    <virtual_wireless_interface.hardware.my_net_device.my_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
-    <virtual_wireless_interface.hardware.my_net_device.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
     <virtual_wireless_interface.mac_address.AQ [Attr.Type.Querier String]> -----
     <virtual_wireless_interface.name.AQ [Attr.Type.Querier String]> -----
     <virtual_wireless_interface.is_active.AQ [Attr.Type.Querier Boolean]> -----
@@ -1073,31 +1052,6 @@ _test_AQ = """
     <virtual_wireless_interface.my_net_device.name.AQ [Attr.Type.Querier String]> -----
     <virtual_wireless_interface.my_net_device.desc.AQ [Attr.Type.Querier String]> -----
     <virtual_wireless_interface.my_net_device.my_node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
-    <virtual_wireless_interface.my_net_device.my_node.name.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.my_net_device.my_node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
-    <virtual_wireless_interface.my_net_device.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
-    <virtual_wireless_interface.my_net_device.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
-    <virtual_wireless_interface.my_net_device.my_node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.my_net_device.my_node.manager.title.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.my_net_device.my_node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <virtual_wireless_interface.my_net_device.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <virtual_wireless_interface.my_net_device.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <virtual_wireless_interface.my_net_device.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
-    <virtual_wireless_interface.my_net_device.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
-    <virtual_wireless_interface.my_net_device.my_node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
-    <virtual_wireless_interface.my_net_device.my_node.address.street.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.my_net_device.my_node.address.zip.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.my_net_device.my_node.address.city.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.my_net_device.my_node.address.country.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.my_net_device.my_node.address.desc.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.my_net_device.my_node.address.region.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.my_net_device.my_node.desc.AQ [Attr.Type.Querier String]> -----
-    <virtual_wireless_interface.my_net_device.my_node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
-    <virtual_wireless_interface.my_net_device.my_node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
-    <virtual_wireless_interface.my_net_device.my_node.position.lat.AQ [Attr.Type.Querier Raw]> -----
-    <virtual_wireless_interface.my_net_device.my_node.position.lon.AQ [Attr.Type.Querier Raw]> -----
-    <virtual_wireless_interface.my_net_device.my_node.position.height.AQ [Attr.Type.Querier Ckd]> -----
-    <virtual_wireless_interface.my_net_device.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
     <virtual_wireless_interface.standard.AQ [Attr.Type.Querier Id_Entity]> FFM.Wireless_Standard
     <virtual_wireless_interface.standard.name.AQ [Attr.Type.Querier String]> -----
     <virtual_wireless_interface.standard.bandwidth.AQ [Attr.Type.Querier Raw]> -----
@@ -1107,6 +1061,32 @@ _test_AQ = """
     ...     str (aq._ui_name_T)
     'Net address'
     'Description'
+    'Node'
+    'Node/Name'
+    'Node/Manager'
+    'Node/Manager/Last name'
+    'Node/Manager/First name'
+    'Node/Manager/Middle name'
+    'Node/Manager/Academic title'
+    'Node/Manager/Lifetime'
+    'Node/Manager/Lifetime/Start'
+    'Node/Manager/Lifetime/Finish'
+    'Node/Manager/Lifetime/Alive'
+    'Node/Manager/Sex'
+    'Node/Address'
+    'Node/Address/Street'
+    'Node/Address/Zip code'
+    'Node/Address/City'
+    'Node/Address/Country'
+    'Node/Address/Description'
+    'Node/Address/Region'
+    'Node/Description'
+    'Node/Owner'
+    'Node/Position'
+    'Node/Position/Latitude'
+    'Node/Position/Longitude'
+    'Node/Position/Height'
+    'Node/Show in map'
     'Owner'
     'Creation'
     'Creation/C time'
@@ -1123,16 +1103,42 @@ _test_AQ = """
     'Last cid'
     'Pid'
     'Type name'
-    'Is free'
     'Expiration date'
     'Has children'
+    'Is free'
     'Parent'
     'Parent/Net address'
     'Parent/Description'
+    'Parent/Node'
+    'Parent/Node/Name'
+    'Parent/Node/Manager'
+    'Parent/Node/Manager/Last name'
+    'Parent/Node/Manager/First name'
+    'Parent/Node/Manager/Middle name'
+    'Parent/Node/Manager/Academic title'
+    'Parent/Node/Manager/Lifetime'
+    'Parent/Node/Manager/Lifetime/Start'
+    'Parent/Node/Manager/Lifetime/Finish'
+    'Parent/Node/Manager/Lifetime/Alive'
+    'Parent/Node/Manager/Sex'
+    'Parent/Node/Address'
+    'Parent/Node/Address/Street'
+    'Parent/Node/Address/Zip code'
+    'Parent/Node/Address/City'
+    'Parent/Node/Address/Country'
+    'Parent/Node/Address/Description'
+    'Parent/Node/Address/Region'
+    'Parent/Node/Description'
+    'Parent/Node/Owner'
+    'Parent/Node/Position'
+    'Parent/Node/Position/Latitude'
+    'Parent/Node/Position/Longitude'
+    'Parent/Node/Position/Height'
+    'Parent/Node/Show in map'
     'Parent/Owner'
-    'Parent/Is free'
     'Parent/Expiration date'
     'Parent/Has children'
+    'Parent/Is free'
     'Parent/Parent'
     'Net interface'
     'Documents'
@@ -1265,31 +1271,6 @@ _test_AQ = """
     'Wired interface/My net device/Name'
     'Wired interface/My net device/Description'
     'Wired interface/My net device/My node'
-    'Wired interface/My net device/My node/Name'
-    'Wired interface/My net device/My node/Manager'
-    'Wired interface/My net device/My node/Manager/Last name'
-    'Wired interface/My net device/My node/Manager/First name'
-    'Wired interface/My net device/My node/Manager/Middle name'
-    'Wired interface/My net device/My node/Manager/Academic title'
-    'Wired interface/My net device/My node/Manager/Lifetime'
-    'Wired interface/My net device/My node/Manager/Lifetime/Start'
-    'Wired interface/My net device/My node/Manager/Lifetime/Finish'
-    'Wired interface/My net device/My node/Manager/Lifetime/Alive'
-    'Wired interface/My net device/My node/Manager/Sex'
-    'Wired interface/My net device/My node/Address'
-    'Wired interface/My net device/My node/Address/Street'
-    'Wired interface/My net device/My node/Address/Zip code'
-    'Wired interface/My net device/My node/Address/City'
-    'Wired interface/My net device/My node/Address/Country'
-    'Wired interface/My net device/My node/Address/Description'
-    'Wired interface/My net device/My node/Address/Region'
-    'Wired interface/My net device/My node/Description'
-    'Wired interface/My net device/My node/Owner'
-    'Wired interface/My net device/My node/Position'
-    'Wired interface/My net device/My node/Position/Latitude'
-    'Wired interface/My net device/My node/Position/Longitude'
-    'Wired interface/My net device/My node/Position/Height'
-    'Wired interface/My net device/My node/Show in map'
     'Wireless interface'
     'Wireless interface/Net device'
     'Wireless interface/Net device/Net device type'
@@ -1423,31 +1404,6 @@ _test_AQ = """
     'Wireless interface/My net device/Name'
     'Wireless interface/My net device/Description'
     'Wireless interface/My net device/My node'
-    'Wireless interface/My net device/My node/Name'
-    'Wireless interface/My net device/My node/Manager'
-    'Wireless interface/My net device/My node/Manager/Last name'
-    'Wireless interface/My net device/My node/Manager/First name'
-    'Wireless interface/My net device/My node/Manager/Middle name'
-    'Wireless interface/My net device/My node/Manager/Academic title'
-    'Wireless interface/My net device/My node/Manager/Lifetime'
-    'Wireless interface/My net device/My node/Manager/Lifetime/Start'
-    'Wireless interface/My net device/My node/Manager/Lifetime/Finish'
-    'Wireless interface/My net device/My node/Manager/Lifetime/Alive'
-    'Wireless interface/My net device/My node/Manager/Sex'
-    'Wireless interface/My net device/My node/Address'
-    'Wireless interface/My net device/My node/Address/Street'
-    'Wireless interface/My net device/My node/Address/Zip code'
-    'Wireless interface/My net device/My node/Address/City'
-    'Wireless interface/My net device/My node/Address/Country'
-    'Wireless interface/My net device/My node/Address/Description'
-    'Wireless interface/My net device/My node/Address/Region'
-    'Wireless interface/My net device/My node/Description'
-    'Wireless interface/My net device/My node/Owner'
-    'Wireless interface/My net device/My node/Position'
-    'Wireless interface/My net device/My node/Position/Latitude'
-    'Wireless interface/My net device/My node/Position/Longitude'
-    'Wireless interface/My net device/My node/Position/Height'
-    'Wireless interface/My net device/My node/Show in map'
     'Virtual wireless interface'
     'Virtual wireless interface/Net device'
     'Virtual wireless interface/Net device/Net device type'
@@ -1642,31 +1598,6 @@ _test_AQ = """
     'Virtual wireless interface/Hardware/My net device/Name'
     'Virtual wireless interface/Hardware/My net device/Description'
     'Virtual wireless interface/Hardware/My net device/My node'
-    'Virtual wireless interface/Hardware/My net device/My node/Name'
-    'Virtual wireless interface/Hardware/My net device/My node/Manager'
-    'Virtual wireless interface/Hardware/My net device/My node/Manager/Last name'
-    'Virtual wireless interface/Hardware/My net device/My node/Manager/First name'
-    'Virtual wireless interface/Hardware/My net device/My node/Manager/Middle name'
-    'Virtual wireless interface/Hardware/My net device/My node/Manager/Academic title'
-    'Virtual wireless interface/Hardware/My net device/My node/Manager/Lifetime'
-    'Virtual wireless interface/Hardware/My net device/My node/Manager/Lifetime/Start'
-    'Virtual wireless interface/Hardware/My net device/My node/Manager/Lifetime/Finish'
-    'Virtual wireless interface/Hardware/My net device/My node/Manager/Lifetime/Alive'
-    'Virtual wireless interface/Hardware/My net device/My node/Manager/Sex'
-    'Virtual wireless interface/Hardware/My net device/My node/Address'
-    'Virtual wireless interface/Hardware/My net device/My node/Address/Street'
-    'Virtual wireless interface/Hardware/My net device/My node/Address/Zip code'
-    'Virtual wireless interface/Hardware/My net device/My node/Address/City'
-    'Virtual wireless interface/Hardware/My net device/My node/Address/Country'
-    'Virtual wireless interface/Hardware/My net device/My node/Address/Description'
-    'Virtual wireless interface/Hardware/My net device/My node/Address/Region'
-    'Virtual wireless interface/Hardware/My net device/My node/Description'
-    'Virtual wireless interface/Hardware/My net device/My node/Owner'
-    'Virtual wireless interface/Hardware/My net device/My node/Position'
-    'Virtual wireless interface/Hardware/My net device/My node/Position/Latitude'
-    'Virtual wireless interface/Hardware/My net device/My node/Position/Longitude'
-    'Virtual wireless interface/Hardware/My net device/My node/Position/Height'
-    'Virtual wireless interface/Hardware/My net device/My node/Show in map'
     'Virtual wireless interface/Mac address'
     'Virtual wireless interface/Name'
     'Virtual wireless interface/Is active'
@@ -1735,31 +1666,6 @@ _test_AQ = """
     'Virtual wireless interface/My net device/Name'
     'Virtual wireless interface/My net device/Description'
     'Virtual wireless interface/My net device/My node'
-    'Virtual wireless interface/My net device/My node/Name'
-    'Virtual wireless interface/My net device/My node/Manager'
-    'Virtual wireless interface/My net device/My node/Manager/Last name'
-    'Virtual wireless interface/My net device/My node/Manager/First name'
-    'Virtual wireless interface/My net device/My node/Manager/Middle name'
-    'Virtual wireless interface/My net device/My node/Manager/Academic title'
-    'Virtual wireless interface/My net device/My node/Manager/Lifetime'
-    'Virtual wireless interface/My net device/My node/Manager/Lifetime/Start'
-    'Virtual wireless interface/My net device/My node/Manager/Lifetime/Finish'
-    'Virtual wireless interface/My net device/My node/Manager/Lifetime/Alive'
-    'Virtual wireless interface/My net device/My node/Manager/Sex'
-    'Virtual wireless interface/My net device/My node/Address'
-    'Virtual wireless interface/My net device/My node/Address/Street'
-    'Virtual wireless interface/My net device/My node/Address/Zip code'
-    'Virtual wireless interface/My net device/My node/Address/City'
-    'Virtual wireless interface/My net device/My node/Address/Country'
-    'Virtual wireless interface/My net device/My node/Address/Description'
-    'Virtual wireless interface/My net device/My node/Address/Region'
-    'Virtual wireless interface/My net device/My node/Description'
-    'Virtual wireless interface/My net device/My node/Owner'
-    'Virtual wireless interface/My net device/My node/Position'
-    'Virtual wireless interface/My net device/My node/Position/Latitude'
-    'Virtual wireless interface/My net device/My node/Position/Longitude'
-    'Virtual wireless interface/My net device/My node/Position/Height'
-    'Virtual wireless interface/My net device/My node/Show in map'
     'Virtual wireless interface/Standard'
     'Virtual wireless interface/Standard/Name'
     'Virtual wireless interface/Standard/Bandwidth'
@@ -1772,6 +1678,26 @@ _test_AQ = """
     ...     print (aq)
     <net_address.AQ [Attr.Type.Querier Ckd]>
     <desc.AQ [Attr.Type.Querier String]>
+    <node.name.AQ [Attr.Type.Querier String]>
+    <node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
+    <node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
+    <node.manager.middle_name.AQ [Attr.Type.Querier String]>
+    <node.manager.title.AQ [Attr.Type.Querier String]>
+    <node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <node.manager.sex.AQ [Attr.Type.Querier Ckd]>
+    <node.address.street.AQ [Attr.Type.Querier String]>
+    <node.address.zip.AQ [Attr.Type.Querier String]>
+    <node.address.city.AQ [Attr.Type.Querier String]>
+    <node.address.country.AQ [Attr.Type.Querier String]>
+    <node.address.desc.AQ [Attr.Type.Querier String]>
+    <node.address.region.AQ [Attr.Type.Querier String]>
+    <node.desc.AQ [Attr.Type.Querier String]>
+    <node.position.lat.AQ [Attr.Type.Querier Raw]>
+    <node.position.lon.AQ [Attr.Type.Querier Raw]>
+    <node.position.height.AQ [Attr.Type.Querier Ckd]>
+    <node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <creation.c_time.AQ [Attr.Type.Querier Ckd]>
     <creation.kind.AQ [Attr.Type.Querier String]>
     <creation.time.AQ [Attr.Type.Querier Ckd]>
@@ -1781,14 +1707,34 @@ _test_AQ = """
     <last_cid.AQ [Attr.Type.Querier Ckd]>
     <pid.AQ [Attr.Type.Querier Ckd]>
     <type_name.AQ [Attr.Type.Querier String]>
-    <is_free.AQ [Attr.Type.Querier Boolean]>
     <expiration_date.AQ [Attr.Type.Querier Ckd]>
     <has_children.AQ [Attr.Type.Querier Boolean]>
+    <is_free.AQ [Attr.Type.Querier Boolean]>
     <parent.net_address.AQ [Attr.Type.Querier Ckd]>
     <parent.desc.AQ [Attr.Type.Querier String]>
-    <parent.is_free.AQ [Attr.Type.Querier Boolean]>
+    <parent.node.name.AQ [Attr.Type.Querier String]>
+    <parent.node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
+    <parent.node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
+    <parent.node.manager.middle_name.AQ [Attr.Type.Querier String]>
+    <parent.node.manager.title.AQ [Attr.Type.Querier String]>
+    <parent.node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <parent.node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <parent.node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <parent.node.manager.sex.AQ [Attr.Type.Querier Ckd]>
+    <parent.node.address.street.AQ [Attr.Type.Querier String]>
+    <parent.node.address.zip.AQ [Attr.Type.Querier String]>
+    <parent.node.address.city.AQ [Attr.Type.Querier String]>
+    <parent.node.address.country.AQ [Attr.Type.Querier String]>
+    <parent.node.address.desc.AQ [Attr.Type.Querier String]>
+    <parent.node.address.region.AQ [Attr.Type.Querier String]>
+    <parent.node.desc.AQ [Attr.Type.Querier String]>
+    <parent.node.position.lat.AQ [Attr.Type.Querier Raw]>
+    <parent.node.position.lon.AQ [Attr.Type.Querier Raw]>
+    <parent.node.position.height.AQ [Attr.Type.Querier Ckd]>
+    <parent.node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <parent.expiration_date.AQ [Attr.Type.Querier Ckd]>
     <parent.has_children.AQ [Attr.Type.Querier Boolean]>
+    <parent.is_free.AQ [Attr.Type.Querier Boolean]>
     <documents.url.AQ [Attr.Type.Querier String]>
     <documents.type.AQ [Attr.Type.Querier String]>
     <documents.desc.AQ [Attr.Type.Querier String]>
@@ -1888,26 +1834,6 @@ _test_AQ = """
     <wired_interface.my_net_device.node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <wired_interface.my_net_device.name.AQ [Attr.Type.Querier String]>
     <wired_interface.my_net_device.desc.AQ [Attr.Type.Querier String]>
-    <wired_interface.my_net_device.my_node.name.AQ [Attr.Type.Querier String]>
-    <wired_interface.my_net_device.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
-    <wired_interface.my_net_device.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
-    <wired_interface.my_net_device.my_node.manager.middle_name.AQ [Attr.Type.Querier String]>
-    <wired_interface.my_net_device.my_node.manager.title.AQ [Attr.Type.Querier String]>
-    <wired_interface.my_net_device.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <wired_interface.my_net_device.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <wired_interface.my_net_device.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
-    <wired_interface.my_net_device.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
-    <wired_interface.my_net_device.my_node.address.street.AQ [Attr.Type.Querier String]>
-    <wired_interface.my_net_device.my_node.address.zip.AQ [Attr.Type.Querier String]>
-    <wired_interface.my_net_device.my_node.address.city.AQ [Attr.Type.Querier String]>
-    <wired_interface.my_net_device.my_node.address.country.AQ [Attr.Type.Querier String]>
-    <wired_interface.my_net_device.my_node.address.desc.AQ [Attr.Type.Querier String]>
-    <wired_interface.my_net_device.my_node.address.region.AQ [Attr.Type.Querier String]>
-    <wired_interface.my_net_device.my_node.desc.AQ [Attr.Type.Querier String]>
-    <wired_interface.my_net_device.my_node.position.lat.AQ [Attr.Type.Querier Raw]>
-    <wired_interface.my_net_device.my_node.position.lon.AQ [Attr.Type.Querier Raw]>
-    <wired_interface.my_net_device.my_node.position.height.AQ [Attr.Type.Querier Ckd]>
-    <wired_interface.my_net_device.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <wireless_interface.left.left.name.AQ [Attr.Type.Querier String]>
     <wireless_interface.left.left.model_no.AQ [Attr.Type.Querier String]>
     <wireless_interface.left.left.revision.AQ [Attr.Type.Querier String]>
@@ -2010,26 +1936,6 @@ _test_AQ = """
     <wireless_interface.my_net_device.node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <wireless_interface.my_net_device.name.AQ [Attr.Type.Querier String]>
     <wireless_interface.my_net_device.desc.AQ [Attr.Type.Querier String]>
-    <wireless_interface.my_net_device.my_node.name.AQ [Attr.Type.Querier String]>
-    <wireless_interface.my_net_device.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
-    <wireless_interface.my_net_device.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
-    <wireless_interface.my_net_device.my_node.manager.middle_name.AQ [Attr.Type.Querier String]>
-    <wireless_interface.my_net_device.my_node.manager.title.AQ [Attr.Type.Querier String]>
-    <wireless_interface.my_net_device.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <wireless_interface.my_net_device.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <wireless_interface.my_net_device.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
-    <wireless_interface.my_net_device.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
-    <wireless_interface.my_net_device.my_node.address.street.AQ [Attr.Type.Querier String]>
-    <wireless_interface.my_net_device.my_node.address.zip.AQ [Attr.Type.Querier String]>
-    <wireless_interface.my_net_device.my_node.address.city.AQ [Attr.Type.Querier String]>
-    <wireless_interface.my_net_device.my_node.address.country.AQ [Attr.Type.Querier String]>
-    <wireless_interface.my_net_device.my_node.address.desc.AQ [Attr.Type.Querier String]>
-    <wireless_interface.my_net_device.my_node.address.region.AQ [Attr.Type.Querier String]>
-    <wireless_interface.my_net_device.my_node.desc.AQ [Attr.Type.Querier String]>
-    <wireless_interface.my_net_device.my_node.position.lat.AQ [Attr.Type.Querier Raw]>
-    <wireless_interface.my_net_device.my_node.position.lon.AQ [Attr.Type.Querier Raw]>
-    <wireless_interface.my_net_device.my_node.position.height.AQ [Attr.Type.Querier Ckd]>
-    <wireless_interface.my_net_device.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <virtual_wireless_interface.left.left.name.AQ [Attr.Type.Querier String]>
     <virtual_wireless_interface.left.left.model_no.AQ [Attr.Type.Querier String]>
     <virtual_wireless_interface.left.left.revision.AQ [Attr.Type.Querier String]>
@@ -2178,26 +2084,6 @@ _test_AQ = """
     <virtual_wireless_interface.hardware.my_net_device.node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <virtual_wireless_interface.hardware.my_net_device.name.AQ [Attr.Type.Querier String]>
     <virtual_wireless_interface.hardware.my_net_device.desc.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.my_net_device.my_node.name.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
-    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
-    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.middle_name.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.title.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
-    <virtual_wireless_interface.hardware.my_net_device.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
-    <virtual_wireless_interface.hardware.my_net_device.my_node.address.street.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.my_net_device.my_node.address.zip.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.my_net_device.my_node.address.city.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.my_net_device.my_node.address.country.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.my_net_device.my_node.address.desc.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.my_net_device.my_node.address.region.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.my_net_device.my_node.desc.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.hardware.my_net_device.my_node.position.lat.AQ [Attr.Type.Querier Raw]>
-    <virtual_wireless_interface.hardware.my_net_device.my_node.position.lon.AQ [Attr.Type.Querier Raw]>
-    <virtual_wireless_interface.hardware.my_net_device.my_node.position.height.AQ [Attr.Type.Querier Ckd]>
-    <virtual_wireless_interface.hardware.my_net_device.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <virtual_wireless_interface.mac_address.AQ [Attr.Type.Querier String]>
     <virtual_wireless_interface.name.AQ [Attr.Type.Querier String]>
     <virtual_wireless_interface.is_active.AQ [Attr.Type.Querier Boolean]>
@@ -2251,26 +2137,6 @@ _test_AQ = """
     <virtual_wireless_interface.my_net_device.node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <virtual_wireless_interface.my_net_device.name.AQ [Attr.Type.Querier String]>
     <virtual_wireless_interface.my_net_device.desc.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.my_net_device.my_node.name.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.my_net_device.my_node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
-    <virtual_wireless_interface.my_net_device.my_node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
-    <virtual_wireless_interface.my_net_device.my_node.manager.middle_name.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.my_net_device.my_node.manager.title.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.my_net_device.my_node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <virtual_wireless_interface.my_net_device.my_node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <virtual_wireless_interface.my_net_device.my_node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
-    <virtual_wireless_interface.my_net_device.my_node.manager.sex.AQ [Attr.Type.Querier Ckd]>
-    <virtual_wireless_interface.my_net_device.my_node.address.street.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.my_net_device.my_node.address.zip.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.my_net_device.my_node.address.city.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.my_net_device.my_node.address.country.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.my_net_device.my_node.address.desc.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.my_net_device.my_node.address.region.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.my_net_device.my_node.desc.AQ [Attr.Type.Querier String]>
-    <virtual_wireless_interface.my_net_device.my_node.position.lat.AQ [Attr.Type.Querier Raw]>
-    <virtual_wireless_interface.my_net_device.my_node.position.lon.AQ [Attr.Type.Querier Raw]>
-    <virtual_wireless_interface.my_net_device.my_node.position.height.AQ [Attr.Type.Querier Ckd]>
-    <virtual_wireless_interface.my_net_device.my_node.show_in_map.AQ [Attr.Type.Querier Boolean]>
     <virtual_wireless_interface.standard.name.AQ [Attr.Type.Querier String]>
     <virtual_wireless_interface.standard.bandwidth.AQ [Attr.Type.Querier Raw]>
     <virtual_wireless_interface.txpower.AQ [Attr.Type.Querier Raw]>
@@ -2284,6 +2150,193 @@ _test_AQ = """
         , { 'name' : 'desc'
           , 'sig_key' : 3
           , 'ui_name' : 'Description'
+          }
+        , { 'Class' : 'Entity'
+          , 'attrs' :
+              [ { 'name' : 'name'
+                , 'sig_key' : 3
+                , 'ui_name' : 'Name'
+                }
+              , { 'Class' : 'Entity'
+                , 'attrs' :
+                    [ { 'name' : 'last_name'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Last name'
+                      }
+                    , { 'name' : 'first_name'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'First name'
+                      }
+                    , { 'name' : 'middle_name'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Middle name'
+                      }
+                    , { 'name' : 'title'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Academic title'
+                      }
+                    , { 'attrs' :
+                          [ { 'name' : 'start'
+                            , 'sig_key' : 0
+                            , 'ui_name' : 'Start'
+                            }
+                          , { 'name' : 'finish'
+                            , 'sig_key' : 0
+                            , 'ui_name' : 'Finish'
+                            }
+                          , { 'name' : 'alive'
+                            , 'sig_key' : 1
+                            , 'ui_name' : 'Alive'
+                            }
+                          ]
+                      , 'name' : 'lifetime'
+                      , 'ui_name' : 'Lifetime'
+                      }
+                    , { 'name' : 'sex'
+                      , 'sig_key' : 0
+                      , 'ui_name' : 'Sex'
+                      }
+                    ]
+                , 'name' : 'manager'
+                , 'sig_key' : 2
+                , 'ui_name' : 'Manager'
+                }
+              , { 'Class' : 'Entity'
+                , 'attrs' :
+                    [ { 'name' : 'street'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Street'
+                      }
+                    , { 'name' : 'zip'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Zip code'
+                      }
+                    , { 'name' : 'city'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'City'
+                      }
+                    , { 'name' : 'country'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Country'
+                      }
+                    , { 'name' : 'desc'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Description'
+                      }
+                    , { 'name' : 'region'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Region'
+                      }
+                    ]
+                , 'name' : 'address'
+                , 'sig_key' : 2
+                , 'ui_name' : 'Address'
+                }
+              , { 'name' : 'desc'
+                , 'sig_key' : 3
+                , 'ui_name' : 'Description'
+                }
+              , { 'Class' : 'Entity'
+                , 'children_np' :
+                    [ { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          ]
+                      , 'name' : 'owner'
+                      , 'sig_key' : 2
+                      , 'type_name' : 'PAP.Adhoc_Group'
+                      , 'ui_name' : 'Owner'
+                      , 'ui_type_name' : 'Adhoc_Group'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          ]
+                      , 'name' : 'owner'
+                      , 'sig_key' : 2
+                      , 'type_name' : 'PAP.Association'
+                      , 'ui_name' : 'Owner'
+                      , 'ui_type_name' : 'Association'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          , { 'name' : 'registered_in'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Registered in'
+                            }
+                          ]
+                      , 'name' : 'owner'
+                      , 'sig_key' : 2
+                      , 'type_name' : 'PAP.Company'
+                      , 'ui_name' : 'Owner'
+                      , 'ui_type_name' : 'Company'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'last_name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Last name'
+                            }
+                          , { 'name' : 'first_name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'First name'
+                            }
+                          , { 'name' : 'middle_name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Middle name'
+                            }
+                          , { 'name' : 'title'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Academic title'
+                            }
+                          ]
+                      , 'name' : 'owner'
+                      , 'sig_key' : 2
+                      , 'type_name' : 'PAP.Person'
+                      , 'ui_name' : 'Owner'
+                      , 'ui_type_name' : 'Person'
+                      }
+                    ]
+                , 'default_child' : 'PAP.Person'
+                , 'name' : 'owner'
+                , 'sig_key' : 2
+                , 'ui_name' : 'Owner'
+                }
+              , { 'attrs' :
+                    [ { 'name' : 'lat'
+                      , 'sig_key' : 4
+                      , 'ui_name' : 'Latitude'
+                      }
+                    , { 'name' : 'lon'
+                      , 'sig_key' : 4
+                      , 'ui_name' : 'Longitude'
+                      }
+                    , { 'name' : 'height'
+                      , 'sig_key' : 0
+                      , 'ui_name' : 'Height'
+                      }
+                    ]
+                , 'name' : 'position'
+                , 'ui_name' : 'Position'
+                }
+              , { 'name' : 'show_in_map'
+                , 'sig_key' : 1
+                , 'ui_name' : 'Show in map'
+                }
+              ]
+          , 'name' : 'node'
+          , 'sig_key' : 2
+          , 'ui_name' : 'Node'
           }
         , { 'Class' : 'Entity'
           , 'children_np' :
@@ -2591,10 +2644,6 @@ _test_AQ = """
           , 'sig_key' : 3
           , 'ui_name' : 'Type name'
           }
-        , { 'name' : 'is_free'
-          , 'sig_key' : 1
-          , 'ui_name' : 'Is free'
-          }
         , { 'name' : 'expiration_date'
           , 'sig_key' : 0
           , 'ui_name' : 'Expiration date'
@@ -2602,6 +2651,10 @@ _test_AQ = """
         , { 'name' : 'has_children'
           , 'sig_key' : 1
           , 'ui_name' : 'Has children'
+          }
+        , { 'name' : 'is_free'
+          , 'sig_key' : 1
+          , 'ui_name' : 'Is free'
           }
         , { 'Class' : 'Entity'
           , 'attrs' :
@@ -2612,6 +2665,193 @@ _test_AQ = """
               , { 'name' : 'desc'
                 , 'sig_key' : 3
                 , 'ui_name' : 'Description'
+                }
+              , { 'Class' : 'Entity'
+                , 'attrs' :
+                    [ { 'name' : 'name'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Name'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'last_name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Last name'
+                            }
+                          , { 'name' : 'first_name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'First name'
+                            }
+                          , { 'name' : 'middle_name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Middle name'
+                            }
+                          , { 'name' : 'title'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Academic title'
+                            }
+                          , { 'attrs' :
+                                [ { 'name' : 'start'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Start'
+                                  }
+                                , { 'name' : 'finish'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Finish'
+                                  }
+                                , { 'name' : 'alive'
+                                  , 'sig_key' : 1
+                                  , 'ui_name' : 'Alive'
+                                  }
+                                ]
+                            , 'name' : 'lifetime'
+                            , 'ui_name' : 'Lifetime'
+                            }
+                          , { 'name' : 'sex'
+                            , 'sig_key' : 0
+                            , 'ui_name' : 'Sex'
+                            }
+                          ]
+                      , 'name' : 'manager'
+                      , 'sig_key' : 2
+                      , 'ui_name' : 'Manager'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'street'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Street'
+                            }
+                          , { 'name' : 'zip'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Zip code'
+                            }
+                          , { 'name' : 'city'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'City'
+                            }
+                          , { 'name' : 'country'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Country'
+                            }
+                          , { 'name' : 'desc'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Description'
+                            }
+                          , { 'name' : 'region'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Region'
+                            }
+                          ]
+                      , 'name' : 'address'
+                      , 'sig_key' : 2
+                      , 'ui_name' : 'Address'
+                      }
+                    , { 'name' : 'desc'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Description'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'children_np' :
+                          [ { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Name'
+                                  }
+                                ]
+                            , 'name' : 'owner'
+                            , 'sig_key' : 2
+                            , 'type_name' : 'PAP.Adhoc_Group'
+                            , 'ui_name' : 'Owner'
+                            , 'ui_type_name' : 'Adhoc_Group'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Name'
+                                  }
+                                ]
+                            , 'name' : 'owner'
+                            , 'sig_key' : 2
+                            , 'type_name' : 'PAP.Association'
+                            , 'ui_name' : 'Owner'
+                            , 'ui_type_name' : 'Association'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Name'
+                                  }
+                                , { 'name' : 'registered_in'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Registered in'
+                                  }
+                                ]
+                            , 'name' : 'owner'
+                            , 'sig_key' : 2
+                            , 'type_name' : 'PAP.Company'
+                            , 'ui_name' : 'Owner'
+                            , 'ui_type_name' : 'Company'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'last_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Last name'
+                                  }
+                                , { 'name' : 'first_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'First name'
+                                  }
+                                , { 'name' : 'middle_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Middle name'
+                                  }
+                                , { 'name' : 'title'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Academic title'
+                                  }
+                                ]
+                            , 'name' : 'owner'
+                            , 'sig_key' : 2
+                            , 'type_name' : 'PAP.Person'
+                            , 'ui_name' : 'Owner'
+                            , 'ui_type_name' : 'Person'
+                            }
+                          ]
+                      , 'default_child' : 'PAP.Person'
+                      , 'name' : 'owner'
+                      , 'sig_key' : 2
+                      , 'ui_name' : 'Owner'
+                      }
+                    , { 'attrs' :
+                          [ { 'name' : 'lat'
+                            , 'sig_key' : 4
+                            , 'ui_name' : 'Latitude'
+                            }
+                          , { 'name' : 'lon'
+                            , 'sig_key' : 4
+                            , 'ui_name' : 'Longitude'
+                            }
+                          , { 'name' : 'height'
+                            , 'sig_key' : 0
+                            , 'ui_name' : 'Height'
+                            }
+                          ]
+                      , 'name' : 'position'
+                      , 'ui_name' : 'Position'
+                      }
+                    , { 'name' : 'show_in_map'
+                      , 'sig_key' : 1
+                      , 'ui_name' : 'Show in map'
+                      }
+                    ]
+                , 'name' : 'node'
+                , 'sig_key' : 2
+                , 'ui_name' : 'Node'
                 }
               , { 'Class' : 'Entity'
                 , 'children_np' :
@@ -2689,10 +2929,6 @@ _test_AQ = """
                 , 'sig_key' : 2
                 , 'ui_name' : 'Owner'
                 }
-              , { 'name' : 'is_free'
-                , 'sig_key' : 1
-                , 'ui_name' : 'Is free'
-                }
               , { 'name' : 'expiration_date'
                 , 'sig_key' : 0
                 , 'ui_name' : 'Expiration date'
@@ -2700,6 +2936,10 @@ _test_AQ = """
               , { 'name' : 'has_children'
                 , 'sig_key' : 1
                 , 'ui_name' : 'Has children'
+                }
+              , { 'name' : 'is_free'
+                , 'sig_key' : 1
+                , 'ui_name' : 'Is free'
                 }
               , { 'Class' : 'Entity'
                 , 'name' : 'parent'
@@ -7083,6 +7323,371 @@ _test_AQ = """
       )
     , Record
       ( Class = 'Entity'
+      , attr = Entity `node`
+      , attrs =
+          [ Record
+            ( attr = String `name`
+            , full_name = 'node.name'
+            , id = 'node__name'
+            , name = 'name'
+            , sig_key = 3
+            , ui_name = 'Node/Name'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `manager`
+            , attrs =
+                [ Record
+                  ( attr = String `last_name`
+                  , full_name = 'node.manager.last_name'
+                  , id = 'node__manager__last_name'
+                  , name = 'last_name'
+                  , sig_key = 3
+                  , ui_name = 'Node/Manager/Last name'
+                  )
+                , Record
+                  ( attr = String `first_name`
+                  , full_name = 'node.manager.first_name'
+                  , id = 'node__manager__first_name'
+                  , name = 'first_name'
+                  , sig_key = 3
+                  , ui_name = 'Node/Manager/First name'
+                  )
+                , Record
+                  ( attr = String `middle_name`
+                  , full_name = 'node.manager.middle_name'
+                  , id = 'node__manager__middle_name'
+                  , name = 'middle_name'
+                  , sig_key = 3
+                  , ui_name = 'Node/Manager/Middle name'
+                  )
+                , Record
+                  ( attr = String `title`
+                  , full_name = 'node.manager.title'
+                  , id = 'node__manager__title'
+                  , name = 'title'
+                  , sig_key = 3
+                  , ui_name = 'Node/Manager/Academic title'
+                  )
+                , Record
+                  ( attr = Date_Interval `lifetime`
+                  , attrs =
+                      [ Record
+                        ( attr = Date `start`
+                        , full_name = 'node.manager.lifetime.start'
+                        , id = 'node__manager__lifetime__start'
+                        , name = 'start'
+                        , sig_key = 0
+                        , ui_name = 'Node/Manager/Lifetime/Start'
+                        )
+                      , Record
+                        ( attr = Date `finish`
+                        , full_name = 'node.manager.lifetime.finish'
+                        , id = 'node__manager__lifetime__finish'
+                        , name = 'finish'
+                        , sig_key = 0
+                        , ui_name = 'Node/Manager/Lifetime/Finish'
+                        )
+                      , Record
+                        ( attr = Boolean `alive`
+                        , choices =
+                            [ 'no'
+                            , 'yes'
+                            ]
+                        , full_name = 'node.manager.lifetime.alive'
+                        , id = 'node__manager__lifetime__alive'
+                        , name = 'alive'
+                        , sig_key = 1
+                        , ui_name = 'Node/Manager/Lifetime/Alive'
+                        )
+                      ]
+                  , full_name = 'node.manager.lifetime'
+                  , id = 'node__manager__lifetime'
+                  , name = 'lifetime'
+                  , ui_name = 'Node/Manager/Lifetime'
+                  )
+                , Record
+                  ( attr = Sex `sex`
+                  , choices =
+                      [
+                        ( 'F'
+                        , 'Female'
+                        )
+                      ,
+                        ( 'M'
+                        , 'Male'
+                        )
+                      ]
+                  , full_name = 'node.manager.sex'
+                  , id = 'node__manager__sex'
+                  , name = 'sex'
+                  , sig_key = 0
+                  , ui_name = 'Node/Manager/Sex'
+                  )
+                ]
+            , full_name = 'node.manager'
+            , id = 'node__manager'
+            , name = 'manager'
+            , sig_key = 2
+            , type_name = 'PAP.Person'
+            , ui_name = 'Node/Manager'
+            , ui_type_name = 'Person'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `address`
+            , attrs =
+                [ Record
+                  ( attr = String `street`
+                  , full_name = 'node.address.street'
+                  , id = 'node__address__street'
+                  , name = 'street'
+                  , sig_key = 3
+                  , ui_name = 'Node/Address/Street'
+                  )
+                , Record
+                  ( attr = String `zip`
+                  , full_name = 'node.address.zip'
+                  , id = 'node__address__zip'
+                  , name = 'zip'
+                  , sig_key = 3
+                  , ui_name = 'Node/Address/Zip code'
+                  )
+                , Record
+                  ( attr = String `city`
+                  , full_name = 'node.address.city'
+                  , id = 'node__address__city'
+                  , name = 'city'
+                  , sig_key = 3
+                  , ui_name = 'Node/Address/City'
+                  )
+                , Record
+                  ( attr = String `country`
+                  , full_name = 'node.address.country'
+                  , id = 'node__address__country'
+                  , name = 'country'
+                  , sig_key = 3
+                  , ui_name = 'Node/Address/Country'
+                  )
+                , Record
+                  ( attr = String `desc`
+                  , full_name = 'node.address.desc'
+                  , id = 'node__address__desc'
+                  , name = 'desc'
+                  , sig_key = 3
+                  , ui_name = 'Node/Address/Description'
+                  )
+                , Record
+                  ( attr = String `region`
+                  , full_name = 'node.address.region'
+                  , id = 'node__address__region'
+                  , name = 'region'
+                  , sig_key = 3
+                  , ui_name = 'Node/Address/Region'
+                  )
+                ]
+            , full_name = 'node.address'
+            , id = 'node__address'
+            , name = 'address'
+            , sig_key = 2
+            , type_name = 'PAP.Address'
+            , ui_name = 'Node/Address'
+            , ui_type_name = 'Address'
+            )
+          , Record
+            ( attr = Text `desc`
+            , full_name = 'node.desc'
+            , id = 'node__desc'
+            , name = 'desc'
+            , sig_key = 3
+            , ui_name = 'Node/Description'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `owner`
+            , children_np =
+                [ Record
+                  ( Class = 'Entity'
+                  , attr = Entity `owner`
+                  , attrs =
+                      [ Record
+                        ( attr = String `name`
+                        , full_name = 'owner.name'
+                        , id = 'owner__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Adhoc_Group]/Name'
+                        )
+                      ]
+                  , full_name = 'owner'
+                  , id = 'owner'
+                  , name = 'owner'
+                  , sig_key = 2
+                  , type_name = 'PAP.Adhoc_Group'
+                  , ui_name = 'Owner[Adhoc_Group]'
+                  , ui_type_name = 'Adhoc_Group'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `owner`
+                  , attrs =
+                      [ Record
+                        ( attr = String `name`
+                        , full_name = 'owner.name'
+                        , id = 'owner__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Association]/Name'
+                        )
+                      ]
+                  , full_name = 'owner'
+                  , id = 'owner'
+                  , name = 'owner'
+                  , sig_key = 2
+                  , type_name = 'PAP.Association'
+                  , ui_name = 'Owner[Association]'
+                  , ui_type_name = 'Association'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `owner`
+                  , attrs =
+                      [ Record
+                        ( attr = String `name`
+                        , full_name = 'owner.name'
+                        , id = 'owner__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Company]/Name'
+                        )
+                      , Record
+                        ( attr = String `registered_in`
+                        , full_name = 'owner.registered_in'
+                        , id = 'owner__registered_in'
+                        , name = 'registered_in'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Company]/Registered in'
+                        )
+                      ]
+                  , full_name = 'owner'
+                  , id = 'owner'
+                  , name = 'owner'
+                  , sig_key = 2
+                  , type_name = 'PAP.Company'
+                  , ui_name = 'Owner[Company]'
+                  , ui_type_name = 'Company'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `owner`
+                  , attrs =
+                      [ Record
+                        ( attr = String `last_name`
+                        , full_name = 'owner.last_name'
+                        , id = 'owner__last_name'
+                        , name = 'last_name'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Person]/Last name'
+                        )
+                      , Record
+                        ( attr = String `first_name`
+                        , full_name = 'owner.first_name'
+                        , id = 'owner__first_name'
+                        , name = 'first_name'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Person]/First name'
+                        )
+                      , Record
+                        ( attr = String `middle_name`
+                        , full_name = 'owner.middle_name'
+                        , id = 'owner__middle_name'
+                        , name = 'middle_name'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Person]/Middle name'
+                        )
+                      , Record
+                        ( attr = String `title`
+                        , full_name = 'owner.title'
+                        , id = 'owner__title'
+                        , name = 'title'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Person]/Academic title'
+                        )
+                      ]
+                  , full_name = 'owner'
+                  , id = 'owner'
+                  , name = 'owner'
+                  , sig_key = 2
+                  , type_name = 'PAP.Person'
+                  , ui_name = 'Owner[Person]'
+                  , ui_type_name = 'Person'
+                  )
+                ]
+            , default_child = 'PAP.Person'
+            , full_name = 'node.owner'
+            , id = 'node__owner'
+            , name = 'owner'
+            , sig_key = 2
+            , type_name = 'PAP.Subject'
+            , ui_name = 'Node/Owner'
+            , ui_type_name = 'Subject'
+            )
+          , Record
+            ( attr = Position `position`
+            , attrs =
+                [ Record
+                  ( attr = Angle `lat`
+                  , full_name = 'node.position.lat'
+                  , id = 'node__position__lat'
+                  , name = 'lat'
+                  , sig_key = 4
+                  , ui_name = 'Node/Position/Latitude'
+                  )
+                , Record
+                  ( attr = Angle `lon`
+                  , full_name = 'node.position.lon'
+                  , id = 'node__position__lon'
+                  , name = 'lon'
+                  , sig_key = 4
+                  , ui_name = 'Node/Position/Longitude'
+                  )
+                , Record
+                  ( attr = Float `height`
+                  , full_name = 'node.position.height'
+                  , id = 'node__position__height'
+                  , name = 'height'
+                  , sig_key = 0
+                  , ui_name = 'Node/Position/Height'
+                  )
+                ]
+            , full_name = 'node.position'
+            , id = 'node__position'
+            , name = 'position'
+            , ui_name = 'Node/Position'
+            )
+          , Record
+            ( attr = Boolean `show_in_map`
+            , choices =
+                [ 'no'
+                , 'yes'
+                ]
+            , full_name = 'node.show_in_map'
+            , id = 'node__show_in_map'
+            , name = 'show_in_map'
+            , sig_key = 1
+            , ui_name = 'Node/Show in map'
+            )
+          ]
+      , full_name = 'node'
+      , id = 'node'
+      , name = 'node'
+      , sig_key = 2
+      , type_name = 'FFM.Node'
+      , ui_name = 'Node'
+      , ui_type_name = 'Node'
+      )
+    , Record
+      ( Class = 'Entity'
       , attr = Entity `owner`
       , children_np =
           [ Record
@@ -7626,18 +8231,6 @@ _test_AQ = """
       , ui_name = 'Type name'
       )
     , Record
-      ( attr = Boolean `is_free`
-      , choices =
-          [ 'no'
-          , 'yes'
-          ]
-      , full_name = 'is_free'
-      , id = 'is_free'
-      , name = 'is_free'
-      , sig_key = 1
-      , ui_name = 'Is free'
-      )
-    , Record
       ( attr = Date-Time `expiration_date`
       , full_name = 'expiration_date'
       , id = 'expiration_date'
@@ -7658,6 +8251,18 @@ _test_AQ = """
       , ui_name = 'Has children'
       )
     , Record
+      ( attr = Boolean `is_free`
+      , choices =
+          [ 'no'
+          , 'yes'
+          ]
+      , full_name = 'is_free'
+      , id = 'is_free'
+      , name = 'is_free'
+      , sig_key = 1
+      , ui_name = 'Is free'
+      )
+    , Record
       ( Class = 'Entity'
       , attr = Entity `parent`
       , attrs =
@@ -7676,6 +8281,356 @@ _test_AQ = """
             , name = 'desc'
             , sig_key = 3
             , ui_name = 'Parent/Description'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `node`
+            , attrs =
+                [ Record
+                  ( attr = String `name`
+                  , full_name = 'parent.node.name'
+                  , id = 'parent__node__name'
+                  , name = 'name'
+                  , sig_key = 3
+                  , ui_name = 'Parent/Node/Name'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `manager`
+                  , attrs =
+                      [ Record
+                        ( attr = String `last_name`
+                        , full_name = 'parent.node.manager.last_name'
+                        , id = 'parent__node__manager__last_name'
+                        , name = 'last_name'
+                        , sig_key = 3
+                        , ui_name = 'Parent/Node/Manager/Last name'
+                        )
+                      , Record
+                        ( attr = String `first_name`
+                        , full_name = 'parent.node.manager.first_name'
+                        , id = 'parent__node__manager__first_name'
+                        , name = 'first_name'
+                        , sig_key = 3
+                        , ui_name = 'Parent/Node/Manager/First name'
+                        )
+                      , Record
+                        ( attr = String `middle_name`
+                        , full_name = 'parent.node.manager.middle_name'
+                        , id = 'parent__node__manager__middle_name'
+                        , name = 'middle_name'
+                        , sig_key = 3
+                        , ui_name = 'Parent/Node/Manager/Middle name'
+                        )
+                      , Record
+                        ( attr = String `title`
+                        , full_name = 'parent.node.manager.title'
+                        , id = 'parent__node__manager__title'
+                        , name = 'title'
+                        , sig_key = 3
+                        , ui_name = 'Parent/Node/Manager/Academic title'
+                        )
+                      , Record
+                        ( attr = Date_Interval `lifetime`
+                        , attrs =
+                            [ Record
+                              ( attr = Date `start`
+                              , full_name = 'parent.node.manager.lifetime.start'
+                              , id = 'parent__node__manager__lifetime__start'
+                              , name = 'start'
+                              , sig_key = 0
+                              , ui_name = 'Parent/Node/Manager/Lifetime/Start'
+                              )
+                            , Record
+                              ( attr = Date `finish`
+                              , full_name = 'parent.node.manager.lifetime.finish'
+                              , id = 'parent__node__manager__lifetime__finish'
+                              , name = 'finish'
+                              , sig_key = 0
+                              , ui_name = 'Parent/Node/Manager/Lifetime/Finish'
+                              )
+                            , Record
+                              ( attr = Boolean `alive`
+                              , choices = <Recursion on list...>
+                              , full_name = 'parent.node.manager.lifetime.alive'
+                              , id = 'parent__node__manager__lifetime__alive'
+                              , name = 'alive'
+                              , sig_key = 1
+                              , ui_name = 'Parent/Node/Manager/Lifetime/Alive'
+                              )
+                            ]
+                        , full_name = 'parent.node.manager.lifetime'
+                        , id = 'parent__node__manager__lifetime'
+                        , name = 'lifetime'
+                        , ui_name = 'Parent/Node/Manager/Lifetime'
+                        )
+                      , Record
+                        ( attr = Sex `sex`
+                        , choices = <Recursion on list...>
+                        , full_name = 'parent.node.manager.sex'
+                        , id = 'parent__node__manager__sex'
+                        , name = 'sex'
+                        , sig_key = 0
+                        , ui_name = 'Parent/Node/Manager/Sex'
+                        )
+                      ]
+                  , full_name = 'parent.node.manager'
+                  , id = 'parent__node__manager'
+                  , name = 'manager'
+                  , sig_key = 2
+                  , type_name = 'PAP.Person'
+                  , ui_name = 'Parent/Node/Manager'
+                  , ui_type_name = 'Person'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `address`
+                  , attrs =
+                      [ Record
+                        ( attr = String `street`
+                        , full_name = 'parent.node.address.street'
+                        , id = 'parent__node__address__street'
+                        , name = 'street'
+                        , sig_key = 3
+                        , ui_name = 'Parent/Node/Address/Street'
+                        )
+                      , Record
+                        ( attr = String `zip`
+                        , full_name = 'parent.node.address.zip'
+                        , id = 'parent__node__address__zip'
+                        , name = 'zip'
+                        , sig_key = 3
+                        , ui_name = 'Parent/Node/Address/Zip code'
+                        )
+                      , Record
+                        ( attr = String `city`
+                        , full_name = 'parent.node.address.city'
+                        , id = 'parent__node__address__city'
+                        , name = 'city'
+                        , sig_key = 3
+                        , ui_name = 'Parent/Node/Address/City'
+                        )
+                      , Record
+                        ( attr = String `country`
+                        , full_name = 'parent.node.address.country'
+                        , id = 'parent__node__address__country'
+                        , name = 'country'
+                        , sig_key = 3
+                        , ui_name = 'Parent/Node/Address/Country'
+                        )
+                      , Record
+                        ( attr = String `desc`
+                        , full_name = 'parent.node.address.desc'
+                        , id = 'parent__node__address__desc'
+                        , name = 'desc'
+                        , sig_key = 3
+                        , ui_name = 'Parent/Node/Address/Description'
+                        )
+                      , Record
+                        ( attr = String `region`
+                        , full_name = 'parent.node.address.region'
+                        , id = 'parent__node__address__region'
+                        , name = 'region'
+                        , sig_key = 3
+                        , ui_name = 'Parent/Node/Address/Region'
+                        )
+                      ]
+                  , full_name = 'parent.node.address'
+                  , id = 'parent__node__address'
+                  , name = 'address'
+                  , sig_key = 2
+                  , type_name = 'PAP.Address'
+                  , ui_name = 'Parent/Node/Address'
+                  , ui_type_name = 'Address'
+                  )
+                , Record
+                  ( attr = Text `desc`
+                  , full_name = 'parent.node.desc'
+                  , id = 'parent__node__desc'
+                  , name = 'desc'
+                  , sig_key = 3
+                  , ui_name = 'Parent/Node/Description'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `owner`
+                  , children_np =
+                      [ Record
+                        ( Class = 'Entity'
+                        , attr = Entity `owner`
+                        , attrs =
+                            [ Record
+                              ( attr = String `name`
+                              , full_name = 'owner.name'
+                              , id = 'owner__name'
+                              , name = 'name'
+                              , sig_key = 3
+                              , ui_name = 'Owner[Adhoc_Group]/Name'
+                              )
+                            ]
+                        , full_name = 'owner'
+                        , id = 'owner'
+                        , name = 'owner'
+                        , sig_key = 2
+                        , type_name = 'PAP.Adhoc_Group'
+                        , ui_name = 'Owner[Adhoc_Group]'
+                        , ui_type_name = 'Adhoc_Group'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `owner`
+                        , attrs =
+                            [ Record
+                              ( attr = String `name`
+                              , full_name = 'owner.name'
+                              , id = 'owner__name'
+                              , name = 'name'
+                              , sig_key = 3
+                              , ui_name = 'Owner[Association]/Name'
+                              )
+                            ]
+                        , full_name = 'owner'
+                        , id = 'owner'
+                        , name = 'owner'
+                        , sig_key = 2
+                        , type_name = 'PAP.Association'
+                        , ui_name = 'Owner[Association]'
+                        , ui_type_name = 'Association'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `owner`
+                        , attrs =
+                            [ Record
+                              ( attr = String `name`
+                              , full_name = 'owner.name'
+                              , id = 'owner__name'
+                              , name = 'name'
+                              , sig_key = 3
+                              , ui_name = 'Owner[Company]/Name'
+                              )
+                            , Record
+                              ( attr = String `registered_in`
+                              , full_name = 'owner.registered_in'
+                              , id = 'owner__registered_in'
+                              , name = 'registered_in'
+                              , sig_key = 3
+                              , ui_name = 'Owner[Company]/Registered in'
+                              )
+                            ]
+                        , full_name = 'owner'
+                        , id = 'owner'
+                        , name = 'owner'
+                        , sig_key = 2
+                        , type_name = 'PAP.Company'
+                        , ui_name = 'Owner[Company]'
+                        , ui_type_name = 'Company'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `owner`
+                        , attrs =
+                            [ Record
+                              ( attr = String `last_name`
+                              , full_name = 'owner.last_name'
+                              , id = 'owner__last_name'
+                              , name = 'last_name'
+                              , sig_key = 3
+                              , ui_name = 'Owner[Person]/Last name'
+                              )
+                            , Record
+                              ( attr = String `first_name`
+                              , full_name = 'owner.first_name'
+                              , id = 'owner__first_name'
+                              , name = 'first_name'
+                              , sig_key = 3
+                              , ui_name = 'Owner[Person]/First name'
+                              )
+                            , Record
+                              ( attr = String `middle_name`
+                              , full_name = 'owner.middle_name'
+                              , id = 'owner__middle_name'
+                              , name = 'middle_name'
+                              , sig_key = 3
+                              , ui_name = 'Owner[Person]/Middle name'
+                              )
+                            , Record
+                              ( attr = String `title`
+                              , full_name = 'owner.title'
+                              , id = 'owner__title'
+                              , name = 'title'
+                              , sig_key = 3
+                              , ui_name = 'Owner[Person]/Academic title'
+                              )
+                            ]
+                        , full_name = 'owner'
+                        , id = 'owner'
+                        , name = 'owner'
+                        , sig_key = 2
+                        , type_name = 'PAP.Person'
+                        , ui_name = 'Owner[Person]'
+                        , ui_type_name = 'Person'
+                        )
+                      ]
+                  , default_child = 'PAP.Person'
+                  , full_name = 'parent.node.owner'
+                  , id = 'parent__node__owner'
+                  , name = 'owner'
+                  , sig_key = 2
+                  , type_name = 'PAP.Subject'
+                  , ui_name = 'Parent/Node/Owner'
+                  , ui_type_name = 'Subject'
+                  )
+                , Record
+                  ( attr = Position `position`
+                  , attrs =
+                      [ Record
+                        ( attr = Angle `lat`
+                        , full_name = 'parent.node.position.lat'
+                        , id = 'parent__node__position__lat'
+                        , name = 'lat'
+                        , sig_key = 4
+                        , ui_name = 'Parent/Node/Position/Latitude'
+                        )
+                      , Record
+                        ( attr = Angle `lon`
+                        , full_name = 'parent.node.position.lon'
+                        , id = 'parent__node__position__lon'
+                        , name = 'lon'
+                        , sig_key = 4
+                        , ui_name = 'Parent/Node/Position/Longitude'
+                        )
+                      , Record
+                        ( attr = Float `height`
+                        , full_name = 'parent.node.position.height'
+                        , id = 'parent__node__position__height'
+                        , name = 'height'
+                        , sig_key = 0
+                        , ui_name = 'Parent/Node/Position/Height'
+                        )
+                      ]
+                  , full_name = 'parent.node.position'
+                  , id = 'parent__node__position'
+                  , name = 'position'
+                  , ui_name = 'Parent/Node/Position'
+                  )
+                , Record
+                  ( attr = Boolean `show_in_map`
+                  , choices = <Recursion on list...>
+                  , full_name = 'parent.node.show_in_map'
+                  , id = 'parent__node__show_in_map'
+                  , name = 'show_in_map'
+                  , sig_key = 1
+                  , ui_name = 'Parent/Node/Show in map'
+                  )
+                ]
+            , full_name = 'parent.node'
+            , id = 'parent__node'
+            , name = 'node'
+            , sig_key = 2
+            , type_name = 'FFM.Node'
+            , ui_name = 'Parent/Node'
+            , ui_type_name = 'Node'
             )
           , Record
             ( Class = 'Entity'
@@ -7808,15 +8763,6 @@ _test_AQ = """
             , ui_type_name = 'Subject'
             )
           , Record
-            ( attr = Boolean `is_free`
-            , choices = <Recursion on list...>
-            , full_name = 'parent.is_free'
-            , id = 'parent__is_free'
-            , name = 'is_free'
-            , sig_key = 1
-            , ui_name = 'Parent/Is free'
-            )
-          , Record
             ( attr = Date-Time `expiration_date`
             , full_name = 'parent.expiration_date'
             , id = 'parent__expiration_date'
@@ -7832,6 +8778,15 @@ _test_AQ = """
             , name = 'has_children'
             , sig_key = 1
             , ui_name = 'Parent/Has children'
+            )
+          , Record
+            ( attr = Boolean `is_free`
+            , choices = <Recursion on list...>
+            , full_name = 'parent.is_free'
+            , id = 'parent__is_free'
+            , name = 'is_free'
+            , sig_key = 1
+            , ui_name = 'Parent/Is free'
             )
           , Record
             ( Class = 'Entity'
@@ -8023,10 +8978,7 @@ _test_AQ = """
                                     )
                                   , Record
                                     ( attr = Boolean `alive`
-                                    , choices =
-                                        [ 'no'
-                                        , 'yes'
-                                        ]
+                                    , choices = <Recursion on list...>
                                     , full_name = 'wired_interface.left.node.manager.lifetime.alive'
                                     , id = 'wired_interface__left__node__manager__lifetime__alive'
                                     , name = 'alive'
@@ -8041,16 +8993,7 @@ _test_AQ = """
                               )
                             , Record
                               ( attr = Sex `sex`
-                              , choices =
-                                  [
-                                    ( 'F'
-                                    , 'Female'
-                                    )
-                                  ,
-                                    ( 'M'
-                                    , 'Male'
-                                    )
-                                  ]
+                              , choices = <Recursion on list...>
                               , full_name = 'wired_interface.left.node.manager.sex'
                               , id = 'wired_interface__left__node__manager__sex'
                               , name = 'sex'
@@ -8300,10 +9243,7 @@ _test_AQ = """
                         )
                       , Record
                         ( attr = Boolean `show_in_map`
-                        , choices =
-                            [ 'no'
-                            , 'yes'
-                            ]
+                        , choices = <Recursion on list...>
                         , full_name = 'wired_interface.left.node.show_in_map'
                         , id = 'wired_interface__left__node__show_in_map'
                         , name = 'show_in_map'
@@ -16258,32 +17198,136 @@ _test_AQ = """
     Ip4 networks
     Ip4 networks/Net address
     Ip4 networks/Description
+    Ip4 networks/Node
+    Ip4 networks/Node/Name
+    Ip4 networks/Node/Manager
+    Ip4 networks/Node/Manager/Last name
+    Ip4 networks/Node/Manager/First name
+    Ip4 networks/Node/Manager/Middle name
+    Ip4 networks/Node/Manager/Academic title
+    Ip4 networks/Node/Manager/Lifetime
+    Ip4 networks/Node/Manager/Lifetime/Start
+    Ip4 networks/Node/Manager/Lifetime/Finish
+    Ip4 networks/Node/Manager/Lifetime/Alive
+    Ip4 networks/Node/Manager/Sex
+    Ip4 networks/Node/Address
+    Ip4 networks/Node/Address/Street
+    Ip4 networks/Node/Address/Zip code
+    Ip4 networks/Node/Address/City
+    Ip4 networks/Node/Address/Country
+    Ip4 networks/Node/Address/Description
+    Ip4 networks/Node/Address/Region
+    Ip4 networks/Node/Description
+    Ip4 networks/Node/Owner
+    Ip4 networks/Node/Position
+    Ip4 networks/Node/Position/Latitude
+    Ip4 networks/Node/Position/Longitude
+    Ip4 networks/Node/Position/Height
+    Ip4 networks/Node/Show in map
     Ip4 networks/Owner
-    Ip4 networks/Is free
     Ip4 networks/Expiration date
     Ip4 networks/Has children
+    Ip4 networks/Is free
     Ip4 networks/Parent
     Ip4 networks/Parent/Net address
     Ip4 networks/Parent/Description
+    Ip4 networks/Parent/Node
+    Ip4 networks/Parent/Node/Name
+    Ip4 networks/Parent/Node/Manager
+    Ip4 networks/Parent/Node/Manager/Last name
+    Ip4 networks/Parent/Node/Manager/First name
+    Ip4 networks/Parent/Node/Manager/Middle name
+    Ip4 networks/Parent/Node/Manager/Academic title
+    Ip4 networks/Parent/Node/Manager/Lifetime
+    Ip4 networks/Parent/Node/Manager/Lifetime/Start
+    Ip4 networks/Parent/Node/Manager/Lifetime/Finish
+    Ip4 networks/Parent/Node/Manager/Lifetime/Alive
+    Ip4 networks/Parent/Node/Manager/Sex
+    Ip4 networks/Parent/Node/Address
+    Ip4 networks/Parent/Node/Address/Street
+    Ip4 networks/Parent/Node/Address/Zip code
+    Ip4 networks/Parent/Node/Address/City
+    Ip4 networks/Parent/Node/Address/Country
+    Ip4 networks/Parent/Node/Address/Description
+    Ip4 networks/Parent/Node/Address/Region
+    Ip4 networks/Parent/Node/Description
+    Ip4 networks/Parent/Node/Owner
+    Ip4 networks/Parent/Node/Position
+    Ip4 networks/Parent/Node/Position/Latitude
+    Ip4 networks/Parent/Node/Position/Longitude
+    Ip4 networks/Parent/Node/Position/Height
+    Ip4 networks/Parent/Node/Show in map
     Ip4 networks/Parent/Owner
-    Ip4 networks/Parent/Is free
     Ip4 networks/Parent/Expiration date
     Ip4 networks/Parent/Has children
+    Ip4 networks/Parent/Is free
     Ip4 networks/Parent/Parent
     Ip6 networks
     Ip6 networks/Net address
     Ip6 networks/Description
+    Ip6 networks/Node
+    Ip6 networks/Node/Name
+    Ip6 networks/Node/Manager
+    Ip6 networks/Node/Manager/Last name
+    Ip6 networks/Node/Manager/First name
+    Ip6 networks/Node/Manager/Middle name
+    Ip6 networks/Node/Manager/Academic title
+    Ip6 networks/Node/Manager/Lifetime
+    Ip6 networks/Node/Manager/Lifetime/Start
+    Ip6 networks/Node/Manager/Lifetime/Finish
+    Ip6 networks/Node/Manager/Lifetime/Alive
+    Ip6 networks/Node/Manager/Sex
+    Ip6 networks/Node/Address
+    Ip6 networks/Node/Address/Street
+    Ip6 networks/Node/Address/Zip code
+    Ip6 networks/Node/Address/City
+    Ip6 networks/Node/Address/Country
+    Ip6 networks/Node/Address/Description
+    Ip6 networks/Node/Address/Region
+    Ip6 networks/Node/Description
+    Ip6 networks/Node/Owner
+    Ip6 networks/Node/Position
+    Ip6 networks/Node/Position/Latitude
+    Ip6 networks/Node/Position/Longitude
+    Ip6 networks/Node/Position/Height
+    Ip6 networks/Node/Show in map
     Ip6 networks/Owner
-    Ip6 networks/Is free
     Ip6 networks/Expiration date
     Ip6 networks/Has children
+    Ip6 networks/Is free
     Ip6 networks/Parent
     Ip6 networks/Parent/Net address
     Ip6 networks/Parent/Description
+    Ip6 networks/Parent/Node
+    Ip6 networks/Parent/Node/Name
+    Ip6 networks/Parent/Node/Manager
+    Ip6 networks/Parent/Node/Manager/Last name
+    Ip6 networks/Parent/Node/Manager/First name
+    Ip6 networks/Parent/Node/Manager/Middle name
+    Ip6 networks/Parent/Node/Manager/Academic title
+    Ip6 networks/Parent/Node/Manager/Lifetime
+    Ip6 networks/Parent/Node/Manager/Lifetime/Start
+    Ip6 networks/Parent/Node/Manager/Lifetime/Finish
+    Ip6 networks/Parent/Node/Manager/Lifetime/Alive
+    Ip6 networks/Parent/Node/Manager/Sex
+    Ip6 networks/Parent/Node/Address
+    Ip6 networks/Parent/Node/Address/Street
+    Ip6 networks/Parent/Node/Address/Zip code
+    Ip6 networks/Parent/Node/Address/City
+    Ip6 networks/Parent/Node/Address/Country
+    Ip6 networks/Parent/Node/Address/Description
+    Ip6 networks/Parent/Node/Address/Region
+    Ip6 networks/Parent/Node/Description
+    Ip6 networks/Parent/Node/Owner
+    Ip6 networks/Parent/Node/Position
+    Ip6 networks/Parent/Node/Position/Latitude
+    Ip6 networks/Parent/Node/Position/Longitude
+    Ip6 networks/Parent/Node/Position/Height
+    Ip6 networks/Parent/Node/Show in map
     Ip6 networks/Parent/Owner
-    Ip6 networks/Parent/Is free
     Ip6 networks/Parent/Expiration date
     Ip6 networks/Parent/Has children
+    Ip6 networks/Parent/Is free
     Ip6 networks/Parent/Parent
     Documents
     Documents/Url

@@ -55,6 +55,7 @@
 #                     change `has_children` to `Attr.Query`
 #    13-Jun-2014 (RS) Rename `cool_down` to `expiration_date`
 #                     Add ui_name for `desc`
+#    14-Jun-2014 (RS) Add `node`
 #    ««revision-date»»···
 #--
 
@@ -70,6 +71,8 @@ from   _GTW._OMP._NET           import NET
 from   _GTW._OMP._PAP           import PAP, Subject
 
 import _GTW._OMP._NET.Attr_Type
+
+#Int_Interval = A_Int_Interval = MOM.Attr.Number_Interval.make (A_Int)
 
 _Ancestor_Essence = FFM.Object
 
@@ -152,15 +155,6 @@ class IP_Network (_Ancestor_Essence) :
 
         # end class desc
 
-        class is_free (A_Boolean) :
-            """Indicates whether this `%(type_name)s` can be assigned"""
-
-            kind               = Attr.Query
-            query              = Q.NOT \
-                (Q.has_children | Q.expiration_date | Q.net_interface_links)
-
-        # end class is_free
-
         class expiration_date (A_Date_Time) :
             """Cool down date after which the IP_Network is free to be
                reallocated.
@@ -182,6 +176,32 @@ class IP_Network (_Ancestor_Essence) :
             query              = ~ ~ Q.subnets
 
         # end class has_children
+
+        class is_free (A_Boolean) :
+            """Indicates whether this `%(type_name)s` can be assigned"""
+
+            kind               = Attr.Query
+            query              = Q.NOT \
+                (Q.has_children | Q.expiration_date | Q.net_interface_links)
+
+        # end class is_free
+
+# FIXME: Ugly Traceback
+#        class netmask_range (A_Int_Interval) :
+#            """Limit range of netmasks to allocate from this %(type_name)s."""
+#
+#            kind               = Attr.Optional
+#
+#         # end class netmask_range
+
+        class node (A_Id_Entity) :
+            """Node for which this `%(type_name)s` is reserved."""
+
+            kind               = Attr.Optional
+            P_Type             = FFM.Node
+            ui_allow_new       = False
+
+         # end class node
 
         class owner (A_Id_Entity) :
             """Owner of the `%(type_name)s`."""

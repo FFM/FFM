@@ -35,6 +35,7 @@
 #                     from `Subject`, delete `Person_acts_for_Legal_Entity`,
 #                     add `Node.desc`, add `name` to
 #                     `Net_Interface_in_IP_Network`
+#    14-Jun-2014 (RS) Add `node` to `IP_Network`
 #    ««revision-date»»···
 #--
 
@@ -103,6 +104,8 @@ _test_cidr_pg = """
            ffm_ip6_network."desc" AS ffm_ip6_network_desc,
            ffm_ip6_network.expiration_date AS ffm_ip6_network_expiration_date,
            ffm_ip6_network.net_address AS ffm_ip6_network_net_address,
+           ffm_ip6_network.node AS ffm_ip6_network_node,
+           ffm_ip6_network.node AS ffm_ip6_network_node,
            ffm_ip6_network.owner AS ffm_ip6_network_owner,
            ffm_ip6_network.parent AS ffm_ip6_network_parent,
            ffm_ip6_network.pid AS ffm_ip6_network_pid,
@@ -117,16 +120,18 @@ _test_cidr_pg = """
 
     >>> print (formatted_table (FFM.IP4_Network._SAW.sa_table, nl, ""))
     Column desc                      : Varchar(80)          Optional String desc
-    Column expiration_date                 : Datetime             Internal Date-Time expiration_date
+    Column expiration_date           : Datetime             Internal Date-Time expiration_date
     Column net_address               : _CIDR_Type_          Primary IP4-network net_address
+    Column node                      : Integer              Optional__Id_Entity_Reference Entity node Id_Entity()
     Column owner                     : Integer              Optional__Id_Entity_Reference Entity owner Id_Entity()
     Column parent                    : Integer              Internal__Id_Entity_Reference Entity parent Id_Entity()
     Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
 
     >>> print (formatted_table (FFM.IP6_Network._SAW.sa_table, nl, ""))
     Column desc                      : Varchar(80)          Optional String desc
-    Column expiration_date                 : Datetime             Internal Date-Time expiration_date
+    Column expiration_date           : Datetime             Internal Date-Time expiration_date
     Column net_address               : _CIDR_Type_          Primary IP6-network net_address
+    Column node                      : Integer              Optional__Id_Entity_Reference Entity node Id_Entity()
     Column owner                     : Integer              Optional__Id_Entity_Reference Entity owner Id_Entity()
     Column parent                    : Integer              Internal__Id_Entity_Reference Entity parent Id_Entity()
     Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
@@ -136,6 +141,7 @@ _test_cidr_pg = """
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
            ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -156,6 +162,7 @@ _test_cidr_pg = """
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
            ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -173,6 +180,7 @@ _test_cidr_pg = """
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
            ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -208,6 +216,7 @@ _test_cidr_sq = """
            ffm_ip6_network.net_address__numeric__lo AS ffm_ip6_network_net_address__numeric__lo,
            ffm_ip6_network.net_address__upper_bound__hi AS ffm_ip6_network_net_address__upper_bound__hi,
            ffm_ip6_network.net_address__upper_bound__lo AS ffm_ip6_network_net_address__upper_bound__lo,
+           ffm_ip6_network.node AS ffm_ip6_network_node,
            ffm_ip6_network.owner AS ffm_ip6_network_owner,
            ffm_ip6_network.parent AS ffm_ip6_network_parent,
            ffm_ip6_network.pid AS ffm_ip6_network_pid,
@@ -224,24 +233,26 @@ _test_cidr_sq = """
 
     >>> print (formatted_table (FFM.IP4_Network._SAW.sa_table, nl, ""))
     Column desc                      : Varchar(80)          Optional String desc
-    Column expiration_date                 : Datetime             Internal Date-Time expiration_date
+    Column expiration_date           : Datetime             Internal Date-Time expiration_date
     Column net_address               : Varchar              Primary IP4-network net_address
     Column net_address__mask_len     : Smallint             ----------
     Column net_address__numeric      : Integer              ----------
     Column net_address__upper_bound  : Integer              ----------
+    Column node                      : Integer              Optional__Id_Entity_Reference Entity node Id_Entity()
     Column owner                     : Integer              Optional__Id_Entity_Reference Entity owner Id_Entity()
     Column parent                    : Integer              Internal__Id_Entity_Reference Entity parent Id_Entity()
     Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
 
     >>> print (formatted_table (FFM.IP6_Network._SAW.sa_table, nl, ""))
     Column desc                      : Varchar(80)          Optional String desc
-    Column expiration_date                 : Datetime             Internal Date-Time expiration_date
+    Column expiration_date           : Datetime             Internal Date-Time expiration_date
     Column net_address               : Varchar              Primary IP6-network net_address
     Column net_address__mask_len     : Smallint             ----------
     Column net_address__numeric__hi  : Bigint               ----------
     Column net_address__numeric__lo  : Bigint               ----------
     Column net_address__upper_bound__hi : Bigint               ----------
     Column net_address__upper_bound__lo : Bigint               ----------
+    Column node                      : Integer              Optional__Id_Entity_Reference Entity node Id_Entity()
     Column owner                     : Integer              Optional__Id_Entity_Reference Entity owner Id_Entity()
     Column parent                    : Integer              Internal__Id_Entity_Reference Entity parent Id_Entity()
     Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
@@ -254,6 +265,7 @@ _test_cidr_sq = """
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
            ffm_ip4_network.net_address__upper_bound AS ffm_ip4_network_net_address__upper_bound,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -281,6 +293,7 @@ _test_cidr_sq = """
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
            ffm_ip4_network.net_address__upper_bound AS ffm_ip4_network_net_address__upper_bound,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -301,6 +314,7 @@ _test_cidr_sq = """
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
            ffm_ip4_network.net_address__upper_bound AS ffm_ip4_network_net_address__upper_bound,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -547,6 +561,7 @@ _test_q_able = """
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : None `net_address` (FFM.IP4_Network | FFM.IP6_Network)>
       <SAW : Role_Ref `net_interface`>
+      <SAW : Entity `node` (FFM.IP4_Network | FFM.IP6_Network)>
       <SAW : Entity `owner` (FFM.IP4_Network | FFM.IP6_Network)>
       <SAW : Entity `parent` (FFM.IP4_Network | FFM.IP6_Network)>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
@@ -565,6 +580,7 @@ _test_q_able = """
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : IP4-network `net_address` ...
       <SAW : Role_Ref `net_interface`>
+      <SAW : Entity `node` [ffm_ip4_network.node]>
       <SAW : Entity `owner` [ffm_ip4_network.owner]>
       <SAW : Entity `parent` [ffm_ip4_network.parent]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
@@ -583,6 +599,7 @@ _test_q_able = """
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : IP6-network `net_address` ...
       <SAW : Role_Ref `net_interface`>
+      <SAW : Entity `node` [ffm_ip6_network.node]>
       <SAW : Entity `owner` [ffm_ip6_network.owner]>
       <SAW : Entity `parent` [ffm_ip6_network.parent]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
@@ -1641,6 +1658,7 @@ _test_q_result_pg = """
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
            ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -1659,6 +1677,7 @@ _test_q_result_pg = """
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
            ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -1677,6 +1696,7 @@ _test_q_result_pg = """
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
            ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -1694,6 +1714,7 @@ _test_q_result_pg = """
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
            ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -1711,6 +1732,7 @@ _test_q_result_pg = """
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
            ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -1730,6 +1752,7 @@ _test_q_result_pg = """
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
            ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -1749,6 +1772,7 @@ _test_q_result_pg = """
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
            ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -1771,6 +1795,7 @@ _test_q_result_pg = """
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
            ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -1801,6 +1826,7 @@ _test_q_result_pg = """
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
            ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -1834,6 +1860,7 @@ _test_q_result_pg = """
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
            ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -1866,6 +1893,7 @@ _test_q_result_pg = """
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
            ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -1884,6 +1912,7 @@ _test_q_result_pg = """
            ffm_ip4_network."desc" AS ffm_ip4_network_desc,
            ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
            ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -1914,6 +1943,7 @@ _test_q_result_sq = """
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
            ffm_ip4_network.net_address__upper_bound AS ffm_ip4_network_net_address__upper_bound,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -1935,6 +1965,7 @@ _test_q_result_sq = """
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
            ffm_ip4_network.net_address__upper_bound AS ffm_ip4_network_net_address__upper_bound,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -1956,6 +1987,7 @@ _test_q_result_sq = """
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
            ffm_ip4_network.net_address__upper_bound AS ffm_ip4_network_net_address__upper_bound,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -1976,6 +2008,7 @@ _test_q_result_sq = """
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
            ffm_ip4_network.net_address__upper_bound AS ffm_ip4_network_net_address__upper_bound,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -1996,6 +2029,7 @@ _test_q_result_sq = """
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
            ffm_ip4_network.net_address__upper_bound AS ffm_ip4_network_net_address__upper_bound,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -2018,6 +2052,7 @@ _test_q_result_sq = """
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
            ffm_ip4_network.net_address__upper_bound AS ffm_ip4_network_net_address__upper_bound,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -2040,6 +2075,7 @@ _test_q_result_sq = """
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
            ffm_ip4_network.net_address__upper_bound AS ffm_ip4_network_net_address__upper_bound,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -2065,6 +2101,7 @@ _test_q_result_sq = """
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
            ffm_ip4_network.net_address__upper_bound AS ffm_ip4_network_net_address__upper_bound,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -2102,6 +2139,7 @@ _test_q_result_sq = """
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
            ffm_ip4_network.net_address__upper_bound AS ffm_ip4_network_net_address__upper_bound,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -2142,6 +2180,7 @@ _test_q_result_sq = """
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
            ffm_ip4_network.net_address__upper_bound AS ffm_ip4_network_net_address__upper_bound,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -2181,6 +2220,7 @@ _test_q_result_sq = """
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
            ffm_ip4_network.net_address__upper_bound AS ffm_ip4_network_net_address__upper_bound,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -2202,6 +2242,7 @@ _test_q_result_sq = """
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
            ffm_ip4_network.net_address__upper_bound AS ffm_ip4_network_net_address__upper_bound,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -2224,6 +2265,7 @@ _test_q_result_sq = """
            ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
            ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
            ffm_ip4_network.net_address__upper_bound AS ffm_ip4_network_net_address__upper_bound,
+           ffm_ip4_network.node AS ffm_ip4_network_node,
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -2478,12 +2520,14 @@ _test_select = """
                ffm_ip4_network."desc" AS ffm_ip4_network_desc,
                ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
                ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+               ffm_ip4_network.node AS ffm_ip4_network_node,
                ffm_ip4_network.owner AS ffm_ip4_network_owner,
                ffm_ip4_network.parent AS ffm_ip4_network_parent,
                ffm_ip4_network.pid AS ffm_ip4_network_pid,
                ffm_ip6_network."desc" AS ffm_ip6_network_desc,
                ffm_ip6_network.expiration_date AS ffm_ip6_network_expiration_date,
                ffm_ip6_network.net_address AS ffm_ip6_network_net_address,
+               ffm_ip6_network.node AS ffm_ip6_network_node,
                ffm_ip6_network.owner AS ffm_ip6_network_owner,
                ffm_ip6_network.parent AS ffm_ip6_network_parent,
                ffm_ip6_network.pid AS ffm_ip6_network_pid,
@@ -2660,12 +2704,14 @@ _test_select = """
                ffm_ip4_network."desc" AS ffm_ip4_network_desc,
                ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
                ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+               ffm_ip4_network.node AS ffm_ip4_network_node,
                ffm_ip4_network.owner AS ffm_ip4_network_owner,
                ffm_ip4_network.parent AS ffm_ip4_network_parent,
                ffm_ip4_network.pid AS ffm_ip4_network_pid,
                ffm_ip6_network."desc" AS ffm_ip6_network_desc,
                ffm_ip6_network.expiration_date AS ffm_ip6_network_expiration_date,
                ffm_ip6_network.net_address AS ffm_ip6_network_net_address,
+               ffm_ip6_network.node AS ffm_ip6_network_node,
                ffm_ip6_network.owner AS ffm_ip6_network_owner,
                ffm_ip6_network.parent AS ffm_ip6_network_parent,
                ffm_ip6_network.pid AS ffm_ip6_network_pid,
@@ -3488,12 +3534,14 @@ _test_select = """
         SELECT ffm_ip4_network."desc" AS ffm_ip4_network_desc,
                ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
                ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+               ffm_ip4_network.node AS ffm_ip4_network_node,
                ffm_ip4_network.owner AS ffm_ip4_network_owner,
                ffm_ip4_network.parent AS ffm_ip4_network_parent,
                ffm_ip4_network.pid AS ffm_ip4_network_pid,
                ffm_ip6_network."desc" AS ffm_ip6_network_desc,
                ffm_ip6_network.expiration_date AS ffm_ip6_network_expiration_date,
                ffm_ip6_network.net_address AS ffm_ip6_network_net_address,
+               ffm_ip6_network.node AS ffm_ip6_network_node,
                ffm_ip6_network.owner AS ffm_ip6_network_owner,
                ffm_ip6_network.parent AS ffm_ip6_network_parent,
                ffm_ip6_network.pid AS ffm_ip6_network_pid,
@@ -3511,6 +3559,7 @@ _test_select = """
         SELECT ffm_ip4_network."desc" AS ffm_ip4_network_desc,
                ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
                ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+               ffm_ip4_network.node AS ffm_ip4_network_node,
                ffm_ip4_network.owner AS ffm_ip4_network_owner,
                ffm_ip4_network.parent AS ffm_ip4_network_parent,
                ffm_ip4_network.pid AS ffm_ip4_network_pid,
@@ -3525,6 +3574,7 @@ _test_select = """
         SELECT ffm_ip6_network."desc" AS ffm_ip6_network_desc,
                ffm_ip6_network.expiration_date AS ffm_ip6_network_expiration_date,
                ffm_ip6_network.net_address AS ffm_ip6_network_net_address,
+               ffm_ip6_network.node AS ffm_ip6_network_node,
                ffm_ip6_network.owner AS ffm_ip6_network_owner,
                ffm_ip6_network.parent AS ffm_ip6_network_parent,
                ffm_ip6_network.pid AS ffm_ip6_network_pid,
@@ -4145,6 +4195,7 @@ _test_tables = """
         Column desc                      : Varchar(80)          Optional String desc
         Column expiration_date           : Datetime             Internal Date-Time expiration_date
         Column net_address               : CIDR                 Primary IP4-network net_address
+        Column node                      : Integer              Optional__Id_Entity_Reference Entity node Id_Entity()
         Column owner                     : Integer              Optional__Id_Entity_Reference Entity owner Id_Entity()
         Column parent                    : Integer              Internal__Id_Entity_Reference Entity parent Id_Entity()
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
@@ -4152,6 +4203,7 @@ _test_tables = """
         Column desc                      : Varchar(80)          Optional String desc
         Column expiration_date           : Datetime             Internal Date-Time expiration_date
         Column net_address               : CIDR                 Primary IP6-network net_address
+        Column node                      : Integer              Optional__Id_Entity_Reference Entity node Id_Entity()
         Column owner                     : Integer              Optional__Id_Entity_Reference Entity owner Id_Entity()
         Column parent                    : Integer              Internal__Id_Entity_Reference Entity parent Id_Entity()
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
