@@ -37,9 +37,9 @@ import model
 
 class Convert (object) :
 
-    person_dupes = \
-        {  23 : 895 # nick ähnlich, gleicher Name?
         #  54 : 655 # nick == email vorn?
+    person_dupes = \
+        {  71 :  72
         , 140 : 460
         , 179 : 124
         , 267 : 322
@@ -70,7 +70,70 @@ class Convert (object) :
         , 973 : 544
         }
 
+    person_ignore = dict.fromkeys \
+        ((  11
+         ,  15
+         ,  41
+         ,  42
+         ,  62
+         ,  63
+         ,  64
+         ,  66
+         ,  70
+         ,  93
+         , 100
+         , 106
+         , 108
+         , 112
+         , 118
+         , 123
+         , 132
+         , 136
+         , 142
+         , 172
+         , 174
+         , 177
+         , 199
+         , 209
+         , 242
+         , 244
+         , 245
+         , 254
+         , 263
+         , 266
+         , 270
+         , 287
+         , 313
+         , 320
+         , 324
+         , 338
+         , 937
+         # Lastname missing:
+         ,  34
+         ,  69
+         , 107
+         , 166
+         , 168
+         , 200
+         , 251
+         , 260
+         , 323
+         # Bogus, only initials etc, ignore if no node:
+         , 102
+         , 103
+         , 185
+         , 233
+         , 299
+         , 455
+         , 530
+         , 845
+         , 872
+         , 919
+         , 955
+        ))
+
     def __init__ (self, cmd, scope, debug = False) :
+        self.anonymize = cmd.anonymize
         self.pers_exception = {}
         try :
             pf = open ('pers.csv', 'r')
@@ -100,13 +163,19 @@ class Convert (object) :
         self.node_by_id   = {}
         self.ffm_node     = {}
         self.phone_ids    = {}
+        self.net_by_id    = {}
     # end def __init__
 
     def create (self) :
-        self.create_persons ()
-        self.create_networks ()
+        if self.anonymize :
+            self.fake_persons ()
+        else :
+            self.create_persons ()
+        self.create_nettypes ()
         self.scope.commit ()
         self.create_nodes   ()
+        self.scope.commit ()
+        self.create_networks ()
         self.scope.commit ()
         self.create_devices ()
         self.scope.commit ()
@@ -115,22 +184,36 @@ class Convert (object) :
     def create_devices (self) :
         # ignore snmp_ip and snmp_lastseen (only used by three nodes)
         dt = self.ffm.Net_Device_Type.instance (name = 'Generic', raw = True)
-        for d in self.contents ['node'] :
-            if d.location_id not in self.node_by_id :
-                print "WARN: Ignoring device (node) %s with location_id %s" \
-                    % (d.id, d.location_id)
-                continue
-            n = self.node_by_id [d.location_id]
-            if d.person_id and d.person_id != n.person_id :
-                print "WARN: Device (node) %s: person mismatch d:%s n:%s" \
-                    % (d.id, d.person_id, n.person_id)
-            if d.location_id not in self.ffm_node :
-                print "WARN: Node (location) %s for device (node) %s missing" \
+        for d in sorted (self.contents ['node'], key = lambda x : x.id) :
+            print "INFO: Dev: %s Node: %s" % (d.id, d.location_id)
+            node = None
+            n = self.node_by_id.get (d.location_id)
+            if n :
+                if d.person_id and d.person_id != n.person_id :
+                    print \
+                        ( "WARN: Device (node) %s, (loc) %s: "
+                          "person mismatch d:%s n:%s"
+                        % (d.id, n.id, d.person_id, n.person_id)
+                        )
+                node = self.ffm_node.get (d.location_id)
+                if not node :
+                    print "WARN: Node (location) %s for dev (node) %s missing" \
+                        % (d.location_id, d.id)
+                    continue
+            else :
+                mgr  = self.person_by_id.get (d.person_id) or self.graz_admin
+                node = self.ffm.Node \
+                    ( name        = d.name
+                    , desc        = 'Auto-created node (id: %s)' % d.location_id
+                    , show_in_map = True
+                    , manager     = mgr
+                    , raw         = True
+                    )
+                print "WARN: Manufacturing Node (loc: %s) for dev (node) %s" \
                     % (d.location_id, d.id)
-                continue
             dev = self.ffm.Net_Device \
                 ( left = dt
-                , node = self.ffm_node [d.location_id]
+                , node = node
                 , name = d.name
                 , desc = d.comment
                 , raw  = True
@@ -140,31 +223,72 @@ class Convert (object) :
                 self.scope.commit ()
     # end def create_devices
 
-    def create_networks (self) :
+    def create_nettypes (self) :
         """ Network ranges for reservation
         """
         by_mask = {}
         # first group by netmask
         for nw in self.contents ['nettype'] :
             if not nw.comment :
-                print 'WARN: Ignoring nettype "%s"' % nw.name
+                print 'WARN: Ignoring nettype %s "%s"' % (nw.id, nw.name)
                 continue
             for net_ip in nw.comment.split (',') :
                 ip = IP4_Address (net_ip)
                 if ip.mask not in by_mask :
                     by_mask [ip.mask] = []
-                by_mask [ip.mask].append ((ip, nw.name))
+                by_mask [ip.mask].append ((ip, nw.name, nw.id))
         typ = self.ffm.IP4_Network
         for mask in sorted (by_mask) :
-            for ip, name in by_mask [mask] :
+            for ip, name, id in by_mask [mask] :
                 r = typ.query \
                     ( Q.net_address.CONTAINS (ip)
                     , sort_key = TFL.Sorted_By ("-net_address.mask_len")
                     ).first ()
                 reserver = r.reserve if r else typ
                 network  = reserver (ip, owner = self.graz_admin)
+                self.net_by_id [id] = network
                 if name :
                     network.set_raw (desc = name)
+    # end def create_nettypes
+
+    def create_networks (self) :
+        for net in self.contents ['net'] :
+            parent  = self.net_by_id.get (net.nettype_id)
+            node    = self.ffm_node.get (net.location_id)
+            ip      = IP4_Address (net.netip, net.netmask)
+            if node :
+                owner = node.owner
+            else :
+                print "WARN: Network %s Location %s missing" \
+                    % (net.id, net.location_id)
+                owner = self.graz_admin
+            if not parent or ip not in parent.net_address :
+                print "No parent: %s ip: %s" % (parent, ip)
+                parent = None
+                for p in self.net_by_id.itervalues () :
+                    if ip in p.net_address :
+                        parent = p
+                        print "Got parent in net_by_id: %s" % parent
+                        break
+                else :
+                    parent = self.ffm.IP4_Network.query \
+                        ( Q.net_address.CONTAINS (ip)
+                        , sort_key = TFL.Sorted_By ("-net_address.mask_len")
+                        ).first ()
+                    if parent :
+                        print "Got parent by network query: %s" % parent
+            if parent :
+                reserver = parent.reserve
+            else :
+                print "No parent: new network: %s" % ip
+                reserver = self.ffm.IP4_Network
+            network = reserver (ip, owner = owner)
+            if node :
+                network.set (node = node)
+            if net.comment :
+                network.set_raw (desc = net.comment)
+            if len (self.scope.uncommitted_changes) > 10 :
+                self.scope.commit ()
     # end def create_networks
 
     def create_nodes (self) :
@@ -177,12 +301,14 @@ class Convert (object) :
         for n in sorted (self.contents ['location'], key = lambda x : x.id) :
             self.node_by_id [n.id] = n
             person_id = self.person_dupes.get (n.person_id, n.person_id)
-            if person_id not in self.person_by_id :
+            if person_id != 0 and person_id not in self.person_by_id :
+                # should not happen now
                 print "WARN: Location %s owner %s missing" % (n.id, person_id)
                 continue
-            person = self.person_by_id [person_id]
-
-
+            if person_id == 0 :
+                person = self.graz_admin
+            else :
+                person = self.person_by_id [person_id]
             lat = lon = None
             if n.pixel_x is not None and n.pixel_y is not None :
                 lon = "%f" % (x_lon + (n.pixel_x - x_start) / dx_lon)
@@ -218,9 +344,32 @@ class Convert (object) :
                 self.scope.commit ()
     # end def create_nodes
 
+    def fake_persons (self) :
+        self.graz_admin = self.pap.Person \
+            ( first_name = 'Graz'
+            , last_name  = 'Admin'
+            , raw        = True
+            )
+        mail  = 'admin@graz.funkfeuer.at'
+        email = self.pap.Email (address = mail)
+        self.pap.Person_has_Email (self.graz_admin, email)
+        auth = self.scope.Auth.Account.create_new_account_x \
+            ( mail
+            , enabled   = True
+            , suspended = True
+            , password  = uuid.uuid4 ().hex
+            )
+        self.pap.Person_has_Account (self.graz_admin, auth)
+        for m in sorted (self.contents ['person'], key = lambda x : x.id) :
+            self.person_by_id [m.id] = self.graz_admin
+    # end def fake_persons
+
     def create_persons (self) :
         for m in sorted (self.contents ['person'], key = lambda x : x.id) :
             #print "%s: %r %r" % (m.id, m.firstname, m.lastname)
+            if m.id in self.person_ignore :
+                print "INFO: Ignoring anonymous without location: %s" % m.id
+                continue
             if m.id in self.pers_exception :
                 pe = self.pers_exception [m.id]
                 fn, ln = (x.decode ('utf-8') for x in pe)
@@ -235,11 +384,13 @@ class Convert (object) :
                 print >> sys.stderr, "WARN: name missing: %s (%r/%r)" \
                     % (m.id, m.firstname, m.lastname)
                 if not fn and not ln :
-                    print >> sys.stderr, "WARN: ignoring person %s" % m.id
-                    continue
-                else :
-                    fn = fn or '?'
-                    ln = ln or '?'
+                    if m.nick :
+                        fn = m.nick
+                    else :
+                        fn = m.email.split ('@') [0]
+                fn = fn or '?'
+                ln = ln or '?'
+            print "Person: %s %r/%r" % (m.id, fn, ln)
             person = self.pap.Person \
                 ( first_name = fn
                 , last_name  = ln
@@ -280,6 +431,8 @@ class Convert (object) :
                 self.try_insert_nick (d.nick, m_id, person)
             if d.tel :
                 self.try_insert_phone (d.tel, m_id, person)
+            if len (self.scope.uncommitted_changes) > 10 :
+                self.scope.commit ()
     # end def create_persons
 
     def set_creation (self, obj, create_time) :
@@ -347,6 +500,7 @@ _Command = TFL.CAO.Cmd \
         )
     , opts            =
         ( "verbose:B"
+        , "anonymize:B"
         , "create:B"
         ) + model.opts
     , min_args        = 1
