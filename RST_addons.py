@@ -65,6 +65,7 @@
 #                     IP allocation (very hackish for now)
 #     4-May-2014 (CT) Add `DB_Interface.xtra_template_macro`
 #     5-May-2014 (CT) Add `DB_Node.position`
+#    17-Jun-2014 (CT) Add `DB_Person.Form_spec` to test `include_rev_refs`
 #    ««revision-date»»···
 #--
 
@@ -1218,6 +1219,15 @@ class DB_Person (_DB_E_Type_) :
         ( "ui_display"
         , "creation_date"
         )
+
+    @property
+    @getattr_safe
+    def Form_spec (self) :
+        result = dict \
+            ( include_rev_refs = ("addresses", "emails", "phones")
+            )
+        return result
+    # end def Form_spec
 
     @property
     @getattr_safe
