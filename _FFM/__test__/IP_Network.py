@@ -49,6 +49,8 @@
 #                     for `desc`
 #    14-Jun-2014 (RS) Add `node` to `IP_Network`
 #    20-Jun-2014 (RS) `IP_Pool` and derivatives, `node` moved to `IP_Pool`
+#    20-Jun-2014 (RS) Add failing allocation test: Don't allocate from a
+#                     sub-pool
 #    ««revision-date»»···
 #--
 
@@ -387,6 +389,12 @@ _test_alloc = """
     No_Free_Address_Range: Address range [192.168.0.0/16] of this IP4_Network doesn't contain a free subrange for mask length 32
     >>> ffpool = mgpool.allocate (22, ff)
 
+    FIXME: This currently fails, it shouldn't try to allocate from the
+           sub-pool ffpool of xpool
+    >>> rspool = xpool.allocate (32, rs)
+    Traceback (most recent call last):
+      ...
+    No_Free_Address_Range: Address range [192.168.0.0/16] of this IP4_Network doesn't contain a free subrange for mask length 32
 """
 
 _test_partial = """
