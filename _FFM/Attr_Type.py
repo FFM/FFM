@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2012-2013 Mag. Christian Tanzer All rights reserved
+# Copyright (C) 2012-2014 Mag. Christian Tanzer All rights reserved
 # Glasauergasse 32, A--1130 Wien, Austria. tanzer@swing.co.at
 # #*** <License> ************************************************************#
 # This module is part of the package FFM.
@@ -36,6 +36,7 @@
 #    17-Dec-2012 (RS) Fix unit dBW, use decadic logarithm for dB
 #     5-Jun-2013 (CT) Use `is_attr_type`, not home-grown code
 #     7-Aug-2013 (CT) Add `A_Polarization.C_Type`
+#    20-Jun-2014 (RS) Add `A_Netmask_Interval` and derivatives
 #    ««revision-date»»···
 #--
 
@@ -47,6 +48,7 @@ from   _MOM.import_MOM          import *
 from   _MOM.import_MOM          import _A_Unit_, _A_Float_, _A_Named_Value_
 from   _FFM                     import FFM
 from   _TFL.I18N                import _
+from _MOM._Attr.Number_Interval import A_Int_Interval_C
 
 import _FFM.Wireless_Mode
 
@@ -114,6 +116,37 @@ class A_Wireless_Mode (MOM.Attr._A_Named_Object_) :
     Table       = FFM.Wireless_Mode.Table
 
 # end class A_Wireless_Mode
+
+class A_Netmask_Interval (A_Int_Interval_C) :
+    """Interval of network masks (upper limit defaults to lower limit)"""
+
+    _Overrides = dict \
+        ( start  = dict
+            ( min = 0
+            , max = 128
+            )
+        , finish = dict
+            ( min = 0
+            , max = 128
+            )
+        )
+
+# end class A_Netmask_Interval
+
+class A_Netmask_4_Interval (A_Netmask_Interval) :
+
+    _Overrides = dict \
+        ( start  = dict
+            ( max = 32
+            )
+        , finish = dict
+            ( max = 32
+            )
+        )
+
+# end class A_Netmask_4_Interval
+
+class A_Netmask_6_Interval (A_Netmask_Interval) : pass
 
 __all__ = tuple (k for (k, v) in globals ().iteritems () if is_attr_type (v))
 

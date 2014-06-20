@@ -49,6 +49,7 @@
 #                     `refuse_links` of `Node`)
 #    13-Jun-2014 (RS) Remove `Person_acts_for_Legal_Entity`,
 #                     add `PAP.Adhoc_Group`, `PAP.Person_in_Group`
+#    20-Jun-2014 (RS) Add `IP_Pool`, `IP4_Pool`, `IP6_Pool`
 #    ««revision-date»»···
 #--
 
@@ -72,8 +73,11 @@ import _FFM.Device
 import _FFM.Device_Type
 import _FFM.Firmware
 import _FFM.IP4_Network
+import _FFM.IP4_Pool
 import _FFM.IP6_Network
+import _FFM.IP6_Pool
 import _FFM.IP_Network
+import _FFM.IP_Pool
 import _FFM.Net_Credentials
 import _FFM.Net_Device
 import _FFM.Net_Device_Type
