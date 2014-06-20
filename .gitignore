@@ -15,3 +15,4 @@ test.sql*
 call_convert
 call_spider
 data/
+*.swp
