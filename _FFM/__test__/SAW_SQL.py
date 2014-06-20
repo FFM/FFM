@@ -37,6 +37,7 @@
 #                     `Net_Interface_in_IP_Network`
 #    14-Jun-2014 (RS) Add `node` to `IP_Network`
 #    20-Jun-2014 (RS) `IP_Pool` and derivatives, `node` moved to `IP_Pool`
+#    20-Jun-2014 (RS) Re-add `IP_Network.pool`
 #    ««revision-date»»···
 #--
 
@@ -108,6 +109,7 @@ _test_cidr_pg = """
            ffm_ip6_network.owner AS ffm_ip6_network_owner,
            ffm_ip6_network.parent AS ffm_ip6_network_parent,
            ffm_ip6_network.pid AS ffm_ip6_network_pid,
+           ffm_ip6_network.pool AS ffm_ip6_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -143,6 +145,7 @@ _test_cidr_pg = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -163,6 +166,7 @@ _test_cidr_pg = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -180,6 +184,7 @@ _test_cidr_pg = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -215,6 +220,7 @@ _test_cidr_sq = """
            ffm_ip6_network.owner AS ffm_ip6_network_owner,
            ffm_ip6_network.parent AS ffm_ip6_network_parent,
            ffm_ip6_network.pid AS ffm_ip6_network_pid,
+           ffm_ip6_network.pool AS ffm_ip6_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -236,6 +242,7 @@ _test_cidr_sq = """
     Column owner                     : Integer              Optional__Id_Entity_Reference Entity owner Id_Entity()
     Column parent                    : Integer              Internal__Id_Entity_Reference Entity parent Id_Entity()
     Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
+    Column pool                      : Integer              Optional__Computed_Set__Id_Entity_Reference Entity pool Id_Entity()
 
     >>> print (formatted_table (FFM.IP6_Network._SAW.sa_table, nl, ""))
     Column desc                      : Varchar(80)          Optional String desc
@@ -249,6 +256,8 @@ _test_cidr_sq = """
     Column owner                     : Integer              Optional__Id_Entity_Reference Entity owner Id_Entity()
     Column parent                    : Integer              Internal__Id_Entity_Reference Entity parent Id_Entity()
     Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
+    Column pool                      : Integer              Optional__Computed_Set__Id_Entity_Reference Entity pool Id_Entity()
+
 
     >>> show_query (FFM.IP4_Network.query ((Q.net_address.CONTAINS ("192.168.23.1")) & (Q.electric == False)))
     SQL: SELECT
@@ -261,6 +270,7 @@ _test_cidr_sq = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -288,6 +298,7 @@ _test_cidr_sq = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -308,6 +319,7 @@ _test_cidr_sq = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -555,6 +567,7 @@ _test_q_able = """
       <SAW : Entity `owner` (FFM.IP4_Network | FFM.IP6_Network)>
       <SAW : Entity `parent` (FFM.IP4_Network | FFM.IP6_Network)>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
+      <SAW : Entity `pool` (FFM.IP4_Network | FFM.IP6_Network)>
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Role_Ref `virtual_wireless_interface`>
       <SAW : Role_Ref `wired_interface`>
@@ -574,6 +587,7 @@ _test_q_able = """
       <SAW : Entity `owner` [ffm_ip4_network.owner]>
       <SAW : Entity `parent` [ffm_ip4_network.parent]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
+      <SAW : Entity `pool` [ffm_ip4_network.pool]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Role_Ref `virtual_wireless_interface`>
       <SAW : Role_Ref `wired_interface`>
@@ -615,6 +629,7 @@ _test_q_able = """
       <SAW : Entity `owner` [ffm_ip6_network.owner]>
       <SAW : Entity `parent` [ffm_ip6_network.parent]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
+      <SAW : Entity `pool` [ffm_ip6_network.pool]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
       <SAW : Role_Ref `virtual_wireless_interface`>
       <SAW : Role_Ref `wired_interface`>
@@ -1685,6 +1700,7 @@ _test_q_result_pg = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -1703,6 +1719,7 @@ _test_q_result_pg = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -1721,6 +1738,7 @@ _test_q_result_pg = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -1738,6 +1756,7 @@ _test_q_result_pg = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -1755,6 +1774,7 @@ _test_q_result_pg = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -1774,6 +1794,7 @@ _test_q_result_pg = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -1793,6 +1814,7 @@ _test_q_result_pg = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -1815,6 +1837,7 @@ _test_q_result_pg = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -1845,6 +1868,7 @@ _test_q_result_pg = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -1878,6 +1902,7 @@ _test_q_result_pg = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -1910,6 +1935,7 @@ _test_q_result_pg = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -1928,6 +1954,7 @@ _test_q_result_pg = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            ffm_ip4_network__1.parent IS NOT NULL AS anon_1,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
@@ -1958,6 +1985,7 @@ _test_q_result_sq = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -1979,6 +2007,7 @@ _test_q_result_sq = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -2000,6 +2029,7 @@ _test_q_result_sq = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -2020,6 +2050,7 @@ _test_q_result_sq = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -2040,6 +2071,7 @@ _test_q_result_sq = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -2062,6 +2094,7 @@ _test_q_result_sq = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -2084,6 +2117,7 @@ _test_q_result_sq = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -2109,6 +2143,7 @@ _test_q_result_sq = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -2146,6 +2181,7 @@ _test_q_result_sq = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -2186,6 +2222,7 @@ _test_q_result_sq = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -2225,6 +2262,7 @@ _test_q_result_sq = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -2246,6 +2284,7 @@ _test_q_result_sq = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            ffm_ip4_network__1.parent IS NOT NULL AS anon_1,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
@@ -2268,6 +2307,7 @@ _test_q_result_sq = """
            ffm_ip4_network.owner AS ffm_ip4_network_owner,
            ffm_ip4_network.parent AS ffm_ip4_network_parent,
            ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
            mom_id_entity.electric AS mom_id_entity_electric,
            mom_id_entity.last_cid AS mom_id_entity_last_cid,
            mom_id_entity.pid AS mom_id_entity_pid,
@@ -2522,6 +2562,7 @@ _test_select = """
                ffm_ip4_network.owner AS ffm_ip4_network_owner,
                ffm_ip4_network.parent AS ffm_ip4_network_parent,
                ffm_ip4_network.pid AS ffm_ip4_network_pid,
+               ffm_ip4_network.pool AS ffm_ip4_network_pool,
                ffm_ip4_pool."left" AS ffm_ip4_pool_left,
                ffm_ip4_pool.netmask_interval__lower AS ffm_ip4_pool_netmask_interval__lower,
                ffm_ip4_pool.netmask_interval__upper AS ffm_ip4_pool_netmask_interval__upper,
@@ -2533,6 +2574,7 @@ _test_select = """
                ffm_ip6_network.owner AS ffm_ip6_network_owner,
                ffm_ip6_network.parent AS ffm_ip6_network_parent,
                ffm_ip6_network.pid AS ffm_ip6_network_pid,
+               ffm_ip6_network.pool AS ffm_ip6_network_pool,
                ffm_ip6_pool."left" AS ffm_ip6_pool_left,
                ffm_ip6_pool.netmask_interval__lower AS ffm_ip6_pool_netmask_interval__lower,
                ffm_ip6_pool.netmask_interval__upper AS ffm_ip6_pool_netmask_interval__upper,
@@ -2718,12 +2760,14 @@ _test_select = """
                ffm_ip4_network.owner AS ffm_ip4_network_owner,
                ffm_ip4_network.parent AS ffm_ip4_network_parent,
                ffm_ip4_network.pid AS ffm_ip4_network_pid,
+               ffm_ip4_network.pool AS ffm_ip4_network_pool,
                ffm_ip6_network."desc" AS ffm_ip6_network_desc,
                ffm_ip6_network.expiration_date AS ffm_ip6_network_expiration_date,
                ffm_ip6_network.net_address AS ffm_ip6_network_net_address,
                ffm_ip6_network.owner AS ffm_ip6_network_owner,
                ffm_ip6_network.parent AS ffm_ip6_network_parent,
                ffm_ip6_network.pid AS ffm_ip6_network_pid,
+               ffm_ip6_network.pool AS ffm_ip6_network_pool,
                ffm_net_device_type."desc" AS ffm_net_device_type_desc,
                ffm_net_device_type.__raw_model_no AS ffm_net_device_type___raw_model_no,
                ffm_net_device_type.__raw_name AS ffm_net_device_type___raw_name,
@@ -3574,12 +3618,14 @@ _test_select = """
                ffm_ip4_network.owner AS ffm_ip4_network_owner,
                ffm_ip4_network.parent AS ffm_ip4_network_parent,
                ffm_ip4_network.pid AS ffm_ip4_network_pid,
+               ffm_ip4_network.pool AS ffm_ip4_network_pool,
                ffm_ip6_network."desc" AS ffm_ip6_network_desc,
                ffm_ip6_network.expiration_date AS ffm_ip6_network_expiration_date,
                ffm_ip6_network.net_address AS ffm_ip6_network_net_address,
                ffm_ip6_network.owner AS ffm_ip6_network_owner,
                ffm_ip6_network.parent AS ffm_ip6_network_parent,
                ffm_ip6_network.pid AS ffm_ip6_network_pid,
+               ffm_ip6_network.pool AS ffm_ip6_network_pool,
                mom_id_entity.electric AS mom_id_entity_electric,
                mom_id_entity.last_cid AS mom_id_entity_last_cid,
                mom_id_entity.pid AS mom_id_entity_pid,
@@ -3597,6 +3643,7 @@ _test_select = """
                ffm_ip4_network.owner AS ffm_ip4_network_owner,
                ffm_ip4_network.parent AS ffm_ip4_network_parent,
                ffm_ip4_network.pid AS ffm_ip4_network_pid,
+               ffm_ip4_network.pool AS ffm_ip4_network_pool,
                mom_id_entity.electric AS mom_id_entity_electric,
                mom_id_entity.last_cid AS mom_id_entity_last_cid,
                mom_id_entity.pid AS mom_id_entity_pid,
@@ -3645,6 +3692,7 @@ _test_select = """
                ffm_ip6_network.owner AS ffm_ip6_network_owner,
                ffm_ip6_network.parent AS ffm_ip6_network_parent,
                ffm_ip6_network.pid AS ffm_ip6_network_pid,
+               ffm_ip6_network.pool AS ffm_ip6_network_pool,
                mom_id_entity.electric AS mom_id_entity_electric,
                mom_id_entity.last_cid AS mom_id_entity_last_cid,
                mom_id_entity.pid AS mom_id_entity_pid,
@@ -4281,6 +4329,7 @@ _test_tables = """
         Column owner                     : Integer              Optional__Id_Entity_Reference Entity owner Id_Entity()
         Column parent                    : Integer              Internal__Id_Entity_Reference Entity parent Id_Entity()
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
+        Column pool                      : Integer              Optional__Computed_Set__Id_Entity_Reference Entity pool Id_Entity()
     FFM.IP4_Pool (MOM.Id_Entity) <Table ffm_ip4_pool>
         Column left                      : Integer              Link_Role__Init_Only IP_Network left Id_Entity()
         Column netmask_interval__lower   : Integer              Necessary__Nested Int lower
@@ -4294,6 +4343,7 @@ _test_tables = """
         Column owner                     : Integer              Optional__Id_Entity_Reference Entity owner Id_Entity()
         Column parent                    : Integer              Internal__Id_Entity_Reference Entity parent Id_Entity()
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
+        Column pool                      : Integer              Optional__Computed_Set__Id_Entity_Reference Entity pool Id_Entity()
     FFM.IP6_Pool (MOM.Id_Entity) <Table ffm_ip6_pool>
         Column left                      : Integer              Link_Role__Init_Only IP_Network left Id_Entity()
         Column netmask_interval__lower   : Integer              Necessary__Nested Int lower

@@ -38,6 +38,7 @@
 #    14-Apr-2014 (CT) Rename `belongs_to_node` to `my_node`
 #    14-Jun-2014 (RS) Add `name` to `Net_Interface_in_IP_Network`, add
 #                     `desc` to `Node`, `Node` no longer derived from `Subject`
+#    20-Jun-2014 (RS) Re-add `IP_Network.pool`
 #    ««revision-date»»···
 #--
 
@@ -221,7 +222,7 @@ _test_limit = r"""
                                           , 'name' : 'generic'
                                           , 'revision' : ''
                                           }
-                                      , 'cid' : 31
+                                      , 'cid' : 42
                                       , 'pid' : 27
                                       , 'type_name' : 'FFM.Net_Device_Type'
                                       , 'url' : '/v1/FFM-Net_Device_Type/27'
@@ -236,7 +237,7 @@ _test_limit = r"""
                                                   , 'street' : 'beispiel 23'
                                                   , 'zip' : '1010'
                                                   }
-                                              , 'cid' : 39
+                                              , 'cid' : 50
                                               , 'pid' : 35
                                               , 'type_name' : 'PAP.Address'
                                               , 'url' : '/v1/PAP-Address/35'
@@ -263,13 +264,13 @@ _test_limit = r"""
                                               , 'lon' : 15.8744
                                               }
                                           }
-                                      , 'cid' : 40
+                                      , 'cid' : 51
                                       , 'pid' : 3
                                       , 'type_name' : 'FFM.Node'
                                       , 'url' : '/v1/FFM-Node/3'
                                       }
                                   }
-                              , 'cid' : 32
+                              , 'cid' : 43
                               , 'pid' : 28
                               , 'type_name' : 'FFM.Net_Device'
                               , 'url' : '/v1/FFM-Net_Device/28'
@@ -277,7 +278,7 @@ _test_limit = r"""
                           , 'mac_address' : ''
                           , 'name' : 'wr'
                           }
-                      , 'cid' : 33
+                      , 'cid' : 44
                       , 'pid' : 29
                       , 'type_name' : 'FFM.Wired_Interface'
                       , 'url' : '/v1/FFM-Wired_Interface/29'
@@ -286,14 +287,28 @@ _test_limit = r"""
                   , 'name' : 'wr'
                   , 'right' :
                       { 'attributes' :
-                          { 'net_address' : '192.168.23.1' }
-                      , 'cid' : 21
+                          { 'net_address' : '192.168.23.1'
+                          , 'pool' :
+                              { 'attributes' :
+                                  { 'net_address' : '192.168.23.0/24'
+                                  , 'pool' :
+                                      { 'pid' : 4
+                                      , 'url' : '/v1/FFM-IP4_Network/4'
+                                      }
+                                  }
+                              , 'cid' : 4
+                              , 'pid' : 4
+                              , 'type_name' : 'FFM.IP4_Network'
+                              , 'url' : '/v1/FFM-IP4_Network/4'
+                              }
+                          }
+                      , 'cid' : 29
                       , 'pid' : 20
                       , 'type_name' : 'FFM.IP4_Network'
                       , 'url' : '/v1/FFM-IP4_Network/20'
                       }
                   }
-              , 'cid' : 35
+              , 'cid' : 46
               , 'pid' : 31
               , 'type_name' : 'FFM.Wired_Interface_in_IP4_Network'
               , 'url' : '/v1/FFM-Net_Interface_in_IP4_Network/31'
@@ -324,7 +339,7 @@ _test_limit = r"""
                                           , 'name' : 'generic'
                                           , 'revision' : ''
                                           }
-                                      , 'cid' : 31
+                                      , 'cid' : 42
                                       , 'creation' :
                                           { 'date' : <datetime> }
                                       , 'last_change' :
@@ -343,7 +358,7 @@ _test_limit = r"""
                                                   , 'street' : 'beispiel 23'
                                                   , 'zip' : '1010'
                                                   }
-                                              , 'cid' : 39
+                                              , 'cid' : 50
                                               , 'creation' :
                                                   { 'date' : <datetime> }
                                               , 'last_change' :
@@ -378,7 +393,7 @@ _test_limit = r"""
                                               , 'lon' : 15.8744
                                               }
                                           }
-                                      , 'cid' : 40
+                                      , 'cid' : 51
                                       , 'creation' :
                                           { 'date' : <datetime> }
                                       , 'last_change' :
@@ -388,7 +403,7 @@ _test_limit = r"""
                                       , 'url' : '/v1/FFM-Node/3'
                                       }
                                   }
-                              , 'cid' : 32
+                              , 'cid' : 43
                               , 'creation' :
                                   { 'date' : <datetime> }
                               , 'last_change' :
@@ -400,7 +415,7 @@ _test_limit = r"""
                           , 'mac_address' : ''
                           , 'name' : 'wr'
                           }
-                      , 'cid' : 33
+                      , 'cid' : 44
                       , 'creation' :
                           { 'date' : <datetime> }
                       , 'last_change' :
@@ -413,8 +428,26 @@ _test_limit = r"""
                   , 'name' : 'wr'
                   , 'right' :
                       { 'attributes' :
-                          { 'net_address' : '192.168.23.1' }
-                      , 'cid' : 21
+                          { 'net_address' : '192.168.23.1'
+                          , 'pool' :
+                              { 'attributes' :
+                                  { 'net_address' : '192.168.23.0/24'
+                                  , 'pool' :
+                                      { 'pid' : 4
+                                      , 'url' : '/v1/FFM-IP4_Network/4'
+                                      }
+                                  }
+                              , 'cid' : 4
+                              , 'creation' :
+                                  { 'date' : <datetime> }
+                              , 'last_change' :
+                                  { 'date' : <datetime> }
+                              , 'pid' : 4
+                              , 'type_name' : 'FFM.IP4_Network'
+                              , 'url' : '/v1/FFM-IP4_Network/4'
+                              }
+                          }
+                      , 'cid' : 29
                       , 'creation' :
                           { 'date' : <datetime> }
                       , 'last_change' :
@@ -424,7 +457,7 @@ _test_limit = r"""
                       , 'url' : '/v1/FFM-IP4_Network/20'
                       }
                   }
-              , 'cid' : 35
+              , 'cid' : 46
               , 'creation' :
                   { 'date' : <datetime> }
               , 'last_change' :
@@ -449,7 +482,7 @@ _test_limit = r"""
             , 'mac_address' : ''
             , 'name' : 'wr'
             }
-        , 'cid' : 33
+        , 'cid' : 44
         , 'pid' : 29
         , 'rels' :
             [ '/v1/FFM-Wired_Interface/29/documents'
@@ -469,7 +502,7 @@ _test_limit = r"""
     { 'json' :
         { 'attributes' :
             { 'name' : 'wr' }
-        , 'cid' : 33
+        , 'cid' : 44
         , 'pid' : 29
         , 'rels' :
             [ '/v1/FFM-Wired_Interface/29/documents'
@@ -494,7 +527,7 @@ _test_limit = r"""
                 }
             , 'name' : 'wr'
             }
-        , 'cid' : 33
+        , 'cid' : 44
         , 'pid' : 29
         , 'rels' :
             [ '/v1/FFM-Wired_Interface/29/documents'
@@ -524,7 +557,7 @@ _test_limit = r"""
                 }
             , 'name' : 'wr'
             }
-        , 'cid' : 33
+        , 'cid' : 44
         , 'pid' : 29
         , 'rels' :
             [ '/v1/FFM-Wired_Interface/29/documents'
@@ -562,7 +595,7 @@ _test_limit = r"""
                       }
                   , 'name' : 'wr'
                   }
-              , 'cid' : 33
+              , 'cid' : 44
               , 'pid' : 29
               , 'type_name' : 'FFM.Wired_Interface'
               , 'url' : '/v1/FFM-Wired_Interface/29'
@@ -720,7 +753,7 @@ _test_put = r"""
                 , 'url' : '/v1/PAP-Person/1'
                 }
             }
-        , 'cid' : 41
+        , 'cid' : 52
         , 'pid' : 2
         , 'type_name' : 'FFM.Node'
         , 'url' : '/v1/FFM-Node/2'
@@ -736,10 +769,10 @@ _test_put = r"""
             , 'name' : 'nogps'
             , 'owner' : 1
             }
-        , 'cid' : 41
+        , 'cid' : 52
         , 'pid' : 2
         , 'rels' :
-            [ '/v1/FFM-Node/2/documents' ]
+        [ '/v1/FFM-Node/2/documents' ]
         , 'type_name' : 'FFM.Node'
         , 'url' : '/v1/FFM-Node/2'
         }
@@ -769,7 +802,7 @@ _test_put = r"""
                 , 'url' : '/v1/PAP-Person/1'
                 }
             }
-        , 'cid' : 42
+        , 'cid' : 53
         , 'pid' : 2
         , 'type_name' : 'FFM.Node'
         , 'url' : '/v1/FFM-Node/2'
@@ -798,7 +831,7 @@ _test_put = r"""
             , 'middle_name' : 'the'
             , 'title' : ''
             }
-        , 'cid' : 43
+        , 'cid' : 54
         , 'pid' : 36
         , 'type_name' : 'PAP.Person'
         , 'url' : '/v1/PAP-Person/36'
@@ -828,7 +861,7 @@ _test_put = r"""
                 , 'url' : '/v1/PAP-Person/1'
                 }
             }
-        , 'cid' : 44
+        , 'cid' : 55
         , 'pid' : 2
         , 'type_name' : 'FFM.Node'
         , 'url' : '/v1/FFM-Node/2'
@@ -845,7 +878,7 @@ _test_put = r"""
     ... )
     >>> s4 = show (requests.put (p, data=cargo_c, headers=headers))
     { 'json' :
-        { 'error' : 'Cid mismatch: requested cid = 42, current cid = 44' }
+        { 'error' : 'Cid mismatch: requested cid = 53, current cid = 55' }
     , 'status' : 409
     , 'url' : 'http://localhost:9999/v1/FFM-Node/2'
     }
@@ -870,7 +903,7 @@ _test_put = r"""
                 , 'url' : '/v1/PAP-Person/36'
                 }
             }
-        , 'cid' : 45
+        , 'cid' : 56
         , 'pid' : 2
         , 'type_name' : 'FFM.Node'
         , 'url' : '/v1/FFM-Node/2'

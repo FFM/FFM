@@ -51,6 +51,7 @@
 #    20-Jun-2014 (RS) `IP_Pool` and derivatives, `node` moved to `IP_Pool`
 #    20-Jun-2014 (RS) Add failing allocation test: Don't allocate from a
 #                     sub-pool
+#    20-Jun-2014 (RS) Re-add `IP_Network.pool`, make failing test pass
 #    ««revision-date»»···
 #--
 
@@ -437,6 +438,7 @@ _test_AQ = """
     <net_address.AQ [Attr.Type.Querier Ckd]>
     <desc.AQ [Attr.Type.Querier String]>
     <owner.AQ [Attr.Type.Querier Id_Entity]>
+    <pool.AQ [Attr.Type.Querier Id_Entity]>
     <creation.AQ [Attr.Type.Querier Rev_Ref]>
     <last_change.AQ [Attr.Type.Querier Rev_Ref]>
     <last_cid.AQ [Attr.Type.Querier Ckd]>
@@ -458,6 +460,15 @@ _test_AQ = """
     <net_address.AQ [Attr.Type.Querier Ckd]> -----
     <desc.AQ [Attr.Type.Querier String]> -----
     <owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
+    <pool.net_address.AQ [Attr.Type.Querier Ckd]> -----
+    <pool.desc.AQ [Attr.Type.Querier String]> -----
+    <pool.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <pool.pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
+    <pool.expiration_date.AQ [Attr.Type.Querier Ckd]> -----
+    <pool.has_children.AQ [Attr.Type.Querier Boolean]> -----
+    <pool.is_free.AQ [Attr.Type.Querier Boolean]> -----
+    <pool.parent.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
     <creation.AQ [Attr.Type.Querier Rev_Ref]> MOM.MD_Change
     <creation.c_time.AQ [Attr.Type.Querier Ckd]> -----
     <creation.c_user.AQ [Attr.Type.Querier Id_Entity]> MOM.Id_Entity
@@ -480,6 +491,7 @@ _test_AQ = """
     <parent.net_address.AQ [Attr.Type.Querier Ckd]> -----
     <parent.desc.AQ [Attr.Type.Querier String]> -----
     <parent.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <parent.pool.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
     <parent.expiration_date.AQ [Attr.Type.Querier Ckd]> -----
     <parent.has_children.AQ [Attr.Type.Querier Boolean]> -----
     <parent.is_free.AQ [Attr.Type.Querier Boolean]> -----
@@ -1152,6 +1164,15 @@ _test_AQ = """
     'Net address'
     'Description'
     'Owner'
+    'Pool'
+    'Pool/Net address'
+    'Pool/Description'
+    'Pool/Owner'
+    'Pool/Pool'
+    'Pool/Expiration date'
+    'Pool/Has children'
+    'Pool/Is free'
+    'Pool/Parent'
     'Creation'
     'Creation/C time'
     'Creation/C user'
@@ -1174,6 +1195,7 @@ _test_AQ = """
     'Parent/Net address'
     'Parent/Description'
     'Parent/Owner'
+    'Parent/Pool'
     'Parent/Expiration date'
     'Parent/Has children'
     'Parent/Is free'
@@ -1848,6 +1870,11 @@ _test_AQ = """
     ...     print (aq)
     <net_address.AQ [Attr.Type.Querier Ckd]>
     <desc.AQ [Attr.Type.Querier String]>
+    <pool.net_address.AQ [Attr.Type.Querier Ckd]>
+    <pool.desc.AQ [Attr.Type.Querier String]>
+    <pool.expiration_date.AQ [Attr.Type.Querier Ckd]>
+    <pool.has_children.AQ [Attr.Type.Querier Boolean]>
+    <pool.is_free.AQ [Attr.Type.Querier Boolean]>
     <creation.c_time.AQ [Attr.Type.Querier Ckd]>
     <creation.kind.AQ [Attr.Type.Querier String]>
     <creation.time.AQ [Attr.Type.Querier Ckd]>
@@ -2463,6 +2490,119 @@ _test_AQ = """
           }
         , { 'Class' : 'Entity'
           , 'attrs' :
+              [ { 'name' : 'net_address'
+                , 'sig_key' : 0
+                , 'ui_name' : 'Net address'
+                }
+              , { 'name' : 'desc'
+                , 'sig_key' : 3
+                , 'ui_name' : 'Description'
+                }
+              , { 'Class' : 'Entity'
+                , 'children_np' :
+                    [ { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          ]
+                      , 'name' : 'owner'
+                      , 'sig_key' : 2
+                      , 'type_name' : 'PAP.Adhoc_Group'
+                      , 'ui_name' : 'Owner'
+                      , 'ui_type_name' : 'Adhoc_Group'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          ]
+                      , 'name' : 'owner'
+                      , 'sig_key' : 2
+                      , 'type_name' : 'PAP.Association'
+                      , 'ui_name' : 'Owner'
+                      , 'ui_type_name' : 'Association'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Name'
+                            }
+                          , { 'name' : 'registered_in'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Registered in'
+                            }
+                          ]
+                      , 'name' : 'owner'
+                      , 'sig_key' : 2
+                      , 'type_name' : 'PAP.Company'
+                      , 'ui_name' : 'Owner'
+                      , 'ui_type_name' : 'Company'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'last_name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Last name'
+                            }
+                          , { 'name' : 'first_name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'First name'
+                            }
+                          , { 'name' : 'middle_name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Middle name'
+                            }
+                          , { 'name' : 'title'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Academic title'
+                            }
+                          ]
+                      , 'name' : 'owner'
+                      , 'sig_key' : 2
+                      , 'type_name' : 'PAP.Person'
+                      , 'ui_name' : 'Owner'
+                      , 'ui_type_name' : 'Person'
+                      }
+                    ]
+                , 'default_child' : 'PAP.Person'
+                , 'name' : 'owner'
+                , 'sig_key' : 2
+                , 'ui_name' : 'Owner'
+                }
+              , { 'Class' : 'Entity'
+                , 'name' : 'pool'
+                , 'sig_key' : 2
+                , 'ui_name' : 'Pool'
+                }
+              , { 'name' : 'expiration_date'
+                , 'sig_key' : 0
+                , 'ui_name' : 'Expiration date'
+                }
+              , { 'name' : 'has_children'
+                , 'sig_key' : 1
+                , 'ui_name' : 'Has children'
+                }
+              , { 'name' : 'is_free'
+                , 'sig_key' : 1
+                , 'ui_name' : 'Is free'
+                }
+              , { 'Class' : 'Entity'
+                , 'name' : 'parent'
+                , 'sig_key' : 2
+                , 'ui_name' : 'Parent'
+                }
+              ]
+          , 'name' : 'pool'
+          , 'sig_key' : 2
+          , 'ui_name' : 'Pool'
+          }
+        , { 'Class' : 'Entity'
+          , 'attrs' :
               [ { 'name' : 'c_time'
                 , 'sig_key' : 0
                 , 'ui_name' : 'C time'
@@ -2788,6 +2928,11 @@ _test_AQ = """
                 , 'name' : 'owner'
                 , 'sig_key' : 2
                 , 'ui_name' : 'Owner'
+                }
+              , { 'Class' : 'Entity'
+                , 'name' : 'pool'
+                , 'sig_key' : 2
+                , 'ui_name' : 'Pool'
                 }
               , { 'name' : 'expiration_date'
                 , 'sig_key' : 0
@@ -7528,6 +7673,219 @@ _test_AQ = """
       )
     , Record
       ( Class = 'Entity'
+      , attr = Entity `pool`
+      , attrs =
+          [ Record
+            ( attr = IP4-network `net_address`
+            , full_name = 'pool.net_address'
+            , id = 'pool__net_address'
+            , name = 'net_address'
+            , sig_key = 0
+            , ui_name = 'Pool/Net address'
+            )
+          , Record
+            ( attr = String `desc`
+            , full_name = 'pool.desc'
+            , id = 'pool__desc'
+            , name = 'desc'
+            , sig_key = 3
+            , ui_name = 'Pool/Description'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `owner`
+            , children_np =
+                [ Record
+                  ( Class = 'Entity'
+                  , attr = Entity `owner`
+                  , attrs =
+                      [ Record
+                        ( attr = String `name`
+                        , full_name = 'owner.name'
+                        , id = 'owner__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Adhoc_Group]/Name'
+                        )
+                      ]
+                  , full_name = 'owner'
+                  , id = 'owner'
+                  , name = 'owner'
+                  , sig_key = 2
+                  , type_name = 'PAP.Adhoc_Group'
+                  , ui_name = 'Owner[Adhoc_Group]'
+                  , ui_type_name = 'Adhoc_Group'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `owner`
+                  , attrs =
+                      [ Record
+                        ( attr = String `name`
+                        , full_name = 'owner.name'
+                        , id = 'owner__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Association]/Name'
+                        )
+                      ]
+                  , full_name = 'owner'
+                  , id = 'owner'
+                  , name = 'owner'
+                  , sig_key = 2
+                  , type_name = 'PAP.Association'
+                  , ui_name = 'Owner[Association]'
+                  , ui_type_name = 'Association'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `owner`
+                  , attrs =
+                      [ Record
+                        ( attr = String `name`
+                        , full_name = 'owner.name'
+                        , id = 'owner__name'
+                        , name = 'name'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Company]/Name'
+                        )
+                      , Record
+                        ( attr = String `registered_in`
+                        , full_name = 'owner.registered_in'
+                        , id = 'owner__registered_in'
+                        , name = 'registered_in'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Company]/Registered in'
+                        )
+                      ]
+                  , full_name = 'owner'
+                  , id = 'owner'
+                  , name = 'owner'
+                  , sig_key = 2
+                  , type_name = 'PAP.Company'
+                  , ui_name = 'Owner[Company]'
+                  , ui_type_name = 'Company'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `owner`
+                  , attrs =
+                      [ Record
+                        ( attr = String `last_name`
+                        , full_name = 'owner.last_name'
+                        , id = 'owner__last_name'
+                        , name = 'last_name'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Person]/Last name'
+                        )
+                      , Record
+                        ( attr = String `first_name`
+                        , full_name = 'owner.first_name'
+                        , id = 'owner__first_name'
+                        , name = 'first_name'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Person]/First name'
+                        )
+                      , Record
+                        ( attr = String `middle_name`
+                        , full_name = 'owner.middle_name'
+                        , id = 'owner__middle_name'
+                        , name = 'middle_name'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Person]/Middle name'
+                        )
+                      , Record
+                        ( attr = String `title`
+                        , full_name = 'owner.title'
+                        , id = 'owner__title'
+                        , name = 'title'
+                        , sig_key = 3
+                        , ui_name = 'Owner[Person]/Academic title'
+                        )
+                      ]
+                  , full_name = 'owner'
+                  , id = 'owner'
+                  , name = 'owner'
+                  , sig_key = 2
+                  , type_name = 'PAP.Person'
+                  , ui_name = 'Owner[Person]'
+                  , ui_type_name = 'Person'
+                  )
+                ]
+            , default_child = 'PAP.Person'
+            , full_name = 'pool.owner'
+            , id = 'pool__owner'
+            , name = 'owner'
+            , sig_key = 2
+            , type_name = 'PAP.Subject'
+            , ui_name = 'Pool/Owner'
+            , ui_type_name = 'Subject'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `pool`
+            , full_name = 'pool.pool'
+            , id = 'pool__pool'
+            , name = 'pool'
+            , sig_key = 2
+            , type_name = 'FFM.IP4_Network'
+            , ui_name = 'Pool/Pool'
+            , ui_type_name = 'IP4_Network'
+            )
+          , Record
+            ( attr = Date-Time `expiration_date`
+            , full_name = 'pool.expiration_date'
+            , id = 'pool__expiration_date'
+            , name = 'expiration_date'
+            , sig_key = 0
+            , ui_name = 'Pool/Expiration date'
+            )
+          , Record
+            ( attr = Boolean `has_children`
+            , choices =
+                [ 'no'
+                , 'yes'
+                ]
+            , full_name = 'pool.has_children'
+            , id = 'pool__has_children'
+            , name = 'has_children'
+            , sig_key = 1
+            , ui_name = 'Pool/Has children'
+            )
+          , Record
+            ( attr = Boolean `is_free`
+            , choices =
+                [ 'no'
+                , 'yes'
+                ]
+            , full_name = 'pool.is_free'
+            , id = 'pool__is_free'
+            , name = 'is_free'
+            , sig_key = 1
+            , ui_name = 'Pool/Is free'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `parent`
+            , full_name = 'pool.parent'
+            , id = 'pool__parent'
+            , name = 'parent'
+            , sig_key = 2
+            , type_name = 'FFM.IP4_Network'
+            , ui_name = 'Pool/Parent'
+            , ui_type_name = 'IP4_Network'
+            )
+          ]
+      , full_name = 'pool'
+      , id = 'pool'
+      , name = 'pool'
+      , sig_key = 2
+      , type_name = 'FFM.IP4_Network'
+      , ui_name = 'Pool'
+      , ui_type_name = 'IP4_Network'
+      )
+    , Record
+      ( Class = 'Entity'
       , attr = Rev_Ref `creation`
       , attrs =
           [ Record
@@ -7950,10 +8308,7 @@ _test_AQ = """
       )
     , Record
       ( attr = Boolean `has_children`
-      , choices =
-          [ 'no'
-          , 'yes'
-          ]
+      , choices = <Recursion on list...>
       , full_name = 'has_children'
       , id = 'has_children'
       , name = 'has_children'
@@ -7962,10 +8317,7 @@ _test_AQ = """
       )
     , Record
       ( attr = Boolean `is_free`
-      , choices =
-          [ 'no'
-          , 'yes'
-          ]
+      , choices = <Recursion on list...>
       , full_name = 'is_free'
       , id = 'is_free'
       , name = 'is_free'
@@ -8121,6 +8473,17 @@ _test_AQ = """
             , type_name = 'PAP.Subject'
             , ui_name = 'Parent/Owner'
             , ui_type_name = 'Subject'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `pool`
+            , full_name = 'parent.pool'
+            , id = 'parent__pool'
+            , name = 'pool'
+            , sig_key = 2
+            , type_name = 'FFM.IP4_Network'
+            , ui_name = 'Parent/Pool'
+            , ui_type_name = 'IP4_Network'
             )
           , Record
             ( attr = Date-Time `expiration_date`
@@ -16978,32 +17341,36 @@ _test_AQ = """
     Ip4 networks/Net address
     Ip4 networks/Description
     Ip4 networks/Owner
+    Ip4 networks/Pool
+    Ip4 networks/Pool/Net address
+    Ip4 networks/Pool/Description
+    Ip4 networks/Pool/Owner
+    Ip4 networks/Pool/Pool
+    Ip4 networks/Pool/Expiration date
+    Ip4 networks/Pool/Has children
+    Ip4 networks/Pool/Is free
+    Ip4 networks/Pool/Parent
     Ip4 networks/Expiration date
     Ip4 networks/Has children
     Ip4 networks/Is free
     Ip4 networks/Parent
-    Ip4 networks/Parent/Net address
-    Ip4 networks/Parent/Description
-    Ip4 networks/Parent/Owner
-    Ip4 networks/Parent/Expiration date
-    Ip4 networks/Parent/Has children
-    Ip4 networks/Parent/Is free
-    Ip4 networks/Parent/Parent
     Ip6 networks
     Ip6 networks/Net address
     Ip6 networks/Description
     Ip6 networks/Owner
+    Ip6 networks/Pool
+    Ip6 networks/Pool/Net address
+    Ip6 networks/Pool/Description
+    Ip6 networks/Pool/Owner
+    Ip6 networks/Pool/Pool
+    Ip6 networks/Pool/Expiration date
+    Ip6 networks/Pool/Has children
+    Ip6 networks/Pool/Is free
+    Ip6 networks/Pool/Parent
     Ip6 networks/Expiration date
     Ip6 networks/Has children
     Ip6 networks/Is free
     Ip6 networks/Parent
-    Ip6 networks/Parent/Net address
-    Ip6 networks/Parent/Description
-    Ip6 networks/Parent/Owner
-    Ip6 networks/Parent/Expiration date
-    Ip6 networks/Parent/Has children
-    Ip6 networks/Parent/Is free
-    Ip6 networks/Parent/Parent
     Documents
     Documents/Url
     Documents/Type

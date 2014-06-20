@@ -57,6 +57,7 @@
 #                     Add ui_name for `desc`
 #    14-Jun-2014 (RS) Add `node`
 #    20-Jun-2014 (RS) Move `node` to `IP_Pool`
+#    20-Jun-2014 (RS) Re-add `pool`
 #    ««revision-date»»···
 #--
 
@@ -200,6 +201,21 @@ class IP_Network (_Ancestor_Essence) :
 
         # end class parent
 
+        class pool (A_Id_Entity) :
+            """Pool to which this `%(type_name)s` belongs."""
+
+            kind               = Attr.Optional
+            Kind_Mixins        = (Attr.Computed_Set_Mixin, )
+            ui_allow_new       = False
+
+            def computed (self, obj) :
+                """ Top-level IP_Networks have pool == self """
+                if obj :
+                    return obj
+            # end def computed
+
+        # end class pool
+
     # end class _Attributes
 
     class _Predicates (_Ancestor_Essence._Predicates) :
@@ -262,9 +278,12 @@ class IP_Network (_Ancestor_Essence) :
     # end def find_closest_address
 
     def find_closest_mask (self, mask_len) :
+        if self.is_free and self.net_address.mask_len < mask_len :
+            return self
         blocks = self.ETM.query \
             ( Q.is_free
             , Q.owner == self.owner
+            , Q.pool == self
             , Q.net_address.IN (self.net_address)
             , (  Q.net_address.mask_len <  mask_len)
             | ( (Q.net_address.mask_len == mask_len)
@@ -323,7 +342,8 @@ class IP_Network (_Ancestor_Essence) :
                 result, other = p1, p2
             else :
                 other, result = p1, p2
-        result.set (owner = owner, electric = False)
+            other.set  (pool = pool)
+        result.set (pool = pool, owner = owner, electric = False)
         return result
     # end def _reserve
 

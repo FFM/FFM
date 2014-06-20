@@ -34,6 +34,7 @@
 #     2-Apr-2014 (CT) Fix bases of `net_address`
 #     2-Apr-2014 (CT) Add `pool.rev_ref_attr_name`
 #     3-Apr-2014 (CT) Change `pool` to `parent`
+#    20-Jun-2014 (RS) Re-add `pool`
 #    ««revision-date»»···
 #--
 
@@ -74,6 +75,13 @@ class IP4_Network (_Ancestor_Essence) :
             rev_ref_attr_name  = "subnets"
 
         # end class parent
+
+        class pool (_Ancestor.pool) :
+            """Pool to which this `%(type_name)s` belongs."""
+
+            P_Type             = "FFM.IP4_Network"
+
+        # end class pool
 
     # end class _Attributes
 
