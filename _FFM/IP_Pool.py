@@ -27,14 +27,17 @@
 #
 # Revision Dates
 #    20-Jun-2014 (RS) Creation
+#    23-Jun-2014 (RS) Add `cool_down_period`, rename `left.link_ref_attr_name`
 #    ««revision-date»»···
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
 
-from   _MOM.import_MOM        import *
-from   _FFM                   import FFM
-from   _FFM.Attr_Type         import A_Netmask_Interval
+from   _MOM.import_MOM            import *
+from   _FFM                       import FFM
+from   _FFM.Attr_Type             import A_Netmask_Interval
+
+from   _MOM._Attr.Date_Time_Delta import A_Date_Time_Delta
 
 import _FFM.IP_Network
 
@@ -56,11 +59,18 @@ class IP_Pool (_Ancestor_Essence) :
 
             role_type          = FFM.IP_Network
             max_links          = 1
-            link_ref_attr_name = 'ip_pool'
+            link_ref_attr_name = '_ip_pool'
 
         # end class left
 
         ### Non-primary attributes
+
+        class cool_down_period (A_Date_Time_Delta) :
+            """Cool down period for this %(type_name)s."""
+
+            kind               = Attr.Optional
+
+        # end class cool_down_period
 
         class netmask_interval (A_Netmask_Interval) :
             """Limit netmasks to allocate from this %(type_name)s."""

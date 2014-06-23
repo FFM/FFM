@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #     1-Mar-2013 (CT) Creation
+#    20-Jun-2014 (RS) Add `Cannot_Expire_Network`
 #    ««revision-date»»···
 #--
 
@@ -78,6 +79,16 @@ class No_Free_Address_Range (Error, ValueError) :
     # end def __init__
 
 # end class No_Free_Address_Range
+
+class Cannot_Free_Network (Error, ValueError) :
+    """Can't free IP_Network object"""
+
+    def __init__ (self, net_address, message) :
+        self.__super.__init__ (message)
+        self.net_address = net_address
+    # end def __init__
+
+# end class Cannot_Free_Network
 
 if __name__ != "__main__" :
     FFM._Export_Module ()

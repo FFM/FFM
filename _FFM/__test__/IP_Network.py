@@ -52,6 +52,8 @@
 #    20-Jun-2014 (RS) Add failing allocation test: Don't allocate from a
 #                     sub-pool
 #    20-Jun-2014 (RS) Re-add `IP_Network.pool`, make failing test pass
+#    23-Jun-2014 (RS) Add tests for `free` and `collect_garbage`, make
+#                     tests run again
 #    ««revision-date»»···
 #--
 
@@ -61,6 +63,8 @@ from   _FFM.__test__.model      import *
 from   datetime                 import datetime
 
 import _GTW._RST._TOP._MOM.Query_Restriction
+
+from _MOM._Attr.Date_Time_Delta import A_Date_Time_Delta
 
 from _FFM.__test__.fixtures import net_fixtures, create as std_fixtures
 
@@ -239,6 +243,8 @@ _test_alloc = """
     10.0.0.3           Tanzer Christian         : electric = T, children = F
 
     >>> rs_addr = ct_pool.reserve ('10.0.0.0/32', owner = rs)
+    >>> rs_addr.pool
+    FFM.IP4_Network ("10.0.0.0/30")
     >>> ct_addr = ct_pool.reserve (Adr ('10.0.0.3/32'), owner = ct)
     >>> show_networks (scope, ETM, pool = rs_pool) ### 10.0.0.3/32
     10.0.0.0/28        Schlatterbeck Ralf       : electric = F, children = T
@@ -269,7 +275,7 @@ _test_alloc = """
     10.0.0.2/31        Tanzer Christian         : electric = T, children = T
     10.0.0.12/30       Glueck Martin            : electric = T, children = F
 
-    >>> ct_addr = ff_pool.reserve (Adr ('10.42.137.1/32'), owner = ct)
+    >>> ct_addr2 = ff_pool.reserve (Adr ('10.42.137.1/32'), owner = ct)
     >>> show_networks (scope, ETM) ### 10.42.137.1/32
     10.0.0.0/8         Funkfeuer                : electric = F, children = T
     10.0.0.0/16        Open Source Consulting   : electric = F, children = T
@@ -380,6 +386,396 @@ _test_alloc = """
     >>> q (Q.net_address.CONTAINS (n), sort_key = s).first ()
     FFM.IP4_Network ("10.42.137.0/28")
 
+    >>> ff_pool.free ()
+    Traceback (most recent call last):
+      ...
+    Cannot_Free_Network: Cannot free toplevel network 10.0.0.0/8
+    >>> rs_pool.free ()
+    Traceback (most recent call last):
+      ...
+    Cannot_Free_Network: Cannot free network with allocations: 10.0.0.0/28
+
+    >>> FFM.IP4_Network.query \\
+    ...   ( Q.net_address.CONTAINS (rs_pool.net_address)
+    ...   , Q.ip_pool != None
+    ...   )
+    SQL: SELECT
+           ffm_ip4_network."desc" AS ffm_ip4_network_desc,
+           ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
+           ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+           ffm_ip4_network.net_address__mask_len AS ffm_ip4_network_net_address__mask_len,
+           ffm_ip4_network.net_address__numeric AS ffm_ip4_network_net_address__numeric,
+           ffm_ip4_network.net_address__upper_bound AS ffm_ip4_network_net_address__upper_bound,
+           ffm_ip4_network.owner AS ffm_ip4_network_owner,
+           ffm_ip4_network.parent AS ffm_ip4_network_parent,
+           ffm_ip4_network.pid AS ffm_ip4_network_pid,
+           ffm_ip4_network.pool AS ffm_ip4_network_pool,
+           mom_id_entity.electric AS mom_id_entity_electric,
+           mom_id_entity.last_cid AS mom_id_entity_last_cid,
+           mom_id_entity.pid AS mom_id_entity_pid,
+           mom_id_entity.type_name AS mom_id_entity_type_name,
+           mom_id_entity.x_locked AS mom_id_entity_x_locked
+         FROM mom_id_entity
+           JOIN ffm_ip4_network ON mom_id_entity.pid = ffm_ip4_network.pid
+           LEFT OUTER JOIN ffm_ip4_pool AS ffm_ip4_pool__1 ON ffm_ip4_pool__1."left" = ffm_ip4_network.pid
+         WHERE ffm_ip4_network.net_address__numeric <= :net_address__numeric_1
+            AND ffm_ip4_network.net_address__upper_bound >= :net_address__upper_bound_1
+            AND ffm_ip4_network.net_address__mask_len <= :net_address__mask_len_1
+            AND ffm_ip4_pool__1."left" IS NOT NULL
+
+    >>> p1 = FFM.IP4_Pool \\
+    ...     ( left             = ff_pool
+    ...     , cool_down_period = '1w'
+    ...     , netmask_interval = '0-32'
+    ...     , raw              = True
+    ...     )
+    >>> p2 = FFM.IP4_Pool \\
+    ...     ( left             = osc_pool
+    ...     , netmask_interval = '0-32'
+    ...     , raw              = True
+    ...     )
+    >>> p3 = FFM.IP4_Pool \\
+    ...     ( left             = rs_pool
+    ...     , cool_down_period = '1d'
+    ...     , netmask_interval = '32-32'
+    ...     , raw              = True
+    ...     )
+
+    FIXME: Failing Test: Seems some 'unique' keyword is missing
+    #>>> FFM.IP4_Pool.query \\
+    #...     ( Q.ip_network.net_address.CONTAINS (rs_pool.net_address)
+    #...     , Q.cool_down_period != None
+    #...     , sort_key = TFL.Sorted_By ("cool_down_period")
+    #...     ).all ()
+    #[FFM.IP4_Pool (("10.0.0.0/28", )), FFM.IP4_Pool (("10.0.0.0/8", ))]
+
+    FIXME: Failing Test: Seems some 'unique' keyword is missing
+    #>>> FFM.IP4_Pool.query \\
+    #...     ( Q.ip_network.net_address.CONTAINS (rs_pool.net_address)
+    #...     , sort_key = TFL.Sorted_By ("cool_down_period")
+    #...     ).count ()
+    #3
+
+    >>> print ("mg_addr", mg_addr)
+    mg_addr ("10.0.0.1")
+    >>> mg_addr.free ()
+    >>> print ("lt_addr", lt_addr)
+    lt_addr ("10.0.0.2")
+    >>> lt_addr.free ()
+    >>> print ("rs_addr", rs_addr, rs_addr.pool)
+    rs_addr ("10.0.0.0") ("10.0.0.0/30")
+    >>> rs_addr.free ()
+    >>> print ("mg_pool_2", mg_pool_2)
+    mg_pool_2 ("10.0.0.8/30")
+    >>> mg_pool_2.free ()
+    >>> print ("ct_addr", ct_addr)
+    ct_addr ("10.0.0.3")
+    >>> ct_addr.free ()
+    >>> print ("lt_addr", lt_addr)
+    lt_addr ("10.0.0.2")
+    >>> lt_addr.free ()
+    >>> print ("mg_addr", mg_addr)
+    mg_addr ("10.0.0.1")
+    >>> mg_addr.free ()
+    >>> print ("ct_pool", ct_pool)
+    ct_pool ("10.0.0.0/30")
+    >>> ct_pool.free ()
+    >>> print ("ak_pool", ak_pool)
+    ak_pool ("10.0.0.4/30")
+    >>> ak_pool.free ()
+    >>> print ("mg_pool", mg_pool)
+    mg_pool ("10.0.0.8/29")
+    >>> mg_pool.free ()
+    >>> print ("rs_pool", rs_pool)
+    rs_pool ("10.0.0.0/28")
+    >>> rs_pool.free ()
+    >>> print ("ct_addr2", ct_addr2)
+    ct_addr2 ("10.42.137.1")
+    >>> ct_addr2.free ()
+
+    >>> show_networks (scope, ETM) # After free
+    10.0.0.0/8         Funkfeuer                : electric = F, children = T
+    10.0.0.0/16        Open Source Consulting   : electric = F, children = T
+    10.0.0.0/28        expiring                 : electric = F, children = T
+    10.0.0.0/30        expiring                 : electric = F, children = T
+    10.0.0.8/29        expiring                 : electric = F, children = T
+    10.0.0.0           expiring                 : electric = F, children = F
+    10.0.0.1           expiring                 : electric = F, children = F
+    10.0.0.2           expiring                 : electric = F, children = F
+    10.0.0.3           expiring                 : electric = F, children = F
+    10.0.0.4/30        expiring                 : electric = F, children = F
+    10.0.0.8/30        expiring                 : electric = F, children = F
+    10.42.137.1        expiring                 : electric = F, children = F
+    10.0.0.0/9         Funkfeuer                : electric = T, children = T
+    10.0.0.0/10        Funkfeuer                : electric = T, children = T
+    10.0.0.0/11        Funkfeuer                : electric = T, children = T
+    10.0.0.0/12        Funkfeuer                : electric = T, children = T
+    10.0.0.0/13        Funkfeuer                : electric = T, children = T
+    10.0.0.0/14        Funkfeuer                : electric = T, children = T
+    10.0.0.0/15        Funkfeuer                : electric = T, children = T
+    10.0.0.0/17        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/18        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/19        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/20        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/21        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/22        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/23        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/24        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/25        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/26        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/27        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/29        Schlatterbeck Ralf       : electric = T, children = T
+    10.0.0.0/31        Tanzer Christian         : electric = T, children = T
+    10.0.0.2/31        Tanzer Christian         : electric = T, children = T
+    10.32.0.0/11       Funkfeuer                : electric = T, children = T
+    10.32.0.0/12       Funkfeuer                : electric = T, children = T
+    10.40.0.0/13       Funkfeuer                : electric = T, children = T
+    10.40.0.0/14       Funkfeuer                : electric = T, children = T
+    10.42.0.0/15       Funkfeuer                : electric = T, children = T
+    10.42.0.0/16       Funkfeuer                : electric = T, children = T
+    10.42.128.0/17     Funkfeuer                : electric = T, children = T
+    10.42.128.0/18     Funkfeuer                : electric = T, children = T
+    10.42.128.0/19     Funkfeuer                : electric = T, children = T
+    10.42.128.0/20     Funkfeuer                : electric = T, children = T
+    10.42.136.0/21     Funkfeuer                : electric = T, children = T
+    10.42.136.0/22     Funkfeuer                : electric = T, children = T
+    10.42.136.0/23     Funkfeuer                : electric = T, children = T
+    10.42.137.0/24     Funkfeuer                : electric = T, children = T
+    10.42.137.0/25     Funkfeuer                : electric = T, children = T
+    10.42.137.0/26     Funkfeuer                : electric = T, children = T
+    10.42.137.0/27     Funkfeuer                : electric = T, children = T
+    10.42.137.0/28     Funkfeuer                : electric = T, children = T
+    10.42.137.0/29     Funkfeuer                : electric = T, children = T
+    10.42.137.0/30     Funkfeuer                : electric = T, children = T
+    10.42.137.0/31     Funkfeuer                : electric = T, children = T
+    10.0.0.12/30       Glueck Martin            : electric = T, children = F
+    10.0.0.16/28       Open Source Consulting   : electric = T, children = F
+    10.0.0.32/27       Open Source Consulting   : electric = T, children = F
+    10.0.0.64/26       Open Source Consulting   : electric = T, children = F
+    10.0.0.128/25      Open Source Consulting   : electric = T, children = F
+    10.0.1.0/24        Open Source Consulting   : electric = T, children = F
+    10.0.2.0/23        Open Source Consulting   : electric = T, children = F
+    10.0.4.0/22        Open Source Consulting   : electric = T, children = F
+    10.0.8.0/21        Open Source Consulting   : electric = T, children = F
+    10.0.16.0/20       Open Source Consulting   : electric = T, children = F
+    10.0.32.0/19       Open Source Consulting   : electric = T, children = F
+    10.0.64.0/18       Open Source Consulting   : electric = T, children = F
+    10.0.128.0/17      Open Source Consulting   : electric = T, children = F
+    10.1.0.0/16        Funkfeuer                : electric = T, children = F
+    10.2.0.0/15        Funkfeuer                : electric = T, children = F
+    10.4.0.0/14        Funkfeuer                : electric = T, children = F
+    10.8.0.0/13        Funkfeuer                : electric = T, children = F
+    10.16.0.0/12       Funkfeuer                : electric = T, children = F
+    10.32.0.0/13       Funkfeuer                : electric = T, children = F
+    10.40.0.0/15       Funkfeuer                : electric = T, children = F
+    10.42.0.0/17       Funkfeuer                : electric = T, children = F
+    10.42.128.0/21     Funkfeuer                : electric = T, children = F
+    10.42.136.0/24     Funkfeuer                : electric = T, children = F
+    10.42.137.0        Funkfeuer                : electric = T, children = F
+    10.42.137.2/31     Funkfeuer                : electric = T, children = F
+    10.42.137.4/30     Funkfeuer                : electric = T, children = F
+    10.42.137.8/29     Funkfeuer                : electric = T, children = F
+    10.42.137.16/28    Funkfeuer                : electric = T, children = F
+    10.42.137.32/27    Funkfeuer                : electric = T, children = F
+    10.42.137.64/26    Funkfeuer                : electric = T, children = F
+    10.42.137.128/25   Funkfeuer                : electric = T, children = F
+    10.42.138.0/23     Funkfeuer                : electric = T, children = F
+    10.42.140.0/22     Funkfeuer                : electric = T, children = F
+    10.42.144.0/20     Funkfeuer                : electric = T, children = F
+    10.42.160.0/19     Funkfeuer                : electric = T, children = F
+    10.42.192.0/18     Funkfeuer                : electric = T, children = F
+    10.43.0.0/16       Funkfeuer                : electric = T, children = F
+    10.44.0.0/14       Funkfeuer                : electric = T, children = F
+    10.48.0.0/12       Funkfeuer                : electric = T, children = F
+    10.64.0.0/10       Funkfeuer                : electric = T, children = F
+    10.128.0.0/9       Funkfeuer                : electric = T, children = F
+
+    >>> now = datetime.now ()
+    >>> ct_addr2.set (expiration_date = now)
+    1
+    >>> show_networks (scope, ETM, pool = ct_addr2) ### 10.42.137.1
+    10.42.137.1        free                     : electric = F, children = F
+    >>> mg_pool.collect_garbage ()
+    >>> show_networks (scope, ETM, pool = ct_addr2) ### 10.42.137.1
+    10.42.137.1        free                     : electric = F, children = F
+    >>> ff_pool.collect_garbage ()
+    >>> show_networks (scope, ETM) # After collect_garbage
+    10.0.0.0/8         Funkfeuer                : electric = F, children = T
+    10.0.0.0/16        Open Source Consulting   : electric = F, children = T
+    10.0.0.0/28        expiring                 : electric = F, children = T
+    10.0.0.0/30        expiring                 : electric = F, children = T
+    10.0.0.8/29        expiring                 : electric = F, children = T
+    10.0.0.0           expiring                 : electric = F, children = F
+    10.0.0.1           expiring                 : electric = F, children = F
+    10.0.0.2           expiring                 : electric = F, children = F
+    10.0.0.3           expiring                 : electric = F, children = F
+    10.0.0.4/30        expiring                 : electric = F, children = F
+    10.0.0.8/30        expiring                 : electric = F, children = F
+    10.0.0.0/9         Funkfeuer                : electric = T, children = T
+    10.0.0.0/10        Funkfeuer                : electric = T, children = T
+    10.0.0.0/11        Funkfeuer                : electric = T, children = T
+    10.0.0.0/12        Funkfeuer                : electric = T, children = T
+    10.0.0.0/13        Funkfeuer                : electric = T, children = T
+    10.0.0.0/14        Funkfeuer                : electric = T, children = T
+    10.0.0.0/15        Funkfeuer                : electric = T, children = T
+    10.0.0.0/17        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/18        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/19        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/20        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/21        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/22        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/23        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/24        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/25        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/26        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/27        Open Source Consulting   : electric = T, children = T
+    10.0.0.0/29        Schlatterbeck Ralf       : electric = T, children = T
+    10.0.0.0/31        Tanzer Christian         : electric = T, children = T
+    10.0.0.2/31        Tanzer Christian         : electric = T, children = T
+    10.0.0.12/30       Glueck Martin            : electric = T, children = F
+    10.0.0.16/28       Open Source Consulting   : electric = T, children = F
+    10.0.0.32/27       Open Source Consulting   : electric = T, children = F
+    10.0.0.64/26       Open Source Consulting   : electric = T, children = F
+    10.0.0.128/25      Open Source Consulting   : electric = T, children = F
+    10.0.1.0/24        Open Source Consulting   : electric = T, children = F
+    10.0.2.0/23        Open Source Consulting   : electric = T, children = F
+    10.0.4.0/22        Open Source Consulting   : electric = T, children = F
+    10.0.8.0/21        Open Source Consulting   : electric = T, children = F
+    10.0.16.0/20       Open Source Consulting   : electric = T, children = F
+    10.0.32.0/19       Open Source Consulting   : electric = T, children = F
+    10.0.64.0/18       Open Source Consulting   : electric = T, children = F
+    10.0.128.0/17      Open Source Consulting   : electric = T, children = F
+    10.1.0.0/16        Funkfeuer                : electric = T, children = F
+    10.2.0.0/15        Funkfeuer                : electric = T, children = F
+    10.4.0.0/14        Funkfeuer                : electric = T, children = F
+    10.8.0.0/13        Funkfeuer                : electric = T, children = F
+    10.16.0.0/12       Funkfeuer                : electric = T, children = F
+    10.32.0.0/11       Funkfeuer                : electric = T, children = F
+    10.64.0.0/10       Funkfeuer                : electric = T, children = F
+    10.128.0.0/9       Funkfeuer                : electric = T, children = F
+
+    >>> tree_view (ff_pool) ### After collect_garbage
+    10.0.0.0/8
+     10.0.0.0/9 E
+      10.0.0.0/10 E
+       10.0.0.0/11 E
+        10.0.0.0/12 E
+         10.0.0.0/13 E
+          10.0.0.0/14 E
+           10.0.0.0/15 E
+            10.0.0.0/16
+             10.0.0.0/17 E
+              10.0.0.0/18 E
+               10.0.0.0/19 E
+                10.0.0.0/20 E
+                 10.0.0.0/21 E
+                  10.0.0.0/22 E
+                   10.0.0.0/23 E
+                    10.0.0.0/24 E
+                     10.0.0.0/25 E
+                      10.0.0.0/26 E
+                       10.0.0.0/27 E
+                        10.0.0.0/28
+                         10.0.0.0/29 E
+                          10.0.0.0/30
+                           10.0.0.0/31 E
+                            10.0.0.0
+                            10.0.0.1
+                           10.0.0.2/31 E
+                            10.0.0.2
+                            10.0.0.3
+                          10.0.0.4/30
+                         10.0.0.8/29
+                          10.0.0.8/30
+                          10.0.0.12/30 E
+                        10.0.0.16/28 E
+                       10.0.0.32/27 E
+                      10.0.0.64/26 E
+                     10.0.0.128/25 E
+                    10.0.1.0/24 E
+                   10.0.2.0/23 E
+                  10.0.4.0/22 E
+                 10.0.8.0/21 E
+                10.0.16.0/20 E
+               10.0.32.0/19 E
+              10.0.64.0/18 E
+             10.0.128.0/17 E
+            10.1.0.0/16 E
+           10.2.0.0/15 E
+          10.4.0.0/14 E
+         10.8.0.0/13 E
+        10.16.0.0/12 E
+       10.32.0.0/11 E
+      10.64.0.0/10 E
+     10.128.0.0/9 E
+
+    >>> mg_pool.set (expiration_date = now)
+    1
+    >>> show_networks (scope, ETM, pool = mg_pool) ### 10.0.0.8/29
+    10.0.0.8/29        free                     : electric = F, children = T
+    10.0.0.8/30        expiring                 : electric = F, children = F
+    10.0.0.12/30       Glueck Martin            : electric = T, children = F
+
+    >>> ff_pool.collect_garbage ()
+    >>> tree_view (ff_pool) ### After collect_garbage 2
+    10.0.0.0/8
+     10.0.0.0/9 E
+      10.0.0.0/10 E
+       10.0.0.0/11 E
+        10.0.0.0/12 E
+         10.0.0.0/13 E
+          10.0.0.0/14 E
+           10.0.0.0/15 E
+            10.0.0.0/16
+             10.0.0.0/17 E
+              10.0.0.0/18 E
+               10.0.0.0/19 E
+                10.0.0.0/20 E
+                 10.0.0.0/21 E
+                  10.0.0.0/22 E
+                   10.0.0.0/23 E
+                    10.0.0.0/24 E
+                     10.0.0.0/25 E
+                      10.0.0.0/26 E
+                       10.0.0.0/27 E
+                        10.0.0.0/28
+                         10.0.0.0/29 E
+                          10.0.0.0/30
+                           10.0.0.0/31 E
+                            10.0.0.0
+                            10.0.0.1
+                           10.0.0.2/31 E
+                            10.0.0.2
+                            10.0.0.3
+                          10.0.0.4/30
+                         10.0.0.8/29 E
+                        10.0.0.16/28 E
+                       10.0.0.32/27 E
+                      10.0.0.64/26 E
+                     10.0.0.128/25 E
+                    10.0.1.0/24 E
+                   10.0.2.0/23 E
+                  10.0.4.0/22 E
+                 10.0.8.0/21 E
+                10.0.16.0/20 E
+               10.0.32.0/19 E
+              10.0.64.0/18 E
+             10.0.128.0/17 E
+            10.1.0.0/16 E
+           10.2.0.0/15 E
+          10.4.0.0/14 E
+         10.8.0.0/13 E
+        10.16.0.0/12 E
+       10.32.0.0/11 E
+      10.64.0.0/10 E
+     10.128.0.0/9 E
+
+    >>> ff_pool.ip_pool.set_raw (cool_down_period = '0d')
+    1
+    >>> ff_pool.collect_garbage ()
+    >>> tree_view (ff_pool) ### After collect_garbage 2
+    10.0.0.0/8
+
     >>> ETM = FFM.IP4_Network
     >>> xpool  = FFM.IP4_Network ('192.168.0.0/16', owner = ff, raw = True)
     >>> mgpool = xpool.allocate (17, mg)
@@ -390,8 +786,6 @@ _test_alloc = """
     No_Free_Address_Range: Address range [192.168.0.0/16] of this IP4_Network doesn't contain a free subrange for mask length 32
     >>> ffpool = mgpool.allocate (22, ff)
 
-    FIXME: This currently fails, it shouldn't try to allocate from the
-           sub-pool ffpool of xpool
     >>> rspool = xpool.allocate (32, rs)
     Traceback (most recent call last):
       ...
@@ -448,6 +842,7 @@ _test_AQ = """
     <has_children.AQ [Attr.Type.Querier Boolean]>
     <is_free.AQ [Attr.Type.Querier Boolean]>
     <parent.AQ [Attr.Type.Querier Id_Entity]>
+    <_ip_pool.AQ [Attr.Type.Querier Rev_Ref]>
     <ip_pool.AQ [Attr.Type.Querier Rev_Ref]>
     <net_interface.AQ [Attr.Type.Querier Rev_Ref]>
     <documents.AQ [Attr.Type.Querier Rev_Ref]>
@@ -496,12 +891,41 @@ _test_AQ = """
     <parent.has_children.AQ [Attr.Type.Querier Boolean]> -----
     <parent.is_free.AQ [Attr.Type.Querier Boolean]> -----
     <parent.parent.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
-    <ip_pool.AQ [Attr.Type.Querier Rev_Ref]> FFM.IP_Pool
-    <ip_pool.netmask_interval.AQ [Attr.Type.Querier Composite]> MOM.Int_Interval_C
-    <ip_pool.netmask_interval.lower.AQ [Attr.Type.Querier Ckd]> -----
-    <ip_pool.netmask_interval.upper.AQ [Attr.Type.Querier Ckd]> -----
-    <ip_pool.netmask_interval.center.AQ [Attr.Type.Querier Ckd]> -----
-    <ip_pool.netmask_interval.length.AQ [Attr.Type.Querier Ckd]> -----
+    <_ip_pool.AQ [Attr.Type.Querier Rev_Ref]> FFM.IP_Pool
+    <_ip_pool.cool_down_period.AQ [Attr.Type.Querier Ckd]> -----
+    <_ip_pool.netmask_interval.AQ [Attr.Type.Querier Composite]> MOM.Int_Interval
+    <_ip_pool.netmask_interval.lower.AQ [Attr.Type.Querier Ckd]> -----
+    <_ip_pool.netmask_interval.upper.AQ [Attr.Type.Querier Ckd]> -----
+    <_ip_pool.netmask_interval.center.AQ [Attr.Type.Querier Ckd]> -----
+    <_ip_pool.netmask_interval.length.AQ [Attr.Type.Querier Ckd]> -----
+    <_ip_pool.node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
+    <_ip_pool.node.name.AQ [Attr.Type.Querier String]> -----
+    <_ip_pool.node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
+    <_ip_pool.node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
+    <_ip_pool.node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
+    <_ip_pool.node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
+    <_ip_pool.node.manager.title.AQ [Attr.Type.Querier String]> -----
+    <_ip_pool.node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
+    <_ip_pool.node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
+    <_ip_pool.node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
+    <_ip_pool.node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
+    <_ip_pool.node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
+    <_ip_pool.node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
+    <_ip_pool.node.address.street.AQ [Attr.Type.Querier String]> -----
+    <_ip_pool.node.address.zip.AQ [Attr.Type.Querier String]> -----
+    <_ip_pool.node.address.city.AQ [Attr.Type.Querier String]> -----
+    <_ip_pool.node.address.country.AQ [Attr.Type.Querier String]> -----
+    <_ip_pool.node.address.desc.AQ [Attr.Type.Querier String]> -----
+    <_ip_pool.node.address.region.AQ [Attr.Type.Querier String]> -----
+    <_ip_pool.node.desc.AQ [Attr.Type.Querier String]> -----
+    <_ip_pool.node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
+    <_ip_pool.node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
+    <_ip_pool.node.position.lat.AQ [Attr.Type.Querier Raw]> -----
+    <_ip_pool.node.position.lon.AQ [Attr.Type.Querier Raw]> -----
+    <_ip_pool.node.position.height.AQ [Attr.Type.Querier Ckd]> -----
+    <_ip_pool.node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
+    <ip_pool.AQ [Attr.Type.Querier Rev_Ref]> FFM.IP4_Pool
+    <ip_pool.cool_down_period.AQ [Attr.Type.Querier Ckd]> -----
     <ip_pool.node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
     <ip_pool.node.name.AQ [Attr.Type.Querier String]> -----
     <ip_pool.node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
@@ -528,6 +952,11 @@ _test_AQ = """
     <ip_pool.node.position.lon.AQ [Attr.Type.Querier Raw]> -----
     <ip_pool.node.position.height.AQ [Attr.Type.Querier Ckd]> -----
     <ip_pool.node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
+    <ip_pool.netmask_interval.AQ [Attr.Type.Querier Composite]> MOM.Int_Interval
+    <ip_pool.netmask_interval.lower.AQ [Attr.Type.Querier Ckd]> -----
+    <ip_pool.netmask_interval.upper.AQ [Attr.Type.Querier Ckd]> -----
+    <ip_pool.netmask_interval.center.AQ [Attr.Type.Querier Ckd]> -----
+    <ip_pool.netmask_interval.length.AQ [Attr.Type.Querier Ckd]> -----
     <net_interface.AQ [Attr.Type.Querier Rev_Ref]> FFM.Net_Interface
     <documents.AQ [Attr.Type.Querier Rev_Ref]> MOM.Document
     <documents.url.AQ [Attr.Type.Querier String]> -----
@@ -1200,12 +1629,41 @@ _test_AQ = """
     'Parent/Has children'
     'Parent/Is free'
     'Parent/Parent'
+    ' ip pool'
+    ' ip pool/Cool down period'
+    ' ip pool/Netmask interval'
+    ' ip pool/Netmask interval/Lower'
+    ' ip pool/Netmask interval/Upper'
+    ' ip pool/Netmask interval/Center'
+    ' ip pool/Netmask interval/Length'
+    ' ip pool/Node'
+    ' ip pool/Node/Name'
+    ' ip pool/Node/Manager'
+    ' ip pool/Node/Manager/Last name'
+    ' ip pool/Node/Manager/First name'
+    ' ip pool/Node/Manager/Middle name'
+    ' ip pool/Node/Manager/Academic title'
+    ' ip pool/Node/Manager/Lifetime'
+    ' ip pool/Node/Manager/Lifetime/Start'
+    ' ip pool/Node/Manager/Lifetime/Finish'
+    ' ip pool/Node/Manager/Lifetime/Alive'
+    ' ip pool/Node/Manager/Sex'
+    ' ip pool/Node/Address'
+    ' ip pool/Node/Address/Street'
+    ' ip pool/Node/Address/Zip code'
+    ' ip pool/Node/Address/City'
+    ' ip pool/Node/Address/Country'
+    ' ip pool/Node/Address/Description'
+    ' ip pool/Node/Address/Region'
+    ' ip pool/Node/Description'
+    ' ip pool/Node/Owner'
+    ' ip pool/Node/Position'
+    ' ip pool/Node/Position/Latitude'
+    ' ip pool/Node/Position/Longitude'
+    ' ip pool/Node/Position/Height'
+    ' ip pool/Node/Show in map'
     'Ip pool'
-    'Ip pool/Netmask interval'
-    'Ip pool/Netmask interval/Lower'
-    'Ip pool/Netmask interval/Upper'
-    'Ip pool/Netmask interval/Center'
-    'Ip pool/Netmask interval/Length'
+    'Ip pool/Cool down period'
     'Ip pool/Node'
     'Ip pool/Node/Name'
     'Ip pool/Node/Manager'
@@ -1232,6 +1690,11 @@ _test_AQ = """
     'Ip pool/Node/Position/Longitude'
     'Ip pool/Node/Position/Height'
     'Ip pool/Node/Show in map'
+    'Ip pool/Netmask interval'
+    'Ip pool/Netmask interval/Lower'
+    'Ip pool/Netmask interval/Upper'
+    'Ip pool/Netmask interval/Center'
+    'Ip pool/Netmask interval/Length'
     'Net interface'
     'Documents'
     'Documents/Url'
@@ -1892,10 +2355,32 @@ _test_AQ = """
     <parent.expiration_date.AQ [Attr.Type.Querier Ckd]>
     <parent.has_children.AQ [Attr.Type.Querier Boolean]>
     <parent.is_free.AQ [Attr.Type.Querier Boolean]>
-    <ip_pool.netmask_interval.lower.AQ [Attr.Type.Querier Ckd]>
-    <ip_pool.netmask_interval.upper.AQ [Attr.Type.Querier Ckd]>
-    <ip_pool.netmask_interval.center.AQ [Attr.Type.Querier Ckd]>
-    <ip_pool.netmask_interval.length.AQ [Attr.Type.Querier Ckd]>
+    <_ip_pool.cool_down_period.AQ [Attr.Type.Querier Ckd]>
+    <_ip_pool.netmask_interval.lower.AQ [Attr.Type.Querier Ckd]>
+    <_ip_pool.netmask_interval.upper.AQ [Attr.Type.Querier Ckd]>
+    <_ip_pool.netmask_interval.center.AQ [Attr.Type.Querier Ckd]>
+    <_ip_pool.netmask_interval.length.AQ [Attr.Type.Querier Ckd]>
+    <_ip_pool.node.name.AQ [Attr.Type.Querier String]>
+    <_ip_pool.node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
+    <_ip_pool.node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
+    <_ip_pool.node.manager.middle_name.AQ [Attr.Type.Querier String]>
+    <_ip_pool.node.manager.title.AQ [Attr.Type.Querier String]>
+    <_ip_pool.node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
+    <_ip_pool.node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
+    <_ip_pool.node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
+    <_ip_pool.node.manager.sex.AQ [Attr.Type.Querier Ckd]>
+    <_ip_pool.node.address.street.AQ [Attr.Type.Querier String]>
+    <_ip_pool.node.address.zip.AQ [Attr.Type.Querier String]>
+    <_ip_pool.node.address.city.AQ [Attr.Type.Querier String]>
+    <_ip_pool.node.address.country.AQ [Attr.Type.Querier String]>
+    <_ip_pool.node.address.desc.AQ [Attr.Type.Querier String]>
+    <_ip_pool.node.address.region.AQ [Attr.Type.Querier String]>
+    <_ip_pool.node.desc.AQ [Attr.Type.Querier String]>
+    <_ip_pool.node.position.lat.AQ [Attr.Type.Querier Raw]>
+    <_ip_pool.node.position.lon.AQ [Attr.Type.Querier Raw]>
+    <_ip_pool.node.position.height.AQ [Attr.Type.Querier Ckd]>
+    <_ip_pool.node.show_in_map.AQ [Attr.Type.Querier Boolean]>
+    <ip_pool.cool_down_period.AQ [Attr.Type.Querier Ckd]>
     <ip_pool.node.name.AQ [Attr.Type.Querier String]>
     <ip_pool.node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
     <ip_pool.node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
@@ -1916,6 +2401,10 @@ _test_AQ = """
     <ip_pool.node.position.lon.AQ [Attr.Type.Querier Raw]>
     <ip_pool.node.position.height.AQ [Attr.Type.Querier Ckd]>
     <ip_pool.node.show_in_map.AQ [Attr.Type.Querier Boolean]>
+    <ip_pool.netmask_interval.lower.AQ [Attr.Type.Querier Ckd]>
+    <ip_pool.netmask_interval.upper.AQ [Attr.Type.Querier Ckd]>
+    <ip_pool.netmask_interval.center.AQ [Attr.Type.Querier Ckd]>
+    <ip_pool.netmask_interval.length.AQ [Attr.Type.Querier Ckd]>
     <documents.url.AQ [Attr.Type.Querier String]>
     <documents.type.AQ [Attr.Type.Querier String]>
     <documents.desc.AQ [Attr.Type.Querier String]>
@@ -2958,7 +3447,11 @@ _test_AQ = """
           }
         , { 'Class' : 'Entity'
           , 'attrs' :
-              [ { 'attrs' :
+              [ { 'name' : 'cool_down_period'
+                , 'sig_key' : 0
+                , 'ui_name' : 'Cool down period'
+                }
+              , { 'attrs' :
                     [ { 'name' : 'lower'
                       , 'sig_key' : 0
                       , 'ui_name' : 'Lower'
@@ -3165,6 +3658,225 @@ _test_AQ = """
                 , 'name' : 'node'
                 , 'sig_key' : 2
                 , 'ui_name' : 'Node'
+                }
+              ]
+          , 'name' : '_ip_pool'
+          , 'sig_key' : 2
+          , 'ui_name' : ' ip pool'
+          }
+        , { 'Class' : 'Entity'
+          , 'attrs' :
+              [ { 'name' : 'cool_down_period'
+                , 'sig_key' : 0
+                , 'ui_name' : 'Cool down period'
+                }
+              , { 'Class' : 'Entity'
+                , 'attrs' :
+                    [ { 'name' : 'name'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Name'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'last_name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Last name'
+                            }
+                          , { 'name' : 'first_name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'First name'
+                            }
+                          , { 'name' : 'middle_name'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Middle name'
+                            }
+                          , { 'name' : 'title'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Academic title'
+                            }
+                          , { 'attrs' :
+                                [ { 'name' : 'start'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Start'
+                                  }
+                                , { 'name' : 'finish'
+                                  , 'sig_key' : 0
+                                  , 'ui_name' : 'Finish'
+                                  }
+                                , { 'name' : 'alive'
+                                  , 'sig_key' : 1
+                                  , 'ui_name' : 'Alive'
+                                  }
+                                ]
+                            , 'name' : 'lifetime'
+                            , 'ui_name' : 'Lifetime'
+                            }
+                          , { 'name' : 'sex'
+                            , 'sig_key' : 0
+                            , 'ui_name' : 'Sex'
+                            }
+                          ]
+                      , 'name' : 'manager'
+                      , 'sig_key' : 2
+                      , 'ui_name' : 'Manager'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'attrs' :
+                          [ { 'name' : 'street'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Street'
+                            }
+                          , { 'name' : 'zip'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Zip code'
+                            }
+                          , { 'name' : 'city'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'City'
+                            }
+                          , { 'name' : 'country'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Country'
+                            }
+                          , { 'name' : 'desc'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Description'
+                            }
+                          , { 'name' : 'region'
+                            , 'sig_key' : 3
+                            , 'ui_name' : 'Region'
+                            }
+                          ]
+                      , 'name' : 'address'
+                      , 'sig_key' : 2
+                      , 'ui_name' : 'Address'
+                      }
+                    , { 'name' : 'desc'
+                      , 'sig_key' : 3
+                      , 'ui_name' : 'Description'
+                      }
+                    , { 'Class' : 'Entity'
+                      , 'children_np' :
+                          [ { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Name'
+                                  }
+                                ]
+                            , 'name' : 'owner'
+                            , 'sig_key' : 2
+                            , 'type_name' : 'PAP.Adhoc_Group'
+                            , 'ui_name' : 'Owner'
+                            , 'ui_type_name' : 'Adhoc_Group'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Name'
+                                  }
+                                ]
+                            , 'name' : 'owner'
+                            , 'sig_key' : 2
+                            , 'type_name' : 'PAP.Association'
+                            , 'ui_name' : 'Owner'
+                            , 'ui_type_name' : 'Association'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Name'
+                                  }
+                                , { 'name' : 'registered_in'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Registered in'
+                                  }
+                                ]
+                            , 'name' : 'owner'
+                            , 'sig_key' : 2
+                            , 'type_name' : 'PAP.Company'
+                            , 'ui_name' : 'Owner'
+                            , 'ui_type_name' : 'Company'
+                            }
+                          , { 'Class' : 'Entity'
+                            , 'attrs' :
+                                [ { 'name' : 'last_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Last name'
+                                  }
+                                , { 'name' : 'first_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'First name'
+                                  }
+                                , { 'name' : 'middle_name'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Middle name'
+                                  }
+                                , { 'name' : 'title'
+                                  , 'sig_key' : 3
+                                  , 'ui_name' : 'Academic title'
+                                  }
+                                ]
+                            , 'name' : 'owner'
+                            , 'sig_key' : 2
+                            , 'type_name' : 'PAP.Person'
+                            , 'ui_name' : 'Owner'
+                            , 'ui_type_name' : 'Person'
+                            }
+                          ]
+                      , 'default_child' : 'PAP.Person'
+                      , 'name' : 'owner'
+                      , 'sig_key' : 2
+                      , 'ui_name' : 'Owner'
+                      }
+                    , { 'attrs' :
+                          [ { 'name' : 'lat'
+                            , 'sig_key' : 4
+                            , 'ui_name' : 'Latitude'
+                            }
+                          , { 'name' : 'lon'
+                            , 'sig_key' : 4
+                            , 'ui_name' : 'Longitude'
+                            }
+                          , { 'name' : 'height'
+                            , 'sig_key' : 0
+                            , 'ui_name' : 'Height'
+                            }
+                          ]
+                      , 'name' : 'position'
+                      , 'ui_name' : 'Position'
+                      }
+                    , { 'name' : 'show_in_map'
+                      , 'sig_key' : 1
+                      , 'ui_name' : 'Show in map'
+                      }
+                    ]
+                , 'name' : 'node'
+                , 'sig_key' : 2
+                , 'ui_name' : 'Node'
+                }
+              , { 'attrs' :
+                    [ { 'name' : 'lower'
+                      , 'sig_key' : 0
+                      , 'ui_name' : 'Lower'
+                      }
+                    , { 'name' : 'upper'
+                      , 'sig_key' : 0
+                      , 'ui_name' : 'Upper'
+                      }
+                    , { 'name' : 'center'
+                      , 'sig_key' : 0
+                      , 'ui_name' : 'Center'
+                      }
+                    , { 'name' : 'length'
+                      , 'sig_key' : 0
+                      , 'ui_name' : 'Length'
+                      }
+                    ]
+                , 'name' : 'netmask_interval'
+                , 'ui_name' : 'Netmask interval'
                 }
               ]
           , 'name' : 'ip_pool'
@@ -8533,48 +9245,442 @@ _test_AQ = """
       )
     , Record
       ( Class = 'Entity'
-      , attr = Link_Ref `ip_pool`
+      , attr = Link_Ref `_ip_pool`
       , attrs =
           [ Record
+            ( attr = Time Delta `cool_down_period`
+            , full_name = '_ip_pool.cool_down_period'
+            , id = '_ip_pool__cool_down_period'
+            , name = 'cool_down_period'
+            , sig_key = 0
+            , ui_name = ' ip pool/Cool down period'
+            )
+          , Record
             ( attr = Int_Interval `netmask_interval`
             , attrs =
                 [ Record
                   ( attr = Int `lower`
-                  , full_name = 'ip_pool.netmask_interval.lower'
-                  , id = 'ip_pool__netmask_interval__lower'
+                  , full_name = '_ip_pool.netmask_interval.lower'
+                  , id = '_ip_pool__netmask_interval__lower'
                   , name = 'lower'
                   , sig_key = 0
-                  , ui_name = 'Ip pool/Netmask interval/Lower'
+                  , ui_name = ' ip pool/Netmask interval/Lower'
                   )
                 , Record
                   ( attr = Int `upper`
-                  , full_name = 'ip_pool.netmask_interval.upper'
-                  , id = 'ip_pool__netmask_interval__upper'
+                  , full_name = '_ip_pool.netmask_interval.upper'
+                  , id = '_ip_pool__netmask_interval__upper'
                   , name = 'upper'
                   , sig_key = 0
-                  , ui_name = 'Ip pool/Netmask interval/Upper'
+                  , ui_name = ' ip pool/Netmask interval/Upper'
                   )
                 , Record
                   ( attr = Int `center`
-                  , full_name = 'ip_pool.netmask_interval.center'
-                  , id = 'ip_pool__netmask_interval__center'
+                  , full_name = '_ip_pool.netmask_interval.center'
+                  , id = '_ip_pool__netmask_interval__center'
                   , name = 'center'
                   , sig_key = 0
-                  , ui_name = 'Ip pool/Netmask interval/Center'
+                  , ui_name = ' ip pool/Netmask interval/Center'
                   )
                 , Record
                   ( attr = Int `length`
-                  , full_name = 'ip_pool.netmask_interval.length'
-                  , id = 'ip_pool__netmask_interval__length'
+                  , full_name = '_ip_pool.netmask_interval.length'
+                  , id = '_ip_pool__netmask_interval__length'
                   , name = 'length'
                   , sig_key = 0
-                  , ui_name = 'Ip pool/Netmask interval/Length'
+                  , ui_name = ' ip pool/Netmask interval/Length'
                   )
                 ]
-            , full_name = 'ip_pool.netmask_interval'
-            , id = 'ip_pool__netmask_interval'
+            , full_name = '_ip_pool.netmask_interval'
+            , id = '_ip_pool__netmask_interval'
             , name = 'netmask_interval'
-            , ui_name = 'Ip pool/Netmask interval'
+            , ui_name = ' ip pool/Netmask interval'
+            )
+          , Record
+            ( Class = 'Entity'
+            , attr = Entity `node`
+            , attrs =
+                [ Record
+                  ( attr = String `name`
+                  , full_name = '_ip_pool.node.name'
+                  , id = '_ip_pool__node__name'
+                  , name = 'name'
+                  , sig_key = 3
+                  , ui_name = ' ip pool/Node/Name'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `manager`
+                  , attrs =
+                      [ Record
+                        ( attr = String `last_name`
+                        , full_name = '_ip_pool.node.manager.last_name'
+                        , id = '_ip_pool__node__manager__last_name'
+                        , name = 'last_name'
+                        , sig_key = 3
+                        , ui_name = ' ip pool/Node/Manager/Last name'
+                        )
+                      , Record
+                        ( attr = String `first_name`
+                        , full_name = '_ip_pool.node.manager.first_name'
+                        , id = '_ip_pool__node__manager__first_name'
+                        , name = 'first_name'
+                        , sig_key = 3
+                        , ui_name = ' ip pool/Node/Manager/First name'
+                        )
+                      , Record
+                        ( attr = String `middle_name`
+                        , full_name = '_ip_pool.node.manager.middle_name'
+                        , id = '_ip_pool__node__manager__middle_name'
+                        , name = 'middle_name'
+                        , sig_key = 3
+                        , ui_name = ' ip pool/Node/Manager/Middle name'
+                        )
+                      , Record
+                        ( attr = String `title`
+                        , full_name = '_ip_pool.node.manager.title'
+                        , id = '_ip_pool__node__manager__title'
+                        , name = 'title'
+                        , sig_key = 3
+                        , ui_name = ' ip pool/Node/Manager/Academic title'
+                        )
+                      , Record
+                        ( attr = Date_Interval `lifetime`
+                        , attrs =
+                            [ Record
+                              ( attr = Date `start`
+                              , full_name = '_ip_pool.node.manager.lifetime.start'
+                              , id = '_ip_pool__node__manager__lifetime__start'
+                              , name = 'start'
+                              , sig_key = 0
+                              , ui_name = ' ip pool/Node/Manager/Lifetime/Start'
+                              )
+                            , Record
+                              ( attr = Date `finish`
+                              , full_name = '_ip_pool.node.manager.lifetime.finish'
+                              , id = '_ip_pool__node__manager__lifetime__finish'
+                              , name = 'finish'
+                              , sig_key = 0
+                              , ui_name = ' ip pool/Node/Manager/Lifetime/Finish'
+                              )
+                            , Record
+                              ( attr = Boolean `alive`
+                              , choices =
+                                  [ 'no'
+                                  , 'yes'
+                                  ]
+                              , full_name = '_ip_pool.node.manager.lifetime.alive'
+                              , id = '_ip_pool__node__manager__lifetime__alive'
+                              , name = 'alive'
+                              , sig_key = 1
+                              , ui_name = ' ip pool/Node/Manager/Lifetime/Alive'
+                              )
+                            ]
+                        , full_name = '_ip_pool.node.manager.lifetime'
+                        , id = '_ip_pool__node__manager__lifetime'
+                        , name = 'lifetime'
+                        , ui_name = ' ip pool/Node/Manager/Lifetime'
+                        )
+                      , Record
+                        ( attr = Sex `sex`
+                        , choices =
+                            [
+                              ( 'F'
+                              , 'Female'
+                              )
+                            ,
+                              ( 'M'
+                              , 'Male'
+                              )
+                            ]
+                        , full_name = '_ip_pool.node.manager.sex'
+                        , id = '_ip_pool__node__manager__sex'
+                        , name = 'sex'
+                        , sig_key = 0
+                        , ui_name = ' ip pool/Node/Manager/Sex'
+                        )
+                      ]
+                  , full_name = '_ip_pool.node.manager'
+                  , id = '_ip_pool__node__manager'
+                  , name = 'manager'
+                  , sig_key = 2
+                  , type_name = 'PAP.Person'
+                  , ui_name = ' ip pool/Node/Manager'
+                  , ui_type_name = 'Person'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `address`
+                  , attrs =
+                      [ Record
+                        ( attr = String `street`
+                        , full_name = '_ip_pool.node.address.street'
+                        , id = '_ip_pool__node__address__street'
+                        , name = 'street'
+                        , sig_key = 3
+                        , ui_name = ' ip pool/Node/Address/Street'
+                        )
+                      , Record
+                        ( attr = String `zip`
+                        , full_name = '_ip_pool.node.address.zip'
+                        , id = '_ip_pool__node__address__zip'
+                        , name = 'zip'
+                        , sig_key = 3
+                        , ui_name = ' ip pool/Node/Address/Zip code'
+                        )
+                      , Record
+                        ( attr = String `city`
+                        , full_name = '_ip_pool.node.address.city'
+                        , id = '_ip_pool__node__address__city'
+                        , name = 'city'
+                        , sig_key = 3
+                        , ui_name = ' ip pool/Node/Address/City'
+                        )
+                      , Record
+                        ( attr = String `country`
+                        , full_name = '_ip_pool.node.address.country'
+                        , id = '_ip_pool__node__address__country'
+                        , name = 'country'
+                        , sig_key = 3
+                        , ui_name = ' ip pool/Node/Address/Country'
+                        )
+                      , Record
+                        ( attr = String `desc`
+                        , full_name = '_ip_pool.node.address.desc'
+                        , id = '_ip_pool__node__address__desc'
+                        , name = 'desc'
+                        , sig_key = 3
+                        , ui_name = ' ip pool/Node/Address/Description'
+                        )
+                      , Record
+                        ( attr = String `region`
+                        , full_name = '_ip_pool.node.address.region'
+                        , id = '_ip_pool__node__address__region'
+                        , name = 'region'
+                        , sig_key = 3
+                        , ui_name = ' ip pool/Node/Address/Region'
+                        )
+                      ]
+                  , full_name = '_ip_pool.node.address'
+                  , id = '_ip_pool__node__address'
+                  , name = 'address'
+                  , sig_key = 2
+                  , type_name = 'PAP.Address'
+                  , ui_name = ' ip pool/Node/Address'
+                  , ui_type_name = 'Address'
+                  )
+                , Record
+                  ( attr = Text `desc`
+                  , full_name = '_ip_pool.node.desc'
+                  , id = '_ip_pool__node__desc'
+                  , name = 'desc'
+                  , sig_key = 3
+                  , ui_name = ' ip pool/Node/Description'
+                  )
+                , Record
+                  ( Class = 'Entity'
+                  , attr = Entity `owner`
+                  , children_np =
+                      [ Record
+                        ( Class = 'Entity'
+                        , attr = Entity `owner`
+                        , attrs =
+                            [ Record
+                              ( attr = String `name`
+                              , full_name = 'owner.name'
+                              , id = 'owner__name'
+                              , name = 'name'
+                              , sig_key = 3
+                              , ui_name = 'Owner[Adhoc_Group]/Name'
+                              )
+                            ]
+                        , full_name = 'owner'
+                        , id = 'owner'
+                        , name = 'owner'
+                        , sig_key = 2
+                        , type_name = 'PAP.Adhoc_Group'
+                        , ui_name = 'Owner[Adhoc_Group]'
+                        , ui_type_name = 'Adhoc_Group'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `owner`
+                        , attrs =
+                            [ Record
+                              ( attr = String `name`
+                              , full_name = 'owner.name'
+                              , id = 'owner__name'
+                              , name = 'name'
+                              , sig_key = 3
+                              , ui_name = 'Owner[Association]/Name'
+                              )
+                            ]
+                        , full_name = 'owner'
+                        , id = 'owner'
+                        , name = 'owner'
+                        , sig_key = 2
+                        , type_name = 'PAP.Association'
+                        , ui_name = 'Owner[Association]'
+                        , ui_type_name = 'Association'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `owner`
+                        , attrs =
+                            [ Record
+                              ( attr = String `name`
+                              , full_name = 'owner.name'
+                              , id = 'owner__name'
+                              , name = 'name'
+                              , sig_key = 3
+                              , ui_name = 'Owner[Company]/Name'
+                              )
+                            , Record
+                              ( attr = String `registered_in`
+                              , full_name = 'owner.registered_in'
+                              , id = 'owner__registered_in'
+                              , name = 'registered_in'
+                              , sig_key = 3
+                              , ui_name = 'Owner[Company]/Registered in'
+                              )
+                            ]
+                        , full_name = 'owner'
+                        , id = 'owner'
+                        , name = 'owner'
+                        , sig_key = 2
+                        , type_name = 'PAP.Company'
+                        , ui_name = 'Owner[Company]'
+                        , ui_type_name = 'Company'
+                        )
+                      , Record
+                        ( Class = 'Entity'
+                        , attr = Entity `owner`
+                        , attrs =
+                            [ Record
+                              ( attr = String `last_name`
+                              , full_name = 'owner.last_name'
+                              , id = 'owner__last_name'
+                              , name = 'last_name'
+                              , sig_key = 3
+                              , ui_name = 'Owner[Person]/Last name'
+                              )
+                            , Record
+                              ( attr = String `first_name`
+                              , full_name = 'owner.first_name'
+                              , id = 'owner__first_name'
+                              , name = 'first_name'
+                              , sig_key = 3
+                              , ui_name = 'Owner[Person]/First name'
+                              )
+                            , Record
+                              ( attr = String `middle_name`
+                              , full_name = 'owner.middle_name'
+                              , id = 'owner__middle_name'
+                              , name = 'middle_name'
+                              , sig_key = 3
+                              , ui_name = 'Owner[Person]/Middle name'
+                              )
+                            , Record
+                              ( attr = String `title`
+                              , full_name = 'owner.title'
+                              , id = 'owner__title'
+                              , name = 'title'
+                              , sig_key = 3
+                              , ui_name = 'Owner[Person]/Academic title'
+                              )
+                            ]
+                        , full_name = 'owner'
+                        , id = 'owner'
+                        , name = 'owner'
+                        , sig_key = 2
+                        , type_name = 'PAP.Person'
+                        , ui_name = 'Owner[Person]'
+                        , ui_type_name = 'Person'
+                        )
+                      ]
+                  , default_child = 'PAP.Person'
+                  , full_name = '_ip_pool.node.owner'
+                  , id = '_ip_pool__node__owner'
+                  , name = 'owner'
+                  , sig_key = 2
+                  , type_name = 'PAP.Subject'
+                  , ui_name = ' ip pool/Node/Owner'
+                  , ui_type_name = 'Subject'
+                  )
+                , Record
+                  ( attr = Position `position`
+                  , attrs =
+                      [ Record
+                        ( attr = Angle `lat`
+                        , full_name = '_ip_pool.node.position.lat'
+                        , id = '_ip_pool__node__position__lat'
+                        , name = 'lat'
+                        , sig_key = 4
+                        , ui_name = ' ip pool/Node/Position/Latitude'
+                        )
+                      , Record
+                        ( attr = Angle `lon`
+                        , full_name = '_ip_pool.node.position.lon'
+                        , id = '_ip_pool__node__position__lon'
+                        , name = 'lon'
+                        , sig_key = 4
+                        , ui_name = ' ip pool/Node/Position/Longitude'
+                        )
+                      , Record
+                        ( attr = Float `height`
+                        , full_name = '_ip_pool.node.position.height'
+                        , id = '_ip_pool__node__position__height'
+                        , name = 'height'
+                        , sig_key = 0
+                        , ui_name = ' ip pool/Node/Position/Height'
+                        )
+                      ]
+                  , full_name = '_ip_pool.node.position'
+                  , id = '_ip_pool__node__position'
+                  , name = 'position'
+                  , ui_name = ' ip pool/Node/Position'
+                  )
+                , Record
+                  ( attr = Boolean `show_in_map`
+                  , choices =
+                      [ 'no'
+                      , 'yes'
+                      ]
+                  , full_name = '_ip_pool.node.show_in_map'
+                  , id = '_ip_pool__node__show_in_map'
+                  , name = 'show_in_map'
+                  , sig_key = 1
+                  , ui_name = ' ip pool/Node/Show in map'
+                  )
+                ]
+            , full_name = '_ip_pool.node'
+            , id = '_ip_pool__node'
+            , name = 'node'
+            , sig_key = 2
+            , type_name = 'FFM.Node'
+            , ui_name = ' ip pool/Node'
+            , ui_type_name = 'Node'
+            )
+          ]
+      , full_name = '_ip_pool'
+      , id = '_ip_pool'
+      , name = '_ip_pool'
+      , sig_key = 2
+      , type_name = 'FFM.IP_Pool'
+      , ui_name = ' ip pool'
+      , ui_type_name = 'IP_Pool'
+      )
+      , Record
+        ( Class = 'Entity'
+      , attr = Link_Ref `ip_pool`
+      , attrs =
+          [ Record
+            ( attr = Time Delta `cool_down_period`
+            , full_name = 'ip_pool.cool_down_period'
+            , id = 'ip_pool__cool_down_period'
+            , name = 'cool_down_period'
+            , sig_key = 0
+            , ui_name = 'Ip pool/Cool down period'
             )
           , Record
             ( Class = 'Entity'
@@ -8645,10 +9751,7 @@ _test_AQ = """
                               )
                             , Record
                               ( attr = Boolean `alive`
-                              , choices =
-                                  [ 'no'
-                                  , 'yes'
-                                  ]
+                              , choices = <Recursion on list...>
                               , full_name = 'ip_pool.node.manager.lifetime.alive'
                               , id = 'ip_pool__node__manager__lifetime__alive'
                               , name = 'alive'
@@ -8663,16 +9766,7 @@ _test_AQ = """
                         )
                       , Record
                         ( attr = Sex `sex`
-                        , choices =
-                            [
-                              ( 'F'
-                              , 'Female'
-                              )
-                            ,
-                              ( 'M'
-                              , 'Male'
-                              )
-                            ]
+                        , choices = <Recursion on list...>
                         , full_name = 'ip_pool.node.manager.sex'
                         , id = 'ip_pool__node__manager__sex'
                         , name = 'sex'
@@ -8922,10 +10016,7 @@ _test_AQ = """
                   )
                 , Record
                   ( attr = Boolean `show_in_map`
-                  , choices =
-                      [ 'no'
-                      , 'yes'
-                      ]
+                  , choices = <Recursion on list...>
                   , full_name = 'ip_pool.node.show_in_map'
                   , id = 'ip_pool__node__show_in_map'
                   , name = 'show_in_map'
@@ -8941,14 +10032,55 @@ _test_AQ = """
             , ui_name = 'Ip pool/Node'
             , ui_type_name = 'Node'
             )
+          , Record
+            ( attr = Int_Interval `netmask_interval`
+            , attrs =
+                [ Record
+                  ( attr = Int `lower`
+                  , full_name = 'ip_pool.netmask_interval.lower'
+                  , id = 'ip_pool__netmask_interval__lower'
+                  , name = 'lower'
+                  , sig_key = 0
+                  , ui_name = 'Ip pool/Netmask interval/Lower'
+                  )
+                , Record
+                  ( attr = Int `upper`
+                  , full_name = 'ip_pool.netmask_interval.upper'
+                  , id = 'ip_pool__netmask_interval__upper'
+                  , name = 'upper'
+                  , sig_key = 0
+                  , ui_name = 'Ip pool/Netmask interval/Upper'
+                  )
+                , Record
+                  ( attr = Int `center`
+                  , full_name = 'ip_pool.netmask_interval.center'
+                  , id = 'ip_pool__netmask_interval__center'
+                  , name = 'center'
+                  , sig_key = 0
+                  , ui_name = 'Ip pool/Netmask interval/Center'
+                  )
+                , Record
+                  ( attr = Int `length`
+                  , full_name = 'ip_pool.netmask_interval.length'
+                  , id = 'ip_pool__netmask_interval__length'
+                  , name = 'length'
+                  , sig_key = 0
+                  , ui_name = 'Ip pool/Netmask interval/Length'
+                  )
+                ]
+            , full_name = 'ip_pool.netmask_interval'
+            , id = 'ip_pool__netmask_interval'
+            , name = 'netmask_interval'
+            , ui_name = 'Ip pool/Netmask interval'
+            )
           ]
       , full_name = 'ip_pool'
       , id = 'ip_pool'
       , name = 'ip_pool'
       , sig_key = 2
-      , type_name = 'FFM.IP_Pool'
+      , type_name = 'FFM.IP4_Pool'
       , ui_name = 'Ip pool'
-      , ui_type_name = 'IP_Pool'
+      , ui_type_name = 'IP4_Pool'
       )
     , Record
       ( Class = 'Entity'
@@ -17691,11 +18823,23 @@ def show_networks (scope, ETM, * qargs, ** qkw) :
     if pool is not None :
         qargs += (Q.net_address.IN (pool.net_address), )
     for nw in ETM.query (* qargs, sort_key = sk, ** qkw).distinct () :
+        now = datetime.now ()
+        exp = ""
+        if nw.expiration_date is not None :
+            exp = "free" if nw.expiration_date < now else "expiring"
+        ood = nw.FO.owner or exp
         print \
             ( "%-18s %-25s: electric = %1.1s, children = %1.1s"
-            % (nw.FO.net_address, nw.FO.owner, nw.electric, nw.has_children)
+            % (nw.FO.net_address, ood, nw.electric, nw.has_children)
             )
 # end def show_networks
+
+def tree_view (net, indent = 0) :
+    el = ' E' if net.electric else ''
+    print ("%s%s%s" % (' ' * indent, net.net_address, el))
+    for n in sorted (net.subnets, key = lambda x : x.net_address) :
+        tree_view (n, indent + 1)
+# end def tree_view
 
 def show_network_count (scope, ETM) :
     print ("%s count: %s" % (ETM.type_name, ETM.count))

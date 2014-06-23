@@ -58,6 +58,9 @@
 #    14-Jun-2014 (RS) Add `node`
 #    20-Jun-2014 (RS) Move `node` to `IP_Pool`
 #    20-Jun-2014 (RS) Re-add `pool`
+#    20-Jun-2014 (RS) Rename `owner_or_cool_down` to `owner_or_expiration`
+#    23-Jun-2014 (RS) Implement `free` and `collect_garbage`, some fixes
+#                     to pool allocation: need to keep correct pool on split
 #    ««revision-date»»···
 #--
 
@@ -71,6 +74,8 @@ import _FFM.Error
 
 from   _GTW._OMP._NET           import NET
 from   _GTW._OMP._PAP           import PAP, Subject
+
+from   datetime                 import datetime
 
 import _GTW._OMP._NET.Attr_Type
 
@@ -238,7 +243,7 @@ class IP_Network (_Ancestor_Essence) :
 
         # end class net_address_in_parent
 
-        class owner_or_cool_down (Pred.Condition) :
+        class owner_or_expiration (Pred.Condition) :
             """At most one of `owner` and `expiration_date` can be
                defined at one time.
             """
@@ -247,17 +252,53 @@ class IP_Network (_Ancestor_Essence) :
             assertion          = "not (owner and expiration_date)"
             attr_none          = ("owner", "expiration_date")
 
-        # end class owner_or_cool_down
+        # end class owner_or_expiration
 
     # end class _Predicates
 
     def allocate (self, mask_len, owner) :
         # FIXME: Don't allocate if self is electric
         #        We need this when checking permissions on pools
-        pool     = self.find_closest_mask   (mask_len)
-        net_addr = pool.net_address.subnets (mask_len).next ()
-        return self._reserve (pool, net_addr, owner)
+        frm     = self.find_closest_mask   (mask_len)
+        net_addr = frm.net_address.subnets (mask_len).next ()
+        return self._reserve (self, frm, net_addr, owner)
     # end def allocate
+
+    def collect_garbage (self) :
+        """ First update expiration dates: All children of an expired
+            Node must have an expiration date <= the parent. In addition
+            check the cool_down_period of the pools: If a pool has a
+            cool_down_period and now + cool_down_period is smaller than
+            the expiration_date, we set the expiration_date to the
+            smaller value. Biggest networks first, this recurses to
+            smaller ones. A non-existent cool_down_period for one of the
+            parent pools doesn't change the result. If we don't find
+            *and* cool_down for any of the parent pools, 0 is asumed.
+
+            After this first step, we loop over all now-free nodes with
+            an expiration_date < now and free them.
+        """
+        now = datetime.now ()
+        nw = self.ETM.query \
+            ( Q.expiration_date
+            , Q.net_address.IN (self.net_address)
+            , sort_key = TFL.Sorted_By ("net_address.mask_len")
+            )
+        done = dict ()
+        for n in nw :
+            if n.net_address not in done :
+                n._fix_expiration_date (now, done)
+
+        # get free leaf nodes
+        nw = self.ETM.query \
+            ( Q.expiration_date != None
+            , Q.expiration_date <= now
+            , ~ Q.has_children
+            , Q.net_address.IN (self.net_address)
+            ).all ()
+        for n in nw :
+            n._collect_garbage (now)
+    # end def collect_garbage
 
     def find_closest_address (self, net_addr) :
         if net_addr in self.net_address :
@@ -303,6 +344,72 @@ class IP_Network (_Ancestor_Essence) :
                 (self.net_address, mask_len, msg)
     # end def find_closest_mask
 
+    def free (self, cool_down_period = None) :
+        """ Mark this network as free for reuse, set the expiration date
+            according to the pool's settings. If the pool has no
+            settings, set expiration date to now.
+            We allow override (but only with a *lower* delta) of the
+            cool_down_period of the pool.
+        """
+        if self.pool == self or not self.pool :
+            msg = "Cannot free toplevel network %s" % self.net_address
+            raise FFM.Error.Cannot_Free_Network (self.net_address, msg)
+        now = datetime.now ()
+        # check if there are leaf-nodes (without self)
+        # which are non-electric and have an owner
+        allocated_children = self.ETM.query \
+            ( Q.net_address.IN (self.net_address)
+            , ~ Q.has_children
+            , Q.net_address.mask_len > self.net_address.mask_len
+            , Q.owner
+            , ~ Q.electric
+            ).first ()
+        if allocated_children :
+            net = self.net_address
+            msg = "Cannot free network with allocations: %s" % net
+            raise FFM.Error.Cannot_Free_Network (self.net_address, msg)
+        cooldown   = self.min_cooldown_period (cool_down_period)
+        # If no cool_down_period is found, expire now
+        expiration = now
+        if cooldown is not None :
+            expiration += cooldown
+        self.set (expiration_date = expiration, owner = None)
+    # end def free
+
+    def min_cooldown_period (self, cool_down_period = None) :
+        """ Get minimum cool_down_period of self and all parents.
+            Note: We only find parents which have an IP_Pool. If an
+            intermediate network doesn't define an IP_Pool or the
+            IP_Pool doesn't define the cool_down_period it inherits the
+            settings of its parent pool.
+            Additionally an initial cool_down_period may be specified.
+        """
+        cooldown = cool_down_period
+        nw = self.ETM.query \
+            ( Q.net_address.CONTAINS (self.pool.net_address)
+            , Q.ip_pool != None
+            #, Q.ip_pool.cool_down_period != None
+            ).all ();
+        minpool = None
+        for n in nw :
+            cd = n.ip_pool.cool_down_period
+            if cd is not None :
+                if minpool is None or cd < minpool.cool_down_period :
+                    minpool = n.ip_pool
+            
+# FIXME: minpool should be computable in a single query.
+#        minpool = self.ETM.ip_pool.query \
+#            ( Q.ip_network.net_address.CONTAINS (self.pool.net_address)
+#            , Q.cool_down_period != None
+#            , sort_key = TFL.Sorted_By ("cool_down_period")
+#            ).first ()
+
+        if minpool is not None :
+            if cooldown is None or minpool.cool_down_period < cooldown :
+                cooldown = minpool.cool_down_period
+        return cooldown
+    # end def min_cooldown_period
+
     def reserve (self, net_addr, owner = None) :
         # FIXME: Don't reserve if self is electric
         #        We need this when checking permissions on pools
@@ -310,34 +417,81 @@ class IP_Network (_Ancestor_Essence) :
             net_addr = self.E_Type.attr_prop ("net_address").P_Type (net_addr)
         if owner is None :
             owner = self.owner
-        pool = self.find_closest_address (net_addr)
-        if not (   pool.is_free
-               and pool.owner is self.owner
-               and not pool.net_interface
+        frm = self.find_closest_address (net_addr)
+        if not (   frm.is_free
+               and frm.owner is self.owner
+               and not frm.net_interface
                ) :
             msg = \
                 ( "Address %s already in use by '%s'"
-                % (net_addr, pool.FO.owner)
+                % (net_addr, frm.FO.owner)
                 )
             raise FFM.Error.Address_Already_Used \
-                (net_addr, pool.FO.owner, str (owner.FO), msg)
-        return self._reserve (pool, net_addr, owner)
+                (net_addr, frm.FO.owner, str (owner.FO), msg)
+        return self._reserve (self, frm, net_addr, owner)
     # end def reserve
 
     def split (self, pool) :
         ETM         = self.ETM
         net_address = self.net_address
         results     = list \
-            (   ETM (sn, owner = self.owner, parent = self, electric = True)
+            (ETM ( sn
+                 , pool     = pool
+                 , owner    = self.owner
+                 , parent   = self
+                 , electric = True
+                 )
             for sn in net_address.subnets (net_address.mask_len + 1)
             )
         return results
     # end def split
 
-    def _reserve (self, pool, net_addr, owner) :
-        result = pool
+    def _collect_garbage (self, now) :
+        parent  = self.parent
+        if parent is None :
+            return
+        sibling = self.ETM.query \
+            ( Q.parent == self.parent
+            , Q.pid != self.pid
+            ).first ()
+        assert parent.electric or self.pool == parent
+        if sibling :
+            if  (sibling.has_children or not sibling.electric) :
+                self.set \
+                    ( owner = self.pool.owner
+                    , electric = True
+                    , expiration_date = None
+                    )
+                return
+            parent.set (owner = self.parent.pool.owner)
+            sibling.destroy ()
+        self.destroy ()
+        parent._collect_garbage (now)
+    # end def _collect_garbage
+
+    def _fix_expiration_date (self, now, done, date = None, cooldown = None) :
+        assert self.expiration_date is not None
+        done [self.net_address] = 1
+        if cooldown is None :
+            cooldown = self.min_cooldown_period ()
+        elif self.ip_pool and self.ip_pool.cool_down_period is not None :
+            if self.ip_pool.cool_down_period < cooldown :
+                cooldown = self.ip_pool.cool_down_period
+        if date is None or date > self.expiration_date :
+            date = self.expiration_date
+        if cooldown is not None and now + cooldown < date :
+            date = now + cooldown
+        if date < self.expiration_date :
+            self.set (expiration_date = date)
+        for n in self.subnets :
+            if not n.electric :
+                n._fix_expiration_date (now, done, date, cooldown)
+    # end def _fix_expiration_date
+
+    def _reserve (self, pool, frm, net_addr, owner) :
+        result = frm
         while result.net_address != net_addr :
-            p1, p2 = result.split (pool)
+            p1, p2 = result.split (frm)
             if net_addr in p1.net_address :
                 result, other = p1, p2
             else :

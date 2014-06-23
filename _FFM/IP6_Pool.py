@@ -27,6 +27,7 @@
 #
 # Revision Dates
 #    20-Jun-2014 (RS) Creation
+#    23-Jun-2014 (RS) Use correct type for `left`
 #    ««revision-date»»···
 #--
 
@@ -46,6 +47,16 @@ class IP6_Pool (_Ancestor_Essence) :
     class _Attributes (_Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
+
+        ### Primary attributes
+
+        class left (_Ancestor.left) :
+            """Type of IP_Pool"""
+
+            role_type          = FFM.IP6_Network
+            link_ref_attr_name = 'ip_pool'
+
+        # end class left
 
         ### Non-primary attributes
 

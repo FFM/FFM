@@ -37,6 +37,8 @@
 #     5-Jun-2013 (CT) Use `is_attr_type`, not home-grown code
 #     7-Aug-2013 (CT) Add `A_Polarization.C_Type`
 #    20-Jun-2014 (RS) Add `A_Netmask_Interval` and derivatives
+#    23-Jun-2014 (RS) Derive `A_Netmask_Interval` from `A_Int_Interval`
+#                     `A_Int_Interval_C` doesn't currently work
 #    ««revision-date»»···
 #--
 
@@ -48,7 +50,7 @@ from   _MOM.import_MOM          import *
 from   _MOM.import_MOM          import _A_Unit_, _A_Float_, _A_Named_Value_
 from   _FFM                     import FFM
 from   _TFL.I18N                import _
-from _MOM._Attr.Number_Interval import A_Int_Interval_C
+from _MOM._Attr.Number_Interval import A_Int_Interval # FIXME: use _C
 
 import _FFM.Wireless_Mode
 
@@ -117,7 +119,7 @@ class A_Wireless_Mode (MOM.Attr._A_Named_Object_) :
 
 # end class A_Wireless_Mode
 
-class A_Netmask_Interval (A_Int_Interval_C) :
+class A_Netmask_Interval (A_Int_Interval) :
     """Interval of network masks (upper limit defaults to lower limit)"""
 
     _Overrides = dict \

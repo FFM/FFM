@@ -38,6 +38,7 @@
 #    14-Jun-2014 (RS) Add `node` to `IP_Network`
 #    20-Jun-2014 (RS) `IP_Pool` and derivatives, `node` moved to `IP_Pool`
 #    20-Jun-2014 (RS) Re-add `IP_Network.pool`
+#    23-Jun-2014 (RS) Make tests run after model changes
 #    ««revision-date»»···
 #--
 
@@ -553,12 +554,12 @@ _test_q_able = """
       <SAW : Firmware_Bundle `right` [ffm_firmware_binary_in_firmware_bundle.right]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
     <SAW : FFM.IP_Network [mom_id_entity]>
+      <SAW : Link_Ref `_ip_pool`>
       <SAW : Rev_Ref `creation`>
       <SAW : String `desc` (FFM.IP4_Network | FFM.IP6_Network)>
       <SAW : Link_Ref_List `documents`>
       <SAW : Date-Time `expiration_date` (FFM.IP4_Network | FFM.IP6_Network)>
       <SAW : Boolean `has_children`>
-      <SAW : Link_Ref `ip_pool`>
       <SAW : Boolean `is_free`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
@@ -573,6 +574,7 @@ _test_q_able = """
       <SAW : Role_Ref `wired_interface`>
       <SAW : Role_Ref `wireless_interface`>
     <SAW : FFM.IP4_Network [ffm_ip4_network : mom_id_entity]>
+      <SAW : Link_Ref `_ip_pool`>
       <SAW : Rev_Ref `creation`>
       <SAW : String `desc` [ffm_ip4_network.desc]>
       <SAW : Link_Ref_List `documents`>
@@ -593,6 +595,7 @@ _test_q_able = """
       <SAW : Role_Ref `wired_interface`>
       <SAW : Role_Ref `wireless_interface`>
     <SAW : FFM.IP_Pool [mom_id_entity]>
+      <SAW : Time Delta `cool_down_period` (FFM.IP4_Pool | FFM.IP6_Pool)>
       <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `documents`>
       <SAW : Rev_Ref `last_change`>
@@ -603,11 +606,12 @@ _test_q_able = """
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
     <SAW : FFM.IP4_Pool [ffm_ip4_pool : mom_id_entity]>
+      <SAW : Time Delta `cool_down_period` [ffm_ip4_pool.cool_down_period]>
       <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `documents`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : IP_Network `left` [ffm_ip4_pool.left]>
+      <SAW : IP4_Network `left` [ffm_ip4_pool.left]>
       <SAW : Int_Interval `netmask_interval` [ffm_ip4_pool.netmask_interval__lower, ffm_ip4_pool.netmask_interval__upper]>
       <SAW : Int `netmask_interval.center`>
       <SAW : Int `netmask_interval.length`>
@@ -615,6 +619,7 @@ _test_q_able = """
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
     <SAW : FFM.IP6_Network [ffm_ip6_network : mom_id_entity]>
+      <SAW : Link_Ref `_ip_pool`>
       <SAW : Rev_Ref `creation`>
       <SAW : String `desc` [ffm_ip6_network.desc]>
       <SAW : Link_Ref_List `documents`>
@@ -635,11 +640,12 @@ _test_q_able = """
       <SAW : Role_Ref `wired_interface`>
       <SAW : Role_Ref `wireless_interface`>
     <SAW : FFM.IP6_Pool [ffm_ip6_pool : mom_id_entity]>
+      <SAW : Time Delta `cool_down_period` [ffm_ip6_pool.cool_down_period]>
       <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `documents`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : IP_Network `left` [ffm_ip6_pool.left]>
+      <SAW : IP6_Network `left` [ffm_ip6_pool.left]>
       <SAW : Int_Interval `netmask_interval` [ffm_ip6_pool.netmask_interval__lower, ffm_ip6_pool.netmask_interval__upper]>
       <SAW : Int `netmask_interval.center`>
       <SAW : Int `netmask_interval.length`>
@@ -2564,6 +2570,7 @@ _test_select = """
                ffm_ip4_network.pid AS ffm_ip4_network_pid,
                ffm_ip4_network.pool AS ffm_ip4_network_pool,
                ffm_ip4_pool."left" AS ffm_ip4_pool_left,
+               ffm_ip4_pool.cool_down_period AS ffm_ip4_pool_cool_down_period,
                ffm_ip4_pool.netmask_interval__lower AS ffm_ip4_pool_netmask_interval__lower,
                ffm_ip4_pool.netmask_interval__upper AS ffm_ip4_pool_netmask_interval__upper,
                ffm_ip4_pool.node AS ffm_ip4_pool_node,
@@ -2576,6 +2583,7 @@ _test_select = """
                ffm_ip6_network.pid AS ffm_ip6_network_pid,
                ffm_ip6_network.pool AS ffm_ip6_network_pool,
                ffm_ip6_pool."left" AS ffm_ip6_pool_left,
+               ffm_ip6_pool.cool_down_period AS ffm_ip6_pool_cool_down_period,
                ffm_ip6_pool.netmask_interval__lower AS ffm_ip6_pool_netmask_interval__lower,
                ffm_ip6_pool.netmask_interval__upper AS ffm_ip6_pool_netmask_interval__upper,
                ffm_ip6_pool.node AS ffm_ip6_pool_node,
@@ -2909,11 +2917,13 @@ _test_select = """
                ffm_firmware_version.pid AS ffm_firmware_version_pid,
                ffm_firmware_version.version AS ffm_firmware_version_version,
                ffm_ip4_pool."left" AS ffm_ip4_pool_left,
+               ffm_ip4_pool.cool_down_period AS ffm_ip4_pool_cool_down_period,
                ffm_ip4_pool.netmask_interval__lower AS ffm_ip4_pool_netmask_interval__lower,
                ffm_ip4_pool.netmask_interval__upper AS ffm_ip4_pool_netmask_interval__upper,
                ffm_ip4_pool.node AS ffm_ip4_pool_node,
                ffm_ip4_pool.pid AS ffm_ip4_pool_pid,
                ffm_ip6_pool."left" AS ffm_ip6_pool_left,
+               ffm_ip6_pool.cool_down_period AS ffm_ip6_pool_cool_down_period,
                ffm_ip6_pool.netmask_interval__lower AS ffm_ip6_pool_netmask_interval__lower,
                ffm_ip6_pool.netmask_interval__upper AS ffm_ip6_pool_netmask_interval__upper,
                ffm_ip6_pool.node AS ffm_ip6_pool_node,
@@ -3053,11 +3063,13 @@ _test_select = """
                ffm_firmware_version.pid AS ffm_firmware_version_pid,
                ffm_firmware_version.version AS ffm_firmware_version_version,
                ffm_ip4_pool."left" AS ffm_ip4_pool_left,
+               ffm_ip4_pool.cool_down_period AS ffm_ip4_pool_cool_down_period,
                ffm_ip4_pool.netmask_interval__lower AS ffm_ip4_pool_netmask_interval__lower,
                ffm_ip4_pool.netmask_interval__upper AS ffm_ip4_pool_netmask_interval__upper,
                ffm_ip4_pool.node AS ffm_ip4_pool_node,
                ffm_ip4_pool.pid AS ffm_ip4_pool_pid,
                ffm_ip6_pool."left" AS ffm_ip6_pool_left,
+               ffm_ip6_pool.cool_down_period AS ffm_ip6_pool_cool_down_period,
                ffm_ip6_pool.netmask_interval__lower AS ffm_ip6_pool_netmask_interval__lower,
                ffm_ip6_pool.netmask_interval__upper AS ffm_ip6_pool_netmask_interval__upper,
                ffm_ip6_pool.node AS ffm_ip6_pool_node,
@@ -3653,11 +3665,13 @@ _test_select = """
            JOIN ffm_ip4_network ON mom_id_entity.pid = ffm_ip4_network.pid
     FFM.IP_Pool
         SELECT ffm_ip4_pool."left" AS ffm_ip4_pool_left,
+               ffm_ip4_pool.cool_down_period AS ffm_ip4_pool_cool_down_period,
                ffm_ip4_pool.netmask_interval__lower AS ffm_ip4_pool_netmask_interval__lower,
                ffm_ip4_pool.netmask_interval__upper AS ffm_ip4_pool_netmask_interval__upper,
                ffm_ip4_pool.node AS ffm_ip4_pool_node,
                ffm_ip4_pool.pid AS ffm_ip4_pool_pid,
                ffm_ip6_pool."left" AS ffm_ip6_pool_left,
+               ffm_ip6_pool.cool_down_period AS ffm_ip6_pool_cool_down_period,
                ffm_ip6_pool.netmask_interval__lower AS ffm_ip6_pool_netmask_interval__lower,
                ffm_ip6_pool.netmask_interval__upper AS ffm_ip6_pool_netmask_interval__upper,
                ffm_ip6_pool.node AS ffm_ip6_pool_node,
@@ -3674,6 +3688,7 @@ _test_select = """
             OR mom_id_entity.pid = ffm_ip6_pool.pid
     FFM.IP4_Pool
         SELECT ffm_ip4_pool."left" AS ffm_ip4_pool_left,
+               ffm_ip4_pool.cool_down_period AS ffm_ip4_pool_cool_down_period,
                ffm_ip4_pool.netmask_interval__lower AS ffm_ip4_pool_netmask_interval__lower,
                ffm_ip4_pool.netmask_interval__upper AS ffm_ip4_pool_netmask_interval__upper,
                ffm_ip4_pool.node AS ffm_ip4_pool_node,
@@ -3702,6 +3717,7 @@ _test_select = """
            JOIN ffm_ip6_network ON mom_id_entity.pid = ffm_ip6_network.pid
     FFM.IP6_Pool
         SELECT ffm_ip6_pool."left" AS ffm_ip6_pool_left,
+               ffm_ip6_pool.cool_down_period AS ffm_ip6_pool_cool_down_period,
                ffm_ip6_pool.netmask_interval__lower AS ffm_ip6_pool_netmask_interval__lower,
                ffm_ip6_pool.netmask_interval__upper AS ffm_ip6_pool_netmask_interval__upper,
                ffm_ip6_pool.node AS ffm_ip6_pool_node,
@@ -4331,9 +4347,10 @@ _test_tables = """
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
         Column pool                      : Integer              Optional__Computed_Set__Id_Entity_Reference Entity pool Id_Entity()
     FFM.IP4_Pool (MOM.Id_Entity) <Table ffm_ip4_pool>
-        Column left                      : Integer              Link_Role__Init_Only IP_Network left Id_Entity()
+        Column cool_down_period          : Text                 Optional Time Delta cool_down_period
+        Column left                      : Integer              Link_Role__Init_Only IP4_Network left Id_Entity()
         Column netmask_interval__lower   : Integer              Necessary__Nested Int lower
-        Column netmask_interval__upper   : Integer              Necessary__Computed_Set__Nested Int upper
+        Column netmask_interval__upper   : Integer              Necessary__Nested Int upper
         Column node                      : Integer              Optional__Id_Entity_Reference Entity node Id_Entity()
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
     FFM.IP6_Network (MOM.Id_Entity) <Table ffm_ip6_network>
@@ -4345,9 +4362,10 @@ _test_tables = """
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
         Column pool                      : Integer              Optional__Computed_Set__Id_Entity_Reference Entity pool Id_Entity()
     FFM.IP6_Pool (MOM.Id_Entity) <Table ffm_ip6_pool>
-        Column left                      : Integer              Link_Role__Init_Only IP_Network left Id_Entity()
+        Column cool_down_period          : Text                 Optional Time Delta cool_down_period
+        Column left                      : Integer              Link_Role__Init_Only IP6_Network left Id_Entity()
         Column netmask_interval__lower   : Integer              Necessary__Nested Int lower
-        Column netmask_interval__upper   : Integer              Necessary__Computed_Set__Nested Int upper
+        Column netmask_interval__upper   : Integer              Necessary__Nested Int upper
         Column node                      : Integer              Optional__Id_Entity_Reference Entity node Id_Entity()
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
     FFM.Net_Device_Type (MOM.Id_Entity) <Table ffm_net_device_type>
