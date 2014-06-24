@@ -61,6 +61,7 @@
 #    20-Jun-2014 (RS) Rename `owner_or_cool_down` to `owner_or_expiration`
 #    23-Jun-2014 (RS) Implement `free` and `collect_garbage`, some fixes
 #                     to pool allocation: need to keep correct pool on split
+#    24-Jun-2014 (CT) Fix `ip_pool` query in `min_cooldown_period`
 #    ««revision-date»»···
 #--
 
@@ -388,21 +389,21 @@ class IP_Network (_Ancestor_Essence) :
         nw = self.ETM.query \
             ( Q.net_address.CONTAINS (self.pool.net_address)
             , Q.ip_pool != None
-            #, Q.ip_pool.cool_down_period != None
-            ).all ();
+            , Q.ip_pool.cool_down_period != None
+            )
         minpool = None
         for n in nw :
             cd = n.ip_pool.cool_down_period
             if cd is not None :
                 if minpool is None or cd < minpool.cool_down_period :
                     minpool = n.ip_pool
-            
-# FIXME: minpool should be computable in a single query.
-#        minpool = self.ETM.ip_pool.query \
-#            ( Q.ip_network.net_address.CONTAINS (self.pool.net_address)
-#            , Q.cool_down_period != None
-#            , sort_key = TFL.Sorted_By ("cool_down_period")
-#            ).first ()
+
+        IPP_ETM = self.home_scope [self.ETM.ip_pool.P_Type]
+        minpool = IPP_ETM.query \
+            ( Q.ip_network.net_address.CONTAINS (self.pool.net_address)
+            , Q.cool_down_period != None
+            , sort_key = TFL.Sorted_By ("cool_down_period")
+            ).first ()
 
         if minpool is not None :
             if cooldown is None or minpool.cool_down_period < cooldown :
