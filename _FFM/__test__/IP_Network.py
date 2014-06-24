@@ -442,20 +442,18 @@ _test_alloc = """
     ...     , raw              = True
     ...     )
 
-    FIXME: Failing Test: Seems some 'unique' keyword is missing
-    #>>> FFM.IP4_Pool.query \\
-    #...     ( Q.ip_network.net_address.CONTAINS (rs_pool.net_address)
-    #...     , Q.cool_down_period != None
-    #...     , sort_key = TFL.Sorted_By ("cool_down_period")
-    #...     ).all ()
-    #[FFM.IP4_Pool (("10.0.0.0/28", )), FFM.IP4_Pool (("10.0.0.0/8", ))]
+    >>> FFM.IP4_Pool.query \\
+    ...     ( Q.ip_network.net_address.CONTAINS (rs_pool.net_address)
+    ...     , Q.cool_down_period != None
+    ...     , sort_key = TFL.Sorted_By ("cool_down_period")
+    ...     ).distinct ().all ()
+    [FFM.IP4_Pool (("10.0.0.0/28", )), FFM.IP4_Pool (("10.0.0.0/8", ))]
 
-    FIXME: Failing Test: Seems some 'unique' keyword is missing
-    #>>> FFM.IP4_Pool.query \\
-    #...     ( Q.ip_network.net_address.CONTAINS (rs_pool.net_address)
-    #...     , sort_key = TFL.Sorted_By ("cool_down_period")
-    #...     ).count ()
-    #3
+    >>> FFM.IP4_Pool.query \\
+    ...     ( Q.ip_network.net_address.CONTAINS (rs_pool.net_address)
+    ...     , sort_key = TFL.Sorted_By ("cool_down_period")
+    ...     ).distinct ().count ()
+    3
 
     >>> print ("mg_addr", mg_addr)
     mg_addr ("10.0.0.1")
