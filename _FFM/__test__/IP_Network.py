@@ -54,6 +54,7 @@
 #    20-Jun-2014 (RS) Re-add `IP_Network.pool`, make failing test pass
 #    23-Jun-2014 (RS) Add tests for `free` and `collect_garbage`, make
 #                     tests run again
+#    24-Jun-2014 (RS) `A_Netmask_Interval` derived from `A_Int_Interval_C`
 #    ««revision-date»»···
 #--
 
@@ -893,7 +894,7 @@ _test_AQ = """
     <parent.parent.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
     <_ip_pool.AQ [Attr.Type.Querier Rev_Ref]> FFM.IP_Pool
     <_ip_pool.cool_down_period.AQ [Attr.Type.Querier Ckd]> -----
-    <_ip_pool.netmask_interval.AQ [Attr.Type.Querier Composite]> MOM.Int_Interval
+    <_ip_pool.netmask_interval.AQ [Attr.Type.Querier Composite]> MOM.Int_Interval_C
     <_ip_pool.netmask_interval.lower.AQ [Attr.Type.Querier Ckd]> -----
     <_ip_pool.netmask_interval.upper.AQ [Attr.Type.Querier Ckd]> -----
     <_ip_pool.netmask_interval.center.AQ [Attr.Type.Querier Ckd]> -----
@@ -952,7 +953,7 @@ _test_AQ = """
     <ip_pool.node.position.lon.AQ [Attr.Type.Querier Raw]> -----
     <ip_pool.node.position.height.AQ [Attr.Type.Querier Ckd]> -----
     <ip_pool.node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
-    <ip_pool.netmask_interval.AQ [Attr.Type.Querier Composite]> MOM.Int_Interval
+    <ip_pool.netmask_interval.AQ [Attr.Type.Querier Composite]> MOM.Int_Interval_C
     <ip_pool.netmask_interval.lower.AQ [Attr.Type.Querier Ckd]> -----
     <ip_pool.netmask_interval.upper.AQ [Attr.Type.Querier Ckd]> -----
     <ip_pool.netmask_interval.center.AQ [Attr.Type.Querier Ckd]> -----

@@ -39,6 +39,7 @@
 #    20-Jun-2014 (RS) `IP_Pool` and derivatives, `node` moved to `IP_Pool`
 #    20-Jun-2014 (RS) Re-add `IP_Network.pool`
 #    23-Jun-2014 (RS) Make tests run after model changes
+#    24-Jun-2014 (RS) `A_Netmask_Interval` derived from `A_Int_Interval_C`
 #    ««revision-date»»···
 #--
 
@@ -4350,7 +4351,7 @@ _test_tables = """
         Column cool_down_period          : Text                 Optional Time Delta cool_down_period
         Column left                      : Integer              Link_Role__Init_Only IP4_Network left Id_Entity()
         Column netmask_interval__lower   : Integer              Necessary__Nested Int lower
-        Column netmask_interval__upper   : Integer              Necessary__Nested Int upper
+        Column netmask_interval__upper   : Integer              Necessary__Computed_Set__Nested Int upper
         Column node                      : Integer              Optional__Id_Entity_Reference Entity node Id_Entity()
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
     FFM.IP6_Network (MOM.Id_Entity) <Table ffm_ip6_network>
@@ -4365,7 +4366,7 @@ _test_tables = """
         Column cool_down_period          : Text                 Optional Time Delta cool_down_period
         Column left                      : Integer              Link_Role__Init_Only IP6_Network left Id_Entity()
         Column netmask_interval__lower   : Integer              Necessary__Nested Int lower
-        Column netmask_interval__upper   : Integer              Necessary__Nested Int upper
+        Column netmask_interval__upper   : Integer              Necessary__Computed_Set__Nested Int upper
         Column node                      : Integer              Optional__Id_Entity_Reference Entity node Id_Entity()
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
     FFM.Net_Device_Type (MOM.Id_Entity) <Table ffm_net_device_type>
