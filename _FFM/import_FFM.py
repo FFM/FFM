@@ -50,6 +50,7 @@
 #    13-Jun-2014 (RS) Remove `Person_acts_for_Legal_Entity`,
 #                     add `PAP.Adhoc_Group`, `PAP.Person_in_Group`
 #    20-Jun-2014 (RS) Add `IP_Pool`, `IP4_Pool`, `IP6_Pool`
+#     1-Jul-2014 (RS) `IP_DNS_Alias` and derivatives
 #    ««revision-date»»···
 #--
 
@@ -72,10 +73,13 @@ import _FFM.Antenna_Type
 import _FFM.Device
 import _FFM.Device_Type
 import _FFM.Firmware
+import _FFM.IP4_DNS_Alias
 import _FFM.IP4_Network
 import _FFM.IP4_Pool
+import _FFM.IP6_DNS_Alias
 import _FFM.IP6_Network
 import _FFM.IP6_Pool
+import _FFM.IP_DNS_Alias
 import _FFM.IP_Network
 import _FFM.IP_Pool
 import _FFM.Net_Credentials

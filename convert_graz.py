@@ -134,6 +134,7 @@ class Convert (object) :
 
     def __init__ (self, cmd, scope, debug = False) :
         self.anonymize = cmd.anonymize
+        self.verbose   = cmd.verbose
         self.pers_exception = {}
         try :
             pf = open ('pers.csv', 'r')
@@ -157,13 +158,16 @@ class Convert (object) :
         self.parser.parse (f)
         self.contents     = self.parser.contents
         self.tables       = self.parser.tables
-        self.member_by_id = {}
-        self.person_by_id = {}
-        self.nicknames    = {}
-        self.node_by_id   = {}
+        self.dev_by_id    = {}
         self.ffm_node     = {}
-        self.phone_ids    = {}
+        self.member_by_id = {}
         self.net_by_id    = {}
+        self.nicknames    = {}
+        self.nifin_by_id  = {}
+        self.ntype_by_id  = {}
+        self.node_by_id   = {}
+        self.person_by_id = {}
+        self.phone_ids    = {}
     # end def __init__
 
     def create (self) :
@@ -179,13 +183,18 @@ class Convert (object) :
         self.scope.commit ()
         self.create_devices ()
         self.scope.commit ()
+        self.create_interfaces ()
+        self.scope.commit ()
+        self.create_dns_aliases ()
+        self.scope.commit ()
     # end def create
 
     def create_devices (self) :
         # ignore snmp_ip and snmp_lastseen (only used by three nodes)
         dt = self.ffm.Net_Device_Type.instance (name = 'Generic', raw = True)
         for d in sorted (self.contents ['node'], key = lambda x : x.id) :
-            print "INFO: Dev: %s Node: %s" % (d.id, d.location_id)
+            if self.verbose :
+                print "INFO: Dev: %s Node: %s" % (d.id, d.location_id)
             node = None
             n = self.node_by_id.get (d.location_id)
             if n :
@@ -219,9 +228,54 @@ class Convert (object) :
                 , raw  = True
                 )
             self.set_creation (dev, d.time)
+            self.dev_by_id [d.id] = dev
             if len (self.scope.uncommitted_changes) > 10 :
                 self.scope.commit ()
     # end def create_devices
+
+    def create_dns_aliases (self) :
+        for dal in self.contents ['dnsalias'] :
+            if dal.ip_id not in self.nifin_by_id :
+                print 'WARN: ignoring dns_alias %s "%s" IP not found %s' \
+                    % (dal.id, dal.name, dal.ip_id)
+                return
+            self.ffm.IP4_DNS_Alias \
+                (left = self.nifin_by_id [dal.ip_id], name = dal.name)
+            if len (self.scope.uncommitted_changes) > 10 :
+                self.scope.commit ()
+    # end def create_dns_aliases
+
+    def create_interfaces (self) :
+        for iface in self.contents ['ip'] :
+            if iface.node_id not in self.dev_by_id :
+                print "WARN: Ignoring IP %s %s: no device (node) %s" \
+                    % (iface.id, iface.ip, iface.node_id)
+                continue
+            dev = self.dev_by_id [iface.node_id]
+            net = self.net_by_id [iface.net_id]
+            ip  = IP4_Address (iface.ip)
+            if ip not in net.net_address :
+                parent = self.ffm.IP4_Network.query \
+                    ( Q.net_address.CONTAINS (ip)
+                    , ~ Q.electric
+                    , sort_key = TFL.Sorted_By ("-net_address.mask_len")
+                    ).first ()
+                print "WARN: IP %s %s not in net %s %s found %s" \
+                    % ( iface.id
+                      , iface.ip
+                      , iface.net_id
+                      , net.net_address
+                      , parent.net_address
+                      )
+                net = parent
+            nw  = net.reserve (ip, owner = dev.node.owner)
+            nif = self.ffm.Wired_Interface (left = dev, name = iface.name)
+            nii = self.ffm.Net_Interface_in_IP4_Network \
+                (nif, nw, mask_len = 32, name = iface.name)
+            self.nifin_by_id [iface.id] = nii
+            if len (self.scope.uncommitted_changes) > 10 :
+                self.scope.commit ()
+    # end def create_interfaces
 
     def create_nettypes (self) :
         """ Network ranges for reservation
@@ -240,39 +294,48 @@ class Convert (object) :
         typ = self.ffm.IP4_Network
         for mask in sorted (by_mask) :
             for ip, name, id in by_mask [mask] :
+                if id not in self.ntype_by_id :
+                    self.ntype_by_id [id] = []
                 r = typ.query \
                     ( Q.net_address.CONTAINS (ip)
+                    , ~ Q.electric
                     , sort_key = TFL.Sorted_By ("-net_address.mask_len")
                     ).first ()
                 reserver = r.reserve if r else typ
                 network  = reserver (ip, owner = self.graz_admin)
-                self.net_by_id [id] = network
+                self.ntype_by_id [id].append (network)
                 if name :
                     network.set_raw (desc = name)
     # end def create_nettypes
 
     def create_networks (self) :
         for net in self.contents ['net'] :
-            parent  = self.net_by_id.get (net.nettype_id)
+            parents = self.ntype_by_id.get (net.nettype_id, [])
             node    = self.ffm_node.get (net.location_id)
             ip      = IP4_Address (net.netip, net.netmask)
             if node :
                 owner = node.owner
             else :
-                print "WARN: Network %s Location %s missing" \
-                    % (net.id, net.location_id)
+                print "WARN: Network %s %s Location %s missing" \
+                    % (net.id, net.netip, net.location_id)
                 owner = self.graz_admin
-            if not parent or ip not in parent.net_address :
-                print "No parent: %s ip: %s" % (parent, ip)
+            parent = None
+            for p in parents :
+                if ip in p.net_address :
+                    parent = p
+                    break
+            else :
                 parent = None
-                for p in self.net_by_id.itervalues () :
-                    if ip in p.net_address :
-                        parent = p
-                        print "Got parent in net_by_id: %s" % parent
-                        break
+                for ps in self.ntype_by_id.itervalues () :
+                    for p in ps :
+                        if ip in p.net_address :
+                            parent = p
+                            print "Got parent in ntype_by_id: %s" % parent
+                            break
                 else :
                     parent = self.ffm.IP4_Network.query \
                         ( Q.net_address.CONTAINS (ip)
+                        , ~ Q.electric
                         , sort_key = TFL.Sorted_By ("-net_address.mask_len")
                         ).first ()
                     if parent :
@@ -280,11 +343,12 @@ class Convert (object) :
             if parent :
                 reserver = parent.reserve
             else :
-                print "No parent: new network: %s" % ip
+                print "WARN: No parent: new network: %s" % ip
                 reserver = self.ffm.IP4_Network
             network = reserver (ip, owner = owner)
+            self.net_by_id [net.id] = network
             if node :
-                network.set (node = node)
+                pool = self.ffm.IP4_Pool (left = network, node = node)
             if net.comment :
                 network.set_raw (desc = net.comment)
             if len (self.scope.uncommitted_changes) > 10 :

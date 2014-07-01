@@ -40,6 +40,7 @@
 #    20-Jun-2014 (RS) Re-add `IP_Network.pool`
 #    23-Jun-2014 (RS) Make tests run after model changes
 #    24-Jun-2014 (RS) `A_Netmask_Interval` derived from `A_Int_Interval_C`
+#     1-Jul-2014 (RS) `IP_DNS_Alias` and derivatives
 #    ««revision-date»»···
 #--
 
@@ -385,7 +386,7 @@ _test_q_able = """
       <SAW : Link_Ref_List `documents`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : Left `left` (FFM.Antenna | FFM.Antenna_Band | FFM.Device_Type_made_by_Company | FFM.Firmware_Binary | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.Firmware_Version | FFM.IP4_Pool | FFM.IP6_Pool | FFM.Net_Device | FFM.Net_Interface | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_mentors_Person | FFM.Regulatory_Permission | FFM.Routing_Zone_OLSR | FFM.WPA_Credentials | FFM.Wireless_Channel | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
+      <SAW : Left `left` (FFM.Antenna | FFM.Antenna_Band | FFM.Device_Type_made_by_Company | FFM.Firmware_Binary | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.Firmware_Version | FFM.IP4_DNS_Alias | FFM.IP4_Pool | FFM.IP6_DNS_Alias | FFM.IP6_Pool | FFM.Net_Device | FFM.Net_Interface | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_mentors_Person | FFM.Regulatory_Permission | FFM.Routing_Zone_OLSR | FFM.WPA_Credentials | FFM.Wireless_Channel | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
     <SAW : FFM.Link1 [mom_id_entity]>
@@ -393,7 +394,7 @@ _test_q_able = """
       <SAW : Link_Ref_List `documents`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : Left `left` (FFM.Antenna | FFM.Antenna_Band | FFM.Firmware_Binary | FFM.Firmware_Version | FFM.IP4_Pool | FFM.IP6_Pool | FFM.Net_Device | FFM.Net_Interface | FFM.Regulatory_Permission | FFM.Routing_Zone_OLSR | FFM.WPA_Credentials | FFM.Wireless_Channel)>
+      <SAW : Left `left` (FFM.Antenna | FFM.Antenna_Band | FFM.Firmware_Binary | FFM.Firmware_Version | FFM.IP4_DNS_Alias | FFM.IP4_Pool | FFM.IP6_DNS_Alias | FFM.IP6_Pool | FFM.Net_Device | FFM.Net_Interface | FFM.Regulatory_Permission | FFM.Routing_Zone_OLSR | FFM.WPA_Credentials | FFM.Wireless_Channel)>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
     <SAW : FFM.Device [mom_id_entity]>
@@ -554,105 +555,6 @@ _test_q_able = """
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : Firmware_Bundle `right` [ffm_firmware_binary_in_firmware_bundle.right]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
-    <SAW : FFM.IP_Network [mom_id_entity]>
-      <SAW : Link_Ref `_ip_pool`>
-      <SAW : Rev_Ref `creation`>
-      <SAW : String `desc` (FFM.IP4_Network | FFM.IP6_Network)>
-      <SAW : Link_Ref_List `documents`>
-      <SAW : Date-Time `expiration_date` (FFM.IP4_Network | FFM.IP6_Network)>
-      <SAW : Boolean `has_children`>
-      <SAW : Boolean `is_free`>
-      <SAW : Rev_Ref `last_change`>
-      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : None `net_address` (FFM.IP4_Network | FFM.IP6_Network)>
-      <SAW : Role_Ref `net_interface`>
-      <SAW : Entity `owner` (FFM.IP4_Network | FFM.IP6_Network)>
-      <SAW : Entity `parent` (FFM.IP4_Network | FFM.IP6_Network)>
-      <SAW : Surrogate `pid` [mom_id_entity.pid]>
-      <SAW : Entity `pool` (FFM.IP4_Network | FFM.IP6_Network)>
-      <SAW : String `type_name` [mom_id_entity.type_name]>
-      <SAW : Role_Ref `virtual_wireless_interface`>
-      <SAW : Role_Ref `wired_interface`>
-      <SAW : Role_Ref `wireless_interface`>
-    <SAW : FFM.IP4_Network [ffm_ip4_network : mom_id_entity]>
-      <SAW : Link_Ref `_ip_pool`>
-      <SAW : Rev_Ref `creation`>
-      <SAW : String `desc` [ffm_ip4_network.desc]>
-      <SAW : Link_Ref_List `documents`>
-      <SAW : Date-Time `expiration_date` [ffm_ip4_network.expiration_date]>
-      <SAW : Boolean `has_children`>
-      <SAW : Link_Ref `ip_pool`>
-      <SAW : Boolean `is_free`>
-      <SAW : Rev_Ref `last_change`>
-      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : IP4-network `net_address` ...
-      <SAW : Role_Ref `net_interface`>
-      <SAW : Entity `owner` [ffm_ip4_network.owner]>
-      <SAW : Entity `parent` [ffm_ip4_network.parent]>
-      <SAW : Surrogate `pid` [mom_id_entity.pid]>
-      <SAW : Entity `pool` [ffm_ip4_network.pool]>
-      <SAW : String `type_name` [mom_id_entity.type_name]>
-      <SAW : Role_Ref `virtual_wireless_interface`>
-      <SAW : Role_Ref `wired_interface`>
-      <SAW : Role_Ref `wireless_interface`>
-    <SAW : FFM.IP_Pool [mom_id_entity]>
-      <SAW : Time Delta `cool_down_period` (FFM.IP4_Pool | FFM.IP6_Pool)>
-      <SAW : Rev_Ref `creation`>
-      <SAW : Link_Ref_List `documents`>
-      <SAW : Rev_Ref `last_change`>
-      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : IP_Network `left` (FFM.IP4_Pool | FFM.IP6_Pool)>
-      <SAW : Int_Interval `netmask_interval` (FFM.IP4_Pool | FFM.IP6_Pool)>
-      <SAW : Entity `node` (FFM.IP4_Pool | FFM.IP6_Pool)>
-      <SAW : Surrogate `pid` [mom_id_entity.pid]>
-      <SAW : String `type_name` [mom_id_entity.type_name]>
-    <SAW : FFM.IP4_Pool [ffm_ip4_pool : mom_id_entity]>
-      <SAW : Time Delta `cool_down_period` [ffm_ip4_pool.cool_down_period]>
-      <SAW : Rev_Ref `creation`>
-      <SAW : Link_Ref_List `documents`>
-      <SAW : Rev_Ref `last_change`>
-      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : IP4_Network `left` [ffm_ip4_pool.left]>
-      <SAW : Int_Interval `netmask_interval` [ffm_ip4_pool.netmask_interval__lower, ffm_ip4_pool.netmask_interval__upper]>
-      <SAW : Int `netmask_interval.center`>
-      <SAW : Int `netmask_interval.length`>
-      <SAW : Entity `node` [ffm_ip4_pool.node]>
-      <SAW : Surrogate `pid` [mom_id_entity.pid]>
-      <SAW : String `type_name` [mom_id_entity.type_name]>
-    <SAW : FFM.IP6_Network [ffm_ip6_network : mom_id_entity]>
-      <SAW : Link_Ref `_ip_pool`>
-      <SAW : Rev_Ref `creation`>
-      <SAW : String `desc` [ffm_ip6_network.desc]>
-      <SAW : Link_Ref_List `documents`>
-      <SAW : Date-Time `expiration_date` [ffm_ip6_network.expiration_date]>
-      <SAW : Boolean `has_children`>
-      <SAW : Link_Ref `ip_pool`>
-      <SAW : Boolean `is_free`>
-      <SAW : Rev_Ref `last_change`>
-      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : IP6-network `net_address` ...
-      <SAW : Role_Ref `net_interface`>
-      <SAW : Entity `owner` [ffm_ip6_network.owner]>
-      <SAW : Entity `parent` [ffm_ip6_network.parent]>
-      <SAW : Surrogate `pid` [mom_id_entity.pid]>
-      <SAW : Entity `pool` [ffm_ip6_network.pool]>
-      <SAW : String `type_name` [mom_id_entity.type_name]>
-      <SAW : Role_Ref `virtual_wireless_interface`>
-      <SAW : Role_Ref `wired_interface`>
-      <SAW : Role_Ref `wireless_interface`>
-    <SAW : FFM.IP6_Pool [ffm_ip6_pool : mom_id_entity]>
-      <SAW : Time Delta `cool_down_period` [ffm_ip6_pool.cool_down_period]>
-      <SAW : Rev_Ref `creation`>
-      <SAW : Link_Ref_List `documents`>
-      <SAW : Rev_Ref `last_change`>
-      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : IP6_Network `left` [ffm_ip6_pool.left]>
-      <SAW : Int_Interval `netmask_interval` [ffm_ip6_pool.netmask_interval__lower, ffm_ip6_pool.netmask_interval__upper]>
-      <SAW : Int `netmask_interval.center`>
-      <SAW : Int `netmask_interval.length`>
-      <SAW : Entity `node` [ffm_ip6_pool.node]>
-      <SAW : Surrogate `pid` [mom_id_entity.pid]>
-      <SAW : String `type_name` [mom_id_entity.type_name]>
     <SAW : FFM.Net_Device_Type [ffm_net_device_type : mom_id_entity]>
       <SAW : Rev_Ref `creation`>
       <SAW : Text `desc` [ffm_net_device_type.desc]>
@@ -698,6 +600,146 @@ _test_q_able = """
       <SAW : Entity `my_net_device`>
       <SAW : Entity `my_node`>
       <SAW : String `name` [ffm_net_interface.name, ffm_net_interface.__raw_name]>
+      <SAW : Surrogate `pid` [mom_id_entity.pid]>
+      <SAW : String `type_name` [mom_id_entity.type_name]>
+    <SAW : FFM.IP_Network [mom_id_entity]>
+      <SAW : Link_Ref `_ip_pool`>
+      <SAW : Rev_Ref `creation`>
+      <SAW : String `desc` (FFM.IP4_Network | FFM.IP6_Network)>
+      <SAW : Link_Ref_List `documents`>
+      <SAW : Date-Time `expiration_date` (FFM.IP4_Network | FFM.IP6_Network)>
+      <SAW : Boolean `has_children`>
+      <SAW : Boolean `is_free`>
+      <SAW : Rev_Ref `last_change`>
+      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
+      <SAW : None `net_address` (FFM.IP4_Network | FFM.IP6_Network)>
+      <SAW : Role_Ref `net_interface`>
+      <SAW : Entity `owner` (FFM.IP4_Network | FFM.IP6_Network)>
+      <SAW : Entity `parent` (FFM.IP4_Network | FFM.IP6_Network)>
+      <SAW : Surrogate `pid` [mom_id_entity.pid]>
+      <SAW : Entity `pool` (FFM.IP4_Network | FFM.IP6_Network)>
+      <SAW : String `type_name` [mom_id_entity.type_name]>
+      <SAW : Role_Ref `virtual_wireless_interface`>
+      <SAW : Role_Ref `wired_interface`>
+      <SAW : Role_Ref `wireless_interface`>
+    <SAW : FFM.Net_Interface_in_IP_Network [ffm_net_interface_in_ip_network : mom_id_entity]>
+      <SAW : Rev_Ref `creation`>
+      <SAW : Link_Ref_List `documents`>
+      <SAW : Link_Ref_List `ip4_dns_aliases`>
+      <SAW : Link_Ref_List `ip6_dns_aliases`>
+      <SAW : Link_Ref_List `ip_dns_aliases`>
+      <SAW : Rev_Ref `last_change`>
+      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
+      <SAW : Net_Interface `left` [ffm_net_interface_in_ip_network.left]>
+      <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
+      <SAW : String `name` [ffm_net_interface_in_ip_network.name, ffm_net_interface_in_ip_network.__raw_name]>
+      <SAW : Surrogate `pid` [mom_id_entity.pid]>
+      <SAW : IP_Network `right` [ffm_net_interface_in_ip_network.right]>
+      <SAW : String `type_name` [mom_id_entity.type_name]>
+    <SAW : FFM.IP_DNS_Alias [mom_id_entity]>
+      <SAW : Rev_Ref `creation`>
+      <SAW : Link_Ref_List `documents`>
+      <SAW : Rev_Ref `last_change`>
+      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
+      <SAW : Net_Interface_in_IP_Network `left` (FFM.IP4_DNS_Alias | FFM.IP6_DNS_Alias)>
+      <SAW : String `name` (FFM.IP4_DNS_Alias | FFM.IP6_DNS_Alias)>
+      <SAW : Surrogate `pid` [mom_id_entity.pid]>
+      <SAW : String `type_name` [mom_id_entity.type_name]>
+    <SAW : FFM.IP4_DNS_Alias [ffm_ip4_dns_alias : mom_id_entity]>
+      <SAW : Rev_Ref `creation`>
+      <SAW : Link_Ref_List `documents`>
+      <SAW : Rev_Ref `last_change`>
+      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
+      <SAW : Net_Interface_in_IP_Network `left` [ffm_ip4_dns_alias.left]>
+      <SAW : String `name` [ffm_ip4_dns_alias.name, ffm_ip4_dns_alias.__raw_name]>
+      <SAW : Surrogate `pid` [mom_id_entity.pid]>
+      <SAW : String `type_name` [mom_id_entity.type_name]>
+    <SAW : FFM.IP4_Network [ffm_ip4_network : mom_id_entity]>
+      <SAW : Link_Ref `_ip_pool`>
+      <SAW : Rev_Ref `creation`>
+      <SAW : String `desc` [ffm_ip4_network.desc]>
+      <SAW : Link_Ref_List `documents`>
+      <SAW : Date-Time `expiration_date` [ffm_ip4_network.expiration_date]>
+      <SAW : Boolean `has_children`>
+      <SAW : Link_Ref `ip_pool`>
+      <SAW : Boolean `is_free`>
+      <SAW : Rev_Ref `last_change`>
+      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
+      <SAW : IP4-network `net_address` ...
+      <SAW : Role_Ref `net_interface`>
+      <SAW : Entity `owner` [ffm_ip4_network.owner]>
+      <SAW : Entity `parent` [ffm_ip4_network.parent]>
+      <SAW : Surrogate `pid` [mom_id_entity.pid]>
+      <SAW : Entity `pool` [ffm_ip4_network.pool]>
+      <SAW : String `type_name` [mom_id_entity.type_name]>
+      <SAW : Role_Ref `virtual_wireless_interface`>
+      <SAW : Role_Ref `wired_interface`>
+      <SAW : Role_Ref `wireless_interface`>
+    <SAW : FFM.IP_Pool [mom_id_entity]>
+      <SAW : Time Delta `cool_down_period` (FFM.IP4_Pool | FFM.IP6_Pool)>
+      <SAW : Rev_Ref `creation`>
+      <SAW : Link_Ref_List `documents`>
+      <SAW : Rev_Ref `last_change`>
+      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
+      <SAW : IP_Network `left` (FFM.IP4_Pool | FFM.IP6_Pool)>
+      <SAW : Int_Interval `netmask_interval` (FFM.IP4_Pool | FFM.IP6_Pool)>
+      <SAW : Entity `node` (FFM.IP4_Pool | FFM.IP6_Pool)>
+      <SAW : Surrogate `pid` [mom_id_entity.pid]>
+      <SAW : String `type_name` [mom_id_entity.type_name]>
+    <SAW : FFM.IP4_Pool [ffm_ip4_pool : mom_id_entity]>
+      <SAW : Time Delta `cool_down_period` [ffm_ip4_pool.cool_down_period]>
+      <SAW : Rev_Ref `creation`>
+      <SAW : Link_Ref_List `documents`>
+      <SAW : Rev_Ref `last_change`>
+      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
+      <SAW : IP4_Network `left` [ffm_ip4_pool.left]>
+      <SAW : Int_Interval `netmask_interval` [ffm_ip4_pool.netmask_interval__lower, ffm_ip4_pool.netmask_interval__upper]>
+      <SAW : Int `netmask_interval.center`>
+      <SAW : Int `netmask_interval.length`>
+      <SAW : Entity `node` [ffm_ip4_pool.node]>
+      <SAW : Surrogate `pid` [mom_id_entity.pid]>
+      <SAW : String `type_name` [mom_id_entity.type_name]>
+    <SAW : FFM.IP6_DNS_Alias [ffm_ip6_dns_alias : mom_id_entity]>
+      <SAW : Rev_Ref `creation`>
+      <SAW : Link_Ref_List `documents`>
+      <SAW : Rev_Ref `last_change`>
+      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
+      <SAW : Net_Interface_in_IP_Network `left` [ffm_ip6_dns_alias.left]>
+      <SAW : String `name` [ffm_ip6_dns_alias.name, ffm_ip6_dns_alias.__raw_name]>
+      <SAW : Surrogate `pid` [mom_id_entity.pid]>
+      <SAW : String `type_name` [mom_id_entity.type_name]>
+    <SAW : FFM.IP6_Network [ffm_ip6_network : mom_id_entity]>
+      <SAW : Link_Ref `_ip_pool`>
+      <SAW : Rev_Ref `creation`>
+      <SAW : String `desc` [ffm_ip6_network.desc]>
+      <SAW : Link_Ref_List `documents`>
+      <SAW : Date-Time `expiration_date` [ffm_ip6_network.expiration_date]>
+      <SAW : Boolean `has_children`>
+      <SAW : Link_Ref `ip_pool`>
+      <SAW : Boolean `is_free`>
+      <SAW : Rev_Ref `last_change`>
+      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
+      <SAW : IP6-network `net_address` ...
+      <SAW : Role_Ref `net_interface`>
+      <SAW : Entity `owner` [ffm_ip6_network.owner]>
+      <SAW : Entity `parent` [ffm_ip6_network.parent]>
+      <SAW : Surrogate `pid` [mom_id_entity.pid]>
+      <SAW : Entity `pool` [ffm_ip6_network.pool]>
+      <SAW : String `type_name` [mom_id_entity.type_name]>
+      <SAW : Role_Ref `virtual_wireless_interface`>
+      <SAW : Role_Ref `wired_interface`>
+      <SAW : Role_Ref `wireless_interface`>
+    <SAW : FFM.IP6_Pool [ffm_ip6_pool : mom_id_entity]>
+      <SAW : Time Delta `cool_down_period` [ffm_ip6_pool.cool_down_period]>
+      <SAW : Rev_Ref `creation`>
+      <SAW : Link_Ref_List `documents`>
+      <SAW : Rev_Ref `last_change`>
+      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
+      <SAW : IP6_Network `left` [ffm_ip6_pool.left]>
+      <SAW : Int_Interval `netmask_interval` [ffm_ip6_pool.netmask_interval__lower, ffm_ip6_pool.netmask_interval__upper]>
+      <SAW : Int `netmask_interval.center`>
+      <SAW : Int `netmask_interval.length`>
+      <SAW : Entity `node` [ffm_ip6_pool.node]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
     <SAW : FFM._Net_Credentials_ [mom_id_entity]>
@@ -888,20 +930,12 @@ _test_q_able = """
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : Company `right` [ffm_device_type_made_by_company.right]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
-    <SAW : FFM.Net_Interface_in_IP_Network [ffm_net_interface_in_ip_network : mom_id_entity]>
-      <SAW : Rev_Ref `creation`>
-      <SAW : Link_Ref_List `documents`>
-      <SAW : Rev_Ref `last_change`>
-      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : Net_Interface `left` [ffm_net_interface_in_ip_network.left]>
-      <SAW : Int `mask_len` [ffm_net_interface_in_ip_network.mask_len]>
-      <SAW : String `name` [ffm_net_interface_in_ip_network.name, ffm_net_interface_in_ip_network.__raw_name]>
-      <SAW : Surrogate `pid` [mom_id_entity.pid]>
-      <SAW : IP_Network `right` [ffm_net_interface_in_ip_network.right]>
-      <SAW : String `type_name` [mom_id_entity.type_name]>
     <SAW : FFM.Net_Interface_in_IP4_Network [ffm_net_interface_in_ip_network : mom_id_entity]>
       <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `documents`>
+      <SAW : Link_Ref_List `ip4_dns_aliases`>
+      <SAW : Link_Ref_List `ip6_dns_aliases`>
+      <SAW : Link_Ref_List `ip_dns_aliases`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Net_Interface `left` [ffm_net_interface_in_ip_network.left]>
@@ -913,6 +947,9 @@ _test_q_able = """
     <SAW : FFM.Net_Interface_in_IP6_Network [ffm_net_interface_in_ip_network : mom_id_entity]>
       <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `documents`>
+      <SAW : Link_Ref_List `ip4_dns_aliases`>
+      <SAW : Link_Ref_List `ip6_dns_aliases`>
+      <SAW : Link_Ref_List `ip_dns_aliases`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Net_Interface `left` [ffm_net_interface_in_ip_network.left]>
@@ -965,6 +1002,9 @@ _test_q_able = """
     <SAW : FFM.Wired_Interface_in_IP6_Network [ffm_wired_interface_in_ip6_network : ffm_net_interface_in_ip_network : mom_id_entity]>
       <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `documents`>
+      <SAW : Link_Ref_List `ip4_dns_aliases`>
+      <SAW : Link_Ref_List `ip6_dns_aliases`>
+      <SAW : Link_Ref_List `ip_dns_aliases`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Wired_Interface `left` [ffm_net_interface_in_ip_network.left]>
@@ -976,6 +1016,9 @@ _test_q_able = """
     <SAW : FFM.Wireless_Interface_in_IP6_Network [ffm_wireless_interface_in_ip6_network : ffm_net_interface_in_ip_network : mom_id_entity]>
       <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `documents`>
+      <SAW : Link_Ref_List `ip4_dns_aliases`>
+      <SAW : Link_Ref_List `ip6_dns_aliases`>
+      <SAW : Link_Ref_List `ip_dns_aliases`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Wireless_Interface `left` [ffm_net_interface_in_ip_network.left]>
@@ -987,6 +1030,9 @@ _test_q_able = """
     <SAW : FFM.Virtual_Wireless_Interface_in_IP6_Network [ffm_virtual_wireless_interface_in_ip6_network : ffm_net_interface_in_ip_network : mom_id_entity]>
       <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `documents`>
+      <SAW : Link_Ref_List `ip4_dns_aliases`>
+      <SAW : Link_Ref_List `ip6_dns_aliases`>
+      <SAW : Link_Ref_List `ip_dns_aliases`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Virtual_Wireless_Interface `left` [ffm_net_interface_in_ip_network.left]>
@@ -998,6 +1044,9 @@ _test_q_able = """
     <SAW : FFM.Wired_Interface_in_IP4_Network [ffm_wired_interface_in_ip4_network : ffm_net_interface_in_ip_network : mom_id_entity]>
       <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `documents`>
+      <SAW : Link_Ref_List `ip4_dns_aliases`>
+      <SAW : Link_Ref_List `ip6_dns_aliases`>
+      <SAW : Link_Ref_List `ip_dns_aliases`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Wired_Interface `left` [ffm_net_interface_in_ip_network.left]>
@@ -1009,6 +1058,9 @@ _test_q_able = """
     <SAW : FFM.Wireless_Interface_in_IP4_Network [ffm_wireless_interface_in_ip4_network : ffm_net_interface_in_ip_network : mom_id_entity]>
       <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `documents`>
+      <SAW : Link_Ref_List `ip4_dns_aliases`>
+      <SAW : Link_Ref_List `ip6_dns_aliases`>
+      <SAW : Link_Ref_List `ip_dns_aliases`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Wireless_Interface `left` [ffm_net_interface_in_ip_network.left]>
@@ -1020,6 +1072,9 @@ _test_q_able = """
     <SAW : FFM.Virtual_Wireless_Interface_in_IP4_Network [ffm_virtual_wireless_interface_in_ip4_network : ffm_net_interface_in_ip_network : mom_id_entity]>
       <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `documents`>
+      <SAW : Link_Ref_List `ip4_dns_aliases`>
+      <SAW : Link_Ref_List `ip6_dns_aliases`>
+      <SAW : Link_Ref_List `ip_dns_aliases`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Virtual_Wireless_Interface `left` [ffm_net_interface_in_ip_network.left]>
@@ -1031,6 +1086,9 @@ _test_q_able = """
     <SAW : FFM.Wired_Interface_in_IP_Network [ffm_net_interface_in_ip_network : mom_id_entity]>
       <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `documents`>
+      <SAW : Link_Ref_List `ip4_dns_aliases`>
+      <SAW : Link_Ref_List `ip6_dns_aliases`>
+      <SAW : Link_Ref_List `ip_dns_aliases`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Wired_Interface `left` [ffm_net_interface_in_ip_network.left]>
@@ -1042,6 +1100,9 @@ _test_q_able = """
     <SAW : FFM.Wireless_Interface_in_IP_Network [ffm_net_interface_in_ip_network : mom_id_entity]>
       <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `documents`>
+      <SAW : Link_Ref_List `ip4_dns_aliases`>
+      <SAW : Link_Ref_List `ip6_dns_aliases`>
+      <SAW : Link_Ref_List `ip_dns_aliases`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Wireless_Interface `left` [ffm_net_interface_in_ip_network.left]>
@@ -1053,6 +1114,9 @@ _test_q_able = """
     <SAW : FFM.Virtual_Wireless_Interface_in_IP_Network [ffm_net_interface_in_ip_network : mom_id_entity]>
       <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `documents`>
+      <SAW : Link_Ref_List `ip4_dns_aliases`>
+      <SAW : Link_Ref_List `ip6_dns_aliases`>
+      <SAW : Link_Ref_List `ip_dns_aliases`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
       <SAW : Virtual_Wireless_Interface `left` [ffm_net_interface_in_ip_network.left]>
@@ -2563,6 +2627,10 @@ _test_select = """
                ffm_firmware_version."left" AS ffm_firmware_version_left,
                ffm_firmware_version.pid AS ffm_firmware_version_pid,
                ffm_firmware_version.version AS ffm_firmware_version_version,
+               ffm_ip4_dns_alias."left" AS ffm_ip4_dns_alias_left,
+               ffm_ip4_dns_alias.__raw_name AS ffm_ip4_dns_alias___raw_name,
+               ffm_ip4_dns_alias.name AS ffm_ip4_dns_alias_name,
+               ffm_ip4_dns_alias.pid AS ffm_ip4_dns_alias_pid,
                ffm_ip4_network."desc" AS ffm_ip4_network_desc,
                ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
                ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
@@ -2576,6 +2644,10 @@ _test_select = """
                ffm_ip4_pool.netmask_interval__upper AS ffm_ip4_pool_netmask_interval__upper,
                ffm_ip4_pool.node AS ffm_ip4_pool_node,
                ffm_ip4_pool.pid AS ffm_ip4_pool_pid,
+               ffm_ip6_dns_alias."left" AS ffm_ip6_dns_alias_left,
+               ffm_ip6_dns_alias.__raw_name AS ffm_ip6_dns_alias___raw_name,
+               ffm_ip6_dns_alias.name AS ffm_ip6_dns_alias_name,
+               ffm_ip6_dns_alias.pid AS ffm_ip6_dns_alias_pid,
                ffm_ip6_network."desc" AS ffm_ip6_network_desc,
                ffm_ip6_network.expiration_date AS ffm_ip6_network_expiration_date,
                ffm_ip6_network.net_address AS ffm_ip6_network_net_address,
@@ -2693,16 +2765,1590 @@ _test_select = """
            LEFT OUTER JOIN ffm_firmware_binary ON mom_id_entity.pid = ffm_firmware_binary.pid
            LEFT OUTER JOIN ffm_firmware_bundle ON mom_id_entity.pid = ffm_firmware_bundle.pid
            LEFT OUTER JOIN ffm_firmware_binary_in_firmware_bundle ON mom_id_entity.pid = ffm_firmware_binary_in_firmware_bundle.pid
-           LEFT OUTER JOIN ffm_ip4_network ON mom_id_entity.pid = ffm_ip4_network.pid
-           LEFT OUTER JOIN ffm_ip4_pool ON mom_id_entity.pid = ffm_ip4_pool.pid
-           LEFT OUTER JOIN ffm_ip6_network ON mom_id_entity.pid = ffm_ip6_network.pid
-           LEFT OUTER JOIN ffm_ip6_pool ON mom_id_entity.pid = ffm_ip6_pool.pid
            LEFT OUTER JOIN ffm_net_device_type ON mom_id_entity.pid = ffm_net_device_type.pid
            LEFT OUTER JOIN ffm_net_device ON mom_id_entity.pid = ffm_net_device.pid
            LEFT OUTER JOIN ffm_net_interface ON mom_id_entity.pid = ffm_net_interface.pid
            LEFT OUTER JOIN ffm__wireless_interface_ ON ffm_net_interface.pid = ffm__wireless_interface_.pid
            LEFT OUTER JOIN ffm_virtual_wireless_interface ON ffm__wireless_interface_.pid = ffm_virtual_wireless_interface.pid
+           LEFT OUTER JOIN ffm_net_interface_in_ip_network ON mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
+           LEFT OUTER JOIN ffm_ip4_dns_alias ON mom_id_entity.pid = ffm_ip4_dns_alias.pid
+           LEFT OUTER JOIN ffm_ip4_network ON mom_id_entity.pid = ffm_ip4_network.pid
+           LEFT OUTER JOIN ffm_ip4_pool ON mom_id_entity.pid = ffm_ip4_pool.pid
+           LEFT OUTER JOIN ffm_ip6_dns_alias ON mom_id_entity.pid = ffm_ip6_dns_alias.pid
+           LEFT OUTER JOIN ffm_ip6_network ON mom_id_entity.pid = ffm_ip6_network.pid
+           LEFT OUTER JOIN ffm_ip6_pool ON mom_id_entity.pid = ffm_ip6_pool.pid
            LEFT OUTER JOIN ffm_wpa_credentials ON mom_id_entity.pid = ffm_wpa_credentials.pid
+           LEFT OUTER JOIN ffm_regulatory_domain ON mom_id_entity.pid = ffm_regulatory_domain.pid
+           LEFT OUTER JOIN ffm_regulatory_permission ON mom_id_entity.pid = ffm_regulatory_permission.pid
+           LEFT OUTER JOIN ffm_zone ON mom_id_entity.pid = ffm_zone.pid
+           LEFT OUTER JOIN ffm_routing_zone_olsr ON mom_id_entity.pid = ffm_routing_zone_olsr.pid
+           LEFT OUTER JOIN ffm_wireless_standard ON mom_id_entity.pid = ffm_wireless_standard.pid
+           LEFT OUTER JOIN ffm_wireless_channel ON mom_id_entity.pid = ffm_wireless_channel.pid
+           LEFT OUTER JOIN ffm_device_type_made_by_company ON mom_id_entity.pid = ffm_device_type_made_by_company.pid
+           LEFT OUTER JOIN ffm_net_link ON mom_id_entity.pid = ffm_net_link.pid
+           LEFT OUTER JOIN ffm_person_mentors_person ON mom_id_entity.pid = ffm_person_mentors_person.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_wireless_channel ON mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+        WHERE mom_id_entity.pid = ffm_antenna_type.pid
+            OR mom_id_entity.pid = ffm_node.pid
+            OR mom_id_entity.pid = ffm_antenna.pid
+            OR mom_id_entity.pid = ffm_antenna_band.pid
+            OR mom_id_entity.pid = ffm_firmware_type.pid
+            OR mom_id_entity.pid = ffm_firmware_version.pid
+            OR mom_id_entity.pid = ffm_firmware_binary.pid
+            OR mom_id_entity.pid = ffm_firmware_bundle.pid
+            OR mom_id_entity.pid = ffm_firmware_binary_in_firmware_bundle.pid
+            OR mom_id_entity.pid = ffm_net_device_type.pid
+            OR mom_id_entity.pid = ffm_net_device.pid
+            OR mom_id_entity.pid = ffm_net_interface.pid
+            OR mom_id_entity.pid = ffm__wireless_interface_.pid
+            OR mom_id_entity.pid = ffm_virtual_wireless_interface.pid
+            OR mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
+            OR mom_id_entity.pid = ffm_ip4_dns_alias.pid
+            OR mom_id_entity.pid = ffm_ip4_network.pid
+            OR mom_id_entity.pid = ffm_ip4_pool.pid
+            OR mom_id_entity.pid = ffm_ip6_dns_alias.pid
+            OR mom_id_entity.pid = ffm_ip6_network.pid
+            OR mom_id_entity.pid = ffm_ip6_pool.pid
+            OR mom_id_entity.pid = ffm_wpa_credentials.pid
+            OR mom_id_entity.pid = ffm_regulatory_domain.pid
+            OR mom_id_entity.pid = ffm_regulatory_permission.pid
+            OR mom_id_entity.pid = ffm_zone.pid
+            OR mom_id_entity.pid = ffm_routing_zone_olsr.pid
+            OR mom_id_entity.pid = ffm_wireless_standard.pid
+            OR mom_id_entity.pid = ffm_wireless_channel.pid
+            OR mom_id_entity.pid = ffm_device_type_made_by_company.pid
+            OR mom_id_entity.pid = ffm_net_link.pid
+            OR mom_id_entity.pid = ffm_person_mentors_person.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+    FFM.Object
+        SELECT ffm_antenna_type."desc" AS ffm_antenna_type_desc,
+               ffm_antenna_type.__raw_model_no AS ffm_antenna_type___raw_model_no,
+               ffm_antenna_type.__raw_name AS ffm_antenna_type___raw_name,
+               ffm_antenna_type.__raw_revision AS ffm_antenna_type___raw_revision,
+               ffm_antenna_type.gain AS ffm_antenna_type_gain,
+               ffm_antenna_type.model_no AS ffm_antenna_type_model_no,
+               ffm_antenna_type.name AS ffm_antenna_type_name,
+               ffm_antenna_type.pid AS ffm_antenna_type_pid,
+               ffm_antenna_type.polarization AS ffm_antenna_type_polarization,
+               ffm_antenna_type.revision AS ffm_antenna_type_revision,
+               ffm_firmware_bundle.name AS ffm_firmware_bundle_name,
+               ffm_firmware_bundle.pid AS ffm_firmware_bundle_pid,
+               ffm_firmware_bundle.version AS ffm_firmware_bundle_version,
+               ffm_firmware_type.name AS ffm_firmware_type_name,
+               ffm_firmware_type.pid AS ffm_firmware_type_pid,
+               ffm_firmware_type.url AS ffm_firmware_type_url,
+               ffm_ip4_network."desc" AS ffm_ip4_network_desc,
+               ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
+               ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+               ffm_ip4_network.owner AS ffm_ip4_network_owner,
+               ffm_ip4_network.parent AS ffm_ip4_network_parent,
+               ffm_ip4_network.pid AS ffm_ip4_network_pid,
+               ffm_ip4_network.pool AS ffm_ip4_network_pool,
+               ffm_ip6_network."desc" AS ffm_ip6_network_desc,
+               ffm_ip6_network.expiration_date AS ffm_ip6_network_expiration_date,
+               ffm_ip6_network.net_address AS ffm_ip6_network_net_address,
+               ffm_ip6_network.owner AS ffm_ip6_network_owner,
+               ffm_ip6_network.parent AS ffm_ip6_network_parent,
+               ffm_ip6_network.pid AS ffm_ip6_network_pid,
+               ffm_ip6_network.pool AS ffm_ip6_network_pool,
+               ffm_net_device_type."desc" AS ffm_net_device_type_desc,
+               ffm_net_device_type.__raw_model_no AS ffm_net_device_type___raw_model_no,
+               ffm_net_device_type.__raw_name AS ffm_net_device_type___raw_name,
+               ffm_net_device_type.__raw_revision AS ffm_net_device_type___raw_revision,
+               ffm_net_device_type.model_no AS ffm_net_device_type_model_no,
+               ffm_net_device_type.name AS ffm_net_device_type_name,
+               ffm_net_device_type.pid AS ffm_net_device_type_pid,
+               ffm_net_device_type.revision AS ffm_net_device_type_revision,
+               ffm_node."desc" AS ffm_node_desc,
+               ffm_node.__raw_name AS ffm_node___raw_name,
+               ffm_node.address AS ffm_node_address,
+               ffm_node.manager AS ffm_node_manager,
+               ffm_node.name AS ffm_node_name,
+               ffm_node.owner AS ffm_node_owner,
+               ffm_node.pid AS ffm_node_pid,
+               ffm_node.position____raw_lat AS ffm_node_position____raw_lat,
+               ffm_node.position____raw_lon AS ffm_node_position____raw_lon,
+               ffm_node.position__height AS ffm_node_position__height,
+               ffm_node.position__lat AS ffm_node_position__lat,
+               ffm_node.position__lon AS ffm_node_position__lon,
+               ffm_node.show_in_map AS ffm_node_show_in_map,
+               ffm_regulatory_domain.__raw_countrycode AS ffm_regulatory_domain___raw_countrycode,
+               ffm_regulatory_domain.countrycode AS ffm_regulatory_domain_countrycode,
+               ffm_regulatory_domain.pid AS ffm_regulatory_domain_pid,
+               ffm_wireless_standard.__raw_bandwidth AS ffm_wireless_standard___raw_bandwidth,
+               ffm_wireless_standard.__raw_name AS ffm_wireless_standard___raw_name,
+               ffm_wireless_standard.bandwidth AS ffm_wireless_standard_bandwidth,
+               ffm_wireless_standard.name AS ffm_wireless_standard_name,
+               ffm_wireless_standard.pid AS ffm_wireless_standard_pid,
+               ffm_zone.__raw_name AS ffm_zone___raw_name,
+               ffm_zone.name AS ffm_zone_name,
+               ffm_zone.pid AS ffm_zone_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           LEFT OUTER JOIN ffm_antenna_type ON mom_id_entity.pid = ffm_antenna_type.pid
+           LEFT OUTER JOIN ffm_node ON mom_id_entity.pid = ffm_node.pid
+           LEFT OUTER JOIN ffm_firmware_type ON mom_id_entity.pid = ffm_firmware_type.pid
+           LEFT OUTER JOIN ffm_firmware_bundle ON mom_id_entity.pid = ffm_firmware_bundle.pid
+           LEFT OUTER JOIN ffm_net_device_type ON mom_id_entity.pid = ffm_net_device_type.pid
+           LEFT OUTER JOIN ffm_ip4_network ON mom_id_entity.pid = ffm_ip4_network.pid
+           LEFT OUTER JOIN ffm_ip6_network ON mom_id_entity.pid = ffm_ip6_network.pid
+           LEFT OUTER JOIN ffm_regulatory_domain ON mom_id_entity.pid = ffm_regulatory_domain.pid
+           LEFT OUTER JOIN ffm_zone ON mom_id_entity.pid = ffm_zone.pid
+           LEFT OUTER JOIN ffm_wireless_standard ON mom_id_entity.pid = ffm_wireless_standard.pid
+        WHERE mom_id_entity.pid = ffm_antenna_type.pid
+            OR mom_id_entity.pid = ffm_node.pid
+            OR mom_id_entity.pid = ffm_firmware_type.pid
+            OR mom_id_entity.pid = ffm_firmware_bundle.pid
+            OR mom_id_entity.pid = ffm_net_device_type.pid
+            OR mom_id_entity.pid = ffm_ip4_network.pid
+            OR mom_id_entity.pid = ffm_ip6_network.pid
+            OR mom_id_entity.pid = ffm_regulatory_domain.pid
+            OR mom_id_entity.pid = ffm_zone.pid
+            OR mom_id_entity.pid = ffm_wireless_standard.pid
+    FFM.Device_Type
+        SELECT ffm_antenna_type."desc" AS ffm_antenna_type_desc,
+               ffm_antenna_type.__raw_model_no AS ffm_antenna_type___raw_model_no,
+               ffm_antenna_type.__raw_name AS ffm_antenna_type___raw_name,
+               ffm_antenna_type.__raw_revision AS ffm_antenna_type___raw_revision,
+               ffm_antenna_type.gain AS ffm_antenna_type_gain,
+               ffm_antenna_type.model_no AS ffm_antenna_type_model_no,
+               ffm_antenna_type.name AS ffm_antenna_type_name,
+               ffm_antenna_type.pid AS ffm_antenna_type_pid,
+               ffm_antenna_type.polarization AS ffm_antenna_type_polarization,
+               ffm_antenna_type.revision AS ffm_antenna_type_revision,
+               ffm_net_device_type."desc" AS ffm_net_device_type_desc,
+               ffm_net_device_type.__raw_model_no AS ffm_net_device_type___raw_model_no,
+               ffm_net_device_type.__raw_name AS ffm_net_device_type___raw_name,
+               ffm_net_device_type.__raw_revision AS ffm_net_device_type___raw_revision,
+               ffm_net_device_type.model_no AS ffm_net_device_type_model_no,
+               ffm_net_device_type.name AS ffm_net_device_type_name,
+               ffm_net_device_type.pid AS ffm_net_device_type_pid,
+               ffm_net_device_type.revision AS ffm_net_device_type_revision,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           LEFT OUTER JOIN ffm_antenna_type ON mom_id_entity.pid = ffm_antenna_type.pid
+           LEFT OUTER JOIN ffm_net_device_type ON mom_id_entity.pid = ffm_net_device_type.pid
+        WHERE mom_id_entity.pid = ffm_antenna_type.pid
+            OR mom_id_entity.pid = ffm_net_device_type.pid
+    FFM.Antenna_Type
+        SELECT ffm_antenna_type."desc" AS ffm_antenna_type_desc,
+               ffm_antenna_type.__raw_model_no AS ffm_antenna_type___raw_model_no,
+               ffm_antenna_type.__raw_name AS ffm_antenna_type___raw_name,
+               ffm_antenna_type.__raw_revision AS ffm_antenna_type___raw_revision,
+               ffm_antenna_type.gain AS ffm_antenna_type_gain,
+               ffm_antenna_type.model_no AS ffm_antenna_type_model_no,
+               ffm_antenna_type.name AS ffm_antenna_type_name,
+               ffm_antenna_type.pid AS ffm_antenna_type_pid,
+               ffm_antenna_type.polarization AS ffm_antenna_type_polarization,
+               ffm_antenna_type.revision AS ffm_antenna_type_revision,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_antenna_type ON mom_id_entity.pid = ffm_antenna_type.pid
+    FFM.Link
+        SELECT ffm__wireless_interface_.__raw_txpower AS ffm__wireless_interface____raw_txpower,
+               ffm__wireless_interface_.bssid AS ffm__wireless_interface__bssid,
+               ffm__wireless_interface_.essid AS ffm__wireless_interface__essid,
+               ffm__wireless_interface_.mode AS ffm__wireless_interface__mode,
+               ffm__wireless_interface_.pid AS ffm__wireless_interface__pid,
+               ffm__wireless_interface_.standard AS ffm__wireless_interface__standard,
+               ffm__wireless_interface_.txpower AS ffm__wireless_interface__txpower,
+               ffm_antenna."desc" AS ffm_antenna_desc,
+               ffm_antenna."left" AS ffm_antenna_left,
+               ffm_antenna.__raw_azimuth AS ffm_antenna___raw_azimuth,
+               ffm_antenna.__raw_name AS ffm_antenna___raw_name,
+               ffm_antenna.azimuth AS ffm_antenna_azimuth,
+               ffm_antenna.elevation_angle AS ffm_antenna_elevation_angle,
+               ffm_antenna.gain AS ffm_antenna_gain,
+               ffm_antenna.name AS ffm_antenna_name,
+               ffm_antenna.pid AS ffm_antenna_pid,
+               ffm_antenna.polarization AS ffm_antenna_polarization,
+               ffm_antenna_band."left" AS ffm_antenna_band_left,
+               ffm_antenna_band.band____raw_lower AS ffm_antenna_band_band____raw_lower,
+               ffm_antenna_band.band____raw_upper AS ffm_antenna_band_band____raw_upper,
+               ffm_antenna_band.band__lower AS ffm_antenna_band_band__lower,
+               ffm_antenna_band.band__upper AS ffm_antenna_band_band__upper,
+               ffm_antenna_band.pid AS ffm_antenna_band_pid,
+               ffm_device_type_made_by_company."left" AS ffm_device_type_made_by_company_left,
+               ffm_device_type_made_by_company."right" AS ffm_device_type_made_by_company_right,
+               ffm_device_type_made_by_company.pid AS ffm_device_type_made_by_company_pid,
+               ffm_firmware_binary."left" AS ffm_firmware_binary_left,
+               ffm_firmware_binary.pid AS ffm_firmware_binary_pid,
+               ffm_firmware_binary_in_firmware_bundle."left" AS ffm_firmware_binary_in_firmware_bundle_left,
+               ffm_firmware_binary_in_firmware_bundle."right" AS ffm_firmware_binary_in_firmware_bundle_right,
+               ffm_firmware_binary_in_firmware_bundle.pid AS ffm_firmware_binary_in_firmware_bundle_pid,
+               ffm_firmware_version."left" AS ffm_firmware_version_left,
+               ffm_firmware_version.pid AS ffm_firmware_version_pid,
+               ffm_firmware_version.version AS ffm_firmware_version_version,
+               ffm_ip4_dns_alias."left" AS ffm_ip4_dns_alias_left,
+               ffm_ip4_dns_alias.__raw_name AS ffm_ip4_dns_alias___raw_name,
+               ffm_ip4_dns_alias.name AS ffm_ip4_dns_alias_name,
+               ffm_ip4_dns_alias.pid AS ffm_ip4_dns_alias_pid,
+               ffm_ip4_pool."left" AS ffm_ip4_pool_left,
+               ffm_ip4_pool.cool_down_period AS ffm_ip4_pool_cool_down_period,
+               ffm_ip4_pool.netmask_interval__lower AS ffm_ip4_pool_netmask_interval__lower,
+               ffm_ip4_pool.netmask_interval__upper AS ffm_ip4_pool_netmask_interval__upper,
+               ffm_ip4_pool.node AS ffm_ip4_pool_node,
+               ffm_ip4_pool.pid AS ffm_ip4_pool_pid,
+               ffm_ip6_dns_alias."left" AS ffm_ip6_dns_alias_left,
+               ffm_ip6_dns_alias.__raw_name AS ffm_ip6_dns_alias___raw_name,
+               ffm_ip6_dns_alias.name AS ffm_ip6_dns_alias_name,
+               ffm_ip6_dns_alias.pid AS ffm_ip6_dns_alias_pid,
+               ffm_ip6_pool."left" AS ffm_ip6_pool_left,
+               ffm_ip6_pool.cool_down_period AS ffm_ip6_pool_cool_down_period,
+               ffm_ip6_pool.netmask_interval__lower AS ffm_ip6_pool_netmask_interval__lower,
+               ffm_ip6_pool.netmask_interval__upper AS ffm_ip6_pool_netmask_interval__upper,
+               ffm_ip6_pool.node AS ffm_ip6_pool_node,
+               ffm_ip6_pool.pid AS ffm_ip6_pool_pid,
+               ffm_net_device."desc" AS ffm_net_device_desc,
+               ffm_net_device."left" AS ffm_net_device_left,
+               ffm_net_device.__raw_name AS ffm_net_device___raw_name,
+               ffm_net_device.name AS ffm_net_device_name,
+               ffm_net_device.node AS ffm_net_device_node,
+               ffm_net_device.pid AS ffm_net_device_pid,
+               ffm_net_interface."desc" AS ffm_net_interface_desc,
+               ffm_net_interface."left" AS ffm_net_interface_left,
+               ffm_net_interface.__raw_name AS ffm_net_interface___raw_name,
+               ffm_net_interface.is_active AS ffm_net_interface_is_active,
+               ffm_net_interface.mac_address AS ffm_net_interface_mac_address,
+               ffm_net_interface.name AS ffm_net_interface_name,
+               ffm_net_interface.pid AS ffm_net_interface_pid,
+               ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
+               ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
+               ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
+               ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
+               ffm_net_link."left" AS ffm_net_link_left,
+               ffm_net_link."right" AS ffm_net_link_right,
+               ffm_net_link.pid AS ffm_net_link_pid,
+               ffm_person_mentors_person."left" AS ffm_person_mentors_person_left,
+               ffm_person_mentors_person."right" AS ffm_person_mentors_person_right,
+               ffm_person_mentors_person.pid AS ffm_person_mentors_person_pid,
+               ffm_regulatory_permission."left" AS ffm_regulatory_permission_left,
+               ffm_regulatory_permission.__raw_bandwidth AS ffm_regulatory_permission___raw_bandwidth,
+               ffm_regulatory_permission.__raw_eirp AS ffm_regulatory_permission___raw_eirp,
+               ffm_regulatory_permission.band____raw_lower AS ffm_regulatory_permission_band____raw_lower,
+               ffm_regulatory_permission.band____raw_upper AS ffm_regulatory_permission_band____raw_upper,
+               ffm_regulatory_permission.band__lower AS ffm_regulatory_permission_band__lower,
+               ffm_regulatory_permission.band__upper AS ffm_regulatory_permission_band__upper,
+               ffm_regulatory_permission.bandwidth AS ffm_regulatory_permission_bandwidth,
+               ffm_regulatory_permission.eirp AS ffm_regulatory_permission_eirp,
+               ffm_regulatory_permission.gain AS ffm_regulatory_permission_gain,
+               ffm_regulatory_permission.indoor_only AS ffm_regulatory_permission_indoor_only,
+               ffm_regulatory_permission.need_dfs AS ffm_regulatory_permission_need_dfs,
+               ffm_regulatory_permission.pid AS ffm_regulatory_permission_pid,
+               ffm_routing_zone_olsr."left" AS ffm_routing_zone_olsr_left,
+               ffm_routing_zone_olsr.pid AS ffm_routing_zone_olsr_pid,
+               ffm_virtual_wireless_interface.hardware AS ffm_virtual_wireless_interface_hardware,
+               ffm_virtual_wireless_interface.pid AS ffm_virtual_wireless_interface_pid,
+               ffm_wireless_channel."left" AS ffm_wireless_channel_left,
+               ffm_wireless_channel.__raw_frequency AS ffm_wireless_channel___raw_frequency,
+               ffm_wireless_channel.frequency AS ffm_wireless_channel_frequency,
+               ffm_wireless_channel.number AS ffm_wireless_channel_number,
+               ffm_wireless_channel.pid AS ffm_wireless_channel_pid,
+               ffm_wireless_interface_uses_antenna."left" AS ffm_wireless_interface_uses_antenna_left,
+               ffm_wireless_interface_uses_antenna."right" AS ffm_wireless_interface_uses_antenna_right,
+               ffm_wireless_interface_uses_antenna.pid AS ffm_wireless_interface_uses_antenna_pid,
+               ffm_wireless_interface_uses_antenna.relative_height AS ffm_wireless_interface_uses_antenna_relative_height,
+               ffm_wireless_interface_uses_wireless_channel."left" AS ffm_wireless_interface_uses_wireless_channel_left,
+               ffm_wireless_interface_uses_wireless_channel."right" AS ffm_wireless_interface_uses_wireless_channel_right,
+               ffm_wireless_interface_uses_wireless_channel.pid AS ffm_wireless_interface_uses_wireless_channel_pid,
+               ffm_wpa_credentials."left" AS ffm_wpa_credentials_left,
+               ffm_wpa_credentials.key AS ffm_wpa_credentials_key,
+               ffm_wpa_credentials.pid AS ffm_wpa_credentials_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           LEFT OUTER JOIN ffm_antenna ON mom_id_entity.pid = ffm_antenna.pid
+           LEFT OUTER JOIN ffm_antenna_band ON mom_id_entity.pid = ffm_antenna_band.pid
+           LEFT OUTER JOIN ffm_firmware_version ON mom_id_entity.pid = ffm_firmware_version.pid
+           LEFT OUTER JOIN ffm_firmware_binary ON mom_id_entity.pid = ffm_firmware_binary.pid
+           LEFT OUTER JOIN ffm_firmware_binary_in_firmware_bundle ON mom_id_entity.pid = ffm_firmware_binary_in_firmware_bundle.pid
+           LEFT OUTER JOIN ffm_net_device ON mom_id_entity.pid = ffm_net_device.pid
+           LEFT OUTER JOIN ffm_net_interface ON mom_id_entity.pid = ffm_net_interface.pid
+           LEFT OUTER JOIN ffm__wireless_interface_ ON ffm_net_interface.pid = ffm__wireless_interface_.pid
+           LEFT OUTER JOIN ffm_virtual_wireless_interface ON ffm__wireless_interface_.pid = ffm_virtual_wireless_interface.pid
+           LEFT OUTER JOIN ffm_net_interface_in_ip_network ON mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
+           LEFT OUTER JOIN ffm_ip4_dns_alias ON mom_id_entity.pid = ffm_ip4_dns_alias.pid
+           LEFT OUTER JOIN ffm_ip4_pool ON mom_id_entity.pid = ffm_ip4_pool.pid
+           LEFT OUTER JOIN ffm_ip6_dns_alias ON mom_id_entity.pid = ffm_ip6_dns_alias.pid
+           LEFT OUTER JOIN ffm_ip6_pool ON mom_id_entity.pid = ffm_ip6_pool.pid
+           LEFT OUTER JOIN ffm_wpa_credentials ON mom_id_entity.pid = ffm_wpa_credentials.pid
+           LEFT OUTER JOIN ffm_regulatory_permission ON mom_id_entity.pid = ffm_regulatory_permission.pid
+           LEFT OUTER JOIN ffm_routing_zone_olsr ON mom_id_entity.pid = ffm_routing_zone_olsr.pid
+           LEFT OUTER JOIN ffm_wireless_channel ON mom_id_entity.pid = ffm_wireless_channel.pid
+           LEFT OUTER JOIN ffm_device_type_made_by_company ON mom_id_entity.pid = ffm_device_type_made_by_company.pid
+           LEFT OUTER JOIN ffm_net_link ON mom_id_entity.pid = ffm_net_link.pid
+           LEFT OUTER JOIN ffm_person_mentors_person ON mom_id_entity.pid = ffm_person_mentors_person.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_wireless_channel ON mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+        WHERE mom_id_entity.pid = ffm_antenna.pid
+            OR mom_id_entity.pid = ffm_antenna_band.pid
+            OR mom_id_entity.pid = ffm_firmware_version.pid
+            OR mom_id_entity.pid = ffm_firmware_binary.pid
+            OR mom_id_entity.pid = ffm_firmware_binary_in_firmware_bundle.pid
+            OR mom_id_entity.pid = ffm_net_device.pid
+            OR mom_id_entity.pid = ffm_net_interface.pid
+            OR mom_id_entity.pid = ffm__wireless_interface_.pid
+            OR mom_id_entity.pid = ffm_virtual_wireless_interface.pid
+            OR mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
+            OR mom_id_entity.pid = ffm_ip4_dns_alias.pid
+            OR mom_id_entity.pid = ffm_ip4_pool.pid
+            OR mom_id_entity.pid = ffm_ip6_dns_alias.pid
+            OR mom_id_entity.pid = ffm_ip6_pool.pid
+            OR mom_id_entity.pid = ffm_wpa_credentials.pid
+            OR mom_id_entity.pid = ffm_regulatory_permission.pid
+            OR mom_id_entity.pid = ffm_routing_zone_olsr.pid
+            OR mom_id_entity.pid = ffm_wireless_channel.pid
+            OR mom_id_entity.pid = ffm_device_type_made_by_company.pid
+            OR mom_id_entity.pid = ffm_net_link.pid
+            OR mom_id_entity.pid = ffm_person_mentors_person.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+    FFM.Link1
+        SELECT ffm__wireless_interface_.__raw_txpower AS ffm__wireless_interface____raw_txpower,
+               ffm__wireless_interface_.bssid AS ffm__wireless_interface__bssid,
+               ffm__wireless_interface_.essid AS ffm__wireless_interface__essid,
+               ffm__wireless_interface_.mode AS ffm__wireless_interface__mode,
+               ffm__wireless_interface_.pid AS ffm__wireless_interface__pid,
+               ffm__wireless_interface_.standard AS ffm__wireless_interface__standard,
+               ffm__wireless_interface_.txpower AS ffm__wireless_interface__txpower,
+               ffm_antenna."desc" AS ffm_antenna_desc,
+               ffm_antenna."left" AS ffm_antenna_left,
+               ffm_antenna.__raw_azimuth AS ffm_antenna___raw_azimuth,
+               ffm_antenna.__raw_name AS ffm_antenna___raw_name,
+               ffm_antenna.azimuth AS ffm_antenna_azimuth,
+               ffm_antenna.elevation_angle AS ffm_antenna_elevation_angle,
+               ffm_antenna.gain AS ffm_antenna_gain,
+               ffm_antenna.name AS ffm_antenna_name,
+               ffm_antenna.pid AS ffm_antenna_pid,
+               ffm_antenna.polarization AS ffm_antenna_polarization,
+               ffm_antenna_band."left" AS ffm_antenna_band_left,
+               ffm_antenna_band.band____raw_lower AS ffm_antenna_band_band____raw_lower,
+               ffm_antenna_band.band____raw_upper AS ffm_antenna_band_band____raw_upper,
+               ffm_antenna_band.band__lower AS ffm_antenna_band_band__lower,
+               ffm_antenna_band.band__upper AS ffm_antenna_band_band__upper,
+               ffm_antenna_band.pid AS ffm_antenna_band_pid,
+               ffm_firmware_binary."left" AS ffm_firmware_binary_left,
+               ffm_firmware_binary.pid AS ffm_firmware_binary_pid,
+               ffm_firmware_version."left" AS ffm_firmware_version_left,
+               ffm_firmware_version.pid AS ffm_firmware_version_pid,
+               ffm_firmware_version.version AS ffm_firmware_version_version,
+               ffm_ip4_dns_alias."left" AS ffm_ip4_dns_alias_left,
+               ffm_ip4_dns_alias.__raw_name AS ffm_ip4_dns_alias___raw_name,
+               ffm_ip4_dns_alias.name AS ffm_ip4_dns_alias_name,
+               ffm_ip4_dns_alias.pid AS ffm_ip4_dns_alias_pid,
+               ffm_ip4_pool."left" AS ffm_ip4_pool_left,
+               ffm_ip4_pool.cool_down_period AS ffm_ip4_pool_cool_down_period,
+               ffm_ip4_pool.netmask_interval__lower AS ffm_ip4_pool_netmask_interval__lower,
+               ffm_ip4_pool.netmask_interval__upper AS ffm_ip4_pool_netmask_interval__upper,
+               ffm_ip4_pool.node AS ffm_ip4_pool_node,
+               ffm_ip4_pool.pid AS ffm_ip4_pool_pid,
+               ffm_ip6_dns_alias."left" AS ffm_ip6_dns_alias_left,
+               ffm_ip6_dns_alias.__raw_name AS ffm_ip6_dns_alias___raw_name,
+               ffm_ip6_dns_alias.name AS ffm_ip6_dns_alias_name,
+               ffm_ip6_dns_alias.pid AS ffm_ip6_dns_alias_pid,
+               ffm_ip6_pool."left" AS ffm_ip6_pool_left,
+               ffm_ip6_pool.cool_down_period AS ffm_ip6_pool_cool_down_period,
+               ffm_ip6_pool.netmask_interval__lower AS ffm_ip6_pool_netmask_interval__lower,
+               ffm_ip6_pool.netmask_interval__upper AS ffm_ip6_pool_netmask_interval__upper,
+               ffm_ip6_pool.node AS ffm_ip6_pool_node,
+               ffm_ip6_pool.pid AS ffm_ip6_pool_pid,
+               ffm_net_device."desc" AS ffm_net_device_desc,
+               ffm_net_device."left" AS ffm_net_device_left,
+               ffm_net_device.__raw_name AS ffm_net_device___raw_name,
+               ffm_net_device.name AS ffm_net_device_name,
+               ffm_net_device.node AS ffm_net_device_node,
+               ffm_net_device.pid AS ffm_net_device_pid,
+               ffm_net_interface."desc" AS ffm_net_interface_desc,
+               ffm_net_interface."left" AS ffm_net_interface_left,
+               ffm_net_interface.__raw_name AS ffm_net_interface___raw_name,
+               ffm_net_interface.is_active AS ffm_net_interface_is_active,
+               ffm_net_interface.mac_address AS ffm_net_interface_mac_address,
+               ffm_net_interface.name AS ffm_net_interface_name,
+               ffm_net_interface.pid AS ffm_net_interface_pid,
+               ffm_regulatory_permission."left" AS ffm_regulatory_permission_left,
+               ffm_regulatory_permission.__raw_bandwidth AS ffm_regulatory_permission___raw_bandwidth,
+               ffm_regulatory_permission.__raw_eirp AS ffm_regulatory_permission___raw_eirp,
+               ffm_regulatory_permission.band____raw_lower AS ffm_regulatory_permission_band____raw_lower,
+               ffm_regulatory_permission.band____raw_upper AS ffm_regulatory_permission_band____raw_upper,
+               ffm_regulatory_permission.band__lower AS ffm_regulatory_permission_band__lower,
+               ffm_regulatory_permission.band__upper AS ffm_regulatory_permission_band__upper,
+               ffm_regulatory_permission.bandwidth AS ffm_regulatory_permission_bandwidth,
+               ffm_regulatory_permission.eirp AS ffm_regulatory_permission_eirp,
+               ffm_regulatory_permission.gain AS ffm_regulatory_permission_gain,
+               ffm_regulatory_permission.indoor_only AS ffm_regulatory_permission_indoor_only,
+               ffm_regulatory_permission.need_dfs AS ffm_regulatory_permission_need_dfs,
+               ffm_regulatory_permission.pid AS ffm_regulatory_permission_pid,
+               ffm_routing_zone_olsr."left" AS ffm_routing_zone_olsr_left,
+               ffm_routing_zone_olsr.pid AS ffm_routing_zone_olsr_pid,
+               ffm_virtual_wireless_interface.hardware AS ffm_virtual_wireless_interface_hardware,
+               ffm_virtual_wireless_interface.pid AS ffm_virtual_wireless_interface_pid,
+               ffm_wireless_channel."left" AS ffm_wireless_channel_left,
+               ffm_wireless_channel.__raw_frequency AS ffm_wireless_channel___raw_frequency,
+               ffm_wireless_channel.frequency AS ffm_wireless_channel_frequency,
+               ffm_wireless_channel.number AS ffm_wireless_channel_number,
+               ffm_wireless_channel.pid AS ffm_wireless_channel_pid,
+               ffm_wpa_credentials."left" AS ffm_wpa_credentials_left,
+               ffm_wpa_credentials.key AS ffm_wpa_credentials_key,
+               ffm_wpa_credentials.pid AS ffm_wpa_credentials_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           LEFT OUTER JOIN ffm_antenna ON mom_id_entity.pid = ffm_antenna.pid
+           LEFT OUTER JOIN ffm_antenna_band ON mom_id_entity.pid = ffm_antenna_band.pid
+           LEFT OUTER JOIN ffm_firmware_version ON mom_id_entity.pid = ffm_firmware_version.pid
+           LEFT OUTER JOIN ffm_firmware_binary ON mom_id_entity.pid = ffm_firmware_binary.pid
+           LEFT OUTER JOIN ffm_net_device ON mom_id_entity.pid = ffm_net_device.pid
+           LEFT OUTER JOIN ffm_net_interface ON mom_id_entity.pid = ffm_net_interface.pid
+           LEFT OUTER JOIN ffm__wireless_interface_ ON ffm_net_interface.pid = ffm__wireless_interface_.pid
+           LEFT OUTER JOIN ffm_virtual_wireless_interface ON ffm__wireless_interface_.pid = ffm_virtual_wireless_interface.pid
+           LEFT OUTER JOIN ffm_ip4_dns_alias ON mom_id_entity.pid = ffm_ip4_dns_alias.pid
+           LEFT OUTER JOIN ffm_ip4_pool ON mom_id_entity.pid = ffm_ip4_pool.pid
+           LEFT OUTER JOIN ffm_ip6_dns_alias ON mom_id_entity.pid = ffm_ip6_dns_alias.pid
+           LEFT OUTER JOIN ffm_ip6_pool ON mom_id_entity.pid = ffm_ip6_pool.pid
+           LEFT OUTER JOIN ffm_wpa_credentials ON mom_id_entity.pid = ffm_wpa_credentials.pid
+           LEFT OUTER JOIN ffm_regulatory_permission ON mom_id_entity.pid = ffm_regulatory_permission.pid
+           LEFT OUTER JOIN ffm_routing_zone_olsr ON mom_id_entity.pid = ffm_routing_zone_olsr.pid
+           LEFT OUTER JOIN ffm_wireless_channel ON mom_id_entity.pid = ffm_wireless_channel.pid
+        WHERE mom_id_entity.pid = ffm_antenna.pid
+            OR mom_id_entity.pid = ffm_antenna_band.pid
+            OR mom_id_entity.pid = ffm_firmware_version.pid
+            OR mom_id_entity.pid = ffm_firmware_binary.pid
+            OR mom_id_entity.pid = ffm_net_device.pid
+            OR mom_id_entity.pid = ffm_net_interface.pid
+            OR mom_id_entity.pid = ffm__wireless_interface_.pid
+            OR mom_id_entity.pid = ffm_virtual_wireless_interface.pid
+            OR mom_id_entity.pid = ffm_ip4_dns_alias.pid
+            OR mom_id_entity.pid = ffm_ip4_pool.pid
+            OR mom_id_entity.pid = ffm_ip6_dns_alias.pid
+            OR mom_id_entity.pid = ffm_ip6_pool.pid
+            OR mom_id_entity.pid = ffm_wpa_credentials.pid
+            OR mom_id_entity.pid = ffm_regulatory_permission.pid
+            OR mom_id_entity.pid = ffm_routing_zone_olsr.pid
+            OR mom_id_entity.pid = ffm_wireless_channel.pid
+    FFM.Device
+        SELECT ffm_antenna."desc" AS ffm_antenna_desc,
+               ffm_antenna."left" AS ffm_antenna_left,
+               ffm_antenna.__raw_azimuth AS ffm_antenna___raw_azimuth,
+               ffm_antenna.__raw_name AS ffm_antenna___raw_name,
+               ffm_antenna.azimuth AS ffm_antenna_azimuth,
+               ffm_antenna.elevation_angle AS ffm_antenna_elevation_angle,
+               ffm_antenna.gain AS ffm_antenna_gain,
+               ffm_antenna.name AS ffm_antenna_name,
+               ffm_antenna.pid AS ffm_antenna_pid,
+               ffm_antenna.polarization AS ffm_antenna_polarization,
+               ffm_net_device."desc" AS ffm_net_device_desc,
+               ffm_net_device."left" AS ffm_net_device_left,
+               ffm_net_device.__raw_name AS ffm_net_device___raw_name,
+               ffm_net_device.name AS ffm_net_device_name,
+               ffm_net_device.node AS ffm_net_device_node,
+               ffm_net_device.pid AS ffm_net_device_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           LEFT OUTER JOIN ffm_antenna ON mom_id_entity.pid = ffm_antenna.pid
+           LEFT OUTER JOIN ffm_net_device ON mom_id_entity.pid = ffm_net_device.pid
+        WHERE mom_id_entity.pid = ffm_antenna.pid
+            OR mom_id_entity.pid = ffm_net_device.pid
+    FFM.Belongs_to_Node
+        SELECT ffm__wireless_interface_.__raw_txpower AS ffm__wireless_interface____raw_txpower,
+               ffm__wireless_interface_.bssid AS ffm__wireless_interface__bssid,
+               ffm__wireless_interface_.essid AS ffm__wireless_interface__essid,
+               ffm__wireless_interface_.mode AS ffm__wireless_interface__mode,
+               ffm__wireless_interface_.pid AS ffm__wireless_interface__pid,
+               ffm__wireless_interface_.standard AS ffm__wireless_interface__standard,
+               ffm__wireless_interface_.txpower AS ffm__wireless_interface__txpower,
+               ffm_antenna."desc" AS ffm_antenna_desc,
+               ffm_antenna."left" AS ffm_antenna_left,
+               ffm_antenna.__raw_azimuth AS ffm_antenna___raw_azimuth,
+               ffm_antenna.__raw_name AS ffm_antenna___raw_name,
+               ffm_antenna.azimuth AS ffm_antenna_azimuth,
+               ffm_antenna.elevation_angle AS ffm_antenna_elevation_angle,
+               ffm_antenna.gain AS ffm_antenna_gain,
+               ffm_antenna.name AS ffm_antenna_name,
+               ffm_antenna.pid AS ffm_antenna_pid,
+               ffm_antenna.polarization AS ffm_antenna_polarization,
+               ffm_net_device."desc" AS ffm_net_device_desc,
+               ffm_net_device."left" AS ffm_net_device_left,
+               ffm_net_device.__raw_name AS ffm_net_device___raw_name,
+               ffm_net_device.name AS ffm_net_device_name,
+               ffm_net_device.node AS ffm_net_device_node,
+               ffm_net_device.pid AS ffm_net_device_pid,
+               ffm_net_interface."desc" AS ffm_net_interface_desc,
+               ffm_net_interface."left" AS ffm_net_interface_left,
+               ffm_net_interface.__raw_name AS ffm_net_interface___raw_name,
+               ffm_net_interface.is_active AS ffm_net_interface_is_active,
+               ffm_net_interface.mac_address AS ffm_net_interface_mac_address,
+               ffm_net_interface.name AS ffm_net_interface_name,
+               ffm_net_interface.pid AS ffm_net_interface_pid,
+               ffm_node."desc" AS ffm_node_desc,
+               ffm_node.__raw_name AS ffm_node___raw_name,
+               ffm_node.address AS ffm_node_address,
+               ffm_node.manager AS ffm_node_manager,
+               ffm_node.name AS ffm_node_name,
+               ffm_node.owner AS ffm_node_owner,
+               ffm_node.pid AS ffm_node_pid,
+               ffm_node.position____raw_lat AS ffm_node_position____raw_lat,
+               ffm_node.position____raw_lon AS ffm_node_position____raw_lon,
+               ffm_node.position__height AS ffm_node_position__height,
+               ffm_node.position__lat AS ffm_node_position__lat,
+               ffm_node.position__lon AS ffm_node_position__lon,
+               ffm_node.show_in_map AS ffm_node_show_in_map,
+               ffm_virtual_wireless_interface.hardware AS ffm_virtual_wireless_interface_hardware,
+               ffm_virtual_wireless_interface.pid AS ffm_virtual_wireless_interface_pid,
+               ffm_wireless_interface_uses_antenna."left" AS ffm_wireless_interface_uses_antenna_left,
+               ffm_wireless_interface_uses_antenna."right" AS ffm_wireless_interface_uses_antenna_right,
+               ffm_wireless_interface_uses_antenna.pid AS ffm_wireless_interface_uses_antenna_pid,
+               ffm_wireless_interface_uses_antenna.relative_height AS ffm_wireless_interface_uses_antenna_relative_height,
+               ffm_wireless_interface_uses_wireless_channel."left" AS ffm_wireless_interface_uses_wireless_channel_left,
+               ffm_wireless_interface_uses_wireless_channel."right" AS ffm_wireless_interface_uses_wireless_channel_right,
+               ffm_wireless_interface_uses_wireless_channel.pid AS ffm_wireless_interface_uses_wireless_channel_pid,
+               ffm_wpa_credentials."left" AS ffm_wpa_credentials_left,
+               ffm_wpa_credentials.key AS ffm_wpa_credentials_key,
+               ffm_wpa_credentials.pid AS ffm_wpa_credentials_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           LEFT OUTER JOIN ffm_node ON mom_id_entity.pid = ffm_node.pid
+           LEFT OUTER JOIN ffm_antenna ON mom_id_entity.pid = ffm_antenna.pid
+           LEFT OUTER JOIN ffm_net_device ON mom_id_entity.pid = ffm_net_device.pid
+           LEFT OUTER JOIN ffm_net_interface ON mom_id_entity.pid = ffm_net_interface.pid
+           LEFT OUTER JOIN ffm__wireless_interface_ ON ffm_net_interface.pid = ffm__wireless_interface_.pid
+           LEFT OUTER JOIN ffm_virtual_wireless_interface ON ffm__wireless_interface_.pid = ffm_virtual_wireless_interface.pid
+           LEFT OUTER JOIN ffm_wpa_credentials ON mom_id_entity.pid = ffm_wpa_credentials.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_wireless_channel ON mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+        WHERE mom_id_entity.pid = ffm_node.pid
+            OR mom_id_entity.pid = ffm_antenna.pid
+            OR mom_id_entity.pid = ffm_net_device.pid
+            OR mom_id_entity.pid = ffm_net_interface.pid
+            OR mom_id_entity.pid = ffm__wireless_interface_.pid
+            OR mom_id_entity.pid = ffm_virtual_wireless_interface.pid
+            OR mom_id_entity.pid = ffm_wpa_credentials.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+    FFM.Belongs_to_Node_Left
+        SELECT ffm__wireless_interface_.__raw_txpower AS ffm__wireless_interface____raw_txpower,
+               ffm__wireless_interface_.bssid AS ffm__wireless_interface__bssid,
+               ffm__wireless_interface_.essid AS ffm__wireless_interface__essid,
+               ffm__wireless_interface_.mode AS ffm__wireless_interface__mode,
+               ffm__wireless_interface_.pid AS ffm__wireless_interface__pid,
+               ffm__wireless_interface_.standard AS ffm__wireless_interface__standard,
+               ffm__wireless_interface_.txpower AS ffm__wireless_interface__txpower,
+               ffm_net_interface."desc" AS ffm_net_interface_desc,
+               ffm_net_interface."left" AS ffm_net_interface_left,
+               ffm_net_interface.__raw_name AS ffm_net_interface___raw_name,
+               ffm_net_interface.is_active AS ffm_net_interface_is_active,
+               ffm_net_interface.mac_address AS ffm_net_interface_mac_address,
+               ffm_net_interface.name AS ffm_net_interface_name,
+               ffm_net_interface.pid AS ffm_net_interface_pid,
+               ffm_virtual_wireless_interface.hardware AS ffm_virtual_wireless_interface_hardware,
+               ffm_virtual_wireless_interface.pid AS ffm_virtual_wireless_interface_pid,
+               ffm_wireless_interface_uses_antenna."left" AS ffm_wireless_interface_uses_antenna_left,
+               ffm_wireless_interface_uses_antenna."right" AS ffm_wireless_interface_uses_antenna_right,
+               ffm_wireless_interface_uses_antenna.pid AS ffm_wireless_interface_uses_antenna_pid,
+               ffm_wireless_interface_uses_antenna.relative_height AS ffm_wireless_interface_uses_antenna_relative_height,
+               ffm_wireless_interface_uses_wireless_channel."left" AS ffm_wireless_interface_uses_wireless_channel_left,
+               ffm_wireless_interface_uses_wireless_channel."right" AS ffm_wireless_interface_uses_wireless_channel_right,
+               ffm_wireless_interface_uses_wireless_channel.pid AS ffm_wireless_interface_uses_wireless_channel_pid,
+               ffm_wpa_credentials."left" AS ffm_wpa_credentials_left,
+               ffm_wpa_credentials.key AS ffm_wpa_credentials_key,
+               ffm_wpa_credentials.pid AS ffm_wpa_credentials_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           LEFT OUTER JOIN ffm_net_interface ON mom_id_entity.pid = ffm_net_interface.pid
+           LEFT OUTER JOIN ffm__wireless_interface_ ON ffm_net_interface.pid = ffm__wireless_interface_.pid
+           LEFT OUTER JOIN ffm_virtual_wireless_interface ON ffm__wireless_interface_.pid = ffm_virtual_wireless_interface.pid
+           LEFT OUTER JOIN ffm_wpa_credentials ON mom_id_entity.pid = ffm_wpa_credentials.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_wireless_channel ON mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+        WHERE mom_id_entity.pid = ffm_net_interface.pid
+            OR mom_id_entity.pid = ffm__wireless_interface_.pid
+            OR mom_id_entity.pid = ffm_virtual_wireless_interface.pid
+            OR mom_id_entity.pid = ffm_wpa_credentials.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+    FFM.Node
+        SELECT ffm_node."desc" AS ffm_node_desc,
+               ffm_node.__raw_name AS ffm_node___raw_name,
+               ffm_node.address AS ffm_node_address,
+               ffm_node.manager AS ffm_node_manager,
+               ffm_node.name AS ffm_node_name,
+               ffm_node.owner AS ffm_node_owner,
+               ffm_node.pid AS ffm_node_pid,
+               ffm_node.position____raw_lat AS ffm_node_position____raw_lat,
+               ffm_node.position____raw_lon AS ffm_node_position____raw_lon,
+               ffm_node.position__height AS ffm_node_position__height,
+               ffm_node.position__lat AS ffm_node_position__lat,
+               ffm_node.position__lon AS ffm_node_position__lon,
+               ffm_node.show_in_map AS ffm_node_show_in_map,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_node ON mom_id_entity.pid = ffm_node.pid
+    FFM.Belongs_to_Net_Device
+        SELECT ffm__wireless_interface_.__raw_txpower AS ffm__wireless_interface____raw_txpower,
+               ffm__wireless_interface_.bssid AS ffm__wireless_interface__bssid,
+               ffm__wireless_interface_.essid AS ffm__wireless_interface__essid,
+               ffm__wireless_interface_.mode AS ffm__wireless_interface__mode,
+               ffm__wireless_interface_.pid AS ffm__wireless_interface__pid,
+               ffm__wireless_interface_.standard AS ffm__wireless_interface__standard,
+               ffm__wireless_interface_.txpower AS ffm__wireless_interface__txpower,
+               ffm_antenna."desc" AS ffm_antenna_desc,
+               ffm_antenna."left" AS ffm_antenna_left,
+               ffm_antenna.__raw_azimuth AS ffm_antenna___raw_azimuth,
+               ffm_antenna.__raw_name AS ffm_antenna___raw_name,
+               ffm_antenna.azimuth AS ffm_antenna_azimuth,
+               ffm_antenna.elevation_angle AS ffm_antenna_elevation_angle,
+               ffm_antenna.gain AS ffm_antenna_gain,
+               ffm_antenna.name AS ffm_antenna_name,
+               ffm_antenna.pid AS ffm_antenna_pid,
+               ffm_antenna.polarization AS ffm_antenna_polarization,
+               ffm_net_device."desc" AS ffm_net_device_desc,
+               ffm_net_device."left" AS ffm_net_device_left,
+               ffm_net_device.__raw_name AS ffm_net_device___raw_name,
+               ffm_net_device.name AS ffm_net_device_name,
+               ffm_net_device.node AS ffm_net_device_node,
+               ffm_net_device.pid AS ffm_net_device_pid,
+               ffm_net_interface."desc" AS ffm_net_interface_desc,
+               ffm_net_interface."left" AS ffm_net_interface_left,
+               ffm_net_interface.__raw_name AS ffm_net_interface___raw_name,
+               ffm_net_interface.is_active AS ffm_net_interface_is_active,
+               ffm_net_interface.mac_address AS ffm_net_interface_mac_address,
+               ffm_net_interface.name AS ffm_net_interface_name,
+               ffm_net_interface.pid AS ffm_net_interface_pid,
+               ffm_virtual_wireless_interface.hardware AS ffm_virtual_wireless_interface_hardware,
+               ffm_virtual_wireless_interface.pid AS ffm_virtual_wireless_interface_pid,
+               ffm_wireless_interface_uses_antenna."left" AS ffm_wireless_interface_uses_antenna_left,
+               ffm_wireless_interface_uses_antenna."right" AS ffm_wireless_interface_uses_antenna_right,
+               ffm_wireless_interface_uses_antenna.pid AS ffm_wireless_interface_uses_antenna_pid,
+               ffm_wireless_interface_uses_antenna.relative_height AS ffm_wireless_interface_uses_antenna_relative_height,
+               ffm_wireless_interface_uses_wireless_channel."left" AS ffm_wireless_interface_uses_wireless_channel_left,
+               ffm_wireless_interface_uses_wireless_channel."right" AS ffm_wireless_interface_uses_wireless_channel_right,
+               ffm_wireless_interface_uses_wireless_channel.pid AS ffm_wireless_interface_uses_wireless_channel_pid,
+               ffm_wpa_credentials."left" AS ffm_wpa_credentials_left,
+               ffm_wpa_credentials.key AS ffm_wpa_credentials_key,
+               ffm_wpa_credentials.pid AS ffm_wpa_credentials_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           LEFT OUTER JOIN ffm_antenna ON mom_id_entity.pid = ffm_antenna.pid
+           LEFT OUTER JOIN ffm_net_device ON mom_id_entity.pid = ffm_net_device.pid
+           LEFT OUTER JOIN ffm_net_interface ON mom_id_entity.pid = ffm_net_interface.pid
+           LEFT OUTER JOIN ffm__wireless_interface_ ON ffm_net_interface.pid = ffm__wireless_interface_.pid
+           LEFT OUTER JOIN ffm_virtual_wireless_interface ON ffm__wireless_interface_.pid = ffm_virtual_wireless_interface.pid
+           LEFT OUTER JOIN ffm_wpa_credentials ON mom_id_entity.pid = ffm_wpa_credentials.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_wireless_channel ON mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+        WHERE mom_id_entity.pid = ffm_antenna.pid
+            OR mom_id_entity.pid = ffm_net_device.pid
+            OR mom_id_entity.pid = ffm_net_interface.pid
+            OR mom_id_entity.pid = ffm__wireless_interface_.pid
+            OR mom_id_entity.pid = ffm_virtual_wireless_interface.pid
+            OR mom_id_entity.pid = ffm_wpa_credentials.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+    FFM.Belongs_to_Net_Device_Left
+        SELECT ffm__wireless_interface_.__raw_txpower AS ffm__wireless_interface____raw_txpower,
+               ffm__wireless_interface_.bssid AS ffm__wireless_interface__bssid,
+               ffm__wireless_interface_.essid AS ffm__wireless_interface__essid,
+               ffm__wireless_interface_.mode AS ffm__wireless_interface__mode,
+               ffm__wireless_interface_.pid AS ffm__wireless_interface__pid,
+               ffm__wireless_interface_.standard AS ffm__wireless_interface__standard,
+               ffm__wireless_interface_.txpower AS ffm__wireless_interface__txpower,
+               ffm_net_interface."desc" AS ffm_net_interface_desc,
+               ffm_net_interface."left" AS ffm_net_interface_left,
+               ffm_net_interface.__raw_name AS ffm_net_interface___raw_name,
+               ffm_net_interface.is_active AS ffm_net_interface_is_active,
+               ffm_net_interface.mac_address AS ffm_net_interface_mac_address,
+               ffm_net_interface.name AS ffm_net_interface_name,
+               ffm_net_interface.pid AS ffm_net_interface_pid,
+               ffm_virtual_wireless_interface.hardware AS ffm_virtual_wireless_interface_hardware,
+               ffm_virtual_wireless_interface.pid AS ffm_virtual_wireless_interface_pid,
+               ffm_wireless_interface_uses_antenna."left" AS ffm_wireless_interface_uses_antenna_left,
+               ffm_wireless_interface_uses_antenna."right" AS ffm_wireless_interface_uses_antenna_right,
+               ffm_wireless_interface_uses_antenna.pid AS ffm_wireless_interface_uses_antenna_pid,
+               ffm_wireless_interface_uses_antenna.relative_height AS ffm_wireless_interface_uses_antenna_relative_height,
+               ffm_wireless_interface_uses_wireless_channel."left" AS ffm_wireless_interface_uses_wireless_channel_left,
+               ffm_wireless_interface_uses_wireless_channel."right" AS ffm_wireless_interface_uses_wireless_channel_right,
+               ffm_wireless_interface_uses_wireless_channel.pid AS ffm_wireless_interface_uses_wireless_channel_pid,
+               ffm_wpa_credentials."left" AS ffm_wpa_credentials_left,
+               ffm_wpa_credentials.key AS ffm_wpa_credentials_key,
+               ffm_wpa_credentials.pid AS ffm_wpa_credentials_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           LEFT OUTER JOIN ffm_net_interface ON mom_id_entity.pid = ffm_net_interface.pid
+           LEFT OUTER JOIN ffm__wireless_interface_ ON ffm_net_interface.pid = ffm__wireless_interface_.pid
+           LEFT OUTER JOIN ffm_virtual_wireless_interface ON ffm__wireless_interface_.pid = ffm_virtual_wireless_interface.pid
+           LEFT OUTER JOIN ffm_wpa_credentials ON mom_id_entity.pid = ffm_wpa_credentials.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_wireless_channel ON mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+        WHERE mom_id_entity.pid = ffm_net_interface.pid
+            OR mom_id_entity.pid = ffm__wireless_interface_.pid
+            OR mom_id_entity.pid = ffm_virtual_wireless_interface.pid
+            OR mom_id_entity.pid = ffm_wpa_credentials.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+    FFM.Antenna
+        SELECT ffm_antenna."desc" AS ffm_antenna_desc,
+               ffm_antenna."left" AS ffm_antenna_left,
+               ffm_antenna.__raw_azimuth AS ffm_antenna___raw_azimuth,
+               ffm_antenna.__raw_name AS ffm_antenna___raw_name,
+               ffm_antenna.azimuth AS ffm_antenna_azimuth,
+               ffm_antenna.elevation_angle AS ffm_antenna_elevation_angle,
+               ffm_antenna.gain AS ffm_antenna_gain,
+               ffm_antenna.name AS ffm_antenna_name,
+               ffm_antenna.pid AS ffm_antenna_pid,
+               ffm_antenna.polarization AS ffm_antenna_polarization,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_antenna ON mom_id_entity.pid = ffm_antenna.pid
+    FFM.Antenna_Band
+        SELECT ffm_antenna_band."left" AS ffm_antenna_band_left,
+               ffm_antenna_band.band____raw_lower AS ffm_antenna_band_band____raw_lower,
+               ffm_antenna_band.band____raw_upper AS ffm_antenna_band_band____raw_upper,
+               ffm_antenna_band.band__lower AS ffm_antenna_band_band__lower,
+               ffm_antenna_band.band__upper AS ffm_antenna_band_band__upper,
+               ffm_antenna_band.pid AS ffm_antenna_band_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_antenna_band ON mom_id_entity.pid = ffm_antenna_band.pid
+    FFM.Firmware_Type
+        SELECT ffm_firmware_type.name AS ffm_firmware_type_name,
+               ffm_firmware_type.pid AS ffm_firmware_type_pid,
+               ffm_firmware_type.url AS ffm_firmware_type_url,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_firmware_type ON mom_id_entity.pid = ffm_firmware_type.pid
+    FFM.Firmware_Version
+        SELECT ffm_firmware_version."left" AS ffm_firmware_version_left,
+               ffm_firmware_version.pid AS ffm_firmware_version_pid,
+               ffm_firmware_version.version AS ffm_firmware_version_version,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_firmware_version ON mom_id_entity.pid = ffm_firmware_version.pid
+    FFM.Firmware_Bin
+        SELECT ffm_firmware_binary."left" AS ffm_firmware_binary_left,
+               ffm_firmware_binary.pid AS ffm_firmware_binary_pid,
+               ffm_firmware_bundle.name AS ffm_firmware_bundle_name,
+               ffm_firmware_bundle.pid AS ffm_firmware_bundle_pid,
+               ffm_firmware_bundle.version AS ffm_firmware_bundle_version,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           LEFT OUTER JOIN ffm_firmware_binary ON mom_id_entity.pid = ffm_firmware_binary.pid
+           LEFT OUTER JOIN ffm_firmware_bundle ON mom_id_entity.pid = ffm_firmware_bundle.pid
+        WHERE mom_id_entity.pid = ffm_firmware_binary.pid
+            OR mom_id_entity.pid = ffm_firmware_bundle.pid
+    FFM.Firmware_Binary
+        SELECT ffm_firmware_binary."left" AS ffm_firmware_binary_left,
+               ffm_firmware_binary.pid AS ffm_firmware_binary_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_firmware_binary ON mom_id_entity.pid = ffm_firmware_binary.pid
+    FFM.Firmware_Bundle
+        SELECT ffm_firmware_bundle.name AS ffm_firmware_bundle_name,
+               ffm_firmware_bundle.pid AS ffm_firmware_bundle_pid,
+               ffm_firmware_bundle.version AS ffm_firmware_bundle_version,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_firmware_bundle ON mom_id_entity.pid = ffm_firmware_bundle.pid
+    FFM._MOM_Link_n_
+        SELECT ffm_device_type_made_by_company."left" AS ffm_device_type_made_by_company_left,
+               ffm_device_type_made_by_company."right" AS ffm_device_type_made_by_company_right,
+               ffm_device_type_made_by_company.pid AS ffm_device_type_made_by_company_pid,
+               ffm_firmware_binary_in_firmware_bundle."left" AS ffm_firmware_binary_in_firmware_bundle_left,
+               ffm_firmware_binary_in_firmware_bundle."right" AS ffm_firmware_binary_in_firmware_bundle_right,
+               ffm_firmware_binary_in_firmware_bundle.pid AS ffm_firmware_binary_in_firmware_bundle_pid,
+               ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
+               ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
+               ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
+               ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
+               ffm_net_link."left" AS ffm_net_link_left,
+               ffm_net_link."right" AS ffm_net_link_right,
+               ffm_net_link.pid AS ffm_net_link_pid,
+               ffm_person_mentors_person."left" AS ffm_person_mentors_person_left,
+               ffm_person_mentors_person."right" AS ffm_person_mentors_person_right,
+               ffm_person_mentors_person.pid AS ffm_person_mentors_person_pid,
+               ffm_wireless_interface_uses_antenna."left" AS ffm_wireless_interface_uses_antenna_left,
+               ffm_wireless_interface_uses_antenna."right" AS ffm_wireless_interface_uses_antenna_right,
+               ffm_wireless_interface_uses_antenna.pid AS ffm_wireless_interface_uses_antenna_pid,
+               ffm_wireless_interface_uses_antenna.relative_height AS ffm_wireless_interface_uses_antenna_relative_height,
+               ffm_wireless_interface_uses_wireless_channel."left" AS ffm_wireless_interface_uses_wireless_channel_left,
+               ffm_wireless_interface_uses_wireless_channel."right" AS ffm_wireless_interface_uses_wireless_channel_right,
+               ffm_wireless_interface_uses_wireless_channel.pid AS ffm_wireless_interface_uses_wireless_channel_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           LEFT OUTER JOIN ffm_firmware_binary_in_firmware_bundle ON mom_id_entity.pid = ffm_firmware_binary_in_firmware_bundle.pid
+           LEFT OUTER JOIN ffm_net_interface_in_ip_network ON mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
+           LEFT OUTER JOIN ffm_device_type_made_by_company ON mom_id_entity.pid = ffm_device_type_made_by_company.pid
+           LEFT OUTER JOIN ffm_net_link ON mom_id_entity.pid = ffm_net_link.pid
+           LEFT OUTER JOIN ffm_person_mentors_person ON mom_id_entity.pid = ffm_person_mentors_person.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_wireless_channel ON mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+        WHERE mom_id_entity.pid = ffm_firmware_binary_in_firmware_bundle.pid
+            OR mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
+            OR mom_id_entity.pid = ffm_device_type_made_by_company.pid
+            OR mom_id_entity.pid = ffm_net_link.pid
+            OR mom_id_entity.pid = ffm_person_mentors_person.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+    FFM.Link2
+        SELECT ffm_device_type_made_by_company."left" AS ffm_device_type_made_by_company_left,
+               ffm_device_type_made_by_company."right" AS ffm_device_type_made_by_company_right,
+               ffm_device_type_made_by_company.pid AS ffm_device_type_made_by_company_pid,
+               ffm_firmware_binary_in_firmware_bundle."left" AS ffm_firmware_binary_in_firmware_bundle_left,
+               ffm_firmware_binary_in_firmware_bundle."right" AS ffm_firmware_binary_in_firmware_bundle_right,
+               ffm_firmware_binary_in_firmware_bundle.pid AS ffm_firmware_binary_in_firmware_bundle_pid,
+               ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
+               ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
+               ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
+               ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
+               ffm_net_link."left" AS ffm_net_link_left,
+               ffm_net_link."right" AS ffm_net_link_right,
+               ffm_net_link.pid AS ffm_net_link_pid,
+               ffm_person_mentors_person."left" AS ffm_person_mentors_person_left,
+               ffm_person_mentors_person."right" AS ffm_person_mentors_person_right,
+               ffm_person_mentors_person.pid AS ffm_person_mentors_person_pid,
+               ffm_wireless_interface_uses_antenna."left" AS ffm_wireless_interface_uses_antenna_left,
+               ffm_wireless_interface_uses_antenna."right" AS ffm_wireless_interface_uses_antenna_right,
+               ffm_wireless_interface_uses_antenna.pid AS ffm_wireless_interface_uses_antenna_pid,
+               ffm_wireless_interface_uses_antenna.relative_height AS ffm_wireless_interface_uses_antenna_relative_height,
+               ffm_wireless_interface_uses_wireless_channel."left" AS ffm_wireless_interface_uses_wireless_channel_left,
+               ffm_wireless_interface_uses_wireless_channel."right" AS ffm_wireless_interface_uses_wireless_channel_right,
+               ffm_wireless_interface_uses_wireless_channel.pid AS ffm_wireless_interface_uses_wireless_channel_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           LEFT OUTER JOIN ffm_firmware_binary_in_firmware_bundle ON mom_id_entity.pid = ffm_firmware_binary_in_firmware_bundle.pid
+           LEFT OUTER JOIN ffm_net_interface_in_ip_network ON mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
+           LEFT OUTER JOIN ffm_device_type_made_by_company ON mom_id_entity.pid = ffm_device_type_made_by_company.pid
+           LEFT OUTER JOIN ffm_net_link ON mom_id_entity.pid = ffm_net_link.pid
+           LEFT OUTER JOIN ffm_person_mentors_person ON mom_id_entity.pid = ffm_person_mentors_person.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
+           LEFT OUTER JOIN ffm_wireless_interface_uses_wireless_channel ON mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+        WHERE mom_id_entity.pid = ffm_firmware_binary_in_firmware_bundle.pid
+            OR mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
+            OR mom_id_entity.pid = ffm_device_type_made_by_company.pid
+            OR mom_id_entity.pid = ffm_net_link.pid
+            OR mom_id_entity.pid = ffm_person_mentors_person.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+    FFM.Firmware_Binary_in_Firmware_Bundle
+        SELECT ffm_firmware_binary_in_firmware_bundle."left" AS ffm_firmware_binary_in_firmware_bundle_left,
+               ffm_firmware_binary_in_firmware_bundle."right" AS ffm_firmware_binary_in_firmware_bundle_right,
+               ffm_firmware_binary_in_firmware_bundle.pid AS ffm_firmware_binary_in_firmware_bundle_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_firmware_binary_in_firmware_bundle ON mom_id_entity.pid = ffm_firmware_binary_in_firmware_bundle.pid
+    FFM.Net_Device_Type
+        SELECT ffm_net_device_type."desc" AS ffm_net_device_type_desc,
+               ffm_net_device_type.__raw_model_no AS ffm_net_device_type___raw_model_no,
+               ffm_net_device_type.__raw_name AS ffm_net_device_type___raw_name,
+               ffm_net_device_type.__raw_revision AS ffm_net_device_type___raw_revision,
+               ffm_net_device_type.model_no AS ffm_net_device_type_model_no,
+               ffm_net_device_type.name AS ffm_net_device_type_name,
+               ffm_net_device_type.pid AS ffm_net_device_type_pid,
+               ffm_net_device_type.revision AS ffm_net_device_type_revision,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_net_device_type ON mom_id_entity.pid = ffm_net_device_type.pid
+    FFM.Net_Device
+        SELECT ffm_net_device."desc" AS ffm_net_device_desc,
+               ffm_net_device."left" AS ffm_net_device_left,
+               ffm_net_device.__raw_name AS ffm_net_device___raw_name,
+               ffm_net_device.name AS ffm_net_device_name,
+               ffm_net_device.node AS ffm_net_device_node,
+               ffm_net_device.pid AS ffm_net_device_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_net_device ON mom_id_entity.pid = ffm_net_device.pid
+    FFM.Net_Interface
+        SELECT ffm__wireless_interface_.__raw_txpower AS ffm__wireless_interface____raw_txpower,
+               ffm__wireless_interface_.bssid AS ffm__wireless_interface__bssid,
+               ffm__wireless_interface_.essid AS ffm__wireless_interface__essid,
+               ffm__wireless_interface_.mode AS ffm__wireless_interface__mode,
+               ffm__wireless_interface_.pid AS ffm__wireless_interface__pid,
+               ffm__wireless_interface_.standard AS ffm__wireless_interface__standard,
+               ffm__wireless_interface_.txpower AS ffm__wireless_interface__txpower,
+               ffm_net_interface."desc" AS ffm_net_interface_desc,
+               ffm_net_interface."left" AS ffm_net_interface_left,
+               ffm_net_interface.__raw_name AS ffm_net_interface___raw_name,
+               ffm_net_interface.is_active AS ffm_net_interface_is_active,
+               ffm_net_interface.mac_address AS ffm_net_interface_mac_address,
+               ffm_net_interface.name AS ffm_net_interface_name,
+               ffm_net_interface.pid AS ffm_net_interface_pid,
+               ffm_virtual_wireless_interface.hardware AS ffm_virtual_wireless_interface_hardware,
+               ffm_virtual_wireless_interface.pid AS ffm_virtual_wireless_interface_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_net_interface ON mom_id_entity.pid = ffm_net_interface.pid
+           LEFT OUTER JOIN ffm__wireless_interface_ ON ffm_net_interface.pid = ffm__wireless_interface_.pid
+           LEFT OUTER JOIN ffm_virtual_wireless_interface ON ffm__wireless_interface_.pid = ffm_virtual_wireless_interface.pid
+    FFM.IP_Network
+        SELECT ffm_ip4_network."desc" AS ffm_ip4_network_desc,
+               ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
+               ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+               ffm_ip4_network.owner AS ffm_ip4_network_owner,
+               ffm_ip4_network.parent AS ffm_ip4_network_parent,
+               ffm_ip4_network.pid AS ffm_ip4_network_pid,
+               ffm_ip4_network.pool AS ffm_ip4_network_pool,
+               ffm_ip6_network."desc" AS ffm_ip6_network_desc,
+               ffm_ip6_network.expiration_date AS ffm_ip6_network_expiration_date,
+               ffm_ip6_network.net_address AS ffm_ip6_network_net_address,
+               ffm_ip6_network.owner AS ffm_ip6_network_owner,
+               ffm_ip6_network.parent AS ffm_ip6_network_parent,
+               ffm_ip6_network.pid AS ffm_ip6_network_pid,
+               ffm_ip6_network.pool AS ffm_ip6_network_pool,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           LEFT OUTER JOIN ffm_ip4_network ON mom_id_entity.pid = ffm_ip4_network.pid
+           LEFT OUTER JOIN ffm_ip6_network ON mom_id_entity.pid = ffm_ip6_network.pid
+        WHERE mom_id_entity.pid = ffm_ip4_network.pid
+            OR mom_id_entity.pid = ffm_ip6_network.pid
+    FFM.Net_Interface_in_IP_Network
+        SELECT ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
+               ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
+               ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
+               ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_net_interface_in_ip_network ON mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
+    FFM.IP_DNS_Alias
+        SELECT ffm_ip4_dns_alias."left" AS ffm_ip4_dns_alias_left,
+               ffm_ip4_dns_alias.__raw_name AS ffm_ip4_dns_alias___raw_name,
+               ffm_ip4_dns_alias.name AS ffm_ip4_dns_alias_name,
+               ffm_ip4_dns_alias.pid AS ffm_ip4_dns_alias_pid,
+               ffm_ip6_dns_alias."left" AS ffm_ip6_dns_alias_left,
+               ffm_ip6_dns_alias.__raw_name AS ffm_ip6_dns_alias___raw_name,
+               ffm_ip6_dns_alias.name AS ffm_ip6_dns_alias_name,
+               ffm_ip6_dns_alias.pid AS ffm_ip6_dns_alias_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           LEFT OUTER JOIN ffm_ip4_dns_alias ON mom_id_entity.pid = ffm_ip4_dns_alias.pid
+           LEFT OUTER JOIN ffm_ip6_dns_alias ON mom_id_entity.pid = ffm_ip6_dns_alias.pid
+        WHERE mom_id_entity.pid = ffm_ip4_dns_alias.pid
+            OR mom_id_entity.pid = ffm_ip6_dns_alias.pid
+    FFM.IP4_DNS_Alias
+        SELECT ffm_ip4_dns_alias."left" AS ffm_ip4_dns_alias_left,
+               ffm_ip4_dns_alias.__raw_name AS ffm_ip4_dns_alias___raw_name,
+               ffm_ip4_dns_alias.name AS ffm_ip4_dns_alias_name,
+               ffm_ip4_dns_alias.pid AS ffm_ip4_dns_alias_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_ip4_dns_alias ON mom_id_entity.pid = ffm_ip4_dns_alias.pid
+    FFM.IP4_Network
+        SELECT ffm_ip4_network."desc" AS ffm_ip4_network_desc,
+               ffm_ip4_network.expiration_date AS ffm_ip4_network_expiration_date,
+               ffm_ip4_network.net_address AS ffm_ip4_network_net_address,
+               ffm_ip4_network.owner AS ffm_ip4_network_owner,
+               ffm_ip4_network.parent AS ffm_ip4_network_parent,
+               ffm_ip4_network.pid AS ffm_ip4_network_pid,
+               ffm_ip4_network.pool AS ffm_ip4_network_pool,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_ip4_network ON mom_id_entity.pid = ffm_ip4_network.pid
+    FFM.IP_Pool
+        SELECT ffm_ip4_pool."left" AS ffm_ip4_pool_left,
+               ffm_ip4_pool.cool_down_period AS ffm_ip4_pool_cool_down_period,
+               ffm_ip4_pool.netmask_interval__lower AS ffm_ip4_pool_netmask_interval__lower,
+               ffm_ip4_pool.netmask_interval__upper AS ffm_ip4_pool_netmask_interval__upper,
+               ffm_ip4_pool.node AS ffm_ip4_pool_node,
+               ffm_ip4_pool.pid AS ffm_ip4_pool_pid,
+               ffm_ip6_pool."left" AS ffm_ip6_pool_left,
+               ffm_ip6_pool.cool_down_period AS ffm_ip6_pool_cool_down_period,
+               ffm_ip6_pool.netmask_interval__lower AS ffm_ip6_pool_netmask_interval__lower,
+               ffm_ip6_pool.netmask_interval__upper AS ffm_ip6_pool_netmask_interval__upper,
+               ffm_ip6_pool.node AS ffm_ip6_pool_node,
+               ffm_ip6_pool.pid AS ffm_ip6_pool_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           LEFT OUTER JOIN ffm_ip4_pool ON mom_id_entity.pid = ffm_ip4_pool.pid
+           LEFT OUTER JOIN ffm_ip6_pool ON mom_id_entity.pid = ffm_ip6_pool.pid
+        WHERE mom_id_entity.pid = ffm_ip4_pool.pid
+            OR mom_id_entity.pid = ffm_ip6_pool.pid
+    FFM.IP4_Pool
+        SELECT ffm_ip4_pool."left" AS ffm_ip4_pool_left,
+               ffm_ip4_pool.cool_down_period AS ffm_ip4_pool_cool_down_period,
+               ffm_ip4_pool.netmask_interval__lower AS ffm_ip4_pool_netmask_interval__lower,
+               ffm_ip4_pool.netmask_interval__upper AS ffm_ip4_pool_netmask_interval__upper,
+               ffm_ip4_pool.node AS ffm_ip4_pool_node,
+               ffm_ip4_pool.pid AS ffm_ip4_pool_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_ip4_pool ON mom_id_entity.pid = ffm_ip4_pool.pid
+    FFM.IP6_DNS_Alias
+        SELECT ffm_ip6_dns_alias."left" AS ffm_ip6_dns_alias_left,
+               ffm_ip6_dns_alias.__raw_name AS ffm_ip6_dns_alias___raw_name,
+               ffm_ip6_dns_alias.name AS ffm_ip6_dns_alias_name,
+               ffm_ip6_dns_alias.pid AS ffm_ip6_dns_alias_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_ip6_dns_alias ON mom_id_entity.pid = ffm_ip6_dns_alias.pid
+    FFM.IP6_Network
+        SELECT ffm_ip6_network."desc" AS ffm_ip6_network_desc,
+               ffm_ip6_network.expiration_date AS ffm_ip6_network_expiration_date,
+               ffm_ip6_network.net_address AS ffm_ip6_network_net_address,
+               ffm_ip6_network.owner AS ffm_ip6_network_owner,
+               ffm_ip6_network.parent AS ffm_ip6_network_parent,
+               ffm_ip6_network.pid AS ffm_ip6_network_pid,
+               ffm_ip6_network.pool AS ffm_ip6_network_pool,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_ip6_network ON mom_id_entity.pid = ffm_ip6_network.pid
+    FFM.IP6_Pool
+        SELECT ffm_ip6_pool."left" AS ffm_ip6_pool_left,
+               ffm_ip6_pool.cool_down_period AS ffm_ip6_pool_cool_down_period,
+               ffm_ip6_pool.netmask_interval__lower AS ffm_ip6_pool_netmask_interval__lower,
+               ffm_ip6_pool.netmask_interval__upper AS ffm_ip6_pool_netmask_interval__upper,
+               ffm_ip6_pool.node AS ffm_ip6_pool_node,
+               ffm_ip6_pool.pid AS ffm_ip6_pool_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_ip6_pool ON mom_id_entity.pid = ffm_ip6_pool.pid
+    FFM._Net_Credentials_
+        SELECT ffm_wpa_credentials."left" AS ffm_wpa_credentials_left,
+               ffm_wpa_credentials.key AS ffm_wpa_credentials_key,
+               ffm_wpa_credentials.pid AS ffm_wpa_credentials_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           LEFT OUTER JOIN ffm_wpa_credentials ON mom_id_entity.pid = ffm_wpa_credentials.pid
+        WHERE mom_id_entity.pid = ffm_wpa_credentials.pid
+    FFM.WPA_Credentials
+        SELECT ffm_wpa_credentials."left" AS ffm_wpa_credentials_left,
+               ffm_wpa_credentials.key AS ffm_wpa_credentials_key,
+               ffm_wpa_credentials.pid AS ffm_wpa_credentials_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_wpa_credentials ON mom_id_entity.pid = ffm_wpa_credentials.pid
+    FFM.Regulatory_Domain
+        SELECT ffm_regulatory_domain.__raw_countrycode AS ffm_regulatory_domain___raw_countrycode,
+               ffm_regulatory_domain.countrycode AS ffm_regulatory_domain_countrycode,
+               ffm_regulatory_domain.pid AS ffm_regulatory_domain_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_regulatory_domain ON mom_id_entity.pid = ffm_regulatory_domain.pid
+    FFM.Regulatory_Permission
+        SELECT ffm_regulatory_permission."left" AS ffm_regulatory_permission_left,
+               ffm_regulatory_permission.__raw_bandwidth AS ffm_regulatory_permission___raw_bandwidth,
+               ffm_regulatory_permission.__raw_eirp AS ffm_regulatory_permission___raw_eirp,
+               ffm_regulatory_permission.band____raw_lower AS ffm_regulatory_permission_band____raw_lower,
+               ffm_regulatory_permission.band____raw_upper AS ffm_regulatory_permission_band____raw_upper,
+               ffm_regulatory_permission.band__lower AS ffm_regulatory_permission_band__lower,
+               ffm_regulatory_permission.band__upper AS ffm_regulatory_permission_band__upper,
+               ffm_regulatory_permission.bandwidth AS ffm_regulatory_permission_bandwidth,
+               ffm_regulatory_permission.eirp AS ffm_regulatory_permission_eirp,
+               ffm_regulatory_permission.gain AS ffm_regulatory_permission_gain,
+               ffm_regulatory_permission.indoor_only AS ffm_regulatory_permission_indoor_only,
+               ffm_regulatory_permission.need_dfs AS ffm_regulatory_permission_need_dfs,
+               ffm_regulatory_permission.pid AS ffm_regulatory_permission_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_regulatory_permission ON mom_id_entity.pid = ffm_regulatory_permission.pid
+    FFM.Zone
+        SELECT ffm_zone.__raw_name AS ffm_zone___raw_name,
+               ffm_zone.name AS ffm_zone_name,
+               ffm_zone.pid AS ffm_zone_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_zone ON mom_id_entity.pid = ffm_zone.pid
+    FFM.Routing_Zone
+        SELECT ffm_routing_zone_olsr."left" AS ffm_routing_zone_olsr_left,
+               ffm_routing_zone_olsr.pid AS ffm_routing_zone_olsr_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           LEFT OUTER JOIN ffm_routing_zone_olsr ON mom_id_entity.pid = ffm_routing_zone_olsr.pid
+        WHERE mom_id_entity.pid = ffm_routing_zone_olsr.pid
+    FFM.Routing_Zone_OLSR
+        SELECT ffm_routing_zone_olsr."left" AS ffm_routing_zone_olsr_left,
+               ffm_routing_zone_olsr.pid AS ffm_routing_zone_olsr_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_routing_zone_olsr ON mom_id_entity.pid = ffm_routing_zone_olsr.pid
+    FFM.Wired_Interface FFM.Net_Interface
+        SELECT ffm_net_interface."desc" AS ffm_net_interface_desc,
+               ffm_net_interface."left" AS ffm_net_interface_left,
+               ffm_net_interface.__raw_name AS ffm_net_interface___raw_name,
+               ffm_net_interface.is_active AS ffm_net_interface_is_active,
+               ffm_net_interface.mac_address AS ffm_net_interface_mac_address,
+               ffm_net_interface.name AS ffm_net_interface_name,
+               ffm_net_interface.pid AS ffm_net_interface_pid,
+               ffm_wired_interface.pid AS ffm_wired_interface_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_net_interface ON mom_id_entity.pid = ffm_net_interface.pid
+           JOIN ffm_wired_interface ON ffm_net_interface.pid = ffm_wired_interface.pid
+    FFM.Wireless_Standard
+        SELECT ffm_wireless_standard.__raw_bandwidth AS ffm_wireless_standard___raw_bandwidth,
+               ffm_wireless_standard.__raw_name AS ffm_wireless_standard___raw_name,
+               ffm_wireless_standard.bandwidth AS ffm_wireless_standard_bandwidth,
+               ffm_wireless_standard.name AS ffm_wireless_standard_name,
+               ffm_wireless_standard.pid AS ffm_wireless_standard_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_wireless_standard ON mom_id_entity.pid = ffm_wireless_standard.pid
+    FFM.Wireless_Channel
+        SELECT ffm_wireless_channel."left" AS ffm_wireless_channel_left,
+               ffm_wireless_channel.__raw_frequency AS ffm_wireless_channel___raw_frequency,
+               ffm_wireless_channel.frequency AS ffm_wireless_channel_frequency,
+               ffm_wireless_channel.number AS ffm_wireless_channel_number,
+               ffm_wireless_channel.pid AS ffm_wireless_channel_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_wireless_channel ON mom_id_entity.pid = ffm_wireless_channel.pid
+    FFM._Wireless_Interface_ FFM.Net_Interface
+        SELECT ffm__wireless_interface_.__raw_txpower AS ffm__wireless_interface____raw_txpower,
+               ffm__wireless_interface_.bssid AS ffm__wireless_interface__bssid,
+               ffm__wireless_interface_.essid AS ffm__wireless_interface__essid,
+               ffm__wireless_interface_.mode AS ffm__wireless_interface__mode,
+               ffm__wireless_interface_.pid AS ffm__wireless_interface__pid,
+               ffm__wireless_interface_.standard AS ffm__wireless_interface__standard,
+               ffm__wireless_interface_.txpower AS ffm__wireless_interface__txpower,
+               ffm_net_interface."desc" AS ffm_net_interface_desc,
+               ffm_net_interface."left" AS ffm_net_interface_left,
+               ffm_net_interface.__raw_name AS ffm_net_interface___raw_name,
+               ffm_net_interface.is_active AS ffm_net_interface_is_active,
+               ffm_net_interface.mac_address AS ffm_net_interface_mac_address,
+               ffm_net_interface.name AS ffm_net_interface_name,
+               ffm_net_interface.pid AS ffm_net_interface_pid,
+               ffm_virtual_wireless_interface.hardware AS ffm_virtual_wireless_interface_hardware,
+               ffm_virtual_wireless_interface.pid AS ffm_virtual_wireless_interface_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_net_interface ON mom_id_entity.pid = ffm_net_interface.pid
+           JOIN ffm__wireless_interface_ ON ffm_net_interface.pid = ffm__wireless_interface_.pid
+           LEFT OUTER JOIN ffm_virtual_wireless_interface ON ffm__wireless_interface_.pid = ffm_virtual_wireless_interface.pid
+    FFM.Wireless_Interface FFM.Net_Interface
+        SELECT ffm__wireless_interface_.__raw_txpower AS ffm__wireless_interface____raw_txpower,
+               ffm__wireless_interface_.bssid AS ffm__wireless_interface__bssid,
+               ffm__wireless_interface_.essid AS ffm__wireless_interface__essid,
+               ffm__wireless_interface_.mode AS ffm__wireless_interface__mode,
+               ffm__wireless_interface_.pid AS ffm__wireless_interface__pid,
+               ffm__wireless_interface_.standard AS ffm__wireless_interface__standard,
+               ffm__wireless_interface_.txpower AS ffm__wireless_interface__txpower,
+               ffm_net_interface."desc" AS ffm_net_interface_desc,
+               ffm_net_interface."left" AS ffm_net_interface_left,
+               ffm_net_interface.__raw_name AS ffm_net_interface___raw_name,
+               ffm_net_interface.is_active AS ffm_net_interface_is_active,
+               ffm_net_interface.mac_address AS ffm_net_interface_mac_address,
+               ffm_net_interface.name AS ffm_net_interface_name,
+               ffm_net_interface.pid AS ffm_net_interface_pid,
+               ffm_wireless_interface.pid AS ffm_wireless_interface_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_net_interface ON mom_id_entity.pid = ffm_net_interface.pid
+           JOIN ffm__wireless_interface_ ON ffm_net_interface.pid = ffm__wireless_interface_.pid
+           JOIN ffm_wireless_interface ON ffm__wireless_interface_.pid = ffm_wireless_interface.pid
+    FFM.Virtual_Wireless_Interface FFM.Net_Interface
+        SELECT ffm__wireless_interface_.__raw_txpower AS ffm__wireless_interface____raw_txpower,
+               ffm__wireless_interface_.bssid AS ffm__wireless_interface__bssid,
+               ffm__wireless_interface_.essid AS ffm__wireless_interface__essid,
+               ffm__wireless_interface_.mode AS ffm__wireless_interface__mode,
+               ffm__wireless_interface_.pid AS ffm__wireless_interface__pid,
+               ffm__wireless_interface_.standard AS ffm__wireless_interface__standard,
+               ffm__wireless_interface_.txpower AS ffm__wireless_interface__txpower,
+               ffm_net_interface."desc" AS ffm_net_interface_desc,
+               ffm_net_interface."left" AS ffm_net_interface_left,
+               ffm_net_interface.__raw_name AS ffm_net_interface___raw_name,
+               ffm_net_interface.is_active AS ffm_net_interface_is_active,
+               ffm_net_interface.mac_address AS ffm_net_interface_mac_address,
+               ffm_net_interface.name AS ffm_net_interface_name,
+               ffm_net_interface.pid AS ffm_net_interface_pid,
+               ffm_virtual_wireless_interface.hardware AS ffm_virtual_wireless_interface_hardware,
+               ffm_virtual_wireless_interface.pid AS ffm_virtual_wireless_interface_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_net_interface ON mom_id_entity.pid = ffm_net_interface.pid
+           JOIN ffm__wireless_interface_ ON ffm_net_interface.pid = ffm__wireless_interface_.pid
+           JOIN ffm_virtual_wireless_interface ON ffm__wireless_interface_.pid = ffm_virtual_wireless_interface.pid
+    FFM.Device_Type_made_by_Company
+        SELECT ffm_device_type_made_by_company."left" AS ffm_device_type_made_by_company_left,
+               ffm_device_type_made_by_company."right" AS ffm_device_type_made_by_company_right,
+               ffm_device_type_made_by_company.pid AS ffm_device_type_made_by_company_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_device_type_made_by_company ON mom_id_entity.pid = ffm_device_type_made_by_company.pid
+    FFM.Net_Interface_in_IP4_Network FFM.Net_Interface_in_IP_Network
+        SELECT ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
+               ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
+               ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
+               ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
+               ffm_virtual_wireless_interface_in_ip4_network.pid AS ffm_virtual_wireless_interface_in_ip4_network_pid,
+               ffm_wired_interface_in_ip4_network.pid AS ffm_wired_interface_in_ip4_network_pid,
+               ffm_wireless_interface_in_ip4_network.pid AS ffm_wireless_interface_in_ip4_network_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_net_interface_in_ip_network ON mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
+           LEFT OUTER JOIN ffm_virtual_wireless_interface_in_ip4_network ON ffm_net_interface_in_ip_network.pid = ffm_virtual_wireless_interface_in_ip4_network.pid
+           LEFT OUTER JOIN ffm_wired_interface_in_ip4_network ON ffm_net_interface_in_ip_network.pid = ffm_wired_interface_in_ip4_network.pid
+           LEFT OUTER JOIN ffm_wireless_interface_in_ip4_network ON ffm_net_interface_in_ip_network.pid = ffm_wireless_interface_in_ip4_network.pid
+        WHERE mom_id_entity.pid = ffm_virtual_wireless_interface_in_ip4_network.pid
+            OR mom_id_entity.pid = ffm_wired_interface_in_ip4_network.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_in_ip4_network.pid
+    FFM.Net_Interface_in_IP6_Network FFM.Net_Interface_in_IP_Network
+        SELECT ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
+               ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
+               ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
+               ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
+               ffm_virtual_wireless_interface_in_ip6_network.pid AS ffm_virtual_wireless_interface_in_ip6_network_pid,
+               ffm_wired_interface_in_ip6_network.pid AS ffm_wired_interface_in_ip6_network_pid,
+               ffm_wireless_interface_in_ip6_network.pid AS ffm_wireless_interface_in_ip6_network_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_net_interface_in_ip_network ON mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
+           LEFT OUTER JOIN ffm_virtual_wireless_interface_in_ip6_network ON ffm_net_interface_in_ip_network.pid = ffm_virtual_wireless_interface_in_ip6_network.pid
+           LEFT OUTER JOIN ffm_wired_interface_in_ip6_network ON ffm_net_interface_in_ip_network.pid = ffm_wired_interface_in_ip6_network.pid
+           LEFT OUTER JOIN ffm_wireless_interface_in_ip6_network ON ffm_net_interface_in_ip_network.pid = ffm_wireless_interface_in_ip6_network.pid
+        WHERE mom_id_entity.pid = ffm_virtual_wireless_interface_in_ip6_network.pid
+            OR mom_id_entity.pid = ffm_wired_interface_in_ip6_network.pid
+            OR mom_id_entity.pid = ffm_wireless_interface_in_ip6_network.pid
+    FFM.Net_Link
+        SELECT ffm_net_link."left" AS ffm_net_link_left,
+               ffm_net_link."right" AS ffm_net_link_right,
+               ffm_net_link.pid AS ffm_net_link_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_net_link ON mom_id_entity.pid = ffm_net_link.pid
+    FFM.Person_mentors_Person
+        SELECT ffm_person_mentors_person."left" AS ffm_person_mentors_person_left,
+               ffm_person_mentors_person."right" AS ffm_person_mentors_person_right,
+               ffm_person_mentors_person.pid AS ffm_person_mentors_person_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_person_mentors_person ON mom_id_entity.pid = ffm_person_mentors_person.pid
+    FFM.Wireless_Interface_uses_Antenna
+        SELECT ffm_wireless_interface_uses_antenna."left" AS ffm_wireless_interface_uses_antenna_left,
+               ffm_wireless_interface_uses_antenna."right" AS ffm_wireless_interface_uses_antenna_right,
+               ffm_wireless_interface_uses_antenna.pid AS ffm_wireless_interface_uses_antenna_pid,
+               ffm_wireless_interface_uses_antenna.relative_height AS ffm_wireless_interface_uses_antenna_relative_height,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
+    FFM.Wireless_Interface_uses_Wireless_Channel
+        SELECT ffm_wireless_interface_uses_wireless_channel."left" AS ffm_wireless_interface_uses_wireless_channel_left,
+               ffm_wireless_interface_uses_wireless_channel."right" AS ffm_wireless_interface_uses_wireless_channel_right,
+               ffm_wireless_interface_uses_wireless_channel.pid AS ffm_wireless_interface_uses_wireless_channel_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_wireless_interface_uses_wireless_channel ON mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
+    FFM.Wired_Interface_in_IP6_Network FFM.Net_Interface_in_IP_Network
+        SELECT ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
+               ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
+               ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
+               ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
+               ffm_wired_interface_in_ip6_network.pid AS ffm_wired_interface_in_ip6_network_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_net_interface_in_ip_network ON mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
+           JOIN ffm_wired_interface_in_ip6_network ON ffm_net_interface_in_ip_network.pid = ffm_wired_interface_in_ip6_network.pid
+    FFM.Wireless_Interface_in_IP6_Network FFM.Net_Interface_in_IP_Network
+        SELECT ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
+               ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
+               ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
+               ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
+               ffm_wireless_interface_in_ip6_network.pid AS ffm_wireless_interface_in_ip6_network_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_net_interface_in_ip_network ON mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
+           JOIN ffm_wireless_interface_in_ip6_network ON ffm_net_interface_in_ip_network.pid = ffm_wireless_interface_in_ip6_network.pid
+    FFM.Virtual_Wireless_Interface_in_IP6_Network FFM.Net_Interface_in_IP_Network
+        SELECT ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
+               ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
+               ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
+               ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
+               ffm_virtual_wireless_interface_in_ip6_network.pid AS ffm_virtual_wireless_interface_in_ip6_network_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_net_interface_in_ip_network ON mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
+           JOIN ffm_virtual_wireless_interface_in_ip6_network ON ffm_net_interface_in_ip_network.pid = ffm_virtual_wireless_interface_in_ip6_network.pid
+    FFM.Wired_Interface_in_IP4_Network FFM.Net_Interface_in_IP_Network
+        SELECT ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
+               ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
+               ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
+               ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
+               ffm_wired_interface_in_ip4_network.pid AS ffm_wired_interface_in_ip4_network_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_net_interface_in_ip_network ON mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
+           JOIN ffm_wired_interface_in_ip4_network ON ffm_net_interface_in_ip_network.pid = ffm_wired_interface_in_ip4_network.pid
+    FFM.Wireless_Interface_in_IP4_Network FFM.Net_Interface_in_IP_Network
+        SELECT ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
+               ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
+               ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
+               ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
+               ffm_wireless_interface_in_ip4_network.pid AS ffm_wireless_interface_in_ip4_network_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_net_interface_in_ip_network ON mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
+           JOIN ffm_wireless_interface_in_ip4_network ON ffm_net_interface_in_ip_network.pid = ffm_wireless_interface_in_ip4_network.pid
+    FFM.Virtual_Wireless_Interface_in_IP4_Network FFM.Net_Interface_in_IP_Network
+        SELECT ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
+               ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
+               ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
+               ffm_net_interface_in_ip_network.mask_len AS ffm_net_interface_in_ip_network_mask_len,
+               ffm_net_interface_in_ip_network.name AS ffm_net_interface_in_ip_network_name,
+               ffm_net_interface_in_ip_network.pid AS ffm_net_interface_in_ip_network_pid,
+               ffm_virtual_wireless_interface_in_ip4_network.pid AS ffm_virtual_wireless_interface_in_ip4_network_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_net_interface_in_ip_network ON mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
+           JOIN ffm_virtual_wireless_interface_in_ip4_network ON ffm_net_interface_in_ip_network.pid = ffm_virtual_wireless_interface_in_ip4_network.pid
+
            LEFT OUTER JOIN ffm_regulatory_domain ON mom_id_entity.pid = ffm_regulatory_domain.pid
            LEFT OUTER JOIN ffm_regulatory_permission ON mom_id_entity.pid = ffm_regulatory_permission.pid
            LEFT OUTER JOIN ffm_zone ON mom_id_entity.pid = ffm_zone.pid
@@ -3374,6 +5020,13 @@ _test_select = """
            LEFT OUTER JOIN ffm_net_interface ON mom_id_entity.pid = ffm_net_interface.pid
            LEFT OUTER JOIN ffm__wireless_interface_ ON ffm_net_interface.pid = ffm__wireless_interface_.pid
            LEFT OUTER JOIN ffm_virtual_wireless_interface ON ffm__wireless_interface_.pid = ffm_virtual_wireless_interface.pid
+           LEFT OUTER JOIN ffm_net_interface_in_ip_network ON mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
+           LEFT OUTER JOIN ffm_ip4_dns_alias ON mom_id_entity.pid = ffm_ip4_dns_alias.pid
+           LEFT OUTER JOIN ffm_ip4_network ON mom_id_entity.pid = ffm_ip4_network.pid
+           LEFT OUTER JOIN ffm_ip4_pool ON mom_id_entity.pid = ffm_ip4_pool.pid
+           LEFT OUTER JOIN ffm_ip6_dns_alias ON mom_id_entity.pid = ffm_ip6_dns_alias.pid
+           LEFT OUTER JOIN ffm_ip6_network ON mom_id_entity.pid = ffm_ip6_network.pid
+           LEFT OUTER JOIN ffm_ip6_pool ON mom_id_entity.pid = ffm_ip6_pool.pid
            LEFT OUTER JOIN ffm_wpa_credentials ON mom_id_entity.pid = ffm_wpa_credentials.pid
            LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
            LEFT OUTER JOIN ffm_wireless_interface_uses_wireless_channel ON mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
@@ -3421,6 +5074,13 @@ _test_select = """
            LEFT OUTER JOIN ffm_net_interface ON mom_id_entity.pid = ffm_net_interface.pid
            LEFT OUTER JOIN ffm__wireless_interface_ ON ffm_net_interface.pid = ffm__wireless_interface_.pid
            LEFT OUTER JOIN ffm_virtual_wireless_interface ON ffm__wireless_interface_.pid = ffm_virtual_wireless_interface.pid
+           LEFT OUTER JOIN ffm_net_interface_in_ip_network ON mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
+           LEFT OUTER JOIN ffm_ip4_dns_alias ON mom_id_entity.pid = ffm_ip4_dns_alias.pid
+           LEFT OUTER JOIN ffm_ip4_network ON mom_id_entity.pid = ffm_ip4_network.pid
+           LEFT OUTER JOIN ffm_ip4_pool ON mom_id_entity.pid = ffm_ip4_pool.pid
+           LEFT OUTER JOIN ffm_ip6_dns_alias ON mom_id_entity.pid = ffm_ip6_dns_alias.pid
+           LEFT OUTER JOIN ffm_ip6_network ON mom_id_entity.pid = ffm_ip6_network.pid
+           LEFT OUTER JOIN ffm_ip6_pool ON mom_id_entity.pid = ffm_ip6_pool.pid
            LEFT OUTER JOIN ffm_wpa_credentials ON mom_id_entity.pid = ffm_wpa_credentials.pid
            LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
            LEFT OUTER JOIN ffm_wireless_interface_uses_wireless_channel ON mom_id_entity.pid = ffm_wireless_interface_uses_wireless_channel.pid
@@ -4230,10 +5890,13 @@ _test_tables = """
     FFM.Firmware_Bundle                      : ffm_firmware_bundle
     FFM.Firmware_Type                        : ffm_firmware_type
     FFM.Firmware_Version                     : ffm_firmware_version
+    FFM.IP4_DNS_Alias                        : ffm_ip4_dns_alias
     FFM.IP4_Network                          : ffm_ip4_network
     FFM.IP4_Pool                             : ffm_ip4_pool
+    FFM.IP6_DNS_Alias                        : ffm_ip6_dns_alias
     FFM.IP6_Network                          : ffm_ip6_network
     FFM.IP6_Pool                             : ffm_ip6_pool
+    FFM.IP_DNS_Alias                         : None
     FFM.IP_Network                           : None
     FFM.IP_Pool                              : None
     FFM.Id_Entity                            : None
@@ -4339,36 +6002,6 @@ _test_tables = """
         Column left                      : Integer              Link_Role Firmware_Binary left Id_Entity()
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
         Column right                     : Integer              Link_Role Firmware_Bundle right Id_Entity()
-    FFM.IP4_Network (MOM.Id_Entity) <Table ffm_ip4_network>
-        Column desc                      : Varchar(80)          Optional String desc
-        Column expiration_date           : Datetime             Internal Date-Time expiration_date
-        Column net_address               : CIDR                 Primary IP4-network net_address
-        Column owner                     : Integer              Optional__Id_Entity_Reference Entity owner Id_Entity()
-        Column parent                    : Integer              Internal__Id_Entity_Reference Entity parent Id_Entity()
-        Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
-        Column pool                      : Integer              Optional__Computed_Set__Id_Entity_Reference Entity pool Id_Entity()
-    FFM.IP4_Pool (MOM.Id_Entity) <Table ffm_ip4_pool>
-        Column cool_down_period          : Text                 Optional Time Delta cool_down_period
-        Column left                      : Integer              Link_Role__Init_Only IP4_Network left Id_Entity()
-        Column netmask_interval__lower   : Integer              Necessary__Nested Int lower
-        Column netmask_interval__upper   : Integer              Necessary__Computed_Set__Nested Int upper
-        Column node                      : Integer              Optional__Id_Entity_Reference Entity node Id_Entity()
-        Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
-    FFM.IP6_Network (MOM.Id_Entity) <Table ffm_ip6_network>
-        Column desc                      : Varchar(80)          Optional String desc
-        Column expiration_date           : Datetime             Internal Date-Time expiration_date
-        Column net_address               : CIDR                 Primary IP6-network net_address
-        Column owner                     : Integer              Optional__Id_Entity_Reference Entity owner Id_Entity()
-        Column parent                    : Integer              Internal__Id_Entity_Reference Entity parent Id_Entity()
-        Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
-        Column pool                      : Integer              Optional__Computed_Set__Id_Entity_Reference Entity pool Id_Entity()
-    FFM.IP6_Pool (MOM.Id_Entity) <Table ffm_ip6_pool>
-        Column cool_down_period          : Text                 Optional Time Delta cool_down_period
-        Column left                      : Integer              Link_Role__Init_Only IP6_Network left Id_Entity()
-        Column netmask_interval__lower   : Integer              Necessary__Nested Int lower
-        Column netmask_interval__upper   : Integer              Necessary__Computed_Set__Nested Int upper
-        Column node                      : Integer              Optional__Id_Entity_Reference Entity node Id_Entity()
-        Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
     FFM.Net_Device_Type (MOM.Id_Entity) <Table ffm_net_device_type>
         Column __raw_model_no            : Varchar(40)          Primary_Optional__Raw_Value String model_no
         Column __raw_name                : Varchar(40)          Primary__Raw_Value String name
@@ -4392,6 +6025,53 @@ _test_tables = """
         Column left                      : Integer              Link_Role__Init_Only Net_Device left Id_Entity()
         Column mac_address               : Varchar(17)          Primary_Optional MAC-address mac_address
         Column name                      : Varchar(63)          Primary_Optional__Raw_Value String name
+        Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
+    FFM.Net_Interface_in_IP_Network (MOM.Id_Entity) <Table ffm_net_interface_in_ip_network>
+        Column __raw_name                : Varchar(63)          Optional__Raw_Value__Computed_Set String name
+        Column left                      : Integer              Link_Role Net_Interface left Id_Entity()
+        Column mask_len                  : Integer              Required Int mask_len
+        Column name                      : Varchar(63)          Optional__Raw_Value__Computed_Set String name
+        Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
+        Column right                     : Integer              Link_Role IP_Network right Id_Entity()
+    FFM.IP4_DNS_Alias (MOM.Id_Entity) <Table ffm_ip4_dns_alias>
+        Column __raw_name                : Varchar(63)          Primary__Raw_Value String name
+        Column left                      : Integer              Link_Role__Init_Only Net_Interface_in_IP_Network left Id_Entity()
+        Column name                      : Varchar(63)          Primary__Raw_Value String name
+        Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
+    FFM.IP4_Network (MOM.Id_Entity) <Table ffm_ip4_network>
+        Column desc                      : Varchar(80)          Optional String desc
+        Column expiration_date           : Datetime             Internal Date-Time expiration_date
+        Column net_address               : CIDR                 Primary IP4-network net_address
+        Column owner                     : Integer              Optional__Id_Entity_Reference Entity owner Id_Entity()
+        Column parent                    : Integer              Internal__Id_Entity_Reference Entity parent Id_Entity()
+        Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
+        Column pool                      : Integer              Optional__Computed_Set__Id_Entity_Reference Entity pool Id_Entity()
+    FFM.IP4_Pool (MOM.Id_Entity) <Table ffm_ip4_pool>
+        Column cool_down_period          : Text                 Optional Time Delta cool_down_period
+        Column left                      : Integer              Link_Role__Init_Only IP4_Network left Id_Entity()
+        Column netmask_interval__lower   : Integer              Necessary__Nested Int lower
+        Column netmask_interval__upper   : Integer              Necessary__Computed_Set__Nested Int upper
+        Column node                      : Integer              Optional__Id_Entity_Reference Entity node Id_Entity()
+        Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
+    FFM.IP6_DNS_Alias (MOM.Id_Entity) <Table ffm_ip6_dns_alias>
+        Column __raw_name                : Varchar(63)          Primary__Raw_Value String name
+        Column left                      : Integer              Link_Role__Init_Only Net_Interface_in_IP_Network left Id_Entity()
+        Column name                      : Varchar(63)          Primary__Raw_Value String name
+        Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
+    FFM.IP6_Network (MOM.Id_Entity) <Table ffm_ip6_network>
+        Column desc                      : Varchar(80)          Optional String desc
+        Column expiration_date           : Datetime             Internal Date-Time expiration_date
+        Column net_address               : CIDR                 Primary IP6-network net_address
+        Column owner                     : Integer              Optional__Id_Entity_Reference Entity owner Id_Entity()
+        Column parent                    : Integer              Internal__Id_Entity_Reference Entity parent Id_Entity()
+        Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
+        Column pool                      : Integer              Optional__Computed_Set__Id_Entity_Reference Entity pool Id_Entity()
+    FFM.IP6_Pool (MOM.Id_Entity) <Table ffm_ip6_pool>
+        Column cool_down_period          : Text                 Optional Time Delta cool_down_period
+        Column left                      : Integer              Link_Role__Init_Only IP6_Network left Id_Entity()
+        Column netmask_interval__lower   : Integer              Necessary__Nested Int lower
+        Column netmask_interval__upper   : Integer              Necessary__Computed_Set__Nested Int upper
+        Column node                      : Integer              Optional__Id_Entity_Reference Entity node Id_Entity()
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
     FFM.WPA_Credentials (MOM.Id_Entity) <Table ffm_wpa_credentials>
         Column key                       : Varchar(32)          Required Key key
@@ -4453,13 +6133,6 @@ _test_tables = """
         Column left                      : Integer              Link_Role Device_Type left Id_Entity()
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
         Column right                     : Integer              Link_Role Company right Id_Entity()
-    FFM.Net_Interface_in_IP_Network (MOM.Id_Entity) <Table ffm_net_interface_in_ip_network>
-        Column __raw_name                : Varchar(63)          Optional__Raw_Value__Computed_Set String name
-        Column left                      : Integer              Link_Role Net_Interface left Id_Entity()
-        Column mask_len                  : Integer              Required Int mask_len
-        Column name                      : Varchar(63)          Optional__Raw_Value__Computed_Set String name
-        Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
-        Column right                     : Integer              Link_Role IP_Network right Id_Entity()
     FFM.Net_Link (MOM.Id_Entity) <Table ffm_net_link>
         Column left                      : Integer              Link_Role Net_Interface left Id_Entity()
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
