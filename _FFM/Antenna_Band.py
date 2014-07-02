@@ -37,8 +37,6 @@ from   _MOM.import_MOM            import *
 from   _FFM                       import FFM
 from   _MOM._Attr.Number_Interval import *
 
-import _FFM.Entity
-
 _Ancestor_Essence = FFM.Link1
 
 class Antenna_Band (_Ancestor_Essence) :

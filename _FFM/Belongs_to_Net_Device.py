@@ -35,7 +35,6 @@ from   __future__ import absolute_import, unicode_literals
 
 from   _MOM.import_MOM          import *
 from   _FFM                     import FFM
-import _FFM.Entity
 
 _Ancestor_Essence = FFM.Id_Entity
 

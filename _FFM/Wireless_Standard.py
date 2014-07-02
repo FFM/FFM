@@ -36,8 +36,6 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
 
-import _FFM.Entity
-
 _Ancestor_Essence = FFM.Object
 
 class Wireless_Standard (_Ancestor_Essence) :

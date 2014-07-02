@@ -38,7 +38,6 @@ from   _FFM                   import FFM
 from   _GTW                   import GTW
 from   _GTW._OMP._PAP         import PAP
 
-import _FFM.Entity
 import _FFM.Device_Type
 
 import _GTW._OMP._PAP.Company

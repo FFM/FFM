@@ -39,7 +39,6 @@ from   _FFM                   import FFM
 from   _GTW._OMP._PAP         import PAP
 
 import _GTW._OMP._PAP.Person
-import _FFM.Entity
 
 _Ancestor_Essence = FFM.Link2
 

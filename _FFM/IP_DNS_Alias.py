@@ -37,7 +37,6 @@ from   _FFM                     import FFM
 
 from   _GTW._OMP._DNS.Attr_Type import A_DNS_Label
 
-import _FFM.Entity
 import _FFM.Net_Interface_in_IP_Network
 
 _Ancestor_Essence = FFM.Link1

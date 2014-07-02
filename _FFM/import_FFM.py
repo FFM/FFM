@@ -65,8 +65,6 @@ import _GTW._OMP._PAP.Nickname
 import _GTW._OMP._PAP.Adhoc_Group
 import _GTW._OMP._PAP.Person_in_Group
 
-import _FFM.Entity
-
 import _FFM.Antenna
 import _FFM.Antenna_Band
 import _FFM.Antenna_Type

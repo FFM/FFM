@@ -39,7 +39,6 @@ from   _MOM._Attr.Number_Interval import *
 from   _FFM                       import FFM
 from   _FFM.Attr_Type             import A_TX_Power
 
-import _FFM.Entity
 import _FFM.Regulatory_Domain
 
 _Ancestor_Essence = FFM.Link1

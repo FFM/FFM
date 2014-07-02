@@ -42,7 +42,6 @@ from   _MOM.import_MOM        import *
 from   _MOM.import_MOM        import _A_String_Ascii_
 from   _FFM                   import FFM
 
-import _FFM.Entity
 import _FFM.Net_Interface
 import _FFM.Belongs_to_Net_Device
 import _FFM.Belongs_to_Node
