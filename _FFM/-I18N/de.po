@@ -23,23 +23,23 @@ msgstr "Ein Bündel von Binärcodes."
 
 #: _GTW._OMP._PAP.Subject_has_Property:0
 msgid "Address of association"
-msgstr ""
+msgstr "Adresse des Vereins"
 
 #: _FFM.Node:0
 msgid "Address of the node (if stationary)."
-msgstr ""
+msgstr "Adresse des Knotens, sofern stationär"
 
 #: _FFM/__test__/model.py:63
 msgid "Administration of node database"
-msgstr ""
+msgstr "Verwaltung der Knotendatenbank"
 
 #: _FFM/__test__/model.py:69
 msgid "Administration of persons/addresses..."
-msgstr ""
+msgstr "Verwaltung von Personen/Adressen..."
 
 #: _FFM/__test__/model.py:75
 msgid "Administration of user accounts and groups"
-msgstr ""
+msgstr "Verwaltung von Anwenderkonten und Gruppen"
 
 #: _FFM.Antenna:0 _FFM.Wireless_Interface_uses_Antenna:0
 msgid "Antenna"
@@ -85,7 +85,7 @@ msgstr[1] "Antennentypen"
 
 #: _FFM.Person_mentors_Person:0
 msgid "Apprentice"
-msgstr ""
+msgstr "Lehrling"
 
 #: _GTW._OMP._PAP.Association:0 _GTW._OMP._PAP.Subject_has_Property:0
 msgid "Association"
@@ -143,7 +143,7 @@ msgstr ""
 
 #: _FFM.Antenna_Band:0 _FFM.Regulatory_Permission:0
 msgid "Band"
-msgstr ""
+msgstr "Kanal"
 
 #: _FFM.Regulatory_Permission:0
 msgid "Band needs dynamic frequency selection."
@@ -318,7 +318,7 @@ msgstr ""
 
 #: _FFM.Antenna:0
 msgid "Elevation angle"
-msgstr ""
+msgstr "Höhenwinkel"
 
 #: _FFM.Antenna:0
 msgid ""
@@ -436,7 +436,7 @@ msgstr "Gewinn"
 
 #: _FFM/graph.py:164
 msgid "Graph displaying Funkfeuer object model"
-msgstr ""
+msgstr "Diagram des Funkfeuer Objektmodells"
 
 #: _GTW._OMP._PAP.IM_Handle:0
 msgid "Handle of a subject for an instant messaging system"
@@ -753,7 +753,7 @@ msgstr "Names des Netzwerkgeräts"
 
 #: _GTW._OMP._PAP.Association:0
 msgid "Name of association."
-msgstr ""
+msgstr "Name des Vereins."
 
 #: _FFM.Device_Type:0
 msgid "Name of device type"
@@ -1591,134 +1591,134 @@ msgstr "Gültiges  Netzwerk"
 #~ msgstr[1] ""
 
 #~ msgid "Ad_Hoc_Mode"
-#~ msgstr "AP-Modi"
+#~ msgstr ""
 
 #~ msgid "Ad_Hoc_Modes"
-#~ msgstr "Ad-Hoc Mode"
+#~ msgstr "AP-Modi"
 
 #~ msgid "Client_Mode"
-#~ msgstr "Ad-Hoc Modi"
+#~ msgstr "Ad-Hoc Mode"
 
 #~ msgid "Client_Modes"
-#~ msgstr "Klientenmode"
+#~ msgstr "Ad-Hoc Modi"
 
 #~ msgid "IP Address"
-#~ msgstr "Klientenmodi"
+#~ msgstr "Klientenmode"
 
 #~ msgid "IP Address in this IP Network."
-#~ msgstr "IP Adresse"
+#~ msgstr "Klientenmodi"
 
 #~ msgid "IP4_Address"
-#~ msgstr "IP Adresse in diesem IP Netzwerk"
+#~ msgstr "IP Adresse"
 
 #~ msgid "IP4_Addresses"
-#~ msgstr "IP4 Adresse"
+#~ msgstr "IP Adresse in diesem IP Netzwerk"
 
 #~ msgid "IP6_Address"
-#~ msgstr "IP4 Adressen"
+#~ msgstr "IP4 Adresse"
 
 #~ msgid "IP6_Addresses"
-#~ msgstr "IP6 Adresse"
+#~ msgstr "IP4 Adressen"
 
 #~ msgid "IP_Address"
-#~ msgstr "IP6 Adressen"
+#~ msgstr "IP6 Adresse"
 
 #~ msgid "IP_Addresses"
-#~ msgstr "IP Adresse"
+#~ msgstr "IP6 Adressen"
 
 #~ msgid "IPv4 Address"
-#~ msgstr "IP Adressen"
-
-#~ msgid "IPv4 Address in this IPv4 Network."
-#~ msgstr "IPv4 Adresse"
-
-#~ msgid "IPv4 Network"
-#~ msgstr "IPv4 Adresse in diesem IPv4 Netzwerk."
-
-#~ msgid "IPv6 Address"
-#~ msgstr "IPv4 Netzwerk"
-
-#~ msgid "IPv6 Network"
-#~ msgstr "IPv6 Adresse"
-
-#~ msgid "Ip address"
-#~ msgstr "IPv6 Netzwerk"
-
-#~ msgid "Is hidden"
 #~ msgstr "IP Adresse"
 
+#~ msgid "IPv4 Address in this IPv4 Network."
+#~ msgstr "IP Adressen"
+
+#~ msgid "IPv4 Network"
+#~ msgstr "IPv4 Adresse"
+
+#~ msgid "IPv6 Address"
+#~ msgstr "IPv4 Adresse in diesem IPv4 Netzwerk."
+
+#~ msgid "IPv6 Network"
+#~ msgstr "IPv4 Netzwerk"
+
+#~ msgid "Ip address"
+#~ msgstr "IPv6 Adresse"
+
+#~ msgid "Is hidden"
+#~ msgstr "IPv6 Netzwerk"
+
 #~ msgid "Link between two wireless network interfaces."
-#~ msgstr "Ist verborgen"
+#~ msgstr "IP Adresse"
 
 #~ msgid "Map p"
-#~ msgstr "Link zwischen zwei drahtlosen Netzwerkschnittstellen"
+#~ msgstr "Ist verborgen"
 
 #~ msgid "Model a network interface of a FFM device"
-#~ msgstr "Karte"
+#~ msgstr "Link zwischen zwei drahtlosen Netzwerkschnittstellen"
 
 #~ msgid "Model an IPv4 Address (without netmask)."
-#~ msgstr "Netzwerkschnittstelle eines Netzwerkgeräts"
+#~ msgstr "Karte"
 
 #~ msgid "Model an IPv4 Network with netmask."
-#~ msgstr "IPv4 Addresse (ohne Maske)."
+#~ msgstr "Netzwerkschnittstelle eines Netzwerkgeräts"
 
 #~ msgid "Model an IPv6 Address (without netmask)."
-#~ msgstr "IPv4 Netzwerk mit Maske."
+#~ msgstr "IPv4 Addresse (ohne Maske)."
 
 #~ msgid "Model an IPv6 Network with netmask."
-#~ msgstr "IPv6 Addresse (ohne Maske)."
+#~ msgstr "IPv4 Netzwerk mit Maske."
 
 #~ msgid "Model an abstract IP Address."
-#~ msgstr "IPv6 Netzwerk mit Maske."
+#~ msgstr "IPv6 Addresse (ohne Maske)."
 
 #~ msgid "Model the mode `access point`."
-#~ msgstr "IP Addresse."
+#~ msgstr "IPv6 Netzwerk mit Maske."
 
 #~ msgid "Model the mode `ad hoc`."
-#~ msgstr "Mode `Access Point`."
+#~ msgstr "IP Addresse."
 
 #~ msgid "Model the mode `client`."
-#~ msgstr "Mode `Ad Hoc`."
+#~ msgstr "Mode `Access Point`."
 
 #~ msgid "Net interface in IPv4 network"
-#~ msgstr "Mode `Klient`."
+#~ msgstr "Mode `Ad Hoc`."
 
 #~ msgid "Node owned by Subject"
-#~ msgstr "Netzwerkschnittstelle in IPv4 Netzwerk"
+#~ msgstr "Mode `Klient`."
 
 #~ msgid "Node."
-#~ msgstr ""
+#~ msgstr "Netzwerkschnittstelle in IPv4 Netzwerk"
 
 #~ msgid "Orientation in degrees relative to standard orientation."
-#~ msgstr "Knoten."
+#~ msgstr ""
 
 #~ msgid "Subject."
-#~ msgstr "Orientierung in Grad relativ zur Standardorientierung."
+#~ msgstr "Knoten."
 
 #~ msgid "Subject_owns_Node"
-#~ msgstr "Subjekt."
+#~ msgstr "Orientierung in Grad relativ zur Standardorientierung."
 
 #~ msgid "Subject_owns_Nodes"
-#~ msgstr ""
+#~ msgstr "Subjekt."
 
 #~ msgid "The wireless device operating in this mode."
 #~ msgstr ""
 
 #~ msgid "Wired_Link"
-#~ msgstr "In diesem Mode arbeitendes Netzwerkgerät."
+#~ msgstr ""
 
 #~ msgid "Wired_Links"
-#~ msgstr ""
+#~ msgstr "In diesem Mode arbeitendes Netzwerkgerät."
 
 #~ msgid "Wireless_Link"
 #~ msgstr ""
 
 #~ msgid "Wireless_Links"
-#~ msgstr "Drahtlose Verbindung"
+#~ msgstr ""
 
 #~ msgid "`left.mode` and `right.mode` must be linkable to each other."
-#~ msgstr "Drahtlose Verbindungen"
+#~ msgstr "Drahtlose Verbindung"
 
 #~ msgid "valid_modes"
-#~ msgstr "Der `linke` und der `rechte` Modus müssen verknüpfbar sein."
+#~ msgstr "Drahtlose Verbindungen"
 
