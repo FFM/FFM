@@ -30,64 +30,10 @@
 ##    14-Apr-2014 (CT) Factor `action_button`, `nav_menu_links`,
 ##                     `nav_menu_person`, `th_number_of`
 ##    14-Apr-2014 (CT) Restructure to show all instances of each type
+##     2-Jul-2014 (CT) Remove hardcoded example
 ##    ««revision-date»»···
 ##--
 #}
-
-{%- import "html/dashboard/app.m.jnj"     as DB      with context %}
-
-{%- macro edit_interface (page, interface) -%}
-  <h2>{{ GTW._T ("Interface %s") % (interface.name, ) }}</h2>
-  <form class="pure-form pure-form-aligned" method="post" action="{{ page.db_interface.abs_href }}">
-    <fieldset class="Entity">
-    <legend>Interface data</legend>
-    <div class="pure-control-group"
-         title="{{ GTW._T ("Mac address of the interface") }}"
-    >
-      <label for="F5[0]:mac_address">MAC address</label>
-      <input id="F5[0]:mac_address" name="F5[0]:mac_address" type="text"
-             value="{{ interface.raw_attr ("mac_address")}}"
-      >
-    </div>
-    <fieldset class="Entity">
-    <legend>DNS info</legend>
-    <div class="pure-control-group"
-         title="{{ GTW._T ("DNS label of the interface") }}"
-    >
-      <label for="F5[0]:name">Name</label>
-      <input id="F5[0]:name" name="F5[0]:name" type="text" value="{{ interface.raw_attr ("name")}}">
-    </div>
-    <fieldset class="Entity">
-    <legend>Extra info</legend>
-    <div class="pure-controls">
-      <label for="F5[0]:is_active" class="pure-checkbox">
-        <input id="F5[0]:is_active" name="F5[0]:is_active" type="checkbox"
-             value="{{ "1" if interface.is_active else "" }}"
-        >
-        {{ GTW._T ("Indicates if this interface is active.") }}
-      </label>
-    </div>
-    <div class="pure-control-group"
-         title="{{ GTW._T ("Description of the interface") }}"
-    >
-      <label for="F5[0]:desc">Description</label>
-      <input id="F5[0]:desc" name="F5[0]:desc" type="text"
-             value="{{ interface.raw_attr ("desc")}}"
-      >
-    </div>
-    </fieldset>
-    </fieldset>
-    </fieldset>
-    <div class="pure-controls">
-      <button type="submit" class="pure-button pure-button-primary">
-        <i class="fa fa-thumbs-up"></i> {{ GTW._T ("Save") }}
-      </button>
-      <button type="reset" class="pure-button" tabindex="-1">
-        <i class="fa fa-trash-o"></i> {{ GTW._T ("Reset") }}
-      </button>
-    </div>
-  </form>
-{%- endmacro -%} {#- edit_interface -#}
 
 {%- macro main (page) -%}
   {%- set form = page.form %}
@@ -95,8 +41,6 @@
     {{ GTW.call_macro
         ("main", page, form, templ_name = form.template_module)
     }}
-  {%- else %}
-    {{ edit_interface (page, page.db_interface.objects [0]) }}
   {% endif -%}
 {%- endmacro -%} {#- main -#}
 

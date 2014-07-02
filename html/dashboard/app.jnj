@@ -32,6 +32,7 @@
 ##    19-Apr-2014 (CT) Use `app_div_id`, `app_div_prefix`
 ##     2-May-2014 (CT) Add blocks `app` and `main`
 ##     5-May-2014 (CT) Factor macro `nav_menu_dashboard` to `app.m.jnj`
+##     2-Jul-2014 (CT) Move `edit` behind `div#app` (form style)
 ##    ««revision-date»»···
 ##--
 #}
@@ -110,11 +111,11 @@
                   {{- DB_User.main (page) -}}
                 {% endif -%}
               </div>
-              <div id="{{ page.db_user.app_div_prefix }}edit">
-                {% if page.fill_edit %}
-                  {{- DB_Edit.main (page) -}}
-                {% endif -%}
-              </div>
+            </div>
+            <div id="{{ page.db_user.app_div_prefix }}edit">
+              {% if page.fill_edit %}
+                {{- DB_Edit.main (page) -}}
+              {% endif -%}
             </div>
           {%- endblock app -%}
         </div>
