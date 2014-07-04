@@ -28,20 +28,22 @@
 # Revision Dates
 #    20-Jun-2014 (RS) Creation
 #    23-Jun-2014 (RS) Add `cool_down_period`, rename `left.link_ref_attr_name`
-#    ««revision-date»»···
+#     3-Jul-2014 (RS) `IP_Pool` no longer `Link1`, rename
+#                     `_A_IP_Netmask_Interval_`
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
 
 from   _MOM.import_MOM            import *
 from   _FFM                       import FFM
-from   _FFM.Attr_Type             import A_Netmask_Interval
+from   _FFM.Attr_Type             import _A_IP_Netmask_Interval_
 
 from   _MOM._Attr.Date_Time_Delta import A_Date_Time_Delta
 
 import _FFM.IP_Network
 
-_Ancestor_Essence = FFM.Link1
+_Ancestor_Essence = FFM.Object
 
 class IP_Pool (_Ancestor_Essence) :
     """Attributes of an IP network pool."""
@@ -54,12 +56,12 @@ class IP_Pool (_Ancestor_Essence) :
 
         ### Primary attributes
 
-        class left (_Ancestor.left) :
-            """Type of IP_Pool"""
+        class name (A_String) :
+            """Name of IP_Pool"""
 
-            role_type          = FFM.IP_Network
-            max_links          = 1
-            link_ref_attr_name = '_ip_pool'
+            kind               = Attr.Primary
+            max_length         = 40
+            ignore_case        = True
 
         # end class left
 
@@ -72,7 +74,7 @@ class IP_Pool (_Ancestor_Essence) :
 
         # end class cool_down_period
 
-        class netmask_interval (A_Netmask_Interval) :
+        class netmask_interval (_A_IP_Netmask_Interval_) :
             """Limit netmasks to allocate from this %(type_name)s."""
 
             kind               = Attr.Optional

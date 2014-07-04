@@ -41,6 +41,8 @@
 #    23-Jun-2014 (RS) Make tests run after model changes
 #    24-Jun-2014 (RS) `A_Netmask_Interval` derived from `A_Int_Interval_C`
 #     1-Jul-2014 (RS) `IP_DNS_Alias` and derivatives
+#     4-Jul-2014 (RS) `IP_Pool_permits_Group`, `IP_Network_in_IP_Pool`,
+#                     changes to `IP_Pool`
 #    ««revision-date»»···
 #--
 
@@ -386,7 +388,7 @@ _test_q_able = """
       <SAW : Link_Ref_List `documents`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : Left `left` (FFM.Antenna | FFM.Antenna_Band | FFM.Device_Type_made_by_Company | FFM.Firmware_Binary | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.Firmware_Version | FFM.IP4_DNS_Alias | FFM.IP4_Pool | FFM.IP6_DNS_Alias | FFM.IP6_Pool | FFM.Net_Device | FFM.Net_Interface | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_mentors_Person | FFM.Regulatory_Permission | FFM.Routing_Zone_OLSR | FFM.WPA_Credentials | FFM.Wireless_Channel | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
+      <SAW : Left `left` (FFM.Antenna | FFM.Antenna_Band | FFM.Device_Type_made_by_Company | FFM.Firmware_Binary | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.Firmware_Version | FFM.IP4_DNS_Alias | FFM.IP4_Network_in_IP4_Pool | FFM.IP6_DNS_Alias | FFM.IP6_Network_in_IP6_Pool | FFM.Net_Device | FFM.Net_Interface | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_mentors_Person | FFM.Regulatory_Permission | FFM.Routing_Zone_OLSR | FFM.WPA_Credentials | FFM.Wireless_Channel | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
     <SAW : FFM.Link1 [mom_id_entity]>
@@ -394,7 +396,7 @@ _test_q_able = """
       <SAW : Link_Ref_List `documents`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : Left `left` (FFM.Antenna | FFM.Antenna_Band | FFM.Firmware_Binary | FFM.Firmware_Version | FFM.IP4_DNS_Alias | FFM.IP4_Pool | FFM.IP6_DNS_Alias | FFM.IP6_Pool | FFM.Net_Device | FFM.Net_Interface | FFM.Regulatory_Permission | FFM.Routing_Zone_OLSR | FFM.WPA_Credentials | FFM.Wireless_Channel)>
+      <SAW : Left `left` (FFM.Antenna | FFM.Antenna_Band | FFM.Firmware_Binary | FFM.Firmware_Version | FFM.IP4_DNS_Alias | FFM.IP6_DNS_Alias | FFM.Net_Device | FFM.Net_Interface | FFM.Regulatory_Permission | FFM.Routing_Zone_OLSR | FFM.WPA_Credentials | FFM.Wireless_Channel)>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
     <SAW : FFM.Device [mom_id_entity]>
@@ -533,18 +535,18 @@ _test_q_able = """
       <SAW : Link_Ref_List `documents`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : Left `left` (FFM.Device_Type_made_by_Company | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_mentors_Person | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
+      <SAW : Left `left` (FFM.Device_Type_made_by_Company | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.IP4_Network_in_IP4_Pool | FFM.IP6_Network_in_IP6_Pool | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_mentors_Person | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
-      <SAW : Right `right` (FFM.Device_Type_made_by_Company | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_mentors_Person | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
+      <SAW : Right `right` (FFM.Device_Type_made_by_Company | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.IP4_Network_in_IP4_Pool | FFM.IP6_Network_in_IP6_Pool | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_mentors_Person | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
       <SAW : String `type_name` [mom_id_entity.type_name]>
     <SAW : FFM.Link2 [mom_id_entity]>
       <SAW : Rev_Ref `creation`>
       <SAW : Link_Ref_List `documents`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : Left `left` (FFM.Device_Type_made_by_Company | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_mentors_Person | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
+      <SAW : Left `left` (FFM.Device_Type_made_by_Company | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.IP4_Network_in_IP4_Pool | FFM.IP6_Network_in_IP6_Pool | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_mentors_Person | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
-      <SAW : Right `right` (FFM.Device_Type_made_by_Company | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_mentors_Person | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
+      <SAW : Right `right` (FFM.Device_Type_made_by_Company | FFM.Firmware_Binary_in_Firmware_Bundle | FFM.IP4_Network_in_IP4_Pool | FFM.IP6_Network_in_IP6_Pool | FFM.Net_Interface_in_IP_Network | FFM.Net_Link | FFM.Person_mentors_Person | FFM.Wireless_Interface_uses_Antenna | FFM.Wireless_Interface_uses_Wireless_Channel)>
       <SAW : String `type_name` [mom_id_entity.type_name]>
     <SAW : FFM.Firmware_Binary_in_Firmware_Bundle [ffm_firmware_binary_in_firmware_bundle : mom_id_entity]>
       <SAW : Rev_Ref `creation`>
@@ -603,7 +605,6 @@ _test_q_able = """
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
     <SAW : FFM.IP_Network [mom_id_entity]>
-      <SAW : Link_Ref `_ip_pool`>
       <SAW : Rev_Ref `creation`>
       <SAW : String `desc` (FFM.IP4_Network | FFM.IP6_Network)>
       <SAW : Link_Ref_List `documents`>
@@ -655,13 +656,12 @@ _test_q_able = """
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
     <SAW : FFM.IP4_Network [ffm_ip4_network : mom_id_entity]>
-      <SAW : Link_Ref `_ip_pool`>
       <SAW : Rev_Ref `creation`>
       <SAW : String `desc` [ffm_ip4_network.desc]>
       <SAW : Link_Ref_List `documents`>
       <SAW : Date-Time `expiration_date` [ffm_ip4_network.expiration_date]>
       <SAW : Boolean `has_children`>
-      <SAW : Link_Ref `ip_pool`>
+      <SAW : Role_Ref `ip_pool`>
       <SAW : Boolean `is_free`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
@@ -681,7 +681,7 @@ _test_q_able = """
       <SAW : Link_Ref_List `documents`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : IP_Network `left` (FFM.IP4_Pool | FFM.IP6_Pool)>
+      <SAW : String `name` (FFM.IP4_Pool | FFM.IP6_Pool)>
       <SAW : Int_Interval `netmask_interval` (FFM.IP4_Pool | FFM.IP6_Pool)>
       <SAW : Entity `node` (FFM.IP4_Pool | FFM.IP6_Pool)>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
@@ -692,7 +692,7 @@ _test_q_able = """
       <SAW : Link_Ref_List `documents`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : IP4_Network `left` [ffm_ip4_pool.left]>
+      <SAW : String `name` [ffm_ip4_pool.name, ffm_ip4_pool.__raw_name]>
       <SAW : Int_Interval `netmask_interval` [ffm_ip4_pool.netmask_interval__lower, ffm_ip4_pool.netmask_interval__upper]>
       <SAW : Int `netmask_interval.center`>
       <SAW : Int `netmask_interval.length`>
@@ -709,13 +709,12 @@ _test_q_able = """
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
     <SAW : FFM.IP6_Network [ffm_ip6_network : mom_id_entity]>
-      <SAW : Link_Ref `_ip_pool`>
       <SAW : Rev_Ref `creation`>
       <SAW : String `desc` [ffm_ip6_network.desc]>
       <SAW : Link_Ref_List `documents`>
       <SAW : Date-Time `expiration_date` [ffm_ip6_network.expiration_date]>
       <SAW : Boolean `has_children`>
-      <SAW : Link_Ref `ip_pool`>
+      <SAW : Role_Ref `ip_pool`>
       <SAW : Boolean `is_free`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
@@ -735,7 +734,7 @@ _test_q_able = """
       <SAW : Link_Ref_List `documents`>
       <SAW : Rev_Ref `last_change`>
       <SAW : Int `last_cid` [mom_id_entity.last_cid]>
-      <SAW : IP6_Network `left` [ffm_ip6_pool.left]>
+      <SAW : String `name` [ffm_ip6_pool.name, ffm_ip6_pool.__raw_name]>
       <SAW : Int_Interval `netmask_interval` [ffm_ip6_pool.netmask_interval__lower, ffm_ip6_pool.netmask_interval__upper]>
       <SAW : Int `netmask_interval.center`>
       <SAW : Int `netmask_interval.length`>
@@ -929,6 +928,33 @@ _test_q_able = """
       <SAW : Device_Type `left` [ffm_device_type_made_by_company.left]>
       <SAW : Surrogate `pid` [mom_id_entity.pid]>
       <SAW : Company `right` [ffm_device_type_made_by_company.right]>
+      <SAW : String `type_name` [mom_id_entity.type_name]>
+    <SAW : FFM.IP_Network_in_IP_Pool [mom_id_entity]>
+      <SAW : Rev_Ref `creation`>
+      <SAW : Link_Ref_List `documents`>
+      <SAW : Rev_Ref `last_change`>
+      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
+      <SAW : IP_Network `left` (FFM.IP4_Network_in_IP4_Pool | FFM.IP6_Network_in_IP6_Pool)>
+      <SAW : Surrogate `pid` [mom_id_entity.pid]>
+      <SAW : IP_Pool `right` (FFM.IP4_Network_in_IP4_Pool | FFM.IP6_Network_in_IP6_Pool)>
+      <SAW : String `type_name` [mom_id_entity.type_name]>
+    <SAW : FFM.IP4_Network_in_IP4_Pool [ffm_ip4_network_in_ip4_pool : mom_id_entity]>
+      <SAW : Rev_Ref `creation`>
+      <SAW : Link_Ref_List `documents`>
+      <SAW : Rev_Ref `last_change`>
+      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
+      <SAW : IP4_Network `left` [ffm_ip4_network_in_ip4_pool.left]>
+      <SAW : Surrogate `pid` [mom_id_entity.pid]>
+      <SAW : IP4_Pool `right` [ffm_ip4_network_in_ip4_pool.right]>
+      <SAW : String `type_name` [mom_id_entity.type_name]>
+    <SAW : FFM.IP6_Network_in_IP6_Pool [ffm_ip6_network_in_ip6_pool : mom_id_entity]>
+      <SAW : Rev_Ref `creation`>
+      <SAW : Link_Ref_List `documents`>
+      <SAW : Rev_Ref `last_change`>
+      <SAW : Int `last_cid` [mom_id_entity.last_cid]>
+      <SAW : IP6_Network `left` [ffm_ip6_network_in_ip6_pool.left]>
+      <SAW : Surrogate `pid` [mom_id_entity.pid]>
+      <SAW : IP6_Pool `right` [ffm_ip6_network_in_ip6_pool.right]>
       <SAW : String `type_name` [mom_id_entity.type_name]>
     <SAW : FFM.Net_Interface_in_IP4_Network [ffm_net_interface_in_ip_network : mom_id_entity]>
       <SAW : Rev_Ref `creation`>
@@ -2638,8 +2664,12 @@ _test_select = """
                ffm_ip4_network.parent AS ffm_ip4_network_parent,
                ffm_ip4_network.pid AS ffm_ip4_network_pid,
                ffm_ip4_network.pool AS ffm_ip4_network_pool,
-               ffm_ip4_pool."left" AS ffm_ip4_pool_left,
+               ffm_ip4_network_in_ip4_pool."left" AS ffm_ip4_network_in_ip4_pool_left,
+               ffm_ip4_network_in_ip4_pool."right" AS ffm_ip4_network_in_ip4_pool_right,
+               ffm_ip4_network_in_ip4_pool.pid AS ffm_ip4_network_in_ip4_pool_pid,
+               ffm_ip4_pool.__raw_name AS ffm_ip4_pool___raw_name,
                ffm_ip4_pool.cool_down_period AS ffm_ip4_pool_cool_down_period,
+               ffm_ip4_pool.name AS ffm_ip4_pool_name,
                ffm_ip4_pool.netmask_interval__lower AS ffm_ip4_pool_netmask_interval__lower,
                ffm_ip4_pool.netmask_interval__upper AS ffm_ip4_pool_netmask_interval__upper,
                ffm_ip4_pool.node AS ffm_ip4_pool_node,
@@ -2655,8 +2685,12 @@ _test_select = """
                ffm_ip6_network.parent AS ffm_ip6_network_parent,
                ffm_ip6_network.pid AS ffm_ip6_network_pid,
                ffm_ip6_network.pool AS ffm_ip6_network_pool,
-               ffm_ip6_pool."left" AS ffm_ip6_pool_left,
+               ffm_ip6_network_in_ip6_pool."left" AS ffm_ip6_network_in_ip6_pool_left,
+               ffm_ip6_network_in_ip6_pool."right" AS ffm_ip6_network_in_ip6_pool_right,
+               ffm_ip6_network_in_ip6_pool.pid AS ffm_ip6_network_in_ip6_pool_pid,
+               ffm_ip6_pool.__raw_name AS ffm_ip6_pool___raw_name,
                ffm_ip6_pool.cool_down_period AS ffm_ip6_pool_cool_down_period,
+               ffm_ip6_pool.name AS ffm_ip6_pool_name,
                ffm_ip6_pool.netmask_interval__lower AS ffm_ip6_pool_netmask_interval__lower,
                ffm_ip6_pool.netmask_interval__upper AS ffm_ip6_pool_netmask_interval__upper,
                ffm_ip6_pool.node AS ffm_ip6_pool_node,
@@ -2785,6 +2819,8 @@ _test_select = """
            LEFT OUTER JOIN ffm_wireless_standard ON mom_id_entity.pid = ffm_wireless_standard.pid
            LEFT OUTER JOIN ffm_wireless_channel ON mom_id_entity.pid = ffm_wireless_channel.pid
            LEFT OUTER JOIN ffm_device_type_made_by_company ON mom_id_entity.pid = ffm_device_type_made_by_company.pid
+           LEFT OUTER JOIN ffm_ip4_network_in_ip4_pool ON mom_id_entity.pid = ffm_ip4_network_in_ip4_pool.pid
+           LEFT OUTER JOIN ffm_ip6_network_in_ip6_pool ON mom_id_entity.pid = ffm_ip6_network_in_ip6_pool.pid
            LEFT OUTER JOIN ffm_net_link ON mom_id_entity.pid = ffm_net_link.pid
            LEFT OUTER JOIN ffm_person_mentors_person ON mom_id_entity.pid = ffm_person_mentors_person.pid
            LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
@@ -2818,6 +2854,8 @@ _test_select = """
             OR mom_id_entity.pid = ffm_wireless_standard.pid
             OR mom_id_entity.pid = ffm_wireless_channel.pid
             OR mom_id_entity.pid = ffm_device_type_made_by_company.pid
+            OR mom_id_entity.pid = ffm_ip4_network_in_ip4_pool.pid
+            OR mom_id_entity.pid = ffm_ip6_network_in_ip6_pool.pid
             OR mom_id_entity.pid = ffm_net_link.pid
             OR mom_id_entity.pid = ffm_person_mentors_person.pid
             OR mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
@@ -2846,6 +2884,13 @@ _test_select = """
                ffm_ip4_network.parent AS ffm_ip4_network_parent,
                ffm_ip4_network.pid AS ffm_ip4_network_pid,
                ffm_ip4_network.pool AS ffm_ip4_network_pool,
+               ffm_ip4_pool.__raw_name AS ffm_ip4_pool___raw_name,
+               ffm_ip4_pool.cool_down_period AS ffm_ip4_pool_cool_down_period,
+               ffm_ip4_pool.name AS ffm_ip4_pool_name,
+               ffm_ip4_pool.netmask_interval__lower AS ffm_ip4_pool_netmask_interval__lower,
+               ffm_ip4_pool.netmask_interval__upper AS ffm_ip4_pool_netmask_interval__upper,
+               ffm_ip4_pool.node AS ffm_ip4_pool_node,
+               ffm_ip4_pool.pid AS ffm_ip4_pool_pid,
                ffm_ip6_network."desc" AS ffm_ip6_network_desc,
                ffm_ip6_network.expiration_date AS ffm_ip6_network_expiration_date,
                ffm_ip6_network.net_address AS ffm_ip6_network_net_address,
@@ -2853,6 +2898,13 @@ _test_select = """
                ffm_ip6_network.parent AS ffm_ip6_network_parent,
                ffm_ip6_network.pid AS ffm_ip6_network_pid,
                ffm_ip6_network.pool AS ffm_ip6_network_pool,
+               ffm_ip6_pool.__raw_name AS ffm_ip6_pool___raw_name,
+               ffm_ip6_pool.cool_down_period AS ffm_ip6_pool_cool_down_period,
+               ffm_ip6_pool.name AS ffm_ip6_pool_name,
+               ffm_ip6_pool.netmask_interval__lower AS ffm_ip6_pool_netmask_interval__lower,
+               ffm_ip6_pool.netmask_interval__upper AS ffm_ip6_pool_netmask_interval__upper,
+               ffm_ip6_pool.node AS ffm_ip6_pool_node,
+               ffm_ip6_pool.pid AS ffm_ip6_pool_pid,
                ffm_net_device_type."desc" AS ffm_net_device_type_desc,
                ffm_net_device_type.__raw_model_no AS ffm_net_device_type___raw_model_no,
                ffm_net_device_type.__raw_name AS ffm_net_device_type___raw_name,
@@ -2897,7 +2949,9 @@ _test_select = """
            LEFT OUTER JOIN ffm_firmware_bundle ON mom_id_entity.pid = ffm_firmware_bundle.pid
            LEFT OUTER JOIN ffm_net_device_type ON mom_id_entity.pid = ffm_net_device_type.pid
            LEFT OUTER JOIN ffm_ip4_network ON mom_id_entity.pid = ffm_ip4_network.pid
+           LEFT OUTER JOIN ffm_ip4_pool ON mom_id_entity.pid = ffm_ip4_pool.pid
            LEFT OUTER JOIN ffm_ip6_network ON mom_id_entity.pid = ffm_ip6_network.pid
+           LEFT OUTER JOIN ffm_ip6_pool ON mom_id_entity.pid = ffm_ip6_pool.pid
            LEFT OUTER JOIN ffm_regulatory_domain ON mom_id_entity.pid = ffm_regulatory_domain.pid
            LEFT OUTER JOIN ffm_zone ON mom_id_entity.pid = ffm_zone.pid
            LEFT OUTER JOIN ffm_wireless_standard ON mom_id_entity.pid = ffm_wireless_standard.pid
@@ -2907,7 +2961,9 @@ _test_select = """
             OR mom_id_entity.pid = ffm_firmware_bundle.pid
             OR mom_id_entity.pid = ffm_net_device_type.pid
             OR mom_id_entity.pid = ffm_ip4_network.pid
+            OR mom_id_entity.pid = ffm_ip4_pool.pid
             OR mom_id_entity.pid = ffm_ip6_network.pid
+            OR mom_id_entity.pid = ffm_ip6_pool.pid
             OR mom_id_entity.pid = ffm_regulatory_domain.pid
             OR mom_id_entity.pid = ffm_zone.pid
             OR mom_id_entity.pid = ffm_wireless_standard.pid
@@ -2997,22 +3053,16 @@ _test_select = """
                ffm_ip4_dns_alias.__raw_name AS ffm_ip4_dns_alias___raw_name,
                ffm_ip4_dns_alias.name AS ffm_ip4_dns_alias_name,
                ffm_ip4_dns_alias.pid AS ffm_ip4_dns_alias_pid,
-               ffm_ip4_pool."left" AS ffm_ip4_pool_left,
-               ffm_ip4_pool.cool_down_period AS ffm_ip4_pool_cool_down_period,
-               ffm_ip4_pool.netmask_interval__lower AS ffm_ip4_pool_netmask_interval__lower,
-               ffm_ip4_pool.netmask_interval__upper AS ffm_ip4_pool_netmask_interval__upper,
-               ffm_ip4_pool.node AS ffm_ip4_pool_node,
-               ffm_ip4_pool.pid AS ffm_ip4_pool_pid,
+               ffm_ip4_network_in_ip4_pool."left" AS ffm_ip4_network_in_ip4_pool_left,
+               ffm_ip4_network_in_ip4_pool."right" AS ffm_ip4_network_in_ip4_pool_right,
+               ffm_ip4_network_in_ip4_pool.pid AS ffm_ip4_network_in_ip4_pool_pid,
                ffm_ip6_dns_alias."left" AS ffm_ip6_dns_alias_left,
                ffm_ip6_dns_alias.__raw_name AS ffm_ip6_dns_alias___raw_name,
                ffm_ip6_dns_alias.name AS ffm_ip6_dns_alias_name,
                ffm_ip6_dns_alias.pid AS ffm_ip6_dns_alias_pid,
-               ffm_ip6_pool."left" AS ffm_ip6_pool_left,
-               ffm_ip6_pool.cool_down_period AS ffm_ip6_pool_cool_down_period,
-               ffm_ip6_pool.netmask_interval__lower AS ffm_ip6_pool_netmask_interval__lower,
-               ffm_ip6_pool.netmask_interval__upper AS ffm_ip6_pool_netmask_interval__upper,
-               ffm_ip6_pool.node AS ffm_ip6_pool_node,
-               ffm_ip6_pool.pid AS ffm_ip6_pool_pid,
+               ffm_ip6_network_in_ip6_pool."left" AS ffm_ip6_network_in_ip6_pool_left,
+               ffm_ip6_network_in_ip6_pool."right" AS ffm_ip6_network_in_ip6_pool_right,
+               ffm_ip6_network_in_ip6_pool.pid AS ffm_ip6_network_in_ip6_pool_pid,
                ffm_net_device."desc" AS ffm_net_device_desc,
                ffm_net_device."left" AS ffm_net_device_left,
                ffm_net_device.__raw_name AS ffm_net_device___raw_name,
@@ -3087,14 +3137,14 @@ _test_select = """
            LEFT OUTER JOIN ffm_virtual_wireless_interface ON ffm__wireless_interface_.pid = ffm_virtual_wireless_interface.pid
            LEFT OUTER JOIN ffm_net_interface_in_ip_network ON mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
            LEFT OUTER JOIN ffm_ip4_dns_alias ON mom_id_entity.pid = ffm_ip4_dns_alias.pid
-           LEFT OUTER JOIN ffm_ip4_pool ON mom_id_entity.pid = ffm_ip4_pool.pid
            LEFT OUTER JOIN ffm_ip6_dns_alias ON mom_id_entity.pid = ffm_ip6_dns_alias.pid
-           LEFT OUTER JOIN ffm_ip6_pool ON mom_id_entity.pid = ffm_ip6_pool.pid
            LEFT OUTER JOIN ffm_wpa_credentials ON mom_id_entity.pid = ffm_wpa_credentials.pid
            LEFT OUTER JOIN ffm_regulatory_permission ON mom_id_entity.pid = ffm_regulatory_permission.pid
            LEFT OUTER JOIN ffm_routing_zone_olsr ON mom_id_entity.pid = ffm_routing_zone_olsr.pid
            LEFT OUTER JOIN ffm_wireless_channel ON mom_id_entity.pid = ffm_wireless_channel.pid
            LEFT OUTER JOIN ffm_device_type_made_by_company ON mom_id_entity.pid = ffm_device_type_made_by_company.pid
+           LEFT OUTER JOIN ffm_ip4_network_in_ip4_pool ON mom_id_entity.pid = ffm_ip4_network_in_ip4_pool.pid
+           LEFT OUTER JOIN ffm_ip6_network_in_ip6_pool ON mom_id_entity.pid = ffm_ip6_network_in_ip6_pool.pid
            LEFT OUTER JOIN ffm_net_link ON mom_id_entity.pid = ffm_net_link.pid
            LEFT OUTER JOIN ffm_person_mentors_person ON mom_id_entity.pid = ffm_person_mentors_person.pid
            LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
@@ -3110,14 +3160,14 @@ _test_select = """
             OR mom_id_entity.pid = ffm_virtual_wireless_interface.pid
             OR mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
             OR mom_id_entity.pid = ffm_ip4_dns_alias.pid
-            OR mom_id_entity.pid = ffm_ip4_pool.pid
             OR mom_id_entity.pid = ffm_ip6_dns_alias.pid
-            OR mom_id_entity.pid = ffm_ip6_pool.pid
             OR mom_id_entity.pid = ffm_wpa_credentials.pid
             OR mom_id_entity.pid = ffm_regulatory_permission.pid
             OR mom_id_entity.pid = ffm_routing_zone_olsr.pid
             OR mom_id_entity.pid = ffm_wireless_channel.pid
             OR mom_id_entity.pid = ffm_device_type_made_by_company.pid
+            OR mom_id_entity.pid = ffm_ip4_network_in_ip4_pool.pid
+            OR mom_id_entity.pid = ffm_ip6_network_in_ip6_pool.pid
             OR mom_id_entity.pid = ffm_net_link.pid
             OR mom_id_entity.pid = ffm_person_mentors_person.pid
             OR mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
@@ -3155,22 +3205,10 @@ _test_select = """
                ffm_ip4_dns_alias.__raw_name AS ffm_ip4_dns_alias___raw_name,
                ffm_ip4_dns_alias.name AS ffm_ip4_dns_alias_name,
                ffm_ip4_dns_alias.pid AS ffm_ip4_dns_alias_pid,
-               ffm_ip4_pool."left" AS ffm_ip4_pool_left,
-               ffm_ip4_pool.cool_down_period AS ffm_ip4_pool_cool_down_period,
-               ffm_ip4_pool.netmask_interval__lower AS ffm_ip4_pool_netmask_interval__lower,
-               ffm_ip4_pool.netmask_interval__upper AS ffm_ip4_pool_netmask_interval__upper,
-               ffm_ip4_pool.node AS ffm_ip4_pool_node,
-               ffm_ip4_pool.pid AS ffm_ip4_pool_pid,
                ffm_ip6_dns_alias."left" AS ffm_ip6_dns_alias_left,
                ffm_ip6_dns_alias.__raw_name AS ffm_ip6_dns_alias___raw_name,
                ffm_ip6_dns_alias.name AS ffm_ip6_dns_alias_name,
                ffm_ip6_dns_alias.pid AS ffm_ip6_dns_alias_pid,
-               ffm_ip6_pool."left" AS ffm_ip6_pool_left,
-               ffm_ip6_pool.cool_down_period AS ffm_ip6_pool_cool_down_period,
-               ffm_ip6_pool.netmask_interval__lower AS ffm_ip6_pool_netmask_interval__lower,
-               ffm_ip6_pool.netmask_interval__upper AS ffm_ip6_pool_netmask_interval__upper,
-               ffm_ip6_pool.node AS ffm_ip6_pool_node,
-               ffm_ip6_pool.pid AS ffm_ip6_pool_pid,
                ffm_net_device."desc" AS ffm_net_device_desc,
                ffm_net_device."left" AS ffm_net_device_left,
                ffm_net_device.__raw_name AS ffm_net_device___raw_name,
@@ -3224,9 +3262,7 @@ _test_select = """
            LEFT OUTER JOIN ffm__wireless_interface_ ON ffm_net_interface.pid = ffm__wireless_interface_.pid
            LEFT OUTER JOIN ffm_virtual_wireless_interface ON ffm__wireless_interface_.pid = ffm_virtual_wireless_interface.pid
            LEFT OUTER JOIN ffm_ip4_dns_alias ON mom_id_entity.pid = ffm_ip4_dns_alias.pid
-           LEFT OUTER JOIN ffm_ip4_pool ON mom_id_entity.pid = ffm_ip4_pool.pid
            LEFT OUTER JOIN ffm_ip6_dns_alias ON mom_id_entity.pid = ffm_ip6_dns_alias.pid
-           LEFT OUTER JOIN ffm_ip6_pool ON mom_id_entity.pid = ffm_ip6_pool.pid
            LEFT OUTER JOIN ffm_wpa_credentials ON mom_id_entity.pid = ffm_wpa_credentials.pid
            LEFT OUTER JOIN ffm_regulatory_permission ON mom_id_entity.pid = ffm_regulatory_permission.pid
            LEFT OUTER JOIN ffm_routing_zone_olsr ON mom_id_entity.pid = ffm_routing_zone_olsr.pid
@@ -3240,9 +3276,7 @@ _test_select = """
             OR mom_id_entity.pid = ffm__wireless_interface_.pid
             OR mom_id_entity.pid = ffm_virtual_wireless_interface.pid
             OR mom_id_entity.pid = ffm_ip4_dns_alias.pid
-            OR mom_id_entity.pid = ffm_ip4_pool.pid
             OR mom_id_entity.pid = ffm_ip6_dns_alias.pid
-            OR mom_id_entity.pid = ffm_ip6_pool.pid
             OR mom_id_entity.pid = ffm_wpa_credentials.pid
             OR mom_id_entity.pid = ffm_regulatory_permission.pid
             OR mom_id_entity.pid = ffm_routing_zone_olsr.pid
@@ -3628,6 +3662,12 @@ _test_select = """
                ffm_firmware_binary_in_firmware_bundle."left" AS ffm_firmware_binary_in_firmware_bundle_left,
                ffm_firmware_binary_in_firmware_bundle."right" AS ffm_firmware_binary_in_firmware_bundle_right,
                ffm_firmware_binary_in_firmware_bundle.pid AS ffm_firmware_binary_in_firmware_bundle_pid,
+               ffm_ip4_network_in_ip4_pool."left" AS ffm_ip4_network_in_ip4_pool_left,
+               ffm_ip4_network_in_ip4_pool."right" AS ffm_ip4_network_in_ip4_pool_right,
+               ffm_ip4_network_in_ip4_pool.pid AS ffm_ip4_network_in_ip4_pool_pid,
+               ffm_ip6_network_in_ip6_pool."left" AS ffm_ip6_network_in_ip6_pool_left,
+               ffm_ip6_network_in_ip6_pool."right" AS ffm_ip6_network_in_ip6_pool_right,
+               ffm_ip6_network_in_ip6_pool.pid AS ffm_ip6_network_in_ip6_pool_pid,
                ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
                ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
                ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
@@ -3656,6 +3696,8 @@ _test_select = """
            LEFT OUTER JOIN ffm_firmware_binary_in_firmware_bundle ON mom_id_entity.pid = ffm_firmware_binary_in_firmware_bundle.pid
            LEFT OUTER JOIN ffm_net_interface_in_ip_network ON mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
            LEFT OUTER JOIN ffm_device_type_made_by_company ON mom_id_entity.pid = ffm_device_type_made_by_company.pid
+           LEFT OUTER JOIN ffm_ip4_network_in_ip4_pool ON mom_id_entity.pid = ffm_ip4_network_in_ip4_pool.pid
+           LEFT OUTER JOIN ffm_ip6_network_in_ip6_pool ON mom_id_entity.pid = ffm_ip6_network_in_ip6_pool.pid
            LEFT OUTER JOIN ffm_net_link ON mom_id_entity.pid = ffm_net_link.pid
            LEFT OUTER JOIN ffm_person_mentors_person ON mom_id_entity.pid = ffm_person_mentors_person.pid
            LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
@@ -3663,6 +3705,8 @@ _test_select = """
         WHERE mom_id_entity.pid = ffm_firmware_binary_in_firmware_bundle.pid
             OR mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
             OR mom_id_entity.pid = ffm_device_type_made_by_company.pid
+            OR mom_id_entity.pid = ffm_ip4_network_in_ip4_pool.pid
+            OR mom_id_entity.pid = ffm_ip6_network_in_ip6_pool.pid
             OR mom_id_entity.pid = ffm_net_link.pid
             OR mom_id_entity.pid = ffm_person_mentors_person.pid
             OR mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
@@ -3674,6 +3718,12 @@ _test_select = """
                ffm_firmware_binary_in_firmware_bundle."left" AS ffm_firmware_binary_in_firmware_bundle_left,
                ffm_firmware_binary_in_firmware_bundle."right" AS ffm_firmware_binary_in_firmware_bundle_right,
                ffm_firmware_binary_in_firmware_bundle.pid AS ffm_firmware_binary_in_firmware_bundle_pid,
+               ffm_ip4_network_in_ip4_pool."left" AS ffm_ip4_network_in_ip4_pool_left,
+               ffm_ip4_network_in_ip4_pool."right" AS ffm_ip4_network_in_ip4_pool_right,
+               ffm_ip4_network_in_ip4_pool.pid AS ffm_ip4_network_in_ip4_pool_pid,
+               ffm_ip6_network_in_ip6_pool."left" AS ffm_ip6_network_in_ip6_pool_left,
+               ffm_ip6_network_in_ip6_pool."right" AS ffm_ip6_network_in_ip6_pool_right,
+               ffm_ip6_network_in_ip6_pool.pid AS ffm_ip6_network_in_ip6_pool_pid,
                ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
                ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
                ffm_net_interface_in_ip_network.__raw_name AS ffm_net_interface_in_ip_network___raw_name,
@@ -3702,6 +3752,8 @@ _test_select = """
            LEFT OUTER JOIN ffm_firmware_binary_in_firmware_bundle ON mom_id_entity.pid = ffm_firmware_binary_in_firmware_bundle.pid
            LEFT OUTER JOIN ffm_net_interface_in_ip_network ON mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
            LEFT OUTER JOIN ffm_device_type_made_by_company ON mom_id_entity.pid = ffm_device_type_made_by_company.pid
+           LEFT OUTER JOIN ffm_ip4_network_in_ip4_pool ON mom_id_entity.pid = ffm_ip4_network_in_ip4_pool.pid
+           LEFT OUTER JOIN ffm_ip6_network_in_ip6_pool ON mom_id_entity.pid = ffm_ip6_network_in_ip6_pool.pid
            LEFT OUTER JOIN ffm_net_link ON mom_id_entity.pid = ffm_net_link.pid
            LEFT OUTER JOIN ffm_person_mentors_person ON mom_id_entity.pid = ffm_person_mentors_person.pid
            LEFT OUTER JOIN ffm_wireless_interface_uses_antenna ON mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
@@ -3709,6 +3761,8 @@ _test_select = """
         WHERE mom_id_entity.pid = ffm_firmware_binary_in_firmware_bundle.pid
             OR mom_id_entity.pid = ffm_net_interface_in_ip_network.pid
             OR mom_id_entity.pid = ffm_device_type_made_by_company.pid
+            OR mom_id_entity.pid = ffm_ip4_network_in_ip4_pool.pid
+            OR mom_id_entity.pid = ffm_ip6_network_in_ip6_pool.pid
             OR mom_id_entity.pid = ffm_net_link.pid
             OR mom_id_entity.pid = ffm_person_mentors_person.pid
             OR mom_id_entity.pid = ffm_wireless_interface_uses_antenna.pid
@@ -3866,14 +3920,16 @@ _test_select = """
         FROM mom_id_entity
            JOIN ffm_ip4_network ON mom_id_entity.pid = ffm_ip4_network.pid
     FFM.IP_Pool
-        SELECT ffm_ip4_pool."left" AS ffm_ip4_pool_left,
+        SELECT ffm_ip4_pool.__raw_name AS ffm_ip4_pool___raw_name,
                ffm_ip4_pool.cool_down_period AS ffm_ip4_pool_cool_down_period,
+               ffm_ip4_pool.name AS ffm_ip4_pool_name,
                ffm_ip4_pool.netmask_interval__lower AS ffm_ip4_pool_netmask_interval__lower,
                ffm_ip4_pool.netmask_interval__upper AS ffm_ip4_pool_netmask_interval__upper,
                ffm_ip4_pool.node AS ffm_ip4_pool_node,
                ffm_ip4_pool.pid AS ffm_ip4_pool_pid,
-               ffm_ip6_pool."left" AS ffm_ip6_pool_left,
+               ffm_ip6_pool.__raw_name AS ffm_ip6_pool___raw_name,
                ffm_ip6_pool.cool_down_period AS ffm_ip6_pool_cool_down_period,
+               ffm_ip6_pool.name AS ffm_ip6_pool_name,
                ffm_ip6_pool.netmask_interval__lower AS ffm_ip6_pool_netmask_interval__lower,
                ffm_ip6_pool.netmask_interval__upper AS ffm_ip6_pool_netmask_interval__upper,
                ffm_ip6_pool.node AS ffm_ip6_pool_node,
@@ -3889,8 +3945,9 @@ _test_select = """
         WHERE mom_id_entity.pid = ffm_ip4_pool.pid
             OR mom_id_entity.pid = ffm_ip6_pool.pid
     FFM.IP4_Pool
-        SELECT ffm_ip4_pool."left" AS ffm_ip4_pool_left,
+        SELECT ffm_ip4_pool.__raw_name AS ffm_ip4_pool___raw_name,
                ffm_ip4_pool.cool_down_period AS ffm_ip4_pool_cool_down_period,
+               ffm_ip4_pool.name AS ffm_ip4_pool_name,
                ffm_ip4_pool.netmask_interval__lower AS ffm_ip4_pool_netmask_interval__lower,
                ffm_ip4_pool.netmask_interval__upper AS ffm_ip4_pool_netmask_interval__upper,
                ffm_ip4_pool.node AS ffm_ip4_pool_node,
@@ -3930,8 +3987,9 @@ _test_select = """
         FROM mom_id_entity
            JOIN ffm_ip6_network ON mom_id_entity.pid = ffm_ip6_network.pid
     FFM.IP6_Pool
-        SELECT ffm_ip6_pool."left" AS ffm_ip6_pool_left,
+        SELECT ffm_ip6_pool.__raw_name AS ffm_ip6_pool___raw_name,
                ffm_ip6_pool.cool_down_period AS ffm_ip6_pool_cool_down_period,
+               ffm_ip6_pool.name AS ffm_ip6_pool_name,
                ffm_ip6_pool.netmask_interval__lower AS ffm_ip6_pool_netmask_interval__lower,
                ffm_ip6_pool.netmask_interval__upper AS ffm_ip6_pool_netmask_interval__upper,
                ffm_ip6_pool.node AS ffm_ip6_pool_node,
@@ -4161,6 +4219,45 @@ _test_select = """
                mom_id_entity.x_locked AS mom_id_entity_x_locked
         FROM mom_id_entity
            JOIN ffm_device_type_made_by_company ON mom_id_entity.pid = ffm_device_type_made_by_company.pid
+    FFM.IP_Network_in_IP_Pool
+        SELECT ffm_ip4_network_in_ip4_pool."left" AS ffm_ip4_network_in_ip4_pool_left,
+               ffm_ip4_network_in_ip4_pool."right" AS ffm_ip4_network_in_ip4_pool_right,
+               ffm_ip4_network_in_ip4_pool.pid AS ffm_ip4_network_in_ip4_pool_pid,
+               ffm_ip6_network_in_ip6_pool."left" AS ffm_ip6_network_in_ip6_pool_left,
+               ffm_ip6_network_in_ip6_pool."right" AS ffm_ip6_network_in_ip6_pool_right,
+               ffm_ip6_network_in_ip6_pool.pid AS ffm_ip6_network_in_ip6_pool_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           LEFT OUTER JOIN ffm_ip4_network_in_ip4_pool ON mom_id_entity.pid = ffm_ip4_network_in_ip4_pool.pid
+           LEFT OUTER JOIN ffm_ip6_network_in_ip6_pool ON mom_id_entity.pid = ffm_ip6_network_in_ip6_pool.pid
+        WHERE mom_id_entity.pid = ffm_ip4_network_in_ip4_pool.pid
+            OR mom_id_entity.pid = ffm_ip6_network_in_ip6_pool.pid
+    FFM.IP4_Network_in_IP4_Pool
+        SELECT ffm_ip4_network_in_ip4_pool."left" AS ffm_ip4_network_in_ip4_pool_left,
+               ffm_ip4_network_in_ip4_pool."right" AS ffm_ip4_network_in_ip4_pool_right,
+               ffm_ip4_network_in_ip4_pool.pid AS ffm_ip4_network_in_ip4_pool_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_ip4_network_in_ip4_pool ON mom_id_entity.pid = ffm_ip4_network_in_ip4_pool.pid
+    FFM.IP6_Network_in_IP6_Pool
+        SELECT ffm_ip6_network_in_ip6_pool."left" AS ffm_ip6_network_in_ip6_pool_left,
+               ffm_ip6_network_in_ip6_pool."right" AS ffm_ip6_network_in_ip6_pool_right,
+               ffm_ip6_network_in_ip6_pool.pid AS ffm_ip6_network_in_ip6_pool_pid,
+               mom_id_entity.electric AS mom_id_entity_electric,
+               mom_id_entity.last_cid AS mom_id_entity_last_cid,
+               mom_id_entity.pid AS mom_id_entity_pid,
+               mom_id_entity.type_name AS mom_id_entity_type_name,
+               mom_id_entity.x_locked AS mom_id_entity_x_locked
+        FROM mom_id_entity
+           JOIN ffm_ip6_network_in_ip6_pool ON mom_id_entity.pid = ffm_ip6_network_in_ip6_pool.pid
     FFM.Net_Interface_in_IP4_Network FFM.Net_Interface_in_IP_Network
         SELECT ffm_net_interface_in_ip_network."left" AS ffm_net_interface_in_ip_network_left,
                ffm_net_interface_in_ip_network."right" AS ffm_net_interface_in_ip_network_right,
@@ -5892,12 +5989,15 @@ _test_tables = """
     FFM.Firmware_Version                     : ffm_firmware_version
     FFM.IP4_DNS_Alias                        : ffm_ip4_dns_alias
     FFM.IP4_Network                          : ffm_ip4_network
+    FFM.IP4_Network_in_IP4_Pool              : ffm_ip4_network_in_ip4_pool
     FFM.IP4_Pool                             : ffm_ip4_pool
     FFM.IP6_DNS_Alias                        : ffm_ip6_dns_alias
     FFM.IP6_Network                          : ffm_ip6_network
+    FFM.IP6_Network_in_IP6_Pool              : ffm_ip6_network_in_ip6_pool
     FFM.IP6_Pool                             : ffm_ip6_pool
     FFM.IP_DNS_Alias                         : None
     FFM.IP_Network                           : None
+    FFM.IP_Network_in_IP_Pool                : None
     FFM.IP_Pool                              : None
     FFM.Id_Entity                            : None
     FFM.Link                                 : None
@@ -6047,8 +6147,9 @@ _test_tables = """
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
         Column pool                      : Integer              Optional__Computed_Set__Id_Entity_Reference Entity pool Id_Entity()
     FFM.IP4_Pool (MOM.Id_Entity) <Table ffm_ip4_pool>
+        Column __raw_name                : Varchar(40)          Primary__Raw_Value String name
         Column cool_down_period          : Text                 Optional Time Delta cool_down_period
-        Column left                      : Integer              Link_Role__Init_Only IP4_Network left Id_Entity()
+        Column name                      : Varchar(40)          Primary__Raw_Value String name
         Column netmask_interval__lower   : Integer              Necessary__Nested Int lower
         Column netmask_interval__upper   : Integer              Necessary__Computed_Set__Nested Int upper
         Column node                      : Integer              Optional__Id_Entity_Reference Entity node Id_Entity()
@@ -6067,8 +6168,9 @@ _test_tables = """
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
         Column pool                      : Integer              Optional__Computed_Set__Id_Entity_Reference Entity pool Id_Entity()
     FFM.IP6_Pool (MOM.Id_Entity) <Table ffm_ip6_pool>
+        Column __raw_name                : Varchar(40)          Primary__Raw_Value String name
         Column cool_down_period          : Text                 Optional Time Delta cool_down_period
-        Column left                      : Integer              Link_Role__Init_Only IP6_Network left Id_Entity()
+        Column name                      : Varchar(40)          Primary__Raw_Value String name
         Column netmask_interval__lower   : Integer              Necessary__Nested Int lower
         Column netmask_interval__upper   : Integer              Necessary__Computed_Set__Nested Int upper
         Column node                      : Integer              Optional__Id_Entity_Reference Entity node Id_Entity()
@@ -6133,6 +6235,14 @@ _test_tables = """
         Column left                      : Integer              Link_Role Device_Type left Id_Entity()
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
         Column right                     : Integer              Link_Role Company right Id_Entity()
+    FFM.IP4_Network_in_IP4_Pool (MOM.Id_Entity) <Table ffm_ip4_network_in_ip4_pool>
+        Column left                      : Integer              Link_Role IP4_Network left Id_Entity()
+        Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
+        Column right                     : Integer              Link_Role IP4_Pool right Id_Entity()
+    FFM.IP6_Network_in_IP6_Pool (MOM.Id_Entity) <Table ffm_ip6_network_in_ip6_pool>
+        Column left                      : Integer              Link_Role IP6_Network left Id_Entity()
+        Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')
+        Column right                     : Integer              Link_Role IP6_Pool right Id_Entity()
     FFM.Net_Link (MOM.Id_Entity) <Table ffm_net_link>
         Column left                      : Integer              Link_Role Net_Interface left Id_Entity()
         Column pid                       : Integer              Internal__Just_Once Surrogate pid primary ForeignKey(u'mom_id_entity.pid')

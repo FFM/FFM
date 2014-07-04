@@ -20,16 +20,13 @@
 #
 #++
 # Name
-#    FFM.IP6_Pool
+#    FFM.IP_Pool_permits_Group
 #
 # Purpose
-#    Model Attributes of an IPv6 network pool
+#    Model permission for IP_Network reservation from an IP_Pool
 #
 # Revision Dates
-#    20-Jun-2014 (RS) Creation
-#    23-Jun-2014 (RS) Use correct type for `left`
-#     3-Jul-2014 (RS) `IP_Pool` no longer `Link1`, rename
-#                     `A_IP6_Netmask_Interval`
+#     3-Jul-2014 (RS) Creation
 #    ««revision-date»»···
 #--
 
@@ -37,32 +34,62 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 
 from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
-from   _FFM.Attr_Type         import A_IP6_Netmask_Interval
+from   _GTW._OMP._PAP         import PAP
 
-import _FFM.IP_Pool
+from   _FFM.Attr_Type         import *
 
-_Ancestor_Essence = FFM.IP_Pool
+import _FFM.IP_Network
+import _GTW._OMP._PAP.Id_Entity_permits_Group
 
-class IP6_Pool (_Ancestor_Essence) :
-    """Attributes of an IPv6 network pool."""
+_Ancestor_Essence = PAP.Id_Entity_permits_Group
+
+class IP_Pool_permits_Group (_Ancestor_Essence) :
+    """Permission to reserve IP_Network from IP_Pool"""
+
+    is_partial  = True
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
+        ### Primary attributes
+
+        class left (_Ancestor.left) :
+            """IP Pool."""
+
+            role_type          = FFM.IP_Pool
+
+        # end class left
+
         ### Non-primary attributes
 
-        class netmask_interval (A_IP6_Netmask_Interval) :
-            """Limit netmasks to allocate from this %(type_name)s."""
+        class user_quota (_A_IP_Quota_) :
+            """Quota of IP allocations from this IP pool per user."""
 
-            kind               = Attr.Optional
+            kind = Attr.Optional
 
-        # end class netmask_interval
+        # end class user_quota
+
+        class node_quota (_A_IP_Quota_) :
+            """Quota of IP allocations from this IP pool per node."""
+
+            kind = Attr.Optional
+
+        # end class user_quota
+
+        class iface_quota (_A_IP_Quota_) :
+            """Quota of IP allocations from this IP pool for a single
+               network interface.
+            """
+
+            kind = Attr.Optional
+
+        # end class iface_quota
 
     # end class _Attributes
 
-# end class IP6_Pool
+# end class IP_Pool_permits_Group
 
 if __name__ != "__main__" :
     FFM._Export ("*")
-### __END__ FFM.IP6_Pool
+### __END__ FFM.IP_Pool_permits_Group

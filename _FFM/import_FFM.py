@@ -51,6 +51,8 @@
 #                     add `PAP.Adhoc_Group`, `PAP.Person_in_Group`
 #    20-Jun-2014 (RS) Add `IP_Pool`, `IP4_Pool`, `IP6_Pool`
 #     1-Jul-2014 (RS) `IP_DNS_Alias` and derivatives
+#     3-Jul-2014 (RS) Add `IP_Network_in_IP_Pool`, `IP_Pool_permits_Group`
+#                     and descendants
 #    ««revision-date»»···
 #--
 
@@ -64,6 +66,7 @@ import _GTW._OMP._PAP.IM_Handle
 import _GTW._OMP._PAP.Nickname
 import _GTW._OMP._PAP.Adhoc_Group
 import _GTW._OMP._PAP.Person_in_Group
+import _GTW._OMP._PAP.Id_Entity_permits_Group
 
 import _FFM.Antenna
 import _FFM.Antenna_Band
@@ -97,6 +100,12 @@ import _FFM.Wireless_Mode
 import _FFM.Zone
 
 import _FFM.Device_Type_made_by_Company
+import _FFM.IP_Network_in_IP_Pool
+import _FFM.IP4_Network_in_IP4_Pool
+import _FFM.IP6_Network_in_IP6_Pool
+import _FFM.IP_Pool_permits_Group
+import _FFM.IP4_Pool_permits_Group
+import _FFM.IP6_Pool_permits_Group
 import _FFM.Net_Interface_in_IP4_Network
 import _FFM.Net_Interface_in_IP6_Network
 import _FFM.Net_Interface_in_IP_Network

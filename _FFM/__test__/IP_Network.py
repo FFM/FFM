@@ -55,6 +55,8 @@
 #    23-Jun-2014 (RS) Add tests for `free` and `collect_garbage`, make
 #                     tests run again
 #    24-Jun-2014 (RS) `A_Netmask_Interval` derived from `A_Int_Interval_C`
+#     4-Jul-2014 (RS) `IP_Pool_permits_Group`, `IP_Network_in_IP_Pool`,
+#                     changes to `IP_Pool`
 #    ««revision-date»»···
 #--
 
@@ -418,40 +420,66 @@ _test_alloc = """
            mom_id_entity.x_locked AS mom_id_entity_x_locked
          FROM mom_id_entity
            JOIN ffm_ip4_network ON mom_id_entity.pid = ffm_ip4_network.pid
-           LEFT OUTER JOIN ffm_ip4_pool AS ffm_ip4_pool__1 ON ffm_ip4_pool__1."left" = ffm_ip4_network.pid
+           LEFT OUTER JOIN ffm_ip4_network_in_ip4_pool AS ffm_ip4_network_in_ip4_pool__1 ON ffm_ip4_network_in_ip4_pool__1."left" = ffm_ip4_network.pid
+           LEFT OUTER JOIN ffm_ip4_pool AS ffm_ip4_pool__1 ON ffm_ip4_pool__1.pid = ffm_ip4_network_in_ip4_pool__1."right"
          WHERE ffm_ip4_network.net_address__numeric <= :net_address__numeric_1
             AND ffm_ip4_network.net_address__upper_bound >= :net_address__upper_bound_1
             AND ffm_ip4_network.net_address__mask_len <= :net_address__mask_len_1
-            AND ffm_ip4_pool__1."left" IS NOT NULL
+            AND ffm_ip4_network_in_ip4_pool__1."right" IS NOT NULL
 
     >>> p1 = FFM.IP4_Pool \\
-    ...     ( left             = ff_pool
+    ...     ( name             = "ff_pool"
     ...     , cool_down_period = '1w'
     ...     , netmask_interval = '0-32'
     ...     , raw              = True
     ...     )
+    >>> i1 = FFM.IP4_Network_in_IP4_Pool (ff_pool, p1)
     >>> p2 = FFM.IP4_Pool \\
-    ...     ( left             = osc_pool
+    ...     ( name             = "osc_pool"
     ...     , netmask_interval = '0-32'
     ...     , raw              = True
     ...     )
+    >>> i2 = FFM.IP4_Network_in_IP4_Pool (osc_pool, p2)
     >>> p3 = FFM.IP4_Pool \\
-    ...     ( left             = rs_pool
+    ...     ( name             = "rs_pool"
     ...     , cool_down_period = '1d'
     ...     , netmask_interval = '32-32'
     ...     , raw              = True
     ...     )
+    >>> i3 = FFM.IP4_Network_in_IP4_Pool (rs_pool, p3)
 
-    >>> FFM.IP4_Pool.query \\
+    >>> FFM.IP4_Network_in_IP4_Pool.query \\
     ...     ( Q.ip_network.net_address.CONTAINS (rs_pool.net_address)
-    ...     , Q.cool_down_period != None
-    ...     , sort_key = TFL.Sorted_By ("cool_down_period")
+    ...     , Q.ip_pool.cool_down_period != None
+    ...     , sort_key = TFL.Sorted_By ("ip_pool.cool_down_period")
     ...     ).distinct ().all ()
-    [FFM.IP4_Pool (("10.0.0.0/28", )), FFM.IP4_Pool (("10.0.0.0/8", ))]
+    [FFM.IP4_Network_in_IP4_Pool (("10.0.0.0/28", ), (u'rs_pool', )), FFM.IP4_Network_in_IP4_Pool (("10.0.0.0/8", ), (u'ff_pool', ))]
 
-    >>> FFM.IP4_Pool.query \\
+    >>> IPP_ETM = rs_pool.home_scope [rs_pool.ETM.ip_pool.P_Type]
+    >>> IPP_ETM
+    <E_Type_Manager for FFM.IP4_Pool of scope MOMT__SAW__SQ>
+
+    >>> IPPL_ETM = rs_pool.home_scope [rs_pool.ETM.ip_pool_link.P_Type]
+    >>> IPPL_ETM
+    <E_Type_Manager for FFM.IP4_Network_in_IP4_Pool of scope MOMT__SAW__SQ>
+    >>> IPPL_ETM = FFM.IP4_Network_in_IP4_Pool
+    >>> IPPL_ETM.query \\
     ...     ( Q.ip_network.net_address.CONTAINS (rs_pool.net_address)
-    ...     , sort_key = TFL.Sorted_By ("cool_down_period")
+    ...     , Q.ip_pool.cool_down_period != None
+    ...     , sort_key = TFL.Sorted_By ("ip_pool.cool_down_period")
+    ...     ).first () 
+    FFM.IP4_Network_in_IP4_Pool (("10.0.0.0/28", ), (u'rs_pool', ))
+
+    >>> FFM.IP4_Network_in_IP4_Pool.query \\
+    ...     ( Q.ip_network.net_address.CONTAINS (rs_pool.net_address)
+    ...     , Q.ip_pool.cool_down_period != None
+    ...     , sort_key = TFL.Sorted_By ("ip_pool.cool_down_period")
+    ...     ).distinct ().all ()
+    [FFM.IP4_Network_in_IP4_Pool (("10.0.0.0/28", ), (u'rs_pool', )), FFM.IP4_Network_in_IP4_Pool (("10.0.0.0/8", ), (u'ff_pool', ))]
+
+    >>> FFM.IP4_Network_in_IP4_Pool.query \\
+    ...     ( Q.ip_network.net_address.CONTAINS (rs_pool.net_address)
+    ...     , sort_key = TFL.Sorted_By ("ip_pool.cool_down_period")
     ...     ).distinct ().count ()
     3
 
@@ -841,7 +869,6 @@ _test_AQ = """
     <has_children.AQ [Attr.Type.Querier Boolean]>
     <is_free.AQ [Attr.Type.Querier Boolean]>
     <parent.AQ [Attr.Type.Querier Id_Entity]>
-    <_ip_pool.AQ [Attr.Type.Querier Rev_Ref]>
     <ip_pool.AQ [Attr.Type.Querier Rev_Ref]>
     <net_interface.AQ [Attr.Type.Querier Rev_Ref]>
     <documents.AQ [Attr.Type.Querier Rev_Ref]>
@@ -890,40 +917,8 @@ _test_AQ = """
     <parent.has_children.AQ [Attr.Type.Querier Boolean]> -----
     <parent.is_free.AQ [Attr.Type.Querier Boolean]> -----
     <parent.parent.AQ [Attr.Type.Querier Id_Entity]> FFM.IP4_Network
-    <_ip_pool.AQ [Attr.Type.Querier Rev_Ref]> FFM.IP_Pool
-    <_ip_pool.cool_down_period.AQ [Attr.Type.Querier Ckd]> -----
-    <_ip_pool.netmask_interval.AQ [Attr.Type.Querier Composite]> MOM.Int_Interval_C
-    <_ip_pool.netmask_interval.lower.AQ [Attr.Type.Querier Ckd]> -----
-    <_ip_pool.netmask_interval.upper.AQ [Attr.Type.Querier Ckd]> -----
-    <_ip_pool.netmask_interval.center.AQ [Attr.Type.Querier Ckd]> -----
-    <_ip_pool.netmask_interval.length.AQ [Attr.Type.Querier Ckd]> -----
-    <_ip_pool.node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
-    <_ip_pool.node.name.AQ [Attr.Type.Querier String]> -----
-    <_ip_pool.node.manager.AQ [Attr.Type.Querier Id_Entity]> PAP.Person
-    <_ip_pool.node.manager.last_name.AQ [Attr.Type.Querier String_FL]> -----
-    <_ip_pool.node.manager.first_name.AQ [Attr.Type.Querier String_FL]> -----
-    <_ip_pool.node.manager.middle_name.AQ [Attr.Type.Querier String]> -----
-    <_ip_pool.node.manager.title.AQ [Attr.Type.Querier String]> -----
-    <_ip_pool.node.manager.lifetime.AQ [Attr.Type.Querier Composite]> MOM.Date_Interval
-    <_ip_pool.node.manager.lifetime.start.AQ [Attr.Type.Querier Date]> -----
-    <_ip_pool.node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]> -----
-    <_ip_pool.node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]> -----
-    <_ip_pool.node.manager.sex.AQ [Attr.Type.Querier Ckd]> -----
-    <_ip_pool.node.address.AQ [Attr.Type.Querier Id_Entity]> PAP.Address
-    <_ip_pool.node.address.street.AQ [Attr.Type.Querier String]> -----
-    <_ip_pool.node.address.zip.AQ [Attr.Type.Querier String]> -----
-    <_ip_pool.node.address.city.AQ [Attr.Type.Querier String]> -----
-    <_ip_pool.node.address.country.AQ [Attr.Type.Querier String]> -----
-    <_ip_pool.node.address.desc.AQ [Attr.Type.Querier String]> -----
-    <_ip_pool.node.address.region.AQ [Attr.Type.Querier String]> -----
-    <_ip_pool.node.desc.AQ [Attr.Type.Querier String]> -----
-    <_ip_pool.node.owner.AQ [Attr.Type.Querier Id_Entity]> PAP.Subject
-    <_ip_pool.node.position.AQ [Attr.Type.Querier Composite]> MOM.Position
-    <_ip_pool.node.position.lat.AQ [Attr.Type.Querier Raw]> -----
-    <_ip_pool.node.position.lon.AQ [Attr.Type.Querier Raw]> -----
-    <_ip_pool.node.position.height.AQ [Attr.Type.Querier Ckd]> -----
-    <_ip_pool.node.show_in_map.AQ [Attr.Type.Querier Boolean]> -----
     <ip_pool.AQ [Attr.Type.Querier Rev_Ref]> FFM.IP4_Pool
+    <ip_pool.name.AQ [Attr.Type.Querier String]> -----
     <ip_pool.cool_down_period.AQ [Attr.Type.Querier Ckd]> -----
     <ip_pool.node.AQ [Attr.Type.Querier Id_Entity]> FFM.Node
     <ip_pool.node.name.AQ [Attr.Type.Querier String]> -----
@@ -1628,40 +1623,8 @@ _test_AQ = """
     'Parent/Has children'
     'Parent/Is free'
     'Parent/Parent'
-    ' ip pool'
-    ' ip pool/Cool down period'
-    ' ip pool/Netmask interval'
-    ' ip pool/Netmask interval/Lower'
-    ' ip pool/Netmask interval/Upper'
-    ' ip pool/Netmask interval/Center'
-    ' ip pool/Netmask interval/Length'
-    ' ip pool/Node'
-    ' ip pool/Node/Name'
-    ' ip pool/Node/Manager'
-    ' ip pool/Node/Manager/Last name'
-    ' ip pool/Node/Manager/First name'
-    ' ip pool/Node/Manager/Middle name'
-    ' ip pool/Node/Manager/Academic title'
-    ' ip pool/Node/Manager/Lifetime'
-    ' ip pool/Node/Manager/Lifetime/Start'
-    ' ip pool/Node/Manager/Lifetime/Finish'
-    ' ip pool/Node/Manager/Lifetime/Alive'
-    ' ip pool/Node/Manager/Sex'
-    ' ip pool/Node/Address'
-    ' ip pool/Node/Address/Street'
-    ' ip pool/Node/Address/Zip code'
-    ' ip pool/Node/Address/City'
-    ' ip pool/Node/Address/Country'
-    ' ip pool/Node/Address/Description'
-    ' ip pool/Node/Address/Region'
-    ' ip pool/Node/Description'
-    ' ip pool/Node/Owner'
-    ' ip pool/Node/Position'
-    ' ip pool/Node/Position/Latitude'
-    ' ip pool/Node/Position/Longitude'
-    ' ip pool/Node/Position/Height'
-    ' ip pool/Node/Show in map'
     'Ip pool'
+    'Ip pool/Name'
     'Ip pool/Cool down period'
     'Ip pool/Node'
     'Ip pool/Node/Name'
@@ -2354,31 +2317,7 @@ _test_AQ = """
     <parent.expiration_date.AQ [Attr.Type.Querier Ckd]>
     <parent.has_children.AQ [Attr.Type.Querier Boolean]>
     <parent.is_free.AQ [Attr.Type.Querier Boolean]>
-    <_ip_pool.cool_down_period.AQ [Attr.Type.Querier Ckd]>
-    <_ip_pool.netmask_interval.lower.AQ [Attr.Type.Querier Ckd]>
-    <_ip_pool.netmask_interval.upper.AQ [Attr.Type.Querier Ckd]>
-    <_ip_pool.netmask_interval.center.AQ [Attr.Type.Querier Ckd]>
-    <_ip_pool.netmask_interval.length.AQ [Attr.Type.Querier Ckd]>
-    <_ip_pool.node.name.AQ [Attr.Type.Querier String]>
-    <_ip_pool.node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
-    <_ip_pool.node.manager.first_name.AQ [Attr.Type.Querier String_FL]>
-    <_ip_pool.node.manager.middle_name.AQ [Attr.Type.Querier String]>
-    <_ip_pool.node.manager.title.AQ [Attr.Type.Querier String]>
-    <_ip_pool.node.manager.lifetime.start.AQ [Attr.Type.Querier Date]>
-    <_ip_pool.node.manager.lifetime.finish.AQ [Attr.Type.Querier Date]>
-    <_ip_pool.node.manager.lifetime.alive.AQ [Attr.Type.Querier Boolean]>
-    <_ip_pool.node.manager.sex.AQ [Attr.Type.Querier Ckd]>
-    <_ip_pool.node.address.street.AQ [Attr.Type.Querier String]>
-    <_ip_pool.node.address.zip.AQ [Attr.Type.Querier String]>
-    <_ip_pool.node.address.city.AQ [Attr.Type.Querier String]>
-    <_ip_pool.node.address.country.AQ [Attr.Type.Querier String]>
-    <_ip_pool.node.address.desc.AQ [Attr.Type.Querier String]>
-    <_ip_pool.node.address.region.AQ [Attr.Type.Querier String]>
-    <_ip_pool.node.desc.AQ [Attr.Type.Querier String]>
-    <_ip_pool.node.position.lat.AQ [Attr.Type.Querier Raw]>
-    <_ip_pool.node.position.lon.AQ [Attr.Type.Querier Raw]>
-    <_ip_pool.node.position.height.AQ [Attr.Type.Querier Ckd]>
-    <_ip_pool.node.show_in_map.AQ [Attr.Type.Querier Boolean]>
+    <ip_pool.name.AQ [Attr.Type.Querier String]>
     <ip_pool.cool_down_period.AQ [Attr.Type.Querier Ckd]>
     <ip_pool.node.name.AQ [Attr.Type.Querier String]>
     <ip_pool.node.manager.last_name.AQ [Attr.Type.Querier String_FL]>
@@ -3446,226 +3385,11 @@ _test_AQ = """
           }
         , { 'Class' : 'Entity'
           , 'attrs' :
-              [ { 'name' : 'cool_down_period'
-                , 'sig_key' : 0
-                , 'ui_name' : 'Cool down period'
+              [ { 'name' : 'name'
+                , 'sig_key' : 3
+                , 'ui_name' : 'Name'
                 }
-              , { 'attrs' :
-                    [ { 'name' : 'lower'
-                      , 'sig_key' : 0
-                      , 'ui_name' : 'Lower'
-                      }
-                    , { 'name' : 'upper'
-                      , 'sig_key' : 0
-                      , 'ui_name' : 'Upper'
-                      }
-                    , { 'name' : 'center'
-                      , 'sig_key' : 0
-                      , 'ui_name' : 'Center'
-                      }
-                    , { 'name' : 'length'
-                      , 'sig_key' : 0
-                      , 'ui_name' : 'Length'
-                      }
-                    ]
-                , 'name' : 'netmask_interval'
-                , 'ui_name' : 'Netmask interval'
-                }
-              , { 'Class' : 'Entity'
-                , 'attrs' :
-                    [ { 'name' : 'name'
-                      , 'sig_key' : 3
-                      , 'ui_name' : 'Name'
-                      }
-                    , { 'Class' : 'Entity'
-                      , 'attrs' :
-                          [ { 'name' : 'last_name'
-                            , 'sig_key' : 3
-                            , 'ui_name' : 'Last name'
-                            }
-                          , { 'name' : 'first_name'
-                            , 'sig_key' : 3
-                            , 'ui_name' : 'First name'
-                            }
-                          , { 'name' : 'middle_name'
-                            , 'sig_key' : 3
-                            , 'ui_name' : 'Middle name'
-                            }
-                          , { 'name' : 'title'
-                            , 'sig_key' : 3
-                            , 'ui_name' : 'Academic title'
-                            }
-                          , { 'attrs' :
-                                [ { 'name' : 'start'
-                                  , 'sig_key' : 0
-                                  , 'ui_name' : 'Start'
-                                  }
-                                , { 'name' : 'finish'
-                                  , 'sig_key' : 0
-                                  , 'ui_name' : 'Finish'
-                                  }
-                                , { 'name' : 'alive'
-                                  , 'sig_key' : 1
-                                  , 'ui_name' : 'Alive'
-                                  }
-                                ]
-                            , 'name' : 'lifetime'
-                            , 'ui_name' : 'Lifetime'
-                            }
-                          , { 'name' : 'sex'
-                            , 'sig_key' : 0
-                            , 'ui_name' : 'Sex'
-                            }
-                          ]
-                      , 'name' : 'manager'
-                      , 'sig_key' : 2
-                      , 'ui_name' : 'Manager'
-                      }
-                    , { 'Class' : 'Entity'
-                      , 'attrs' :
-                          [ { 'name' : 'street'
-                            , 'sig_key' : 3
-                            , 'ui_name' : 'Street'
-                            }
-                          , { 'name' : 'zip'
-                            , 'sig_key' : 3
-                            , 'ui_name' : 'Zip code'
-                            }
-                          , { 'name' : 'city'
-                            , 'sig_key' : 3
-                            , 'ui_name' : 'City'
-                            }
-                          , { 'name' : 'country'
-                            , 'sig_key' : 3
-                            , 'ui_name' : 'Country'
-                            }
-                          , { 'name' : 'desc'
-                            , 'sig_key' : 3
-                            , 'ui_name' : 'Description'
-                            }
-                          , { 'name' : 'region'
-                            , 'sig_key' : 3
-                            , 'ui_name' : 'Region'
-                            }
-                          ]
-                      , 'name' : 'address'
-                      , 'sig_key' : 2
-                      , 'ui_name' : 'Address'
-                      }
-                    , { 'name' : 'desc'
-                      , 'sig_key' : 3
-                      , 'ui_name' : 'Description'
-                      }
-                    , { 'Class' : 'Entity'
-                      , 'children_np' :
-                          [ { 'Class' : 'Entity'
-                            , 'attrs' :
-                                [ { 'name' : 'name'
-                                  , 'sig_key' : 3
-                                  , 'ui_name' : 'Name'
-                                  }
-                                ]
-                            , 'name' : 'owner'
-                            , 'sig_key' : 2
-                            , 'type_name' : 'PAP.Adhoc_Group'
-                            , 'ui_name' : 'Owner'
-                            , 'ui_type_name' : 'Adhoc_Group'
-                            }
-                          , { 'Class' : 'Entity'
-                            , 'attrs' :
-                                [ { 'name' : 'name'
-                                  , 'sig_key' : 3
-                                  , 'ui_name' : 'Name'
-                                  }
-                                ]
-                            , 'name' : 'owner'
-                            , 'sig_key' : 2
-                            , 'type_name' : 'PAP.Association'
-                            , 'ui_name' : 'Owner'
-                            , 'ui_type_name' : 'Association'
-                            }
-                          , { 'Class' : 'Entity'
-                            , 'attrs' :
-                                [ { 'name' : 'name'
-                                  , 'sig_key' : 3
-                                  , 'ui_name' : 'Name'
-                                  }
-                                , { 'name' : 'registered_in'
-                                  , 'sig_key' : 3
-                                  , 'ui_name' : 'Registered in'
-                                  }
-                                ]
-                            , 'name' : 'owner'
-                            , 'sig_key' : 2
-                            , 'type_name' : 'PAP.Company'
-                            , 'ui_name' : 'Owner'
-                            , 'ui_type_name' : 'Company'
-                            }
-                          , { 'Class' : 'Entity'
-                            , 'attrs' :
-                                [ { 'name' : 'last_name'
-                                  , 'sig_key' : 3
-                                  , 'ui_name' : 'Last name'
-                                  }
-                                , { 'name' : 'first_name'
-                                  , 'sig_key' : 3
-                                  , 'ui_name' : 'First name'
-                                  }
-                                , { 'name' : 'middle_name'
-                                  , 'sig_key' : 3
-                                  , 'ui_name' : 'Middle name'
-                                  }
-                                , { 'name' : 'title'
-                                  , 'sig_key' : 3
-                                  , 'ui_name' : 'Academic title'
-                                  }
-                                ]
-                            , 'name' : 'owner'
-                            , 'sig_key' : 2
-                            , 'type_name' : 'PAP.Person'
-                            , 'ui_name' : 'Owner'
-                            , 'ui_type_name' : 'Person'
-                            }
-                          ]
-                      , 'default_child' : 'PAP.Person'
-                      , 'name' : 'owner'
-                      , 'sig_key' : 2
-                      , 'ui_name' : 'Owner'
-                      }
-                    , { 'attrs' :
-                          [ { 'name' : 'lat'
-                            , 'sig_key' : 4
-                            , 'ui_name' : 'Latitude'
-                            }
-                          , { 'name' : 'lon'
-                            , 'sig_key' : 4
-                            , 'ui_name' : 'Longitude'
-                            }
-                          , { 'name' : 'height'
-                            , 'sig_key' : 0
-                            , 'ui_name' : 'Height'
-                            }
-                          ]
-                      , 'name' : 'position'
-                      , 'ui_name' : 'Position'
-                      }
-                    , { 'name' : 'show_in_map'
-                      , 'sig_key' : 1
-                      , 'ui_name' : 'Show in map'
-                      }
-                    ]
-                , 'name' : 'node'
-                , 'sig_key' : 2
-                , 'ui_name' : 'Node'
-                }
-              ]
-          , 'name' : '_ip_pool'
-          , 'sig_key' : 2
-          , 'ui_name' : ' ip pool'
-          }
-        , { 'Class' : 'Entity'
-          , 'attrs' :
-              [ { 'name' : 'cool_down_period'
+              , { 'name' : 'cool_down_period'
                 , 'sig_key' : 0
                 , 'ui_name' : 'Cool down period'
                 }
@@ -9244,436 +8968,17 @@ _test_AQ = """
       )
     , Record
       ( Class = 'Entity'
-      , attr = Link_Ref `_ip_pool`
+      , attr = Role_Ref `ip_pool`
       , attrs =
           [ Record
-            ( attr = Time Delta `cool_down_period`
-            , full_name = '_ip_pool.cool_down_period'
-            , id = '_ip_pool__cool_down_period'
-            , name = 'cool_down_period'
-            , sig_key = 0
-            , ui_name = ' ip pool/Cool down period'
+            ( attr = String `name`
+            , full_name = 'ip_pool.name'
+            , id = 'ip_pool__name'
+            , name = 'name'
+            , sig_key = 3
+            , ui_name = 'Ip pool/Name'
             )
           , Record
-            ( attr = Int_Interval `netmask_interval`
-            , attrs =
-                [ Record
-                  ( attr = Int `lower`
-                  , full_name = '_ip_pool.netmask_interval.lower'
-                  , id = '_ip_pool__netmask_interval__lower'
-                  , name = 'lower'
-                  , sig_key = 0
-                  , ui_name = ' ip pool/Netmask interval/Lower'
-                  )
-                , Record
-                  ( attr = Int `upper`
-                  , full_name = '_ip_pool.netmask_interval.upper'
-                  , id = '_ip_pool__netmask_interval__upper'
-                  , name = 'upper'
-                  , sig_key = 0
-                  , ui_name = ' ip pool/Netmask interval/Upper'
-                  )
-                , Record
-                  ( attr = Int `center`
-                  , full_name = '_ip_pool.netmask_interval.center'
-                  , id = '_ip_pool__netmask_interval__center'
-                  , name = 'center'
-                  , sig_key = 0
-                  , ui_name = ' ip pool/Netmask interval/Center'
-                  )
-                , Record
-                  ( attr = Int `length`
-                  , full_name = '_ip_pool.netmask_interval.length'
-                  , id = '_ip_pool__netmask_interval__length'
-                  , name = 'length'
-                  , sig_key = 0
-                  , ui_name = ' ip pool/Netmask interval/Length'
-                  )
-                ]
-            , full_name = '_ip_pool.netmask_interval'
-            , id = '_ip_pool__netmask_interval'
-            , name = 'netmask_interval'
-            , ui_name = ' ip pool/Netmask interval'
-            )
-          , Record
-            ( Class = 'Entity'
-            , attr = Entity `node`
-            , attrs =
-                [ Record
-                  ( attr = String `name`
-                  , full_name = '_ip_pool.node.name'
-                  , id = '_ip_pool__node__name'
-                  , name = 'name'
-                  , sig_key = 3
-                  , ui_name = ' ip pool/Node/Name'
-                  )
-                , Record
-                  ( Class = 'Entity'
-                  , attr = Entity `manager`
-                  , attrs =
-                      [ Record
-                        ( attr = String `last_name`
-                        , full_name = '_ip_pool.node.manager.last_name'
-                        , id = '_ip_pool__node__manager__last_name'
-                        , name = 'last_name'
-                        , sig_key = 3
-                        , ui_name = ' ip pool/Node/Manager/Last name'
-                        )
-                      , Record
-                        ( attr = String `first_name`
-                        , full_name = '_ip_pool.node.manager.first_name'
-                        , id = '_ip_pool__node__manager__first_name'
-                        , name = 'first_name'
-                        , sig_key = 3
-                        , ui_name = ' ip pool/Node/Manager/First name'
-                        )
-                      , Record
-                        ( attr = String `middle_name`
-                        , full_name = '_ip_pool.node.manager.middle_name'
-                        , id = '_ip_pool__node__manager__middle_name'
-                        , name = 'middle_name'
-                        , sig_key = 3
-                        , ui_name = ' ip pool/Node/Manager/Middle name'
-                        )
-                      , Record
-                        ( attr = String `title`
-                        , full_name = '_ip_pool.node.manager.title'
-                        , id = '_ip_pool__node__manager__title'
-                        , name = 'title'
-                        , sig_key = 3
-                        , ui_name = ' ip pool/Node/Manager/Academic title'
-                        )
-                      , Record
-                        ( attr = Date_Interval `lifetime`
-                        , attrs =
-                            [ Record
-                              ( attr = Date `start`
-                              , full_name = '_ip_pool.node.manager.lifetime.start'
-                              , id = '_ip_pool__node__manager__lifetime__start'
-                              , name = 'start'
-                              , sig_key = 0
-                              , ui_name = ' ip pool/Node/Manager/Lifetime/Start'
-                              )
-                            , Record
-                              ( attr = Date `finish`
-                              , full_name = '_ip_pool.node.manager.lifetime.finish'
-                              , id = '_ip_pool__node__manager__lifetime__finish'
-                              , name = 'finish'
-                              , sig_key = 0
-                              , ui_name = ' ip pool/Node/Manager/Lifetime/Finish'
-                              )
-                            , Record
-                              ( attr = Boolean `alive`
-                              , choices =
-                                  [ 'no'
-                                  , 'yes'
-                                  ]
-                              , full_name = '_ip_pool.node.manager.lifetime.alive'
-                              , id = '_ip_pool__node__manager__lifetime__alive'
-                              , name = 'alive'
-                              , sig_key = 1
-                              , ui_name = ' ip pool/Node/Manager/Lifetime/Alive'
-                              )
-                            ]
-                        , full_name = '_ip_pool.node.manager.lifetime'
-                        , id = '_ip_pool__node__manager__lifetime'
-                        , name = 'lifetime'
-                        , ui_name = ' ip pool/Node/Manager/Lifetime'
-                        )
-                      , Record
-                        ( attr = Sex `sex`
-                        , choices =
-                            [
-                              ( 'F'
-                              , 'Female'
-                              )
-                            ,
-                              ( 'M'
-                              , 'Male'
-                              )
-                            ]
-                        , full_name = '_ip_pool.node.manager.sex'
-                        , id = '_ip_pool__node__manager__sex'
-                        , name = 'sex'
-                        , sig_key = 0
-                        , ui_name = ' ip pool/Node/Manager/Sex'
-                        )
-                      ]
-                  , full_name = '_ip_pool.node.manager'
-                  , id = '_ip_pool__node__manager'
-                  , name = 'manager'
-                  , sig_key = 2
-                  , type_name = 'PAP.Person'
-                  , ui_name = ' ip pool/Node/Manager'
-                  , ui_type_name = 'Person'
-                  )
-                , Record
-                  ( Class = 'Entity'
-                  , attr = Entity `address`
-                  , attrs =
-                      [ Record
-                        ( attr = String `street`
-                        , full_name = '_ip_pool.node.address.street'
-                        , id = '_ip_pool__node__address__street'
-                        , name = 'street'
-                        , sig_key = 3
-                        , ui_name = ' ip pool/Node/Address/Street'
-                        )
-                      , Record
-                        ( attr = String `zip`
-                        , full_name = '_ip_pool.node.address.zip'
-                        , id = '_ip_pool__node__address__zip'
-                        , name = 'zip'
-                        , sig_key = 3
-                        , ui_name = ' ip pool/Node/Address/Zip code'
-                        )
-                      , Record
-                        ( attr = String `city`
-                        , full_name = '_ip_pool.node.address.city'
-                        , id = '_ip_pool__node__address__city'
-                        , name = 'city'
-                        , sig_key = 3
-                        , ui_name = ' ip pool/Node/Address/City'
-                        )
-                      , Record
-                        ( attr = String `country`
-                        , full_name = '_ip_pool.node.address.country'
-                        , id = '_ip_pool__node__address__country'
-                        , name = 'country'
-                        , sig_key = 3
-                        , ui_name = ' ip pool/Node/Address/Country'
-                        )
-                      , Record
-                        ( attr = String `desc`
-                        , full_name = '_ip_pool.node.address.desc'
-                        , id = '_ip_pool__node__address__desc'
-                        , name = 'desc'
-                        , sig_key = 3
-                        , ui_name = ' ip pool/Node/Address/Description'
-                        )
-                      , Record
-                        ( attr = String `region`
-                        , full_name = '_ip_pool.node.address.region'
-                        , id = '_ip_pool__node__address__region'
-                        , name = 'region'
-                        , sig_key = 3
-                        , ui_name = ' ip pool/Node/Address/Region'
-                        )
-                      ]
-                  , full_name = '_ip_pool.node.address'
-                  , id = '_ip_pool__node__address'
-                  , name = 'address'
-                  , sig_key = 2
-                  , type_name = 'PAP.Address'
-                  , ui_name = ' ip pool/Node/Address'
-                  , ui_type_name = 'Address'
-                  )
-                , Record
-                  ( attr = Text `desc`
-                  , full_name = '_ip_pool.node.desc'
-                  , id = '_ip_pool__node__desc'
-                  , name = 'desc'
-                  , sig_key = 3
-                  , ui_name = ' ip pool/Node/Description'
-                  )
-                , Record
-                  ( Class = 'Entity'
-                  , attr = Entity `owner`
-                  , children_np =
-                      [ Record
-                        ( Class = 'Entity'
-                        , attr = Entity `owner`
-                        , attrs =
-                            [ Record
-                              ( attr = String `name`
-                              , full_name = 'owner.name'
-                              , id = 'owner__name'
-                              , name = 'name'
-                              , sig_key = 3
-                              , ui_name = 'Owner[Adhoc_Group]/Name'
-                              )
-                            ]
-                        , full_name = 'owner'
-                        , id = 'owner'
-                        , name = 'owner'
-                        , sig_key = 2
-                        , type_name = 'PAP.Adhoc_Group'
-                        , ui_name = 'Owner[Adhoc_Group]'
-                        , ui_type_name = 'Adhoc_Group'
-                        )
-                      , Record
-                        ( Class = 'Entity'
-                        , attr = Entity `owner`
-                        , attrs =
-                            [ Record
-                              ( attr = String `name`
-                              , full_name = 'owner.name'
-                              , id = 'owner__name'
-                              , name = 'name'
-                              , sig_key = 3
-                              , ui_name = 'Owner[Association]/Name'
-                              )
-                            ]
-                        , full_name = 'owner'
-                        , id = 'owner'
-                        , name = 'owner'
-                        , sig_key = 2
-                        , type_name = 'PAP.Association'
-                        , ui_name = 'Owner[Association]'
-                        , ui_type_name = 'Association'
-                        )
-                      , Record
-                        ( Class = 'Entity'
-                        , attr = Entity `owner`
-                        , attrs =
-                            [ Record
-                              ( attr = String `name`
-                              , full_name = 'owner.name'
-                              , id = 'owner__name'
-                              , name = 'name'
-                              , sig_key = 3
-                              , ui_name = 'Owner[Company]/Name'
-                              )
-                            , Record
-                              ( attr = String `registered_in`
-                              , full_name = 'owner.registered_in'
-                              , id = 'owner__registered_in'
-                              , name = 'registered_in'
-                              , sig_key = 3
-                              , ui_name = 'Owner[Company]/Registered in'
-                              )
-                            ]
-                        , full_name = 'owner'
-                        , id = 'owner'
-                        , name = 'owner'
-                        , sig_key = 2
-                        , type_name = 'PAP.Company'
-                        , ui_name = 'Owner[Company]'
-                        , ui_type_name = 'Company'
-                        )
-                      , Record
-                        ( Class = 'Entity'
-                        , attr = Entity `owner`
-                        , attrs =
-                            [ Record
-                              ( attr = String `last_name`
-                              , full_name = 'owner.last_name'
-                              , id = 'owner__last_name'
-                              , name = 'last_name'
-                              , sig_key = 3
-                              , ui_name = 'Owner[Person]/Last name'
-                              )
-                            , Record
-                              ( attr = String `first_name`
-                              , full_name = 'owner.first_name'
-                              , id = 'owner__first_name'
-                              , name = 'first_name'
-                              , sig_key = 3
-                              , ui_name = 'Owner[Person]/First name'
-                              )
-                            , Record
-                              ( attr = String `middle_name`
-                              , full_name = 'owner.middle_name'
-                              , id = 'owner__middle_name'
-                              , name = 'middle_name'
-                              , sig_key = 3
-                              , ui_name = 'Owner[Person]/Middle name'
-                              )
-                            , Record
-                              ( attr = String `title`
-                              , full_name = 'owner.title'
-                              , id = 'owner__title'
-                              , name = 'title'
-                              , sig_key = 3
-                              , ui_name = 'Owner[Person]/Academic title'
-                              )
-                            ]
-                        , full_name = 'owner'
-                        , id = 'owner'
-                        , name = 'owner'
-                        , sig_key = 2
-                        , type_name = 'PAP.Person'
-                        , ui_name = 'Owner[Person]'
-                        , ui_type_name = 'Person'
-                        )
-                      ]
-                  , default_child = 'PAP.Person'
-                  , full_name = '_ip_pool.node.owner'
-                  , id = '_ip_pool__node__owner'
-                  , name = 'owner'
-                  , sig_key = 2
-                  , type_name = 'PAP.Subject'
-                  , ui_name = ' ip pool/Node/Owner'
-                  , ui_type_name = 'Subject'
-                  )
-                , Record
-                  ( attr = Position `position`
-                  , attrs =
-                      [ Record
-                        ( attr = Angle `lat`
-                        , full_name = '_ip_pool.node.position.lat'
-                        , id = '_ip_pool__node__position__lat'
-                        , name = 'lat'
-                        , sig_key = 4
-                        , ui_name = ' ip pool/Node/Position/Latitude'
-                        )
-                      , Record
-                        ( attr = Angle `lon`
-                        , full_name = '_ip_pool.node.position.lon'
-                        , id = '_ip_pool__node__position__lon'
-                        , name = 'lon'
-                        , sig_key = 4
-                        , ui_name = ' ip pool/Node/Position/Longitude'
-                        )
-                      , Record
-                        ( attr = Float `height`
-                        , full_name = '_ip_pool.node.position.height'
-                        , id = '_ip_pool__node__position__height'
-                        , name = 'height'
-                        , sig_key = 0
-                        , ui_name = ' ip pool/Node/Position/Height'
-                        )
-                      ]
-                  , full_name = '_ip_pool.node.position'
-                  , id = '_ip_pool__node__position'
-                  , name = 'position'
-                  , ui_name = ' ip pool/Node/Position'
-                  )
-                , Record
-                  ( attr = Boolean `show_in_map`
-                  , choices =
-                      [ 'no'
-                      , 'yes'
-                      ]
-                  , full_name = '_ip_pool.node.show_in_map'
-                  , id = '_ip_pool__node__show_in_map'
-                  , name = 'show_in_map'
-                  , sig_key = 1
-                  , ui_name = ' ip pool/Node/Show in map'
-                  )
-                ]
-            , full_name = '_ip_pool.node'
-            , id = '_ip_pool__node'
-            , name = 'node'
-            , sig_key = 2
-            , type_name = 'FFM.Node'
-            , ui_name = ' ip pool/Node'
-            , ui_type_name = 'Node'
-            )
-          ]
-      , full_name = '_ip_pool'
-      , id = '_ip_pool'
-      , name = '_ip_pool'
-      , sig_key = 2
-      , type_name = 'FFM.IP_Pool'
-      , ui_name = ' ip pool'
-      , ui_type_name = 'IP_Pool'
-      )
-      , Record
-        ( Class = 'Entity'
-      , attr = Link_Ref `ip_pool`
-      , attrs =
-          [ Record
             ( attr = Time Delta `cool_down_period`
             , full_name = 'ip_pool.cool_down_period'
             , id = 'ip_pool__cool_down_period'
@@ -9750,7 +9055,10 @@ _test_AQ = """
                               )
                             , Record
                               ( attr = Boolean `alive`
-                              , choices = <Recursion on list...>
+                              , choices =
+                                  [ 'no'
+                                  , 'yes'
+                                  ]
                               , full_name = 'ip_pool.node.manager.lifetime.alive'
                               , id = 'ip_pool__node__manager__lifetime__alive'
                               , name = 'alive'
@@ -9765,7 +9073,16 @@ _test_AQ = """
                         )
                       , Record
                         ( attr = Sex `sex`
-                        , choices = <Recursion on list...>
+                        , choices =
+                            [
+                              ( 'F'
+                              , 'Female'
+                              )
+                            ,
+                              ( 'M'
+                              , 'Male'
+                              )
+                            ]
                         , full_name = 'ip_pool.node.manager.sex'
                         , id = 'ip_pool__node__manager__sex'
                         , name = 'sex'
@@ -10015,7 +9332,10 @@ _test_AQ = """
                   )
                 , Record
                   ( attr = Boolean `show_in_map`
-                  , choices = <Recursion on list...>
+                  , choices =
+                      [ 'no'
+                      , 'yes'
+                      ]
                   , full_name = 'ip_pool.node.show_in_map'
                   , id = 'ip_pool__node__show_in_map'
                   , name = 'show_in_map'

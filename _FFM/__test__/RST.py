@@ -40,6 +40,7 @@
 #                     `desc` to `Node`, `Node` no longer derived from `Subject`
 #    20-Jun-2014 (RS) Re-add `IP_Network.pool`
 #    23-Jun-2014 (RS) Make tests run after model changes
+#     4-Jul-2014 (RS) Added `Id_Entity_permits_Group`
 #    ««revision-date»»···
 #--
 
@@ -487,6 +488,7 @@ _test_limit = r"""
         , 'pid' : 29
         , 'rels' :
             [ '/v1/FFM-Wired_Interface/29/documents'
+            , '/v1/FFM-Wired_Interface/29/group_links'
             , '/v1/FFM-Wired_Interface/29/ip4_network_links'
             , '/v1/FFM-Wired_Interface/29/ip6_network_links'
             , '/v1/FFM-Wired_Interface/29/left_net_links'
@@ -507,6 +509,7 @@ _test_limit = r"""
         , 'pid' : 29
         , 'rels' :
             [ '/v1/FFM-Wired_Interface/29/documents'
+            , '/v1/FFM-Wired_Interface/29/group_links'
             , '/v1/FFM-Wired_Interface/29/ip4_network_links'
             , '/v1/FFM-Wired_Interface/29/ip6_network_links'
             , '/v1/FFM-Wired_Interface/29/left_net_links'
@@ -532,6 +535,7 @@ _test_limit = r"""
         , 'pid' : 29
         , 'rels' :
             [ '/v1/FFM-Wired_Interface/29/documents'
+            , '/v1/FFM-Wired_Interface/29/group_links'
             , '/v1/FFM-Wired_Interface/29/ip4_network_links'
             , '/v1/FFM-Wired_Interface/29/ip6_network_links'
             , '/v1/FFM-Wired_Interface/29/left_net_links'
@@ -562,6 +566,7 @@ _test_limit = r"""
         , 'pid' : 29
         , 'rels' :
             [ '/v1/FFM-Wired_Interface/29/documents'
+            , '/v1/FFM-Wired_Interface/29/group_links'
             , '/v1/FFM-Wired_Interface/29/ip4_network_links'
             , '/v1/FFM-Wired_Interface/29/ip6_network_links'
             , '/v1/FFM-Wired_Interface/29/left_net_links'
@@ -724,7 +729,9 @@ _test_put = r"""
         , 'cid' : 2
         , 'pid' : 2
         , 'rels' :
-            [ '/v1/FFM-Node/2/documents' ]
+            [ '/v1/FFM-Node/2/documents'
+            , '/v1/FFM-Node/2/group_links'
+            ]
         , 'type_name' : 'FFM.Node'
         , 'url' : '/v1/FFM-Node/2'
         }
@@ -773,7 +780,9 @@ _test_put = r"""
         , 'cid' : 44
         , 'pid' : 2
         , 'rels' :
-    [ '/v1/FFM-Node/2/documents' ]
+            [ '/v1/FFM-Node/2/documents'
+            , '/v1/FFM-Node/2/group_links'
+            ]
         , 'type_name' : 'FFM.Node'
         , 'url' : '/v1/FFM-Node/2'
         }

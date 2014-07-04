@@ -40,6 +40,8 @@
 #    23-Jun-2014 (RS) Derive `A_Netmask_Interval` from `A_Int_Interval`
 #                     `A_Int_Interval_C` doesn't currently work
 #    24-Jun-2014 (RS) Undo latest change now that `A_Int_Interval_C` works
+#     3-Jul-2014 (RS) Add `_A_IP_Netmask_`, `_A_IP_Quota_` and derivatives,
+#                     model _A_IP_Netmask_Interval_ after same scheme
 #    ««revision-date»»···
 #--
 
@@ -120,36 +122,80 @@ class A_Wireless_Mode (MOM.Attr._A_Named_Object_) :
 
 # end class A_Wireless_Mode
 
-class A_Netmask_Interval (A_Int_Interval_C) :
+class _A_IP_Netmask_ (A_Int) :
+    """IP Network mask."""
+
+    min_value   = 0
+
+# end class _A_IP_Netmask_
+
+class A_IP4_Netmask (_A_IP_Netmask_) :
+
+    max_value   = 32
+
+# end class A_IP4_Netmask
+
+class A_IP6_Netmask (_A_IP_Netmask_) :
+
+    max_value   = 32
+
+# end class A_IP6_Netmask
+
+class _A_IP_Quota_ (_A_IP_Netmask_) :
+    """Quota for reservation from an IP_Network."""
+
+    desc         = \
+        """Quota is specified as a netmask. Reserved networks
+           are summed up and it is checked if the sum reaches
+           the size of a network with the given netmask. If
+           this netmask is reached no new reservations are
+           permitted.
+        """
+
+# end class _A_IP_Quota_
+
+class A_IP4_Quota (_A_IP_Quota_, A_IP4_Netmask) : pass
+class A_IP6_Quota (_A_IP_Quota_, A_IP6_Netmask) : pass
+
+class _A_IP_Netmask_Interval_ (A_Int_Interval_C) :
     """Interval of network masks (upper limit defaults to lower limit)"""
 
     _Overrides = dict \
         ( start  = dict
-            ( min = 0
-            , max = 128
+            ( min_value = 0
             )
         , finish = dict
-            ( min = 0
-            , max = 128
+            ( min_value = 0
             )
         )
 
-# end class A_Netmask_Interval
+# end class _A_IP_Netmask_Interval_
 
-class A_Netmask_4_Interval (A_Netmask_Interval) :
+class A_IP4_Netmask_Interval (_A_IP_Netmask_Interval_) :
 
     _Overrides = dict \
         ( start  = dict
-            ( max = 32
+            ( max_value = 32
             )
         , finish = dict
-            ( max = 32
+            ( max_value = 32
             )
         )
 
-# end class A_Netmask_4_Interval
+# end class A_IP4_Netmask_Interval
 
-class A_Netmask_6_Interval (A_Netmask_Interval) : pass
+class A_IP6_Netmask_Interval (_A_IP_Netmask_Interval_) :
+
+    _Overrides = dict \
+        ( start  = dict
+            ( max_value = 128
+            )
+        , finish = dict
+            ( max_value = 128
+            )
+        )
+
+# end class A_IP6_Netmask_Interval
 
 __all__ = tuple (k for (k, v) in globals ().iteritems () if is_attr_type (v))
 

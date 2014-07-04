@@ -63,6 +63,7 @@
 #                     to pool allocation: need to keep correct pool on split
 #    24-Jun-2014 (CT) Fix `ip_pool` query in `min_cooldown_period`
 #    24-Jun-2014 (RS) Remove obsolete code from `min_cooldown_period`
+#     4-Jul-2014 (RS) Fix query in `min_cooldown_period` for new `IP_Pool`
 #    ««revision-date»»···
 #--
 
@@ -387,12 +388,13 @@ class IP_Network (_Ancestor_Essence) :
             Additionally an initial cool_down_period may be specified.
         """
         cooldown = cool_down_period
-        IPP_ETM  = self.home_scope [self.ETM.ip_pool.P_Type]
-        minpool  = IPP_ETM.query \
+        IPPL_ETM  = self.home_scope [self.ETM.ip_pool_link.P_Type]
+        minipl  = IPPL_ETM.query \
             ( Q.ip_network.net_address.CONTAINS (self.pool.net_address)
-            , Q.cool_down_period != None
-            , sort_key = TFL.Sorted_By ("cool_down_period")
+            , Q.ip_pool.cool_down_period != None
+            , sort_key = TFL.Sorted_By ("ip_pool.cool_down_period")
             ).first ()
+        minpool = (minipl and minipl.right) or None
 
         if minpool is not None :
             if cooldown is None or minpool.cool_down_period < cooldown :

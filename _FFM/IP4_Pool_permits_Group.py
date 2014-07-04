@@ -20,16 +20,13 @@
 #
 #++
 # Name
-#    FFM.IP6_Pool
+#    FFM.IP4_Pool_permits_Group
 #
 # Purpose
-#    Model Attributes of an IPv6 network pool
+#    Model permission for IP4_Network reservation from an IP4_Pool
 #
 # Revision Dates
-#    20-Jun-2014 (RS) Creation
-#    23-Jun-2014 (RS) Use correct type for `left`
-#     3-Jul-2014 (RS) `IP_Pool` no longer `Link1`, rename
-#                     `A_IP6_Netmask_Interval`
+#     3-Jul-2014 (RS) Creation
 #    ««revision-date»»···
 #--
 
@@ -37,32 +34,42 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 
 from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
-from   _FFM.Attr_Type         import A_IP6_Netmask_Interval
+from   _GTW._OMP._PAP         import PAP
 
-import _FFM.IP_Pool
+from   _FFM.Attr_Type         import *
 
-_Ancestor_Essence = FFM.IP_Pool
+import _FFM.IP_Pool_permits_Group
 
-class IP6_Pool (_Ancestor_Essence) :
-    """Attributes of an IPv6 network pool."""
+_Ancestor_Essence = FFM.IP_Pool_permits_Group
+
+class IP4_Pool_permits_Group (_Ancestor_Essence) :
+    """Permission to reserve IP4_Network from IP4_Pool"""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
+        ### Primary attributes
+
+        class left (_Ancestor.left) :
+            """IP Pool."""
+
+            role_type          = FFM.IP4_Pool
+
+        # end class left
+
         ### Non-primary attributes
 
-        class netmask_interval (A_IP6_Netmask_Interval) :
-            """Limit netmasks to allocate from this %(type_name)s."""
+        class user_quota (A_IP4_Quota, _Ancestor.user_quota)   : pass
 
-            kind               = Attr.Optional
+        class node_quota (A_IP4_Quota, _Ancestor.node_quota)   : pass
 
-        # end class netmask_interval
+        class iface_quota (A_IP4_Quota, _Ancestor.iface_quota) : pass
 
     # end class _Attributes
 
-# end class IP6_Pool
+# end class IP4_Pool_permits_Group
 
 if __name__ != "__main__" :
     FFM._Export ("*")
-### __END__ FFM.IP6_Pool
+### __END__ FFM.IP4_Pool_permits_Group

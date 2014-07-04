@@ -28,14 +28,16 @@
 # Revision Dates
 #    20-Jun-2014 (RS) Creation
 #    23-Jun-2014 (RS) Use correct type for `left`
-#    ««revision-date»»···
+#     3-Jul-2014 (RS) `IP_Pool` no longer `Link1`, rename
+#                     `A_IP4_Netmask_Interval`
+#    Â«Â«revision-dateÂ»Â»Â·Â·Â·
 #--
 
 from   __future__  import absolute_import, division, print_function, unicode_literals
 
 from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
-from   _FFM.Attr_Type         import A_Netmask_4_Interval
+from   _FFM.Attr_Type         import A_IP4_Netmask_Interval
 
 import _FFM.IP_Pool
 
@@ -48,19 +50,9 @@ class IP4_Pool (_Ancestor_Essence) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
-        ### Primary attributes
-
-        class left (_Ancestor.left) :
-            """Type of IP_Pool"""
-
-            role_type          = FFM.IP4_Network
-            link_ref_attr_name = 'ip_pool'
-
-        # end class left
-
         ### Non-primary attributes
 
-        class netmask_interval (A_Netmask_4_Interval) :
+        class netmask_interval (A_IP4_Netmask_Interval) :
             """Limit netmasks to allocate from this %(type_name)s."""
 
             kind               = Attr.Optional

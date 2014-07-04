@@ -20,16 +20,13 @@
 #
 #++
 # Name
-#    FFM.IP6_Pool
+#    FFM.IP6_Network_in_IP6_Pool
 #
 # Purpose
-#    Model Attributes of an IPv6 network pool
+#    Model IPv6 networks in an IPv6 pool
 #
 # Revision Dates
-#    20-Jun-2014 (RS) Creation
-#    23-Jun-2014 (RS) Use correct type for `left`
-#     3-Jul-2014 (RS) `IP_Pool` no longer `Link1`, rename
-#                     `A_IP6_Netmask_Interval`
+#     3-Jul-2014 (RS) Creation
 #    ««revision-date»»···
 #--
 
@@ -37,32 +34,43 @@ from   __future__  import absolute_import, division, print_function, unicode_lit
 
 from   _MOM.import_MOM        import *
 from   _FFM                   import FFM
-from   _FFM.Attr_Type         import A_IP6_Netmask_Interval
 
-import _FFM.IP_Pool
+import _FFM.IP6_Network
+import _FFM.IP6_Pool
+import _FFM.IP_Network_in_IP_Pool
 
-_Ancestor_Essence = FFM.IP_Pool
+_Ancestor_Essence = FFM.IP_Network_in_IP_Pool
 
-class IP6_Pool (_Ancestor_Essence) :
-    """Attributes of an IPv6 network pool."""
+class IP6_Network_in_IP6_Pool (_Ancestor_Essence) :
+    """IPv6 networks in an IPv6 pool."""
 
     class _Attributes (_Ancestor_Essence._Attributes) :
 
         _Ancestor = _Ancestor_Essence._Attributes
 
-        ### Non-primary attributes
+        ### Primary attributes
 
-        class netmask_interval (A_IP6_Netmask_Interval) :
-            """Limit netmasks to allocate from this %(type_name)s."""
+        class left (_Ancestor.left) :
+            """IP network."""
 
-            kind               = Attr.Optional
+            role_type          = FFM.IP6_Network
+            link_ref_attr_name = "ip_pool"
 
-        # end class netmask_interval
+        # end class left
+
+        class right (_Ancestor.right) :
+            """IP pool."""
+
+            role_type          = FFM.IP6_Pool
+            auto_rev_ref       = "ip_pool"
+            link_ref_attr_name = "ip_network"
+
+        # end class right
 
     # end class _Attributes
 
-# end class IP6_Pool
+# end class IP6_Network_in_IP6_Pool
 
 if __name__ != "__main__" :
     FFM._Export ("*")
-### __END__ FFM.IP6_Pool
+### __END__ FFM.IP6_Network_in_IP6_Pool
