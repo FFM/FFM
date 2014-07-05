@@ -215,7 +215,11 @@ class Consolidated_Device (object) :
     def add_redeemer_ip (self, ip) :
         """ Add redeemer ip address. """
         assert not ip.id_nodes
-        assert not ip.id_members or ip.id_members == 1
+        if ip.id_members or ip.id_members != 1 :
+            pyk.fprint \
+                ( "WARN: IP %s %s has member ID %s" \
+                % (ip.ip, ip.id, ip.id_members)
+                )
         assert not self.merged_devs
         assert ip.ip not in self.interfaces
         self.interfaces [ip.ip] = \
@@ -617,6 +621,7 @@ class Convert (object) :
                                       # indicates same person
                          , (756, 758) # checked, real dupe
                          , (  0,   1) # ignore Funkfeuer Parkplatz
+                         , (442,1019) # checked, old address listed in whois
                         ))
     rev_person_dupes = dict ((v, k) for k, v in person_dupes.iteritems ())
 
@@ -637,6 +642,7 @@ class Convert (object) :
         ,  '0525001340'
         ,  '59780'
         ,  '1013'
+        ,  '\\t'
         ))
 
     companies         = dict.fromkeys ((112, ))
@@ -647,6 +653,8 @@ class Convert (object) :
     person_remove     = dict.fromkeys ((549, 608))
 
     def try_insert_phone (self, person, m, x, c) :
+        if x :
+            x = x.strip ()
         if x :
             p = None
             if x in self.phone_bogus :
@@ -728,6 +736,8 @@ class Convert (object) :
         self.pap.Subject_has_Url (person, url)
     # end def try_insert_url
 
+    im_hash = re.compile (r"^[0-9a-f]{32}$")
+
     def try_insert_im (self, person, m) :
         if m.instant_messenger_nick.endswith ('@aon.at') :
             self.try_insert_email (person, m, attr = 'instant_messenger_nick')
@@ -735,6 +745,9 @@ class Convert (object) :
         if m.instant_messenger_nick.startswith ('alt/falsch') :
             return
         if m.instant_messenger_nick.startswith ('housing') :
+            return
+        if self.im_hash.match (m.instant_messenger_nick) :
+            pyk.fprint ("WARN: Got hash in nick: %s" % m.instant_messenger_nick)
             return
         if m.instant_messenger_nick.startswith ('Wohnadresse:') :
             adr = m.instant_messenger_nick.split (':', 1) [1].strip ()
@@ -840,6 +853,8 @@ class Convert (object) :
             if not m.lastname :
                 pyk.fprint ("WARN: skipping person, no lastname: %s" % m.id)
                 continue
+            if m.firstname.startswith ('Armin"/><script') :
+                m.firstname = 'Armin'
             cls  = self.pap.Person
             name = ' '.join ((m.firstname, m.lastname))
             pd   = dict (name = name)
